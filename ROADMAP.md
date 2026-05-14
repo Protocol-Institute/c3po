@@ -111,6 +111,22 @@ Add `YOUTUBE_API_KEY` to `Code/.env.keys`.
 
 ---
 
+## Phase 4b — Google Drive Corpus
+
+**Goal:** Index PI Google Drive content (research documents, working papers, reports, meeting notes, standalone slide decks). Full plan in [`sources/drive/PLAN.md`](sources/drive/PLAN.md).
+
+- [ ] Configure service account (read-only, share whitelisted folders)
+- [ ] Populate `sources/drive/folder_config.json` with folder IDs and access levels
+- [ ] `ingest/ingest_drive.py` — Changes API delta feed, extract by format (Docs, DOCX, PDF, Slides, Sheets)
+- [ ] D1 table `drive_vectors` — maps file IDs to vector IDs for deletion tracking
+- [ ] Run initial bulk ingest of all whitelisted folders
+- [ ] Daily GitHub Actions cron thereafter (Changes API, incremental)
+- [ ] Pinecone namespace: `drive`
+
+Can run in parallel with Phase 4 (YouTube). Shares Google Cloud project and service account credentials with the YouTube Data API.
+
+---
+
 ## Phase 5 — Submission Portal
 
 **Goal:** External contributors can submit resources; all go through review before indexing.

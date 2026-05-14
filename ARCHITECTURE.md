@@ -90,6 +90,7 @@ Adding a new source: create `sources/<type>/`, write `registry.json`, write `ing
 | `substack` | Protocolized Substack | public |
 | `youtube` | PI YouTube channel | public |
 | `discord` | PI Discord (designated channels) | member |
+| `drive` | Google Drive (whitelisted folders) | mixed (per folder) |
 | `submissions` | Community-submitted resources | public (post-review) |
 | `crawl` | Content monitoring worker output | public (post-review) |
 | `casestudies` | Consulting case study data | private |
@@ -137,6 +138,13 @@ Discord bot with maximum channel read permissions. Ingests designated public/res
 The same Discord bot handles query interface (see Delivery Interfaces).
 
 **Full integration plan, API constraints, CDN expiry handling, and bot setup:** see [`sources/discord/PLAN.md`](sources/discord/PLAN.md).
+
+### Google Drive
+PI Google Drive — research documents, working papers, meeting notes, reports, and standalone slide decks not associated with a YouTube video. Folder-scoped: only explicitly whitelisted folders are indexed; the service account is shared only those folders. Incremental ingestion via Drive Changes API (delta feed, no full re-scan). Deletion tracking via a D1 table (`drive_vectors`) mapping file IDs to Pinecone vector IDs, so trashed files are cleanly removed from the index.
+
+Slides already matched to a YouTube video are ingested by the YouTube pipeline, not here — no double-indexing.
+
+**Full integration plan, format-specific extraction, and deletion handling:** see [`sources/drive/PLAN.md`](sources/drive/PLAN.md).
 
 ### Submissions portal
 Three paths: URL submission (server-side scrape), PDF upload (stored in R2, parsed server-side), GitHub PR (for team members with repo access). All submissions go to a review queue; no automatic indexing. Approved → Pinecone + optional protocolized-website resource markdown. The review interface is the C3PO admin panel, auth-gated.

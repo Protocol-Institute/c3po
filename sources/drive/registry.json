@@ -1,0 +1,14 @@
+{
+  "source": "drive",
+  "display_name": "Protocol Institute Google Drive",
+  "pinecone_namespace": "drive",
+  "vector_count": 0,
+  "last_ingested": null,
+  "last_page_token": null,
+  "schema_version": 1,
+  "access_level": "mixed",
+  "freshness_cadence": "daily",
+  "ingest_script": "ingest/ingest_drive.py",
+  "folder_config": "sources/drive/folder_config.json",
+  "notes": "Folder-scoped; access_level per folder in folder_config.json. Excludes files already matched to YouTube videos. Deletion tracked via D1 drive_vectors table."
+}

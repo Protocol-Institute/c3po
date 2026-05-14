@@ -1,0 +1,4 @@
+{
+  "_instructions": "Add whitelisted Google Drive folder IDs here. The ingestion script only processes files in these folders. Share each folder with the service account email. access_level must be one of: public, member, private.",
+  "whitelisted_folders": []
+}
