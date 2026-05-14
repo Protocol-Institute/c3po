@@ -1,6 +1,11 @@
 # Discord Integration Plan
 
-Covers both corpus ingestion (farming messages and links) and the query interface (slash commands). See `ARCHITECTURE.md` for where Discord fits in the overall C3PO system.
+Two independent parts built in separate phases:
+
+- **Part A — Ingester** (Phase 1b): Discord bot that reads designated channels and indexes content into Pinecone. No CF Worker dependency. Deployable immediately after the Pinecone index exists.
+- **Part B — C3PO Agent** (Phase 4): Slash commands that let Discord users query C3PO. Requires the CF Worker from Phase 2. Added to the same bot application; the ingester runs unchanged.
+
+See `ARCHITECTURE.md` for where Discord fits in the overall C3PO system.
 
 ---
 
@@ -57,6 +62,12 @@ Note: if real-time ingestion ever becomes necessary (e.g., for a future live mod
 
 ---
 
+---
+
+## Part A — Ingester (Phase 1b)
+
+---
+
 ## REST API Ingestion — How It Works
 
 **Endpoint:** `GET /channels/{channel_id}/messages?limit=100&before={last_message_id}`
@@ -110,6 +121,14 @@ API endpoints:
 **Not needed:**
 - `GUILD_MEMBERS`, `GUILD_PRESENCES` — don't need member info or online status
 - Any moderation permissions beyond `MANAGE_THREADS`
+
+---
+
+---
+
+## Part B — C3PO Agent (Phase 4)
+
+Requires the CF Worker from Phase 2. The ingester (Part A) continues running unchanged — only the HTTP Interactions endpoint is new.
 
 ---
 

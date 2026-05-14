@@ -1,8 +1,19 @@
 # Google Drive Integration Plan
 
+Two independent parts built in separate phases:
+
+- **Part A — Ingester** (Phase 1c): Index PI Google Drive content into Pinecone. No CF Worker dependency. Deployable immediately after the Pinecone index and service account credentials exist.
+- **Part B — YouTube slide coordination** (Phase 3): The `match_slides.py` script uses the Drive corpus built in Part A to find native slide files for YouTube videos, avoiding video frame analysis where possible. This runs at YouTube ingest time — no changes to the Drive ingester itself.
+
 Google Drive as a standalone corpus source — distinct from its role in YouTube slide matching. The PI Drive contains a significant body of material: documents, reports, working papers, meeting notes, research memos, and other content that belongs in the C3PO index independently of any YouTube video.
 
 See `ARCHITECTURE.md` for where Drive fits in the overall C3PO system. For the Drive → YouTube slide matching strategy, see `sources/youtube/PLAN.md`.
+
+---
+
+---
+
+## Part A — Ingester (Phase 1c)
 
 ---
 
@@ -260,6 +271,16 @@ Scheduled: daily GitHub Actions cron
 6. Update sources/drive/registry.json:
    - last_page_token, last_ingested, vector_count
 ```
+
+---
+
+---
+
+## Part B — YouTube Slide Coordination (Phase 3)
+
+No changes to the Drive ingester. The `ingest/match_slides.py` script (built in Phase 3) queries Drive for files already in the index, scores them against YouTube video metadata, and populates `sources/youtube/video_slide_mapping.json`. The YouTube ingester then uses that mapping to pull native slide content from Drive rather than extracting from video frames.
+
+See [`sources/youtube/PLAN.md`](../youtube/PLAN.md) for the full matching and extraction logic.
 
 ---
 
