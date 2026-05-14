@@ -1,0 +1,13 @@
+{
+  "_instructions": "Map YouTube video IDs to Google Drive file IDs for slide extraction. Keys are YouTube video IDs. Set confirmed:true once a human has verified the match. Set drive_file_id:null with confirmed:true to mark videos with no slides (prevents repeated Drive lookup). Entries without a key fall back to video analysis.",
+  "_example": {
+    "VIDEO_ID_HERE": {
+      "drive_file_id": "DRIVE_FILE_ID_HERE",
+      "drive_file_name": "Talk Title — Event Name Date.pptx",
+      "confidence": 0.92,
+      "confirmed": false,
+      "slide_timestamps": {},
+      "notes": "auto-matched by title+date"
+    }
+  }
+}

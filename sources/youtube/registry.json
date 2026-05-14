@@ -1,0 +1,20 @@
+{
+  "source": "youtube",
+  "display_name": "Protocol Institute YouTube Channel",
+  "pinecone_namespace": "youtube",
+  "vector_count": 0,
+  "last_ingested": null,
+  "last_checked": null,
+  "channel_id": "",
+  "video_count_indexed": 0,
+  "schema_version": 1,
+  "access_level": "public",
+  "freshness_cadence": "daily",
+  "ingest_script": "ingest/ingest_youtube.py",
+  "slide_match_script": "ingest/match_slides.py",
+  "slide_mapping": "sources/youtube/video_slide_mapping.json",
+  "transcript_method": "youtube-transcript-api",
+  "slide_source_priority": ["google_drive", "video_analysis"],
+  "diarization": false,
+  "notes": "Talks and salon-style conversations. Slides sourced from Google Drive first (see video_slide_mapping.json), falling back to ffmpeg keyframe extraction + Vision LLM. Speaker notes extracted from Drive files when available."
+}
