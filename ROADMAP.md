@@ -70,7 +70,7 @@ id = ""  # set per-account; document in MIGRATION.md
 
 ## Phase 3 — Discord Integration *(dual-purpose: ingestion + query)*
 
-**Goal:** Discord bot that both ingests designated channels and answers queries.
+**Goal:** Discord bot that both ingests designated channels and answers queries. Full API constraints, CDN expiry handling, and bot setup details in [`sources/discord/PLAN.md`](sources/discord/PLAN.md).
 
 ### Ingestion
 

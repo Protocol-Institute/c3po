@@ -134,6 +134,8 @@ Discord bot with maximum channel read permissions. Ingests designated public/res
 
 The same Discord bot handles query interface (see Delivery Interfaces).
 
+**Full integration plan, API constraints, CDN expiry handling, and bot setup:** see [`sources/discord/PLAN.md`](sources/discord/PLAN.md).
+
 ### Submissions portal
 Three paths: URL submission (server-side scrape), PDF upload (stored in R2, parsed server-side), GitHub PR (for team members with repo access). All submissions go to a review queue; no automatic indexing. Approved → Pinecone + optional protocolized-website resource markdown. The review interface is the C3PO admin panel, auth-gated.
 
