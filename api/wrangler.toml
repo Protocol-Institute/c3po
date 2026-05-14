@@ -1,0 +1,35 @@
+# C3PO — Cloudflare Worker configuration
+# account_id is intentionally omitted — set CLOUDFLARE_ACCOUNT_ID env var at deploy time.
+# This keeps the config portable between personal and PI org accounts.
+
+name = "c3po"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+
+# Secrets (set via `wrangler secret put` — never committed):
+#   VOYAGE_API_KEY        — Voyage AI embedding API key
+#   PINECONE_API_KEY      — Pinecone API key
+#   PINECONE_C3PO_HOST    — Pinecone index host URL
+#   ANTHROPIC_API_KEY     — Anthropic Claude API key
+#   ADMIN_KEY             — Admin endpoint auth (generate per security-policy.md)
+#   MCP_API_KEY           — MCP server auth key
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = ""  # account-specific UUID — update after `wrangler kv namespace create RATE_LIMIT`
+         # document the PI account value in MIGRATION.md when migrating
+
+# Future bindings (uncomment when ready):
+
+# [[d1_databases]]
+# binding = "SUBMISSIONS_DB"
+# database_name = "c3po-submissions"
+# database_id = ""  # account-specific — update after `wrangler d1 create c3po-submissions`
+
+# [[r2_buckets]]
+# binding = "SUBMISSIONS"
+# bucket_name = "c3po-submissions"
+
+# [[r2_buckets]]
+# binding = "CASESTUDIES"
+# bucket_name = "c3po-casestudies"

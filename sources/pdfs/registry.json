@@ -1,0 +1,12 @@
+{
+  "source": "pdfs",
+  "display_name": "Summer of Protocols PDF Archive",
+  "pinecone_namespace": "pdfs",
+  "vector_count": 0,
+  "last_ingested": null,
+  "schema_version": 1,
+  "access_level": "public",
+  "freshness_cadence": "on-change",
+  "ingest_script": "ingest/ingest_pdfs.py",
+  "notes": "~82 PDFs, ~353 MB. Source will move to IPFS; ingest script reads from local copy or IPFS CID."
+}

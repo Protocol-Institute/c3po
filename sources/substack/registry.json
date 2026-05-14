@@ -1,0 +1,12 @@
+{
+  "source": "substack",
+  "display_name": "Protocolized Substack",
+  "pinecone_namespace": "substack",
+  "vector_count": 0,
+  "last_ingested": null,
+  "schema_version": 1,
+  "access_level": "public",
+  "freshness_cadence": "realtime",
+  "ingest_script": "ingest/ingest_substack.py",
+  "notes": "Continuous ingestion via CF Worker Cron Trigger (every 30 min). Same RSS source as protocolized.io live mirror — two consumers, one source."
+}
