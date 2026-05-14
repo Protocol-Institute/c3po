@@ -127,7 +127,9 @@ Adding a new source: create `sources/<type>/`, write `registry.json`, write `ing
 Protocolized newsletter. Continuous ingestion via CF Worker Cron Trigger (every 30 min). Source of truth: Substack RSS feed. The same RSS sync also drives the live magazine on protocolized.io — these are two consumers of the same source, not duplicated infrastructure.
 
 ### YouTube
-PI YouTube channel transcripts + metadata. YouTube Data API v3 for video metadata; YouTube transcript API for auto-generated captions (or Whisper for channels without auto-captions). Ingested on new video publish (CF cron or webhook if available). Chunk by segment with timestamps; metadata includes video ID, timestamp, speaker (if available).
+PI YouTube channel transcripts + metadata. YouTube Data API v3 for video metadata; `youtube-transcript-api` for captions (Whisper fallback for missing/poor captions). For talks with visible slides: ffmpeg scene detection extracts keyframes, Vision LLM (Claude) extracts slide text and describes diagrams. Speaker diarization via pyannote.audio for multi-speaker salon conversations. Chunked by slide change or speaker turn with timestamps; chapter markers used as primary boundaries when present.
+
+**Full integration plan, transcript pipeline, slide extraction, and chunking strategy:** see [`sources/youtube/PLAN.md`](sources/youtube/PLAN.md).
 
 ### Discord
 Discord bot with maximum channel read permissions. Ingests designated public/research channels only — no DMs, no general chat unless explicitly included by channel owners. Chunked by thread. Incremental daily batch. Content weighted lower than peer-reviewed papers in retrieval (metadata field `weight: 0.7` used in scoring). Privacy: only channels the bot is explicitly given access to; channel owners can opt out.

@@ -97,7 +97,7 @@ The Discord bot token and permissions are separate from the CF Worker secrets. B
 
 ## Phase 4 — YouTube Ingestion
 
-**Goal:** PI YouTube channel content indexed and searchable.
+**Goal:** PI YouTube channel content indexed and searchable. Full pipeline details in [`sources/youtube/PLAN.md`](sources/youtube/PLAN.md).
 
 - `sources/youtube/ingest.py`
 - YouTube Data API v3 for video metadata (title, description, publish date, tags)

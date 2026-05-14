@@ -8,8 +8,8 @@ Index of all corpus sources. Each source maintains its own `registry.json` with 
 |---|---|---|---|---|
 | PDF archive | `pdfs` | public | on-change | [sources/pdfs/registry.json](pdfs/registry.json) |
 | Substack | `substack` | public | realtime (CF cron) | [sources/substack/registry.json](substack/registry.json) |
-| YouTube | `youtube` | public | daily (CF cron) | [sources/youtube/registry.json](youtube/registry.json) |
-| Discord | `discord` | member | daily batch | [sources/discord/registry.json](discord/registry.json) |
+| YouTube | `youtube` | public | daily (CF cron) | [sources/youtube/registry.json](youtube/registry.json) · [PLAN](youtube/PLAN.md) |
+| Discord | `discord` | member | daily batch | [sources/discord/registry.json](discord/registry.json) · [PLAN](discord/PLAN.md) |
 | Submissions | `submissions` | public (post-review) | on-approval | [sources/submissions/registry.json](submissions/registry.json) |
 | Crawl | `crawl` | public (post-review) | scheduled (CF cron) | [sources/crawl/registry.json](crawl/registry.json) |
 | Case studies | `casestudies` | private | manual | [sources/casestudies/registry.json](casestudies/registry.json) |
