@@ -17,3 +17,38 @@
 - Listed as "In Development" initiative on protocol-institute.org/projects.html
 
 **Next:** Create Pinecone index `c3po`, copy PDF corpus to `data/pdfs/`, run `ingest_pdfs.py`.
+
+## 2026-05-14 — Substack ingestion pipeline complete
+
+**Corpus fetched:** 115 posts from Protocolized Substack API + HTML export (116 ingested, 3 pages + 113 newsletters).
+
+**Files created:**
+- `sources/substack/api_metadata.json` — full API metadata for all 115 posts (tags, bylines, section, updated_at, reaction_count)
+- `sources/substack/collections.json` — authoritative collection/series/SIG membership (13 collections)
+- `sources/substack/enriched_meta.json` — Haiku enrichment: summary + categories + author for 129 posts (~$0.05)
+- `sources/substack/registry.json` — updated with last_sync state, vector counts, api_endpoint
+- `sources/substack/fetch_api_metadata.py` — API fetch script
+- `sources/CORPUS_MAP.md` — structural map: sections, authors, extended universe plans, Timber's co-editor role
+- `ingest/enrich_substack.py` — Haiku enrichment script (idempotent, checkpoint saves)
+- `ingest/ingest_substack.py` — full 4-vector-type ingest (body chunks, post_summary, collection_card, author_profile)
+- `ingest/sync_substack.py` — daily API sync (new post detection, edit detection via updated_at, tag change detection)
+
+**Pinecone namespace `substack`:** 1,040 vectors
+- ~873 body chunks (title/author/collection/summary prefix for retrieval)
+- 116 post_summary vectors (slug__post_summary IDs)
+- 13 collection_card vectors (fiction contests, series, SIGs, editorial)
+- 38 author_profile vectors (all 38 authors, with regular/guest contributor framing)
+
+**Substack sections discovered:** Fictions (333105, 58 posts), Articles (333110, 47 posts), Obliquities (333103, 5 posts), Protocolized catch-all.
+
+**Contraptions note:** `Publishing/Contraptions/substack-api.md` updated with API-first sync recommendation for that project.
+
+**Next for Substack:** Set up daily cron for `sync_substack.py`. Consider GitHub Actions workflow.
+**Next overall:** PDF corpus ingest (Phase 1 completion), then Cloudflare Worker API (Phase 2).
+
+## 2026-05-14 14:30–18:56 PT — Devlog system, session rituals, org admin infrastructure
+
+Added devlog infrastructure (data/devlog.json, devlog_session.py, devlog_render.py) and backfilled Sessions 1–2 from today's ingest work. Added startup (6-step) and wrap-up (9-step) rituals to CLAUDE.md. Keys section updated to point to ../admin/keys.md and ../admin/security.md instead of Code/.env.keys. PI admin repo (Protocol-Institute/admin, private) created with expense tracker, key registry, and security policy.
+
+**Pinecone:** substack: 1,040 vectors (unchanged)
+**Next:** GitHub Actions cron for sync_substack.py; PDF corpus ingest.

@@ -1,0 +1,121 @@
+{
+  "project": "c3po",
+  "display_name": "C3PO — Build Log",
+  "description": "A build log for C3PO, the Protocol Institute's research assistant — how the corpus was assembled, what decisions were made, and where things stand. Written for readers curious about the process and for future maintainers.",
+  "tracks": {
+    "corpus-ingestion": "Assembling and cleaning source material; export parsing, API fetches, enrichment",
+    "vector-architecture": "Embedding strategy, chunk design, Pinecone index structure, retrieval quality",
+    "worker-api": "Cloudflare Worker API, query routing, prompt engineering, deployment",
+    "ux": "Query interface, search UI, result presentation",
+    "operations": "Sync scripts, cron jobs, cost monitoring, incident handling"
+  },
+  "sessions": [
+    {
+      "id": 1,
+      "sort_key": 1.0,
+      "label": "Sessions 1–2",
+      "title": "Corpus Archaeology and Substack Ingestion",
+      "date": "2026-05-14",
+      "time_pt": "",
+      "tracks": ["corpus-ingestion", "vector-architecture"],
+      "costs_usd": {
+        "haiku_enrichment": 0.05,
+        "voyage_embedding": 0.04
+      },
+      "vector_counts": {
+        "substack": 1040
+      },
+      "deployed": false,
+      "items": [
+        {
+          "title": "Starting point:",
+          "html": "<strong>Starting point:</strong> Protocolized Substack HTML export (unzipped) — 131 HTML files in <code>posts/</code>, a <code>posts.csv</code> with metadata, and per-post <code>.delivers.csv</code> and <code>.opens.csv</code> email delivery files. The export is the fastest way to get all body HTML at once; but it is missing tags, authors, sections, and edit timestamps — all of which live only in the Substack API."
+        },
+        {
+          "title": "Export archaeology:",
+          "html": "<strong>Export archaeology:</strong> Parsed <code>posts.csv</code> to determine post counts and types: 113 newsletters, 3 content pages (the collection announcement pages for Ghosts in Machines, Building and Burning Bridges, and Submission Guidelines), 2 podcasts (skipped), and a handful of drafts. Draft detection: no <code>.delivers.csv</code> <em>and</em> <code>is_published = false</code>. Pages required an allowlist because some collection announcement pages have real content worth embedding even though they aren't newsletter posts."
+        },
+        {
+          "title": "API discovery:",
+          "html": "<strong>API discovery:</strong> The Substack REST API at <code>/api/v1/posts</code> is public and unauthenticated for any public publication — it is the same endpoint Substack's own web interface uses to render publication pages. It returns fields entirely absent from the export: <code>postTags</code> (series/collection membership), <code>publishedBylines</code> (author attribution with handles), <code>section_id</code> (which subscription section a post belongs to), <code>updated_at</code> (last edit timestamp), <code>reaction_count</code>, <code>restacks</code>, and <code>wordcount</code>. Fetched all 115 posts in ~10 paginated calls. Saved to <code>sources/substack/api_metadata.json</code>."
+        },
+        {
+          "title": "Section discovery:",
+          "html": "<strong>Section discovery:</strong> Protocolized uses Substack's multi-section feature — readers can subscribe to sections independently. The sections were not visible in the API metadata list directly, but <code>section_id</code> integers appeared on each post. Mapped IDs to names by extracting the preloaded JSON state from the publication homepage HTML: <strong>Fictions</strong> (ID 333105, 58 posts — fiction contests and series), <strong>Articles</strong> (ID 333110, 47 posts — essays, SIG reports, case studies), <strong>Obliquities</strong> (ID 333103, 5 posts — VGR's editorial column), and the catch-all <strong>Protocolized</strong> default (5 posts, no section_id). Section stored as <code>section_name</code> metadata on every Pinecone vector."
+        },
+        {
+          "title": "Tag archaeology:",
+          "html": "<strong>Tag archaeology:</strong> Protocolized uses two layers of Substack tags. The first layer is publication-level category tags chosen by the editors (<em>Stories</em>, <em>Technology</em>, <em>Fiction</em>, <em>Culture</em>, <em>Philosophy</em>, etc.) — applied per-post and used for reader discovery. The second layer is publication-specific collection tags that carry series or SIG membership: <em>Terminological Twists</em>, <em>Ghosts in Machines</em>, <em>The Librarians</em>, <em>Building and Burning Bridges</em>, <em>Zoothesia</em>, <em>Bridge Atlas</em>, <em>SIGFPT</em>, <em>SIGBIZ</em>, <em>SIGMEM</em>, <em>SIGFIC</em>, <em>Obliquities</em>, <em>Protocols for the Long Now</em>."
+        },
+        {
+          "title": "Collections map:",
+          "html": "<strong>Collections map:</strong> Built <code>sources/substack/collections.json</code> — the authoritative membership roster for all 13 named collections. Structure: fiction contests (4), series (3 including one emerging), proto-collections (1: Sachin Benny's UE-T1 train stories, which have no Substack tag yet), SIGs (4), and editorial column (1). Proto-collections are manually curated author series whose posts are thematically linked but haven't received an official tag yet."
+        },
+        {
+          "title": "Author attribution:",
+          "html": "<strong>Author attribution:</strong> Author data is not in the export CSV or in post HTML bodies — only in the API <code>publishedBylines</code> field. Some bylines use display handles rather than real names: <em>Thing Party</em> = Elizabeth Maher (T.R.O.(L.L.) universe author), <em>Sachin</em> = Sachin Benny, <em>Spencer Nitkey - Writer</em> = Spencer Nitkey. 38 unique non-Protocolized contributors identified; 6 are regular contributors (3+ posts). Timber Stinson-Schroff is co-editor, not a guest contributor — his editorial posts are authoritative publication voice. Handle-to-name resolution table stored in <code>ingest/enrich_substack.py</code> and <code>sources/CORPUS_MAP.md</code>."
+        },
+        {
+          "title": "Haiku enrichment:",
+          "html": "<strong>Haiku enrichment (~$0.05):</strong> One Claude Haiku call per post. Input: title + subtitle + bylines + first 1,200 characters of body text. Output: a two-sentence concrete summary, 2–4 categories from a fixed 11-term vocabulary (<em>protocol-fiction</em>, <em>protocol-theory</em>, <em>protocol-watching</em>, <em>editorial</em>, <em>research-report</em>, <em>technology-ai</em>, <em>governance</em>, <em>announcement</em>, <em>interview</em>, <em>memory-archival</em>, <em>organizations</em>), and a resolved primary author name. Ran on 129 posts (all non-podcast), 0 errors. Checkpoint saves every 10 posts so a mid-run failure loses at most 10 calls. Idempotent: skips slugs already in <code>enriched_meta.json</code>."
+        },
+        {
+          "title": "Embedding strategy — four vector types:",
+          "html": "<strong>Embedding strategy — four vector types:</strong> The corpus supports four distinct retrieval patterns, each needing a different vector shape. <strong>Body chunks</strong>: each post is chunked at ~512 tokens (64-token overlap); every chunk gets a prefix of <em>Title / Author / Collection (if any) / Summary</em> prepended before embedding, so a chunk about a specific narrative moment is anchored to its full semantic context. Vectors use the raw chunk for the stored <code>text</code> metadata field (clean, readable) but the prefixed version for embedding (richer signal). <strong>Post summaries</strong>: one vector per post at ID <code>{slug}__post_summary</code>, embedding the full title + author + date + section + categories + Haiku summary — catches queries that match the gist of a piece without matching any specific passage. <strong>Collection cards</strong>: one vector per collection/series/SIG at ID <code>collection__{slug}</code>, describing the collection and listing all its posts — catches queries like <em>what are the common themes in Ghosts in Machines</em>. <strong>Author profiles</strong>: one per contributor at ID <code>author__{slug}</code>, listing all their posts with collection membership — catches author-centric queries. Regular contributors (3+ posts) are labeled as such; one-off contributors are labeled as guest contributors."
+        },
+        {
+          "title": "Ingest results:",
+          "html": "<strong>Ingest results:</strong> 1,040 vectors in Pinecone namespace <code>substack</code> — approximately 873 body chunks, 116 post summaries, 13 collection cards, 38 author profiles. Voyage AI <code>voyage-3</code> model (1024 dimensions, cosine metric). Embedding cost approximately $0.04 at $0.06/M tokens."
+        },
+        {
+          "title": "Sync strategy:",
+          "html": "<strong>Sync strategy:</strong> The two-track RSS + export approach (used for the Contraptions project) was rejected in favor of an API-first daily sync. RSS misses all post edits. The export requires a manual download. The API provides <code>updated_at</code> per post, enabling edit detection without HTML diffing: compare each slug's current <code>updated_at</code> against a stored value in <code>registry.json</code>. New posts get full enrichment + all 4 vector types. Edited posts get body chunks + post summary re-embedded (re-enriched via Haiku only if wordcount delta exceeds 15%). Tag changes trigger re-embedding of affected collection cards. <code>sync_substack.py</code> implements this; the initial <code>last_sync</code> state was populated from the current API metadata so the first run correctly detects zero changes."
+        },
+        {
+          "title": "Corpus map:",
+          "html": "<strong>Corpus map:</strong> Created <code>sources/CORPUS_MAP.md</code> to record structural information that is not derivable from the code or API. Key entries: the four Substack sections and their IDs, Timber's co-editor status, the author handle resolution table, and the extended universe project — Spencer Nitkey (Zoothesia), Sachin Benny (UE-T1 train series), Elizabeth Maher (T.R.O.(L.L.) universe), and Randy Lubin (Caduceus City) are building a shared off-Substack fiction universe, currently seeded by their Protocolized posts. Expected to become a new C3PO data source in Q4 2026."
+        },
+        {
+          "title": "Contraptions note:",
+          "html": "<strong>Contraptions note:</strong> The Substack API capabilities discovered here were written up as a note at <code>Publishing/Contraptions/substack-api.md</code> for the Contraptions/vgr_gramsci project. The note covers what the API provides that the export doesn't, and recommends the same API-first sync strategy for that project, including using <code>reaction_count</code> to replace the fragile pingback scraping currently used for lighthouse post scoring."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "sort_key": 2.0,
+      "label": "Session 3",
+      "title": "Devlog System, Session Rituals, and Org Admin Infrastructure",
+      "date": "2026-05-14",
+      "time_pt": "14:30–18:56 PT",
+      "tracks": ["operations"],
+      "costs_usd": {},
+      "vector_counts": {
+        "substack": 1040
+      },
+      "deployed": false,
+      "items": [
+        {
+          "title": "Devlog system:",
+          "html": "<strong>Devlog system:</strong> Adopted the same devlog pattern used in the ribbonfarm_site project: <code>data/devlog.json</code> as source of truth, <code>devlog_session.py</code> to record session start/end timestamps to <code>/tmp/c3po_devlog_session_start.txt</code>, and <code>devlog_render.py</code> to render <code>DEVLOG.md</code> from JSON. The JSON-first approach keeps the record machine-readable and allows non-Markdown downstream uses (dashboard integration, cost aggregation)."
+        },
+        {
+          "title": "Startup ritual:",
+          "html": "<strong>Startup ritual (6 steps, added to CLAUDE.md):</strong> (1) Record session start via <code>devlog_session.py start</code>. (2) Run <code>track.py status</code> to detect any concurrent PI project sessions and flag overlap. (3) Read <code>status.md</code> to review open questions and last session's state. (4) Check live Pinecone vector counts against the stored values in <code>status.md</code> — a fast sanity check that the index is intact. (5) Run <code>sync_substack.py --dry-run</code> to check for new or edited posts since last session. (6) Summarize delta to Venkat: vector counts, pending sync, open questions."
+        },
+        {
+          "title": "Wrap-up ritual:",
+          "html": "<strong>Wrap-up ritual (9 steps, added to CLAUDE.md):</strong> Documentation (devlog entry, status.md, CLAUDE.md vector count update) → keys/env (update .env.template and ../admin/keys.md if new env vars were added) → repo (git add, commit, push) → expenses (track.py end, fill log-vgr.json, render.py) → memory (update Claude memory with non-obvious decisions). The checklist enforces that documentation and expense logging are never skipped at session end."
+        },
+        {
+          "title": "PI admin repo:",
+          "html": "<strong>PI admin repo (Protocol-Institute/admin, private):</strong> Created a new private GitHub repo to hold all Protocol Institute operational infrastructure: <code>expenses/</code> (expense tracker scripts, per-contributor log files, rendered EXPENSES.md), <code>keys.md</code> (key registry — owner, billing method, which projects use each key), and <code>security.md</code> (key storage policy, rotation procedures, incident response). This separates PI org admin from VGR's personal <code>Code/</code> directory, which tracks personal-scope keys only."
+        },
+        {
+          "title": "Expense model:",
+          "html": "<strong>Expense model:</strong> Per-contributor log files (<code>log-{id}.json</code>) — each contributor owns their file, eliminating merge conflicts. <code>track.py end</code> reads all active <code>/tmp/</code> session start files, takes the earliest start as the window start, and computes a single billable window — so if C3PO, website, and protocolized-website sessions all run simultaneously, the hours are not double-counted. A <code>key_ownership</code> map in each log file flags which API keys are personal (reimbursable) vs org (direct billing, not expensed). <code>render.py</code> aggregates all contributor logs into <code>EXPENSES.md</code> and <code>expenses.csv</code> with per-contributor sections and a grand total."
+        }
+      ]
+    }
+  ]
+}

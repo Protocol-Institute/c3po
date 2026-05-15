@@ -71,7 +71,7 @@ def embed_chunks(texts: list[str], vc: voyageai.Client) -> list[list[float]]:
 
 
 def upsert_chunks(chunks: list[str], vectors: list[list[float]],
-                  metadata_base: dict, index) -> int:
+                  metadata_base: dict, index, namespace: str = "") -> int:
     """Upsert chunks with metadata to Pinecone. Returns count upserted."""
     total = len(chunks)
     records = []
@@ -79,7 +79,11 @@ def upsert_chunks(chunks: list[str], vectors: list[list[float]],
         meta = {**metadata_base, "chunk_index": i, "chunk_total": total, "text": chunk[:1000]}
         records.append({"id": chunk_id(chunk), "values": vector, "metadata": meta})
 
+    kwargs = {}
+    if namespace:
+        kwargs["namespace"] = namespace
+
     for i in range(0, len(records), PINECONE_BATCH):
-        index.upsert(vectors=records[i: i + PINECONE_BATCH])
+        index.upsert(vectors=records[i: i + PINECONE_BATCH], **kwargs)
 
     return len(records)

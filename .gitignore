@@ -1,5 +1,6 @@
 .env
-data/
+data/*
+!data/devlog.json
 __pycache__/
 *.py[cod]
 .venv/

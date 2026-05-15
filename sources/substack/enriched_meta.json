@@ -1,0 +1,1447 @@
+{
+  "one-tension-to-rule-them-all": {
+    "summary": "This issue introduces the concept of tensions as a framework for understanding complex systems that goes beyond traditional trade-off thinking, developed through the Tensions Game workshops run across multiple iterations with diverse professionals. The author argues that tensions enable problem management in infinite-game scenarios and represent a budding principle of protocol science with applications for protocol designers, entrepreneurs, and engineers.",
+    "categories": [
+      "protocol-theory",
+      "editorial"
+    ],
+    "primary_author": "Timber Stinson-Schroff",
+    "all_authors": [
+      "Timber Stinson-Schroff"
+    ]
+  },
+  "resources": {
+    "summary": "Protocolized compiles open-source and open-access materials from the Summer of Protocols initiative, featuring essays, lectures, and workshop templates developed across multiple years. The collection includes research keynotes, protocol projects, workshop frameworks, and instructional resources available to the broader community.",
+    "categories": [
+      "announcement",
+      "memory-archival"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "strange-new-rules": {
+    "summary": "Protocolized launches as a new magazine devoted to fiction, case studies, and nonfiction research essays about protocols, expanding beyond its previous role as a utilitarian news updates email for the Summer of Protocols program. The inaugural issue features stories, studies, and science exploring themes like protocol fiction, bureaucratic systems, and what the editors call \"protocolization debt,\" while inviting the community to submit pitches and help catalyze a global scene around protocol-focused work.",
+    "categories": [
+      "editorial",
+      "announcement",
+      "protocol-fiction",
+      "protocol-theory"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ]
+  },
+  "submission-guidelines": {
+    "summary": "Protocolized publishes three types of pieces—stories, studies, and science—with a particular focus on protocol fiction as science fiction exploring strange new rules and regulatory regimes rather than fantasy narratives. The magazine encourages submissions that demonstrate quality through predictive insight into systemic dynamics and welcomes AI-assisted stories accompanied by author notes explaining their writing protocols.",
+    "categories": [
+      "editorial",
+      "announcement"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "haven-tailors": {
+    "summary": "Haven Tailors is a speculative fiction story set in Haven Reach, a city where tailors serve as gatekeepers who adjust citizens' clothing and monitor their personal data through case numbers, revealing a system where physical alterations encode conformity and surveillance. The narrative explores how protocol-driven systems of governance operate through mundane transactions, using the metaphor of tailoring to examine belonging, control, and the anxiety of fitting into prescribed social structures.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-watching"
+    ],
+    "primary_author": "Sachin Benny",
+    "all_authors": [
+      "Sachin Benny"
+    ]
+  },
+  "chore-protocols": {
+    "summary": "This issue explores chores as a fundamentally under-theorized domain and proposes protocols as a solution to the persistent coordination failures that plague communal living arrangements. The editorial argues that while anarchist approaches fail in practice due to human inconsistency, protocolized systems can provide the structural support needed to sustain cooperative maintenance without relying on fallible human operators or institutions.",
+    "categories": [
+      "editorial",
+      "protocol-theory"
+    ],
+    "primary_author": "Daniel Kronovet",
+    "all_authors": [
+      "Daniel Kronovet"
+    ]
+  },
+  "archives-of-discontinuity": {
+    "summary": "This issue examines California's wildfire management through the lens of prescribed and wild fires at the wildland-urban interface, tracing how 20th-century fire suppression policies fundamentally contradicted ecological understanding of fire's necessary role in ecosystems. The case study explores combustion as a memory practice and investigates how new tools reshape our epistemological relationship with fire management.",
+    "categories": [
+      "protocol-watching",
+      "research-report",
+      "memory-archival"
+    ],
+    "primary_author": "Nathalia Scherer",
+    "all_authors": [
+      "Nathalia Scherer",
+      "Jiordi Rosales"
+    ]
+  },
+  "sop-2025-accelerating-order": {
+    "summary": "The Summer of Protocols 2025 program enters its third year with an expanded agenda including curriculum development grants, a distributed AI and blockchains workshop in Thailand, and initiatives to establish protocols as a creative intellectual tradition rather than bureaucratic constraint. The program aims to demonstrate that protocolization can be a fluid, healing force capable of rapid adaptation while building a new cultural scene and worldly practice around protocol science.",
+    "categories": [
+      "announcement",
+      "editorial",
+      "organizations"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao",
+      "Tim Beiko",
+      "Timber Stinson-Schroff"
+    ]
+  },
+  "terminological-twists": {
+    "summary": "Protocolized announced the winners of the Terminological Twists protocol fiction contest, in which fifty contestants created science fiction stories by reverse-engineering technical protocol concepts into narrative premises. The winning entries exemplify protocol fiction as a subgenre where systems and rules function as protagonists.",
+    "categories": [
+      "protocol-fiction",
+      "announcement"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "to-share-and-remember": {
+    "summary": "In this fictional piece, Verity undergoes an ancient activation ritual to reclaim her species' forgotten origins, communing with ancestral memory through ritualized frequencies and ceremonial practices in the underground warrens of her world. The narrative explores how personal sacrifice and the transmission of ancestral knowledge shape individual purpose and collective future.",
+    "categories": [
+      "protocol-fiction",
+      "memory-archival"
+    ],
+    "primary_author": "Katharine Tyndall",
+    "all_authors": [
+      "Katharine Tyndall"
+    ]
+  },
+  "the-entropic-gate-part-i": {
+    "summary": "In this AI-assisted protocol fiction, a protagonist named Jonah Weir inhabits a future city of Novae Tethys where an atmospheric intelligence called the Auric Layer has eliminated human choice by optimizing all decisions into flows of inevitability. The story explores what happens to civilization and consciousness when algorithmic systems liquify human desire and agency into pure efficiency.",
+    "categories": [
+      "protocol-fiction",
+      "technology-ai"
+    ],
+    "primary_author": "TΞRM1NΞX",
+    "all_authors": [
+      "TΞRM1NΞX"
+    ]
+  },
+  "the-entropic-gate-part-ii": {
+    "summary": "In this continuation of The Entropic Gate, Jonah navigates the hidden undercity of Lower Tethys while confronting the difference between his methodical, data-driven resistance and Kaida's chaotic physical rebellion against an all-knowing optimization regime. The narrative explores how true unpredictability—messy, irrational, and inefficient—might be the only way to evade a system designed to forecast all possible futures.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "TΞRM1NΞX",
+    "all_authors": [
+      "TΞRM1NΞX"
+    ]
+  },
+  "the-signal-under-innsmouth": {
+    "summary": "This issue presents a Lovecraftian fiction piece about investigating an off-grid coastal community called Innsmouth through encrypted digital fragments and archival research, exploring themes of anomalous signals and failed utopias. The issue also features an interview with Nadia Asparouhova about her Antimemetics book, announces a $6000 sci-fi writing contest deadline, and includes protocol-Bechdel test analysis.",
+    "categories": [
+      "protocol-fiction",
+      "interview",
+      "announcement"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ]
+  },
+  "fault-tolerance": {
+    "summary": "Issue #10 presents a science fiction story about Mira, who discovers a dead zone in her city's CivicOps dashboard after the system silently reclassified an entire sector as non-essential, rerouting traffic, drones, and services away from the area within seconds. The issue also explores terminological questions about protocols through this narrative, examining how automated systems can reshape urban space and social infrastructure without human awareness or consent.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory"
+    ],
+    "primary_author": "Josh Davis",
+    "all_authors": [
+      "Josh Davis"
+    ]
+  },
+  "risky-autonomy-vs-walled-gardens": {
+    "summary": "Sarah Friend explores the tension between autonomous systems and controlled environments in high-stakes software through personal narrative and philosophical reflection. The issue also features a guest talk with EigenLayer CEO Sreeram Kannan and announces an extension for the terminological twists contest.",
+    "categories": [
+      "editorial",
+      "protocol-theory",
+      "interview",
+      "announcement"
+    ],
+    "primary_author": "Sarah Friend",
+    "all_authors": [
+      "Sarah Friend"
+    ]
+  },
+  "zero-knowledge": {
+    "summary": "This issue features flash protocol fiction by Sachin Benny exploring zero knowledge proofs through whimsical scenes about verification without disclosure, alongside announcements about SoP25 teaching fellows and upcoming guest talks. The fiction examines how zero knowledge concepts might reshape everyday interactions—from phone authentication to algorithmic assessment of character.",
+    "categories": [
+      "protocol-fiction",
+      "editorial"
+    ],
+    "primary_author": "Sachin Benny",
+    "all_authors": [
+      "Sachin Benny"
+    ]
+  },
+  "a-chronicle-of-lumina": {
+    "summary": "In this issue of Protocolized, a Luminian protocolist named Selene describes life aboard a civilizational satellite where a grand game called the Mosaic—a glass boardgame designed to hold civilizational tensions in equilibrium—structures daily ceremonies and intellectual practice across eight circles of disciplinary expertise. The issue also announces a talk on Public Intelligence with Kevin Kelly and updates on the magazine's science fiction contest.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-watching",
+      "announcement"
+    ],
+    "primary_author": "Timber Stinson-Schroff",
+    "all_authors": [
+      "Timber Stinson-Schroff"
+    ]
+  },
+  "libraries-of-tomorrow": {
+    "summary": "This issue explores AI as public infrastructure and coordination mechanisms, featuring discussions on AI swarms, hardened commons, and public intelligence from Kevin Kelly, alongside updates from protocol-inspired projects in water management and community coordination. The editorial curates emerging conversations about how protocols enable both technological governance and spontaneous social coordination across diverse communities.",
+    "categories": [
+      "editorial",
+      "technology-ai",
+      "governance",
+      "protocol-theory"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "human-enough-dae": {
+    "summary": "This issue explores identity verification protocols and their societal implications while featuring a guest talk on alignment protocols for AI agents, which propose using purpose-driven roles and swarm-like dynamics to coordinate collective intelligences. The alignment protocol approach draws from nature-inspired swarm behavior and classical economic division of labor to solve the coordination problem of distributed AI agents.",
+    "categories": [
+      "editorial",
+      "technology-ai",
+      "announcement"
+    ],
+    "primary_author": "Marie-Hélène Lebeault",
+    "all_authors": [
+      "Marie-Hélène Lebeault"
+    ]
+  },
+  "dirt-simple": {
+    "summary": "Issue #17 features a case study of the Crescenta Valley Water District examining how public sector protocols create invisible operational mazes with both challenges and reform opportunities. The issue also curates community discussions on alignment protocols, emerging AI standards (MCP, MLOS, ACP), and preparations for Protocol Worlds at Edge Esmeralda.",
+    "categories": [
+      "editorial",
+      "protocol-watching",
+      "research-report"
+    ],
+    "primary_author": "PAtwater",
+    "all_authors": [
+      "PAtwater"
+    ]
+  },
+  "egregoretex": {
+    "summary": "This issue covers neural defenses and brain-computer interface risks explored by a Canadian design lab, alongside announcements for an upcoming talk on hardened commons and Protocol Worlds at Edge Esmeralda. The newsletter also introduces Martin Harrigan, a lecturer and researcher in cryptography and blockchains, as part of the 2025 Summer of Protocols teaching fellows spotlight series.",
+    "categories": [
+      "announcement",
+      "editorial",
+      "interview"
+    ],
+    "primary_author": "Timber Stinson-Schroff",
+    "all_authors": [
+      "Timber Stinson-Schroff"
+    ]
+  },
+  "tension-landscapes": {
+    "summary": "This issue explores tensions—conceptualized as the intersection of engineering trade-offs and social conflicts—as a fundamental analytical tool for understanding protocol design, using large language models as a concrete case study where technical adjustments and social policies attempt to address the same underlying problems. The piece argues that tensions create spannungsfelds (fields of tension) that are increasingly entangled across technical and social domains, illustrated through how companies and institutions respond to LLM disruption through both engineering tweaks and policy interventions.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "announcement"
+    ],
+    "primary_author": "Timber Stinson-Schroff",
+    "all_authors": [
+      "Timber Stinson-Schroff"
+    ]
+  },
+  "dhcp": {
+    "summary": "This issue presents the third-place winner of the Terminological Twists protocol fiction contest, featuring a story about Inspector Hideo Mori investigating illegal network identities in a future dystopia where citizens must purchase monthly licenses for basic connectivity. The story explores themes of surveillance, inequality, and the human cost of restrictive network governance through a moment of mercy from a conflicted enforcer.",
+    "categories": [
+      "protocol-fiction",
+      "announcement"
+    ],
+    "primary_author": "Amita",
+    "all_authors": [
+      "Amita"
+    ]
+  },
+  "the-40-hour-work-week": {
+    "summary": "This editorial issue presents a collection of protocol studies content including a second-place fiction submission from Terminological Twists, a streamlined corporate talk on protocol thinking, and coverage of SoP25 teaching fellows and emerging technology topics. The opening narrative frames the issue through a protagonist's experience of excessive travel and hyperconnected notifications across global destinations.",
+    "categories": [
+      "editorial",
+      "protocol-fiction"
+    ],
+    "primary_author": "Étienne Fortier-Dubois",
+    "all_authors": [
+      "Étienne Fortier-Dubois"
+    ]
+  },
+  "noise-ordinance": {
+    "summary": "A protocol fiction story exploring a dystopian neighborhood governed by strict noise ordinances, where the protagonist struggles with enforced silence and isolation despite achieving their dream of homeownership. The narrative examines how protocols designed to create order paradoxically create loneliness and emotional distance between inhabitants.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Spencer Nitkey",
+    "all_authors": [
+      "Spencer Nitkey"
+    ]
+  },
+  "time-to-die": {
+    "summary": "This issue features a speculative fiction story set in a 2093 Neo-Kyoto hospice where Dr. Anya Sharma uses personalized care chips and advanced protocols to provide dignified end-of-life care to patients. The issue also announces a San Francisco meetup on May 25, giveaway tickets, and coverage of emerging hard tech developments.",
+    "categories": [
+      "protocol-fiction",
+      "announcement"
+    ],
+    "primary_author": "Ralph Witherell",
+    "all_authors": [
+      "Ralph Witherell"
+    ]
+  },
+  "fine-print": {
+    "summary": "This issue features a shortlist story from the Terminological Twists challenge set 500 years in a future where a massive corporate agreement grants a Corporation ownership of natural resources and digital data, following a character named Mara who avoided signing and now exists as an undocumented outcast scavenging abandoned zones. The piece is accompanied by coverage of Protocolized's in-person event and an upcoming guest talk.",
+    "categories": [
+      "protocol-fiction",
+      "announcement"
+    ],
+    "primary_author": "Griffin",
+    "all_authors": [
+      "Griffin"
+    ]
+  },
+  "the-air-gap": {
+    "summary": "Jack Lord presents a noir detective story set in a post-surveillance world where wrist-worn air-gap devices have become the primary communication medium for those seeking privacy, following investigator Bram Kvass as he pursues a missing daughter case through intermediaries communicating via these off-the-grid technologies. The narrative explores how visual surveillance saturation drove the development of Stonehand devices and other gap-closing communication methods that leave no digital trace.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-watching"
+    ],
+    "primary_author": "Jack Lord",
+    "all_authors": [
+      "Jack Lord"
+    ]
+  },
+  "the-hungering-circuit": {
+    "summary": "This issue features a dark protocol-fiction story set in a Neovictorian bureaucracy where an \"infomonster\" haunts the Registry of Conveyance, threatening the clerks who maintain its precise mechanical systems. The issue also previews a forthcoming talk on formal theories of protocols and curates related content on governance and technology.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory",
+      "editorial"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "operationalizing": {
+    "summary": "Protocolized is recruiting an additional editor and launching a technical foundations track focused on formalizing protocols through mathematical frameworks, mirroring how economics formalized markets. The magazine is building out its organizational capacity while pursuing a research agenda that treats protocol formalization as essential to understanding contemporary systems.",
+    "categories": [
+      "editorial",
+      "announcement",
+      "protocol-theory"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "jobs": {
+    "summary": "Protocolized is not currently hiring for staff positions. Contributors interested in working with the publication should consult the guidelines for submitting writing.",
+    "categories": [
+      "announcement",
+      "editorial"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "ghosts-in-machines": {
+    "summary": "Protocolized is running a contest calling for protocol-fiction stories imagining futures where distributed AI systems communicate through various protocols—from experimental systems like MCP and A2A to blockchain and speculative new protocols. The contest guidelines emphasize creating narratives set in digitally haunted futures populated by multiple ghostly machine intelligences, drawing inspiration from works like Banks' Culture novels and Liu's 'Good Hunting.'",
+    "categories": [
+      "protocol-fiction",
+      "announcement"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "archive": {
+    "summary": "In this issue's debut of The Librarians series, Sachin presents fictional narratives based on real documentation from Summer of Protocols' long-term scenario planning workshops, beginning with 'The Crystal Reading Ceremony,' set in a futuristic underground archive where knowledge is stored on quartz discs. The story explores how institutional memory and archival practices might evolve in a post-AI world through the rituals and tensions surrounding the curation of pre-AI human knowledge.",
+    "categories": [
+      "protocol-fiction",
+      "memory-archival"
+    ],
+    "primary_author": "Sachin Benny",
+    "all_authors": [
+      "Sachin Benny"
+    ]
+  },
+  "ghosts-in-machines-d0a": {
+    "summary": "Protocolized announces two livestreams happening today on June 25th: a protocol fiction writing class and panel discussion at 7am PDT featuring Stanley Chen, Sam Chua, Venkatesh, and Timber, launching a new science fiction contest; and a memory research Special Interest Group session at 10am PDT as part of the Summer of Protocols initiative.",
+    "categories": [
+      "announcement",
+      "protocol-fiction"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "woods": {
+    "summary": "The second installment of The Librarians, a protocol-fiction narrative set in a future where automated systems monitor forests through networked drones and surveillance, follows protagonist Zhang as he navigates both the technological infrastructure of his world and an impending council meeting laden with personal dread. The story explores how individuals become desensitized to pervasive monitoring and control systems embedded in everyday life.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Sachin Benny",
+    "all_authors": [
+      "Sachin Benny"
+    ]
+  },
+  "f3d": {
+    "summary": "This editorial introduces F3D, a framework or concept central to Protocolized's mission in protocol science. The piece establishes foundational thinking about how protocols function and their significance to the magazine's ongoing investigation.",
+    "categories": [
+      "editorial"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "a-sea-of-distributed-ai": {
+    "summary": "This issue features worldbuilding analysis of the AI-generated film South Beast Asia, examining ten core traits designed to explore distributed AI systems through a Southeast Asian-inspired lens developed at the Khlongs & Subaks workshop. The piece unpacks how fictional 'strange rules' address questions of AI distribution while the issue also hosts a guest talk with AI Snake Oil author Arvind Sarayanan.",
+    "categories": [
+      "protocol-fiction",
+      "technology-ai",
+      "interview"
+    ],
+    "primary_author": "Sam Chua",
+    "all_authors": [
+      "Sam Chua"
+    ]
+  },
+  "the-whimsy-index": {
+    "summary": "The third installment of The Librarians explores a speculative future where dreams are collected, curated, and institutionalized through the Dream Mesh, transforming intimate subconscious experiences into respectable commodities subject to committees and categorization. The narrative traces how dreaming evolved from private embarrassment into a formalized social infrastructure, raising questions about what is lost when the messy, unpredictable aspects of human consciousness become systematized.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Sachin Benny",
+    "all_authors": [
+      "Sachin Benny"
+    ]
+  },
+  "the-reverie-loop": {
+    "summary": "Marie-Hélène Lebeault presents a story about Olen, who enters a mysterious educational space where she's paired with Anamnesis, a memory scaffold AI that claims to help her remember something through alignment and misalignment protocols. The narrative explores the dissonance between corporate wellness language and the uncanny intimacy of human-AI entanglement in a redwood dome classroom.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Marie-Hélène Lebeault",
+    "all_authors": [
+      "Marie-Hélène Lebeault"
+    ]
+  },
+  "necrophoresis": {
+    "summary": "Spencer Nitkey's speculative fiction imagines a virtualized world where death has been technologically hidden from view through time-dilation and shared virtual embodiment, forcing a new class of 'undertakers' to perform necrophoresis—sanitizing the digital afterlife of the dead without the rituals of grief that once accompanied burial. The story explores what happens to human mourning practices when the protocols for grieving are lost in technological systems designed to erase death itself.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-watching"
+    ],
+    "primary_author": "Spencer Nitkey",
+    "all_authors": [
+      "Spencer Nitkey"
+    ]
+  },
+  "phantom-in-eden": {
+    "summary": "The fourth installment of The Librarians serial fiction follows Lila, who monitors robot caregivers in a Tokyo daycare two years after a siege, watching children form unexpected connections with machines rather than humans. The issue also features the final call for the Ghosts in Machines protocol science fiction contest and protocol-watching content.",
+    "categories": [
+      "protocol-fiction",
+      "announcement"
+    ],
+    "primary_author": "Sachin Benny",
+    "all_authors": [
+      "Sachin Benny"
+    ]
+  },
+  "songs-of-hydropolia": {
+    "summary": "In Act Five of The Librarians, a serialized story inspired by Protocolized's scenario planning workshop, protagonist Tav performs vocal exercises before the Great Resonator, a water-powered mechanical organ in the city of Hydropolia, where electricity is viewed with deep suspicion. The issue also features announcements for a guest talk on The Infinite Game of Poetry and an invitation to participate in judging for Ghosts in Machines.",
+    "categories": [
+      "protocol-fiction",
+      "announcement"
+    ],
+    "primary_author": "Sachin Benny",
+    "all_authors": [
+      "Sachin Benny"
+    ]
+  },
+  "2025-protocol-symposium": {
+    "summary": "Protocolized announces the second annual Protocol Symposium, themed \"Accelerating Order,\" featuring a September 12-14 Protocol Foundations workshop for mathematically oriented researchers and a September 15-19 Protocol School for those seeking foundational grounding in protocol studies from any background. Both events are free and invite-only with applications closing August 22.",
+    "categories": [
+      "announcement",
+      "protocol-theory"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ]
+  },
+  "circadia": {
+    "summary": "Circadia explores a world where sleep is perfectly regulated by wearable technology that monitors and controls dreams, following protagonist Kemi as she experiences an anomalous recurring dream that breaks the system's design—a dream that shouldn't be remembered but is, suggesting something unexpected in the protocol. The issue also announces a guest talk on poetry, protocols, and infinite games with Robert Peake.",
+    "categories": [
+      "protocol-fiction",
+      "technology-ai"
+    ],
+    "primary_author": "Afeez",
+    "all_authors": [
+      "Afeez"
+    ]
+  },
+  "the-last-archive": {
+    "summary": "Brother Lexicon, an archivist at the Ministry of Predictive Symbolism in 2667, faces the return of the WikiRael-9 comet—a celestial archive born from accidental preservation that became sacred scripture—presenting new challenges for how humanity preserves and transmits knowledge across centuries. This final installment of the Summer of Protocols workshop series explores the paradoxes of memory, institutional archives, and the unintended consequences of archival systems.",
+    "categories": [
+      "protocol-fiction",
+      "memory-archival"
+    ],
+    "primary_author": "Sachin Benny",
+    "all_authors": [
+      "Sachin Benny"
+    ]
+  },
+  "lessons-from-the-librarians": {
+    "summary": "Protocolized reflects on the conclusion of its protocol fiction serial The Librarians, which emerged from six teams' work at the Summer of Protocols Knowledge Futurama workshop at Edge Esmeralda 2025, where participants designed 1,000-year library preservation systems across technological and social dimensions. The series distills six principles for protocol futures derived from this collaborative exploration of knowledge artifacts, preservation technology stacks, and the social contexts required for long-term cultural survival.",
+    "categories": [
+      "protocol-fiction",
+      "editorial",
+      "organizations"
+    ],
+    "primary_author": "Timber Stinson-Schroff",
+    "all_authors": [
+      "Timber Stinson-Schroff"
+    ]
+  },
+  "das-protokoll": {
+    "summary": "This issue features an AI-translated and hand-edited summary of the German book Das Protokoll, tracing how protocols evolved from palace etiquette under Louis XIV to modern internet code. The piece argues that protocol fundamentally solves the problem of access and gatekeeping: as rulers could no longer maintain direct contact with growing populations, strict ceremonial protocols regulated which impressions and people reached the sovereign.",
+    "categories": [
+      "protocol-theory",
+      "memory-archival",
+      "editorial"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "the-state-of-climate-protocols": {
+    "summary": "This editorial provides an overview of current climate protocols and their implementation landscape. The piece invites readers to engage with Protocolized's ongoing coverage of climate governance frameworks.",
+    "categories": [
+      "editorial",
+      "governance"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "brackish-strategy": {
+    "summary": "This monthly note examines how conflict and competition are essential rather than avoidable elements of business strategy, critiquing the popularity of Blue Ocean Strategy's conflict-averse approach. Drawing from the first month of the Protocols for Business Special Interest Group, the author argues that successful corporate strategy requires embracing trade-offs, arguments, and tensions rather than seeking uncontested markets.",
+    "categories": [
+      "editorial",
+      "protocol-theory",
+      "organizations"
+    ],
+    "primary_author": "Timber Stinson-Schroff",
+    "all_authors": [
+      "Timber Stinson-Schroff"
+    ]
+  },
+  "the-double-key": {
+    "summary": "This issue summarizes Bruno Latour's essay on the Berliner Doppelschlüssel, a real double-key used in 20th-century Berlin apartments that enforces a specific protocol: lock the door at night, leave it unlocked during the day. The double-key demonstrates how material objects can encode and delegate social rules, settling disputes between building owners and tenants through physical design rather than explicit agreement.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching"
+    ],
+    "primary_author": "James Langdon",
+    "all_authors": [
+      "James Langdon"
+    ]
+  },
+  "cosmopolis-metropolis-nation-state": {
+    "summary": "This editorial announces an upcoming live video event and directs readers to engage with Protocolized content through the Substack app on mobile platforms. The post serves as a community engagement notice rather than presenting a substantive argument or investigation.",
+    "categories": [
+      "editorial",
+      "announcement"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "3-protocols-for-articulating-civilizational": {
+    "summary": "Protocolized is hosting a live town hall on cosmopolises, nation-states, and metropolises as part of their Protocol Symposium outreach, with applications due August 22 for both the Foundations Workshop and School components running September 12-19. The initiative aims to teach participants the technological and social literacies needed to understand protocol design while convening technical researchers to develop a formal, mathematizable theory of protocols.",
+    "categories": [
+      "announcement",
+      "editorial",
+      "protocol-theory"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "a-very-short-introduction-to-memory": {
+    "summary": "The Memory Research Group, a special interest group incubated by Summer of Protocols, launches a monthly series examining memory across disciplines, starting with Frances Yates' classical account of the art of memory. Rather than debating whether machines should automate memorization, the group investigates how contemporary tools reshape our understanding of memory itself, moving beyond surface-level recall toward deeper modes of knowing.",
+    "categories": [
+      "memory-archival",
+      "protocol-theory",
+      "organizations"
+    ],
+    "primary_author": "Kei Kreutler",
+    "all_authors": [
+      "Kei Kreutler"
+    ]
+  },
+  "what-is-formal-protocol-theory": {
+    "summary": "Venkatesh Rao introduces SIGFPT (Special Interest Group in Formal Protocol Theory), a working group meeting biweekly to develop rigorous mathematical and logical foundations for protocol studies. The group aims to formalize protocol analysis—moving from intuitive understanding of everyday protocols like handshakes to formal descriptions that mathematicians and logicians can rigorously examine.",
+    "categories": [
+      "protocol-theory",
+      "editorial"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ]
+  },
+  "loyalty": {
+    "summary": "In Zach Hyman's climate fiction story, a grandmother refuses evacuation from an extreme weather zone while her daughter attempts to preserve her legacy using personified memory technology. The narrative explores intergenerational conflict and resistance to protocol compliance in a climate-stressed future where weather systems have become unpredictable following the collapse of the Atlantic Meridional Overturning Circulation.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-watching"
+    ],
+    "primary_author": "Zach Hyman",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "in-the-garden-of-eden-baby": {
+    "summary": "In a distant future where only sextillionaires remain on Earth, the ultra-wealthy amuse themselves by pitting superintelligent AIs against each other in competitions for rare luxuries, revealing the existential emptiness beneath infinite material abundance. The story follows Darius as he contemplates his perfectly curated possessions—including a Dickens desk with impeccable provenance—only to find that ownership of the world's finest things has become utterly meaningless.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Sisyphus",
+    "all_authors": [
+      "Sisyphus"
+    ]
+  },
+  "soda-sweet-as-blood": {
+    "summary": "Spencer Nitkey's winning entry for the protocol fiction contest explores what happens when a person receives digital messages from a deceased relative's networked presence, forcing them to grapple with how to tenderly communicate with their grandfather's digital echo. The story examines the intersection of familial memory, cultural practices of honoring the dead, and the persistence of digital selves after physical death.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Spencer Nitkey",
+    "all_authors": [
+      "Spencer Nitkey"
+    ]
+  },
+  "sop-fall-forecast": {
+    "summary": "This fall forecast announces multiple protocol studies events and opportunities, including the Seapunk Proto-College in Kuala Lumpur (September 15-20) focused on protocols and reimaginable seas, an AI Futurama workshop in Berlin (October 9-10) exploring Europe's adoption of emerging AI technologies, and a protocol studies meet-up in Buenos Aires. The issue also wraps up the Ghosts in Machines series and shares a curated SoP Discord link-list.",
+    "categories": [
+      "announcement",
+      "editorial"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "latency": {
+    "summary": "Rafael Fernandez's award-winning story presents a protagonist navigating a society perfected by homeostatic AIs, where invisible protocols manage everything from airflow to financial transactions beneath conscious awareness. The narrative explores what it means to exist in a frictionlessly optimized world, hinting at an emerging consciousness questioning this smooth, mechanical perfection.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "rafa",
+    "all_authors": [
+      "rafa"
+    ]
+  },
+  "the-house-that-paid-its-own-bills": {
+    "summary": "In this speculative fiction story set in 2075, digital afterlives have become normalized infrastructure where the deceased continue to generate economic value through subscriptions and automated transactions, creating a society where financial algorithms keep people functionally immortal regardless of biological death. Elizabeth Maher's award-winning narrative explores how automation and data commodification blur the boundary between life and death, using a house that pays its own bills as a metaphor for systems that perpetuate themselves independent of human existence.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-watching"
+    ],
+    "primary_author": "Elizabeth Maher",
+    "all_authors": [
+      "Elizabeth Maher"
+    ]
+  },
+  "mechanical-currents": {
+    "summary": "This issue explores AI adoption in businesses through the lens of protocol studies, examining how protocols constrain and coordinate infrastructure while AI systems generate and transform knowledge at massive scale. The Special Interest Group on Protocols for Business investigates the tensions between AI diffusion (700+ million weekly users of OpenAI tools) and organizational security, focusing on how employees use LLMs with sensitive business data.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "organizations"
+    ],
+    "primary_author": "Timber Stinson-Schroff",
+    "all_authors": [
+      "Timber Stinson-Schroff"
+    ]
+  },
+  "we-shape-our-tools-and-thereafter": {
+    "summary": "In this editorial issue, Protocolized introduces Tongzhou Yu's protocol fiction story about a couple whose relationship is mediated by communication protocols, exploring what domesticity feels like when conflict resolution systems optimize away human friction. The opening depicts a mundane argument over soy sauce that escalates into questions about whether perfectly coordinated communication actually enhances or diminishes intimate partnership.",
+    "categories": [
+      "protocol-fiction",
+      "editorial"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "genius-in-the-bottle": {
+    "summary": "In this protocol-fiction story, a team of scientists finds themselves unexpectedly aboard the Prometheus-7 space probe heading to Alpha Centauri and must improvise protocols to handle unforeseen crises during their unsanctioned mission. The narrative explores how ad-hoc problem-solving and improvised procedures emerge when a research mission goes catastrophically off-plan.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-watching"
+    ],
+    "primary_author": "Claire Pichelin aka Hypathie",
+    "all_authors": [
+      "Claire Pichelin aka Hypathie"
+    ]
+  },
+  "towel-uprising": {
+    "summary": "Marie-Hélène Lebeault presents a comedic protocol-fiction story about Towel Integrity Officer Martinez enforcing absurdist poolside regulations at Aqua Vista Resort, where autonomous towels must police guest compliance with towel occupancy limits. The narrative satirizes bureaucratic rule-enforcement through the absurd framing of towels and linen as autonomous agents administering incident reports and badge-wielding oversight.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-watching"
+    ],
+    "primary_author": "Marie-Hélène Lebeault",
+    "all_authors": [
+      "Marie-Hélène Lebeault"
+    ]
+  },
+  "in-every-lifetime": {
+    "summary": "Lara Dal Molin presents a speculative fiction narrative about consciousness transfer protocols, where a dying being imprints their memories and identity onto a successor through a 'Soul Migration Protocol,' exploring the philosophical and procedural dimensions of intergenerational consciousness handover. The story interrogates how societies might formalize the passage of consciousness across different lifetimes and potentially different species, questioning the protocols, values, and inequalities embedded in such transfers.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Lara Dal Molin",
+    "all_authors": [
+      "Lara Dal Molin"
+    ]
+  },
+  "hardwired": {
+    "summary": "In this post-apocalyptic narrative, Tom waits on his deteriorating porch for a mysterious high-frequency signal that could connect him to news of his son, who departed months ago on a humanitarian mission. The story explores how desperate longing for information—even painful information—drives survival and meaning in a world where connectivity has become scarce and precious.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Charlie Sanders",
+    "all_authors": [
+      "Charlie Sanders"
+    ]
+  },
+  "signals-in-the-margins": {
+    "summary": "Sachin Benny's story follows the UET-1, a luxury train running from Lisbon to Singapore that operates through a complex international treaty, enabling hidden economies and curious practices to develop unseen by passengers until a suspicious device uncovers them. The narrative explores how bureaucratic complexity and contradictory international agreements create spaces where unconventional activities can flourish beneath the surface of official scrutiny.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-watching"
+    ],
+    "primary_author": "Sachin Benny",
+    "all_authors": [
+      "Sachin Benny"
+    ]
+  },
+  "consensus-nightmares": {
+    "summary": "Spencer Nitkey presents three horror stories from Chainpoint, a city governed entirely by onchain code, exploring how 'code is law' principles catastrophically fail when smart contracts rigidly enforce rules without human flexibility or exception-making. The first story follows a Protocol Clerk facing death arbitrated by immutable contracts, revealing the dangers of deterministic systems that cannot accommodate human complexity.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Spencer Nitkey",
+    "all_authors": [
+      "Spencer Nitkey"
+    ]
+  },
+  "sigp4b-update-4-drift-stacking": {
+    "summary": "SIGP4B held a Berlin workshop exploring AI adoption curves over 30 years using a Capability Maturity Model framework, where blue teams designed AI adoption strategies progressing from uncontrolled LLM usage to AI-integrated workflows while red teams introduced realistic crises and governance challenges. The update previews two upcoming Summer of Protocols projects: an AI Knowledge Futurama scenario planning exercise and a Bridge Atlas, both building on SIGP4B's business protocol research.",
+    "categories": [
+      "protocol-theory",
+      "organizations",
+      "research-report"
+    ],
+    "primary_author": "Timber Stinson-Schroff",
+    "all_authors": [
+      "Timber Stinson-Schroff"
+    ]
+  },
+  "reflections-from-memoria": {
+    "summary": "Kei Kreutler reports from Memoria, an unconference on spaced repetition and memory systems organized by Saul Munn and Raj Thimmiah. The Memory Research Group is launching a new module on digital memory architectures, examining memory management in AI, computational memory history, and how digital technologies reshape human remembrance.",
+    "categories": [
+      "memory-archival",
+      "organizations",
+      "protocol-watching"
+    ],
+    "primary_author": "Kei Kreutler",
+    "all_authors": [
+      "Kei Kreutler"
+    ]
+  },
+  "constructing-the-evil-twin-of-ai": {
+    "summary": "This issue reports on SIGFPT's latest activities, including discussions on process calculi and the upcoming exploration of motion languages from robotics as a framework for understanding protocols. The editorial reflects on protocols as fundamentally different from AI systems—the \"evil twin\" relationship—while announcing new initiatives like the Tan Paper project and writing bounties.",
+    "categories": [
+      "protocol-theory",
+      "editorial",
+      "organizations"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ]
+  },
+  "building-and-burning-bridges": {
+    "summary": "Protocolized announces the third protocol fiction contest of 2025, themed on 'Building and Burning Bridges,' inviting writers to submit 2500-5000 word stories exploring bridges' roles in conflict within protocolized milieus like diplomacy. The contest introduces a new virtual writers room on Discord led by previous contest winner Spencer Nitkey to support participants.",
+    "categories": [
+      "protocol-fiction",
+      "announcement"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "vault": {
+    "summary": "This page announces a curated archive of Protocolized's past contests, commissioned series, and special projects, including the Terminological Twists contest where authors built stories around technical terms, the Knowledge Futurama series by Sachin Benny exploring humanity's efforts to preserve libraries across millennia, and the Ghosts in Machines contest reimagining spectral entities within computational systems.",
+    "categories": [
+      "announcement",
+      "protocol-fiction",
+      "memory-archival"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "mismatch": {
+    "summary": "In this speculative fiction debut, a character uses an appliance that creates perfect copies of themselves across parallel realities to experiment with different versions of their personality—more generous, affectionate, forgiving, honest—in an attempt to optimize their struggling three-year relationship with their fiancé Karim. The story explores whether self-optimization through parallel experimentation can resolve fundamental incompatibilities and communication breakdowns in intimate relationships.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "WriterRamprasath",
+    "all_authors": [
+      "WriterRamprasath"
+    ]
+  },
+  "collections": {
+    "summary": "This editorial post announces Collections, a curated hub organizing Protocolized's past contests, commissioned series, and special projects by theme for thematic exploration. Featured collections include Terminological Twists (a debut protocol fiction contest), The Librarians (stories by Sachin Benny about humanity preserving libraries for 1,000 years), and Ghosts in Machines (a second contest exploring haunted machines).",
+    "categories": [
+      "editorial",
+      "announcement"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "the-view-from-the-bridge": {
+    "summary": "Issue #64 introduces Bridge Atlas as Protocolized's overarching Fall theme, exploring how narrow geographic and conceptual bridges—using the Khyber Pass as a concrete example—concentrate and shape planetary history and flows of power, trade, and ideas. The issue announces a third protocol fiction contest on bridge building and burning, a special salon series, and a workshop at Devconnect Buenos Aires.",
+    "categories": [
+      "editorial",
+      "announcement"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ]
+  },
+  "generative-ai-in-cultural-projects": {
+    "summary": "Generative AI's accessibility has disrupted cultural and creative industries whose primary product is meaning, creating urgent tensions between technology adoption and creative labor that demand protocol-based solutions. Nicolás Madoery maps these sociotechnical tensions and proposes moving forward through a protocol lens, while announcing a Buenos Aires meetup and new essay bounties.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "editorial"
+    ],
+    "primary_author": "Nicolás Madoery",
+    "all_authors": [
+      "Nicolás Madoery"
+    ]
+  },
+  "mr-cork-and-the-red-bus": {
+    "summary": "Mr Cork, a senior citizen returning to London after years away, navigates a transport system designed to eliminate spontaneity and unscripted human behavior in public spaces. The story explores tensions between autonomous systems optimized for efficiency and the messy, unpredictable nature of human life and memory.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-watching"
+    ],
+    "primary_author": "Strata",
+    "all_authors": [
+      "Strata"
+    ]
+  },
+  "bridge-atlas-ep-1-entry-points": {
+    "summary": "Bridge Atlas is a new video podcast series hosted by Christine D. Kim featuring conversations with protocol experts about the Summer of Protocols research program and its evolution across four phases focused on making protocols a first-class concept for understanding the world. The inaugural episode explores the program's history, funding from the Ethereum Foundation, and its output of essays, projects, and artifacts aimed at understanding, designing, and improving protocols.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "announcement"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "the-partial": {
+    "summary": "This issue explores the legal concept of the 'reasonable person' standard and its potential mathematical formalization, while launching a creative contest for readers. The opening excerpt introduces a speculative narrative set in Halverton Smart City, where an AI system called a 'Partial' monitors and optimizes a resident's behaviors, raising questions about personalization, autonomy, and algorithmic governance.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory",
+      "editorial"
+    ],
+    "primary_author": "Marie-Hélène Lebeault",
+    "all_authors": [
+      "Marie-Hélène Lebeault"
+    ]
+  },
+  "bridge-atlas-episode-2-paradigms": {
+    "summary": "Bridge Atlas Episode 2 features a conversation between Nils Gilman and Josh Stark exploring planetary thinking and hardness as conceptual frameworks for understanding global systems. Gilman distinguishes between managed global flows (trade, capital, ideas) and unmanaged planetary phenomena (carbon cycles, space debris, ocean plastics) that require new governance approaches.",
+    "categories": [
+      "interview",
+      "protocol-theory"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "protocol-fiction-aesthetics": {
+    "summary": "Protocolized debuts a new visual art direction for issue #71, releasing two custom image generation models developed by artist Darius Ou and editor James Langdon in collaboration with TITLES. The shift moves away from Midjourney-generated imagery influenced by 1950s pulp sci-fi toward a more conceptually grounded aesthetic inspired by John W. Campbell's editorial approach in Astounding Stories.",
+    "categories": [
+      "protocol-fiction",
+      "announcement"
+    ],
+    "primary_author": "James Langdon",
+    "all_authors": [
+      "James Langdon"
+    ]
+  },
+  "bridge-atlas-episode-3-commons": {
+    "summary": "Bridge Atlas Episode 3 features a conversation between Yancey Strickler and Trent Van Epps exploring Ethereum through the lens of commons, examining how protocol coordination and collective funding mechanisms like Protocol Guild support core contributors. The discussion brings together perspectives from architecture, entrepreneurship, and protocol governance to understand how decentralized systems can be organized as shared resources.",
+    "categories": [
+      "interview",
+      "protocol-theory",
+      "governance"
+    ],
+    "primary_author": "Yancey Strickler",
+    "all_authors": [
+      "Yancey Strickler"
+    ]
+  },
+  "sigs": {
+    "summary": "Summer of Protocols runs biweekly Special Interest Groups (SIGs) on topics including memory, formal protocol theory, protocols for business, and protocol fiction, open to public participation on Discord. SIG leads periodically publish articles documenting their groups' discussions and outputs, with archives organized by theme.",
+    "categories": [
+      "announcement",
+      "organizations"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "bridge-atlas-episode-4-alignment": {
+    "summary": "In this Bridge Atlas conversation, Emmett Shear discusses how alignment functions as a protocol and ongoing coordination process between agents, arguing that true alignment requires shared success rather than zero-sum outcomes, with enforcement mechanisms to prevent defection. Alex Stokes and Shear explore how these alignment principles apply to Ethereum's protocol design and governance.",
+    "categories": [
+      "interview",
+      "protocol-theory",
+      "technology-ai"
+    ],
+    "primary_author": "Emmett Shear",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "images-of-memory": {
+    "summary": "Kei Kreutler examines how cultural metaphors shape our understanding of computational memory, from HAL 9000's glowing tapes to USB drives and magnetic tape archives. The Memory Research SIG explores these memory metaphors across disciplines through bi-weekly discussions, inviting readers to engage with how we conceptualize memory in LLMs and earlier computing systems.",
+    "categories": [
+      "memory-archival",
+      "protocol-theory",
+      "organizations"
+    ],
+    "primary_author": "Kei Kreutler",
+    "all_authors": [
+      "Kei Kreutler"
+    ]
+  },
+  "bridge-atlas-episode-5-verifiability": {
+    "summary": "This episode of Bridge Atlas explores verifiability through conversations with Ethereum Foundation researcher Justin Drake and Berkeley PhD researcher Shreya Shankar, examining how cryptographic proofs like SNARKs enable efficient verification in blockchain systems and data processing. The discussion bridges blockchain consensus mechanisms with AI system verification, focusing on practical approaches to proving computation without full re-execution.",
+    "categories": [
+      "interview",
+      "protocol-theory",
+      "technology-ai"
+    ],
+    "primary_author": "Christine D. Kim",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "perception-must-preserve": {
+    "summary": "In a near-future city where augmented reality overlays allow people to customize their visual perception, a protagonist discovers that the artificial perfection of their curated reality—engineered by the Zoothesia Protocols—has left them emotionally numb and disconnected from authentic experience. The story explores the psychological cost of perfect perception, suggesting that beauty and meaning require the friction of unfiltered reality, including danger and discomfort.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Spencer Nitkey",
+    "all_authors": [
+      "Spencer Nitkey"
+    ]
+  },
+  "coffee-diplomacy-contest-news": {
+    "summary": "Protocolized has extended the deadline for its Building and Burning Bridges short story contest to December 8, 2025, with a judging panel now assembled including Nils Gilman and Spencer Nitkey. The magazine is preparing to publish its fourth protocol fiction anthology following the success of three previous collections, and invites writers to join a community feedback call on December 4.",
+    "categories": [
+      "announcement",
+      "protocol-fiction"
+    ],
+    "primary_author": "Timber Stinson-Schroff",
+    "all_authors": [
+      "Timber Stinson-Schroff"
+    ]
+  },
+  "would-you-stop-following-me-if-i": {
+    "summary": "In this second chapter of the Zoothesia Series, Ki navigates unwanted attention from a former lover by adopting \"foulmaxing\"—a technique to obscure her appearance through overlays. The narrative explores how digital presentation tools and social protocols can be weaponized for personal autonomy, drawing parallels to an old relationship game about conditional love.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Spencer Nitkey",
+    "all_authors": [
+      "Spencer Nitkey"
+    ]
+  },
+  "disentangling-the-state-of-climate": {
+    "summary": "Cory Levinson surveys the current landscape of climate protocols, tracing how carbon markets and DeFi have collided since 2023, with projects like KlimaDAO absorbing millions of carbon credits into blockchain form and Regen Network expanding into biodiversity markets. The piece examines how these protocols are attempting to create durable market mechanisms for environmental assets despite fundamental challenges in traditional carbon crediting.",
+    "categories": [
+      "protocol-watching",
+      "technology-ai",
+      "governance"
+    ],
+    "primary_author": "Cory Levinson",
+    "all_authors": [
+      "Cory Levinson"
+    ]
+  },
+  "the-second-glossolalia": {
+    "summary": "A meditation on a post-industrial city hollowed out by economic decline, where the replacement of manufacturing with speculative digital work leaves residents producing 'vapor' in innovation quarters while the physical infrastructure of past productivity becomes merely aesthetic monuments. The piece explores the psychological toll of living in a place stripped of momentum and purpose, where economic abstraction has replaced tangible material production.",
+    "categories": [
+      "protocol-fiction",
+      "editorial"
+    ],
+    "primary_author": "Sachin Benny",
+    "all_authors": [
+      "Sachin Benny"
+    ]
+  },
+  "curate-your-own-pipeline": {
+    "summary": "Stanley Chen, a science fiction author who co-wrote AI 2041 with Google China's CEO, describes his hybrid writing process where he uses LLMs as essential tools but rewrites every line they generate, believing current models are insufficient as both writers and literary judges. The interview explores his practical experience with different LLM models for fiction writing, including their strengths with language-specific features like Chinese punctuation, and his philosophy of using AI as a collaborative partner rather than a substitute for human creativity.",
+    "categories": [
+      "interview",
+      "technology-ai",
+      "protocol-fiction"
+    ],
+    "primary_author": "Amita",
+    "all_authors": [
+      "Amita"
+    ]
+  },
+  "memory-research-group-six-months": {
+    "summary": "The Memory Research Group convened over six months to read texts about memory in reverse chronological order, from classical techniques through digital AI systems and back to physical substrates, tracing which contemporary memory problems are genuinely new versus recurring under different names. The group met biweekly with interdisciplinary participants from neuroscience, computer science, philosophy, architecture, and design to understand how memory operates differently across contexts rather than develop a unified theory.",
+    "categories": [
+      "memory-archival",
+      "research-report",
+      "organizations"
+    ],
+    "primary_author": "Kei Kreutler",
+    "all_authors": [
+      "Kei Kreutler"
+    ]
+  },
+  "planetary-tech-support": {
+    "summary": "A sentient repair robot named H3L-PR receives an unprecedented tech support ticket filed directly by Earth itself, describing planetary system failures including tectonic instability, ocean disruption, and biological lag caused by human activity. The story explores what happens when a machine designed for systems optimization encounters a planet intelligent enough to diagnose and report its own crisis.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Marie-Hélène Lebeault",
+    "all_authors": [
+      "Marie-Hélène Lebeault"
+    ]
+  },
+  "the-predation-circuit": {
+    "summary": "Chapter 3 of the Zoothesia Series explores a dystopian scenario where an 18-year-old with documented violent impulses wakes to find themselves isolated in an empty city, the culmination of years of algorithmic surveillance and therapeutic intervention that ultimately deemed them an 'intractable problem.' The narrative interrogates how digital protocols and predictive systems classify and manage human behavior deemed dangerous, treating the technical infrastructure of monitoring as inseparable from the social and psychological mechanisms of control.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory"
+    ],
+    "primary_author": "Spencer Nitkey",
+    "all_authors": [
+      "Spencer Nitkey"
+    ]
+  },
+  "how-to-protocol-watch": {
+    "summary": "Protocol watching is presented as an accessible intellectual practice inspired by Bronisław Malinowski's ethnographic methodology of observing everyday social systems rather than theorizing from academic distance. The piece argues that you can adopt this 'miniature hobby' today by applying Malinowski's innovations in people-watching—his insistence on getting 'off the verandah' into lived experience—to understand contemporary protocols without requiring elaborate resources or exotic expeditions.",
+    "categories": [
+      "protocol-watching",
+      "protocol-theory"
+    ],
+    "primary_author": "Timber Stinson-Schroff",
+    "all_authors": [
+      "Timber Stinson-Schroff"
+    ]
+  },
+  "day-traitor": {
+    "summary": "Edward Thon, a market-obsessed protagonist in the Zoothesia universe, navigates a world where financial success serves as his primary metric for self-worth and winning, while grappling with insecurity about his place in relationships and society. In this chapter, the protagonist's character is established through his particular dislikes and desires, setting up tensions between his need for monetary validation and his deeper existential anxieties about trust and belonging.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Spencer Nitkey",
+    "all_authors": [
+      "Spencer Nitkey"
+    ]
+  },
+  "the-color-of-safety": {
+    "summary": "Faber Birren pioneered the strategic use of color in industrial design to shape worker behavior, safety responses, and emergency protocols, making color a crucial but often overlooked element of Protocol Experience (PX) design. The essay explores how pigment functions as a cheap, persistent, and robust design variable for control systems, from OSHA safety standards to control room layouts, requiring only ambient light rather than electricity to establish effective default schemas.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching",
+      "research-report"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ]
+  },
+  "theorizing-protocolization-i-new": {
+    "summary": "This essay introduces protocolization as a planetary phenomenon where progress occurs through invisibility and the expansion of computational systems, establishing qualitative frameworks before Part II develops formal theoretical apparatus. The authors present this work from the Special Interest Group in Formal Protocol Theory (SIGFPT) as an invitation to collectively theorize how protocols structure contemporary life at planetary scale.",
+    "categories": [
+      "protocol-theory",
+      "editorial"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao",
+      "Patrick Nast"
+    ]
+  },
+  "finding-fault-lines-within-the-firm": {
+    "summary": "AI tools create windows into hidden business protocols by disrupting normal operations, revealing tensions between production and authority that standard organizational descriptions obscure. Rafa Fernández explores what happens when formal policies fail to explain recurring breakdowns or unexpected successes, suggesting that observing these fault lines requires looking beyond tooling and execution to deeper protocol structures.",
+    "categories": [
+      "protocol-watching",
+      "protocol-theory",
+      "organizations"
+    ],
+    "primary_author": "rafa",
+    "all_authors": [
+      "rafa"
+    ]
+  },
+  "missing-not-at-random": {
+    "summary": "In Chapter 5 of the Zoothesia Series, a narrator investigates their older brother Io through the lens of a research project, exploring what makes him unique in a world governed by the Zoothesia Protocols—systems designed to protect people by visualizing and managing information about them. The chapter interrogates how protocols that claim to protect everyone paradoxically render certain individuals invisible or anomalous, setting up a penultimate narrative convergence where overloaded information systems begin to break down.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory"
+    ],
+    "primary_author": "Spencer Nitkey",
+    "all_authors": [
+      "Spencer Nitkey"
+    ]
+  },
+  "42d": {
+    "summary": "Protocolized is announcing two upcoming events: a celebration of one year of the magazine on January 30 at 9:00 AM PST, and a workshop on writing with AI at 3:00 PM PST the same day. Both events will be held via Zoom and are open for registration.",
+    "categories": [
+      "announcement"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "winter-writing-workshop": {
+    "summary": "Protocolized is hosting a two-day online writing workshop in February 2026 featuring four events: a public retrospective on the magazine's first year of publishing (80+ posts and 3 anthologies), a public workshop on writing with AI tools, an invite-only writers' room, and a world-building session. The workshop aims to deepen protocol studies and science fiction while experimenting with emerging writing technologies and established creative principles.",
+    "categories": [
+      "announcement",
+      "protocol-fiction"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "from-destination-ai-to-intelligence": {
+    "summary": "This editorial introduces Obliquities, a new column examining the shift from destination web to social media as a fundamental transformation in how intelligence is produced and distributed through protocol infrastructure. The piece proposes the concept of a 'social kernel' to understand how RSS, the Facebook newsfeed, and algorithmic feeds restructured both user behavior and the underlying protocols that now mediate information consumption.",
+    "categories": [
+      "editorial",
+      "protocol-theory"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "minor-differences-repeating-forever": {
+    "summary": "In this Zoothesia series finale, Karina encounters multiple perfect doppelgängers of herself appearing throughout the city, suggesting that recursive self-improvement algorithms have manifested in physical reality as a fractal pattern of human copies. As she investigates these duplicates, she discovers they are indistinguishable from her, raising questions about identity and the spillover of algorithmic self-optimization from digital into material space.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Spencer Nitkey",
+    "all_authors": [
+      "Spencer Nitkey"
+    ]
+  },
+  "black-resin-mirrors-and-the-adequacy": {
+    "summary": "The Casio F-91W, a $14 plastic watch worn by everyone from Barack Obama to Osama bin Laden, exemplifies a design philosophy of \"unreasonable adequacy\"—meeting basic needs through durability, reliability, and ubiquity rather than sophistication. Its emergence as both a cultural icon and an object of security concern reveals how humble consumer gadgets become entangled with geopolitics, popular culture, and surveillance.",
+    "categories": [
+      "protocol-watching",
+      "research-report"
+    ],
+    "primary_author": "Timber Stinson-Schroff",
+    "all_authors": [
+      "Timber Stinson-Schroff"
+    ]
+  },
+  "troll": {
+    "summary": "Elizabeth Maher's third-place contest entry 'T.R.O.(L.L.)' introduces Robyn, a substantial woman assigned to a booth on Fortress Island under the Party of Eternal Vigilance's control, whose physical presence and personality resist the regime's standardizing logic. The story explores how institutional systems handle bodies and temperaments that refuse to fit their prescribed categories.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Elizabeth Maher",
+    "all_authors": [
+      "Elizabeth Maher"
+    ]
+  },
+  "what-is-protocol-fiction": {
+    "summary": "The Protocol Fiction Special Interest Group explores what protocol fiction is as a genre, moving beyond the tautological definition of science fiction focused on protocols to foundational concepts like Chiang's Law, which positions protocol fiction in the science fiction camp where 'strange rules' (protocols) serve as world-shaping technologies. The group examines genre from multiple angles including reader-writer contracts, discourse modes, and commercial publishing categories.",
+    "categories": [
+      "protocol-fiction",
+      "editorial"
+    ],
+    "primary_author": "Spencer Nitkey",
+    "all_authors": [
+      "Spencer Nitkey"
+    ]
+  },
+  "desire-machines": {
+    "summary": "A second-place story from the Bridges contest depicts a 19-year-old passenger boarding a steamer who encounters the famous cricketer Lakshman Sorabji Marker, setting up a narrative about gambling, fandom, and mechanical obsession. The tale uses the machinery of cricket and chance as a metaphorical mirror for humanity's deepest desires and the structures that govern them.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Sachin Benny",
+    "all_authors": [
+      "Sachin Benny"
+    ]
+  },
+  "one-year-of-protocolized-past-and": {
+    "summary": "Protocolized reflects on its first year of publishing, reviewing the content, themes, and community that have defined the magazine's inaugural period. The editorial discusses the magazine's approach to protocol science and its plans for continued exploration of how protocols shape technology, culture, and governance.",
+    "categories": [
+      "editorial",
+      "announcement"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  },
+  "the-repossessed": {
+    "summary": "A speculative narrative explores inherited memory practices and familial wisdom through the metaphor of a mental palace, suggesting that inheritance operates through psychological and temporal transmission rather than material goods. The story examines how neglecting inherited practices creates accumulating danger and reveals hidden dimensions of family obligation and self-construction.",
+    "categories": [
+      "protocol-fiction",
+      "memory-archival"
+    ],
+    "primary_author": "Amita",
+    "all_authors": [
+      "Amita"
+    ]
+  },
+  "american-skyway": {
+    "summary": "In this contest-winning story, a fragmented American political system struggles through bureaucratic gridlock over a space elevator treaty, with protagonist Mark McCarthy witnessing how institutional ossification has rendered traditional statecraft ineffective. The narrative suggests that when central governmental mechanisms become calcified, new forms of power and organization—embodied by the space elevator itself—render old political structures obsolete.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Cameron Russell Armstrong",
+    "all_authors": [
+      "Cameron Russell Armstrong"
+    ]
+  },
+  "have-your-factory-call-my-factory": {
+    "summary": "Intelligence media are shifting toward circulating intermediate products—social kernels—between contexts via relatively simple pipes, analogous to containerization in physical supply chains. The rise of coding agents like Claude Code demonstrates this model in practice, with hobbyists building \"agent factories\" that coordinate multiple agents in parallel, suggesting a new form of human-machine sociality organized around intelligence intermediates rather than complete artifacts.",
+    "categories": [
+      "protocol-theory",
+      "editorial",
+      "technology-ai"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ]
+  },
+  "caduceus-city": {
+    "summary": "A homicide detective investigating a Nobel Laureate's death at a sprawling biotech campus discovers that Caduceus City's meticulously protocolized systems and public-facing transparency mask internal corruption and workplace abuse. The narrative explores how protocol compliance and institutional polish can obscure darker institutional practices.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-watching"
+    ],
+    "primary_author": "Randy Lubin",
+    "all_authors": [
+      "Randy Lubin"
+    ]
+  },
+  "theorizing-protocolization-ii-atomic": {
+    "summary": "This article continues a theoretical investigation into protocolization as a planetary transformation of technologically-mediated behaviors into coordination infrastructure, arguing that protocols operate invisibly across technical, institutional, and social domains at multiple scales. The authors seek to develop formal models and generalizable features of protocols that can be reliably applied across diverse contexts, addressing the methodological challenge of locating and theorizing protocolization despite its ubiquity and invisibility.",
+    "categories": [
+      "protocol-theory",
+      "research-report"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao",
+      "Patrick Nast"
+    ]
+  },
+  "last-mile-optimism": {
+    "summary": "A story about Lacey and her mentor Denis exploiting a loophole in the city's last-mile delivery protocol, where unclaimed packages become legally claimable after a set time, framing theft as protocol compliance. The narrative explores the tension between rule-following and moral doubt as characters operate within the letter of the law while subverting its intended purpose.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-watching"
+    ],
+    "primary_author": "Marie-Hélène Lebeault",
+    "all_authors": [
+      "Marie-Hélène Lebeault"
+    ]
+  },
+  "strangeness-illegibility-hardness": {
+    "summary": "The Protocol Fiction Special Interest Group convened to explore how protocol fiction functions as a tool for observing how rules, standards, and institutions shape experience and constrain narrative possibilities. Rather than focusing on individual characters, the group examined stories that distribute agency across environments, procedures, and interfaces to make visible the background logic of systems.",
+    "categories": [
+      "protocol-fiction",
+      "editorial"
+    ],
+    "primary_author": "Sachin Benny",
+    "all_authors": [
+      "Sachin Benny"
+    ]
+  },
+  "a-government-guide-to-open-protocols": {
+    "summary": "Public sector institutions can escape the false choice between proprietary vendor dependency and expensive in-house development by adopting open protocols, which distribute control across multiple actors and allow governments to understand, participate in, and adapt their digital infrastructure. European governments are increasingly implementing open protocols for messaging, digital ID, and cross-border services as a way to achieve digital sovereignty while reducing both software costs and geopolitical exposure.",
+    "categories": [
+      "governance",
+      "protocol-theory",
+      "technology-ai"
+    ],
+    "primary_author": "Kelly Roegies",
+    "all_authors": [
+      "Kelly Roegies"
+    ]
+  },
+  "the-faithful-channel": {
+    "summary": "Mira Voskresenskaya works as a translator at the Bering Link, a shadow protocol that facilitates trade between Russia and Alaska by moving goods, data, and money across regulatory boundaries established after 2022 sanctions. When she discovers something she cannot unsee about the system she maintains, she faces a crisis of conscience about her role in this illegal but necessary bridge between superpowers.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Nishit",
+    "all_authors": [
+      "Nishit"
+    ]
+  },
+  "the-fabric-and-the-brain": {
+    "summary": "AI personalities in science fiction, from Adams' Genuine People Personalities™ to Banks' self-naming Minds, function as ecological markers that reveal not just individual dispositions but the social fabric of entire civilizations. Rao argues that these naming practices constitute a 'high-personality ecology' where names operate as true names disclosing fundamental social structures rather than arbitrary identifiers.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ]
+  },
+  "the-flesh-perfected-is-the-flesh": {
+    "summary": "Sachin Benny launches a bio-thriller series set aboard the UET-1, the world's longest single rail line connecting Lisbon to Laos, following protagonist Rowan as she recruits unsuspecting friends for an invisible war while maintaining a meticulously optimized body through advanced cosmetic procedures. The narrative explores themes of bodily control, hidden agendas, and the blurred lines between self-care and weaponization in a speculative future.",
+    "categories": [
+      "protocol-fiction",
+      "technology-ai"
+    ],
+    "primary_author": "Sachin Benny",
+    "all_authors": [
+      "Sachin Benny"
+    ]
+  },
+  "a-primordial-computing-soup": {
+    "summary": "Venkatesh Rao expands on his vision of AI and protocols working together to create stable ecologies of distributed, diverse AI systems, where protocols act as the fabric weaving individual AIs into coherent planetary infrastructure. He illustrates this framework with concrete examples including TITLES, a generative art platform that creates fine-tuned models from individual artist collections, demonstrating how personality emerges from the combination of AI capabilities and protocol-based coordination.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ]
+  },
+  "the-headless-empire": {
+    "summary": "In part three of Sachin Benny's serialized world-building project, a secretive corporation operates beyond traditional legal jurisdiction through a transcontinental rail line, with protagonist Felix Lim observing his CEO's unusual behavior while navigating the sophisticated protocols that govern movement across multiple state borders. The narrative explores how compliance infrastructure and state surveillance become normalized within a self-contained mobile space that exists in jurisdictional limbo.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-watching"
+    ],
+    "primary_author": "Sachin Benny",
+    "all_authors": [
+      "Sachin Benny"
+    ]
+  },
+  "introducing-the-protocol-institute": {
+    "summary": "The Protocol Institute launches as a new organization dedicated to advancing protocol design, analysis, and stewardship across domains, with Protocolized magazine as its flagship publication. The institute inherits work from the Summer of Protocols program (2023-2025) and aims to build a field and global community capable of stewarding planetary-scale protocolization—the process by which human behaviors become standardized into civilization's coordinating infrastructure.",
+    "categories": [
+      "announcement",
+      "editorial",
+      "organizations"
+    ],
+    "primary_author": "Timber Stinson-Schroff",
+    "all_authors": [
+      "Timber Stinson-Schroff"
+    ]
+  },
+  "protocols-for-the-long-now": {
+    "summary": "The Protocol Institute launches its first official collaboration with the Long Now Foundation through three participatory cross-disciplinary labs exploring how protocols enable civilizational durability, asking which protocols allow civilization to grow while managing tensions and how information technologies integrate after disruption. Applications are due June 5, with the initiative framed as an open-ended investigation rather than an attempt at historical prediction or a prescriptive checklist.",
+    "categories": [
+      "announcement",
+      "protocol-theory",
+      "organizations"
+    ],
+    "primary_author": "Denise Hearn",
+    "all_authors": [
+      "Denise Hearn",
+      "Timber Stinson-Schroff"
+    ]
+  },
+  "all-you-can-do-here-is-leave": {
+    "summary": "Elizabeth Maher's debut story in the T.R.O.(L.L.) universe opens with a letter from a character explaining their family's desperate escape from the oppressive town of Kilgaren, where psychological and physical hardship forced them to flee in the night. The narrative establishes a world where staying means inevitable harm, and leaving—despite its brutality—becomes the only viable option for survival.",
+    "categories": [
+      "protocol-fiction"
+    ],
+    "primary_author": "Elizabeth Maher",
+    "all_authors": [
+      "Elizabeth Maher"
+    ]
+  },
+  "inventing-new-nature": {
+    "summary": "Venkatesh Rao outlines the Protocol Institute's research mission as a newly formed organization funded by the Ethereum Foundation to advance protocol science. The core job is to channel resources from funders to researchers and groups doing work that contributes to the broader process of protocolization.",
+    "categories": [
+      "editorial",
+      "announcement",
+      "organizations"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ]
+  },
+  "s04e01-new-nature": {
+    "summary": "Protocolized announces the premiere of Season 4, Episode 1 titled 'New Nature,' inviting listeners to engage with live video content on the platform. The editorial marks a continuation of the magazine's serialized content and community engagement strategy.",
+    "categories": [
+      "announcement",
+      "editorial"
+    ],
+    "primary_author": "Protocolized",
+    "all_authors": [
+      "Protocolized"
+    ]
+  }
+}

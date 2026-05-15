@@ -1,0 +1,179 @@
+{
+  "fiction-collections": {
+    "terminological-twists": {
+      "name": "Terminological Twists",
+      "type": "fiction-contest",
+      "tag": "terminological-twists",
+      "description": "Flash fiction contest: short stories that riff on technical terms from protocol science and computer networking. Ongoing.",
+      "posts": [
+        "fault-tolerance",
+        "zero-knowledge",
+        "dhcp",
+        "the-40-hour-work-week",
+        "noise-ordinance",
+        "time-to-die",
+        "fine-print",
+        "the-air-gap"
+      ]
+    },
+    "ghosts-in-machines": {
+      "name": "Ghosts in Machines",
+      "type": "fiction-contest",
+      "tag": "ghosts-in-machines",
+      "description": "Summer 2025 fiction contest exploring human-AI entanglement and the phenomenology of intelligent systems. 8 stories.",
+      "posts": [
+        "loyalty",
+        "in-the-garden-of-eden-baby",
+        "soda-sweet-as-blood",
+        "latency",
+        "we-shape-our-tools-and-thereafter",
+        "the-house-that-paid-its-own-bills",
+        "genius-in-the-bottle",
+        "in-every-lifetime"
+      ]
+    },
+    "the-librarians": {
+      "name": "The Librarians",
+      "type": "fiction-contest",
+      "tag": "the-librarians",
+      "description": "Summer 2025 fiction series: 7 stories exploring archival memory, curation, and knowledge stewardship. Concluded with editorial postmortem.",
+      "posts": [
+        "archive",
+        "woods",
+        "the-whimsy-index",
+        "phantom-in-eden",
+        "songs-of-hydropolia",
+        "the-last-archive",
+        "lessons-from-the-librarians"
+      ]
+    },
+    "building-and-burning-bridges": {
+      "name": "Building and Burning Bridges",
+      "type": "fiction-contest",
+      "tag": "building-and-burning-bridges",
+      "description": "Winter 2026 fiction contest on bridge-building and bridge-burning as social and infrastructural metaphors. Ongoing.",
+      "posts": [
+        "troll",
+        "desire-machines",
+        "the-faithful-channel"
+      ]
+    }
+  },
+  "series": {
+    "zoothesia": {
+      "name": "Zoothesia",
+      "type": "fiction-series",
+      "tag": "zoothesia",
+      "author": "Spencer Nitkey",
+      "description": "Spencer Nitkey's ongoing speculative fiction series exploring animal sensation, embodied cognition, and non-human perspectives.",
+      "posts": [
+        "perception-must-preserve",
+        "would-you-stop-following-me-if-i",
+        "the-predation-circuit",
+        "day-traitor",
+        "missing-not-at-random",
+        "minor-differences-repeating-forever"
+      ]
+    },
+    "bridge-atlas": {
+      "name": "Bridge Atlas",
+      "type": "interview-series",
+      "tag": "bridge-atlas",
+      "description": "Interview series exploring protocol-adjacent practitioners at the boundaries of disciplines. Five episodes (fall 2025).",
+      "posts": [
+        "the-view-from-the-bridge",
+        "bridge-atlas-ep-1-entry-points",
+        "bridge-atlas-episode-2-paradigms",
+        "bridge-atlas-episode-3-commons",
+        "bridge-atlas-episode-4-alignment",
+        "bridge-atlas-episode-5-verifiability",
+        "coffee-diplomacy-contest-news"
+      ]
+    },
+    "protocols-for-the-long-now": {
+      "name": "Protocols for the Long Now",
+      "type": "series",
+      "tag": "protocols-for-the-long-now",
+      "description": "Emerging series (May 2026) on long-horizon protocol design and civilizational-scale coordination.",
+      "posts": [
+        "protocols-for-the-long-now"
+      ]
+    }
+  },
+  "proto-collections": {
+    "sachin-train-series": {
+      "name": "The UE-T1 Train Series",
+      "type": "fiction-series",
+      "tag": null,
+      "author": "Sachin Benny",
+      "description": "Sachin Benny's linked speculative fiction stories set aboard or around the UE-T1 train network. No Substack tag yet.",
+      "posts": [
+        "signals-in-the-margins",
+        "the-flesh-perfected-is-the-flesh",
+        "the-headless-empire"
+      ]
+    }
+  },
+  "sigs": {
+    "sigfpt": {
+      "name": "Formal Protocol Theory",
+      "slug": "SIGFPT",
+      "tag": "sigfpt",
+      "description": "Special Interest Group on Formal Protocol Theory. Theoretical foundations: what protocols are, how they compose, how they fail.",
+      "posts": [
+        "what-is-formal-protocol-theory",
+        "constructing-the-evil-twin-of-ai",
+        "theorizing-protocolization-i-new",
+        "theorizing-protocolization-ii-atomic"
+      ]
+    },
+    "sigbiz": {
+      "name": "Protocols for Business",
+      "slug": "SIGBIZ",
+      "tag": "sigbiz",
+      "description": "Special Interest Group on business protocols: organizational structures, market coordination, strategy as protocol design.",
+      "posts": [
+        "brackish-strategy",
+        "mechanical-currents",
+        "sigp4b-update-4-drift-stacking",
+        "finding-fault-lines-within-the-firm"
+      ]
+    },
+    "sigmem": {
+      "name": "Memory Research Group",
+      "slug": "SIGMEM",
+      "tag": "sigmem",
+      "description": "Special Interest Group on memory: archival, biological, institutional, and computational protocols for preserving and accessing the past.",
+      "posts": [
+        "a-very-short-introduction-to-memory",
+        "reflections-from-memoria",
+        "images-of-memory",
+        "memory-research-group-six-months"
+      ]
+    },
+    "sigfic": {
+      "name": "Protocol Fiction",
+      "slug": "SIGFIC",
+      "tag": "sigfic",
+      "description": "Special Interest Group on protocol fiction: fiction as a medium for exploring protocol dynamics and governance imagination.",
+      "posts": [
+        "what-is-protocol-fiction",
+        "strangeness-illegibility-hardness"
+      ]
+    }
+  },
+  "editorial": {
+    "obliquities": {
+      "name": "Obliquities",
+      "type": "editorial-column",
+      "tag": "obliquities",
+      "author": "Venkatesh Rao",
+      "description": "Venkatesh Rao's editorial column. Oblique takes on protocol phenomena at the edges of the main research agenda.",
+      "posts": [
+        "the-fabric-and-the-brain",
+        "a-primordial-computing-soup",
+        "inventing-new-nature"
+      ]
+    }
+  }
+}
