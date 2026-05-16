@@ -52,3 +52,41 @@ Added devlog infrastructure (data/devlog.json, devlog_session.py, devlog_render.
 
 **Pinecone:** substack: 1,040 vectors (unchanged)
 **Next:** GitHub Actions cron for sync_substack.py; PDF corpus ingest.
+
+## 2026-05-15 17:30 PT — PDF corpus ingest + canonical ingest pattern
+
+Completed Phase 1 PDF ingest. Recreated venv (Dropbox doesn't sync it); fixed `pinecone-client` → `pinecone` package rename.
+
+**Canonical ingest pipeline documented** in ARCHITECTURE.md (Layer 1: Haiku enrichment, Layer 2: body chunks with prefix, Layer 3: doc_summary vector). Applies to all corpus sources.
+
+**New scripts:**
+- `ingest/enrich_pdfs.py` — Haiku enrichment for PDFs (parallel to enrich_substack.py)
+- `ingest/ingest_pdfs.py` — rewritten with prefix, namespace, chunk_type, and doc_summary vectors
+
+**PDF ingest results:**
+- 82 PDFs enriched via Haiku (0 errors); saved to `sources/pdfs/enriched_meta.json`
+- 771 vectors upserted (766 in Pinecone after dedup by chunk_id)
+  - 689 body chunk vectors (5 PDFs image-only, no extractable text)
+  - 82 doc_summary vectors (all 82 PDFs)
+- 5 image-only PDFs (no body chunks): 65-SCHROFF_GONG-Self-Ensured-cards, 67-FERNANDEZ-Swarm-Protocol-Workshop, 68-FERNANDEZ-Swarm-Games-pxlm, 98-GONG-card-set-2024-03-28, SCHROFF-Protocol-Watching-HANDOUT
+
+**Pinecone:** substack: 1,040 · pdfs: 766 · Total: 1,806
+**Next:** GitHub Actions cron for sync_substack.py; Cloudflare Worker query API (Phase 2).
+
+## 2026-05-15 ~19:00–19:12 PT — Phase 2A: Oracle Worker and web UI
+
+Built `api/worker.js` — full C3PO Oracle Worker (~1,100 lines) serving both the API and the embedded web UI.
+
+**Routes:** `GET /` (web UI), `POST /query` (RAG), `GET /search` (no-LLM semantic search), `GET /stats`, `GET /health`, `POST /share` (stub — 503 until D1 Phase 2C).
+
+**Key decisions:**
+- **Sonnet not Haiku** throughout — user direction: protocol research material is dense and requires strong synthesis
+- **Prompt caching** on SOUL.md-derived system prompt (`cache_control: ephemeral`) — 10× cheaper on subsequent calls
+- **Secondary retrieval**: doc_summary/post_summary hits trigger follow-up body-chunk queries (same pattern as vgr_zirp)
+- **A/B testing removed** — not applicable to C3PO (no persona versions)
+- **PI branding**: teal `#0F6E56`, Lora body font, robot/droid SVG avatar, type-based source badges (Paper/Essay/Fiction/Game/Protocolized)
+
+**Updated files:** `api/worker.js` (new), `api/README.md`
+**Pinecone:** substack: 1,040 · pdfs: 766 · Total: 1,806 (unchanged)
+
+**Next:** Deploy to Cloudflare — `wrangler kv namespace create RATE_LIMIT`, set secrets, `wrangler deploy`. Then Phase 2B (MCP Worker). Also still pending: GitHub Actions cron for `sync_substack.py`.

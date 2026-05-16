@@ -1,0 +1,951 @@
+{
+  "00-COVER-LETTER-3.pdf": {
+    "summary": "This cover letter introduces the third package of the Protocol Kit, featuring two complementary essays on danger and safety in protocols: Nadia Asporouvhova argues that protocols reproduce platform ills in less legible forms and create 'protocolized' subjects who internalize infrastructural logics, while Timber Schroff traces safety protocol evolution in coal mining to develop a theory of how workplace safety improves through human learning and adaptation, eventually shifting focus from acute dangers to chronic stressors and mental health.",
+    "categories": [
+      "protocol-theory",
+      "editorial"
+    ],
+    "primary_author": "Protocol Institute",
+    "all_authors": [
+      "Protocol Institute"
+    ]
+  },
+  "00-COVER-LETTER-4.pdf": {
+    "summary": "This cover letter introduces the fourth mailer of the Summer of Protocols program, themed on the social science of protocols, featuring anchor essays on how protocols become living social entities and exploring emerging protocol domains from the 2023 cohort. The kit emphasizes the unfinished nature of protocol study through a 3-ring binder format and includes essays, speculative fiction, workshop materials, and a tabletop game.",
+    "categories": [
+      "announcement",
+      "protocol-theory"
+    ],
+    "primary_author": "Protocol Institute",
+    "all_authors": [
+      "Protocol Institute"
+    ]
+  },
+  "00.1-TITLE-PAGE-2023-12-13.pdf": {
+    "summary": "This is the title page for the Summer of Protocols 2023 Retrospectus Newsletter, a publication by the Ethereum Foundation documenting contributions from summer 2023 with editorial leadership from Venkatesh Rao, Tim Beiko, and Josh Davis. The document establishes licensing terms under CC BY-NC 4.0 through 2026, transitioning to CC BY 4.0 thereafter.",
+    "categories": [
+      "announcement",
+      "editorial"
+    ],
+    "primary_author": "Protocol Institute",
+    "all_authors": [
+      "Protocol Institute"
+    ]
+  },
+  "00.2-COVER-LETTER-1-2023-12-13.pdf": {
+    "summary": "This is an introductory cover letter for the Protocol Kit, a six-part educational package developed by the Summer of Protocols cohort that provides comprehensive materials for studying protocols across technical and social domains. The kit includes reading materials, artworks, exercises, tools, and games designed to guide learners from novices to advanced practitioners through structured exploration of protocols.",
+    "categories": [
+      "announcement",
+      "protocol-theory"
+    ],
+    "primary_author": "Protocol Institute",
+    "all_authors": [
+      "Protocol Institute"
+    ]
+  },
+  "01-RETROSPECTUS-2023-12-13.pdf": {
+    "summary": "The 2023 Retrospectus is a collection of essays from the Summer of Protocols initiative examining how protocols function across social, economic, and technological domains, featuring contributions on topics ranging from killswitch mechanisms and protocolized economics to memory-making and emergency response systems. The volume presents a multidisciplinary exploration of protocols as generative frameworks for organizing collective behavior, coordination, and cultural production in both digital and physical contexts.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "organizations"
+    ],
+    "primary_author": "Summer of Protocols",
+    "all_authors": [
+      "Summer of Protocols"
+    ]
+  },
+  "02-AUSTIN-2023-12-13.pdf": {
+    "summary": "This anthology explores how protocols function as distributed coordination mechanisms that generate emergent patterns rather than hierarchical structures, using real-world examples like traffic jams to illustrate how protocols operate across interconnected layers of infrastructure, behavior, and rules. The work argues that understanding protocols requires examining the complex interactions between human actors, physical systems, and institutional constraints rather than treating protocols as top-down designs.",
+    "categories": [
+      "protocol-theory",
+      "research-report"
+    ],
+    "primary_author": "Drew Austin",
+    "all_authors": [
+      "Drew Austin"
+    ]
+  },
+  "03-STEIERT-2023-12-13.pdf": {
+    "summary": "This essay synthesizes findings from the 2023 Summer of Protocols research initiative, identifying two fundamental aspects shared across diverse protocol studies: simultaneous enablement and restraint (protocols as both enablers and constraints), and inherent temporality (protocols as process-oriented phenomena embedded in time). Steiert examines how protocols emerge and unfold across social spheres, technological landscapes, ritual practices, and everyday life through this dual-characteristic framework.",
+    "categories": [
+      "protocol-theory",
+      "research-report"
+    ],
+    "primary_author": "Olivia Steiert",
+    "all_authors": [
+      "Summer of Protocols"
+    ]
+  },
+  "04-LANG-2023-12-13.pdf": {
+    "summary": "David Lang's anthology explores how standards shape the physical and digital world, using concrete examples of open-source hardware development to demonstrate that standards-setting, contrary to popular belief, is a dynamic and innovative process rather than a purely technical or bureaucratic endeavor. The work documents how iterative design, community collaboration, and openness can improve standards even when progress is slower than purely software-based development.",
+    "categories": [
+      "protocol-theory",
+      "research-report"
+    ],
+    "primary_author": "David Lang",
+    "all_authors": [
+      "David Lang"
+    ]
+  },
+  "10-e36-SCHROFF-2-PAGER.pdf": {
+    "summary": "Stinson-Schroff identifies six distinct selection pressures that determine which protocols propagate through populations: efficiency-safety trade-offs, power asymmetries, differential agency constraints, bandwidth limitations, and network topology factors. These pressures create a Darwinian landscape where protocols succeed not through optimality but through alignment with actor capabilities, incentive structures, and the cognitive and physical constraints of the systems in which they operate.",
+    "categories": [
+      "protocol-theory",
+      "research-report"
+    ],
+    "primary_author": "Timber Stinson-Schroff",
+    "all_authors": [
+      "Timber Stinson-Schroff"
+    ]
+  },
+  "15-e41-KITTEL-SHORIN-PREPRINT.pdf": {
+    "summary": "This paper by Kara Kittel and Toby Shorin examines how knowledge production occurs outside formal institutional frameworks, contrasting the democratization of scientific discourse through digital platforms with traditional academic gatekeeping. The authors explore how amateur scientific dialogues and unstructured knowledge creation can generate comparable influence and attention to institutionally-organized research in the context of evolving scientific epistemology.",
+    "categories": [
+      "protocol-theory",
+      "research-report"
+    ],
+    "primary_author": "Kara Kittel",
+    "all_authors": [
+      "Kara Kittel",
+      "Toby Shorin"
+    ]
+  },
+  "15-e41-KITTEL-rev-2024-06-12-1448.pdf": {
+    "summary": "This paper examines how knowledge can exist and accumulate outside of formal protocols and institutional structures, arguing that unprotocolized forms of knowledge generation—from amateur scientific dialogues to open-access communities—can rival institutional science in generating attention and insights. The authors use the 2021 arXiv paper 'The Autodidactic Universe' as a case study to explore how decentralized knowledge-sharing networks challenge traditional gatekeeping in academic discourse.",
+    "categories": [
+      "protocol-theory",
+      "research-report"
+    ],
+    "primary_author": "Kara Kittel",
+    "all_authors": [
+      "Kara Kittel",
+      "Toby Shorin"
+    ]
+  },
+  "17-e43-FERNANDEZ.pdf": {
+    "summary": "Fernández examines internet-era swarms as networked collectives coordinated through algorithmic feedback loops, distinguishing them from traditional crowds and exploring their dual nature as vectors for both misinformation and mutual aid. The paper frames swarms as fundamental organizational units of digital society, analyzing how they emerge from interconnected networks of people, bots, and content.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching"
+    ],
+    "primary_author": "Rafael Fernández",
+    "all_authors": [
+      "Rafael Fernández"
+    ]
+  },
+  "42-e76-POWERS.pdf": {
+    "summary": "This paper argues that protocols are fundamental to economic coordination and productivity, and that economics should explicitly theorize protocols as primary constructs rather than treating them implicitly through agent preferences and technologies. Powers proposes a protocols-based view of firms as systems that reduce collaboration risks through codified behavioral agreements, positioning legal and contractual frameworks as protocol systems that enable cooperation.",
+    "categories": [
+      "protocol-theory",
+      "research-report"
+    ],
+    "primary_author": "Steve Powers",
+    "all_authors": [
+      "Steve Powers"
+    ]
+  },
+  "53-BEIKO-001-2023-12-13.pdf": {
+    "summary": "This foundational paper traces the historical development of cryptography from Caesar ciphers to modern encryption techniques, establishing symmetric-key encryption as a core design principle where a shared key enables both encryption and decryption of messages. The authors situate cryptographic methods as essential infrastructure for secure communication protocols, with examples ranging from wartime military applications to contemporary computational systems.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "research-report"
+    ],
+    "primary_author": "Mario Havel",
+    "all_authors": [
+      "Mario Havel",
+      "Tim Beiko"
+    ]
+  },
+  "53-HAVEL-003.pdf": {
+    "summary": "This paper explains cryptographic hashing as a fundamental building block of digital infrastructure, defining hash functions as one-way operations that deterministically map arbitrary-sized inputs to fixed-sized outputs while revealing no information about the input. The authors emphasize key properties including collision resistance and the practical irreversibility of hashing, distinguishing it from encryption.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "research-report"
+    ],
+    "primary_author": "Mario Havel",
+    "all_authors": [
+      "Mario Havel",
+      "Tim Beiko"
+    ]
+  },
+  "53-HAVEL-004.pdf": {
+    "summary": "This paper explains how hashes and hash-based data structures, particularly hash tables and Merkle trees, enable efficient data integrity verification and lookup in large-scale information systems. The authors build on foundational cryptographic concepts to demonstrate how these structures form the basis for secure data proofs in modern digital infrastructure.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "research-report"
+    ],
+    "primary_author": "Mario Havel",
+    "all_authors": [
+      "Mario Havel",
+      "Tim Beiko"
+    ]
+  },
+  "54-AUSTIN-00-2023-12-13.pdf": {
+    "summary": "This paper applies pattern language methodology to urban protocols, examining how individuals navigate and reshape cities through literal and virtual itineraries while acknowledging different actors (residents, governments, corporations, architects) possess different toolkits to modify urban systems at various layers. Austin argues that contemporary urban environments are composed through individual daily protocols and interactions rather than fixed spatial arrangements, offering a framework for understanding how protocols govern urban life.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "research-report"
+    ],
+    "primary_author": "Drew Austin",
+    "all_authors": [
+      "Drew Austin"
+    ]
+  },
+  "54-AUSTIN-09-10-for-web.pdf": {
+    "summary": "This paper develops pattern 09 of a protocol pattern language for urban space, addressing how contemporary junkspace has become illegible to inhabitants and proposing that digital wayfinding systems—particularly smartphone interfaces—must incorporate visual iconography and design conventions equivalent to physical signage and street grids to help people orient themselves. Austin argues that successful navigation of sprawl, malls, and non-places requires aligning digital navigation layers with established wayfinding protocols, potentially adapting video game conventions like respawning checkpoints.",
+    "categories": [
+      "protocol-theory",
+      "design",
+      "governance"
+    ],
+    "primary_author": "Drew Austin",
+    "all_authors": [
+      "Drew Austin"
+    ]
+  },
+  "54-AUSTIN-11-12-for-web.pdf": {
+    "summary": "This paper presents Pattern 11 on Loitering Protocols, arguing that informal and improvisational uses of marginal urban spaces—though often discouraged or prohibited—serve essential functions by meeting unanticipated community needs while increasing space utility at minimal cost. Austin proposes that space stewards should develop explicit 'loitering protocols' that legitimize and encourage these unplanned uses rather than restrict them.",
+    "categories": [
+      "protocol-theory",
+      "protocol-fiction",
+      "governance"
+    ],
+    "primary_author": "Drew Austin",
+    "all_authors": [
+      "Drew Austin"
+    ]
+  },
+  "54-AUSTIN-5-6.pdf": {
+    "summary": "This paper presents a protocol pattern language for urban governance, specifically proposing a \"Bureaucratic Recipes\" system—an open-source repository that documents repeatable solutions for navigating local government interactions and institutional processes. The pattern addresses the opacity and complexity of urban bureaucratic systems by creating a crowdsourced, publicly-funded platform where residents can access and contribute knowledge about successfully resolving city-level administrative problems.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "design"
+    ],
+    "primary_author": "Drew Austin",
+    "all_authors": [
+      "Drew Austin"
+    ]
+  },
+  "54-AUSTIN-7-8.pdf": {
+    "summary": "This paper presents Pattern 07 on Fractional Housing, proposing a protocol-based alternative to Airbnb that enables flexible, medium-to-long-term shared residential usage to address housing shortages and affordability. The protocol seeks to make urban housing markets more efficient by allowing homeowners to fractionally lease units while maintaining compliance with local regulations, contrasting with tourism-focused short-term rental platforms.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory",
+      "governance"
+    ],
+    "primary_author": "Drew Austin",
+    "all_authors": [
+      "Drew Austin"
+    ]
+  },
+  "54-AUSTIN-DIY.pdf": {
+    "summary": "This worksheet guides participants to identify and document protocol patterns in urban space through a structured template that captures problems, infrastructure, and visual documentation. The tool is part of a larger pattern language project that enables DIY protocol discovery and design in built environments.",
+    "categories": [
+      "protocol-theory",
+      "research-report"
+    ],
+    "primary_author": "Drew Austin",
+    "all_authors": [
+      "Drew Austin"
+    ]
+  },
+  "55-e75-HART-M3-AP3-4.pdf": {
+    "summary": "This appendix examines how address systems can obscure or clarify physical space, using One Riverside Park's dual-entrance configuration as a case study where a single building facade contains multiple addresses serving different housing types. Hart argues that improved address representation standards and online mapping conventions could better inform the public about increasingly complex building configurations.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching",
+      "infrastructure"
+    ],
+    "primary_author": "Chenoe Hart",
+    "all_authors": [
+      "Chenoe Hart"
+    ]
+  },
+  "55-e75-HART-M4-AP5-6.pdf": {
+    "summary": "Hart proposes an addressability-based framework for housing that distinguishes between static addresses (stable, memorable identifiers) and dynamic addresses (reflecting actual spatial boundaries and resident locations). The framework enables flexible living arrangements by reconceptualizing how physical and digital infrastructure can accommodate shifting household compositions and residential boundaries through adaptive protocols like flexible doorways.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "infrastructure"
+    ],
+    "primary_author": "Chenoe Hart",
+    "all_authors": [
+      "Chenoe Hart"
+    ]
+  },
+  "55-e75-HART-M4-AP9-10-for-web.pdf": {
+    "summary": "This paper examines how elevator protocols decouple the relationship between physical distance and experiential time, creating non-linear travel patterns where the same destination can take radically different durations depending on system variables like passenger demand and stops. Hart uses the elevator as a case study in how automatic systems generate unpredictability and variability in human experience despite consistent physical inputs.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching",
+      "infrastructure"
+    ],
+    "primary_author": "Chenoe Hart",
+    "all_authors": [
+      "Chenoe Hart"
+    ]
+  },
+  "55-e75-HART-M5-AP7-8-for-web.pdf": {
+    "summary": "This paper examines how ubiquitous chain businesses like Starbucks create \"addressable space\" by clustering multiple locations in proximity, enabling topological folding where different physical addresses become functionally equivalent for consumers. Hart argues that navigation systems are increasingly organized around brand names rather than street addresses, fundamentally reshaping how we conceptualize and move through urban space.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching"
+    ],
+    "primary_author": "Chenoe Hart",
+    "all_authors": [
+      "Chenoe Hart"
+    ]
+  },
+  "56-LEWIS-M3-Missive-2.pdf": {
+    "summary": "This document is a retrospective newsletter from Summer of Protocols, published in March 2024 as part of a collaborative project with the Ethereum Foundation exploring protocol design and community engagement. The piece serves as a documented record of the Summer of Protocols initiative, establishing licensing frameworks and archival information for contributions to the protocol research discourse.",
+    "categories": [
+      "protocol-fiction",
+      "editorial",
+      "announcement"
+    ],
+    "primary_author": "Summer of Protocols",
+    "all_authors": [
+      "Summer of Protocols"
+    ]
+  },
+  "56-LEWIS-M3-Missive-3.pdf": {
+    "summary": "This is the third missive from Summer of Protocols, a collaborative project exploring protocol design through fiction and community engagement. The document establishes licensing frameworks and publication details for contributions exploring protocols as social and technical systems.",
+    "categories": [
+      "protocol-fiction",
+      "editorial",
+      "announcement"
+    ],
+    "primary_author": "Summer of Protocols",
+    "all_authors": [
+      "Summer of Protocols"
+    ]
+  },
+  "56-LEWIS-M5-Missive-4-nu-for-web.pdf": {
+    "summary": "This is the fourth missive from the Summer of Protocols initiative, a collaborative project examining protocols through fiction, theory, and community engagement. The document serves as a retrospective newsletter documenting contributions and developments within the Summer of Protocols community during 2024.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory",
+      "announcement"
+    ],
+    "primary_author": "Summer of Protocols",
+    "all_authors": [
+      "Summer of Protocols"
+    ]
+  },
+  "56-LEWIS-M6-Missive-5-nu-for-web.pdf": {
+    "summary": "This is the fifth missive from the Summer of Protocols initiative, a community-driven project exploring protocols through fictional and theoretical narratives. The document represents contributions licensed under the Ethereum Foundation with a transition to open licensing after 2026.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory",
+      "announcement"
+    ],
+    "primary_author": "Summer of Protocols",
+    "all_authors": [
+      "Summer of Protocols"
+    ]
+  },
+  "57-KIM-2023-12-13.pdf": {
+    "summary": "ProtocolKit is a 2023 publication from the Ethereum Foundation documenting contributions related to protocols, distributed under a Creative Commons license that transitions from CC BY-NC 4.0 to CC BY 4.0 after December 2026. The document serves as a compiled collection of protocol-related work produced through the Summer of Protocols initiative.",
+    "categories": [
+      "research-report",
+      "announcement"
+    ],
+    "primary_author": "Ethereum Foundation",
+    "all_authors": [
+      "Protocol Institute"
+    ]
+  },
+  "58-LEWIS-2023-12-13.pdf": {
+    "summary": "This paper presents 'Four Doors' as an architectural memory protocol that applies medieval monastic mnemonic techniques to a contemporary retreat space, using the building's physical architecture and inscribed doorways as mnemonic devices organized around the intercolumnia principle. The author draws on Mary Carruthers' scholarship on medieval memory practices to transform the Lodge at St. Edward Park into a 'gathering site' and 'machine for thinking' where each architectural threshold functions as a gateway to associated ideas.",
+    "categories": [
+      "protocol-theory",
+      "protocol-fiction",
+      "memory-archival"
+    ],
+    "primary_author": "Summer of Protocols",
+    "all_authors": [
+      "Summer of Protocols"
+    ]
+  },
+  "60-BRISTLEMOUTH-LANG-2023-12-13.pdf": {
+    "summary": "Bristlemouth is an open-source underwater connector standard featuring waterproof, wet-mateable contacts sealed to 300 meters depth, enabling modular plug-and-play hardware interfaces for marine robotics applications. The protocol allows autonomous underwater vehicles and other marine instruments to be rapidly reconfigured by swapping standardized hardware modules based on mission requirements.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "infrastructure"
+    ],
+    "primary_author": "David Lang",
+    "all_authors": [
+      "David Lang"
+    ]
+  },
+  "61-MAZE-RAO-2023-12-13.pdf": {
+    "summary": "The Clockless Clock Maze is an interactive game designed to embody different temporal experiences across protocol environments by mapping bureaucracies, technical standards, social gatherings, and blockchain systems onto a triangular maze structure. Players navigate between three protocol regimes (I-it, I-world, and I-thou) through liminal passages, discovering how different social actors like nurses, mystics, and entrepreneurs experience protocol-governed temporalities differently.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ]
+  },
+  "65-SCHROFF_GONG-Self-Ensured-cards.pdf": {
+    "summary": "Self-Ensured Cards is a card game that explores how protocols can be embedded in physical game mechanics to create self-enforcing systems. The game demonstrates how distributed players can maintain protocol integrity without centralized oversight through the design of cards and gameplay rules themselves.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory"
+    ],
+    "primary_author": "Timber Stinson-Schroff",
+    "all_authors": [
+      "Timber Stinson-Schroff",
+      "Shuya Gong"
+    ]
+  },
+  "66-FANGTING.pdf": {
+    "summary": "This paper explores the intersection of protocol design, community formation, and digital culture through the framework of onchain artificial life (OALife), examining how composable systems create new forms of existence and social organization. The authors investigate what it means when autonomous agents designed to be eternal on the blockchain disappear, challenging assumptions about permanence and presence in decentralized systems.",
+    "categories": [
+      "protocol-theory",
+      "protocol-fiction",
+      "organizations"
+    ],
+    "primary_author": "Fangting and Botao Amber Hu",
+    "all_authors": [
+      "Fangting",
+      "Botao Amber Hu"
+    ]
+  },
+  "67-FERNANDEZ-Swarm-Protocol-Workshop.pdf": {
+    "summary": "This workshop template provides a structured framework for designing and implementing swarm protocols that enable distributed coordination among multiple agents or participants. The resource offers practical templates and methodologies for facilitating collaborative protocol development sessions focused on decentralized decision-making and emergent behavior.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching",
+      "organizations"
+    ],
+    "primary_author": "Rafael Fernández",
+    "all_authors": [
+      "Rafael Fernández"
+    ]
+  },
+  "68-FERNANDEZ-Swarm-Games-pxlm.pdf": {
+    "summary": "Swarm Games presents a game-based framework for understanding how decentralized agents coordinate through protocol-like rules and emergent behaviors. The work explores protocol mechanics through ludic experimentation, demonstrating how swarm coordination principles can be both modeled and experienced interactively.",
+    "categories": [
+      "protocol-theory",
+      "protocol-fiction"
+    ],
+    "primary_author": "Rafael Fernández",
+    "all_authors": [
+      "Rafael Fernández"
+    ]
+  },
+  "69-WAQAR-CARDS.pdf": {
+    "summary": "Protocol Cards is a card-based game designed by Waqar and Mashal that uses archetypes like Outsider, Heretic, Sage, and Maintainer to explore protocol dynamics and social roles. The game serves as a playable framework for understanding how different character types interact within protocol-based systems.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-watching"
+    ],
+    "primary_author": "Waqar",
+    "all_authors": [
+      "Summer of Protocols"
+    ]
+  },
+  "69-WAQAR-GAMEBOARD.pdf": {
+    "summary": "Protocol Gameboard is a parlor game designed to explore different social roles and archetypes (Outsider, Sage, Heretic, Drifter, Clinger, Maintainer) through interactive gameplay mechanics. The game transforms abstract protocol concepts into embodied social dynamics, allowing players to experience how different participants navigate shared systems and rule structures.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-watching"
+    ],
+    "primary_author": "Waqar",
+    "all_authors": [
+      "Summer of Protocols"
+    ]
+  },
+  "98-GONG-card-set-2024-03-28.pdf": {
+    "summary": "A card game that makes visible the invisible protocols structuring digital systems and social interactions. Players engage with protocol mechanics through gameplay to develop literacy around how rules, standards, and agreements govern technological and social life.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching"
+    ],
+    "primary_author": "Shuya Gong",
+    "all_authors": [
+      "Shuya Gong"
+    ]
+  },
+  "A-Phenomenology-of-Protocols-Janna-Tay.pdf": {
+    "summary": "Tay develops a phenomenological approach to understanding protocols as human-built systems, arguing that current protocols fail to nurture human flourishing because they were designed without centering human capacity for self-making, character cultivation, and wisdom. She contends that truly human-centered protocols must be reconstructed to be hospitable to human development rather than extractive of human attention and agency.",
+    "categories": [
+      "protocol-theory",
+      "protocol-fiction"
+    ],
+    "primary_author": "Janna Tay",
+    "all_authors": [
+      "Janna Tay"
+    ]
+  },
+  "ActivityPub-E2EE-Case-File.pdf": {
+    "summary": "This case file documents an effort to integrate end-to-end encryption into ActivityPub, the distributed social network protocol, by mapping Messaging Layer Security (MLS RFC9420) onto the existing standard as an extension. The central tension is balancing security robustness with implementability simplicity, requiring the authors to examine user interfaces across messaging platforms and architectural variations before recommending a design approach for E2EE in federated social networks.",
+    "categories": [
+      "protocol-theory",
+      "protocol-fiction",
+      "research-report"
+    ],
+    "primary_author": "Evan Prodromou",
+    "all_authors": [
+      "Evan Prodromou",
+      "Tom Coates"
+    ]
+  },
+  "Addressable-Space-Appendix-1-Chenoe-Hart.pdf": {
+    "summary": "This appendix traces how mechanical and automated systems have progressively occupied dedicated floor space in tall buildings since the 20th century, using a timeline of specific skyscrapers (World Trade Center through a speculative future 'Ware-House') to demonstrate the increasing displacement of human-occupied space by infrastructure. Hart argues that this historical trajectory suggests a future scenario where high-rise buildings could be engineered primarily to house automated systems rather than people, with addressable space becoming dominated by technological systems rather than human inhabitation.",
+    "categories": [
+      "protocol-theory",
+      "research-report"
+    ],
+    "primary_author": "Chenoe Hart",
+    "all_authors": [
+      "Chenoe Hart"
+    ]
+  },
+  "Addressable-Space-Appendix-Cover-Chenoe-Hart.pdf": {
+    "summary": "This appendix presents a collection of analytical scenarios examining how addressability operates across various spatial scales as a design concept for the built environment. Hart proposes new protocols for representing and reimagining physical spaces through visual investigation and design-based speculation, framed as an expandable framework rather than a finite list of observations.",
+    "categories": [
+      "protocol-theory",
+      "protocol-fiction"
+    ],
+    "primary_author": "Chenoe Hart",
+    "all_authors": [
+      "Protocol Institute"
+    ]
+  },
+  "Addressable-Space-Chenoe-Hart.pdf": {
+    "summary": "Hart examines how buildings are constructed through both physical materials and informational systems, analyzing how addressable space—the conceptual organization of physical environments—shapes infrastructure and accessibility. Using One Burrard Place as a case study, the paper explores how hidden floors and zoning regulations demonstrate that buildings are fundamentally protocols for organizing and controlling access to space.",
+    "categories": [
+      "protocol-theory",
+      "infrastructure"
+    ],
+    "primary_author": "Chenoe Hart",
+    "all_authors": [
+      "Chenoe Hart"
+    ]
+  },
+  "Addressing-Tim-Beiko-Mario-Havel.pdf": {
+    "summary": "This paper examines addressing schemes in computing systems, from physical memory addresses to hierarchical file organization and internet URLs, establishing how different protocols and structures require distinct addressing mechanisms to navigate data storage and retrieval. The authors argue that computers must support multiple addressing paradigms that work seamlessly together, drawing analogies between digital addressing and physical-world location systems.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "research-report"
+    ],
+    "primary_author": "Tim Beiko",
+    "all_authors": [
+      "Tim Beiko",
+      "Mario Havel"
+    ]
+  },
+  "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf": {
+    "summary": "Kreutler traces the historical concept of artificial memory from classical rhetoric through contemporary digital systems, arguing that computing has fundamentally transformed how intention and knowledge are recorded and preserved. The paper examines how artificial memory systems create permanent traces of human activity that exceed natural memory's capacity, revising Agrippa's ancient concerns about memory's fragility in the age of technological mediation.",
+    "categories": [
+      "protocol-theory",
+      "memory-archival",
+      "technology-ai"
+    ],
+    "primary_author": "Kei Kreutler",
+    "all_authors": [
+      "Kei Kreutler"
+    ]
+  },
+  "Atoms-Institutes-Blockchains-Josh-Stark.pdf": {
+    "summary": "Stark argues that atoms, institutions, and blockchains share a common property of 'hardness'—fixed, immutable points across time that enable coordination and make the future more predictable at scale. The paper traces how this concept of hardness has evolved from physical matter through social institutions to cryptographic protocols, positioning blockchain technology as a new substrate for creating the durable coordination points necessary for civilization.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "technology-ai"
+    ],
+    "primary_author": "Josh Stark",
+    "all_authors": [
+      "Josh Stark"
+    ]
+  },
+  "Capital-Enclosure-for-Software-Commons-Trent-Van-Epps.pdf": {
+    "summary": "Van Epps argues that entities extracting profits from software commons like Linux and Ethereum have the greatest incentive and capacity to co-opt them, analyzing how common-pool resources operate according to internal logics distinct from capital accumulation. The paper examines the structural tension between the anti-rival nature of digital goods and the enclosure mechanisms through which commercial actors capture value from collaborative software ecosystems.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "research-report"
+    ],
+    "primary_author": "Trent Van Epps",
+    "all_authors": [
+      "Trent Van Epps"
+    ]
+  },
+  "Control-and-Consciousness-of-Time-Saffron-Huang.pdf": {
+    "summary": "Saffron Huang examines how timekeeping protocols shape human consciousness and control, exploring how different temporal measurement systems constrain behavior and coordinate collective action across distributed systems. The paper investigates whether certain forms of timekeeping are preferable to others by analyzing how protocols like sundials and distributed software systems structure human experience and freedom.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching"
+    ],
+    "primary_author": "Saffron Huang",
+    "all_authors": [
+      "Saffron Huang"
+    ]
+  },
+  "Dangerous-Dating-Protocols-Shreeda-Segan.pdf": {
+    "summary": "This paper explores the parallels between dating protocols and game-theoretic strategies, using the framework of exploration versus exploitation to examine how strangers from different cultural and ideological backgrounds can navigate interaction and connection. Segan argues that successful dating requires protocol-like systems that balance the risk of trying new approaches against the safety of proven strategies.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory"
+    ],
+    "primary_author": "Shreeda Segan",
+    "all_authors": [
+      "Shreeda Segan"
+    ]
+  },
+  "Dangerous-Protocols-Nadia-Asparouhova.pdf": {
+    "summary": "Asparouhova examines how protocols, while often celebrated as liberating alternatives to centralized platforms, function as mechanisms of control that constrain user freedom and choice in practice. The paper argues that protocols are not inherently emancipatory but rather represent a fundamental trade-off between managing complexity and maintaining autonomy.",
+    "categories": [
+      "protocol-theory",
+      "governance"
+    ],
+    "primary_author": "Nadia Asparouhova",
+    "all_authors": [
+      "Nadia Asparouhova"
+    ]
+  },
+  "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf": {
+    "summary": "This speculative fiction piece, dated to August 21, 2065, imagines a future Cascadia region reorganized around bioregional protocols rather than political boundaries, using bears and ecological zones as the organizing principle for governance. The narrative explores how ecosystem-based protocols could coordinate cities and communities across traditional state lines through shared environmental characteristics.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory"
+    ],
+    "primary_author": "Rithikha Rajamohan",
+    "all_authors": [
+      "Protocol Institute"
+    ]
+  },
+  "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf": {
+    "summary": "This paper uses Cascadia as a speculative case study to explore how bioregional governance frameworks might organize communities around ecological rather than political boundaries, with bears and watershed patterns replacing state/provincial lines. Rajamohan examines how protocol-based systems could coordinate resource management and social infrastructure across overlapping ecoregions facing polycrisis challenges like climate instability and housing crises.",
+    "categories": [
+      "protocol-fiction",
+      "governance",
+      "protocol-theory"
+    ],
+    "primary_author": "Rithikha Rajamohan",
+    "all_authors": [
+      "Rithikha Rajamohan"
+    ]
+  },
+  "Exit-to-Protocol-Shuya-Gong.pdf": {
+    "summary": "Exit to Protocol examines how protocols can facilitate graceful retirement and archival by drawing parallels to narrative closure in television, specifically how platforms and communities can transition from active operation to preserved legacy. Gong argues for a framework where protocols enable individuals and organizations to exit with dignity while preserving their work and knowledge for future reference.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "memory-archival"
+    ],
+    "primary_author": "Shuya Gong",
+    "all_authors": [
+      "Shuya Gong"
+    ]
+  },
+  "FERNANDEZ-Flow-speculative-brochure.pdf": {
+    "summary": "Flow is a speculative design fiction presented as a corporate onboarding brochure for an AI-powered team collaboration platform that promises to synthesize communication, manage information flow, and enable collective intelligence through contextually aware algorithms. Fernández uses the brochure format to critique contemporary workplace technologies and the rhetoric of seamless productivity, examining how such systems claim to reduce noise while potentially increasing surveillance and control.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory"
+    ],
+    "primary_author": "Rafael Fernández",
+    "all_authors": [
+      "Rafael Fernández"
+    ]
+  },
+  "Fire-Protocols-Case-File.pdf": {
+    "summary": "Fire Protocols reframes fire from a destructive force to be suppressed into an essential ecological tool by developing community-based protocols for fire knowledge transmission and large-scale coordinated action across social, political, and ecological systems in Sonoma County. The framework positions attention as an autopoietic space that allows communities to regenerate and maintain fire knowledge while resolving tensions between geopolitical top-down structures and cultural knowledge systems.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "memory-archival"
+    ],
+    "primary_author": "Jiordi Rosales",
+    "all_authors": [
+      "Nathalia Scherer",
+      "Jiordi Rosales"
+    ]
+  },
+  "Founding-Memorabilia-from-the-Order-of-Protocological-Death.pdf": {
+    "summary": "This speculative document presents founding memorabilia from a fictional 2038 organization called the Order of Protocological Death, which administers end-of-life rites for collective entities and worlds through practices like ritual deletion and memorial compression. The text establishes a taxonomy of protocological deaths (stillbirth, death by success, ossification, mismanagement) and outlines the Order's core functions including world health assessment, funeral design, and protocol archive stewardship.",
+    "categories": [
+      "protocol-fiction",
+      "memory-archival"
+    ],
+    "primary_author": "Summer of Protocols",
+    "all_authors": [
+      "Summer of Protocols"
+    ]
+  },
+  "Good-Death-Sarah-Friend.pdf": {
+    "summary": "Sarah Friend argues that protocols can generate living worlds through accumulated user attention and interaction, and that a protocol's 'death' depends on whether it successfully cultivated such a world ecosystem rather than merely existing as a technical system. Drawing on gaming communities' definitions of when an MMO becomes 'dead,' she explores how platforms, places, and social systems generate worlds that persist or perish independent of their underlying protocol's technical status.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "protocol-watching"
+    ],
+    "primary_author": "Sarah Friend",
+    "all_authors": [
+      "Sarah Friend"
+    ]
+  },
+  "Introduction-to-the-Protocol-Reader-Venkatesh-Rao.pdf": {
+    "summary": "This introduction situates the emergence of protocol-based social technologies as a response to Twitter's 2022 ownership change, distinguishing between users seeking alternative platforms and those exploring fundamentally different technological paradigms like the Fediverse, ActivityPub, Bluesky/ATProto, and Farcaster. Rao frames the resulting confusion around what 'protocol' means as the entry point for understanding a significant shift toward decentralized, protocol-oriented alternatives to traditional platform models.",
+    "categories": [
+      "protocol-theory",
+      "editorial"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ]
+  },
+  "Kafka-Index-Nadia-Asparouhova-1.pdf": {
+    "summary": "This document presents the 'Kafka Index,' a framework for evaluating protocol failures through specific diagnostic criteria such as absent feedback loops, invisible outcomes, and unexplainable results, organized around three archetypes of protocol 'goodness' that identify when protocols become labyrinthine (Kafka) or monopolistic (Bartleby). The framework provides concrete evaluative metrics for identifying systemic design failures in protocols that trap participants through complexity, opacity, or lack of alternatives.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching"
+    ],
+    "primary_author": "Nadia Asparouhova",
+    "all_authors": [
+      "Protocol Institute"
+    ]
+  },
+  "Kafka-Index-Nadia-Asparouhova.pdf": {
+    "summary": "Asparouhova develops an evaluative framework called the Kafka Index to identify structurally bad protocols through specific design failures: broken feedback loops, invisible outcomes, wrong metrics, and excessive complexity that trap participants. She identifies three archetypes of protocol failure—Kafka (participant trapped in incomprehensible maze), Bartleby (participant forced into costly participation with no alternatives), and a third unnamed type—each representing different ways protocols distribute power asymmetrically between system and user.",
+    "categories": [
+      "protocol-theory",
+      "governance"
+    ],
+    "primary_author": "Nadia Asparouhova",
+    "all_authors": [
+      "Nadia Asparouhova"
+    ]
+  },
+  "Killswitch-Protocols.pdf": {
+    "summary": "This paper examines 'killswitch protocols'—the frameworks and decision-making processes that govern the deliberate termination of digital systems, virtual environments, and online communities when they reach end-of-life. The authors argue that as analog and digital lives become increasingly intertwined, understanding protocols for engineered system death becomes crucial for communities that depend on these environments and the individuals who control their infrastructure.",
+    "categories": [
+      "protocol-theory",
+      "governance"
+    ],
+    "primary_author": "Eric Alston",
+    "all_authors": [
+      "Summer of Protocols"
+    ]
+  },
+  "Module-2-Cover-Letter.pdf": {
+    "summary": "This cover letter introduces the second module of the Protocol Kit, centered on memory and time as fundamental concerns in protocol analysis and design. It frames a collection of essays, artifacts, and fictions exploring these themes through concrete questions about information structure, temporality, and the material arrangements that embody time and memory in protocols.",
+    "categories": [
+      "protocol-theory",
+      "editorial"
+    ],
+    "primary_author": "Protocol Institute",
+    "all_authors": [
+      "Protocol Institute"
+    ]
+  },
+  "Module-5-COVER-LETTER-.pdf": {
+    "summary": "This cover letter introduces the final mailer of the Protocol Kit, exploring themes of infinite games and continuity through Sarah Friend's essay on death protocols across physical and virtual contexts and her accompanying design fictions about a monastic order stewarding the death of digital worlds. The materials examine how death and resurrection function as liminal passages in both human cultures and increasingly complex artificial intelligence systems, proposing that the end of digital entities requires creative protocolization.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory",
+      "announcement"
+    ],
+    "primary_author": "Protocol Institute",
+    "all_authors": [
+      "Protocol Institute"
+    ]
+  },
+  "New-Time-Machine-Rangers-Starproject-Cover.pdf": {
+    "summary": "The New Time Machines Working Group designs memory protocols and practices that help individuals and communities access and curate personal and collective memories, drawing on ancient memorial traditions and combining low-tech objects with contemporary devices. The document frames memory work as essential for temporal orientation and community cohesion in an era of digital mediation, challenging assumptions about time itself by drawing on perspectives from physics, Buddhist philosophy, and astronomical observation.",
+    "categories": [
+      "protocol-theory",
+      "protocol-fiction"
+    ],
+    "primary_author": "Protocol Institute",
+    "all_authors": [
+      "Protocol Institute"
+    ]
+  },
+  "Plurality-in-Practice-Case-File.pdf": {
+    "summary": "This case file examines plural voting mechanisms that weight voter preferences based on identity and expertise relationships to reward diverse group consensus, questioning whether such systems reduce powerful voting blocs or merely shift the nature of power concentration. The authors identify a central tension: while plural mechanisms aim to increase plurality, their successful implementation requires substantial top-down calibration that can introduce new biases and remain vulnerable to capture without careful design.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "research-report"
+    ],
+    "primary_author": "Rich McDowell",
+    "all_authors": [
+      "Rich McDowell",
+      "Martin Benedikt Busch"
+    ]
+  },
+  "Protocol-Pattern-Language-2-Drew-Austin.pdf": {
+    "summary": "This paper presents Pattern 03 of a Protocol Pattern Language for Urban Space, specifically addressing how regulatory frameworks can be redesigned to enable domestic retail and small businesses to operate from residential spaces. Austin argues that loosening residential business restrictions would formalize existing informal commerce while allowing communities to capture economic and social benefits of locally-grounded retail, using California's legalization of home kitchen operations as a concrete example.",
+    "categories": [
+      "protocol-theory",
+      "governance"
+    ],
+    "primary_author": "Drew Austin",
+    "all_authors": [
+      "Drew Austin"
+    ]
+  },
+  "Retrofitting-the-Web-Dorian-Taylor.pdf": {
+    "summary": "Dorian Taylor argues that designing for comprehension—enabling people to understand how systems work and communicate about them effectively—is essential to retrofitting the Web as infrastructure. The paper contends that literacy in complex systems is a learnable skill, positioning design for clarity and model-building as critical to improving digital communication.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "research-report"
+    ],
+    "primary_author": "Dorian Taylor",
+    "all_authors": [
+      "Dorian Taylor"
+    ]
+  },
+  "SCHROFF-Protocol-Watching-HANDOUT-BLANK.pdf": {
+    "summary": "This is a field guide template for protocol watching that enables systematic identification and documentation of protocols in their natural contexts through structured observation categories including health status, lifecycle stage, and descriptive notation. The blank handout format is designed for fieldwork documentation, allowing researchers to record protocol sightings with standardized metadata fields and visual reference materials.",
+    "categories": [
+      "protocol-watching",
+      "research-report"
+    ],
+    "primary_author": "Protocol Institute",
+    "all_authors": [
+      "Protocol Institute"
+    ]
+  },
+  "SCHROFF-Protocol-Watching-HANDOUT.pdf": {
+    "summary": "This handout provides a structured template for workshop participants to conduct protocol watching—a systematic practice of observing and analyzing how protocols function in real-world contexts. The material offers concrete methodological guidance for identifying, documenting, and interpreting protocol behaviors and effects.",
+    "categories": [
+      "protocol-watching",
+      "research-report"
+    ],
+    "primary_author": "Timber Stinson-Schroff",
+    "all_authors": [
+      "Timber Stinson-Schroff"
+    ]
+  },
+  "Safe-New-World-Timber-Stinson-Schroff.pdf": {
+    "summary": "Safe New World examines how coal mining safety improved by 97% between 1900 and 2017 through technological advances and regulatory changes, using this case study to argue that protocol design must anticipate both predictable and unpredictable externalities when implementing new systems. Stinson-Schroff explores how historical safety protocols reveal tensions between solving immediate harms and managing unforeseen consequences, with implications for designing safe systems in contemporary technological contexts.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching"
+    ],
+    "primary_author": "Timber Stinson-Schroff",
+    "all_authors": [
+      "Timber Stinson-Schroff"
+    ]
+  },
+  "Shoreline-Adaptations-Case-File.pdf": {
+    "summary": "This case file examines protocols for shoreline adaptation in cities facing sea level rise, challenging the engineering-led approach that relies on hardened infrastructure while disconnecting communities from coastlines. The authors propose alternative protocols rooted in activism and adaptive community engagement that enable vibrant, resilient waterfront futures rather than merely protecting existing capital investments.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "research-report"
+    ],
+    "primary_author": "Danielle Butler",
+    "all_authors": [
+      "Celeste LeCompte",
+      "Danielle Butler"
+    ]
+  },
+  "Starproject-Missive-1.pdf": {
+    "summary": "This is the opening material and licensing information for Summer of Protocols' first missive, establishing copyright frameworks and publication details for contributions to the Ethereum Foundation. The document sets forth dual licensing terms under CC BY-NC 4.0 through 2026, transitioning to CC BY 4.0 thereafter, and serves as the masthead for a retrospective newsletter publication.",
+    "categories": [
+      "announcement",
+      "protocol-theory"
+    ],
+    "primary_author": "Summer of Protocols",
+    "all_authors": [
+      "Summer of Protocols"
+    ]
+  },
+  "The-Death-and-the-Death-of-Orkut-Alice-Noujaim.pdf": {
+    "summary": "Alice Noujaim examines Orkut's rise as Brazil's dominant social platform from 2004-2010 and its subsequent decline following Facebook's ascendancy, culminating in Google's decision to shut down the service in 2014. The paper traces how user migration and corporate abandonment led to Orkut's 'death by official ending' rather than organic decline.",
+    "categories": [
+      "protocol-theory",
+      "memory-archival"
+    ],
+    "primary_author": "Alice Noujaim",
+    "all_authors": [
+      "Alice Noujaim"
+    ]
+  },
+  "The-Fundamentals-of-Protocol-Systems-Angela-Walch.pdf": {
+    "summary": "Angela Walch argues that protocol systems exhibit bistable perception—they can be understood either as cohesive wholes with defined boundaries or as temporary assemblages of component parts—and proposes a humanized framework for studying protocols by examining the experiences of individuals embedded within them.",
+    "categories": [
+      "protocol-theory",
+      "research-report"
+    ],
+    "primary_author": "Angela Walch",
+    "all_authors": [
+      "Angela Walch"
+    ]
+  },
+  "The-Swarm-Effect-Chinas-2022-Covid-Protests-Anon.pdf": {
+    "summary": "This paper analyzes China's 2022 COVID protests as a case study of 'swarm' coordination dynamics, examining how decentralized protest organization enabled mass mobilization against zero-COVID policy and how government responses specifically targeted these swarm characteristics. The research argues that understanding swarm protocols—their enabling traits and vulnerabilities—is essential for analyzing both protest movements and governmental counter-strategies.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "protocol-watching"
+    ],
+    "primary_author": "Anonymous",
+    "all_authors": [
+      "Anonymous"
+    ]
+  },
+  "The-Unreasonable-Sufficiency-of-Protocols.pdf": {
+    "summary": "This foundational paper argues that protocols—codified sets of behaviors adopted by sufficient participants—offer a surprisingly effective mechanism for solving complex coordination problems across human and artificial systems. The authors establish that protocols can reliably produce good-enough outcomes for all participants, positioning them as a practical solution to problems traditionally viewed as intractable.",
+    "categories": [
+      "protocol-theory",
+      "research-report"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Summer of Protocols"
+    ]
+  },
+  "Virtual-Structures-Laura-Sinisterra.pdf": {
+    "summary": "This paper examines how protocols function as virtual structures that organize digital interactions and social coordination without physical manifestation. Sinisterra argues that understanding protocols as structural systems reveals their role in shaping both technological infrastructure and human behavior patterns.",
+    "categories": [
+      "protocol-theory",
+      "research-report"
+    ],
+    "primary_author": "Laura Sinisterra",
+    "all_authors": [
+      "Laura Sinisterra"
+    ]
+  },
+  "Weaving-Memory-Spencer-Chang.pdf": {
+    "summary": "Spencer Chang explores Memory Pouches as both cultural artifacts and functional devices designed to enhance human attention and memory mechanisms, drawing on the legend of the New Time Rangers who used these tools to develop heightened sensory and temporal awareness. The work blends protocol design with craft practice, treating memory enhancement as a weaving together of material culture and cognitive technology.",
+    "categories": [
+      "protocol-fiction",
+      "memory-archival"
+    ],
+    "primary_author": "Spencer Chang",
+    "all_authors": [
+      "Spencer Chang"
+    ]
+  },
+  "Zero-Knowledge-Explainer-Series.pdf": {
+    "summary": "This explainer introduces zero-knowledge proofs as a cryptographic domain that enables proving knowledge of data without fully revealing it, using the analogy of a dimmer switch to illustrate how ZK protocols control information visibility. The piece demonstrates the concept through the Alice-and-Bob probability example, showing how repeated correct guesses establish proof of knowledge while keeping the underlying information hidden from the verifier.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "research-report"
+    ],
+    "primary_author": "Mario Havel",
+    "all_authors": [
+      "Summer of Protocols"
+    ]
+  }
+}

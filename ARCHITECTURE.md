@@ -119,6 +119,77 @@ Adding a new source: create `sources/<type>/`, write `registry.json`, write `ing
 
 ---
 
+## Ingest Pipeline Pattern
+
+Every corpus source follows the same three-layer ingest pipeline. Deviating requires explicit justification documented here.
+
+### Layer 1 — Enrichment (Claude Haiku)
+
+Before indexing, each document is enriched with structured metadata via a lightweight Haiku call. Input: title, author bylines, document type/tags, and the first ~1,500 chars of text. Output saved to `sources/<type>/enriched_meta.json` (keyed by document ID or basename):
+
+```json
+{
+  "summary": "Two concrete sentences about the specific argument or contribution.",
+  "categories": ["protocol-theory", "governance"],
+  "primary_author": "Author Name",
+  "all_authors": ["Author Name"]
+}
+```
+
+Enrichment is idempotent — existing entries are skipped unless `--force`. Checkpoints every 10 documents. Cost: ~$0.0001 per document (Haiku pricing).
+
+**Shared category vocabulary** — used across all sources for cross-corpus query consistency:
+
+`protocol-fiction` · `protocol-theory` · `protocol-watching` · `editorial` · `research-report` · `technology-ai` · `governance` · `announcement` · `interview` · `memory-archival` · `organizations`
+
+Scripts: `ingest/enrich_<source>.py`
+
+### Layer 2 — Body Chunks
+
+Full document text is chunked (512-token window, 64-token overlap). A structured prefix is prepended to each chunk **before embedding** to improve retrieval relevance — the model sees full document context on every chunk. The raw (unprefixed) chunk text is stored in Pinecone metadata; IDs are SHA256 hashes of the raw chunk text.
+
+Prefix format:
+```
+Title: {title}
+Authors: {authors}
+Type: {type}
+Summary: {summary}
+
+{chunk text}
+```
+
+Vector metadata fields: `source`, `namespace`, `chunk_type: "body"`, `title`, `authors`, `primary_author`, `date`, `type`, `tags`, `url`, `summary` (≤500 chars), `enriched_categories`, `access_level`, `chunk_index`, `chunk_total`, `text` (≤1000 chars of raw chunk).
+
+### Layer 3 — Document Summary Vector
+
+One additional vector per document for "what is this document about" queries — a single compact representation of the whole document. Not chunked; embedded as one string.
+
+Text format:
+```
+Title: {title}
+Authors: {authors}
+Date: {date}
+Type: {type}
+Tags: {tags}
+Categories: {categories}
+Summary: {summary}
+```
+
+Vector ID: `{slug-or-basename}__doc_summary`. Metadata includes `chunk_type: "doc_summary"` and the full structured text (≤1000 chars).
+
+### Optional Layers (source-specific)
+
+Some sources warrant additional vector types when the source has meaningful grouping or authorship structure:
+
+- **Collection cards** (Substack): one vector per series/SIG/anthology, listing member posts
+- **Author profiles** (Substack): one vector per recurring author, listing their contributions
+
+These are only added when the source structure supports them — not as a default.
+
+Scripts: `ingest/ingest_<source>.py`
+
+---
+
 ## Corpus Sources — Design Notes
 
 ### PDFs

@@ -52,7 +52,7 @@ Planned migration: `Protocol-Institute/c3po` when handing off to org (Phase 6)
 ## Pinecone Index (live)
 
 Host: `https://c3po-bwo39z7.svc.aped-4627-b74a.pinecone.io`
-Namespaces: `substack` (1,040 vectors as of 2026-05-14), `pdfs` (pending)
+Namespaces: `substack` (1,040 vectors as of 2026-05-14), `pdfs` (766 vectors as of 2026-05-15)
 
 ## At Session Start
 

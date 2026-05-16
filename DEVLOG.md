@@ -61,3 +61,46 @@ A build log for C3PO, the Protocol Institute's research assistant — how the co
 - **Expense model:** Per-contributor log files (`log-{id}.json`) — each contributor owns their file, eliminating merge conflicts. `track.py end` reads all active `/tmp/` session start files, takes the earliest start as the window start, and computes a single billable window — so if C3PO, website, and protocolized-website sessions all run simultaneously, the hours are not double-counted. A `key_ownership` map in each log file flags which API keys are personal (reimbursable) vs org (direct billing, not expensed). `render.py` aggregates all contributor logs into `EXPENSES.md` and `expenses.csv` with per-contributor sections and a grand total.
 
 ---
+
+## Session 4: PDF Corpus Ingest and Canonical Ingest Pipeline
+
+*2026-05-15 · 17:30–18:38 PT*
+
+**Tracks:** corpus-ingestion, vector-architecture
+
+**Session costs:** haiku_enrichment: $0.06 · voyage_embedding: $0.02
+
+**Vectors upserted:** substack: 1,040 · pdfs: 766
+
+- **Canonical ingest pipeline documented in ARCHITECTURE.md:** Formalized the three-layer pattern that every corpus source should follow. Layer 1 (Haiku enrichment): one API call per document produces summary, categories (from a shared 11-term vocabulary), and primary_author — saved to `sources/&lt;type&gt;/enriched_meta.json`, idempotent. Layer 2 (body chunks): text chunked at 512 tokens / 64 overlap, with a `Title / Authors / Type / Summary` prefix prepended to each chunk before embedding but not stored in metadata — so every chunk vector carries full document context. Layer 3 (doc_summary): one vector per document at ID `{id}__doc_summary`, embedding a compact structured representation for 'what is this document about' queries. The pattern was derived by comparing the Substack ingest (which had all three layers) against the original PDF ingest skeleton (which had none). Now the spec for all future sources.
+
+- **PDF enrichment (82 PDFs, 0 errors, ~$0.06):** New script `ingest/enrich_pdfs.py`, structurally parallel to `enrich_substack.py`. Input per PDF: title + authors + type + tags from the protocolized-website resource markdowns (74 of 82 PDFs had matching entries), plus the first 1,500 characters of body text extracted by pdfplumber. Output: two-sentence summary, 2–4 categories from the shared vocabulary, and primary_author. 8 PDFs with no markdown entry (cover letters, title pages) were enriched from text alone — Haiku inferred institution-level authorship correctly. Checkpoint saves every 10 documents. All 82 enriched; saved to `sources/pdfs/enriched_meta.json`.
+
+- **PDF ingest (766 vectors in Pinecone `pdfs` namespace):** `ingest/ingest_pdfs.py` rewritten from the original skeleton to match the canonical pattern: prefix-before-embedding, `namespace='pdfs'` throughout, `chunk_type` and `namespace` in every vector's metadata, and a new `ingest_doc_summaries()` function. Results: 689 body chunk vectors from 77 PDFs (5 PDFs were image-only — pdfplumber extracted no text, but all 5 still received doc_summary vectors from enrichment); 82 doc_summary vectors. 771 upserted, 766 landed in Pinecone — 5 deduplicated via SHA256 chunk-id collision (identical text passages appearing in multiple PDFs). Total index: 1,806 vectors across two namespaces.
+
+- **Image-only PDFs (5, no body chunks):** `65-SCHROFF_GONG-Self-Ensured-cards.pdf`, `67-FERNANDEZ-Swarm-Protocol-Workshop.pdf`, `68-FERNANDEZ-Swarm-Games-pxlm.pdf`, `98-GONG-card-set-2024-03-28.pdf`, `SCHROFF-Protocol-Watching-HANDOUT.pdf`. These are card games and workshop materials typeset as images. They receive doc_summary vectors (from Haiku's reading of the opening text, which extracted enough from surrounding layout text to produce valid summaries) but no body chunks. A future improvement would be to run OCR (Tesseract or Claude Vision) on these five. Not blocking for Phase 2.
+
+- **venv recreation note:** The `.venv` directory was absent at session start — Dropbox does not sync venvs (correct behavior, consistent with the node_modules policy). Recreated with `/opt/homebrew/bin/python3 -m venv .venv` and reinstalled deps. Also discovered that `pinecone-client` has been renamed to `pinecone` by Pinecone — the old package name raises an exception on import. Updated the install command in CLAUDE.md.
+
+---
+
+## Session 5: Phase 2A — Oracle Worker and Web UI
+
+*2026-05-15 · ~19:00–19:12 PT*
+
+**Tracks:** worker, ui, phase-2
+
+**Vectors upserted:** substack: 1,040 · pdfs: 766
+
+- **api/worker.js — Phase 2A Oracle Worker (~1,100 lines):** Adapted from vgr_zirp oracle/index.js for C3PO. Single Pinecone index with parallel namespace queries (`substack` + `pdfs`). Routes: `GET /` serves the embedded web UI, `POST /query` is the full RAG endpoint, `GET /search` is semantic-search-only (no LLM), `GET /stats` returns KV spend aggregates, `GET /health` checks Pinecone, `POST /share` stubs transcript sharing (503 until D1 provisioned in Phase 2C). All LLM calls use `claude-sonnet-4-6` — not Haiku — because the protocol research material is dense and requires strong synthesis.
+
+- **System prompt derived from SOUL.md, cached with `cache_control: ephemeral`:** ~600-token structured prompt covering C3PO's identity (Protocol Institute research assistant), intellectual commitments (protocols as genuine analytical category, hardness, protocolization as civilizational force, context-tank mission), voice (scholarly, source-specific, honest about limits), and characteristic analytical moves (cross-domain comparison, hardness analysis, formalization ladder, stakeholder analysis). Cached on first call; subsequent calls pay the 10× cheaper cache-read price (~/bin/zsh.30/M vs .00/M input).
+
+- **Secondary retrieval:** When Pinecone surfaces a `doc_summary` (PDF) or `post_summary` (Substack) vector as a top hit — these are excellent for title-query matching but contain only ~500-char abstracts — the worker immediately fires a follow-up filtered query to fetch 4 real body chunks from the same document. PDFs filtered by `url` field; Substack posts filtered by `slug`. Summary hits are then removed from the result set and replaced by their body-chunk siblings, giving the LLM actual prose to synthesize rather than an abstract.
+
+- **Web UI embedded in worker at `GET /`:** Adapted from vgr_zirp.html. A/B testing removed entirely (no persona versions for C3PO). PI design tokens applied: primary `#0F6E56` (teal), Lora body font, Outfit UI font, Instrument Serif heading. Skull SVG replaced with robot/droid head SVG (antenna + head + eyes + grille + body — C-3PO-inspired). Source badges by document type: *Protocolized* (substack), Paper, Essay, Fiction, Game. SOUL_EXCERPT adapted for C3PO persona. Stats footer, action bar (copy/download/wrapup/clear), share section, and MCP panel all adapted. Offline notice points to protocolized.io resource library instead of Contraptions subscription.
+
+- **Normalization and context block:** Two normalize functions — `normalizePdf()` maps `type` to a label (PAPER, WORKING PAPER, ESSAY, FICTION, GAME DESIGN, DATASET, TALK/LECTURE, WORKSHOP REPORT, TEMPLATE, INTERVIEW); `normalizeSubstack()` maps `section` to label (Fictions → FICTION, Articles → ESSAY, Obliquities → ESSAY, else PROTOCOLIZED). Context block assembles as `[LABEL — Title — Authors — Year]
+chunk text` separated by `---` dividers. This matches Claude's trained affinity for structured retrieval context.
+
+---
