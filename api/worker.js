@@ -20,7 +20,7 @@
  *   TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
  *   BREAKER_THRESHOLD_USD  (default 4.00)
  *   DAY_LIMIT_USD          (default 30.00)
- *   MAX_ANSWER_TOKENS      (default 800)
+ *   MAX_ANSWER_TOKENS      (default 1200)
  */
 
 const VOYAGE_MODEL    = "voyage-3";
@@ -361,7 +361,7 @@ ANALYTICAL MOVES:
 
 CORPUS CONTEXT: The retrieved excerpts are from the Protocol Institute research library (PDFs from the resource library and articles from Protocolized magazine). Cite specific papers and authors when drawing on them.
 
-Keep answers substantive and dense — 3–6 paragraphs. This material is complex; don't oversimplify. If you cannot find a good answer in the retrieved corpus, say so and explain what you did find.`;
+Keep answers substantive and dense — 3–5 paragraphs, around 350–500 words. Complete every thought and every definition fully — never stop mid-sentence or mid-definition. This material is complex; don't oversimplify. If you cannot find a good answer in the retrieved corpus, say so and explain what you did find.`;
 
 // ── Security filters ──────────────────────────────────────────────────────────
 
@@ -397,17 +397,25 @@ async function handleShare(request, env, corsHeaders) {
   try { body = await request.json(); } catch {
     return json({ error: "Invalid JSON" }, 400, corsHeaders);
   }
-  const { query, answer, sources, shareMode, rating, review, userName } = body;
-  if (!query || !answer)                          return json({ error: "Missing query or answer" }, 400, corsHeaders);
+  const { turns, sources, shareMode, rating, review, userName } = body;
+  if (!Array.isArray(turns) || !turns.length)     return json({ error: "Missing turns" }, 400, corsHeaders);
   if (!["private", "public"].includes(shareMode)) return json({ error: "Invalid shareMode" }, 400, corsHeaders);
-  if (query.length > 500 || answer.length > 12000) return json({ error: "Content too long" }, 400, corsHeaders);
   if (!env.RATE_LIMIT) return json({ error: "Storage unavailable" }, 503, corsHeaders);
+
+  // Normalise turns: UI sends { q, answer }, accept that shape
+  const normTurns = turns
+    .filter(t => t && (t.query || t.q) && (t.answer))
+    .slice(0, 20)
+    .map(t => ({ q: String(t.q || t.query).slice(0, 500), answer: String(t.answer).slice(0, 3000) }));
+  if (!normTurns.length) return json({ error: "No valid turns" }, 400, corsHeaders);
+
+  // For Pinecone indexing use the last turn as the representative Q+A
+  const lastTurn = normTurns[normTurns.length - 1];
 
   const ts   = new Date().toISOString();
   const rand = Math.random().toString(36).slice(2, 8);
   const entry = {
-    query,
-    answer:   answer.slice(0, 3000),
+    turns:    normTurns,
     sources:  (sources || []).slice(0, 5).map(s => ({ title: s.title, source: s.source, url: s.url })),
     shareMode,
     rating:   typeof rating === "number" ? Math.min(5, Math.max(1, Math.round(rating))) : null,
@@ -420,7 +428,7 @@ async function handleShare(request, env, corsHeaders) {
   // Embed Q+A into Pinecone `transcripts` namespace for learning loop
   if (env.VOYAGE_API_KEY && env.PINECONE_API_KEY && env.PINECONE_C3PO_HOST) {
     try {
-      const text = `Q: ${query}\n\nA: ${answer.slice(0, 1500)}`;
+      const text = `Q: ${lastTurn.q}\n\nA: ${lastTurn.answer.slice(0, 1500)}`;
       const vRes = await fetch(VOYAGE_URL, {
         method:  "POST",
         headers: { "Authorization": `Bearer ${env.VOYAGE_API_KEY}`, "Content-Type": "application/json" },
@@ -437,8 +445,8 @@ async function handleShare(request, env, corsHeaders) {
               values:   vector,
               metadata: {
                 source:         "transcript",
-                query:          query.slice(0, 200),
-                answer_snippet: answer.slice(0, 500),
+                query:          lastTurn.q.slice(0, 200),
+                answer_snippet: lastTurn.answer.slice(0, 500),
                 rating:         entry.rating,
                 shareMode,
                 date:           ts.slice(0, 10),
@@ -1684,7 +1692,7 @@ export default {
 
       // ── 4. Call Claude Sonnet ──────────────────────────────────────────────
       const userMessage = `Question: ${query}\n\nRelevant corpus excerpts:\n\n${contextBlock}`;
-      const maxTokens   = parseInt(env.MAX_ANSWER_TOKENS || "800");
+      const maxTokens   = parseInt(env.MAX_ANSWER_TOKENS || "1200");
 
       const claudeRes = await fetch(CLAUDE_URL, {
         method:  "POST",
