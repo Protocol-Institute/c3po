@@ -377,17 +377,31 @@ const SECURITY_BLOCKED = "I'm C3PO, the Protocol Institute's research assistant.
 
 // ── Query auto-logger ──────────────────────────────────────────────────────────
 
-async function logQuery(env, query, answer, sources) {
+async function logQuery(env, query, answer, sources, sessionId, turnNumber) {
   if (!env.RATE_LIMIT) return;
   const ts   = new Date().toISOString();
   const rand = Math.random().toString(36).slice(2, 6);
   const entry = {
     query,
-    answer:  answer.slice(0, 1200),
-    sources: (sources || []).slice(0, 4).map(s => ({ title: s.title, source: s.source, url: s.url })),
+    answer:      answer.slice(0, 1200),
+    sources:     (sources || []).slice(0, 4).map(s => ({ title: s.title, source: s.source, url: s.url })),
+    sessionId:   sessionId || null,
+    turnNumber:  turnNumber || null,
     ts,
   };
   await env.RATE_LIMIT.put(`log:${ts}:${rand}`, JSON.stringify(entry), { expirationTtl: 7 * 24 * 3600 });
+}
+
+// ── Basic content moderation ───────────────────────────────────────────────────
+
+function autoModerate(turns, shareMode) {
+  if (shareMode === "private") return "private";
+  const firstQ = (turns[0]?.q || "").trim();
+  const firstA = (turns[0]?.answer || "").trim();
+  if (firstQ.length < 20 || firstA.length < 100) return "pending";
+  const alphaRatio = (firstQ.match(/[a-zA-Z]/g) || []).length / firstQ.length;
+  if (alphaRatio < 0.4) return "pending";
+  return "public";
 }
 
 // ── Transcript submission handler ──────────────────────────────────────────────
@@ -402,28 +416,34 @@ async function handleShare(request, env, corsHeaders) {
   if (!["private", "public"].includes(shareMode)) return json({ error: "Invalid shareMode" }, 400, corsHeaders);
   if (!env.RATE_LIMIT) return json({ error: "Storage unavailable" }, 503, corsHeaders);
 
-  // Normalise turns: UI sends { q, answer }, accept that shape
   const normTurns = turns
     .filter(t => t && (t.query || t.q) && (t.answer))
     .slice(0, 20)
     .map(t => ({ q: String(t.q || t.query).slice(0, 500), answer: String(t.answer).slice(0, 3000) }));
   if (!normTurns.length) return json({ error: "No valid turns" }, 400, corsHeaders);
 
-  // For Pinecone indexing use the last turn as the representative Q+A
   const lastTurn = normTurns[normTurns.length - 1];
+  const ts     = new Date().toISOString();
+  const chatId = Math.random().toString(36).slice(2, 8);  // 6-char public ID
+  const kvKey  = `submission:${ts}:${chatId}`;
+  const status = autoModerate(normTurns, shareMode);
 
-  const ts   = new Date().toISOString();
-  const rand = Math.random().toString(36).slice(2, 8);
   const entry = {
+    chatId,
     turns:    normTurns,
     sources:  (sources || []).slice(0, 5).map(s => ({ title: s.title, source: s.source, url: s.url })),
     shareMode,
+    status,
     rating:   typeof rating === "number" ? Math.min(5, Math.max(1, Math.round(rating))) : null,
     review:   review   ? String(review).slice(0, 500)   : null,
     userName: userName ? String(userName).slice(0, 100)  : null,
     ts,
   };
-  await env.RATE_LIMIT.put(`submission:${ts}:${rand}`, JSON.stringify(entry), { expirationTtl: 90 * 24 * 3600 });
+  const ttl = 90 * 24 * 3600;
+  await Promise.all([
+    env.RATE_LIMIT.put(kvKey,              JSON.stringify(entry), { expirationTtl: ttl }),
+    env.RATE_LIMIT.put(`chatid:${chatId}`, kvKey,                 { expirationTtl: ttl }),
+  ]);
 
   // Embed Q+A into Pinecone `transcripts` namespace for learning loop
   if (env.VOYAGE_API_KEY && env.PINECONE_API_KEY && env.PINECONE_C3PO_HOST) {
@@ -462,228 +482,441 @@ async function handleShare(request, env, corsHeaders) {
   return json({ ok: true, message: "Thank you! Your conversation has been shared with the Protocol Institute." }, 200, corsHeaders);
 }
 
-// ── Admin transcript browser ───────────────────────────────────────────────────
+// ── Chat index API — public + admin ───────────────────────────────────────────
+
+function isAdmin(request, env) {
+  const k = request.headers.get("X-Admin-Key") || "";
+  return !!(env.ADMIN_KEY && k === env.ADMIN_KEY);
+}
+
+async function handleApiChats(request, env, corsHeaders) {
+  if (!env.RATE_LIMIT) return json({ error: "Storage unavailable" }, 503, corsHeaders);
+  const admin = isAdmin(request, env);
+  const limit = Math.min(100, parseInt(new URL(request.url).searchParams.get("limit") || "50", 10));
+  const listed = await env.RATE_LIMIT.list({ prefix: "submission:", limit });
+  const keys   = listed.keys.map(k => k.name).reverse();
+  const items  = (await Promise.all(keys.map(k => env.RATE_LIMIT.get(k, "json")))).filter(Boolean);
+  // Backfill chatId for legacy entries that predate the chatId field
+  items.forEach((item, i) => {
+    if (!item.chatId) item.chatId = keys[items.indexOf(item)]?.split(":").pop() || String(i);
+  });
+  const visible = admin ? items : items.filter(it => it.status === "public");
+  return json({ submissions: visible, isAdmin: admin, count: visible.length }, 200, corsHeaders);
+}
+
+async function handleApiChat(request, env, corsHeaders) {
+  if (!env.RATE_LIMIT) return json({ error: "Storage unavailable" }, 503, corsHeaders);
+  const admin  = isAdmin(request, env);
+  const chatId = new URL(request.url).pathname.split("/").filter(Boolean).pop();
+  if (!chatId) return json({ error: "Missing chat ID" }, 400, corsHeaders);
+
+  // Try reverse lookup first, fall back to list scan for legacy entries
+  let entry = null;
+  const kvKey = await env.RATE_LIMIT.get(`chatid:${chatId}`);
+  if (kvKey) {
+    entry = await env.RATE_LIMIT.get(kvKey, "json");
+  } else {
+    const listed = await env.RATE_LIMIT.list({ prefix: "submission:" });
+    for (const k of listed.keys) {
+      if (k.name.endsWith(`:${chatId}`)) { entry = await env.RATE_LIMIT.get(k.name, "json"); break; }
+    }
+  }
+  if (!entry)                                  return json({ error: "Not found" }, 404, corsHeaders);
+  if (!admin && entry.status !== "public")     return json({ error: "Private" }, 403, corsHeaders);
+  if (!entry.chatId) entry.chatId = chatId;
+  return json(entry, 200, corsHeaders);
+}
+
+async function handleApiChatUpdate(request, env, corsHeaders) {
+  if (!env.RATE_LIMIT)         return json({ error: "Storage unavailable" }, 503, corsHeaders);
+  if (!isAdmin(request, env))  return json({ error: "Unauthorized" }, 401, corsHeaders);
+  const chatId = new URL(request.url).pathname.split("/").filter(Boolean).pop();
+  let body; try { body = await request.json(); } catch { return json({ error: "Invalid JSON" }, 400, corsHeaders); }
+  const { status } = body;
+  if (!["public", "private", "pending"].includes(status)) return json({ error: "Invalid status" }, 400, corsHeaders);
+
+  let kvKey = await env.RATE_LIMIT.get(`chatid:${chatId}`);
+  if (!kvKey) {
+    // fallback: scan for legacy entries that predate the reverse-lookup
+    const listed = await env.RATE_LIMIT.list({ prefix: "submission:" });
+    for (const k of listed.keys) {
+      if (k.name.endsWith(`:${chatId}`)) { kvKey = k.name; break; }
+    }
+  }
+  if (!kvKey) return json({ error: "Not found" }, 404, corsHeaders);
+  const entry = await env.RATE_LIMIT.get(kvKey, "json");
+  if (!entry) return json({ error: "Not found" }, 404, corsHeaders);
+  entry.status = status;
+  const ttl = Math.max(60, Math.round((new Date(entry.ts).getTime() + 90 * 24 * 3600 * 1000 - Date.now()) / 1000));
+  await env.RATE_LIMIT.put(kvKey, JSON.stringify(entry), { expirationTtl: ttl });
+  return json({ ok: true, chatId, status }, 200, corsHeaders);
+}
+
+// ── Admin query-log browser (analysis only) ───────────────────────────────────
 
 async function handleAdminTranscripts(request, env, corsHeaders) {
   const url  = new URL(request.url);
   const key  = request.headers.get("X-Admin-Key") || url.searchParams.get("key") || "";
   if (!env.ADMIN_KEY || key !== env.ADMIN_KEY) return json({ error: "Unauthorized" }, 401, corsHeaders);
   if (!env.RATE_LIMIT)                         return json({ error: "Storage unavailable" }, 503, corsHeaders);
-
-  const type   = url.searchParams.get("type") || "submissions"; // "logs" or "submissions"
   const limit  = Math.min(100, parseInt(url.searchParams.get("limit") || "50", 10));
-  const prefix = type === "logs" ? "log:" : "submission:";
-
-  const listed = await env.RATE_LIMIT.list({ prefix, limit });
-  const keys   = listed.keys.map(k => k.name).reverse(); // most-recent first (lexicographic timestamp)
+  const listed = await env.RATE_LIMIT.list({ prefix: "log:", limit });
+  const keys   = listed.keys.map(k => k.name).reverse();
   const items  = await Promise.all(keys.map(k => env.RATE_LIMIT.get(k, "json")));
-
-  return json({ type, count: items.length, items: items.filter(Boolean) }, 200, corsHeaders);
+  return json({ type: "logs", count: items.length, items: items.filter(Boolean) }, 200, corsHeaders);
 }
 
-// ── Admin UI HTML ─────────────────────────────────────────────────────────────
+// ── Chat index + individual chat HTML ─────────────────────────────────────────
 
-const ADMIN_HTML = String.raw`<!DOCTYPE html>
+const CHATS_HTML = String.raw`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>C3PO Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<title>C3PO — Conversations</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Lora:ital,wght@0,400;0,500;1,400&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root { --accent:#0F6E56; --bg:#fafaf8; --bg2:#f3f0ea; --border:#e0dbd3; --muted:#888; --text:#222; }
 * { box-sizing:border-box; }
-body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:var(--bg); color:var(--text); font-size:15px; line-height:1.6; }
-.admin-page { max-width:800px; margin:0 auto; padding:2rem 1.25rem 4rem; }
-.admin-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:1.5rem; gap:1rem; }
-.admin-title { font-size:1.15rem; font-weight:600; color:var(--accent); margin:0; }
-.admin-subtitle { font-size:0.78rem; color:var(--muted); margin:0.1rem 0 0; }
-.key-area { display:flex; flex-direction:column; align-items:flex-end; gap:0.35rem; }
-.key-toggle { background:none; border:none; cursor:pointer; font-size:1.1rem; color:#ccc; padding:0; line-height:1; }
-.key-toggle:hover { color:#999; }
-.key-toggle.active { color:#9a7020; }
-.key-panel { display:none; align-items:center; gap:0.4rem; }
-.key-panel.visible { display:flex; }
-.key-input { padding:0.3rem 0.5rem; font-family:monospace; font-size:0.88rem; border:1px solid var(--border); border-radius:3px; width:200px; background:#fafaf8; }
-.key-input:focus { outline:none; border-color:var(--accent); }
-.key-ok { padding:0.25rem 0.6rem; font-size:0.82rem; background:var(--accent); color:#fff; border:none; border-radius:3px; cursor:pointer; font-family:inherit; }
-.key-signout { padding:0.25rem 0.6rem; font-size:0.82rem; background:transparent; color:#999; border:1px solid var(--border); border-radius:3px; cursor:pointer; font-family:inherit; }
-.tabs { display:flex; gap:0; margin-bottom:1.2rem; border-bottom:1px solid var(--border); }
-.tab-btn { padding:0.5rem 1rem; border:none; background:none; font-family:inherit; font-size:0.88rem; font-weight:500; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; }
-.tab-btn.active { color:var(--accent); border-bottom-color:var(--accent); }
-.tab-btn:hover:not(.active) { color:#555; }
-.card { border:1px solid var(--border); border-radius:4px; margin-bottom:0.55rem; background:#faf8f4; overflow:hidden; }
-.card-header { padding:0.75rem 1rem; cursor:pointer; }
-.card-header:hover { background:#f5f2ec; }
-.card-q { font-weight:600; font-size:0.93rem; color:var(--text); line-height:1.4; margin:0 0 0.25rem; }
-.card-meta { font-size:0.75rem; color:var(--muted); line-height:1.4; margin:0; }
-.card-review { font-size:0.8rem; color:#777; font-style:italic; margin:0.2rem 0 0; }
-.badge { display:inline-block; font-size:0.65rem; font-weight:600; padding:0.1rem 0.4rem; border-radius:2px; text-transform:uppercase; letter-spacing:0.05em; margin-right:0.35rem; vertical-align:middle; }
-.badge-private { background:#f9f3e0; color:#9a7020; }
-.badge-public  { background:#e8f5e9; color:#2e7d32; }
-.card-body { display:none; padding:0 1rem 1rem; border-top:1px solid var(--border); }
-.card-body.open { display:block; }
-.turn { margin-top:1rem; }
-.turn-q { font-size:0.85rem; font-weight:600; color:#444; padding:0.4rem 0.65rem; background:var(--bg2); border-left:3px solid var(--accent); border-radius:0 3px 3px 0; margin-bottom:0.6rem; }
-.turn-a { font-size:0.88rem; line-height:1.65; color:#333; }
-.turn-a p { margin:0 0 0.55rem; }
-.turn-a p:last-child { margin-bottom:0; }
-.turn-a h1,.turn-a h2,.turn-a h3 { font-size:0.92rem; font-weight:600; margin:0.7rem 0 0.3rem; color:#222; }
-.turn-divider { border:none; border-top:1px solid var(--border); margin:1rem 0; }
-.sources-section { margin-top:1rem; padding-top:0.7rem; border-top:1px solid var(--border); }
-.sources-label { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.08em; color:#bbb; margin-bottom:0.3rem; }
-.source-item { font-size:0.77rem; color:#888; line-height:1.4; margin-bottom:0.15rem; }
-.source-item a { color:#999; text-decoration:none; }
-.source-item a:hover { color:var(--accent); }
-.empty { color:var(--muted); font-style:italic; text-align:center; padding:2rem 0; font-size:0.9rem; }
-.error { color:#a00; font-style:italic; font-size:0.9rem; padding:1rem 0; }
-.loading { color:#aaa; font-style:italic; font-size:0.9rem; padding:1rem 0; }
-.no-auth { color:var(--muted); font-size:0.9rem; text-align:center; padding:3rem 0; }
+body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:var(--bg); color:var(--text); font-size:16px; line-height:1.6; }
+.chats-page { max-width:740px; margin:0 auto; padding:2rem 1.25rem 4rem; }
+.chats-intro { color:#555; font-size:0.92em; line-height:1.7; margin-bottom:1.5em; }
+.chats-intro a { color:var(--accent); }
+.chats-admin-bar { text-align:right; margin-bottom:0.8em; font-size:0.78em; font-family:system-ui,sans-serif; }
+.chats-admin-toggle { color:#ccc; text-decoration:none; cursor:pointer; border:none; background:none; font-size:inherit; font-family:inherit; padding:0; line-height:1; }
+.chats-admin-toggle:hover { color:#999; }
+.chats-admin-toggle.active { color:#9a7020; }
+.chats-admin-key-area { display:none; align-items:center; gap:0.4em; justify-content:flex-end; margin-top:0.35em; }
+.chats-admin-key-area.visible { display:flex; }
+.chats-admin-key-input { padding:0.3em 0.5em; font-family:monospace; font-size:0.95em; border:1px solid #ddd; border-radius:3px; width:220px; background:#fafaf8; }
+.chats-admin-key-input:focus { outline:none; border-color:var(--accent); }
+.chats-admin-ok { padding:0.25em 0.6em; font-size:0.85em; background:var(--accent); color:#fff; border:none; border-radius:3px; cursor:pointer; font-family:inherit; }
+.chats-admin-signout { padding:0.25em 0.6em; font-size:0.85em; background:transparent; color:#999; border:1px solid #ddd; border-radius:3px; cursor:pointer; font-family:inherit; }
+.chats-list { margin:0; padding:0; list-style:none; }
+.chat-card { display:block; text-decoration:none; color:inherit; border:1px solid var(--border); border-radius:4px; padding:0.9em 1.1em; margin-bottom:0.6em; background:#faf8f4; transition:border-color 0.15s; }
+.chat-card:hover { border-color:#b0aaa2; text-decoration:none; color:inherit; }
+.chat-card--private { border-left:3px solid #c8a030; padding-left:0.95em; }
+.chat-card-q { font-family:Lora,”Palatino Linotype”,Georgia,serif; font-size:0.97em; font-weight:600; color:#2d2d2d; margin:0 0 0.4em; line-height:1.45; }
+.chat-card-meta { font-size:0.78em; color:#999; font-family:system-ui,sans-serif; line-height:1.5; margin:0; }
+.chat-private-badge { display:inline-block; background:#f9f3e0; color:#9a7020; font-size:0.7em; padding:0.1em 0.45em; border-radius:2px; text-transform:uppercase; letter-spacing:0.05em; margin-right:0.45em; vertical-align:middle; font-family:system-ui,sans-serif; font-weight:600; }
+.chat-card-review { font-size:0.82em; color:#777; font-style:italic; margin:0.35em 0 0; line-height:1.45; }
+.chats-empty { color:#999; font-style:italic; padding:2em 0; text-align:center; font-size:0.9em; }
+.chats-error { color:#a00; font-size:0.9em; font-style:italic; padding:1em 0; }
+.chats-loading { color:#aaa; font-style:italic; font-size:0.9em; padding:1em 0; }
+.chats-cta { margin-top:2.5em; padding-top:1em; border-top:1px solid #f0ece4; font-size:0.88em; color:#999; text-align:center; }
+.chats-cta a { color:var(--accent); }
+.chat-status-badge { display:inline-block; font-size:0.68em; font-family:system-ui,sans-serif; font-weight:600; padding:0.1em 0.45em; border-radius:2px; text-transform:uppercase; letter-spacing:0.05em; margin-left:0.5em; vertical-align:middle; }
+.chat-card-admin-bar { display:flex; align-items:center; gap:0.6em; margin-top:0.5em; padding-top:0.45em; border-top:1px solid #ede8e0; }
+.chat-status-select { font-size:0.75em; font-family:system-ui,sans-serif; padding:0.2em 0.4em; border:1px solid #ccc; border-radius:3px; background:#faf8f4; color:#444; cursor:pointer; }
+.chat-status-select:focus { outline:none; border-color:var(--accent); }
+.chat-status-note { font-size:0.72em; font-family:system-ui,sans-serif; color:#888; min-width:3em; }
 </style>
 </head>
 <body>
-<div class="admin-page">
-  <div class="admin-header">
-    <div>
-      <p class="admin-title">C3PO Admin</p>
-      <p class="admin-subtitle">Protocol Institute research assistant</p>
-    </div>
-    <div class="key-area">
-      <button class="key-toggle" id="key-toggle" onclick="toggleKeyPanel()" title="Admin key">&#9881;</button>
-      <div class="key-panel" id="key-panel">
-        <input class="key-input" id="key-input" type="password" placeholder="Admin key" autocomplete="off">
-        <button class="key-ok" onclick="saveKey()">OK</button>
-        <button class="key-signout" id="key-signout" onclick="signOut()" style="display:none">Sign out</button>
-      </div>
+<div class=”chats-page”>
+  <p class=”chats-intro”>
+    Conversations from <a href=”/”>C3PO</a>, the Protocol Institute&rsquo;s research assistant.
+    Each is a real exchange with the corpus of Protocol Institute research.
+  </p>
+
+  <div class=”chats-admin-bar”>
+    <button class=”chats-admin-toggle” id=”chats-admin-toggle” onclick=”toggleAdminPanel()” title=”Admin”>&#9881;</button>
+    <div class=”chats-admin-key-area” id=”chats-admin-key-area”>
+      <input class=”chats-admin-key-input” id=”chats-admin-key-input” type=”password” placeholder=”Admin key” autocomplete=”off”>
+      <button class=”chats-admin-ok” onclick=”saveAdminKey()”>OK</button>
+      <button class=”chats-admin-signout” id=”chats-admin-signout” onclick=”clearAdminKey()” style=”display:none”>Sign out</button>
     </div>
   </div>
 
-  <div class="tabs">
-    <button class="tab-btn active" id="tab-submissions" onclick="switchTab('submissions')">Submissions</button>
-    <button class="tab-btn" id="tab-logs" onclick="switchTab('logs')">Query Logs</button>
+  <div id=”chats-list-container”>
+    <p class=”chats-loading”>Loading conversations&hellip;</p>
   </div>
 
-  <div id="list"></div>
+  <div class=”chats-cta”>
+    <a href=”/”>Ask C3PO a question &rarr;</a>
+  </div>
 </div>
 <script>
 (function () {
-  var STORE = 'c3po_admin_key';
-  var currentTab = 'submissions';
+  var ADMIN_KEY_STORE = 'c3po_admin_key';
+  var LIMIT = 50;
 
-  function getKey() { return sessionStorage.getItem(STORE) || ''; }
-  function setKey(k) { k ? sessionStorage.setItem(STORE, k) : sessionStorage.removeItem(STORE); }
-  function adminHeaders() { var k = getKey(); return k ? { 'X-Admin-Key': k } : {}; }
+  function getAdminKey() { return sessionStorage.getItem(ADMIN_KEY_STORE) || ''; }
+  function setAdminKey(k) { k ? sessionStorage.setItem(ADMIN_KEY_STORE, k) : sessionStorage.removeItem(ADMIN_KEY_STORE); }
+  function adminHeaders() { var k = getAdminKey(); return k ? { 'X-Admin-Key': k } : {}; }
 
-  window.toggleKeyPanel = function () {
-    var panel = document.getElementById('key-panel');
-    var toggle = document.getElementById('key-toggle');
-    var open = panel.classList.contains('visible');
-    panel.classList.toggle('visible', !open);
-    toggle.classList.toggle('active', !open);
-    if (!open) document.getElementById('key-signout').style.display = getKey() ? 'inline-block' : 'none';
+  window.toggleAdminPanel = function () {
+    var area = document.getElementById('chats-admin-key-area');
+    var open = area.classList.contains('visible');
+    area.classList.toggle('visible', !open);
+    document.getElementById('chats-admin-toggle').classList.toggle('active', !open);
+    if (!open) document.getElementById('chats-admin-signout').style.display = getAdminKey() ? 'inline-block' : 'none';
   };
 
-  window.saveKey = function () {
-    setKey(document.getElementById('key-input').value.trim());
-    document.getElementById('key-input').value = '';
-    document.getElementById('key-panel').classList.remove('visible');
-    document.getElementById('key-toggle').classList.remove('active');
-    load(currentTab);
+  window.saveAdminKey = function () {
+    setAdminKey(document.getElementById('chats-admin-key-input').value.trim());
+    document.getElementById('chats-admin-key-input').value = '';
+    document.getElementById('chats-admin-key-area').classList.remove('visible');
+    document.getElementById('chats-admin-toggle').classList.remove('active');
+    loadChats();
   };
 
-  window.signOut = function () {
-    setKey('');
-    document.getElementById('key-signout').style.display = 'none';
-    document.getElementById('key-panel').classList.remove('visible');
-    document.getElementById('key-toggle').classList.remove('active');
-    document.getElementById('list').innerHTML = '<p class="no-auth">Enter admin key above to view data.</p>';
+  window.clearAdminKey = function () {
+    setAdminKey('');
+    document.getElementById('chats-admin-key-input').value = '';
+    document.getElementById('chats-admin-signout').style.display = 'none';
+    document.getElementById('chats-admin-key-area').classList.remove('visible');
+    document.getElementById('chats-admin-toggle').classList.remove('active');
+    loadChats();
   };
 
-  window.switchTab = function (tab) {
-    currentTab = tab;
-    document.getElementById('tab-submissions').classList.toggle('active', tab === 'submissions');
-    document.getElementById('tab-logs').classList.toggle('active', tab === 'logs');
-    load(tab);
-  };
-
-  window.toggleItem = function (id) {
-    var body = document.getElementById('body-' + id);
-    if (body) body.classList.toggle('open');
-  };
-
-  async function load(type) {
-    var k = getKey();
-    if (!k) { document.getElementById('list').innerHTML = '<p class="no-auth">Enter admin key above to view data.</p>'; return; }
-    document.getElementById('list').innerHTML = '<p class="loading">Loading…</p>';
+  async function loadChats() {
+    document.getElementById('chats-list-container').innerHTML = '<p class=”chats-loading”>Loading…</p>';
     try {
-      var res = await fetch('/admin/transcripts?type=' + type + '&limit=100', { headers: adminHeaders() });
-      if (res.status === 401) { document.getElementById('list').innerHTML = '<p class="error">Invalid admin key.</p>'; return; }
+      var res = await fetch('/api/chats?limit=' + LIMIT, { headers: adminHeaders() });
+      if (!res.ok) { showError('Could not load conversations.'); return; }
       var data = await res.json();
-      renderList(data.items || [], type);
-    } catch (e) { document.getElementById('list').innerHTML = '<p class="error">Network error — please try again.</p>'; }
+      renderChats(data.submissions || [], !!data.isAdmin);
+    } catch (e) { showError('Network error — please try again.'); }
   }
 
-  function renderList(items, type) {
-    var el = document.getElementById('list');
-    if (!items.length) { el.innerHTML = '<p class="empty">No ' + (type === 'logs' ? 'query logs' : 'submissions') + ' yet.</p>'; return; }
-    el.innerHTML = items.map(function (item, i) { return type === 'logs' ? logCard(item, i) : subCard(item, i); }).join('');
+  function showError(msg) {
+    document.getElementById('chats-list-container').innerHTML = '<p class=”chats-error”>' + esc(msg) + '</p>';
   }
 
-  function subCard(item, i) {
-    var id = 'sub-' + i;
-    var turns = item.turns || [];
-    var firstQ = turns.length ? turns[0].q : '(empty)';
-    var mode = item.shareMode || 'private';
-    var badge = '<span class="badge badge-' + mode + '">' + mode + '</span>';
-    var stars = item.rating ? starHtml(item.rating) : '';
-    var date = fmtDate(item.ts);
-    var meta = [date, turns.length + ' turn' + (turns.length === 1 ? '' : 's')];
-    if (stars) meta.push(stars);
-    if (item.userName) meta.push(esc(item.userName));
-    var review = item.review ? '<p class="card-review">“' + esc(item.review.slice(0, 120)) + '”</p>' : '';
-    var bodyHtml = turns.map(function (t, j) {
-      return '<div class="turn"><div class="turn-q">' + esc(t.q) + '</div><div class="turn-a">' + renderAnswer(t.answer || '') + '</div>' +
-        (j < turns.length - 1 ? '<hr class="turn-divider">' : '') + '</div>';
-    }).join('');
-    var srcHtml = sourcesHtml(item.sources);
-    return '<div class="card">' +
-      '<div class="card-header" onclick="toggleItem(\'' + id + '\')">' +
-        '<p class="card-q">' + badge + esc(firstQ.slice(0, 120)) + '</p>' +
-        '<p class="card-meta">' + meta.join(' &middot; ') + '</p>' + review +
-      '</div>' +
-      '<div class="card-body" id="body-' + id + '">' + bodyHtml + srcHtml + '</div>' +
-      '</div>';
+  function renderChats(items, isAdmin) {
+    var container = document.getElementById('chats-list-container');
+    if (!items.length) {
+      container.innerHTML = '<p class=”chats-empty”>No public conversations yet. <a href=”/”>Start one →</a></p>';
+      return;
+    }
+    var ul = document.createElement('ul');
+    ul.className = 'chats-list';
+    items.forEach(function (t) { var li = document.createElement('li'); li.innerHTML = cardHTML(t, isAdmin); ul.appendChild(li); });
+    container.innerHTML = '';
+    container.appendChild(ul);
   }
 
-  function logCard(item, i) {
-    var id = 'log-' + i;
-    var q = item.query || '';
-    var srcs = item.sources || [];
-    var meta = [fmtDate(item.ts), srcs.length + ' source' + (srcs.length === 1 ? '' : 's')];
-    var bodyHtml = '<div class="turn"><div class="turn-q">' + esc(q) + '</div><div class="turn-a">' + renderAnswer(item.answer || '') + '</div></div>';
-    return '<div class="card">' +
-      '<div class="card-header" onclick="toggleItem(\'' + id + '\')">' +
-        '<p class="card-q">' + esc(q.slice(0, 120)) + '</p>' +
-        '<p class="card-meta">' + meta.join(' &middot; ') + '</p>' +
-      '</div>' +
-      '<div class="card-body" id="body-' + id + '">' + bodyHtml + sourcesHtml(item.sources) + '</div>' +
-      '</div>';
+  window.setStatus = async function (chatId, sel) {
+    var newStatus = sel.value;
+    var note = document.getElementById('status-note-' + chatId);
+    note.textContent = 'Saving…';
+    try {
+      var res = await fetch('/api/chat/' + chatId, {
+        method: 'PATCH',
+        headers: Object.assign({ 'Content-Type': 'application/json' }, adminHeaders()),
+        body: JSON.stringify({ status: newStatus }),
+      });
+      if (res.ok) {
+        note.textContent = '✓';
+        setTimeout(function () { note.textContent = ''; }, 2000);
+        var card = sel.closest('.chat-card');
+        if (card) card.classList.toggle('chat-card--private', newStatus === 'private');
+      } else { note.textContent = 'Error'; setTimeout(function () { note.textContent = ''; sel.value = sel.dataset.prev || sel.value; }, 3000); }
+      sel.dataset.prev = newStatus;
+    } catch (e) { note.textContent = 'Error'; setTimeout(function () { note.textContent = ''; }, 3000); }
+  };
+
+  var STATUS_STYLES = {
+    public:  { bg: '#e8f5e9', color: '#2e7d32' },
+    private: { bg: '#f9f3e0', color: '#9a7020' },
+    pending: { bg: '#f4f4f2', color: '#777'    },
+  };
+
+  function statusBadge(status) {
+    var s = STATUS_STYLES[status] || STATUS_STYLES.pending;
+    var label = status.charAt(0).toUpperCase() + status.slice(1);
+    return '<span class=”chat-status-badge” style=”background:' + s.bg + ';color:' + s.color + '”>' + label + '</span>';
   }
 
-  function sourcesHtml(sources) {
-    var srcs = sources || [];
-    if (!srcs.length) return '';
-    return '<div class="sources-section"><div class="sources-label">References</div>' +
-      srcs.map(function (s) {
-        var title = s.title || '(untitled)';
-        var linked = s.url ? '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(title) + '</a>' : esc(title);
-        return '<div class="source-item">[' + esc(s.source || '') + '] ' + linked + '</div>';
-      }).join('') + '</div>';
+  function cardHTML(t, isAdmin) {
+    var chatId  = t.chatId || '';
+    var url     = '/chats/' + chatId;
+    var turns   = t.turns || [];
+    var firstQ  = turns.length ? turns[0].q : '';
+    var isPrivate = t.shareMode === 'private' || t.status === 'private';
+    var privBadge = isPrivate ? '<span class=”chat-private-badge”>Private</span>' : '';
+    var q    = firstQ ? esc(firstQ) : '<em>Conversation</em>';
+    var date = t.ts ? fmtDate(t.ts) : '';
+    var tc   = turns.length;
+    var stars = t.rating ? starHtml(t.rating) : '';
+    var by   = t.userName ? ' · ' + esc(t.userName) : '';
+    var review = t.review ? '<p class=”chat-card-review”>“' + esc(t.review.length > 120 ? t.review.slice(0, 117) + '…' : t.review) + '”</p>' : '';
+    var cls = 'chat-card' + (isPrivate ? ' chat-card--private' : '');
+
+    if (isAdmin) {
+      var cur  = t.status || 'pending';
+      var adminBar = isPrivate
+        ? '<div class=”chat-card-admin-bar”><span class=”chat-status-note” style=”color:#9a7020;font-style:italic”>Submitted as Private.</span></div>'
+        : '<div class=”chat-card-admin-bar”><select class=”chat-status-select” onchange=”setStatus(\'' + esc(chatId) + '\',this)” data-prev=”' + esc(cur) + '”>' +
+          ['public','pending','private'].map(function (s) { return '<option value=”' + s + '”' + (s === cur ? ' selected' : '') + '>' + s.charAt(0).toUpperCase() + s.slice(1) + '</option>'; }).join('') +
+          '</select><span class=”chat-status-note” id=”status-note-' + esc(chatId) + '”></span></div>';
+      return '<div class=”' + cls + '” style=”cursor:default”>' +
+        '<p class=”chat-card-q”>' + privBadge + statusBadge(cur) + ' <a href=”' + url + '” style=”color:inherit”>' + q + '</a></p>' +
+        '<p class=”chat-card-meta”>' + date + ' · ' + tc + ' turn' + (tc === 1 ? '' : 's') + (stars ? ' · ' + stars : '') + by + '</p>' +
+        review + adminBar + '</div>';
+    }
+
+    return '<a class=”' + cls + '” href=”' + url + '”>' +
+      '<p class=”chat-card-q”>' + privBadge + q + '</p>' +
+      '<p class=”chat-card-meta”>' + date + ' · ' + tc + ' turn' + (tc === 1 ? '' : 's') + (stars ? ' · ' + stars : '') + by + '</p>' +
+      review + '</a>';
   }
 
   function starHtml(n) {
-    return '<span style="color:#c8a030;letter-spacing:-1px">' + '★'.repeat(n) + '</span>' +
-           '<span style="color:#ddd;letter-spacing:-1px">'   + '★'.repeat(5 - n) + '</span>';
+    return '<span style=”color:#c8a030;letter-spacing:-1px”>' + '★'.repeat(n) + '</span>' +
+           '<span style=”color:#ddd;letter-spacing:-1px”>'   + '★'.repeat(5 - n) + '</span>';
+  }
+
+  function fmtDate(iso) {
+    try { return new Date(iso).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }); }
+    catch (e) { return String(iso).slice(0, 10); }
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/”/g,'&quot;');
+  }
+
+  loadChats();
+})();
+</script>
+</body>
+</html>`;
+
+const CHAT_HTML = String.raw`<!DOCTYPE html>
+<html lang=”en”>
+<head>
+<meta charset=”UTF-8”>
+<meta name=”viewport” content=”width=device-width, initial-scale=1.0”>
+<title>C3PO &mdash; Conversation</title>
+<link href=”https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Lora:ital,wght@0,400;0,500;1,400&family=Outfit:wght@400;500;600&display=swap” rel=”stylesheet”>
+<style>
+:root { --accent:#0F6E56; --bg:#fafaf8; --bg2:#f3f0ea; --border:#e0dbd3; --muted:#888; --text:#222; }
+* { box-sizing:border-box; }
+body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:var(--bg); color:var(--text); font-size:16px; line-height:1.6; }
+.chat-page { max-width:740px; margin:0 auto; padding:2rem 1.25rem 4rem; }
+.chat-number-heading { font-family:system-ui,sans-serif; font-size:0.82em; font-weight:700; color:#999; text-transform:uppercase; letter-spacing:0.1em; margin:0 0 0.35em; }
+.chat-title { font-family:Lora,”Palatino Linotype”,Georgia,serif; font-size:1.15em; font-weight:600; color:#2d2d2d; margin:0 0 0.55em; line-height:1.45; font-style:italic; }
+.chat-meta-bar { font-size:0.8em; color:#999; font-family:system-ui,sans-serif; margin-bottom:0.5em; display:flex; align-items:center; gap:0.5em; flex-wrap:wrap; }
+.chat-private-badge { display:inline-block; background:#f9f3e0; color:#9a7020; font-size:0.72em; padding:0.15em 0.5em; border-radius:2px; text-transform:uppercase; letter-spacing:0.06em; font-weight:600; }
+.chat-stars { color:#c8a030; letter-spacing:-1px; }
+.chat-stars-empty { color:#ddd; letter-spacing:-1px; }
+.chat-review { font-style:italic; color:#666; font-size:0.92em; margin:0.6em 0 1.5em; padding-left:0.9em; border-left:2px solid #e8e4de; line-height:1.55; }
+.chat-divider-top { border:none; border-top:1px solid var(--border); margin:1.6em 0; }
+.chat-conversation { margin-bottom:1em; }
+.oracle-turn { margin-bottom:2em; }
+.oracle-turn-q { font-size:0.9em; font-weight:600; color:#444; margin-bottom:0.9em; padding:0.5em 0.75em; background:var(--bg2); border-left:3px solid var(--accent); border-radius:0 3px 3px 0; }
+.oracle-answer-row { display:flex; gap:0.85em; align-items:flex-start; margin-bottom:1.2em; }
+.oracle-avatar-col { flex-shrink:0; padding-top:0.3em; }
+.oracle-answer { font-family:Lora,”Palatino Linotype”,Georgia,serif; font-size:1.02em; line-height:1.7; flex:1; }
+.oracle-answer p { margin:0 0 0.7em 0; }
+.oracle-answer p:last-child { margin-bottom:0; }
+.oracle-answer h1,.oracle-answer h2,.oracle-answer h3 { font-family:Outfit,system-ui,sans-serif; font-size:1em; font-weight:600; margin:0.9em 0 0.4em; color:#222; }
+.oracle-divider { border:none; border-top:1px solid var(--border); margin:1.8em 0; }
+.chat-sources-section { margin-top:2em; padding-top:1em; border-top:1px solid #f0ece4; }
+.chat-sources-heading { font-size:0.72em; text-transform:uppercase; letter-spacing:0.08em; color:#bbb; margin-bottom:0.5em; }
+.oracle-sources { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.3em; }
+.oracle-source { font-size:0.8em; line-height:1.45; color:#888; }
+.oracle-source a { color:#999; text-decoration:none; }
+.oracle-source a:hover { color:var(--accent); text-decoration:underline; }
+.oracle-source-badge { display:inline-block; font-size:0.7em; font-family:system-ui,sans-serif; padding:0.05em 0.4em; border-radius:2px; margin-right:0.35em; vertical-align:middle; text-transform:uppercase; letter-spacing:0.04em; background:#f0ede6; color:#888; }
+.oracle-source-meta { color:#bbb; }
+.chat-cta { margin-top:2.5em; padding-top:1em; border-top:1px solid #f0ece4; font-size:0.88em; color:#999; text-align:center; }
+.chat-cta a { color:var(--accent); }
+.chat-error { color:#a00; font-size:0.9em; font-style:italic; padding:1em 0; }
+.chat-private-wall { border:1px solid var(--border); border-radius:4px; padding:1.4em 1.6em; background:#faf8f4; margin-top:1em; color:#666; font-size:0.93em; line-height:1.6; }
+.chat-loading { color:#aaa; font-style:italic; font-size:0.9em; }
+</style>
+</head>
+<body>
+<div class=”chat-page”>
+  <div id=”chat-container”><p class=”chat-loading”>Loading&hellip;</p></div>
+  <div class=”chat-cta”>
+    <a href=”/chats/”>&larr; All conversations</a>
+    &ensp;&middot;&ensp;
+    <a href=”/”>Ask C3PO a question &rarr;</a>
+  </div>
+</div>
+<script>
+(function () {
+  var ADMIN_KEY_STORE = 'c3po_admin_key';
+  function getAdminKey() { return sessionStorage.getItem(ADMIN_KEY_STORE) || ''; }
+
+  var container = document.getElementById('chat-container');
+
+  var parts = location.pathname.replace(/\/$/, '').split('/').filter(Boolean);
+  var chatId = parts[parts.length - 1];
+
+  if (!chatId || parts[0] !== 'chats') {
+    container.innerHTML = '<p class=”chat-error”>No conversation specified. <a href=”/chats/”>Browse conversations &rarr;</a></p>';
+    return;
+  }
+
+  var ROBOT_SVG = '<svg width=”28” height=”28” viewBox=”0 0 40 40” fill=”none” xmlns=”http://www.w3.org/2000/svg” aria-hidden=”true” style=”display:block;opacity:0.8”><rect x=”10” y=”12” width=”20” height=”16” rx=”3” fill=”#0F6E56”/><rect x=”14” y=”16” width=”4” height=”4” rx=”1” fill=”#fafaf8”/><rect x=”22” y=”16” width=”4” height=”4” rx=”1” fill=”#fafaf8”/><rect x=”17” y=”22” width=”6” height=”2” rx=”1” fill=”#fafaf8”/><rect x=”18” y=”6” width=”4” height=”6” rx=”2” fill=”#0F6E56”/><rect x=”4” y=”18” width=”6” height=”3” rx=”1.5” fill=”#0F6E56”/><rect x=”30” y=”18” width=”6” height=”3” rx=”1.5” fill=”#0F6E56”/></svg>';
+
+  async function loadChat() {
+    var headers = {};
+    var k = getAdminKey();
+    if (k) headers['X-Admin-Key'] = k;
+    try {
+      var res = await fetch('/api/chat/' + chatId, { headers: headers });
+      if (res.status === 403) {
+        container.innerHTML = '<div class=”chat-private-wall”><strong>This conversation is private.</strong> It was shared with the Protocol Institute only.<br><br><a href=”/chats/”>Browse public conversations &rarr;</a></div>';
+        return;
+      }
+      if (res.status === 404) {
+        container.innerHTML = '<p class=”chat-error”>Conversation not found. <a href=”/chats/”>Browse conversations &rarr;</a></p>';
+        return;
+      }
+      if (!res.ok) { container.innerHTML = '<p class=”chat-error”>Could not load conversation.</p>'; return; }
+      var data = await res.json();
+      if (data.error) { container.innerHTML = '<p class=”chat-error”>' + esc(data.error) + '</p>'; return; }
+      renderChat(data);
+    } catch (e) { container.innerHTML = '<p class=”chat-error”>Network error — please try again.</p>'; }
+  }
+
+  function renderChat(data) {
+    var turns   = data.turns   || [];
+    var sources = data.sources || [];
+    var firstQ  = turns.length ? turns[0].q : '';
+    var isPrivate = data.shareMode === 'private' || data.status === 'private';
+
+    if (firstQ) document.title = '“' + firstQ.slice(0, 60) + '” — C3PO';
+
+    var srcMap = new Map();
+    sources.forEach(function (s) { var k = s.url || (s.title + '|' + (s.date || '')); if (!srcMap.has(k)) srcMap.set(k, s); });
+    var srcList = Array.from(srcMap.values());
+
+    var date   = data.ts ? fmtDate(data.ts) : '';
+    var tc     = turns.length;
+    var badgeHtml  = isPrivate ? '<span class=”chat-private-badge”>Private</span>' : '';
+    var starsHtml  = data.rating ? '<span class=”chat-stars”>' + '★'.repeat(data.rating) + '</span><span class=”chat-stars-empty”>' + '★'.repeat(5 - data.rating) + '</span>' : '';
+    var metaParts  = [date, tc + ' turn' + (tc === 1 ? '' : 's'), starsHtml].filter(Boolean);
+    if (data.userName) metaParts.push(esc(data.userName));
+    var metaHtml   = '<div class=”chat-meta-bar”>' + badgeHtml + metaParts.join(' · ') + '</div>';
+    var reviewHtml = data.review ? '<p class=”chat-review”>“' + esc(data.review) + '”</p>' : '';
+    var titleHtml  = firstQ ? '<p class=”chat-title”>“' + esc(firstQ) + '”</p>' : '';
+    var idHtml     = '<p class=”chat-number-heading”>Chat ' + esc(data.chatId || chatId) + '</p>';
+    var turnsHtml  = turns.map(function (t, i) { return renderTurn(t, i === turns.length - 1); }).join('');
+    var srcHtml    = '';
+    if (srcList.length) {
+      srcHtml = '<div class=”chat-sources-section”><div class=”chat-sources-heading”>References</div><ul class=”oracle-sources”>' +
+        srcList.map(function (s) { return sourceHTML(s); }).join('') + '</ul></div>';
+    }
+    container.innerHTML = idHtml + titleHtml + metaHtml + reviewHtml +
+      '<hr class=”chat-divider-top”><div class=”chat-conversation”>' + turnsHtml + '</div>' + srcHtml;
+  }
+
+  function renderTurn(turn, isLast) {
+    return '<div class=”oracle-turn”>' +
+      '<div class=”oracle-turn-q”>' + esc(turn.q) + '</div>' +
+      '<div class=”oracle-answer-row”><div class=”oracle-avatar-col”>' + ROBOT_SVG + '</div>' +
+      '<div class=”oracle-answer”>' + renderAnswer(turn.answer || '') + '</div></div>' +
+      (isLast ? '' : '<hr class=”oracle-divider”>') + '</div>';
+  }
+
+  function inlineMd(s) {
+    return s.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>').replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
   }
 
   function renderAnswer(text) {
@@ -695,21 +928,24 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
     }).join('');
   }
 
-  function inlineMd(s) {
-    return s.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>').replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
-  }
-
-  function esc(s) {
-    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  function sourceHTML(s) {
+    var title  = s.title || '(untitled)';
+    var badge  = '<span class=”oracle-source-badge”>' + esc(s.source || 'doc') + '</span>';
+    var linked = s.url ? '<a href=”' + esc(s.url) + '” target=”_blank” rel=”noopener”>' + esc(title) + '</a>' : esc(title);
+    var year   = s.date ? s.date.slice(0, 4) : '';
+    return '<li class=”oracle-source”>' + badge + linked + (year ? '<span class=”oracle-source-meta”> &mdash; ' + year + '</span>' : '') + '</li>';
   }
 
   function fmtDate(iso) {
-    try { return new Date(iso).toLocaleString('en-US', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }); }
-    catch (e) { return String(iso || '').slice(0, 16); }
+    try { return new Date(iso).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' }); }
+    catch (e) { return String(iso).slice(0, 10); }
   }
 
-  if (getKey()) load(currentTab);
-  else document.getElementById('list').innerHTML = '<p class="no-auth">Enter admin key above to view data.</p>';
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/”/g,'&quot;');
+  }
+
+  loadChat();
 })();
 </script>
 </body>
@@ -1106,7 +1342,7 @@ body {
 <div class="c3po-header">
   <div class="c3po-header-wordmark">C3PO</div>
 </div>
-<div class="c3po-header-tag">Protocol Institute Research Assistant &mdash; test deployment</div>
+<div class="c3po-header-tag">Protocol Institute Research Assistant &mdash; <a href="/chats" style="color:var(--muted);text-decoration:underline">conversations</a></div>
 
 <div class="c3po-intro">
   <div class="c3po-profile-badge">
@@ -1237,6 +1473,7 @@ body {
   let turns       = [];
   let chatHistory = [];
   let allSources  = new Map();
+  const sessionId = Math.random().toString(36).slice(2, 10);
 
   // Pre-fill from ?q= param
   const params = new URLSearchParams(location.search);
@@ -1255,7 +1492,7 @@ body {
       const res  = await fetch(API, {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ query, history: chatHistory }),
+        body:    JSON.stringify({ query, history: chatHistory, session_id: sessionId }),
       });
       const data = await res.json();
       if (data.sleeping) { showOfflineState(); return; }
@@ -1727,7 +1964,7 @@ export default {
     const origin = request.headers.get("Origin") || "";
     const corsHeaders = {
       "Access-Control-Allow-Origin":  origin || "*",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Methods": "GET, POST, PATCH, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type, X-Admin-Key",
     };
 
@@ -1742,11 +1979,34 @@ export default {
       });
     }
 
-    // ── GET /admin → serve admin UI ─────────────────────────────────────────
+    // ── GET /admin → redirect to /chats ─────────────────────────────────────
     if (request.method === "GET" && url.pathname === "/admin") {
-      return new Response(ADMIN_HTML, {
+      return Response.redirect(new URL("/chats", request.url).href, 302);
+    }
+
+    // ── GET /chats → chat index ───────────────────────────────────────────────
+    if (request.method === "GET" && url.pathname === "/chats") {
+      return new Response(CHATS_HTML, {
         headers: { "Content-Type": "text/html; charset=UTF-8", "Cache-Control": "no-cache" },
       });
+    }
+
+    // ── GET /chats/:id → individual chat page ────────────────────────────────
+    if (request.method === "GET" && url.pathname.startsWith("/chats/") && url.pathname.length > 7) {
+      return new Response(CHAT_HTML, {
+        headers: { "Content-Type": "text/html; charset=UTF-8", "Cache-Control": "no-cache" },
+      });
+    }
+
+    // ── GET /api/chats — public/admin chat listing ───────────────────────────
+    if (request.method === "GET" && url.pathname === "/api/chats") {
+      return handleApiChats(request, env, corsHeaders);
+    }
+
+    // ── GET|PATCH /api/chat/:id — single chat fetch or status update ─────────
+    if ((request.method === "GET" || request.method === "PATCH") && url.pathname.startsWith("/api/chat/") && url.pathname.length > "/api/chat/".length) {
+      if (request.method === "PATCH") return handleApiChatUpdate(request, env, corsHeaders);
+      return handleApiChat(request, env, corsHeaders);
     }
 
     // ── GET /health ──────────────────────────────────────────────────────────
@@ -1829,16 +2089,18 @@ export default {
       return json({ error: "POST /query only" }, 405, corsHeaders);
     }
 
-    let query, mode, history;
+    let query, mode, history, sessionId, turnNumber;
     try {
       const body = await request.json();
-      query   = (body.query || "").trim();
-      mode    = body.mode || "answer";
+      query     = (body.query || "").trim();
+      mode      = body.mode || "answer";
+      sessionId = body.session_id || null;
       const raw = Array.isArray(body.history) ? body.history : [];
       history = raw
         .filter(m => (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
         .slice(-10)
         .map(m => ({ role: m.role, content: m.content.slice(0, 2000) }));
+      turnNumber = Math.floor(raw.length / 2) + 1;
     } catch {
       return json({ error: "Invalid JSON body" }, 400, corsHeaders);
     }
@@ -1959,7 +2221,7 @@ export default {
       const claudeBody = await claudeRes.json();
       const answer = claudeBody.content?.[0]?.text || "";
       ctx.waitUntil(trackRequest(env, claudeBody.usage));
-      ctx.waitUntil(logQuery(env, query, answer, sources));
+      ctx.waitUntil(logQuery(env, query, answer, sources, sessionId, turnNumber));
 
       return json({ answer, sources, query }, 200, corsHeaders);
 

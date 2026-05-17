@@ -112,3 +112,19 @@ Built `api/worker.js` — full C3PO Oracle Worker (~1,100 lines) serving both th
 - [ ] **Deep vgr_zirp review** — before building anything new, audit the full oracle+mcp+search worker stack to avoid reinventing completed work. Key files: `workers/oracle/index.js`, `build-prompt.js`, `persona.js`, `workers/mcp/index.js`. Areas to check: strike/ban tracking, D1 query logging schema, moderation filter, self-notes, share/transcript CRUD, RSS feed, /search endpoint design.
 - [ ] **GitHub Actions cron** for `sync_substack.py` (pending since Phase 1)
 - [ ] **Phase 2B: MCP Worker** at `/mcp` endpoint
+
+## 2026-05-16 — Chat index + individual chat pages, session tracking
+
+**Redesigned transcript UX** based on vgr_zirp pattern:
+- `/chats` — public chat index (no key required); admin view (with X-Admin-Key) shows all including private, with status dropdowns to flip public/private/pending
+- `/chats/:chatId` — individual chat page (full Q/A, Lora font, C3PO droid avatar, private wall for non-admin)
+- `/admin` now redirects to `/chats`
+- `/api/chats`, `GET /api/chat/:id`, `PATCH /api/chat/:id` — REST endpoints backing the UI
+- PATCH fallback scan added for legacy entries lacking reverse-lookup `chatid:` key
+- CORS expanded to include PATCH
+
+**Session tracking:** Each browser session generates a `session_id` (8-char random); passed in POST /query body and stored in auto-logs alongside `turnNumber`. Enables per-session analysis without linkability.
+
+**Header link:** "conversations" link in main chatbot header → `/chats`
+
+**Pinecone:** substack: 1,040 · pdfs: 766 · transcripts: 4 (2 public, 2 private) · Total: ~1,810
