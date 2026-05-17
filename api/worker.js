@@ -368,7 +368,7 @@ const INJECTION_RE = /ignore\s+\w*\s*instructions|forget\s+(you\s+are|your\s+\w+
 
 // ── UI HTML ────────────────────────────────────────────────────────────────────
 
-const UI_HTML = `<!DOCTYPE html>
+const UI_HTML = String.raw`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -783,11 +783,11 @@ body {
 
 <div class="c3po-input-area" id="c3po-input-area">
   <div class="c3po-turn-indicator" id="c3po-turn-indicator" style="display:none"></div>
-  <form class="c3po-form" id="c3po-form" onsubmit="return false;">
+  <form class="c3po-form" id="c3po-form">
     <input class="c3po-input" id="c3po-q" type="text"
       placeholder="Ask about protocols, the corpus, specific papers&hellip;"
       maxlength="500" autocomplete="off" spellcheck="false">
-    <button class="c3po-btn" id="c3po-btn" type="submit">Ask</button>
+    <button class="c3po-btn" id="c3po-btn" type="button">Ask</button>
   </form>
   <div class="c3po-status" id="c3po-status"></div>
   <div class="c3po-offline-notice" id="c3po-offline" style="display:none">
@@ -894,8 +894,8 @@ body {
   const initialQ = params.get("q");
   if (initialQ) { window.history.replaceState(null, "", location.pathname); input.value = initialQ; ask(initialQ); }
 
-  form.addEventListener("submit", () => { const q = input.value.trim(); if (q) ask(q); });
-  input.addEventListener("keydown", e => { if (e.key === "Enter") { const q = input.value.trim(); if (q) ask(q); } });
+  btn.addEventListener("click", () => { const q = input.value.trim(); if (q) ask(q); });
+  input.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); const q = input.value.trim(); if (q) ask(q); } });
 
   // ── Ask ──────────────────────────────────────────────────────────────────────
   async function ask(query) {
@@ -909,7 +909,6 @@ body {
         body:    JSON.stringify({ query, history: chatHistory }),
       });
       const data = await res.json();
-      statusEl.textContent = "";
       if (data.sleeping) { showOfflineState(); return; }
       if (!res.ok || data.error) {
         statusEl.innerHTML = '<span class="c3po-error">' + escHtml(data.error || "Something went wrong. Try again.") + '</span>';
@@ -1390,7 +1389,7 @@ export default {
     // ── GET / → serve UI ────────────────────────────────────────────────────
     if (request.method === "GET" && url.pathname === "/") {
       return new Response(UI_HTML, {
-        headers: { "Content-Type": "text/html; charset=UTF-8", "Cache-Control": "public, max-age=300" },
+        headers: { "Content-Type": "text/html; charset=UTF-8", "Cache-Control": "no-cache" },
       });
     }
 

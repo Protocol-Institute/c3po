@@ -16,8 +16,7 @@ compatibility_date = "2025-01-01"
 
 [[kv_namespaces]]
 binding = "RATE_LIMIT"
-id = ""  # account-specific UUID — update after `wrangler kv namespace create RATE_LIMIT`
-         # document the PI account value in MIGRATION.md when migrating
+id = "c088e51da40f4e1abe0a5c7a507114e1"  # created 2026-05-16; document in MIGRATION.md when migrating to PI org account
 
 # Future bindings (uncomment when ready):
 
