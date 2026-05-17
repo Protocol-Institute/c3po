@@ -124,3 +124,19 @@ chunk text` separated by `---` dividers. This matches Claude's trained affinity 
 - **Token and word limits:** Raised `MAX_ANSWER_TOKENS` 800→1200. Added explicit "350–500 words, complete every definition fully" instruction to system prompt. This addresses observed truncation mid-definition, a symptom of chunk-boundary splits in the corpus — the permanent fix is a protocol lexicon injected into the system prompt (deferred, tracked as TODO).
 
 ---
+
+## Session 7: /chats Page Debugging and vgr_zirp Planning
+
+*2026-05-16 · 22:13–23:02 PT*
+
+**Tracks:** worker-api, operations
+
+**Vectors upserted:** substack: 1,040 · pdfs: 766 · transcripts: 4
+
+- **/chats page partial fixes:** Three confirmed bugs fixed and deployed: (1) `handleApiChats` was returning full conversation objects (27KB+ for admin view) — now returns slim objects with `firstQ` and `turnCount` only; (2) `GET /chats/` (trailing slash) now redirects 302 to `/chats`; (3) “&larr; All conversations” link in the individual chat page was using `href="/chats/"` (trailing slash, 404) — fixed to `/chats`; (4) `cardHTML` updated to read new slim field names. Deployed. Root bug — `getElementById('chats-list-container')` returning null on laptop — persists and is unresolved.
+
+- **Issues tracking initialized:** Created `issues/` directory. First entry: `issues/chats-page-load-failure.md` documents the `getElementById` null mystery — element is in the DOM, IDs match, script is at end of body, yet the call returns null. Ruling out ID mismatch, wrong page served, and renderChats mutations. Open hypotheses: browser extension interference, or stale Cloudflare edge cache. Next steps: test in incognito, hard reload, check Network tab for `/api/chats` response shape.
+
+- **vgr_zirp deep dive plan:** `plans/vgrzirp-reuse.md` completed from a full code + devlog audit of the ribbonfarm_site worker stack. Key findings: 7 features to copy directly (title-anchored embeddings, tier weighting, D1, AES-256-GCM encryption, strike/ban, self-notes, per-query logging); 4 to adapt (CORPUS_MAP, lexicon, MCP, search); 5 to skip (multiple indexes, A/B testing, site hooks, session compression, KBA probe). Primary architectural divergence: C3PO needs structural retrieval (numbered frameworks in academic PDFs) that vgr_zirp has no equivalent for — tracked separately in `plans/structural-navigation.md`. Build order: tier weighting → CORPUS_MAP → D1 → encryption → strike/ban → self-notes → per-query logging → title-anchored embeddings → lexicon → MCP → structural navigation.
+
+---

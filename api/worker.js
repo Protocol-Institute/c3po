@@ -501,7 +501,18 @@ async function handleApiChats(request, env, corsHeaders) {
     if (!item.chatId) item.chatId = keys[items.indexOf(item)]?.split(":").pop() || String(i);
   });
   const visible = admin ? items : items.filter(it => it.status === "public");
-  return json({ submissions: visible, isAdmin: admin, count: visible.length }, 200, corsHeaders);
+  const slim = visible.map(it => ({
+    chatId:    it.chatId,
+    ts:        it.ts,
+    status:    it.status,
+    shareMode: it.shareMode,
+    rating:    it.rating,
+    userName:  it.userName,
+    review:    it.review,
+    firstQ:    it.turns && it.turns.length ? it.turns[0].q : '',
+    turnCount: it.turns ? it.turns.length : 0,
+  }));
+  return json({ submissions: slim, isAdmin: admin, count: slim.length }, 200, corsHeaders);
 }
 
 async function handleApiChat(request, env, corsHeaders) {
@@ -732,13 +743,12 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
   function cardHTML(t, isAdmin) {
     var chatId  = t.chatId || '';
     var url     = '/chats/' + chatId;
-    var turns   = t.turns || [];
-    var firstQ  = turns.length ? turns[0].q : '';
+    var firstQ  = t.firstQ || '';
     var isPrivate = t.shareMode === 'private' || t.status === 'private';
     var privBadge = isPrivate ? '<span class=”chat-private-badge”>Private</span>' : '';
     var q    = firstQ ? esc(firstQ) : '<em>Conversation</em>';
     var date = t.ts ? fmtDate(t.ts) : '';
-    var tc   = turns.length;
+    var tc   = t.turnCount || 0;
     var stars = t.rating ? starHtml(t.rating) : '';
     var by   = t.userName ? ' · ' + esc(t.userName) : '';
     var review = t.review ? '<p class=”chat-card-review”>“' + esc(t.review.length > 120 ? t.review.slice(0, 117) + '…' : t.review) + '”</p>' : '';
@@ -832,7 +842,7 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
 <div class=”chat-page”>
   <div id=”chat-container”><p class=”chat-loading”>Loading&hellip;</p></div>
   <div class=”chat-cta”>
-    <a href=”/chats/”>&larr; All conversations</a>
+    <a href=”/chats”>&larr; All conversations</a>
     &ensp;&middot;&ensp;
     <a href=”/”>Ask C3PO a question &rarr;</a>
   </div>
@@ -848,7 +858,7 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
   var chatId = parts[parts.length - 1];
 
   if (!chatId || parts[0] !== 'chats') {
-    container.innerHTML = '<p class=”chat-error”>No conversation specified. <a href=”/chats/”>Browse conversations &rarr;</a></p>';
+    container.innerHTML = '<p class=”chat-error”>No conversation specified. <a href=”/chats”>Browse conversations &rarr;</a></p>';
     return;
   }
 
@@ -861,11 +871,11 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
     try {
       var res = await fetch('/api/chat/' + chatId, { headers: headers });
       if (res.status === 403) {
-        container.innerHTML = '<div class=”chat-private-wall”><strong>This conversation is private.</strong> It was shared with the Protocol Institute only.<br><br><a href=”/chats/”>Browse public conversations &rarr;</a></div>';
+        container.innerHTML = '<div class=”chat-private-wall”><strong>This conversation is private.</strong> It was shared with the Protocol Institute only.<br><br><a href=”/chats”>Browse public conversations &rarr;</a></div>';
         return;
       }
       if (res.status === 404) {
-        container.innerHTML = '<p class=”chat-error”>Conversation not found. <a href=”/chats/”>Browse conversations &rarr;</a></p>';
+        container.innerHTML = '<p class=”chat-error”>Conversation not found. <a href=”/chats”>Browse conversations &rarr;</a></p>';
         return;
       }
       if (!res.ok) { container.innerHTML = '<p class=”chat-error”>Could not load conversation.</p>'; return; }
@@ -1985,6 +1995,9 @@ export default {
     }
 
     // ── GET /chats → chat index ───────────────────────────────────────────────
+    if (request.method === "GET" && url.pathname === "/chats/") {
+      return Response.redirect(new URL("/chats", request.url).href, 302);
+    }
     if (request.method === "GET" && url.pathname === "/chats") {
       return new Response(CHATS_HTML, {
         headers: { "Content-Type": "text/html; charset=UTF-8", "Cache-Control": "no-cache" },

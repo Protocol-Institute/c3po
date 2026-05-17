@@ -1,7 +1,7 @@
 {
   "project": "c3po",
-  "display_name": "C3PO \u2014 Build Log",
-  "description": "A build log for C3PO, the Protocol Institute's research assistant \u2014 how the corpus was assembled, what decisions were made, and where things stand. Written for readers curious about the process and for future maintainers.",
+  "display_name": "C3PO — Build Log",
+  "description": "A build log for C3PO, the Protocol Institute's research assistant — how the corpus was assembled, what decisions were made, and where things stand. Written for readers curious about the process and for future maintainers.",
   "tracks": {
     "corpus-ingestion": "Assembling and cleaning source material; export parsing, API fetches, enrichment",
     "vector-architecture": "Embedding strategy, chunk design, Pinecone index structure, retrieval quality",
@@ -13,7 +13,7 @@
     {
       "id": 1,
       "sort_key": 1.0,
-      "label": "Sessions 1\u20132",
+      "label": "Sessions 1–2",
       "title": "Corpus Archaeology and Substack Ingestion",
       "date": "2026-05-14",
       "time_pt": "",
@@ -32,7 +32,7 @@
       "items": [
         {
           "title": "Starting point:",
-          "html": "<strong>Starting point:</strong> Protocolized Substack HTML export (unzipped) \u2014 131 HTML files in <code>posts/</code>, a <code>posts.csv</code> with metadata, and per-post <code>.delivers.csv</code> and <code>.opens.csv</code> email delivery files. The export is the fastest way to get all body HTML at once; but it is missing tags, authors, sections, and edit timestamps \u2014 all of which live only in the Substack API."
+          "html": "<strong>Starting point:</strong> Protocolized Substack HTML export (unzipped) — 131 HTML files in <code>posts/</code>, a <code>posts.csv</code> with metadata, and per-post <code>.delivers.csv</code> and <code>.opens.csv</code> email delivery files. The export is the fastest way to get all body HTML at once; but it is missing tags, authors, sections, and edit timestamps — all of which live only in the Substack API."
         },
         {
           "title": "Export archaeology:",
@@ -40,35 +40,35 @@
         },
         {
           "title": "API discovery:",
-          "html": "<strong>API discovery:</strong> The Substack REST API at <code>/api/v1/posts</code> is public and unauthenticated for any public publication \u2014 it is the same endpoint Substack's own web interface uses to render publication pages. It returns fields entirely absent from the export: <code>postTags</code> (series/collection membership), <code>publishedBylines</code> (author attribution with handles), <code>section_id</code> (which subscription section a post belongs to), <code>updated_at</code> (last edit timestamp), <code>reaction_count</code>, <code>restacks</code>, and <code>wordcount</code>. Fetched all 115 posts in ~10 paginated calls. Saved to <code>sources/substack/api_metadata.json</code>."
+          "html": "<strong>API discovery:</strong> The Substack REST API at <code>/api/v1/posts</code> is public and unauthenticated for any public publication — it is the same endpoint Substack's own web interface uses to render publication pages. It returns fields entirely absent from the export: <code>postTags</code> (series/collection membership), <code>publishedBylines</code> (author attribution with handles), <code>section_id</code> (which subscription section a post belongs to), <code>updated_at</code> (last edit timestamp), <code>reaction_count</code>, <code>restacks</code>, and <code>wordcount</code>. Fetched all 115 posts in ~10 paginated calls. Saved to <code>sources/substack/api_metadata.json</code>."
         },
         {
           "title": "Section discovery:",
-          "html": "<strong>Section discovery:</strong> Protocolized uses Substack's multi-section feature \u2014 readers can subscribe to sections independently. The sections were not visible in the API metadata list directly, but <code>section_id</code> integers appeared on each post. Mapped IDs to names by extracting the preloaded JSON state from the publication homepage HTML: <strong>Fictions</strong> (ID 333105, 58 posts \u2014 fiction contests and series), <strong>Articles</strong> (ID 333110, 47 posts \u2014 essays, SIG reports, case studies), <strong>Obliquities</strong> (ID 333103, 5 posts \u2014 VGR's editorial column), and the catch-all <strong>Protocolized</strong> default (5 posts, no section_id). Section stored as <code>section_name</code> metadata on every Pinecone vector."
+          "html": "<strong>Section discovery:</strong> Protocolized uses Substack's multi-section feature — readers can subscribe to sections independently. The sections were not visible in the API metadata list directly, but <code>section_id</code> integers appeared on each post. Mapped IDs to names by extracting the preloaded JSON state from the publication homepage HTML: <strong>Fictions</strong> (ID 333105, 58 posts — fiction contests and series), <strong>Articles</strong> (ID 333110, 47 posts — essays, SIG reports, case studies), <strong>Obliquities</strong> (ID 333103, 5 posts — VGR's editorial column), and the catch-all <strong>Protocolized</strong> default (5 posts, no section_id). Section stored as <code>section_name</code> metadata on every Pinecone vector."
         },
         {
           "title": "Tag archaeology:",
-          "html": "<strong>Tag archaeology:</strong> Protocolized uses two layers of Substack tags. The first layer is publication-level category tags chosen by the editors (<em>Stories</em>, <em>Technology</em>, <em>Fiction</em>, <em>Culture</em>, <em>Philosophy</em>, etc.) \u2014 applied per-post and used for reader discovery. The second layer is publication-specific collection tags that carry series or SIG membership: <em>Terminological Twists</em>, <em>Ghosts in Machines</em>, <em>The Librarians</em>, <em>Building and Burning Bridges</em>, <em>Zoothesia</em>, <em>Bridge Atlas</em>, <em>SIGFPT</em>, <em>SIGBIZ</em>, <em>SIGMEM</em>, <em>SIGFIC</em>, <em>Obliquities</em>, <em>Protocols for the Long Now</em>."
+          "html": "<strong>Tag archaeology:</strong> Protocolized uses two layers of Substack tags. The first layer is publication-level category tags chosen by the editors (<em>Stories</em>, <em>Technology</em>, <em>Fiction</em>, <em>Culture</em>, <em>Philosophy</em>, etc.) — applied per-post and used for reader discovery. The second layer is publication-specific collection tags that carry series or SIG membership: <em>Terminological Twists</em>, <em>Ghosts in Machines</em>, <em>The Librarians</em>, <em>Building and Burning Bridges</em>, <em>Zoothesia</em>, <em>Bridge Atlas</em>, <em>SIGFPT</em>, <em>SIGBIZ</em>, <em>SIGMEM</em>, <em>SIGFIC</em>, <em>Obliquities</em>, <em>Protocols for the Long Now</em>."
         },
         {
           "title": "Collections map:",
-          "html": "<strong>Collections map:</strong> Built <code>sources/substack/collections.json</code> \u2014 the authoritative membership roster for all 13 named collections. Structure: fiction contests (4), series (3 including one emerging), proto-collections (1: Sachin Benny's UE-T1 train stories, which have no Substack tag yet), SIGs (4), and editorial column (1). Proto-collections are manually curated author series whose posts are thematically linked but haven't received an official tag yet."
+          "html": "<strong>Collections map:</strong> Built <code>sources/substack/collections.json</code> — the authoritative membership roster for all 13 named collections. Structure: fiction contests (4), series (3 including one emerging), proto-collections (1: Sachin Benny's UE-T1 train stories, which have no Substack tag yet), SIGs (4), and editorial column (1). Proto-collections are manually curated author series whose posts are thematically linked but haven't received an official tag yet."
         },
         {
           "title": "Author attribution:",
-          "html": "<strong>Author attribution:</strong> Author data is not in the export CSV or in post HTML bodies \u2014 only in the API <code>publishedBylines</code> field. Some bylines use display handles rather than real names: <em>Thing Party</em> = Elizabeth Maher (T.R.O.(L.L.) universe author), <em>Sachin</em> = Sachin Benny, <em>Spencer Nitkey - Writer</em> = Spencer Nitkey. 38 unique non-Protocolized contributors identified; 6 are regular contributors (3+ posts). Timber Stinson-Schroff is co-editor, not a guest contributor \u2014 his editorial posts are authoritative publication voice. Handle-to-name resolution table stored in <code>ingest/enrich_substack.py</code> and <code>sources/CORPUS_MAP.md</code>."
+          "html": "<strong>Author attribution:</strong> Author data is not in the export CSV or in post HTML bodies — only in the API <code>publishedBylines</code> field. Some bylines use display handles rather than real names: <em>Thing Party</em> = Elizabeth Maher (T.R.O.(L.L.) universe author), <em>Sachin</em> = Sachin Benny, <em>Spencer Nitkey - Writer</em> = Spencer Nitkey. 38 unique non-Protocolized contributors identified; 6 are regular contributors (3+ posts). Timber Stinson-Schroff is co-editor, not a guest contributor — his editorial posts are authoritative publication voice. Handle-to-name resolution table stored in <code>ingest/enrich_substack.py</code> and <code>sources/CORPUS_MAP.md</code>."
         },
         {
           "title": "Haiku enrichment:",
-          "html": "<strong>Haiku enrichment (~$0.05):</strong> One Claude Haiku call per post. Input: title + subtitle + bylines + first 1,200 characters of body text. Output: a two-sentence concrete summary, 2\u20134 categories from a fixed 11-term vocabulary (<em>protocol-fiction</em>, <em>protocol-theory</em>, <em>protocol-watching</em>, <em>editorial</em>, <em>research-report</em>, <em>technology-ai</em>, <em>governance</em>, <em>announcement</em>, <em>interview</em>, <em>memory-archival</em>, <em>organizations</em>), and a resolved primary author name. Ran on 129 posts (all non-podcast), 0 errors. Checkpoint saves every 10 posts so a mid-run failure loses at most 10 calls. Idempotent: skips slugs already in <code>enriched_meta.json</code>."
+          "html": "<strong>Haiku enrichment (~$0.05):</strong> One Claude Haiku call per post. Input: title + subtitle + bylines + first 1,200 characters of body text. Output: a two-sentence concrete summary, 2–4 categories from a fixed 11-term vocabulary (<em>protocol-fiction</em>, <em>protocol-theory</em>, <em>protocol-watching</em>, <em>editorial</em>, <em>research-report</em>, <em>technology-ai</em>, <em>governance</em>, <em>announcement</em>, <em>interview</em>, <em>memory-archival</em>, <em>organizations</em>), and a resolved primary author name. Ran on 129 posts (all non-podcast), 0 errors. Checkpoint saves every 10 posts so a mid-run failure loses at most 10 calls. Idempotent: skips slugs already in <code>enriched_meta.json</code>."
         },
         {
-          "title": "Embedding strategy \u2014 four vector types:",
-          "html": "<strong>Embedding strategy \u2014 four vector types:</strong> The corpus supports four distinct retrieval patterns, each needing a different vector shape. <strong>Body chunks</strong>: each post is chunked at ~512 tokens (64-token overlap); every chunk gets a prefix of <em>Title / Author / Collection (if any) / Summary</em> prepended before embedding, so a chunk about a specific narrative moment is anchored to its full semantic context. Vectors use the raw chunk for the stored <code>text</code> metadata field (clean, readable) but the prefixed version for embedding (richer signal). <strong>Post summaries</strong>: one vector per post at ID <code>{slug}__post_summary</code>, embedding the full title + author + date + section + categories + Haiku summary \u2014 catches queries that match the gist of a piece without matching any specific passage. <strong>Collection cards</strong>: one vector per collection/series/SIG at ID <code>collection__{slug}</code>, describing the collection and listing all its posts \u2014 catches queries like <em>what are the common themes in Ghosts in Machines</em>. <strong>Author profiles</strong>: one per contributor at ID <code>author__{slug}</code>, listing all their posts with collection membership \u2014 catches author-centric queries. Regular contributors (3+ posts) are labeled as such; one-off contributors are labeled as guest contributors."
+          "title": "Embedding strategy — four vector types:",
+          "html": "<strong>Embedding strategy — four vector types:</strong> The corpus supports four distinct retrieval patterns, each needing a different vector shape. <strong>Body chunks</strong>: each post is chunked at ~512 tokens (64-token overlap); every chunk gets a prefix of <em>Title / Author / Collection (if any) / Summary</em> prepended before embedding, so a chunk about a specific narrative moment is anchored to its full semantic context. Vectors use the raw chunk for the stored <code>text</code> metadata field (clean, readable) but the prefixed version for embedding (richer signal). <strong>Post summaries</strong>: one vector per post at ID <code>{slug}__post_summary</code>, embedding the full title + author + date + section + categories + Haiku summary — catches queries that match the gist of a piece without matching any specific passage. <strong>Collection cards</strong>: one vector per collection/series/SIG at ID <code>collection__{slug}</code>, describing the collection and listing all its posts — catches queries like <em>what are the common themes in Ghosts in Machines</em>. <strong>Author profiles</strong>: one per contributor at ID <code>author__{slug}</code>, listing all their posts with collection membership — catches author-centric queries. Regular contributors (3+ posts) are labeled as such; one-off contributors are labeled as guest contributors."
         },
         {
           "title": "Ingest results:",
-          "html": "<strong>Ingest results:</strong> 1,040 vectors in Pinecone namespace <code>substack</code> \u2014 approximately 873 body chunks, 116 post summaries, 13 collection cards, 38 author profiles. Voyage AI <code>voyage-3</code> model (1024 dimensions, cosine metric). Embedding cost approximately $0.04 at $0.06/M tokens."
+          "html": "<strong>Ingest results:</strong> 1,040 vectors in Pinecone namespace <code>substack</code> — approximately 873 body chunks, 116 post summaries, 13 collection cards, 38 author profiles. Voyage AI <code>voyage-3</code> model (1024 dimensions, cosine metric). Embedding cost approximately $0.04 at $0.06/M tokens."
         },
         {
           "title": "Sync strategy:",
@@ -76,7 +76,7 @@
         },
         {
           "title": "Corpus map:",
-          "html": "<strong>Corpus map:</strong> Created <code>sources/CORPUS_MAP.md</code> to record structural information that is not derivable from the code or API. Key entries: the four Substack sections and their IDs, Timber's co-editor status, the author handle resolution table, and the extended universe project \u2014 Spencer Nitkey (Zoothesia), Sachin Benny (UE-T1 train series), Elizabeth Maher (T.R.O.(L.L.) universe), and Randy Lubin (Caduceus City) are building a shared off-Substack fiction universe, currently seeded by their Protocolized posts. Expected to become a new C3PO data source in Q4 2026."
+          "html": "<strong>Corpus map:</strong> Created <code>sources/CORPUS_MAP.md</code> to record structural information that is not derivable from the code or API. Key entries: the four Substack sections and their IDs, Timber's co-editor status, the author handle resolution table, and the extended universe project — Spencer Nitkey (Zoothesia), Sachin Benny (UE-T1 train series), Elizabeth Maher (T.R.O.(L.L.) universe), and Randy Lubin (Caduceus City) are building a shared off-Substack fiction universe, currently seeded by their Protocolized posts. Expected to become a new C3PO data source in Q4 2026."
         },
         {
           "title": "Contraptions note:",
@@ -90,7 +90,7 @@
       "label": "Session 3",
       "title": "Devlog System, Session Rituals, and Org Admin Infrastructure",
       "date": "2026-05-14",
-      "time_pt": "14:30\u201318:56 PT",
+      "time_pt": "14:30–18:56 PT",
       "tracks": [
         "operations"
       ],
@@ -106,19 +106,19 @@
         },
         {
           "title": "Startup ritual:",
-          "html": "<strong>Startup ritual (6 steps, added to CLAUDE.md):</strong> (1) Record session start via <code>devlog_session.py start</code>. (2) Run <code>track.py status</code> to detect any concurrent PI project sessions and flag overlap. (3) Read <code>status.md</code> to review open questions and last session's state. (4) Check live Pinecone vector counts against the stored values in <code>status.md</code> \u2014 a fast sanity check that the index is intact. (5) Run <code>sync_substack.py --dry-run</code> to check for new or edited posts since last session. (6) Summarize delta to Venkat: vector counts, pending sync, open questions."
+          "html": "<strong>Startup ritual (6 steps, added to CLAUDE.md):</strong> (1) Record session start via <code>devlog_session.py start</code>. (2) Run <code>track.py status</code> to detect any concurrent PI project sessions and flag overlap. (3) Read <code>status.md</code> to review open questions and last session's state. (4) Check live Pinecone vector counts against the stored values in <code>status.md</code> — a fast sanity check that the index is intact. (5) Run <code>sync_substack.py --dry-run</code> to check for new or edited posts since last session. (6) Summarize delta to Venkat: vector counts, pending sync, open questions."
         },
         {
           "title": "Wrap-up ritual:",
-          "html": "<strong>Wrap-up ritual (9 steps, added to CLAUDE.md):</strong> Documentation (devlog entry, status.md, CLAUDE.md vector count update) \u2192 keys/env (update .env.template and ../admin/keys.md if new env vars were added) \u2192 repo (git add, commit, push) \u2192 expenses (track.py end, fill log-vgr.json, render.py) \u2192 memory (update Claude memory with non-obvious decisions). The checklist enforces that documentation and expense logging are never skipped at session end."
+          "html": "<strong>Wrap-up ritual (9 steps, added to CLAUDE.md):</strong> Documentation (devlog entry, status.md, CLAUDE.md vector count update) → keys/env (update .env.template and ../admin/keys.md if new env vars were added) → repo (git add, commit, push) → expenses (track.py end, fill log-vgr.json, render.py) → memory (update Claude memory with non-obvious decisions). The checklist enforces that documentation and expense logging are never skipped at session end."
         },
         {
           "title": "PI admin repo:",
-          "html": "<strong>PI admin repo (Protocol-Institute/admin, private):</strong> Created a new private GitHub repo to hold all Protocol Institute operational infrastructure: <code>expenses/</code> (expense tracker scripts, per-contributor log files, rendered EXPENSES.md), <code>keys.md</code> (key registry \u2014 owner, billing method, which projects use each key), and <code>security.md</code> (key storage policy, rotation procedures, incident response). This separates PI org admin from VGR's personal <code>Code/</code> directory, which tracks personal-scope keys only."
+          "html": "<strong>PI admin repo (Protocol-Institute/admin, private):</strong> Created a new private GitHub repo to hold all Protocol Institute operational infrastructure: <code>expenses/</code> (expense tracker scripts, per-contributor log files, rendered EXPENSES.md), <code>keys.md</code> (key registry — owner, billing method, which projects use each key), and <code>security.md</code> (key storage policy, rotation procedures, incident response). This separates PI org admin from VGR's personal <code>Code/</code> directory, which tracks personal-scope keys only."
         },
         {
           "title": "Expense model:",
-          "html": "<strong>Expense model:</strong> Per-contributor log files (<code>log-{id}.json</code>) \u2014 each contributor owns their file, eliminating merge conflicts. <code>track.py end</code> reads all active <code>/tmp/</code> session start files, takes the earliest start as the window start, and computes a single billable window \u2014 so if C3PO, website, and protocolized-website sessions all run simultaneously, the hours are not double-counted. A <code>key_ownership</code> map in each log file flags which API keys are personal (reimbursable) vs org (direct billing, not expensed). <code>render.py</code> aggregates all contributor logs into <code>EXPENSES.md</code> and <code>expenses.csv</code> with per-contributor sections and a grand total."
+          "html": "<strong>Expense model:</strong> Per-contributor log files (<code>log-{id}.json</code>) — each contributor owns their file, eliminating merge conflicts. <code>track.py end</code> reads all active <code>/tmp/</code> session start files, takes the earliest start as the window start, and computes a single billable window — so if C3PO, website, and protocolized-website sessions all run simultaneously, the hours are not double-counted. A <code>key_ownership</code> map in each log file flags which API keys are personal (reimbursable) vs org (direct billing, not expensed). <code>render.py</code> aggregates all contributor logs into <code>EXPENSES.md</code> and <code>expenses.csv</code> with per-contributor sections and a grand total."
         }
       ]
     },
@@ -128,7 +128,7 @@
       "label": "Session 4",
       "title": "PDF Corpus Ingest and Canonical Ingest Pipeline",
       "date": "2026-05-15",
-      "time_pt": "17:30\u201318:38 PT",
+      "time_pt": "17:30–18:38 PT",
       "tracks": [
         "corpus-ingestion",
         "vector-architecture"
@@ -145,15 +145,15 @@
       "items": [
         {
           "title": "Canonical ingest pipeline:",
-          "html": "<strong>Canonical ingest pipeline documented in ARCHITECTURE.md:</strong> Formalized the three-layer pattern that every corpus source should follow. Layer 1 (Haiku enrichment): one API call per document produces summary, categories (from a shared 11-term vocabulary), and primary_author \u2014 saved to <code>sources/&lt;type&gt;/enriched_meta.json</code>, idempotent. Layer 2 (body chunks): text chunked at 512 tokens / 64 overlap, with a <code>Title / Authors / Type / Summary</code> prefix prepended to each chunk before embedding but not stored in metadata \u2014 so every chunk vector carries full document context. Layer 3 (doc_summary): one vector per document at ID <code>{id}__doc_summary</code>, embedding a compact structured representation for 'what is this document about' queries. The pattern was derived by comparing the Substack ingest (which had all three layers) against the original PDF ingest skeleton (which had none). Now the spec for all future sources."
+          "html": "<strong>Canonical ingest pipeline documented in ARCHITECTURE.md:</strong> Formalized the three-layer pattern that every corpus source should follow. Layer 1 (Haiku enrichment): one API call per document produces summary, categories (from a shared 11-term vocabulary), and primary_author — saved to <code>sources/&lt;type&gt;/enriched_meta.json</code>, idempotent. Layer 2 (body chunks): text chunked at 512 tokens / 64 overlap, with a <code>Title / Authors / Type / Summary</code> prefix prepended to each chunk before embedding but not stored in metadata — so every chunk vector carries full document context. Layer 3 (doc_summary): one vector per document at ID <code>{id}__doc_summary</code>, embedding a compact structured representation for 'what is this document about' queries. The pattern was derived by comparing the Substack ingest (which had all three layers) against the original PDF ingest skeleton (which had none). Now the spec for all future sources."
         },
         {
           "title": "PDF enrichment:",
-          "html": "<strong>PDF enrichment (82 PDFs, 0 errors, ~$0.06):</strong> New script <code>ingest/enrich_pdfs.py</code>, structurally parallel to <code>enrich_substack.py</code>. Input per PDF: title + authors + type + tags from the protocolized-website resource markdowns (74 of 82 PDFs had matching entries), plus the first 1,500 characters of body text extracted by pdfplumber. Output: two-sentence summary, 2\u20134 categories from the shared vocabulary, and primary_author. 8 PDFs with no markdown entry (cover letters, title pages) were enriched from text alone \u2014 Haiku inferred institution-level authorship correctly. Checkpoint saves every 10 documents. All 82 enriched; saved to <code>sources/pdfs/enriched_meta.json</code>."
+          "html": "<strong>PDF enrichment (82 PDFs, 0 errors, ~$0.06):</strong> New script <code>ingest/enrich_pdfs.py</code>, structurally parallel to <code>enrich_substack.py</code>. Input per PDF: title + authors + type + tags from the protocolized-website resource markdowns (74 of 82 PDFs had matching entries), plus the first 1,500 characters of body text extracted by pdfplumber. Output: two-sentence summary, 2–4 categories from the shared vocabulary, and primary_author. 8 PDFs with no markdown entry (cover letters, title pages) were enriched from text alone — Haiku inferred institution-level authorship correctly. Checkpoint saves every 10 documents. All 82 enriched; saved to <code>sources/pdfs/enriched_meta.json</code>."
         },
         {
           "title": "PDF ingest:",
-          "html": "<strong>PDF ingest (766 vectors in Pinecone <code>pdfs</code> namespace):</strong> <code>ingest/ingest_pdfs.py</code> rewritten from the original skeleton to match the canonical pattern: prefix-before-embedding, <code>namespace='pdfs'</code> throughout, <code>chunk_type</code> and <code>namespace</code> in every vector's metadata, and a new <code>ingest_doc_summaries()</code> function. Results: 689 body chunk vectors from 77 PDFs (5 PDFs were image-only \u2014 pdfplumber extracted no text, but all 5 still received doc_summary vectors from enrichment); 82 doc_summary vectors. 771 upserted, 766 landed in Pinecone \u2014 5 deduplicated via SHA256 chunk-id collision (identical text passages appearing in multiple PDFs). Total index: 1,806 vectors across two namespaces."
+          "html": "<strong>PDF ingest (766 vectors in Pinecone <code>pdfs</code> namespace):</strong> <code>ingest/ingest_pdfs.py</code> rewritten from the original skeleton to match the canonical pattern: prefix-before-embedding, <code>namespace='pdfs'</code> throughout, <code>chunk_type</code> and <code>namespace</code> in every vector's metadata, and a new <code>ingest_doc_summaries()</code> function. Results: 689 body chunk vectors from 77 PDFs (5 PDFs were image-only — pdfplumber extracted no text, but all 5 still received doc_summary vectors from enrichment); 82 doc_summary vectors. 771 upserted, 766 landed in Pinecone — 5 deduplicated via SHA256 chunk-id collision (identical text passages appearing in multiple PDFs). Total index: 1,806 vectors across two namespaces."
         },
         {
           "title": "Image-only PDFs:",
@@ -161,7 +161,7 @@
         },
         {
           "title": "venv note:",
-          "html": "<strong>venv recreation note:</strong> The <code>.venv</code> directory was absent at session start \u2014 Dropbox does not sync venvs (correct behavior, consistent with the node_modules policy). Recreated with <code>/opt/homebrew/bin/python3 -m venv .venv</code> and reinstalled deps. Also discovered that <code>pinecone-client</code> has been renamed to <code>pinecone</code> by Pinecone \u2014 the old package name raises an exception on import. Updated the install command in CLAUDE.md."
+          "html": "<strong>venv recreation note:</strong> The <code>.venv</code> directory was absent at session start — Dropbox does not sync venvs (correct behavior, consistent with the node_modules policy). Recreated with <code>/opt/homebrew/bin/python3 -m venv .venv</code> and reinstalled deps. Also discovered that <code>pinecone-client</code> has been renamed to <code>pinecone</code> by Pinecone — the old package name raises an exception on import. Updated the install command in CLAUDE.md."
         }
       ]
     },
@@ -169,9 +169,9 @@
       "id": 4,
       "sort_key": 4.0,
       "label": "Session 5",
-      "title": "Phase 2A \u2014 Oracle Worker and Web UI",
+      "title": "Phase 2A — Oracle Worker and Web UI",
       "date": "2026-05-15",
-      "time_pt": "~19:00\u201319:12 PT",
+      "time_pt": "~19:00–19:12 PT",
       "tracks": [
         "worker",
         "ui",
@@ -185,24 +185,24 @@
       "deployed": false,
       "items": [
         {
-          "title": "api/worker.js \u2014 full Oracle Worker:",
-          "html": "<strong>api/worker.js \u2014 Phase 2A Oracle Worker (~1,100 lines):</strong> Adapted from vgr_zirp oracle/index.js for C3PO. Single Pinecone index with parallel namespace queries (<code>substack</code> + <code>pdfs</code>). Routes: <code>GET /</code> serves the embedded web UI, <code>POST /query</code> is the full RAG endpoint, <code>GET /search</code> is semantic-search-only (no LLM), <code>GET /stats</code> returns KV spend aggregates, <code>GET /health</code> checks Pinecone, <code>POST /share</code> stubs transcript sharing (503 until D1 provisioned in Phase 2C). All LLM calls use <code>claude-sonnet-4-6</code> \u2014 not Haiku \u2014 because the protocol research material is dense and requires strong synthesis."
+          "title": "api/worker.js — full Oracle Worker:",
+          "html": "<strong>api/worker.js — Phase 2A Oracle Worker (~1,100 lines):</strong> Adapted from vgr_zirp oracle/index.js for C3PO. Single Pinecone index with parallel namespace queries (<code>substack</code> + <code>pdfs</code>). Routes: <code>GET /</code> serves the embedded web UI, <code>POST /query</code> is the full RAG endpoint, <code>GET /search</code> is semantic-search-only (no LLM), <code>GET /stats</code> returns KV spend aggregates, <code>GET /health</code> checks Pinecone, <code>POST /share</code> stubs transcript sharing (503 until D1 provisioned in Phase 2C). All LLM calls use <code>claude-sonnet-4-6</code> — not Haiku — because the protocol research material is dense and requires strong synthesis."
         },
         {
           "title": "System prompt (SOUL.md-derived, prompt-cached):",
-          "html": "<strong>System prompt derived from SOUL.md, cached with <code>cache_control: ephemeral</code>:</strong> ~600-token structured prompt covering C3PO's identity (Protocol Institute research assistant), intellectual commitments (protocols as genuine analytical category, hardness, protocolization as civilizational force, context-tank mission), voice (scholarly, source-specific, honest about limits), and characteristic analytical moves (cross-domain comparison, hardness analysis, formalization ladder, stakeholder analysis). Cached on first call; subsequent calls pay the 10\u00d7 cheaper cache-read price (~/bin/zsh.30/M vs .00/M input)."
+          "html": "<strong>System prompt derived from SOUL.md, cached with <code>cache_control: ephemeral</code>:</strong> ~600-token structured prompt covering C3PO's identity (Protocol Institute research assistant), intellectual commitments (protocols as genuine analytical category, hardness, protocolization as civilizational force, context-tank mission), voice (scholarly, source-specific, honest about limits), and characteristic analytical moves (cross-domain comparison, hardness analysis, formalization ladder, stakeholder analysis). Cached on first call; subsequent calls pay the 10× cheaper cache-read price (~/bin/zsh.30/M vs .00/M input)."
         },
         {
           "title": "Secondary retrieval for summary vectors:",
-          "html": "<strong>Secondary retrieval:</strong> When Pinecone surfaces a <code>doc_summary</code> (PDF) or <code>post_summary</code> (Substack) vector as a top hit \u2014 these are excellent for title-query matching but contain only ~500-char abstracts \u2014 the worker immediately fires a follow-up filtered query to fetch 4 real body chunks from the same document. PDFs filtered by <code>url</code> field; Substack posts filtered by <code>slug</code>. Summary hits are then removed from the result set and replaced by their body-chunk siblings, giving the LLM actual prose to synthesize rather than an abstract."
+          "html": "<strong>Secondary retrieval:</strong> When Pinecone surfaces a <code>doc_summary</code> (PDF) or <code>post_summary</code> (Substack) vector as a top hit — these are excellent for title-query matching but contain only ~500-char abstracts — the worker immediately fires a follow-up filtered query to fetch 4 real body chunks from the same document. PDFs filtered by <code>url</code> field; Substack posts filtered by <code>slug</code>. Summary hits are then removed from the result set and replaced by their body-chunk siblings, giving the LLM actual prose to synthesize rather than an abstract."
         },
         {
           "title": "C3PO web UI (PI branding, no A/B testing):",
-          "html": "<strong>Web UI embedded in worker at <code>GET /</code>:</strong> Adapted from vgr_zirp.html. A/B testing removed entirely (no persona versions for C3PO). PI design tokens applied: primary <code>#0F6E56</code> (teal), Lora body font, Outfit UI font, Instrument Serif heading. Skull SVG replaced with robot/droid head SVG (antenna + head + eyes + grille + body \u2014 C-3PO-inspired). Source badges by document type: <em>Protocolized</em> (substack), Paper, Essay, Fiction, Game. SOUL_EXCERPT adapted for C3PO persona. Stats footer, action bar (copy/download/wrapup/clear), share section, and MCP panel all adapted. Offline notice points to protocolized.io resource library instead of Contraptions subscription."
+          "html": "<strong>Web UI embedded in worker at <code>GET /</code>:</strong> Adapted from vgr_zirp.html. A/B testing removed entirely (no persona versions for C3PO). PI design tokens applied: primary <code>#0F6E56</code> (teal), Lora body font, Outfit UI font, Instrument Serif heading. Skull SVG replaced with robot/droid head SVG (antenna + head + eyes + grille + body — C-3PO-inspired). Source badges by document type: <em>Protocolized</em> (substack), Paper, Essay, Fiction, Game. SOUL_EXCERPT adapted for C3PO persona. Stats footer, action bar (copy/download/wrapup/clear), share section, and MCP panel all adapted. Offline notice points to protocolized.io resource library instead of Contraptions subscription."
         },
         {
           "title": "Normalization and context block:",
-          "html": "<strong>Normalization and context block:</strong> Two normalize functions \u2014 <code>normalizePdf()</code> maps <code>type</code> to a label (PAPER, WORKING PAPER, ESSAY, FICTION, GAME DESIGN, DATASET, TALK/LECTURE, WORKSHOP REPORT, TEMPLATE, INTERVIEW); <code>normalizeSubstack()</code> maps <code>section</code> to label (Fictions \u2192 FICTION, Articles \u2192 ESSAY, Obliquities \u2192 ESSAY, else PROTOCOLIZED). Context block assembles as <code>[LABEL \u2014 Title \u2014 Authors \u2014 Year]\nchunk text</code> separated by <code>---</code> dividers. This matches Claude's trained affinity for structured retrieval context."
+          "html": "<strong>Normalization and context block:</strong> Two normalize functions — <code>normalizePdf()</code> maps <code>type</code> to a label (PAPER, WORKING PAPER, ESSAY, FICTION, GAME DESIGN, DATASET, TALK/LECTURE, WORKSHOP REPORT, TEMPLATE, INTERVIEW); <code>normalizeSubstack()</code> maps <code>section</code> to label (Fictions → FICTION, Articles → ESSAY, Obliquities → ESSAY, else PROTOCOLIZED). Context block assembles as <code>[LABEL — Title — Authors — Year]\nchunk text</code> separated by <code>---</code> dividers. This matches Claude's trained affinity for structured retrieval context."
         }
       ]
     },
@@ -212,7 +212,7 @@
       "label": "Session 6",
       "title": "Security Filters, Transcript Loop, and Chat Index UX",
       "date": "2026-05-16",
-      "time_pt": "16:36\u201319:28 PT",
+      "time_pt": "16:36–19:28 PT",
       "tracks": [
         "worker-api",
         "ux",
@@ -231,7 +231,7 @@
         },
         {
           "title": "Transcript submission loop",
-          "html": "<strong>Transcript submission loop:</strong> POST /share now generates a 6-character <code>chatId</code>, stores the full conversation as <code>submission:{ts}:{chatId}</code> in KV (90-day TTL), and writes a reverse-lookup key <code>chatid:{chatId}</code> for O(1) individual fetches. <code>autoModerate()</code> immediately classifies submissions as public/private/pending based on query length, answer length, and alphabetic content ratio \u2014 no 24-hour hold. Admin can PATCH status to override."
+          "html": "<strong>Transcript submission loop:</strong> POST /share now generates a 6-character <code>chatId</code>, stores the full conversation as <code>submission:{ts}:{chatId}</code> in KV (90-day TTL), and writes a reverse-lookup key <code>chatid:{chatId}</code> for O(1) individual fetches. <code>autoModerate()</code> immediately classifies submissions as public/private/pending based on query length, answer length, and alphabetic content ratio — no 24-hour hold. Admin can PATCH status to override."
         },
         {
           "title": "Chat index and individual chat pages",
@@ -243,7 +243,39 @@
         },
         {
           "title": "Token and word limits",
-          "html": "<strong>Token and word limits:</strong> Raised <code>MAX_ANSWER_TOKENS</code> 800\u21921200. Added explicit \"350\u2013500 words, complete every definition fully\" instruction to system prompt. This addresses observed truncation mid-definition, a symptom of chunk-boundary splits in the corpus \u2014 the permanent fix is a protocol lexicon injected into the system prompt (deferred, tracked as TODO)."
+          "html": "<strong>Token and word limits:</strong> Raised <code>MAX_ANSWER_TOKENS</code> 800→1200. Added explicit \"350–500 words, complete every definition fully\" instruction to system prompt. This addresses observed truncation mid-definition, a symptom of chunk-boundary splits in the corpus — the permanent fix is a protocol lexicon injected into the system prompt (deferred, tracked as TODO)."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "sort_key": 6.0,
+      "label": "Session 7",
+      "title": "/chats Page Debugging and vgr_zirp Planning",
+      "date": "2026-05-16",
+      "time_pt": "22:13–23:02 PT",
+      "tracks": [
+        "worker-api",
+        "operations"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "substack": 1040,
+        "pdfs": 766,
+        "transcripts": 4
+      },
+      "items": [
+        {
+          "title": "/chats page partial fixes",
+          "html": "<strong>/chats page partial fixes:</strong> Three confirmed bugs fixed and deployed: (1) <code>handleApiChats</code> was returning full conversation objects (27KB+ for admin view) — now returns slim objects with <code>firstQ</code> and <code>turnCount</code> only; (2) <code>GET /chats/</code> (trailing slash) now redirects 302 to <code>/chats</code>; (3) “&larr; All conversations” link in the individual chat page was using <code>href=\"/chats/\"</code> (trailing slash, 404) — fixed to <code>/chats</code>; (4) <code>cardHTML</code> updated to read new slim field names. Deployed. Root bug — <code>getElementById('chats-list-container')</code> returning null on laptop — persists and is unresolved."
+        },
+        {
+          "title": "Issues tracking initialized",
+          "html": "<strong>Issues tracking initialized:</strong> Created <code>issues/</code> directory. First entry: <code>issues/chats-page-load-failure.md</code> documents the <code>getElementById</code> null mystery — element is in the DOM, IDs match, script is at end of body, yet the call returns null. Ruling out ID mismatch, wrong page served, and renderChats mutations. Open hypotheses: browser extension interference, or stale Cloudflare edge cache. Next steps: test in incognito, hard reload, check Network tab for <code>/api/chats</code> response shape."
+        },
+        {
+          "title": "vgr_zirp deep dive plan",
+          "html": "<strong>vgr_zirp deep dive plan:</strong> <code>plans/vgrzirp-reuse.md</code> completed from a full code + devlog audit of the ribbonfarm_site worker stack. Key findings: 7 features to copy directly (title-anchored embeddings, tier weighting, D1, AES-256-GCM encryption, strike/ban, self-notes, per-query logging); 4 to adapt (CORPUS_MAP, lexicon, MCP, search); 5 to skip (multiple indexes, A/B testing, site hooks, session compression, KBA probe). Primary architectural divergence: C3PO needs structural retrieval (numbered frameworks in academic PDFs) that vgr_zirp has no equivalent for — tracked separately in <code>plans/structural-navigation.md</code>. Build order: tier weighting → CORPUS_MAP → D1 → encryption → strike/ban → self-notes → per-query logging → title-anchored embeddings → lexicon → MCP → structural navigation."
         }
       ]
     }

@@ -1,5 +1,22 @@
 # C3PO — Status Log
 
+## 2026-05-16 — /chats debugging, issues tracking, vgr_zirp plan (22:13–23:02 PT)
+
+- Deployed 4 fixes to /chats page: slim API response, /chats/ trailing-slash redirect, back-link fix, cardHTML field names
+- Root bug (getElementById null) persists — documented in `issues/chats-page-load-failure.md` with ruling-out analysis; next: test incognito + hard reload + Network tab
+- `plans/vgrzirp-reuse.md` complete — 7 copy, 4 adapt, 5 skip; build order established
+- `plans/structural-navigation.md` — unchanged, waiting for implementation slot
+- **Pinecone:** substack: 1,040 · pdfs: 766 · transcripts: 4 · Total: ~1,810 (unchanged)
+
+**Open TODOs (priority order):**
+1. Resolve `/chats` getElementById null bug (see `issues/chats-page-load-failure.md`)
+2. Tier weighting in `mergeResults()` — first vgr_zirp item, small change
+3. CORPUS_MAP in system prompt — prevents false denials
+4. Protocol lexicon — ML extraction + hand curation (~40 terms)
+5. D1 setup → encryption → strike/ban → self-notes → per-query logging
+6. GitHub Actions cron for `sync_substack.py`
+7. Phase 2B: MCP Worker
+
 ## 2026-05-14 — Project initialized
 
 - Repo created at `vgururao/c3po` (personal account; to migrate to Protocol-Institute org at Phase 6)
