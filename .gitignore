@@ -1,6 +1,9 @@
 .env
 data/*
 !data/devlog.json
+sources/youtube/captions_raw/
+sources/youtube/captions/
+sources/bibliography/pdfs/
 __pycache__/
 *.py[cod]
 .venv/

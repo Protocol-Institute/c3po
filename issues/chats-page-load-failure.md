@@ -1,6 +1,6 @@
 # Issue: /chats page stuck on "Loading conversations…"
 
-**Status:** Open  
+**Status:** RESOLVED — 2026-05-17  
 **First reported:** 2026-05-16 (session 6/7)  
 **Affected route:** `GET /chats`
 
@@ -68,7 +68,19 @@ All in `api/worker.js`, deployed 2026-05-16:
 
 ---
 
-## Next Steps to Try
+## Resolution (2026-05-17)
+
+**Root cause:** 314 curly/smart quotes (U+201C `"` and U+201D `"`) throughout `worker.js` instead of straight ASCII `"` (U+0022). These were introduced by the AI editor during initial code generation. The browser couldn't parse any HTML attribute — `id=`, `class=`, `href=` — because the attribute delimiters were not recognized as quotes. This caused every `getElementById` call to return null and every CSS selector to fail to match.
+
+The clue was the broken URL: clicking "Conversations" navigated to `https://c3po.vgr-702.workers.dev/%E2%80%9D/%E2%80%9D` — the URL-encoded form of `"/"` — proving the `href` attribute value was being parsed as starting with the curly quote character rather than as a delimiter.
+
+**Fix:** Python replacement `text.replace('“', '"').replace('”', '"')` — all 314 instances. Confirmed 0 remaining. Deployed and verified all pages working.
+
+**Also fixed in same session:** `loadChats()` restructured to match vgr_zirp pattern (`resetAndLoad()` sets loading state, `loadChats()` goes straight to fetch) — defensive improvement, but the core fix was the quote replacement.
+
+---
+
+## Previous Next Steps (now obsolete)
 
 1. **Incognito window** — rules out extensions
 2. **Hard reload (Cmd+Shift+R)** — rules out browser cache

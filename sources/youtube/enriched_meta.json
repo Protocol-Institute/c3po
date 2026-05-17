@@ -1,0 +1,2585 @@
+{
+  "PpfBJrh6zQg": {
+    "video_id": "PpfBJrh6zQg",
+    "title": "Kickoff",
+    "url": "https://www.youtube.com/watch?v=PpfBJrh6zQg",
+    "duration_sec": 3443,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlv8VMGoIrENsV_LP-bdr_28"
+    ],
+    "series": "protocol-school-2025",
+    "has_captions": true,
+    "summary": "The Protocol School 2025 kickoff session introduces a three-year research program funded by the Ethereum Foundation that studies protocols broadly across history and cultures. The organizers present their \"homecoming\" challenge of connecting protocol research to the crypto ecosystem while maintaining interdisciplinary engagement, positioning protocols as invisible infrastructures (like water) that shape society but escape notice.",
+    "categories": [
+      "protocol-theory",
+      "announcement",
+      "research-report"
+    ],
+    "speakers": [
+      "Tim",
+      "Timber"
+    ],
+    "key_concepts": [
+      "protocol literacy",
+      "homecoming framework",
+      "protocols as infrastructure",
+      "interdisciplinary protocol studies",
+      "crypto-humanities bridge"
+    ]
+  },
+  "Vh4awAsNGj8": {
+    "video_id": "Vh4awAsNGj8",
+    "title": "Protocolized Modeling and Verification of Cyber Physical Systems - Giovanni Merlino",
+    "url": "https://www.youtube.com/watch?v=Vh4awAsNGj8",
+    "duration_sec": 5701,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlv8VMGoIrENsV_LP-bdr_28"
+    ],
+    "series": "protocol-school-2025",
+    "has_captions": true,
+    "summary": "Giovanni Merlino from the University of Messina presents a course on protocolized modeling and verification of cyber-physical systems, situated within a master's program in computer science focused on infrastructure automation and embedded systems. The talk introduces the curriculum context and foundational domain concepts necessary for understanding how protocolization applies to cyber-physical system design and verification.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "research-report"
+    ],
+    "speakers": [
+      "Giovanni Merlino"
+    ],
+    "key_concepts": [
+      "cyber-physical systems (CPS)",
+      "protocolized modeling",
+      "verification frameworks",
+      "infrastructure softization",
+      "embedded systems"
+    ]
+  },
+  "n_geUireI5o": {
+    "video_id": "n_geUireI5o",
+    "title": "Beyond Consensus - Protocols as Digital Institutions - Martin Harrigan",
+    "url": "https://www.youtube.com/watch?v=n_geUireI5o",
+    "duration_sec": 4163,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlv8VMGoIrENsV_LP-bdr_28"
+    ],
+    "series": "protocol-school-2025",
+    "has_captions": true,
+    "summary": "Martin Harrigan, a lecturer and researcher in cryptography and blockchains at Southeastern Technological University, discusses integrating protocol studies into computer science education as a way to broaden students' understanding of what types of protocols can be created using blockchain and decentralized systems. He argues for placing protocol studies at the conceptual center of blockchain education, between technical infrastructure (networks, consensus) and applications (smart contracts, DeFi).",
+    "categories": [
+      "protocol-theory",
+      "interview"
+    ],
+    "speakers": [
+      "Martin Harrigan"
+    ],
+    "key_concepts": [
+      "protocols as digital institutions",
+      "consensus protocols",
+      "protocol studies integration",
+      "decentralized systems",
+      "smart contracts"
+    ]
+  },
+  "VW3jTSFZ5z0": {
+    "video_id": "VW3jTSFZ5z0",
+    "title": "Designing Digital Worlds Communities, Protocols, AI, and Power - Andrés Monroy Hernández",
+    "url": "https://www.youtube.com/watch?v=VW3jTSFZ5z0",
+    "duration_sec": 3735,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlv8VMGoIrENsV_LP-bdr_28"
+    ],
+    "series": "protocol-school-2025",
+    "has_captions": true,
+    "summary": "Andrés Monroy Hernández and Soan Dukes from Princeton introduce a framework for understanding digital worlds through the lens of online communities, protocols, and power dynamics. They argue that protocols—understood as both technical systems and social norms—shape how people interact in online spaces like Scratch and Wikipedia, and that examining these design choices can illuminate challenges in community governance and digital world-building.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching",
+      "interview"
+    ],
+    "speakers": [
+      "Andrés Monroy Hernández",
+      "Soan Dukes"
+    ],
+    "key_concepts": [
+      "online communities",
+      "protocol design",
+      "digital worlds",
+      "community governance",
+      "remixing and collaboration"
+    ]
+  },
+  "ve0oe09LhI0": {
+    "video_id": "ve0oe09LhI0",
+    "title": "Musicalization not Music - Ben Zucker",
+    "url": "https://www.youtube.com/watch?v=ve0oe09LhI0",
+    "duration_sec": 4363,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlv8VMGoIrENsV_LP-bdr_28"
+    ],
+    "series": "protocol-school-2025",
+    "has_captions": true,
+    "summary": "Ben Zucker presents music as a protocol—a system of abstract structure and notation that can be analyzed, practiced, and transferred across disciplines—arguing that musicalization (the procedural practice of bringing aesthetic protocols together) offers non-technological frameworks for understanding formal systems and refining creative practice across fields.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching",
+      "interview"
+    ],
+    "speakers": [
+      "Ben Zucker"
+    ],
+    "key_concepts": [
+      "music as protocol",
+      "musicalization",
+      "notation and performance",
+      "aesthetic protocols",
+      "formal modeling through music"
+    ]
+  },
+  "mK9R4hDyBgo": {
+    "video_id": "mK9R4hDyBgo",
+    "title": "Designing Trust Protocols, Society, and Web 3.0 - Helena Rong",
+    "url": "https://www.youtube.com/watch?v=mK9R4hDyBgo",
+    "duration_sec": 4058,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlv8VMGoIrENsV_LP-bdr_28"
+    ],
+    "series": "protocol-school-2025",
+    "has_captions": true,
+    "summary": "Helena Rong, assistant professor at NYU Shanghai, introduces a new course on trust experience design that examines how trust protocols function in autonomous systems and the agentic web. She frames trust as a foundational mechanism in everyday interactions (like crossing the street) and proposes a framework for designing speculative trust protocols for decentralized AI and blockchain systems.",
+    "categories": [
+      "protocol-theory",
+      "editorial"
+    ],
+    "speakers": [
+      "Helena Rong"
+    ],
+    "key_concepts": [
+      "trust protocols",
+      "trust experience design",
+      "agentic web",
+      "autonomous systems",
+      "decentralized AI",
+      "blockchain governance"
+    ]
+  },
+  "quqfI_fiTJw": {
+    "video_id": "quqfI_fiTJw",
+    "title": "Protocol Design as Governance - Eric Alston",
+    "url": "https://www.youtube.com/watch?v=quqfI_fiTJw",
+    "duration_sec": 5234,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlv8VMGoIrENsV_LP-bdr_28"
+    ],
+    "series": "protocol-school-2025",
+    "has_captions": true,
+    "summary": "Eric Alston presents a curricular module on protocol design as governance, drawing from institutional analysis and cryptocurrency contexts. He argues that protocol designers—whether in blockchain, AI, or standards organizations—must understand governance axioms and the critical role protocols play in coordinating pseudonymous participants in abstract networks.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "technology-ai"
+    ],
+    "speakers": [
+      "Eric Alston"
+    ],
+    "key_concepts": [
+      "protocol design as governance",
+      "institutional analysis",
+      "standards and standard-setting organizations",
+      "network coordination",
+      "governance axioms"
+    ]
+  },
+  "lkK5rlc5zMM": {
+    "video_id": "lkK5rlc5zMM",
+    "title": "Strategy as an Organizational Coordination Protocol for the Public Sector - Vaughn Tan",
+    "url": "https://www.youtube.com/watch?v=lkK5rlc5zMM",
+    "duration_sec": 4978,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlv8VMGoIrENsV_LP-bdr_28"
+    ],
+    "series": "protocol-school-2025",
+    "has_captions": true,
+    "summary": "Vaughn Tan presents an executive education course on strategy for the public sector, defining strategy as 'the art of making reasoned subjective arguments and decisions about acceptable trade-off configurations when pursuing desired outcomes.' He frames strategy as a coordination protocol particularly crucial for decentralized hierarchies like public sector organizations, which face structural coordination challenges that private sector strategy theory often fails to address.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "research-report"
+    ],
+    "speakers": [
+      "Vaughn Tan"
+    ],
+    "key_concepts": [
+      "strategy-as-coordination-protocol",
+      "trade-off-configurations",
+      "decentralized-hierarchies",
+      "public-sector-strategy",
+      "reasoned-subjective-decision-making"
+    ]
+  },
+  "ZVYlO6xsEa4": {
+    "video_id": "ZVYlO6xsEa4",
+    "title": "Protocols of Storytelling - Qiufan Stanley Chen",
+    "url": "https://www.youtube.com/watch?v=ZVYlO6xsEa4",
+    "duration_sec": 3718,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlv8VMGoIrENsV_LP-bdr_28"
+    ],
+    "series": "protocol-school-2025",
+    "has_captions": true,
+    "summary": "Qiufan Stanley Chen teaches a workshop on protocols of storytelling in the age of generative AI, focusing on how writers can use AI as a tool for deeper self-exploration rather than professional replacement. He guides participants through iterative creative writing sessions, positioning writing as a method for discovering the invisible and unseen aspects of oneself, while examining what makes compelling science fiction through canonical examples like The Matrix and Neon Genesis Evangelion.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory",
+      "technology-ai",
+      "interview"
+    ],
+    "speakers": [
+      "Qiufan Stanley Chen"
+    ],
+    "key_concepts": [
+      "generative AI and creative writing",
+      "storytelling protocols",
+      "self-exploration through writing",
+      "iterative creative practice",
+      "science fiction aesthetics"
+    ]
+  },
+  "RQZGImdwpYQ": {
+    "video_id": "RQZGImdwpYQ",
+    "title": "Towards a New Social Science of Protocols - Yige Wang",
+    "url": "https://www.youtube.com/watch?v=RQZGImdwpYQ",
+    "duration_sec": 4039,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlv8VMGoIrENsV_LP-bdr_28"
+    ],
+    "series": "protocol-school-2025",
+    "has_captions": true,
+    "summary": "Yige Wang, a sociologist, presents a new undergraduate course she is developing on the social science of protocols, supported by the Scholarly Lab Project. The course is structured in three parts: introducing core protocol concepts and theoretical frameworks, applying protocol perspectives to micro-level phenomena in sociology and linguistics, and shifting to macro-level analysis—offering a foundational exploration of how protocol thinking can reshape social science inquiry.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "editorial"
+    ],
+    "speakers": [
+      "Yige Wang"
+    ],
+    "key_concepts": [
+      "social science of protocols",
+      "protocol perspective",
+      "political sociology",
+      "micro-level analysis",
+      "macro-level analysis"
+    ]
+  },
+  "qIhMQBaJ3ug": {
+    "video_id": "qIhMQBaJ3ug",
+    "title": "Protocol Art I - Primavera De Filippi & Felix Beer",
+    "url": "https://www.youtube.com/watch?v=qIhMQBaJ3ug",
+    "duration_sec": 4755,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlv8VMGoIrENsV_LP-bdr_28"
+    ],
+    "series": "protocol-school-2025",
+    "has_captions": true,
+    "summary": "Primavera De Filippi, a legal scholar and artist, introduces a five-module course on protocol art that bridges legal governance and artistic practice. She argues that protocol art—using distributed technologies like blockchain and AI to create works that expose legal and governance challenges—has historical precedents and contemporary applications, with implications for intellectual property and collaborative governance structures.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "editorial"
+    ],
+    "speakers": [
+      "Primavera De Filippi"
+    ],
+    "key_concepts": [
+      "protocol art",
+      "distributed technology governance",
+      "blockchain art",
+      "legal systems and protocol constraints",
+      "intellectual property in protocol-based work"
+    ]
+  },
+  "EuuTlDAQEr0": {
+    "video_id": "EuuTlDAQEr0",
+    "title": "Protocol Art II - Primavera De Filippi & Felix Beer",
+    "url": "https://www.youtube.com/watch?v=EuuTlDAQEr0",
+    "duration_sec": 4454,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlv8VMGoIrENsV_LP-bdr_28"
+    ],
+    "series": "protocol-school-2025",
+    "has_captions": true,
+    "summary": "Primavera De Filippi and Felix Beer explore protocol art through case studies and audience analysis, examining how protocols—systems of rules created by designers but executed and modified by communities—function as artistic practice. The discussion uses role-playing games like Dungeons & Dragons as a concrete example of protocol art, analyzing how rule systems evolve across different social contexts and how they balance constraint with creative freedom.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching",
+      "interview"
+    ],
+    "speakers": [
+      "Primavera De Filippi",
+      "Felix Beer"
+    ],
+    "key_concepts": [
+      "protocol art",
+      "rule systems",
+      "social protocols",
+      "constraint and flexibility",
+      "community adaptation"
+    ]
+  },
+  "sjIAcXuspBE": {
+    "video_id": "sjIAcXuspBE",
+    "title": "Applied Protocol Thinking - Timber Stinson-Schroff",
+    "url": "https://www.youtube.com/watch?v=sjIAcXuspBE",
+    "duration_sec": 3897,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlv8VMGoIrENsV_LP-bdr_28"
+    ],
+    "series": "protocol-school-2025",
+    "has_captions": true,
+    "summary": "Timber Stinson-Schroff presents Applied Protocol Thinking as a capstone course for Protocol School 2025, offering practical frameworks and literacies for participants to apply protocol analysis in their everyday lives. Drawing on nearly three years of research including his study of occupational health and safety protocols in coal mining, Stinson-Schroff shares methodologies for recognizing and analyzing how organizations use protocols to create value, manage uncertainty, and advance their missions.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching",
+      "editorial"
+    ],
+    "speakers": [
+      "Timber Stinson-Schroff"
+    ],
+    "key_concepts": [
+      "protocol thinking lens",
+      "literacies and lenses",
+      "meso level analysis",
+      "organizational protocol use",
+      "protocol as verb"
+    ]
+  },
+  "6KpWypVFL2o": {
+    "video_id": "6KpWypVFL2o",
+    "title": "Bridge Atlas - Episode 1: Intro | Tim Beiko & Timber Stinson-Schroff",
+    "url": "https://www.youtube.com/watch?v=6KpWypVFL2o",
+    "duration_sec": 2951,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltdB39Tzin_NqRyDxsapYGG"
+    ],
+    "series": "bridge-atlas",
+    "has_captions": true,
+    "summary": "Tim Beiko and Timber Stinson-Schroff introduce the Bridge Atlas interview series and provide an overview of Summer of Protocols, a three-year research program funded by the Ethereum Foundation designed to establish protocols as a first-class concept for understanding the world. The program has evolved through four phases—pilot, research-focused summer, application-focused summer, and education-focused summer—producing essays, projects, and artifacts while engaging approximately 100 participants to study protocol design, management, and improvement.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "announcement",
+      "research-report"
+    ],
+    "speakers": [
+      "Tim Beiko",
+      "Timber Stinson-Schroff",
+      "Christine DKim"
+    ],
+    "key_concepts": [
+      "Summer of Protocols program",
+      "protocol design",
+      "protocol management",
+      "protocols as first-class concept",
+      "Ethereum Foundation"
+    ]
+  },
+  "GUxwGds2uJU": {
+    "video_id": "GUxwGds2uJU",
+    "title": "Bridge Atlas - Episode 2: Paradigms | Nils Gilman and Josh Stark",
+    "url": "https://www.youtube.com/watch?v=GUxwGds2uJU",
+    "duration_sec": 3537,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltdB39Tzin_NqRyDxsapYGG"
+    ],
+    "series": "bridge-atlas",
+    "has_captions": true,
+    "summary": "Nils Gilman and Josh Stark introduce the concepts of 'hardness' and 'planetary thinking' as frameworks for understanding Ethereum and protocol design. Gilman, a historian trained in globalization theory, traces how planetary thinking evolved from modernization and globalization discourse, while the discussion positions these concepts as critical lenses for analyzing technological and governance systems.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "governance"
+    ],
+    "speakers": [
+      "Nils Gilman",
+      "Josh Stark"
+    ],
+    "key_concepts": [
+      "planetary thinking",
+      "hardness",
+      "protocol design",
+      "globalization theory",
+      "governance frameworks"
+    ]
+  },
+  "4xZSeujEmig": {
+    "video_id": "4xZSeujEmig",
+    "title": "Bridge Atlas - Episode 3: Commons | Yancey Strickler & Trent Van Epps",
+    "url": "https://www.youtube.com/watch?v=4xZSeujEmig",
+    "duration_sec": 3725,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltdB39Tzin_NqRyDxsapYGG"
+    ],
+    "series": "bridge-atlas",
+    "has_captions": true,
+    "summary": "Yancey Strickler and Trent Van Epps discuss Ethereum through the lens of the commons in this Bridge Atlas episode. Trent, who coordinates protocol development for the Ethereum Foundation and leads Protocol Guild (a collective funding mechanism for 200+ core contributors), and Yancey, a writer focused on protocol governance, explore how decentralized systems function as shared resources and the coordination mechanisms required to sustain them.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "governance"
+    ],
+    "speakers": [
+      "Yancey Strickler",
+      "Trent Van Epps"
+    ],
+    "key_concepts": [
+      "commons",
+      "protocol coordination",
+      "Protocol Guild",
+      "collective funding",
+      "Ethereum governance"
+    ]
+  },
+  "zHGghwyrZzY": {
+    "video_id": "zHGghwyrZzY",
+    "title": "Bridge Atlas - Episode 4: Alignment | Emmett Shear & Alex Stokes",
+    "url": "https://www.youtube.com/watch?v=zHGghwyrZzY",
+    "duration_sec": 3419,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltdB39Tzin_NqRyDxsapYGG"
+    ],
+    "series": "bridge-atlas",
+    "has_captions": true,
+    "summary": "Emmett Shear, founder of Softmax, and Alex Stokes, Ethereum Foundation protocol coordination co-team lead, discuss alignment through the lens of Ethereum and multi-agent systems. Shear argues that alignment is not a state but a protocol for coordination between agents at multiple levels of abstraction, grounded in shared success rather than zero-sum competition.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "technology-ai"
+    ],
+    "speakers": [
+      "Emmett Shear",
+      "Alex Stokes"
+    ],
+    "key_concepts": [
+      "alignment-as-protocol",
+      "multi-agent coordination",
+      "shared success",
+      "agent alignment",
+      "protocol abstraction-levels"
+    ]
+  },
+  "BPsgkqgTWos": {
+    "video_id": "BPsgkqgTWos",
+    "title": "Bridge Atlas - Episode 5: Verifiability | Shreya Shankar & Justin Drake",
+    "url": "https://www.youtube.com/watch?v=BPsgkqgTWos",
+    "duration_sec": 3575,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltdB39Tzin_NqRyDxsapYGG"
+    ],
+    "series": "bridge-atlas",
+    "has_captions": true,
+    "summary": "Shreya Shankar and Justin Drake discuss verifiability as a lens for understanding both Ethereum systems and AI. Justin Drake focuses on the Lean Ethereum project's use of SNARKs (cryptographic proofs) to replace brute-force re-execution verification, while the episode explores how verifiability principles apply across blockchain consensus and AI system transparency.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "interview"
+    ],
+    "speakers": [
+      "Shreya Shankar",
+      "Justin Drake"
+    ],
+    "key_concepts": [
+      "verifiability",
+      "SNARKs",
+      "cryptographic proofs",
+      "Lean Ethereum",
+      "consensus verification"
+    ]
+  },
+  "QZwciILmsx8": {
+    "video_id": "QZwciILmsx8",
+    "title": "Centaur Fiction with Qiufan Chen & Amita Shukla",
+    "url": "https://www.youtube.com/watch?v=QZwciILmsx8",
+    "duration_sec": 3533,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "Qiufan Chen, an award-winning science fiction author, discusses his creative process of integrating large language models into fiction writing with Amita Shukla. Chen explores how LLMs function across multiple stages of his writing practice—from initial research and structural development to drafting and editing—drawing on his experience as one of the earliest serious public experimenters with AI-assisted literary creation.",
+    "categories": [
+      "protocol-fiction",
+      "interview",
+      "technology-ai"
+    ],
+    "speakers": [
+      "Qiufan Chen",
+      "Amita Shukla"
+    ],
+    "key_concepts": [
+      "LLM integration in creative writing",
+      "AI-assisted fiction process",
+      "speculative fiction and AI",
+      "creative protocol design",
+      "human-AI collaboration in authorship"
+    ]
+  },
+  "iwqoeIMXuzU": {
+    "video_id": "iwqoeIMXuzU",
+    "title": "Beyond Consensus: Protocols as Digital Institutions",
+    "url": "https://www.youtube.com/watch?v=iwqoeIMXuzU",
+    "duration_sec": 6126,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "Vess and Timber conduct a casual technical setup discussion in a town-hall format, covering Linux PC building, developer workflows, and community knowledge sharing. While positioned as a discussion on 'Protocols as Digital Institutions,' the transcript excerpt focuses on personal computing infrastructure choices and troubleshooting rather than protocol theory or governance frameworks.",
+    "categories": [
+      "town-hall",
+      "interview"
+    ],
+    "speakers": [
+      "Vess",
+      "Timber"
+    ],
+    "key_concepts": [
+      "digital infrastructure",
+      "developer workflows",
+      "community knowledge-sharing",
+      "technical systems"
+    ]
+  },
+  "-5Lq2uaOgBw": {
+    "video_id": "-5Lq2uaOgBw",
+    "title": "Nathan Schneider: Contributions to a Glossary of Protocol",
+    "url": "https://www.youtube.com/watch?v=-5Lq2uaOgBw",
+    "duration_sec": 4223,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "Nathan Schneider, professor of media studies at the University of Colorado Boulder, presents his research on protocol studies and shares a glossary project documenting the intellectual history of protocols across disciplines. He traces how the term 'protocol' appears across online economies, blockchains, crypto, and social networks, and discusses his oral history initiative interviewing protocol practitioners worldwide.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "interview"
+    ],
+    "speakers": [
+      "Nathan Schneider"
+    ],
+    "key_concepts": [
+      "protocol glossary",
+      "oral history of protocols",
+      "online economies",
+      "governance",
+      "protocol studies"
+    ]
+  },
+  "Sh61GUPaWUI": {
+    "video_id": "Sh61GUPaWUI",
+    "title": "Cosmopolis, Metropolis, Nation-State: 3 Protocols for Articulating Civilizational Memory",
+    "url": "https://www.youtube.com/watch?v=Sh61GUPaWUI",
+    "duration_sec": 4701,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "The speaker explores three protocols—cosmopolis, metropolis, and nation-state—for articulating civilizational memory, with a focus on reconsidering what cosmopolitanism means in a changed geopolitical landscape. Drawing on over a decade of blogging, work with the Summer of Protocols program, and AI consulting, the speaker presents a book-length investigation into how these three units function as frameworks for understanding belonging, identity, and memory beyond familiar nationalist or globalist categories.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "town-hall"
+    ],
+    "speakers": [
+      "Venkatesh Rao"
+    ],
+    "key_concepts": [
+      "cosmopolitanism",
+      "civilizational memory",
+      "protocol frameworks",
+      "nation-state",
+      "cosmopolis"
+    ]
+  },
+  "rYhAkVFRbjo": {
+    "video_id": "rYhAkVFRbjo",
+    "title": "The State of Climate Protocols",
+    "url": "https://www.youtube.com/watch?v=rYhAkVFRbjo",
+    "duration_sec": 3761,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "Cory Levenson, a climate tech consultant and engineer, discusses the current state of climate protocols with a focus on carbon removal and voluntary carbon markets. He examines data infrastructure systems, technical frameworks for protocol interoperability in carbon dioxide removal pathways, and the intersection of carbon markets with regulatory and policy frameworks.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "technology-ai",
+      "governance"
+    ],
+    "speakers": [
+      "Cory Levenson"
+    ],
+    "key_concepts": [
+      "carbon removal protocols",
+      "voluntary carbon markets",
+      "data infrastructure",
+      "protocol interoperability",
+      "CDR pathways"
+    ]
+  },
+  "13P3U6Xm6Mk": {
+    "video_id": "13P3U6Xm6Mk",
+    "title": "Charity Majors: Observability",
+    "url": "https://www.youtube.com/watch?v=13P3U6Xm6Mk",
+    "duration_sec": 3676,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "Charity Majors, operations engineer and CEO of Honeycomb, discusses observability as a critical concept for protocol design. The talk explores how observability—the ability to understand system behavior through external outputs—applies to both database engineering and protocol architecture, with connections drawn from Majors' interdisciplinary background in music and mathematics.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "interview"
+    ],
+    "speakers": [
+      "Charity Majors"
+    ],
+    "key_concepts": [
+      "observability",
+      "protocol design",
+      "system behavior visibility",
+      "database engineering",
+      "pattern recognition"
+    ]
+  },
+  "fKqNSE9NmGU": {
+    "video_id": "fKqNSE9NmGU",
+    "title": "The Infinite Game of Poetry: Protocols for Living, Listening, and Transcending the Rules",
+    "url": "https://www.youtube.com/watch?v=fKqNSE9NmGU",
+    "duration_sec": 3707,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "Robert Peak, an acclaimed poet and technologist, explores how poetry and poetic craft can inform protocol design and thinking. He argues that poetry, despite its inability to directly change the world, has transformative potential and offers valuable frameworks—particularly from the craft perspective—that can enrich how technologists and engineers approach protocol development and thinking about rules and systems.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "protocol-fiction"
+    ],
+    "speakers": [
+      "Robert Peak"
+    ],
+    "key_concepts": [
+      "infinite games",
+      "poetic craft",
+      "protocol design",
+      "rules and transcendence",
+      "poetry as methodology"
+    ]
+  },
+  "q6SRoqp1vJQ": {
+    "video_id": "q6SRoqp1vJQ",
+    "title": "AI as Normal Technology",
+    "url": "https://www.youtube.com/watch?v=q6SRoqp1vJQ",
+    "duration_sec": 3686,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "A speaker presents a paper proposing 'AI as Normal Technology'—an alternative framework to the superintelligence narrative that emphasizes social and institutional bottlenecks over technological progress alone, arguing that AI's transformative effects will unfold over decades similar to electricity and the internet rather than causing overnight disruption. The speaker challenges the conceptual coherence of 'superintelligence' as a framework, reframing the discussion around incremental technological integration and labor transformation.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "governance"
+    ],
+    "speakers": [
+      "Benet (mentioned as prior influence)"
+    ],
+    "key_concepts": [
+      "normal technology",
+      "technological timelines",
+      "social and institutional bottlenecks",
+      "cognitive automation",
+      "superintelligence critique"
+    ]
+  },
+  "tNYQcWksOro": {
+    "video_id": "tNYQcWksOro",
+    "title": "Protocol Fiction Panel + Contest Announcement",
+    "url": "https://www.youtube.com/watch?v=tNYQcWksOro",
+    "duration_sec": 3822,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "The Protocol Institute announces a protocol fiction contest themed 'Ghosts and Machines,' inviting writers to imagine digitally haunted futures where distributed AIs and machines communicate through protocols. Stan Chen, author of Waste Tide and consulting editor at Protocol Eyes, leads a writing workshop on crafting stories with protocol thinking, emphasizing realistic, plural visions of AI futures that transcend utopian/dystopian binaries.",
+    "categories": [
+      "protocol-fiction",
+      "announcement",
+      "interview"
+    ],
+    "speakers": [
+      "Stan Chen"
+    ],
+    "key_concepts": [
+      "protocol fiction",
+      "distributed AI",
+      "ghosts and machines",
+      "protocol thinking",
+      "digital haunting"
+    ]
+  },
+  "yXK2nEw7lM8": {
+    "video_id": "yXK2nEw7lM8",
+    "title": "Into the Spannungsfeld (SIG Kickoff)",
+    "url": "https://www.youtube.com/watch?v=yXK2nEw7lM8",
+    "duration_sec": 3650,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "The speaker introduces the Spannungsfeld (field of tensions) Special Interest Group, a research initiative exploring trade-offs and conflicts in protocol design and technological development. Drawing from tension games conducted at conferences, the group proposes a framework combining engineering trade-offs with social conflict to understand how tensions shape protocol design and societal outcomes.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "announcement"
+    ],
+    "speakers": [
+      "Speaker (SIG Lead)"
+    ],
+    "key_concepts": [
+      "Spannungsfeld",
+      "tension games",
+      "trade-offs",
+      "conflict",
+      "protocol design",
+      "world-building"
+    ]
+  },
+  "RVFoRVBvW7E": {
+    "video_id": "RVFoRVBvW7E",
+    "title": "Towards a Formal Theory of Protocols",
+    "url": "https://www.youtube.com/watch?v=RVFoRVBvW7E",
+    "duration_sec": 4711,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "Benitesh Raalo kicks off the Protocol Institute's Technical Foundations track, announcing a new special interest group dedicated to formal modeling of protocols. Raalo positions this work as establishing mathematical and theoretical foundations for protocol studies analogous to how economics formalized markets or control theory formalized manufacturing, with plans for a six-month study group featuring bi-weekly co-working sessions and collaborative paper reading.",
+    "categories": [
+      "protocol-theory",
+      "announcement",
+      "organizations"
+    ],
+    "speakers": [
+      "Benitesh Raalo"
+    ],
+    "key_concepts": [
+      "formal models of protocols",
+      "technical foundations",
+      "protocol theory formalization",
+      "special interest groups",
+      "study group methodology"
+    ]
+  },
+  "07_1FegA1Gg": {
+    "video_id": "07_1FegA1Gg",
+    "title": "Protocols in Electronic Design",
+    "url": "https://www.youtube.com/watch?v=07_1FegA1Gg",
+    "duration_sec": 4770,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "Vicram Sakar, a writer and engineer with 15+ years of RF engineering experience, discusses protocols in electronic design during the Protocol Institute's summer guest talk series. The talk explores the intersection of technology, engineering, and pedagogy, with Sakar drawing on his expertise in radio frequency engineering and semiconductor technology to examine how protocols function in electronic systems.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "interview"
+    ],
+    "speakers": [
+      "Vicram Sakar"
+    ],
+    "key_concepts": [
+      "radio frequency engineering",
+      "electronic design protocols",
+      "semiconductor technology",
+      "technical pedagogy",
+      "engineering protocols"
+    ]
+  },
+  "KcICTT2GJY0": {
+    "video_id": "KcICTT2GJY0",
+    "title": "Intro to Protocol Studies: Argument Engineering for Dummies",
+    "url": "https://www.youtube.com/watch?v=KcICTT2GJY0",
+    "duration_sec": 2657,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "The speaker provides an introductory overview of protocol studies as a field, tracing the origins and evolution of the Summer of Protocols program (funded by the Ethereum Foundation to address blockchain resilience) from its 2022 pilot through theory research, real-world applications, and current pivot toward open-source education. They frame protocol studies as a broad analytical approach applicable across domains from quantum computing to flood management, emphasizing \"argument engineering\" as a method for understanding and improving systems.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "announcement"
+    ],
+    "speakers": [
+      "Summer of Protocols program coordinator"
+    ],
+    "key_concepts": [
+      "argument engineering",
+      "protocol definition and study methodology",
+      "blockchain resilience",
+      "system improvement through protocol analysis",
+      "open-source curriculum development"
+    ]
+  },
+  "yBc7IxHT38M": {
+    "video_id": "yBc7IxHT38M",
+    "title": "Emmett Shear: Alignment Protocols",
+    "url": "https://www.youtube.com/watch?v=yBc7IxHT38M",
+    "duration_sec": 3698,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "Emmett Shear, former CEO of Twitch and interim CEO of OpenAI, argues that alignment between AI agents is a capability enabled by protocol rather than a fixed property of individual agents. He contends that alignment is an ongoing process requiring skill and coordination, and introduces his recently founded company Softmax, which focuses on protocol-based approaches to AI alignment by drawing parallels between community/connection dynamics and agent coordination.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "interview"
+    ],
+    "speakers": [
+      "Emmett Shear"
+    ],
+    "key_concepts": [
+      "alignment protocols",
+      "AI agents",
+      "capability vs. property",
+      "OODA loop",
+      "collective intelligence coordination"
+    ]
+  },
+  "JjVj_WRXxwA": {
+    "video_id": "JjVj_WRXxwA",
+    "title": "Public Intelligence",
+    "url": "https://www.youtube.com/watch?v=JjVj_WRXxwA",
+    "duration_sec": 3772,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "Kevin Kelly, senior maverick at Wired magazine, presents the concept of 'public intelligence'—a high-capability artificial intelligence governed as a commons, similar to the internet or public infrastructure, rather than owned by a single nation or corporation. He argues for imagining an AI commons model that distributes ownership and governance across multiple stakeholders, drawing parallels to shared public resources.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "governance",
+      "interview"
+    ],
+    "speakers": [
+      "Kevin Kelly"
+    ],
+    "key_concepts": [
+      "public intelligence",
+      "AI commons",
+      "commons governance",
+      "distributed ownership",
+      "infrastructure-as-commons"
+    ]
+  },
+  "2OyZt4gbUNA": {
+    "video_id": "2OyZt4gbUNA",
+    "title": "The Intersubjective Consensus Problem",
+    "url": "https://www.youtube.com/watch?v=2OyZt4gbUNA",
+    "duration_sec": 5235,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "Sriram, founder of IGEN Layer and faculty at University of Washington, discusses the intersubjective consensus problem in blockchain systems and proposes an abstract layer solution on Ethereum. The talk explores how blockchains enable self-enforcing commitments for human coordination and cooperation, and what a more protocolized world governed by such systems could look like.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "interview"
+    ],
+    "speakers": [
+      "Sriram",
+      "Benitesh Raalo"
+    ],
+    "key_concepts": [
+      "intersubjective consensus problem",
+      "self-enforcing commitments",
+      "blockchain coordination",
+      "abstract layer architecture",
+      "protocolized governance"
+    ]
+  },
+  "Ze9pqaIrebY": {
+    "video_id": "Ze9pqaIrebY",
+    "title": "Fireside Chat with Nadia Asparouhova",
+    "url": "https://www.youtube.com/watch?v=Ze9pqaIrebY",
+    "duration_sec": 3680,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "Nadia Asparouhova discusses anti-mimetics—ideas that resist spreading or being remembered—drawing from SCP Foundation fiction and connecting the concept to Venkatesh Rao's 'cozy web' theory. She explores how certain ideas fade from memory despite documentation, and examines the tension between isolated intellectual communities and information spread.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "research-report"
+    ],
+    "speakers": [
+      "Nadia Asparouhova"
+    ],
+    "key_concepts": [
+      "anti-mimetics",
+      "SCP Foundation",
+      "cozy web",
+      "memetic resistance",
+      "protocol fiction"
+    ]
+  },
+  "c2xdzOjakvw": {
+    "video_id": "c2xdzOjakvw",
+    "title": "A Protocol Fiction Protocol",
+    "url": "https://www.youtube.com/watch?v=c2xdzOjakvw",
+    "duration_sec": 4051,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "Benitesh Raalo presents an informal talk on protocol fiction as a genre and methodology, framing it through the lens of theatrical performance (Kabuki) as an analogy for how protocols function as narratives. The talk explores protocol fiction as both a creative practice and a framework for understanding complex systems, introducing the concept of protocol fiction protocols—meta-protocols that govern the creation and analysis of speculative protocol narratives.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory",
+      "announcement",
+      "interview"
+    ],
+    "speakers": [
+      "Benitesh Raalo"
+    ],
+    "key_concepts": [
+      "protocol fiction",
+      "protocol fiction protocols",
+      "terminological twist challenge",
+      "protocols as narrative",
+      "speculative protocol design"
+    ]
+  },
+  "lQrETS1JnAw": {
+    "video_id": "lQrETS1JnAw",
+    "title": "AI as the Anti-product – Guest Talk with Peter Wang",
+    "url": "https://www.youtube.com/watch?v=lQrETS1JnAw",
+    "duration_sec": 4126,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "Peter Wang, co-founder of Anaconda and leader of their AI business, discusses AI as an anti-product—arguing against treating AI as a traditional consumer product. Wang explores how AI development infrastructure and scientific computing tools shape the actual practices of AI developers, contrasting the hype around AI products with the unglamorous low-level plumbing that enables them.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "technology-ai"
+    ],
+    "speakers": [
+      "Peter Wang"
+    ],
+    "key_concepts": [
+      "AI as anti-product",
+      "scientific computing infrastructure",
+      "AI development tools",
+      "protocol-driven development",
+      "AI developer practices"
+    ]
+  },
+  "-E1YnHpIfws": {
+    "video_id": "-E1YnHpIfws",
+    "title": "SoP 2025 Town Hall",
+    "url": "https://www.youtube.com/watch?v=-E1YnHpIfws",
+    "duration_sec": 3970,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVltAKN-jscJHaGRe99xEK2LC"
+    ],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "Tim Beo and Benitesh Ralph, directors of Summer of Protocols, present the 2025 program overview and explain the genesis of the initiative. Beo traces how the Ethereum Foundation became involved after realizing that existing mental models from software engineering and product development don't adequately frame protocol work, leading to a focus on protocols as a distinct category of technical and socio-economic systems.",
+    "categories": [
+      "announcement",
+      "governance",
+      "protocol-theory"
+    ],
+    "speakers": [
+      "Tim Beo",
+      "Benitesh Ralph",
+      "Timber"
+    ],
+    "key_concepts": [
+      "protocol design",
+      "Ethereum governance",
+      "mental models for protocols",
+      "protocol upgrades",
+      "socio-technical systems"
+    ]
+  },
+  "KYTfwgZAvQ8": {
+    "video_id": "KYTfwgZAvQ8",
+    "title": "Memory Research Group",
+    "url": "https://www.youtube.com/watch?v=KYTfwgZAvQ8",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVluisGvbw94g9ppIAw6JIcEl"
+    ],
+    "series": "guest-talks-2025",
+    "has_captions": true,
+    "summary": "Kia leads the kickoff of the Memory Research Group, a collaborative research initiative exploring how memory functions as a fundamental protocol in human and technological systems. The session introduces frameworks for understanding memory protocols—from personal note-taking systems to organizational storage models—and positions memory as a cornerstone concept in protocol studies, examining how different structures for memory organization (ordered vs. chaotic storage) shape information management and retention.",
+    "categories": [
+      "announcement",
+      "research-report",
+      "protocol-theory"
+    ],
+    "speakers": [
+      "Kia"
+    ],
+    "key_concepts": [
+      "memory protocols",
+      "organized vs. chaotic storage",
+      "artificial memory",
+      "information persistence",
+      "memory models"
+    ]
+  },
+  "ycSPyh8-G94": {
+    "video_id": "ycSPyh8-G94",
+    "title": "Plenary Talk - 2024 Protocol Symposium",
+    "url": "https://www.youtube.com/watch?v=ycSPyh8-G94",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlubAzl5w31GQdbo0yTbqXu-"
+    ],
+    "series": "symposium-2024",
+    "has_captions": true,
+    "summary": "Tim Boo opens the 2024 Protocol Symposium, explaining how Summer of Protocols evolved from studying Ethereum-specific challenges to examining protocols as a cross-domain class of phenomena. The program aims to identify common principles underlying protocols across different fields by funding researchers to study diverse protocol implementations.",
+    "categories": [
+      "announcement",
+      "protocol-theory",
+      "research-report"
+    ],
+    "speakers": [
+      "Tim Boo"
+    ],
+    "key_concepts": [
+      "protocol as a class",
+      "cross-domain protocol analysis",
+      "protocol research methodology",
+      "Summer of Protocols program"
+    ]
+  },
+  "pK7U2IrPETQ": {
+    "video_id": "pK7U2IrPETQ",
+    "title": "Guest Talk with Geoff Manaugh | Burglary, Architecture, and the Protocols of “Nakatomi Space”",
+    "url": "https://www.youtube.com/watch?v=pK7U2IrPETQ",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlubAzl5w31GQdbo0yTbqXu-"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Geoff Manaugh discusses how burglars and other unauthorized users navigate and exploit urban environments, drawing parallels to how cities function as systems of protocols with gaps and exploits. Through his concept of 'Nakatomi space' (named after the building in Die Hard), Manaugh presents the city as a surface of navigable gaps and vulnerabilities rather than a centrally planned domain, offering an alternative framework to understanding urban space.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching",
+      "guest-talks"
+    ],
+    "speakers": [
+      "Geoff Manaugh"
+    ],
+    "key_concepts": [
+      "Nakatomi space",
+      "urban protocols",
+      "gaps and exploits",
+      "unauthorized navigation",
+      "city as surface"
+    ]
+  },
+  "5gSh4biSvS8": {
+    "video_id": "5gSh4biSvS8",
+    "title": "Guest Talk with John Bissell | In Search of a Protocol for Matter (Dis)Assembly at Human Scale",
+    "url": "https://www.youtube.com/watch?v=5gSh4biSvS8",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlubAzl5w31GQdbo0yTbqXu-"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "John Bissell, CEO of Origin Materials, discusses protocols for transforming matter at human scale through bio-based feedstock chemistry. Origin Materials develops carbon-negative plastics by replacing petroleum-based inputs with biofeedstock, demonstrating a systemic protocol for sustainable materials production that contrasts with traditional carbon-positive petrochemical processes.",
+    "categories": [
+      "guest-talks",
+      "technology-ai",
+      "protocol-theory",
+      "interview"
+    ],
+    "speakers": [
+      "John Bissell"
+    ],
+    "key_concepts": [
+      "feedstock protocols",
+      "carbon-negative materials",
+      "matter assembly/disassembly",
+      "chemical engineering systems",
+      "sustainable polymerization"
+    ]
+  },
+  "dDEgt1-72YM": {
+    "video_id": "dDEgt1-72YM",
+    "title": "Research Salon with Kei Kreutler | Artificial Memory and Orienting Infinity",
+    "url": "https://www.youtube.com/watch?v=dDEgt1-72YM",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlubAzl5w31GQdbo0yTbqXu-"
+    ],
+    "series": "researcher-salon",
+    "has_captions": true,
+    "summary": "Kei Kreutler explores how protocols develop and maintain memory, tracing historical memory metaphors from ancient philosophy through computation. She argues that protocols serve as mechanisms for memory management, where associative and taxonomic logic converge in computational systems to shape how information is organized and recalled.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "memory-archival"
+    ],
+    "speakers": [
+      "Kei Kreutler"
+    ],
+    "key_concepts": [
+      "artificial memory",
+      "protocol memory",
+      "associative logic",
+      "taxonomic logic",
+      "computational memory systems"
+    ]
+  },
+  "SlXYIlpJRoY": {
+    "video_id": "SlXYIlpJRoY",
+    "title": "Guest Talk with Chris Dixon | Read, Write, Own",
+    "url": "https://www.youtube.com/watch?v=SlXYIlpJRoY",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlubAzl5w31GQdbo0yTbqXu-"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Chris Dixon from a16z discusses protocols and their applications in a Q&A interview format as part of the Protocol Institute's guest talk series. Dixon, a prominent entrepreneur and investor known for his work in crypto and venture capital, explores how protocol thinking applies across diverse domains from technology to governance and environmental management.",
+    "categories": [
+      "interview",
+      "protocol-theory",
+      "technology-ai"
+    ],
+    "speakers": [
+      "Chris Dixon"
+    ],
+    "key_concepts": [
+      "protocols",
+      "angel investing",
+      "crypto",
+      "venture capital",
+      "decentralized ownership"
+    ]
+  },
+  "8LBZN1-T1fM": {
+    "video_id": "8LBZN1-T1fM",
+    "title": "Guest Talk with Nils Gilman & Jonathan Blake | Planetary Subsidiarity",
+    "url": "https://www.youtube.com/watch?v=8LBZN1-T1fM",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlubAzl5w31GQdbo0yTbqXu-"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Nils Gilman and Jonathan Blake from the Berggruin Institute discuss planetary subsidiarity and their book 'Children of a Modest Star,' exploring how protocols and institutional design can enable global coordination at the largest scales. They bring a policy and historical perspective to balance technological idealism with realistic frameworks for actual world-changing impact.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "interview"
+    ],
+    "speakers": [
+      "Nils Gilman",
+      "Jonathan Blake"
+    ],
+    "key_concepts": [
+      "planetary subsidiarity",
+      "global coordination mechanisms",
+      "institutional design",
+      "protocol-based governance",
+      "network states"
+    ]
+  },
+  "a9jQcvTC2Pw": {
+    "video_id": "a9jQcvTC2Pw",
+    "title": "Protocols for TV Comedy with Steve Hely",
+    "url": "https://www.youtube.com/watch?v=a9jQcvTC2Pw",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlubAzl5w31GQdbo0yTbqXu-"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Steve Hely discusses the hidden protocols and structural systems behind TV comedy writing and production. Hely explores how comedy writing, like college entrance essays and other forms of constrained writing, operates through invisible frameworks that produce seemingly organic entertainment, drawing parallels between the mechanics of TV production and the carefully engineered systems that audiences don't typically see.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "protocol-watching"
+    ],
+    "speakers": [
+      "Steve Hely"
+    ],
+    "key_concepts": [
+      "invisible structure",
+      "TV production protocols",
+      "writer room mechanics",
+      "constrained writing systems",
+      "behind-the-scenes frameworks"
+    ]
+  },
+  "-uw9UiyvYBQ": {
+    "video_id": "-uw9UiyvYBQ",
+    "title": "Guest Talk with JoAnne Yates | The Trajectory of Global Standard Setting",
+    "url": "https://www.youtube.com/watch?v=-uw9UiyvYBQ",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlubAzl5w31GQdbo0yTbqXu-"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "JoAnne Yates, retired MIT management professor and co-author of Engineering Rules, traces the historical trajectory of private voluntary standard-setting since 1880. She argues that standardization processes—not just the standards themselves—are critical infrastructure enabling interoperability and modern life, with implications for how standards organizations will evolve.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "interview"
+    ],
+    "speakers": [
+      "JoAnne Yates"
+    ],
+    "key_concepts": [
+      "private voluntary standard-setting",
+      "standardization process",
+      "consensus mechanisms",
+      "global standards trajectory",
+      "infrastructure interoperability"
+    ]
+  },
+  "aQWZ50tIB98": {
+    "video_id": "aQWZ50tIB98",
+    "title": "Guest Talk with Renee DiResta | A Troll's Guide to the Internet",
+    "url": "https://www.youtube.com/watch?v=aQWZ50tIB98",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlubAzl5w31GQdbo0yTbqXu-"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Renee DiResta discusses human behavior in the digital built environment, arguing that the internet is no longer a wild space but rather a constructed ecosystem where users adapt their behaviors—similar to how animals adapt to urban environments. DiResta draws on her decade-plus of research studying digital manipulation tactics, algorithmic amplification, and coordinated networks (exemplified by her work on anti-vaccine movements) to frame online phenomena as products of designed systems rather than natural behavior.",
+    "categories": [
+      "interview",
+      "protocol-theory",
+      "research-report"
+    ],
+    "speakers": [
+      "Renee DiResta"
+    ],
+    "key_concepts": [
+      "digital built environment",
+      "algorithmic feeds",
+      "coordinated networks",
+      "platform design",
+      "human behavior adaptation"
+    ]
+  },
+  "AgVfb5ytx9Y": {
+    "video_id": "AgVfb5ytx9Y",
+    "title": "Guest Talk with Bryan Johnson | The Blueprint Protocol",
+    "url": "https://www.youtube.com/watch?v=AgVfb5ytx9Y",
+    "duration_sec": 3211,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlvA3RUUQi9Bt7uZacjfJQXr"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Bryan Johnson discusses the Blueprint Protocol, his personal biohacking and longevity project aimed at reversing aging through systematic lifestyle optimization. Johnson, entrepreneur and founder of Braintree (sold to PayPal) and Kernel (a brain-machine interface company), shares his multidisciplinary approach to achieving measurable health improvements and extending human healthspan.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "research-report"
+    ],
+    "speakers": [
+      "Bryan Johnson"
+    ],
+    "key_concepts": [
+      "Blueprint Protocol",
+      "reverse aging",
+      "biohacking",
+      "longevity",
+      "brain-machine interface",
+      "health optimization"
+    ]
+  },
+  "u_mU4Io2s1w": {
+    "video_id": "u_mU4Io2s1w",
+    "title": "Guest Talk with Alex Komoroske | Gardening Platforms",
+    "url": "https://www.youtube.com/watch?v=u_mU4Io2s1w",
+    "duration_sec": 3689,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlvA3RUUQi9Bt7uZacjfJQXr"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Alex Komoroske, a veteran tech industry leader known for his work on Chrome's web platform team, discusses gardening platforms—applying horticultural metaphors and coordination principles to platform design and governance. Drawing on his experience navigating large-scale organizational coordination challenges, Komoroske explores how platforms can be cultivated and managed as living ecosystems rather than rigid systems.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "technology-ai"
+    ],
+    "speakers": [
+      "Alex Komoroske"
+    ],
+    "key_concepts": [
+      "coordination headwinds",
+      "platform design",
+      "gardening metaphor",
+      "organizational dynamics",
+      "web platform governance"
+    ]
+  },
+  "Ju9DewoTyx4": {
+    "video_id": "Ju9DewoTyx4",
+    "title": "Protocol Town Hall with Gordon Brander | Noosphere: A Protocol for Thought",
+    "url": "https://www.youtube.com/watch?v=Ju9DewoTyx4",
+    "duration_sec": 3879,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlvA3RUUQi9Bt7uZacjfJQXr"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Gordon Brander presents Noosphere, a decentralized protocol designed to create a shared global mind by connecting thought and knowledge across the world. Brander frames this ambitious project through the lens of planetary evolution—from geosphere to biosphere to what he calls a forming 'noosphere'—and discusses both the conceptual vision and technical protocol challenges underlying the implementation.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "technology-ai"
+    ],
+    "speakers": [
+      "Gordon Brander"
+    ],
+    "key_concepts": [
+      "noosphere",
+      "decentralized protocol",
+      "shared mind",
+      "thought protocol",
+      "distributed knowledge systems"
+    ]
+  },
+  "9Cs9Yf6WpUk": {
+    "video_id": "9Cs9Yf6WpUk",
+    "title": "Protocol Town Hall with David Lang | Standards Make the World",
+    "url": "https://www.youtube.com/watch?v=9Cs9Yf6WpUk",
+    "duration_sec": 3059,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlvA3RUUQi9Bt7uZacjfJQXr"
+    ],
+    "series": "researcher-salon",
+    "has_captions": true,
+    "summary": "David Lang presents research on technical standards as a critical but underappreciated form of 21st-century entrepreneurship, drawing from his experience developing the Bristlemouth underwater connector standard. Lang argues that standards—from Wi-Fi to screw threads—shape infrastructure and enable interoperability, and explores how to create and establish standards in practice.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "interview"
+    ],
+    "speakers": [
+      "David Lang"
+    ],
+    "key_concepts": [
+      "technical standards",
+      "Bristlemouth connector",
+      "interoperability",
+      "standards-setting as entrepreneurship",
+      "infrastructure protocols"
+    ]
+  },
+  "cgqJNo5taLI": {
+    "video_id": "cgqJNo5taLI",
+    "title": "Research Salon with Rafael Fernández | The Swarm and the Formation",
+    "url": "https://www.youtube.com/watch?v=cgqJNo5taLI",
+    "duration_sec": 3488,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlvA3RUUQi9Bt7uZacjfJQXr"
+    ],
+    "series": "researcher-salon",
+    "has_captions": true,
+    "summary": "Rafael Fernández presents research on swarms and formation, arguing that the absence of protocols—not just their presence—is key to understanding swarm behavior. His project emerged from practical experience running Folklore, a decentralized curation collective, and explores how swarms differ fundamentally from crowds and organized entities through the lens of protocol theory.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "interview"
+    ],
+    "speakers": [
+      "Rafael Fernández"
+    ],
+    "key_concepts": [
+      "swarm dynamics",
+      "protocol absence",
+      "decentralized curation",
+      "collective intelligence",
+      "negative space in protocols"
+    ]
+  },
+  "Q56q9Eq9bnA": {
+    "video_id": "Q56q9Eq9bnA",
+    "title": "Researcher Salon with Kara Kittel & Toby Shorin | Unprotocolized Knowleldge",
+    "url": "https://www.youtube.com/watch?v=Q56q9Eq9bnA",
+    "duration_sec": 3248,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlvA3RUUQi9Bt7uZacjfJQXr"
+    ],
+    "series": "researcher-salon",
+    "has_captions": true,
+    "summary": "Kara Kittel and Toby Shorin present their Summer of Protocols research project on unprotocolized knowledge, exploring how authorship, credit cultures, and coordination function in internet-native contexts. The project evolved from an initial focus on authorship to examining credit cultures and human protocols, with the researchers pursuing divergent applications—Shorin exploring care culture frameworks and Kittel developing experiential animation work.",
+    "categories": [
+      "protocol-research",
+      "research-report",
+      "interview"
+    ],
+    "speakers": [
+      "Kara Kittel",
+      "Toby Shorin"
+    ],
+    "key_concepts": [
+      "unprotocolized knowledge",
+      "authorship on the internet",
+      "credit cultures",
+      "human protocols",
+      "care culture",
+      "coordination"
+    ]
+  },
+  "84aDDKv4nPM": {
+    "video_id": "84aDDKv4nPM",
+    "title": "Guest Talk with Jay Graber | Q&A Hosted by Venkatesh Rao",
+    "url": "https://www.youtube.com/watch?v=84aDDKv4nPM",
+    "duration_sec": 3750,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlvA3RUUQi9Bt7uZacjfJQXr"
+    ],
+    "series": "popular-lectures",
+    "has_captions": true,
+    "summary": "Jay Graber discusses her trajectory from digital rights activism through cryptocurrency development to founding Blue Sky, a decentralized social protocol project. Graber argues against decentralization maximalism, instead advocating for pragmatic protocol design that balances decentralization with usability, drawing on her experience with peer-to-peer technologies like Secure Scuttlebutt, IPFS, and blockchain systems.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "organizations"
+    ],
+    "speakers": [
+      "Jay Graber",
+      "Daniel Holmgren"
+    ],
+    "key_concepts": [
+      "decentralized social protocols",
+      "peer-to-peer architecture",
+      "decentralization pragmatism",
+      "protocol design",
+      "digital rights"
+    ]
+  },
+  "OEJXl2jibSI": {
+    "video_id": "OEJXl2jibSI",
+    "title": "Salon I: End-to-End Encryption in ActivityPub - 2024 Protocol Symposium",
+    "url": "https://www.youtube.com/watch?v=OEJXl2jibSI",
+    "duration_sec": 3726,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsZ2BQDzA0-TIOMulYoVuC8"
+    ],
+    "series": "symposium-2024",
+    "has_captions": true,
+    "summary": "Evan and Tom present their research on implementing end-to-end encryption within ActivityPub, the W3C-standardized federated social network protocol. They outline their methodology covering user stories, design research, potential architectures, UI guidelines for federated contexts, and next steps for adding cryptographic privacy to ActivityPub's push-based, JSON-based message infrastructure.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "technology-ai"
+    ],
+    "speakers": [
+      "Evan",
+      "Tom"
+    ],
+    "key_concepts": [
+      "end-to-end encryption",
+      "ActivityPub",
+      "federated social networks",
+      "W3C standards",
+      "push-based messaging"
+    ]
+  },
+  "YUNhWqMbNAk": {
+    "video_id": "YUNhWqMbNAk",
+    "title": "Salon II: ARC Regenerative Communities - 2024 Protocol Symposium",
+    "url": "https://www.youtube.com/watch?v=YUNhWqMbNAk",
+    "duration_sec": 3888,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsZ2BQDzA0-TIOMulYoVuC8"
+    ],
+    "series": "symposium-2024",
+    "has_captions": true,
+    "summary": "Kalia Young and Day present research on the Internet Engineering Task Force (IETF) as a regenerative standards development organization, examining how its protocols and social structures enable long-term innovation and maintenance of the internet as digital public infrastructure. They argue that the IETF's decentralized, generative approach to protocol creation represents a model for pro-social technical communities seeking to build and sustain digital commons.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "governance"
+    ],
+    "speakers": [
+      "Kalia Young",
+      "Day"
+    ],
+    "key_concepts": [
+      "regenerative protocols",
+      "standards development organizations (SDOs)",
+      "TCP/IP protocol",
+      "digital commons",
+      "protocol governance",
+      "internet engineering task force (IETF)"
+    ]
+  },
+  "xGt2HCBS-fE": {
+    "video_id": "xGt2HCBS-fE",
+    "title": "Salon III: Shoreline Adaptations to Urban Flooding - 2024 Protocol Symposium",
+    "url": "https://www.youtube.com/watch?v=xGt2HCBS-fE",
+    "duration_sec": 3842,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsZ2BQDzA0-TIOMulYoVuC8"
+    ],
+    "series": "symposium-2024",
+    "has_captions": true,
+    "summary": "Celeste LaMPe and Danielle Butler present their research project on shoreline adaptations to urban flooding, focusing on sea level rise as an accelerating global crisis affecting 1.4 billion people in 570 cities by 2050. They frame the problem through local New York examples while drawing on global research across Southeast Asia, East Africa, Europe, and the US, examining how urbanization exacerbates sea level rise through groundwater extraction, land subsidence, and saltwater intrusion.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "governance"
+    ],
+    "speakers": [
+      "Celeste LaMPe",
+      "Danielle Butler"
+    ],
+    "key_concepts": [
+      "sea level rise",
+      "shoreline adaptation",
+      "urban flooding",
+      "saltwater intrusion",
+      "urbanization and land subsidence"
+    ]
+  },
+  "snnk_8q1w_4": {
+    "video_id": "snnk_8q1w_4",
+    "title": "Salon IV: Plurality in Practice - 2024 Protocol Symposium",
+    "url": "https://www.youtube.com/watch?v=snnk_8q1w_4",
+    "duration_sec": 3773,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsZ2BQDzA0-TIOMulYoVuC8"
+    ],
+    "series": "symposium-2024",
+    "has_captions": true,
+    "summary": "Ben Bush and Rich McDow present their Protocol Orienteering grant project on plural voting mechanisms, which conducted quantitative analysis of plurality-based voting systems through experiments and case studies. They assess the practical risks and rewards of implementing plural voting compared to alternatives, identify issues in standard Conviction Voting (CCM) implementations, and propose guidelines for calibrating these mechanisms to specific governance contexts.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "governance"
+    ],
+    "speakers": [
+      "Ben Bush",
+      "Rich McDow"
+    ],
+    "key_concepts": [
+      "plural voting mechanisms",
+      "conviction voting",
+      "governance protocols",
+      "voting system design",
+      "DAOs and Web3 governance"
+    ]
+  },
+  "xIJP3Dtj7Sc": {
+    "video_id": "xIJP3Dtj7Sc",
+    "title": "Salon V: Autonomous Realities - 2024 Protocol Symposium",
+    "url": "https://www.youtube.com/watch?v=xIJP3Dtj7Sc",
+    "duration_sec": 3536,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsZ2BQDzA0-TIOMulYoVuC8"
+    ],
+    "series": "symposium-2024",
+    "has_captions": true,
+    "summary": "This is an opening segment from the 2024 Protocol Symposium's Salon V on Autonomous Realities. The moderators engage in informal conversation while waiting for presenters, touching on topics like weather as social lubricant, AI-generated imagery (early DALL-E), and the role of small talk as a social signal.",
+    "categories": [
+      "announcement",
+      "interview"
+    ],
+    "speakers": [
+      "Timber"
+    ],
+    "key_concepts": [
+      "autonomous systems",
+      "AI-generated content",
+      "social protocols",
+      "small talk as signaling",
+      "generative models"
+    ]
+  },
+  "ZcnI_ErQoV8": {
+    "video_id": "ZcnI_ErQoV8",
+    "title": "Salon VI: Fire Protocols & Attention as Autopoietic Space - 2024 Protocol Symposium",
+    "url": "https://www.youtube.com/watch?v=ZcnI_ErQoV8",
+    "duration_sec": 4228,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsZ2BQDzA0-TIOMulYoVuC8"
+    ],
+    "series": "symposium-2024",
+    "has_captions": true,
+    "summary": "Natalia and Jordy present their wildfire protocol research, combining California prescribed burn management with cultural practices. They explore fire as both a practical governance challenge and a metaphorical concept, situating their work within the Protocol Institute's boots-on-ground protocol improvement projects focused on real-world fire management and Indigenous land stewardship.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching",
+      "governance"
+    ],
+    "speakers": [
+      "Natalia",
+      "Jordy"
+    ],
+    "key_concepts": [
+      "fire protocols",
+      "prescribed burns",
+      "wildfire governance",
+      "cultural stewardship",
+      "autopoietic systems"
+    ]
+  },
+  "28DpSJYQKXk": {
+    "video_id": "28DpSJYQKXk",
+    "title": "Researcher Salon with Sarah Friend | Good Death",
+    "url": "https://www.youtube.com/watch?v=28DpSJYQKXk",
+    "duration_sec": 3887,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVls1kkd9s75K7sdg-DX85sFx"
+    ],
+    "series": "researcher-salon",
+    "has_captions": true,
+    "summary": "Sarah Friend presents her Summer of Protocols research project \"Good Death,\" exploring digital death and its relationship to biological death across AI agents, avatars, gaming worlds, and blockchain protocols like Ethereum. Friend brings artistic and philosophical perspectives to examine whether protocols themselves should be understood as having life and death cycles.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "interview"
+    ],
+    "speakers": [
+      "Sarah Friend"
+    ],
+    "key_concepts": [
+      "digital death",
+      "protocol lifecycles",
+      "AI agents and avatar mortality",
+      "Ethereum ecosystem",
+      "life and death in digital worlds"
+    ]
+  },
+  "YcBl43ziHKE": {
+    "video_id": "YcBl43ziHKE",
+    "title": "Protocol Town Hall with Chenoe Hart | Addressable Space",
+    "url": "https://www.youtube.com/watch?v=YcBl43ziHKE",
+    "duration_sec": 3184,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVls1kkd9s75K7sdg-DX85sFx"
+    ],
+    "series": "researcher-salon",
+    "has_captions": true,
+    "summary": "Chenoe Hart presents her Summer Protocols research project on 'Addressable Space,' examining how information systems and protocols are remapping the built environment. She explores how technological systems—from delivery apps to sensors and autonomous vehicles—create new informational layers that coordinate physical space, raising fundamental questions about the role of data structures in architecture.",
+    "categories": [
+      "protocol-research",
+      "research-report",
+      "interview"
+    ],
+    "speakers": [
+      "Chenoe Hart"
+    ],
+    "key_concepts": [
+      "addressable space",
+      "spatial protocols",
+      "built environment mapping",
+      "information infrastructure",
+      "sensor networks"
+    ]
+  },
+  "GtHp7DVt3jQ": {
+    "video_id": "GtHp7DVt3jQ",
+    "title": "Protocol Town Hall Salon with Angela Walch | The Protocol System Experience",
+    "url": "https://www.youtube.com/watch?v=GtHp7DVt3jQ",
+    "duration_sec": 3561,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVls1kkd9s75K7sdg-DX85sFx"
+    ],
+    "series": "researcher-salon",
+    "has_captions": true,
+    "summary": "Angela Walch, a former law professor transitioning from smart contracts and crypto research, presents \"The Protocol System Experience,\" a project exploring how people journey through and experience protocols. Using a fictional character named Pip, Walch maps the \"blind man and the elephant\" metaphor to illustrate how different researchers understand protocols through varied disciplinary lenses.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "interview"
+    ],
+    "speakers": [
+      "Angela Walch"
+    ],
+    "key_concepts": [
+      "protocol system experience",
+      "user journey through protocols",
+      "disciplinary perspectives on protocols",
+      "smart contracts",
+      "protocol-fiction narrative"
+    ]
+  },
+  "Z0-mcmZcTuU": {
+    "video_id": "Z0-mcmZcTuU",
+    "title": "SoP Researcher Salon with Timber Schroff | Safe New World",
+    "url": "https://www.youtube.com/watch?v=Z0-mcmZcTuU",
+    "duration_sec": 3350,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVls1kkd9s75K7sdg-DX85sFx"
+    ],
+    "series": "researcher-salon",
+    "has_captions": true,
+    "summary": "Timber Schroff, a Summer of Protocols core researcher, presents his essay on safety protocols in the coal mining industry from 1900-2000, proposing a theory of protocol evolution based on evolutionary thinking and mutation-selection effects. His work demonstrates how studying historical safety protocols reveals that modern blockchain and digital protocols face similar challenges to those faced by 20th-century industrial systems, with coal mining fatalities decreasing by 97% over a century through evolving safety protocols.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "protocol-watching"
+    ],
+    "speakers": [
+      "Timber Schroff"
+    ],
+    "key_concepts": [
+      "safety protocols",
+      "protocol evolution",
+      "mutation and selection effects",
+      "coal mining industry",
+      "historical protocol analysis"
+    ]
+  },
+  "0gC5Dd1mtDA": {
+    "video_id": "0gC5Dd1mtDA",
+    "title": "Researcher Salon with Dorian Taylor| Retrofitting the Web",
+    "url": "https://www.youtube.com/watch?v=0gC5Dd1mtDA",
+    "duration_sec": 3629,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVls1kkd9s75K7sdg-DX85sFx"
+    ],
+    "series": "researcher-salon",
+    "has_captions": true,
+    "summary": "Dorian Taylor presents his summer research on retrofitting the web through an engine for website creation that automates repetitive tasks like navigation, headers, footers, and dynamic content handling. Taylor argues that existing website engines (WordPress, Drupal, Rails, etc.) cannot achieve his specific outcomes, requiring a new approach to introduce denser hypermedia and fix fundamental linking problems on the internet.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "research-report"
+    ],
+    "speakers": [
+      "Dorian Taylor"
+    ],
+    "key_concepts": [
+      "website engine automation",
+      "hypermedia density",
+      "web linking infrastructure",
+      "content management systems",
+      "web retrofitting"
+    ]
+  },
+  "dsO8DwV0eaQ": {
+    "video_id": "dsO8DwV0eaQ",
+    "title": "Protocol Town Hall with Yancey Strickler | When the Means Justify the Ends",
+    "url": "https://www.youtube.com/watch?v=dsO8DwV0eaQ",
+    "duration_sec": 3766,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Yancey Strickler, co-founder of Kickstarter, discusses his two-year journey building Metal Label, a crypto-enabled publishing venture, and reflects on lessons learned navigating tensions between technological determinism and human experience in blockchain technologies. He explores the hard conversations the crypto world often avoids regarding the ethical implications of building with crypto.",
+    "categories": [
+      "guest-talks",
+      "protocol-theory",
+      "technology-ai",
+      "interview"
+    ],
+    "speakers": [
+      "Yancey Strickler"
+    ],
+    "key_concepts": [
+      "technological determinism",
+      "crypto protocols",
+      "publishing ventures",
+      "human experience in technology",
+      "ethical implications of blockchain"
+    ]
+  },
+  "ne7Dxj4KvQ4": {
+    "video_id": "ne7Dxj4KvQ4",
+    "title": "Protocol Town Hall with Venkatesh Rao | Formulating a Protocol Pill",
+    "url": "https://www.youtube.com/watch?v=ne7Dxj4KvQ4",
+    "duration_sec": 4249,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Venkatesh Rao, Summer Protocols program lead, synthesizes research findings from the Summer of Protocols program and discusses efforts to shift the program's center of gravity from internal Discord/Telegram conversations to public forum-based discussion. The talk introduces the 'Protocol Pill' concept while addressing community engagement strategies and the publication of protocol research.",
+    "categories": [
+      "protocol-theory",
+      "announcement",
+      "research-report"
+    ],
+    "speakers": [
+      "Venkatesh Rao"
+    ],
+    "key_concepts": [
+      "protocol research synthesis",
+      "community engagement",
+      "forum-based discourse",
+      "Summer of Protocols program",
+      "protocol publication"
+    ]
+  },
+  "ihn5FmlXDmo": {
+    "video_id": "ihn5FmlXDmo",
+    "title": "Guest Talk with Jesse Walden | Contract Theory and Protocol Design",
+    "url": "https://www.youtube.com/watch?v=ihn5FmlXDmo",
+    "duration_sec": 3545,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Jesse Walden, founder of Variant and former creator of Mediachain, discusses contract theory and its application to protocol design. Drawing on his experience bridging music, technology, and crypto, Walden explores how smart contracts and tokens enable novel organizational and governance structures distinct from traditional legal contracts and corporate forms.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "technology-ai"
+    ],
+    "speakers": [
+      "Jesse Walden"
+    ],
+    "key_concepts": [
+      "smart contracts",
+      "token economics",
+      "protocol governance",
+      "digital asset frameworks",
+      "organizational design"
+    ]
+  },
+  "6eaQNbwYUJE": {
+    "video_id": "6eaQNbwYUJE",
+    "title": "Guest Talk with Jason Morton | Unpacking Money as a Protocol",
+    "url": "https://www.youtube.com/watch?v=6eaQNbwYUJE",
+    "duration_sec": 3166,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Jason Morton examines money as a protocol, exploring how time and space shape agent interactions and economic behaviors. He argues that current financialization represents a problematic equilibrium that incentivizes speculative rather than prosocial behaviors, using examples like extreme cryptocurrency gains to illustrate systemic dysfunction.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "technology-ai"
+    ],
+    "speakers": [
+      "Jason Morton"
+    ],
+    "key_concepts": [
+      "money as protocol",
+      "time and space abstractions",
+      "financialization",
+      "agent interactions",
+      "economic equilibrium"
+    ]
+  },
+  "fJNEJdRKRJ4": {
+    "video_id": "fJNEJdRKRJ4",
+    "title": "Guest Talk with Scott Moore | This Session is Not Legitimate: An Exploration of Social Rule-Making",
+    "url": "https://www.youtube.com/watch?v=fJNEJdRKRJ4",
+    "duration_sec": 3396,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Scott Moore, co-founder of Gitcoin, explores the concept of legitimacy in protocols and social rule-making systems. Drawing on his experience with quadratic funding mechanisms and public goods funding, Moore examines what characteristics make protocols legitimate and how legitimacy functions as a central concern in protocol design.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "guest-talks"
+    ],
+    "speakers": [
+      "Scott Moore"
+    ],
+    "key_concepts": [
+      "legitimacy",
+      "protocol design",
+      "social rule-making",
+      "quadratic funding",
+      "public goods funding"
+    ]
+  },
+  "Z9O5_lve10o": {
+    "video_id": "Z9O5_lve10o",
+    "title": "Guest Talk with Trent Van Epps | Capital and Enclosure in Software Commons: Linux & Ethereum",
+    "url": "https://www.youtube.com/watch?v=Z9O5_lve10o",
+    "duration_sec": 3888,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Trent Van Epps examines how capital structures impact software commons and public goods production, drawing on his experience with Protocol Guild—a collective funding mechanism for Ethereum contributors. He presents comparative case studies of Linux and Ethereum to analyze the dynamics of enclosure and capital in open-source software development.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "interview"
+    ],
+    "speakers": [
+      "Trent Van Epps"
+    ],
+    "key_concepts": [
+      "software commons",
+      "capital enclosure",
+      "public goods funding",
+      "Protocol Guild",
+      "commons production pipelines"
+    ]
+  },
+  "JqCnuFMummk": {
+    "video_id": "JqCnuFMummk",
+    "title": "Guest Talk with Simone Cicero | Perspectives on the Platforms vs Protocols Debate: A Reality Check",
+    "url": "https://www.youtube.com/watch?v=JqCnuFMummk",
+    "duration_sec": 3578,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Simone Cicero addresses the polarized platforms-versus-protocols debate, arguing for a more nuanced conversation beyond the \"platforms are evil\" tribal discourse. Drawing on 15+ years of experience with open-source models and platform design, Cicero explores the complex relationship between platforms and protocols rather than presenting final answers, grounding the discussion in real consulting work and organizational design practice.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "editorial"
+    ],
+    "speakers": [
+      "Simone Cicero"
+    ],
+    "key_concepts": [
+      "platforms vs protocols debate",
+      "open-source models",
+      "platform design",
+      "protocol development",
+      "tribal polarization"
+    ]
+  },
+  "1Y9ZuyiwAqc": {
+    "video_id": "1Y9ZuyiwAqc",
+    "title": "Guest Talk with Ian Cheng | Neuro Gym",
+    "url": "https://www.youtube.com/watch?v=1Y9ZuyiwAqc",
+    "duration_sec": 3987,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Ian Cheng is introduced as a leading contemporary artist exploring new media and generative worlds through game engines and NFTs. The speaker illustrates Cheng's influence through the narrative of how their collaboration—sparked by Cheng's book 'The Emissaries Guide to Whirling' and subsequent NFT experiments together—ultimately catalyzed the founding of the Summer of Protocols program, drawing a parallel to Rachmaninoff's patronage of Sikorsky's helicopter invention.",
+    "categories": [
+      "interview",
+      "protocol-theory",
+      "technology-ai"
+    ],
+    "speakers": [
+      "Ian Cheng"
+    ],
+    "key_concepts": [
+      "generative worlds",
+      "game engines as art medium",
+      "NFTs and web3",
+      "patronage and funding narratives",
+      "new media art practice"
+    ]
+  },
+  "kWPpprIjpwA": {
+    "video_id": "kWPpprIjpwA",
+    "title": "Guest Talk with Mike Masnick | The Role of Protocols in Decentralization",
+    "url": "https://www.youtube.com/watch?v=kWPpprIjpwA",
+    "duration_sec": 3477,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Mike Masnick, founder of Techdirt and the Copia Institute, discusses his evolving thinking on the relationship between protocols and decentralization, drawing on 25 years of observing technology cycles from Web 1.0 through Web3. He presents frameworks for understanding how protocols function in decentralized systems and invites critical feedback to stress-test his current conceptual models.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "guest-talks"
+    ],
+    "speakers": [
+      "Mike Masnick"
+    ],
+    "key_concepts": [
+      "protocols",
+      "decentralization",
+      "platforms versus protocols",
+      "Web3",
+      "protocol governance"
+    ]
+  },
+  "d6BDMO0JqXI": {
+    "video_id": "d6BDMO0JqXI",
+    "title": "Guest Talk with Chen Qiufan | Science Fiction as Protocol",
+    "url": "https://www.youtube.com/watch?v=d6BDMO0JqXI",
+    "duration_sec": 3437,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Chen Qiufan, a science fiction author, discusses protocols through the lens of speculative fiction in a guest talk for the Summer of Protocols program. Hazel from the Global Chinese Community introduces Chen's work and explains how protocols represent invisible systems that deserve visibility and support, using science fiction as a mechanism to explore and make visible these foundational infrastructures.",
+    "categories": [
+      "protocol-fiction",
+      "interview",
+      "guest-talks"
+    ],
+    "speakers": [
+      "Chen Qiufan",
+      "Hazel"
+    ],
+    "key_concepts": [
+      "protocols as invisible systems",
+      "science fiction as protocol exploration",
+      "visibility and infrastructure",
+      "digital public goods",
+      "speculative fiction methodology"
+    ]
+  },
+  "MnLUqtceQzA": {
+    "video_id": "MnLUqtceQzA",
+    "title": "Guest Talk with Janine Leger | Zuzalu: A First of Its Kind IRL Pop-up Community",
+    "url": "https://www.youtube.com/watch?v=MnLUqtceQzA",
+    "duration_sec": 3233,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Janine Leger discusses Zuzalu, a first-of-its-kind IRL pop-up community she organized, and shares insights on building engaged communities. Her talk bridges protocol theory with practical community-building design, offering lessons relevant to how Summer of Protocols is scaling its own cohort and affiliate network.",
+    "categories": [
+      "protocol-watching",
+      "interview",
+      "organizations"
+    ],
+    "speakers": [
+      "Janine Leger"
+    ],
+    "key_concepts": [
+      "pop-up communities",
+      "IRL community design",
+      "protocol-adjacent organizing",
+      "community scaling",
+      "intentional gathering"
+    ]
+  },
+  "Ve5W7C3AxvY": {
+    "video_id": "Ve5W7C3AxvY",
+    "title": "Guest Talk with Dara O'Rourke | How to Blow Up a Carbon Data Pipeline",
+    "url": "https://www.youtube.com/watch?v=Ve5W7C3AxvY",
+    "duration_sec": 3899,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Dara O'Rourke, professor of sustainability sciences at Berkeley, discusses how to disrupt and reform carbon data pipelines—the systems used to measure and report corporate climate commitments. Drawing on his experience building Amazon's sustainability infrastructure and climate pledge protocols, O'Rourke examines the governance and verification mechanisms underlying mainstream climate accountability, addressing both the technical infrastructure and institutional protocols that enable or undermine climate action.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "technology-ai",
+      "interview"
+    ],
+    "speakers": [
+      "Dara O'Rourke"
+    ],
+    "key_concepts": [
+      "carbon data pipelines",
+      "climate accountability protocols",
+      "sustainability measurement infrastructure",
+      "corporate climate governance",
+      "verification and auditing systems"
+    ]
+  },
+  "JsRuk6wu-0Y": {
+    "video_id": "JsRuk6wu-0Y",
+    "title": "Guest Talk with Kazys Varnelis | The City as Communications System",
+    "url": "https://www.youtube.com/watch?v=JsRuk6wu-0Y",
+    "duration_sec": 4257,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Kazys Varnelis discusses the city as a communications system and infrastructure protocol, drawing on his decades of research on network urbanism and how digital technology has fundamentally restructured urban space. He explores concepts like the infrastructural city through case studies (particularly Los Angeles) and examines how digital networks have changed the role and function of cities over the past two decades.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "research-report"
+    ],
+    "speakers": [
+      "Kazys Varnelis"
+    ],
+    "key_concepts": [
+      "network city",
+      "infrastructural systems",
+      "digital urbanism",
+      "city as communications protocol",
+      "urban infrastructure"
+    ]
+  },
+  "-8JJARAI6ak": {
+    "video_id": "-8JJARAI6ak",
+    "title": "Guest Talk with Matt Webb | Fiction, Desire, and Belief",
+    "url": "https://www.youtube.com/watch?v=-8JJARAI6ak",
+    "duration_sec": 2978,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Matt Webb discusses fiction, desire, and belief in relation to protocols, exploring how narrative and imaginative frameworks shape our understanding of technical systems. Webb, a writer and consultant known for his work at BERG and his long-running blog, presents ideas on protocol fiction as a literary and conceptual practice for exploring how protocols function in society.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-theory",
+      "interview"
+    ],
+    "speakers": [
+      "Matt Webb"
+    ],
+    "key_concepts": [
+      "protocol fiction",
+      "desire and belief",
+      "narrative frameworks",
+      "AI systems",
+      "blogging and writing practice"
+    ]
+  },
+  "UAtt1F7fMLE": {
+    "video_id": "UAtt1F7fMLE",
+    "title": "Guest Talk with Kyle Mathews | Designing for Soft Protocols: A Discord Bot Workshop",
+    "url": "https://www.youtube.com/watch?v=UAtt1F7fMLE",
+    "duration_sec": 2617,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Kyle Mathews discusses designing soft protocols through a practical Discord bot workshop, building on his background in web architecture evolution from platform-centric systems (Drupal, WordPress) to protocol-centric approaches (Gatsby). The talk explores how decentralized protocol patterns can rethink traditional platform problems like social bookmarking and community organization.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "interview"
+    ],
+    "speakers": [
+      "Kyle Mathews"
+    ],
+    "key_concepts": [
+      "soft protocols",
+      "platform-to-protocol architecture",
+      "decentralized data sources",
+      "Discord bots",
+      "social patterns"
+    ]
+  },
+  "MUfqF_3fghE": {
+    "video_id": "MUfqF_3fghE",
+    "title": "Guest Talk with Cory Levinson | Who Writes the Rules of Climate Protocols?",
+    "url": "https://www.youtube.com/watch?v=MUfqF_3fghE",
+    "duration_sec": 3589,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Cory Levinson discusses climate protocols and carbon credit markets, examining who writes the rules governing these systems. He begins by contextualizing carbon quantification and climate market mechanisms while critiquing how the space has approached blockchain-based environmental solutions, drawing on his six years of experience in blockchain carbon credits and environmental marketplaces.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "technology-ai"
+    ],
+    "speakers": [
+      "Cory Levinson"
+    ],
+    "key_concepts": [
+      "carbon credit markets",
+      "climate protocols",
+      "blockchain environmental solutions",
+      "carbon quantification",
+      "Paris agreement targets"
+    ]
+  },
+  "PW3nOUwIRpY": {
+    "video_id": "PW3nOUwIRpY",
+    "title": "Guest Talk with Varun Srinivasan | Technology & Architecture",
+    "url": "https://www.youtube.com/watch?v=PW3nOUwIRpY",
+    "duration_sec": 3650,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Varun Srinivasan, CTO and co-founder of Farcaster, discusses the architecture and technology behind building a blockchain product and protocol ecosystem. The talk explores how Farcaster structures itself as a public protocol (owned by commons) with Merkle Manufacturing as the commercial entity building Warpcast, the consumer product, representing a hybrid model between protocol governance and venture-backed product development.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "interview",
+      "organizations"
+    ],
+    "speakers": [
+      "Varun Srinivasan"
+    ],
+    "key_concepts": [
+      "protocol architecture",
+      "public commons ownership",
+      "blockchain product development",
+      "protocol governance models",
+      "decentralized protocol ecosystems"
+    ]
+  },
+  "C0yDi7VnLrU": {
+    "video_id": "C0yDi7VnLrU",
+    "title": "Guest Talk with Sarah Perry | Protocols of Reproducible Science",
+    "url": "https://www.youtube.com/watch?v=C0yDi7VnLrU",
+    "duration_sec": 4535,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Sarah Perry discusses the relationship between protocols as architectural/design patterns and protocols as epistemic practices in science and healthcare, connecting reproducibility, scientific validity, and the distinction between rigorous scientific method and 'cargo cult science.' Perry draws on her extensive writing about architecture, aesthetics, ritual, and urbanism to explore how structural and procedural protocols ensure valid knowledge production.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "research-report"
+    ],
+    "speakers": [
+      "Sarah Perry"
+    ],
+    "key_concepts": [
+      "epistemic hygiene",
+      "reproducibility",
+      "cargo cult science",
+      "scientific protocols",
+      "randomized control trials"
+    ]
+  },
+  "i--HcD5Zx-A": {
+    "video_id": "i--HcD5Zx-A",
+    "title": "Guest Talk with Evan Miyazono | Putting Protocols into Practice",
+    "url": "https://www.youtube.com/watch?v=i--HcD5Zx-A",
+    "duration_sec": 4567,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Evan Miyazono, head of research at Protocol Labs, discusses putting protocols into practice by examining three phases: lessons learned from past protocol development at Protocol Labs (creators of IPFS and Filecoin), current work on funding mechanisms and coordination protocols for public goods, and speculative future protocol designs. He frames protocols through the lens of mechanism design and shares observations from practical experience deploying decentralized infrastructure at scale.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "organizations",
+      "governance"
+    ],
+    "speakers": [
+      "Evan Miyazono"
+    ],
+    "key_concepts": [
+      "mechanism design",
+      "public goods funding",
+      "coordination protocols",
+      "decentralized infrastructure",
+      "protocol deployment"
+    ]
+  },
+  "Z4Sy9OZjuOQ": {
+    "video_id": "Z4Sy9OZjuOQ",
+    "title": "Guest Talk with Daniel Bashir | A Survey of AI for the Protocol-Minded",
+    "url": "https://www.youtube.com/watch?v=Z4Sy9OZjuOQ",
+    "duration_sec": 3639,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Daniel Bashir, a machine learning engineer at AWS and host of the Gradient podcast, surveys the intersection of AI and protocols across multiple levels—from funding to ML engineering to research to regulation. He aims to introduce key technologies, conversations, and debates in AI while identifying current protocols that can be understood through a protocol-mindset lens.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "interview"
+    ],
+    "speakers": [
+      "Daniel Bashir"
+    ],
+    "key_concepts": [
+      "protocols and AI intersection",
+      "protocol-mindset analysis",
+      "ML engineering",
+      "AI regulation",
+      "information theory"
+    ]
+  },
+  "hMjSJMAnScE": {
+    "video_id": "hMjSJMAnScE",
+    "title": "Guest Talk w/ Christina Dunbar-Hester | Directing Signals: Of Politics and Protocols",
+    "url": "https://www.youtube.com/watch?v=hMjSJMAnScE",
+    "duration_sec": 3780,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Christina Dunbar-Hester, faculty in Science and Technology Studies at USC, discusses the intersection of politics and protocols through her research on technology and social systems. Drawing on her books including 'Low Power to the People' and 'Hacking Diversity,' she explores how protocols encode political values and social choices, examining the materiality of technological systems alongside their governance implications.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "research-report"
+    ],
+    "speakers": [
+      "Christina Dunbar-Hester"
+    ],
+    "key_concepts": [
+      "protocols and politics",
+      "science and technology studies",
+      "materiality of technology",
+      "protocol encoding",
+      "critical technical practice"
+    ]
+  },
+  "G7Nn3PoXZvU": {
+    "video_id": "G7Nn3PoXZvU",
+    "title": "Guest Talk with Annemarie Poorterman and Gina Belle | Protocols for Social System Transformation",
+    "url": "https://www.youtube.com/watch?v=G7Nn3PoXZvU",
+    "duration_sec": 4193,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Annemarie Poorterman and Gina Belle from Cora (a dual foundation and design agency) present their framework for social system transformation through protocols. They introduce Cora Space as an emergent constellation of organizations leveraging shared knowledge assets and frameworks to generate social and renewal capital while navigating the complexity inherent in systemic change.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "organizations"
+    ],
+    "speakers": [
+      "Annemarie Poorterman",
+      "Gina Belle"
+    ],
+    "key_concepts": [
+      "social system transformation",
+      "protocol frameworks",
+      "Cora Space",
+      "knowledge assets",
+      "emergent constellation",
+      "social and renewal capital"
+    ]
+  },
+  "zaA_iXh0MK0": {
+    "video_id": "zaA_iXh0MK0",
+    "title": "Guest Talk with JD Nolen | Protocols...The Structural Change that Healthcare Needs But Won't Ask For",
+    "url": "https://www.youtube.com/watch?v=zaA_iXh0MK0",
+    "duration_sec": 3754,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "JD Nolen, an engineer-turned-physician and chair of pathology at Children's Mercy Hospital, argues that healthcare urgently needs structural change through protocol thinking—from informatics and clinical workflows to disease treatment frameworks—but the healthcare system is too operationally consumed to recognize or pursue this transformation.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "governance"
+    ],
+    "speakers": [
+      "JD Nolen"
+    ],
+    "key_concepts": [
+      "healthcare informatics",
+      "clinical protocols",
+      "structural systems change",
+      "HL7 standards",
+      "orders and observations"
+    ]
+  },
+  "x2hEThnThwg": {
+    "video_id": "x2hEThnThwg",
+    "title": "Guest Talk with Benjamin Funk | Crypto-Powered Information Games",
+    "url": "https://www.youtube.com/watch?v=x2hEThnThwg",
+    "duration_sec": 3522,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Benjamin Funk, an analyst at Archetype focused on mechanism design, explores how decentralized systems can leverage information disclosure and concealment to create new economic models through crypto-powered information games. He traces his intellectual journey from exchange design and MEV mitigation to programmable information disclosure, arguing that protocol-level approaches to monetizing and consuming information can solve negative externalities and enable sustainable economic systems.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "interview"
+    ],
+    "speakers": [
+      "Benjamin Funk"
+    ],
+    "key_concepts": [
+      "mechanism design",
+      "MEV mitigation",
+      "programmable information disclosure",
+      "prediction markets",
+      "crypto-powered information games"
+    ]
+  },
+  "otjSSAV3oTM": {
+    "video_id": "otjSSAV3oTM",
+    "title": "S04E01 - New Nature",
+    "url": "https://www.youtube.com/watch?v=otjSSAV3oTM",
+    "duration_sec": 3546,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlvAnw12zyLw_Jp73ojcnKUj"
+    ],
+    "series": "town-hall-new-nature",
+    "has_captions": true,
+    "summary": "Timber Lenz, managing director of the Protocol Institute, introduces Season 4 of the town-hall series, which explores the intersection of protocols and artificial intelligence. The season frames AI and protocols as complementary technologies—protocols as infrastructure lattice and AI as the evolutionary vine—inviting researchers and practitioners to examine how these forces interact across industry, government, science, and society.",
+    "categories": [
+      "announcement",
+      "protocol-theory",
+      "technology-ai",
+      "governance"
+    ],
+    "speakers": [
+      "Timber Lenz"
+    ],
+    "key_concepts": [
+      "protocolization",
+      "protocol-AI intersection",
+      "infrastructure lattice",
+      "high reliability organizations",
+      "evolutionary dynamics"
+    ]
+  }
+}

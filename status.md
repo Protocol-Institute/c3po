@@ -1,5 +1,24 @@
 # C3PO — Status Log
 
+## 2026-05-17 — Curly-quote root-cause fix, subnav, How It Works + Terms pages
+
+- **Root cause found and fixed:** 314 curly/smart quotes (U+201C/201D) throughout `worker.js` caused ALL HTML attribute parsing to fail — `getElementById`, CSS selectors, every `href`. Browser URL clue: "Conversations" link navigated to `%E2%80%9D/%E2%80%9D` (URL-encoded curly quotes). Fixed via Python unicode replacement; confirmed 0 remaining.
+- **Shared subnav** added to all pages: `SUBNAV_SVG`, `SUBNAV_CSS`, `subnav(current)` helper — brand robot icon + `/` separator + 4 nav links, active-link highlighting per page.
+- **New pages:** `GET /how-it-works` and `GET /terms` — adapted from vgr_zirp equivalents with PI/C3PO branding.
+- `/chats` bug resolved — issue documented and closed in `issues/chats-page-load-failure.md`.
+- Deployed: `1a10748`; all 4 routes return 200.
+- **Pinecone:** substack: 1,040 · pdfs: 766 · transcripts: 4 · Total: ~1,810 (unchanged)
+
+**Open TODOs (priority order):**
+1. Tier weighting in `mergeResults()` — first vgr_zirp item, small change
+2. CORPUS_MAP in system prompt — prevents false denials
+3. Protocol lexicon — ML extraction + hand curation (~40 terms)
+4. D1 setup → encryption → strike/ban → self-notes → per-query logging
+5. GitHub Actions cron for `sync_substack.py`
+6. Phase 2B: MCP Worker
+
+---
+
 ## 2026-05-16 — /chats debugging, issues tracking, vgr_zirp plan (22:13–23:02 PT)
 
 - Deployed 4 fixes to /chats page: slim API response, /chats/ trailing-slash redirect, back-link fix, cardHTML field names
