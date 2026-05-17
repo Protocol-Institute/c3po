@@ -481,6 +481,240 @@ async function handleAdminTranscripts(request, env, corsHeaders) {
   return json({ type, count: items.length, items: items.filter(Boolean) }, 200, corsHeaders);
 }
 
+// ── Admin UI HTML ─────────────────────────────────────────────────────────────
+
+const ADMIN_HTML = String.raw`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C3PO Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root { --accent:#0F6E56; --bg:#fafaf8; --bg2:#f3f0ea; --border:#e0dbd3; --muted:#888; --text:#222; }
+* { box-sizing:border-box; }
+body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:var(--bg); color:var(--text); font-size:15px; line-height:1.6; }
+.admin-page { max-width:800px; margin:0 auto; padding:2rem 1.25rem 4rem; }
+.admin-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:1.5rem; gap:1rem; }
+.admin-title { font-size:1.15rem; font-weight:600; color:var(--accent); margin:0; }
+.admin-subtitle { font-size:0.78rem; color:var(--muted); margin:0.1rem 0 0; }
+.key-area { display:flex; flex-direction:column; align-items:flex-end; gap:0.35rem; }
+.key-toggle { background:none; border:none; cursor:pointer; font-size:1.1rem; color:#ccc; padding:0; line-height:1; }
+.key-toggle:hover { color:#999; }
+.key-toggle.active { color:#9a7020; }
+.key-panel { display:none; align-items:center; gap:0.4rem; }
+.key-panel.visible { display:flex; }
+.key-input { padding:0.3rem 0.5rem; font-family:monospace; font-size:0.88rem; border:1px solid var(--border); border-radius:3px; width:200px; background:#fafaf8; }
+.key-input:focus { outline:none; border-color:var(--accent); }
+.key-ok { padding:0.25rem 0.6rem; font-size:0.82rem; background:var(--accent); color:#fff; border:none; border-radius:3px; cursor:pointer; font-family:inherit; }
+.key-signout { padding:0.25rem 0.6rem; font-size:0.82rem; background:transparent; color:#999; border:1px solid var(--border); border-radius:3px; cursor:pointer; font-family:inherit; }
+.tabs { display:flex; gap:0; margin-bottom:1.2rem; border-bottom:1px solid var(--border); }
+.tab-btn { padding:0.5rem 1rem; border:none; background:none; font-family:inherit; font-size:0.88rem; font-weight:500; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; }
+.tab-btn.active { color:var(--accent); border-bottom-color:var(--accent); }
+.tab-btn:hover:not(.active) { color:#555; }
+.card { border:1px solid var(--border); border-radius:4px; margin-bottom:0.55rem; background:#faf8f4; overflow:hidden; }
+.card-header { padding:0.75rem 1rem; cursor:pointer; }
+.card-header:hover { background:#f5f2ec; }
+.card-q { font-weight:600; font-size:0.93rem; color:var(--text); line-height:1.4; margin:0 0 0.25rem; }
+.card-meta { font-size:0.75rem; color:var(--muted); line-height:1.4; margin:0; }
+.card-review { font-size:0.8rem; color:#777; font-style:italic; margin:0.2rem 0 0; }
+.badge { display:inline-block; font-size:0.65rem; font-weight:600; padding:0.1rem 0.4rem; border-radius:2px; text-transform:uppercase; letter-spacing:0.05em; margin-right:0.35rem; vertical-align:middle; }
+.badge-private { background:#f9f3e0; color:#9a7020; }
+.badge-public  { background:#e8f5e9; color:#2e7d32; }
+.card-body { display:none; padding:0 1rem 1rem; border-top:1px solid var(--border); }
+.card-body.open { display:block; }
+.turn { margin-top:1rem; }
+.turn-q { font-size:0.85rem; font-weight:600; color:#444; padding:0.4rem 0.65rem; background:var(--bg2); border-left:3px solid var(--accent); border-radius:0 3px 3px 0; margin-bottom:0.6rem; }
+.turn-a { font-size:0.88rem; line-height:1.65; color:#333; }
+.turn-a p { margin:0 0 0.55rem; }
+.turn-a p:last-child { margin-bottom:0; }
+.turn-a h1,.turn-a h2,.turn-a h3 { font-size:0.92rem; font-weight:600; margin:0.7rem 0 0.3rem; color:#222; }
+.turn-divider { border:none; border-top:1px solid var(--border); margin:1rem 0; }
+.sources-section { margin-top:1rem; padding-top:0.7rem; border-top:1px solid var(--border); }
+.sources-label { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.08em; color:#bbb; margin-bottom:0.3rem; }
+.source-item { font-size:0.77rem; color:#888; line-height:1.4; margin-bottom:0.15rem; }
+.source-item a { color:#999; text-decoration:none; }
+.source-item a:hover { color:var(--accent); }
+.empty { color:var(--muted); font-style:italic; text-align:center; padding:2rem 0; font-size:0.9rem; }
+.error { color:#a00; font-style:italic; font-size:0.9rem; padding:1rem 0; }
+.loading { color:#aaa; font-style:italic; font-size:0.9rem; padding:1rem 0; }
+.no-auth { color:var(--muted); font-size:0.9rem; text-align:center; padding:3rem 0; }
+</style>
+</head>
+<body>
+<div class="admin-page">
+  <div class="admin-header">
+    <div>
+      <p class="admin-title">C3PO Admin</p>
+      <p class="admin-subtitle">Protocol Institute research assistant</p>
+    </div>
+    <div class="key-area">
+      <button class="key-toggle" id="key-toggle" onclick="toggleKeyPanel()" title="Admin key">&#9881;</button>
+      <div class="key-panel" id="key-panel">
+        <input class="key-input" id="key-input" type="password" placeholder="Admin key" autocomplete="off">
+        <button class="key-ok" onclick="saveKey()">OK</button>
+        <button class="key-signout" id="key-signout" onclick="signOut()" style="display:none">Sign out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" id="tab-submissions" onclick="switchTab('submissions')">Submissions</button>
+    <button class="tab-btn" id="tab-logs" onclick="switchTab('logs')">Query Logs</button>
+  </div>
+
+  <div id="list"></div>
+</div>
+<script>
+(function () {
+  var STORE = 'c3po_admin_key';
+  var currentTab = 'submissions';
+
+  function getKey() { return sessionStorage.getItem(STORE) || ''; }
+  function setKey(k) { k ? sessionStorage.setItem(STORE, k) : sessionStorage.removeItem(STORE); }
+  function adminHeaders() { var k = getKey(); return k ? { 'X-Admin-Key': k } : {}; }
+
+  window.toggleKeyPanel = function () {
+    var panel = document.getElementById('key-panel');
+    var toggle = document.getElementById('key-toggle');
+    var open = panel.classList.contains('visible');
+    panel.classList.toggle('visible', !open);
+    toggle.classList.toggle('active', !open);
+    if (!open) document.getElementById('key-signout').style.display = getKey() ? 'inline-block' : 'none';
+  };
+
+  window.saveKey = function () {
+    setKey(document.getElementById('key-input').value.trim());
+    document.getElementById('key-input').value = '';
+    document.getElementById('key-panel').classList.remove('visible');
+    document.getElementById('key-toggle').classList.remove('active');
+    load(currentTab);
+  };
+
+  window.signOut = function () {
+    setKey('');
+    document.getElementById('key-signout').style.display = 'none';
+    document.getElementById('key-panel').classList.remove('visible');
+    document.getElementById('key-toggle').classList.remove('active');
+    document.getElementById('list').innerHTML = '<p class="no-auth">Enter admin key above to view data.</p>';
+  };
+
+  window.switchTab = function (tab) {
+    currentTab = tab;
+    document.getElementById('tab-submissions').classList.toggle('active', tab === 'submissions');
+    document.getElementById('tab-logs').classList.toggle('active', tab === 'logs');
+    load(tab);
+  };
+
+  window.toggleItem = function (id) {
+    var body = document.getElementById('body-' + id);
+    if (body) body.classList.toggle('open');
+  };
+
+  async function load(type) {
+    var k = getKey();
+    if (!k) { document.getElementById('list').innerHTML = '<p class="no-auth">Enter admin key above to view data.</p>'; return; }
+    document.getElementById('list').innerHTML = '<p class="loading">Loading…</p>';
+    try {
+      var res = await fetch('/admin/transcripts?type=' + type + '&limit=100', { headers: adminHeaders() });
+      if (res.status === 401) { document.getElementById('list').innerHTML = '<p class="error">Invalid admin key.</p>'; return; }
+      var data = await res.json();
+      renderList(data.items || [], type);
+    } catch (e) { document.getElementById('list').innerHTML = '<p class="error">Network error — please try again.</p>'; }
+  }
+
+  function renderList(items, type) {
+    var el = document.getElementById('list');
+    if (!items.length) { el.innerHTML = '<p class="empty">No ' + (type === 'logs' ? 'query logs' : 'submissions') + ' yet.</p>'; return; }
+    el.innerHTML = items.map(function (item, i) { return type === 'logs' ? logCard(item, i) : subCard(item, i); }).join('');
+  }
+
+  function subCard(item, i) {
+    var id = 'sub-' + i;
+    var turns = item.turns || [];
+    var firstQ = turns.length ? turns[0].q : '(empty)';
+    var mode = item.shareMode || 'private';
+    var badge = '<span class="badge badge-' + mode + '">' + mode + '</span>';
+    var stars = item.rating ? starHtml(item.rating) : '';
+    var date = fmtDate(item.ts);
+    var meta = [date, turns.length + ' turn' + (turns.length === 1 ? '' : 's')];
+    if (stars) meta.push(stars);
+    if (item.userName) meta.push(esc(item.userName));
+    var review = item.review ? '<p class="card-review">“' + esc(item.review.slice(0, 120)) + '”</p>' : '';
+    var bodyHtml = turns.map(function (t, j) {
+      return '<div class="turn"><div class="turn-q">' + esc(t.q) + '</div><div class="turn-a">' + renderAnswer(t.answer || '') + '</div>' +
+        (j < turns.length - 1 ? '<hr class="turn-divider">' : '') + '</div>';
+    }).join('');
+    var srcHtml = sourcesHtml(item.sources);
+    return '<div class="card">' +
+      '<div class="card-header" onclick="toggleItem(\'' + id + '\')">' +
+        '<p class="card-q">' + badge + esc(firstQ.slice(0, 120)) + '</p>' +
+        '<p class="card-meta">' + meta.join(' &middot; ') + '</p>' + review +
+      '</div>' +
+      '<div class="card-body" id="body-' + id + '">' + bodyHtml + srcHtml + '</div>' +
+      '</div>';
+  }
+
+  function logCard(item, i) {
+    var id = 'log-' + i;
+    var q = item.query || '';
+    var srcs = item.sources || [];
+    var meta = [fmtDate(item.ts), srcs.length + ' source' + (srcs.length === 1 ? '' : 's')];
+    var bodyHtml = '<div class="turn"><div class="turn-q">' + esc(q) + '</div><div class="turn-a">' + renderAnswer(item.answer || '') + '</div></div>';
+    return '<div class="card">' +
+      '<div class="card-header" onclick="toggleItem(\'' + id + '\')">' +
+        '<p class="card-q">' + esc(q.slice(0, 120)) + '</p>' +
+        '<p class="card-meta">' + meta.join(' &middot; ') + '</p>' +
+      '</div>' +
+      '<div class="card-body" id="body-' + id + '">' + bodyHtml + sourcesHtml(item.sources) + '</div>' +
+      '</div>';
+  }
+
+  function sourcesHtml(sources) {
+    var srcs = sources || [];
+    if (!srcs.length) return '';
+    return '<div class="sources-section"><div class="sources-label">References</div>' +
+      srcs.map(function (s) {
+        var title = s.title || '(untitled)';
+        var linked = s.url ? '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(title) + '</a>' : esc(title);
+        return '<div class="source-item">[' + esc(s.source || '') + '] ' + linked + '</div>';
+      }).join('') + '</div>';
+  }
+
+  function starHtml(n) {
+    return '<span style="color:#c8a030;letter-spacing:-1px">' + '★'.repeat(n) + '</span>' +
+           '<span style="color:#ddd;letter-spacing:-1px">'   + '★'.repeat(5 - n) + '</span>';
+  }
+
+  function renderAnswer(text) {
+    return text.split(/\n\n+/).map(function (block) {
+      var b = block.trim();
+      if (!b) return '';
+      if (/^#{1,3}\s/.test(b)) return '<h3>' + inlineMd(esc(b.replace(/^#{1,3}\s+/, ''))) + '</h3>';
+      return '<p>' + inlineMd(esc(b).replace(/\n/g, '<br>')) + '</p>';
+    }).join('');
+  }
+
+  function inlineMd(s) {
+    return s.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>').replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function fmtDate(iso) {
+    try { return new Date(iso).toLocaleString('en-US', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }); }
+    catch (e) { return String(iso || '').slice(0, 16); }
+  }
+
+  if (getKey()) load(currentTab);
+  else document.getElementById('list').innerHTML = '<p class="no-auth">Enter admin key above to view data.</p>';
+})();
+</script>
+</body>
+</html>`;
+
 // ── UI HTML ────────────────────────────────────────────────────────────────────
 
 const UI_HTML = String.raw`<!DOCTYPE html>
@@ -1504,6 +1738,13 @@ export default {
     // ── GET / → serve UI ────────────────────────────────────────────────────
     if (request.method === "GET" && url.pathname === "/") {
       return new Response(UI_HTML, {
+        headers: { "Content-Type": "text/html; charset=UTF-8", "Cache-Control": "no-cache" },
+      });
+    }
+
+    // ── GET /admin → serve admin UI ─────────────────────────────────────────
+    if (request.method === "GET" && url.pathname === "/admin") {
+      return new Response(ADMIN_HTML, {
         headers: { "Content-Type": "text/html; charset=UTF-8", "Cache-Control": "no-cache" },
       });
     }
