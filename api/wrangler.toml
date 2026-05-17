@@ -16,7 +16,7 @@ compatibility_date = "2025-01-01"
 
 [[kv_namespaces]]
 binding = "RATE_LIMIT"
-id = "c088e51da40f4e1abe0a5c7a507114e1"  # created 2026-05-16; document in MIGRATION.md when migrating to PI org account
+id = "54276a388ae9492ca414762e456223f4"  # C3PO_KV — created 2026-05-16, dedicated to this worker; document in MIGRATION.md when migrating to PI org account
 
 # Future bindings (uncomment when ready):
 
