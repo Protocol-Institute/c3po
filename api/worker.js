@@ -579,6 +579,20 @@ async function handleAdminTranscripts(request, env, corsHeaders) {
 
 // ── Chat index + individual chat HTML ─────────────────────────────────────────
 
+// ── Shared subnav ─────────────────────────────────────────────────────────────
+
+const SUBNAV_SVG = '<svg width="22" height="22" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="c3po-subnav-robot" aria-hidden="true"><rect x="10" y="12" width="20" height="16" rx="3" fill="currentColor"/><rect x="14" y="16" width="4" height="4" rx="1" fill="var(--bg,#fafaf8)"/><rect x="22" y="16" width="4" height="4" rx="1" fill="var(--bg,#fafaf8)"/><rect x="17" y="22" width="6" height="2" rx="1" fill="var(--bg,#fafaf8)"/><rect x="18" y="6" width="4" height="6" rx="2" fill="currentColor"/><rect x="4" y="18" width="6" height="3" rx="1.5" fill="currentColor"/><rect x="30" y="18" width="6" height="3" rx="1.5" fill="currentColor"/></svg>';
+
+const SUBNAV_CSS = '.c3po-subnav{display:flex;align-items:center;gap:0.7em;padding:0.75em 0;margin-bottom:1.5em;border-top:1px solid var(--border,#e0dbd3);border-bottom:1px solid var(--border,#e0dbd3);font-family:Outfit,system-ui,sans-serif;font-size:0.82em;}.c3po-subnav-brand{display:flex;align-items:center;text-decoration:none;color:var(--accent,#0F6E56);flex-shrink:0;line-height:0;}.c3po-subnav-sep{color:var(--border,#e0dbd3);margin:0 0.25em;user-select:none;}.c3po-subnav-links{display:flex;gap:1.1em;flex-wrap:wrap;}.c3po-subnav-links a{color:var(--muted,#888);text-decoration:none;font-family:Outfit,system-ui,sans-serif;}.c3po-subnav-links a:hover{color:var(--text,#222);}.c3po-subnav-links a.current{color:var(--accent,#0F6E56);font-weight:500;}';
+
+function subnav(current) {
+  var nav = [['/', 'Ask C3PO'], ['/chats', 'Conversations'], ['/how-it-works', 'How It Works'], ['/terms', 'Terms']];
+  var links = nav.map(function(p) {
+    return '<a href="' + p[0] + '"' + (p[0] === current ? ' class="current"' : '') + '>' + p[1] + '</a>';
+  }).join('\n    ');
+  return '<div class="c3po-subnav"><a href="/" class="c3po-subnav-brand">' + SUBNAV_SVG + '</a><span class="c3po-subnav-sep">/</span><nav class="c3po-subnav-links">\n    ' + links + '\n  </nav></div>';
+}
+
 const CHATS_HTML = String.raw`<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -607,7 +621,7 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
 .chat-card { display:block; text-decoration:none; color:inherit; border:1px solid var(--border); border-radius:4px; padding:0.9em 1.1em; margin-bottom:0.6em; background:#faf8f4; transition:border-color 0.15s; }
 .chat-card:hover { border-color:#b0aaa2; text-decoration:none; color:inherit; }
 .chat-card--private { border-left:3px solid #c8a030; padding-left:0.95em; }
-.chat-card-q { font-family:Lora,”Palatino Linotype”,Georgia,serif; font-size:0.97em; font-weight:600; color:#2d2d2d; margin:0 0 0.4em; line-height:1.45; }
+.chat-card-q { font-family:Lora,"Palatino Linotype",Georgia,serif; font-size:0.97em; font-weight:600; color:#2d2d2d; margin:0 0 0.4em; line-height:1.45; }
 .chat-card-meta { font-size:0.78em; color:#999; font-family:system-ui,sans-serif; line-height:1.5; margin:0; }
 .chat-private-badge { display:inline-block; background:#f9f3e0; color:#9a7020; font-size:0.7em; padding:0.1em 0.45em; border-radius:2px; text-transform:uppercase; letter-spacing:0.05em; margin-right:0.45em; vertical-align:middle; font-family:system-ui,sans-serif; font-weight:600; }
 .chat-card-review { font-size:0.82em; color:#777; font-style:italic; margin:0.35em 0 0; line-height:1.45; }
@@ -621,30 +635,32 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
 .chat-status-select { font-size:0.75em; font-family:system-ui,sans-serif; padding:0.2em 0.4em; border:1px solid #ccc; border-radius:3px; background:#faf8f4; color:#444; cursor:pointer; }
 .chat-status-select:focus { outline:none; border-color:var(--accent); }
 .chat-status-note { font-size:0.72em; font-family:system-ui,sans-serif; color:#888; min-width:3em; }
+${SUBNAV_CSS}
 </style>
 </head>
 <body>
-<div class=”chats-page”>
-  <p class=”chats-intro”>
-    Conversations from <a href=”/”>C3PO</a>, the Protocol Institute&rsquo;s research assistant.
+<div class="chats-page">
+${subnav('/chats')}
+  <p class="chats-intro">
+    Conversations from <a href="/">C3PO</a>, the Protocol Institute&rsquo;s research assistant.
     Each is a real exchange with the corpus of Protocol Institute research.
   </p>
 
-  <div class=”chats-admin-bar”>
-    <button class=”chats-admin-toggle” id=”chats-admin-toggle” onclick=”toggleAdminPanel()” title=”Admin”>&#9881;</button>
-    <div class=”chats-admin-key-area” id=”chats-admin-key-area”>
-      <input class=”chats-admin-key-input” id=”chats-admin-key-input” type=”password” placeholder=”Admin key” autocomplete=”off”>
-      <button class=”chats-admin-ok” onclick=”saveAdminKey()”>OK</button>
-      <button class=”chats-admin-signout” id=”chats-admin-signout” onclick=”clearAdminKey()” style=”display:none”>Sign out</button>
+  <div class="chats-admin-bar">
+    <button class="chats-admin-toggle" id="chats-admin-toggle" onclick="toggleAdminPanel()" title="Admin">&#9881;</button>
+    <div class="chats-admin-key-area" id="chats-admin-key-area">
+      <input class="chats-admin-key-input" id="chats-admin-key-input" type="password" placeholder="Admin key" autocomplete="off">
+      <button class="chats-admin-ok" onclick="saveAdminKey()">OK</button>
+      <button class="chats-admin-signout" id="chats-admin-signout" onclick="clearAdminKey()" style="display:none">Sign out</button>
     </div>
   </div>
 
-  <div id=”chats-list-container”>
-    <p class=”chats-loading”>Loading conversations&hellip;</p>
+  <div id="chats-list-container">
+    <p class="chats-loading">Loading conversations&hellip;</p>
   </div>
 
-  <div class=”chats-cta”>
-    <a href=”/”>Ask C3PO a question &rarr;</a>
+  <div class="chats-cta">
+    <a href="/">Ask C3PO a question &rarr;</a>
   </div>
 </div>
 <script>
@@ -669,7 +685,7 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
     document.getElementById('chats-admin-key-input').value = '';
     document.getElementById('chats-admin-key-area').classList.remove('visible');
     document.getElementById('chats-admin-toggle').classList.remove('active');
-    loadChats();
+    resetAndLoad();
   };
 
   window.clearAdminKey = function () {
@@ -678,11 +694,16 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
     document.getElementById('chats-admin-signout').style.display = 'none';
     document.getElementById('chats-admin-key-area').classList.remove('visible');
     document.getElementById('chats-admin-toggle').classList.remove('active');
-    loadChats();
+    resetAndLoad();
   };
 
+  function resetAndLoad() {
+    var container = document.getElementById('chats-list-container');
+    if (container) container.innerHTML = '<p class="chats-loading">Loading…</p>';
+    loadChats();
+  }
+
   async function loadChats() {
-    document.getElementById('chats-list-container').innerHTML = '<p class=”chats-loading”>Loading…</p>';
     try {
       var res = await fetch('/api/chats?limit=' + LIMIT, { headers: adminHeaders() });
       if (!res.ok) { showError('Could not load conversations.'); return; }
@@ -692,13 +713,14 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
   }
 
   function showError(msg) {
-    document.getElementById('chats-list-container').innerHTML = '<p class=”chats-error”>' + esc(msg) + '</p>';
+    var el = document.getElementById('chats-list-container');
+    if (el) el.innerHTML = '<p class="chats-error">' + esc(msg) + '</p>';
   }
 
   function renderChats(items, isAdmin) {
     var container = document.getElementById('chats-list-container');
     if (!items.length) {
-      container.innerHTML = '<p class=”chats-empty”>No public conversations yet. <a href=”/”>Start one →</a></p>';
+      container.innerHTML = '<p class="chats-empty">No public conversations yet. <a href="/">Start one →</a></p>';
       return;
     }
     var ul = document.createElement('ul');
@@ -737,7 +759,7 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
   function statusBadge(status) {
     var s = STATUS_STYLES[status] || STATUS_STYLES.pending;
     var label = status.charAt(0).toUpperCase() + status.slice(1);
-    return '<span class=”chat-status-badge” style=”background:' + s.bg + ';color:' + s.color + '”>' + label + '</span>';
+    return '<span class="chat-status-badge" style="background:' + s.bg + ';color:' + s.color + '">' + label + '</span>';
   }
 
   function cardHTML(t, isAdmin) {
@@ -745,37 +767,37 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
     var url     = '/chats/' + chatId;
     var firstQ  = t.firstQ || '';
     var isPrivate = t.shareMode === 'private' || t.status === 'private';
-    var privBadge = isPrivate ? '<span class=”chat-private-badge”>Private</span>' : '';
+    var privBadge = isPrivate ? '<span class="chat-private-badge">Private</span>' : '';
     var q    = firstQ ? esc(firstQ) : '<em>Conversation</em>';
     var date = t.ts ? fmtDate(t.ts) : '';
     var tc   = t.turnCount || 0;
     var stars = t.rating ? starHtml(t.rating) : '';
     var by   = t.userName ? ' · ' + esc(t.userName) : '';
-    var review = t.review ? '<p class=”chat-card-review”>“' + esc(t.review.length > 120 ? t.review.slice(0, 117) + '…' : t.review) + '”</p>' : '';
+    var review = t.review ? '<p class="chat-card-review">"' + esc(t.review.length > 120 ? t.review.slice(0, 117) + '…' : t.review) + '"</p>' : '';
     var cls = 'chat-card' + (isPrivate ? ' chat-card--private' : '');
 
     if (isAdmin) {
       var cur  = t.status || 'pending';
       var adminBar = isPrivate
-        ? '<div class=”chat-card-admin-bar”><span class=”chat-status-note” style=”color:#9a7020;font-style:italic”>Submitted as Private.</span></div>'
-        : '<div class=”chat-card-admin-bar”><select class=”chat-status-select” onchange=”setStatus(\'' + esc(chatId) + '\',this)” data-prev=”' + esc(cur) + '”>' +
-          ['public','pending','private'].map(function (s) { return '<option value=”' + s + '”' + (s === cur ? ' selected' : '') + '>' + s.charAt(0).toUpperCase() + s.slice(1) + '</option>'; }).join('') +
-          '</select><span class=”chat-status-note” id=”status-note-' + esc(chatId) + '”></span></div>';
-      return '<div class=”' + cls + '” style=”cursor:default”>' +
-        '<p class=”chat-card-q”>' + privBadge + statusBadge(cur) + ' <a href=”' + url + '” style=”color:inherit”>' + q + '</a></p>' +
-        '<p class=”chat-card-meta”>' + date + ' · ' + tc + ' turn' + (tc === 1 ? '' : 's') + (stars ? ' · ' + stars : '') + by + '</p>' +
+        ? '<div class="chat-card-admin-bar"><span class="chat-status-note" style="color:#9a7020;font-style:italic">Submitted as Private.</span></div>'
+        : '<div class="chat-card-admin-bar"><select class="chat-status-select" onchange="setStatus(\'' + esc(chatId) + '\',this)" data-prev="' + esc(cur) + '">' +
+          ['public','pending','private'].map(function (s) { return '<option value="' + s + '"' + (s === cur ? ' selected' : '') + '>' + s.charAt(0).toUpperCase() + s.slice(1) + '</option>'; }).join('') +
+          '</select><span class="chat-status-note" id="status-note-' + esc(chatId) + '"></span></div>';
+      return '<div class="' + cls + '" style="cursor:default">' +
+        '<p class="chat-card-q">' + privBadge + statusBadge(cur) + ' <a href="' + url + '" style="color:inherit">' + q + '</a></p>' +
+        '<p class="chat-card-meta">' + date + ' · ' + tc + ' turn' + (tc === 1 ? '' : 's') + (stars ? ' · ' + stars : '') + by + '</p>' +
         review + adminBar + '</div>';
     }
 
-    return '<a class=”' + cls + '” href=”' + url + '”>' +
-      '<p class=”chat-card-q”>' + privBadge + q + '</p>' +
-      '<p class=”chat-card-meta”>' + date + ' · ' + tc + ' turn' + (tc === 1 ? '' : 's') + (stars ? ' · ' + stars : '') + by + '</p>' +
+    return '<a class="' + cls + '" href="' + url + '">' +
+      '<p class="chat-card-q">' + privBadge + q + '</p>' +
+      '<p class="chat-card-meta">' + date + ' · ' + tc + ' turn' + (tc === 1 ? '' : 's') + (stars ? ' · ' + stars : '') + by + '</p>' +
       review + '</a>';
   }
 
   function starHtml(n) {
-    return '<span style=”color:#c8a030;letter-spacing:-1px”>' + '★'.repeat(n) + '</span>' +
-           '<span style=”color:#ddd;letter-spacing:-1px”>'   + '★'.repeat(5 - n) + '</span>';
+    return '<span style="color:#c8a030;letter-spacing:-1px">' + '★'.repeat(n) + '</span>' +
+           '<span style="color:#ddd;letter-spacing:-1px">'   + '★'.repeat(5 - n) + '</span>';
   }
 
   function fmtDate(iso) {
@@ -784,7 +806,7 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
   }
 
   function esc(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/”/g,'&quot;');
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
   loadChats();
@@ -794,19 +816,19 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
 </html>`;
 
 const CHAT_HTML = String.raw`<!DOCTYPE html>
-<html lang=”en”>
+<html lang="en">
 <head>
-<meta charset=”UTF-8”>
-<meta name=”viewport” content=”width=device-width, initial-scale=1.0”>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>C3PO &mdash; Conversation</title>
-<link href=”https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Lora:ital,wght@0,400;0,500;1,400&family=Outfit:wght@400;500;600&display=swap” rel=”stylesheet”>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Lora:ital,wght@0,400;0,500;1,400&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root { --accent:#0F6E56; --bg:#fafaf8; --bg2:#f3f0ea; --border:#e0dbd3; --muted:#888; --text:#222; }
 * { box-sizing:border-box; }
 body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:var(--bg); color:var(--text); font-size:16px; line-height:1.6; }
 .chat-page { max-width:740px; margin:0 auto; padding:2rem 1.25rem 4rem; }
 .chat-number-heading { font-family:system-ui,sans-serif; font-size:0.82em; font-weight:700; color:#999; text-transform:uppercase; letter-spacing:0.1em; margin:0 0 0.35em; }
-.chat-title { font-family:Lora,”Palatino Linotype”,Georgia,serif; font-size:1.15em; font-weight:600; color:#2d2d2d; margin:0 0 0.55em; line-height:1.45; font-style:italic; }
+.chat-title { font-family:Lora,"Palatino Linotype",Georgia,serif; font-size:1.15em; font-weight:600; color:#2d2d2d; margin:0 0 0.55em; line-height:1.45; font-style:italic; }
 .chat-meta-bar { font-size:0.8em; color:#999; font-family:system-ui,sans-serif; margin-bottom:0.5em; display:flex; align-items:center; gap:0.5em; flex-wrap:wrap; }
 .chat-private-badge { display:inline-block; background:#f9f3e0; color:#9a7020; font-size:0.72em; padding:0.15em 0.5em; border-radius:2px; text-transform:uppercase; letter-spacing:0.06em; font-weight:600; }
 .chat-stars { color:#c8a030; letter-spacing:-1px; }
@@ -818,7 +840,7 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
 .oracle-turn-q { font-size:0.9em; font-weight:600; color:#444; margin-bottom:0.9em; padding:0.5em 0.75em; background:var(--bg2); border-left:3px solid var(--accent); border-radius:0 3px 3px 0; }
 .oracle-answer-row { display:flex; gap:0.85em; align-items:flex-start; margin-bottom:1.2em; }
 .oracle-avatar-col { flex-shrink:0; padding-top:0.3em; }
-.oracle-answer { font-family:Lora,”Palatino Linotype”,Georgia,serif; font-size:1.02em; line-height:1.7; flex:1; }
+.oracle-answer { font-family:Lora,"Palatino Linotype",Georgia,serif; font-size:1.02em; line-height:1.7; flex:1; }
 .oracle-answer p { margin:0 0 0.7em 0; }
 .oracle-answer p:last-child { margin-bottom:0; }
 .oracle-answer h1,.oracle-answer h2,.oracle-answer h3 { font-family:Outfit,system-ui,sans-serif; font-size:1em; font-weight:600; margin:0.9em 0 0.4em; color:#222; }
@@ -836,15 +858,17 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
 .chat-error { color:#a00; font-size:0.9em; font-style:italic; padding:1em 0; }
 .chat-private-wall { border:1px solid var(--border); border-radius:4px; padding:1.4em 1.6em; background:#faf8f4; margin-top:1em; color:#666; font-size:0.93em; line-height:1.6; }
 .chat-loading { color:#aaa; font-style:italic; font-size:0.9em; }
+${SUBNAV_CSS}
 </style>
 </head>
 <body>
-<div class=”chat-page”>
-  <div id=”chat-container”><p class=”chat-loading”>Loading&hellip;</p></div>
-  <div class=”chat-cta”>
-    <a href=”/chats”>&larr; All conversations</a>
+<div class="chat-page">
+${subnav('/chats')}
+  <div id="chat-container"><p class="chat-loading">Loading&hellip;</p></div>
+  <div class="chat-cta">
+    <a href="/chats">&larr; All conversations</a>
     &ensp;&middot;&ensp;
-    <a href=”/”>Ask C3PO a question &rarr;</a>
+    <a href="/">Ask C3PO a question &rarr;</a>
   </div>
 </div>
 <script>
@@ -858,11 +882,11 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
   var chatId = parts[parts.length - 1];
 
   if (!chatId || parts[0] !== 'chats') {
-    container.innerHTML = '<p class=”chat-error”>No conversation specified. <a href=”/chats”>Browse conversations &rarr;</a></p>';
+    container.innerHTML = '<p class="chat-error">No conversation specified. <a href="/chats">Browse conversations &rarr;</a></p>';
     return;
   }
 
-  var ROBOT_SVG = '<svg width=”28” height=”28” viewBox=”0 0 40 40” fill=”none” xmlns=”http://www.w3.org/2000/svg” aria-hidden=”true” style=”display:block;opacity:0.8”><rect x=”10” y=”12” width=”20” height=”16” rx=”3” fill=”#0F6E56”/><rect x=”14” y=”16” width=”4” height=”4” rx=”1” fill=”#fafaf8”/><rect x=”22” y=”16” width=”4” height=”4” rx=”1” fill=”#fafaf8”/><rect x=”17” y=”22” width=”6” height=”2” rx=”1” fill=”#fafaf8”/><rect x=”18” y=”6” width=”4” height=”6” rx=”2” fill=”#0F6E56”/><rect x=”4” y=”18” width=”6” height=”3” rx=”1.5” fill=”#0F6E56”/><rect x=”30” y=”18” width=”6” height=”3” rx=”1.5” fill=”#0F6E56”/></svg>';
+  var ROBOT_SVG = '<svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:block;opacity:0.8"><rect x="10" y="12" width="20" height="16" rx="3" fill="#0F6E56"/><rect x="14" y="16" width="4" height="4" rx="1" fill="#fafaf8"/><rect x="22" y="16" width="4" height="4" rx="1" fill="#fafaf8"/><rect x="17" y="22" width="6" height="2" rx="1" fill="#fafaf8"/><rect x="18" y="6" width="4" height="6" rx="2" fill="#0F6E56"/><rect x="4" y="18" width="6" height="3" rx="1.5" fill="#0F6E56"/><rect x="30" y="18" width="6" height="3" rx="1.5" fill="#0F6E56"/></svg>';
 
   async function loadChat() {
     var headers = {};
@@ -871,18 +895,18 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
     try {
       var res = await fetch('/api/chat/' + chatId, { headers: headers });
       if (res.status === 403) {
-        container.innerHTML = '<div class=”chat-private-wall”><strong>This conversation is private.</strong> It was shared with the Protocol Institute only.<br><br><a href=”/chats”>Browse public conversations &rarr;</a></div>';
+        container.innerHTML = '<div class="chat-private-wall"><strong>This conversation is private.</strong> It was shared with the Protocol Institute only.<br><br><a href="/chats">Browse public conversations &rarr;</a></div>';
         return;
       }
       if (res.status === 404) {
-        container.innerHTML = '<p class=”chat-error”>Conversation not found. <a href=”/chats”>Browse conversations &rarr;</a></p>';
+        container.innerHTML = '<p class="chat-error">Conversation not found. <a href="/chats">Browse conversations &rarr;</a></p>';
         return;
       }
-      if (!res.ok) { container.innerHTML = '<p class=”chat-error”>Could not load conversation.</p>'; return; }
+      if (!res.ok) { container.innerHTML = '<p class="chat-error">Could not load conversation.</p>'; return; }
       var data = await res.json();
-      if (data.error) { container.innerHTML = '<p class=”chat-error”>' + esc(data.error) + '</p>'; return; }
+      if (data.error) { container.innerHTML = '<p class="chat-error">' + esc(data.error) + '</p>'; return; }
       renderChat(data);
-    } catch (e) { container.innerHTML = '<p class=”chat-error”>Network error — please try again.</p>'; }
+    } catch (e) { container.innerHTML = '<p class="chat-error">Network error — please try again.</p>'; }
   }
 
   function renderChat(data) {
@@ -891,7 +915,7 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
     var firstQ  = turns.length ? turns[0].q : '';
     var isPrivate = data.shareMode === 'private' || data.status === 'private';
 
-    if (firstQ) document.title = '“' + firstQ.slice(0, 60) + '” — C3PO';
+    if (firstQ) document.title = '"' + firstQ.slice(0, 60) + '" — C3PO';
 
     var srcMap = new Map();
     sources.forEach(function (s) { var k = s.url || (s.title + '|' + (s.date || '')); if (!srcMap.has(k)) srcMap.set(k, s); });
@@ -899,30 +923,30 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
 
     var date   = data.ts ? fmtDate(data.ts) : '';
     var tc     = turns.length;
-    var badgeHtml  = isPrivate ? '<span class=”chat-private-badge”>Private</span>' : '';
-    var starsHtml  = data.rating ? '<span class=”chat-stars”>' + '★'.repeat(data.rating) + '</span><span class=”chat-stars-empty”>' + '★'.repeat(5 - data.rating) + '</span>' : '';
+    var badgeHtml  = isPrivate ? '<span class="chat-private-badge">Private</span>' : '';
+    var starsHtml  = data.rating ? '<span class="chat-stars">' + '★'.repeat(data.rating) + '</span><span class="chat-stars-empty">' + '★'.repeat(5 - data.rating) + '</span>' : '';
     var metaParts  = [date, tc + ' turn' + (tc === 1 ? '' : 's'), starsHtml].filter(Boolean);
     if (data.userName) metaParts.push(esc(data.userName));
-    var metaHtml   = '<div class=”chat-meta-bar”>' + badgeHtml + metaParts.join(' · ') + '</div>';
-    var reviewHtml = data.review ? '<p class=”chat-review”>“' + esc(data.review) + '”</p>' : '';
-    var titleHtml  = firstQ ? '<p class=”chat-title”>“' + esc(firstQ) + '”</p>' : '';
-    var idHtml     = '<p class=”chat-number-heading”>Chat ' + esc(data.chatId || chatId) + '</p>';
+    var metaHtml   = '<div class="chat-meta-bar">' + badgeHtml + metaParts.join(' · ') + '</div>';
+    var reviewHtml = data.review ? '<p class="chat-review">"' + esc(data.review) + '"</p>' : '';
+    var titleHtml  = firstQ ? '<p class="chat-title">"' + esc(firstQ) + '"</p>' : '';
+    var idHtml     = '<p class="chat-number-heading">Chat ' + esc(data.chatId || chatId) + '</p>';
     var turnsHtml  = turns.map(function (t, i) { return renderTurn(t, i === turns.length - 1); }).join('');
     var srcHtml    = '';
     if (srcList.length) {
-      srcHtml = '<div class=”chat-sources-section”><div class=”chat-sources-heading”>References</div><ul class=”oracle-sources”>' +
+      srcHtml = '<div class="chat-sources-section"><div class="chat-sources-heading">References</div><ul class="oracle-sources">' +
         srcList.map(function (s) { return sourceHTML(s); }).join('') + '</ul></div>';
     }
     container.innerHTML = idHtml + titleHtml + metaHtml + reviewHtml +
-      '<hr class=”chat-divider-top”><div class=”chat-conversation”>' + turnsHtml + '</div>' + srcHtml;
+      '<hr class="chat-divider-top"><div class="chat-conversation">' + turnsHtml + '</div>' + srcHtml;
   }
 
   function renderTurn(turn, isLast) {
-    return '<div class=”oracle-turn”>' +
-      '<div class=”oracle-turn-q”>' + esc(turn.q) + '</div>' +
-      '<div class=”oracle-answer-row”><div class=”oracle-avatar-col”>' + ROBOT_SVG + '</div>' +
-      '<div class=”oracle-answer”>' + renderAnswer(turn.answer || '') + '</div></div>' +
-      (isLast ? '' : '<hr class=”oracle-divider”>') + '</div>';
+    return '<div class="oracle-turn">' +
+      '<div class="oracle-turn-q">' + esc(turn.q) + '</div>' +
+      '<div class="oracle-answer-row"><div class="oracle-avatar-col">' + ROBOT_SVG + '</div>' +
+      '<div class="oracle-answer">' + renderAnswer(turn.answer || '') + '</div></div>' +
+      (isLast ? '' : '<hr class="oracle-divider">') + '</div>';
   }
 
   function inlineMd(s) {
@@ -940,10 +964,10 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
 
   function sourceHTML(s) {
     var title  = s.title || '(untitled)';
-    var badge  = '<span class=”oracle-source-badge”>' + esc(s.source || 'doc') + '</span>';
-    var linked = s.url ? '<a href=”' + esc(s.url) + '” target=”_blank” rel=”noopener”>' + esc(title) + '</a>' : esc(title);
+    var badge  = '<span class="oracle-source-badge">' + esc(s.source || 'doc') + '</span>';
+    var linked = s.url ? '<a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + esc(title) + '</a>' : esc(title);
     var year   = s.date ? s.date.slice(0, 4) : '';
-    return '<li class=”oracle-source”>' + badge + linked + (year ? '<span class=”oracle-source-meta”> &mdash; ' + year + '</span>' : '') + '</li>';
+    return '<li class="oracle-source">' + badge + linked + (year ? '<span class="oracle-source-meta"> &mdash; ' + year + '</span>' : '') + '</li>';
   }
 
   function fmtDate(iso) {
@@ -952,7 +976,7 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
   }
 
   function esc(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/”/g,'&quot;');
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
   loadChat();
@@ -1010,13 +1034,7 @@ body {
   letter-spacing: -0.01em;
   line-height: 1.1;
 }
-.c3po-header-tag {
-  font-size: 0.78rem;
-  color: var(--muted);
-  font-family: Outfit, sans-serif;
-  font-weight: 400;
-  margin-bottom: 1.5rem;
-}
+${SUBNAV_CSS}
 .c3po-intro {
   display: flex;
   gap: 1.1em;
@@ -1352,7 +1370,7 @@ body {
 <div class="c3po-header">
   <div class="c3po-header-wordmark">C3PO</div>
 </div>
-<div class="c3po-header-tag">Protocol Institute Research Assistant &mdash; <a href="/chats" style="color:var(--muted);text-decoration:underline">conversations</a></div>
+${subnav('/')}
 
 <div class="c3po-intro">
   <div class="c3po-profile-badge">
@@ -1966,6 +1984,152 @@ window.copyMcp = function (id, btn) {
 </body>
 </html>`;
 
+const HOW_IT_WORKS_HTML = String.raw`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C3PO &mdash; How It Works</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root { --accent:#0F6E56; --bg:#fafaf8; --bg2:#f3f0ea; --border:#e0dbd3; --muted:#888; --text:#222; }
+* { box-sizing:border-box; }
+body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:var(--bg); color:var(--text); font-size:16px; line-height:1.6; }
+.hiw-page { max-width:740px; margin:0 auto; padding:2rem 1.25rem 4rem; }
+.hiw-section { margin-bottom:2.2em; }
+.hiw-section h2 { font-size:1em; font-weight:600; border-bottom:1px solid var(--border); padding-bottom:0.3em; margin-bottom:0.75em; font-family:Outfit,system-ui,sans-serif; }
+.hiw-section p { margin:0.4em 0 0.8em; line-height:1.65; color:#444; font-size:0.95em; }
+.hiw-table { width:100%; border-collapse:collapse; font-size:0.87em; margin:0.7em 0 1em; }
+.hiw-table th { text-align:left; font-weight:600; border-bottom:1px solid var(--border); padding:0.3em 0.7em; background:var(--bg2); color:#444; }
+.hiw-table td { padding:0.3em 0.7em; border-bottom:1px solid #f0ece4; vertical-align:top; }
+.hiw-table tr:last-child td { border-bottom:none; }
+.hiw-note { background:var(--bg2); border-left:3px solid var(--border); padding:0.65em 1em; font-size:0.9em; margin:0.8em 0; color:#555; }
+${SUBNAV_CSS}
+</style>
+</head>
+<body>
+<div class="hiw-page">
+${subnav('/how-it-works')}
+
+<h1 style="font-family:Lora,serif;font-size:1.45em;font-weight:600;margin:0 0 0.3em;line-height:1.3;">How C3PO Works</h1>
+<p style="color:#666;font-size:0.9em;margin-bottom:2em;">Protocol Institute Research Assistant &mdash; technical overview</p>
+
+<div class="hiw-section">
+<h2>What is C3PO?</h2>
+<p>C3PO is a retrieval-augmented Q&amp;A system that answers questions about Protocol Institute research. It retrieves relevant passages from the actual corpus and synthesizes answers grounded in that material. It is not a fine-tuned model &mdash; the underlying language model is Claude Sonnet, with the Protocol Institute corpus injected as retrieval context at query time.</p>
+</div>
+
+<div class="hiw-section">
+<h2>The corpus</h2>
+<table class="hiw-table">
+<thead><tr><th>Source</th><th>Scale</th><th>Coverage</th></tr></thead>
+<tbody>
+<tr><td>Summer of Protocols PDFs</td><td>82 papers &middot; 766 vectors</td><td>Research papers, theoretical essays, protocol fiction, game materials (2023&ndash;2024)</td></tr>
+<tr><td>Protocolized Substack</td><td>116+ posts &middot; 1,040 vectors</td><td>Fictions (58), Articles (47), Obliquities (5); 38 author profiles; 13 collection cards</td></tr>
+<tr><td>Shared transcripts</td><td>~4 vectors (growing)</td><td>Published conversations with C3PO</td></tr>
+</tbody>
+</table>
+<p>The PDFs include work from the Summer of Protocols program &mdash; a research initiative exploring the theory and practice of protocols across disciplines. The Substack corpus spans the full run of the Protocolized newsletter, including protocol fiction that argues through narrative rather than exposition.</p>
+</div>
+
+<div class="hiw-section">
+<h2>Embedding and retrieval</h2>
+<p><strong>Embedding model:</strong> Voyage AI <code>voyage-3</code> &mdash; 1,024-dimensional dense vectors, cosine similarity. The same model encodes both documents (at index time) and queries (at query time).</p>
+<p><strong>Chunking:</strong> Documents are split into 512-token chunks with 64-token overlap. Each chunk is stored with metadata: source, document title, author, date, and content type.</p>
+<p><strong>Title-anchored embeddings:</strong> The text sent to Voyage for each body chunk is prefixed with "Title: {title}\nSummary: {summary}\n\n" before the chunk body. This ensures that title and topic keywords are always present in the vector even when they don&rsquo;t appear in the chunk itself. The stored display text is unchanged; only the embedding receives the prefix.</p>
+<p><strong>Summary vectors:</strong> Each document also generates a dedicated summary vector (chunk_type: "doc_summary" or "post_summary") that embeds only the title, summary, and tags. When a summary vector matches, a follow-up retrieval query surfaces the corresponding body chunks.</p>
+</div>
+
+<div class="hiw-section">
+<h2>The Pinecone index</h2>
+<table class="hiw-table">
+<thead><tr><th>Namespace</th><th>Vectors</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><code>pdfs</code></td><td>766</td><td>Body chunks + doc_summary vectors for 82 PDFs</td></tr>
+<tr><td><code>substack</code></td><td>1,040</td><td>Body chunks, post_summary, collection_card, author_profile vectors</td></tr>
+<tr><td><code>transcripts</code></td><td>~4</td><td>Published conversations (grows with use)</td></tr>
+</tbody>
+</table>
+<p>All namespaces are queried in parallel on each request. Results are merged and ranked before being passed to the language model.</p>
+</div>
+
+<div class="hiw-section">
+<h2>The language model</h2>
+<p>Claude Sonnet is used throughout &mdash; both for answering queries and for background tasks like document enrichment. Protocol Institute research is dense and cross-disciplinary; the material benefits from strong synthesis rather than simple extraction.</p>
+<p>The system prompt is derived from the Protocol Institute&rsquo;s SOUL.md &mdash; a document describing the intellectual orientation, voice, and commitments of the Institute. It includes a corpus map so the model knows what is and isn&rsquo;t indexed, preventing false denials.</p>
+<p><strong>Rate limits:</strong> 10 queries per hour, 30 per day per IP. After 8 turns, the conversation can be downloaded as Markdown and continued in Claude.</p>
+</div>
+
+<div class="hiw-section">
+<h2>Infrastructure</h2>
+<p>The API and web UI are served from a single Cloudflare Worker. Transcript storage uses Cloudflare KV. The Worker is deployed from the <a href="https://github.com/vgururao/c3po" style="color:var(--accent)">vgururao/c3po</a> repository (migrating to Protocol-Institute org at Phase 6).</p>
+<div class="hiw-note">C3PO is in active development. Corpus coverage, retrieval quality, and features will expand over time. Current version: Phase 2A.</div>
+</div>
+
+</div>
+</body>
+</html>`;
+
+const TERMS_HTML = String.raw`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C3PO &mdash; Terms of Use</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root { --accent:#0F6E56; --bg:#fafaf8; --bg2:#f3f0ea; --border:#e0dbd3; --muted:#888; --text:#222; }
+* { box-sizing:border-box; }
+body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:var(--bg); color:var(--text); font-size:16px; line-height:1.6; }
+.terms-page { max-width:640px; margin:0 auto; padding:2rem 1.25rem 4rem; }
+.terms-page h1 { font-family:Lora,serif; font-size:1.4em; font-weight:600; margin-bottom:0.2em; }
+.terms-meta { font-size:0.85em; color:var(--muted); margin-bottom:2em; }
+.terms-page h2 { font-size:0.95em; font-weight:600; margin-top:1.8em; margin-bottom:0.3em; }
+.terms-page p { margin:0.4em 0 0.8em; line-height:1.65; color:#444; font-size:0.95em; }
+.terms-page a { color:var(--accent); }
+${SUBNAV_CSS}
+</style>
+</head>
+<body>
+<div class="terms-page">
+${subnav('/terms')}
+
+<h1>C3PO Terms of Use</h1>
+<p class="terms-meta">The Protocol Institute &nbsp;&middot;&nbsp; Effective May 2026</p>
+
+<p>By using C3PO you agree to these terms.</p>
+
+<h2>Use at your own risk</h2>
+<p>C3PO is an AI system. Responses may contain factual errors and hallucinations. Nothing here constitutes legal, medical, financial, or professional advice of any kind. C3PO&rsquo;s answers reflect the Protocol Institute corpus and are not official positions of the Institute or its researchers.</p>
+
+<h2>Data storage</h2>
+<p>Your conversations are not stored unless you explicitly submit them using the Share function. We make no guarantee of long-term storage for any submitted transcript.</p>
+
+<h2>Analysis</h2>
+<p>Both public and private submitted transcripts may be analyzed to improve C3PO &mdash; for example, to identify retrieval failures, vocabulary gaps, or synthesis errors. This analysis may be performed by automated systems including AI models. Analysis results are retained internally; raw transcripts are subject to the retention policy below.</p>
+
+<h2>Private submissions</h2>
+<p>If you submit privately, your transcript &mdash; including your questions &mdash; will be visible to Protocol Institute administrators. Private transcripts are subject to a retention period and may be deleted after analysis. To request earlier deletion, email <a href="mailto:team@protocol-institute.org">team@protocol-institute.org</a>.</p>
+
+<h2>Public submissions</h2>
+<p>If you submit publicly, you grant the Protocol Institute a perpetual, non-exclusive, royalty-free license to display and host your submitted transcript. You confirm you have the right to submit this content. Public transcripts are kept by default but may be removed at our discretion. To request removal, email <a href="mailto:team@protocol-institute.org">team@protocol-institute.org</a>; we will consider requests in good faith.</p>
+
+<h2>Age</h2>
+<p>You must be 13 or older to use this service.</p>
+
+<h2>No warranty</h2>
+<p>C3PO is provided as-is. To the maximum extent permitted by applicable law, the Protocol Institute disclaims all liability for any damages arising from use of this service.</p>
+
+<h2>Governing law</h2>
+<p>These terms are governed by the laws of the State of Washington, USA.</p>
+
+<h2>Changes</h2>
+<p>These terms may be updated at any time. Continued use constitutes acceptance.</p>
+
+</div>
+</body>
+</html>`;
+
 // ── Worker ─────────────────────────────────────────────────────────────────────
 
 export default {
@@ -2007,6 +2171,20 @@ export default {
     // ── GET /chats/:id → individual chat page ────────────────────────────────
     if (request.method === "GET" && url.pathname.startsWith("/chats/") && url.pathname.length > 7) {
       return new Response(CHAT_HTML, {
+        headers: { "Content-Type": "text/html; charset=UTF-8", "Cache-Control": "no-cache" },
+      });
+    }
+
+    // ── GET /how-it-works ────────────────────────────────────────────────────
+    if (request.method === "GET" && url.pathname === "/how-it-works") {
+      return new Response(HOW_IT_WORKS_HTML, {
+        headers: { "Content-Type": "text/html; charset=UTF-8", "Cache-Control": "no-cache" },
+      });
+    }
+
+    // ── GET /terms ───────────────────────────────────────────────────────────
+    if (request.method === "GET" && url.pathname === "/terms") {
+      return new Response(TERMS_HTML, {
         headers: { "Content-Type": "text/html; charset=UTF-8", "Cache-Control": "no-cache" },
       });
     }
