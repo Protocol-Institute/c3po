@@ -104,3 +104,23 @@ A build log for C3PO, the Protocol Institute's research assistant — how the co
 chunk text` separated by `---` dividers. This matches Claude's trained affinity for structured retrieval context.
 
 ---
+
+## Session 6: Security Filters, Transcript Loop, and Chat Index UX
+
+*2026-05-16 · 16:36–19:28 PT*
+
+**Tracks:** worker-api, ux, operations
+
+**Vectors upserted:** substack: 1,040 · pdfs: 766 · transcripts: 4
+
+- **Security pre-filters (3 regexes):** `INJECTION_RE` (jailbreak attempts), `SYSEXTRACT_RE` (system-prompt extraction attempts), `CREDENTIAL_RE` (API key fishing). All blocked queries return a canned redirect to C3PO's stated purpose rather than an error, which is less adversarial and less informative to attackers.
+
+- **Transcript submission loop:** POST /share now generates a 6-character `chatId`, stores the full conversation as `submission:{ts}:{chatId}` in KV (90-day TTL), and writes a reverse-lookup key `chatid:{chatId}` for O(1) individual fetches. `autoModerate()` immediately classifies submissions as public/private/pending based on query length, answer length, and alphabetic content ratio — no 24-hour hold. Admin can PATCH status to override.
+
+- **Chat index (`/chats`) and individual chat pages (`/chats/:chatId`):** Modeled on vgr_zirp's transcript browser. Public view shows status=public conversations; admin view (X-Admin-Key header, stored in sessionStorage) shows all with status dropdowns. Individual chat pages render full Q/A in Lora, with the C3PO droid SVG avatar, a private wall for non-admins accessing private chats, and source citations. `/admin` now redirects to `/chats`.
+
+- **Session tracking in query logs:** The browser generates a random 8-character `session_id` on page load and includes it with every POST /query call. The backend stores it alongside `turnNumber` in the auto-log KV entry, enabling per-session analysis (conversation reconstruction, turn-distribution stats) without any user linkability.
+
+- **Token and word limits:** Raised `MAX_ANSWER_TOKENS` 800→1200. Added explicit "350–500 words, complete every definition fully" instruction to system prompt. This addresses observed truncation mid-definition, a symptom of chunk-boundary splits in the corpus — the permanent fix is a protocol lexicon injected into the system prompt (deferred, tracked as TODO).
+
+---
