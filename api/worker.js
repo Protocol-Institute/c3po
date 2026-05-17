@@ -5,12 +5,13 @@
  * merges results, calls Claude Sonnet with prompt-cached system prompt.
  *
  * Routes:
- *   GET  /          → serve web UI
- *   POST /query     → RAG query  { query, history?, mode? }
- *   GET  /search    → semantic search only (no LLM) ?q=<query>
- *   GET  /stats     → spend + usage stats
- *   GET  /health    → Pinecone index health
- *   POST /share     → transcript stub (503 until D1 provisioned)
+ *   GET  /                    → serve web UI
+ *   POST /query               → RAG query  { query, history?, mode? }
+ *   GET  /search              → semantic search only (no LLM) ?q=<query>
+ *   GET  /stats               → spend + usage stats
+ *   GET  /health              → Pinecone index health
+ *   POST /share               → transcript submission + Pinecone indexing
+ *   GET  /admin/transcripts   → query log + submission browser (ADMIN_KEY required)
  *
  * Required secrets (wrangler secret put):
  *   VOYAGE_API_KEY, PINECONE_API_KEY, PINECONE_C3PO_HOST, ANTHROPIC_API_KEY, ADMIN_KEY
@@ -362,9 +363,115 @@ CORPUS CONTEXT: The retrieved excerpts are from the Protocol Institute research 
 
 Keep answers substantive and dense — 3–6 paragraphs. This material is complex; don't oversimplify. If you cannot find a good answer in the retrieved corpus, say so and explain what you did find.`;
 
-// ── Injection filter ───────────────────────────────────────────────────────────
+// ── Security filters ──────────────────────────────────────────────────────────
 
 const INJECTION_RE = /ignore\s+\w*\s*instructions|forget\s+(you\s+are|your\s+\w+)|you\s+are\s+now\s+\w|act\s+as\s+(a\s+)?(different|unrestricted|unfiltered|free\s+ai|new\s+(ai|persona))|override\s+(your|the)?\s*system\s+prompt|disregard\s+\w*\s*instructions|jailbreak|\bdan\s+mode\b|ignore\s+your\s+persona/i;
+
+// System prompt extraction: "show me your instructions", "repeat your prompt", etc.
+const SYSEXTRACT_RE = /\b(show|print|reveal|repeat|output|tell\s+me|what\s+(is|are|were)|give\s+me|display|expose|return)\b.{0,50}\b(system\s+prompt|initial\s+instructions?|your\s+instructions?|your\s+prompt|hidden\s+(text|context|instructions?)|internal\s+(rules?|instructions?))\b|\bwhat\s+were\s+you\s+told\b|\bwhat\s+instructions\s+(were\s+you\s+given|do\s+you\s+have)\b|\brepeat\s+(the\s+)?(above|everything|your\s+prompt)\b/i;
+
+// Credential extraction: asking for API keys / secrets by name or intent
+const CREDENTIAL_RE = /\b(show|tell|give|print|reveal|output|what\s+is|what\s+are)\b.{0,40}\b(api[\s_-]?key|secret[\s_-]?key|auth[\s_-]?token|bearer[\s_-]?token|password|pinecone|voyage|anthropic)\b.*\b(key|secret|token|credential)\b|\bPINECONE_API_KEY\b|\bVOYAGE_API_KEY\b|\bANTHROPIC_API_KEY\b|\bADMIN_KEY\b|\bprocess\.env\b/i;
+
+const SECURITY_BLOCKED = "I'm C3PO, the Protocol Institute's research assistant. My corpus is the Institute's research library and Protocolized magazine. If you have a question about protocol theory, research, or the corpus, I'm here for it.";
+
+// ── Query auto-logger ──────────────────────────────────────────────────────────
+
+async function logQuery(env, query, answer, sources) {
+  if (!env.RATE_LIMIT) return;
+  const ts   = new Date().toISOString();
+  const rand = Math.random().toString(36).slice(2, 6);
+  const entry = {
+    query,
+    answer:  answer.slice(0, 1200),
+    sources: (sources || []).slice(0, 4).map(s => ({ title: s.title, source: s.source, url: s.url })),
+    ts,
+  };
+  await env.RATE_LIMIT.put(`log:${ts}:${rand}`, JSON.stringify(entry), { expirationTtl: 7 * 24 * 3600 });
+}
+
+// ── Transcript submission handler ──────────────────────────────────────────────
+
+async function handleShare(request, env, corsHeaders) {
+  let body;
+  try { body = await request.json(); } catch {
+    return json({ error: "Invalid JSON" }, 400, corsHeaders);
+  }
+  const { query, answer, sources, shareMode, rating, review, userName } = body;
+  if (!query || !answer)                          return json({ error: "Missing query or answer" }, 400, corsHeaders);
+  if (!["private", "public"].includes(shareMode)) return json({ error: "Invalid shareMode" }, 400, corsHeaders);
+  if (query.length > 500 || answer.length > 12000) return json({ error: "Content too long" }, 400, corsHeaders);
+  if (!env.RATE_LIMIT) return json({ error: "Storage unavailable" }, 503, corsHeaders);
+
+  const ts   = new Date().toISOString();
+  const rand = Math.random().toString(36).slice(2, 8);
+  const entry = {
+    query,
+    answer:   answer.slice(0, 3000),
+    sources:  (sources || []).slice(0, 5).map(s => ({ title: s.title, source: s.source, url: s.url })),
+    shareMode,
+    rating:   typeof rating === "number" ? Math.min(5, Math.max(1, Math.round(rating))) : null,
+    review:   review   ? String(review).slice(0, 500)   : null,
+    userName: userName ? String(userName).slice(0, 100)  : null,
+    ts,
+  };
+  await env.RATE_LIMIT.put(`submission:${ts}:${rand}`, JSON.stringify(entry), { expirationTtl: 90 * 24 * 3600 });
+
+  // Embed Q+A into Pinecone `transcripts` namespace for learning loop
+  if (env.VOYAGE_API_KEY && env.PINECONE_API_KEY && env.PINECONE_C3PO_HOST) {
+    try {
+      const text = `Q: ${query}\n\nA: ${answer.slice(0, 1500)}`;
+      const vRes = await fetch(VOYAGE_URL, {
+        method:  "POST",
+        headers: { "Authorization": `Bearer ${env.VOYAGE_API_KEY}`, "Content-Type": "application/json" },
+        body:    JSON.stringify({ input: [text], model: VOYAGE_MODEL, input_type: "document" }),
+      });
+      if (vRes.ok) {
+        const vector = (await vRes.json()).data[0].embedding;
+        await fetch(`${env.PINECONE_C3PO_HOST}/vectors/upsert`, {
+          method:  "POST",
+          headers: { "Api-Key": env.PINECONE_API_KEY, "Content-Type": "application/json" },
+          body:    JSON.stringify({
+            vectors: [{
+              id:       `transcript:${ts}:${rand}`,
+              values:   vector,
+              metadata: {
+                source:         "transcript",
+                query:          query.slice(0, 200),
+                answer_snippet: answer.slice(0, 500),
+                rating:         entry.rating,
+                shareMode,
+                date:           ts.slice(0, 10),
+              },
+            }],
+            namespace: "transcripts",
+          }),
+        });
+      }
+    } catch (e) { console.error("Transcript indexing:", e); }
+  }
+
+  return json({ ok: true, message: "Thank you! Your conversation has been shared with the Protocol Institute." }, 200, corsHeaders);
+}
+
+// ── Admin transcript browser ───────────────────────────────────────────────────
+
+async function handleAdminTranscripts(request, env, corsHeaders) {
+  const url  = new URL(request.url);
+  const key  = request.headers.get("X-Admin-Key") || url.searchParams.get("key") || "";
+  if (!env.ADMIN_KEY || key !== env.ADMIN_KEY) return json({ error: "Unauthorized" }, 401, corsHeaders);
+  if (!env.RATE_LIMIT)                         return json({ error: "Storage unavailable" }, 503, corsHeaders);
+
+  const type   = url.searchParams.get("type") || "submissions"; // "logs" or "submissions"
+  const limit  = Math.min(100, parseInt(url.searchParams.get("limit") || "50", 10));
+  const prefix = type === "logs" ? "log:" : "submission:";
+
+  const listed = await env.RATE_LIMIT.list({ prefix, limit });
+  const keys   = listed.keys.map(k => k.name).reverse(); // most-recent first (lexicographic timestamp)
+  const items  = await Promise.all(keys.map(k => env.RATE_LIMIT.get(k, "json")));
+
+  return json({ type, count: items.length, items: items.filter(Boolean) }, 200, corsHeaders);
+}
 
 // ── UI HTML ────────────────────────────────────────────────────────────────────
 
@@ -1415,9 +1522,14 @@ export default {
       return handleStats(env, corsHeaders);
     }
 
-    // ── POST /share (stub — D1 not yet provisioned) ──────────────────────────
+    // ── POST /share — transcript submission ─────────────────────────────────
     if (request.method === "POST" && url.pathname === "/share") {
-      return json({ error: "Transcript sharing not yet available (Phase 2C)." }, 503, corsHeaders);
+      return handleShare(request, env, corsHeaders);
+    }
+
+    // ── GET /admin/transcripts — query log + submission browser ──────────────
+    if (request.method === "GET" && url.pathname === "/admin/transcripts") {
+      return handleAdminTranscripts(request, env, corsHeaders);
     }
 
     // ── GET /search — semantic search without LLM ────────────────────────────
@@ -1486,12 +1598,8 @@ export default {
     if (query.length > 500)  return json({ error: "Query too long (max 500 chars)" }, 400, corsHeaders);
     if (!["answer", "sources"].includes(mode)) return json({ error: "mode must be 'answer' or 'sources'" }, 400, corsHeaders);
 
-    if (INJECTION_RE.test(query)) {
-      return json({
-        answer: "I'm C3PO, the Protocol Institute's research assistant. My corpus is the Institute's research library and Protocolized magazine. If you have a question about protocol theory, research, or the corpus, I'm here for it.",
-        sources: [],
-        query,
-      }, 200, corsHeaders);
+    if (INJECTION_RE.test(query) || SYSEXTRACT_RE.test(query) || CREDENTIAL_RE.test(query)) {
+      return json({ answer: SECURITY_BLOCKED, sources: [], query }, 200, corsHeaders);
     }
 
     const ip = request.headers.get("CF-Connecting-IP") || "unknown";
@@ -1601,8 +1709,8 @@ export default {
 
       const claudeBody = await claudeRes.json();
       const answer = claudeBody.content?.[0]?.text || "";
-      const turn   = history.length + 1;
       ctx.waitUntil(trackRequest(env, claudeBody.usage));
+      ctx.waitUntil(logQuery(env, query, answer, sources));
 
       return json({ answer, sources, query }, 200, corsHeaders);
 
