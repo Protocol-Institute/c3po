@@ -140,3 +140,41 @@ chunk text` separated by `---` dividers. This matches Claude's trained affinity 
 - **vgr_zirp deep dive plan:** `plans/vgrzirp-reuse.md` completed from a full code + devlog audit of the ribbonfarm_site worker stack. Key findings: 7 features to copy directly (title-anchored embeddings, tier weighting, D1, AES-256-GCM encryption, strike/ban, self-notes, per-query logging); 4 to adapt (CORPUS_MAP, lexicon, MCP, search); 5 to skip (multiple indexes, A/B testing, site hooks, session compression, KBA probe). Primary architectural divergence: C3PO needs structural retrieval (numbered frameworks in academic PDFs) that vgr_zirp has no equivalent for — tracked separately in `plans/structural-navigation.md`. Build order: tier weighting → CORPUS_MAP → D1 → encryption → strike/ban → self-notes → per-query logging → title-anchored embeddings → lexicon → MCP → structural navigation.
 
 ---
+
+## Session 7: Curly-Quote Root-Cause Fix, Shared Subnav, New Pages
+
+*2026-05-17 · 14:55–15:45 PT*
+
+**Tracks:** worker-api, ux
+
+**Vectors upserted:** substack: 1,040 · pdfs: 766 · transcripts: 4
+
+- **Root cause: curly quotes.** The `/chats` page had been broken for two sessions — `getElementById('chats-list-container')` returning null, CSS selectors not matching, the page stuck on 'Loading conversations…'. The root cause turned out to be 314 curly/smart quotes (U+201C `“` and U+201D `”`) throughout `worker.js` — introduced during initial AI-assisted code generation — instead of straight ASCII double-quotes (U+0022). The browser's HTML parser does not recognize curly quotes as attribute delimiters, so every `id=`, `class=`, and `href=` attribute silently failed to parse. The smoking-gun clue was the broken navigation URL: clicking 'Conversations' navigated to `https://c3po.vgr-702.workers.dev/%E2%80%9D/%E2%80%9D` — the URL-encoded form of the curly-quote characters being parsed as the href value itself. Fixed via Python: `text.replace('\u201c', '"').replace('\u201d', '"')`, 0 remaining after replacement.
+
+- **Shared subnav.** Added a consistent navigation bar across all four C3PO pages, following the vgr_zirp pattern. Three helpers injected into every HTML template: `SUBNAV_SVG` (the C3PO droid icon in teal), `SUBNAV_CSS` (flexbox nav with PI color variables), and `subnav(current)` (function that renders the bar with the active page highlighted via `class="current"`). Nav links: Ask C3PO (`/`), Conversations (`/chats`), How It Works (`/how-it-works`), Terms (`/terms`). All four pages verified live with correct active-link highlighting.
+
+- **New pages: How It Works + Terms.** Two new static routes added: `GET /how-it-works` and `GET /terms`. Both adapted from vgr_zirp equivalents with C3PO/PI branding — teal palette, Lora body font, C3PO droid avatar, PI name and corpus description. How It Works covers the RAG pipeline at a conceptual level for non-technical visitors. Terms covers appropriate use, limitations, and data handling.
+
+---
+
+## Session 8: YouTube Transcript Ingest and Bibliography Mining (Explicit Pass)
+
+*2026-05-17 · 15:45–17:44 PT*
+
+**Tracks:** corpus-ingestion, vector-architecture
+
+**Session costs:** haiku_enrichment: $0.02 · voyage_embedding: $0.18
+
+**Vectors upserted:** substack: 1,040 · pdfs: 766 · videos: 2,940 · transcripts: 4
+
+- **YouTube channel survey.** The Protocol Institute YouTube channel at `@protocol-institute` has 91 unique videos across 10 playlists, organized into named series: Bridge Atlas (5 episodes), Guest Talk Series (~30), Researcher Salon Series (~10), Protocol Town Hall Podcasts (~26), Protocol School 2025 (13), 2024 Protocol Symposium (7), and several thematic cross-lists. Videos average 60 minutes, ranging from 43 minutes (Kyle Mathews Discord workshop) to 102 minutes (Beyond Consensus). All 91 have English auto-captions available. Notable speakers across the library: Emmett Shear, Nils Gilman, JoAnne Yates, Nathan Schneider, Kevin Kelly, Renee DiResta, Bryan Johnson, Geoff Manaugh, Chris Dixon, Sarah Perry, Keller Easterling-adjacent territory throughout.
+
+- **Caption pipeline.** `fetch_youtube_meta.py` uses `yt-dlp --flat-playlist` to enumerate all playlists, deduplicates by video ID (videos appear in multiple playlists), and downloads English auto-captions as `.vtt` files. A custom VTT parser strips timestamp lines, cue numbers, inline timing tags (`&lt;00:01:23&gt;`), and deduplicated partial lines (VTT streams emit rolling partials then the completed sentence — the parser detects when a new line starts with the previous line and replaces it). Result: clean plain text per video. 91/91 succeeded, ranging from 6,200 to 15,700 words per video.
+
+- **Haiku enrichment (~$0.02).** `enrich_youtube.py` sends the first 3,000 characters of each transcript plus the video title to Haiku. Output: a 2–3 sentence summary naming the speaker and specific argument, 2–4 categories from the shared vocabulary, a list of speakers, and 3–5 key protocol concepts. 91/91 succeeded, 0 errors. The enrichment is notably richer than PDF enrichment because transcript openings typically include speaker introductions and explicit framing statements.
+
+- **Ingest: 2,940 new vectors.** `ingest_youtube.py` follows the same two-vector-type pattern as PDF ingest: **body chunks** (512-token windows, 64-token overlap, title/speakers/summary prefix for embedding but not stored) and **video_summary** (one per video, full enrichment text). 2,849 body chunks + 91 summary vectors → Pinecone namespace `videos`. The `videos` namespace is now the largest single corpus source, adding roughly 900,000 words of protocol-focused spoken content. Pinecone total: 4,750 vectors across four namespaces.
+
+- **Bibliography mining: explicit pass.** `mine_bibliography.py --mode explicit` scanned all 82 PDFs for formal reference/bibliography sections (last standalone 'References', 'Bibliography', 'Notes', etc. header in the second half of the document). Six PDFs had parseable sections: Austin (architecture essay), Kei Kreutler (artificial memory), Saffron Huang (time and consciousness), two versions of Dispatches from Cascadia (URL footnotes), and Timber Schroff's Safe New World (coal mining safety). Haiku extracted 106 unique references after deduplication. A second Haiku pass scored every reference 0–3 for protocol relevance — nothing dropped, score stored as metadata for retrieval weighting. Distribution: core (3): 7 including *Extrastatecraft*, *A Pattern Language*, *Normal Accidents*; relevant (2): 24 including Safety-I/II, Technics and Civilization; adjacent (1): 30; incidental (0): 45 including White Noise, Proust. `fetch_refs.py` (Semantic Scholar abstract fetch + OA PDF download) written but not yet run — paused to end session.
+
+---
