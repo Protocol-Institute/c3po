@@ -1,8 +1,8 @@
 /**
  * C3PO Oracle Worker — Phase 2A
  *
- * Protocol Institute research assistant. Queries Pinecone (namespaces: substack + pdfs),
- * merges results, calls Claude Sonnet with prompt-cached system prompt.
+ * Protocol Institute research assistant. Queries Pinecone (namespaces: pdfs, substack,
+ * videos, bibliography), merges results with tier weighting, calls Claude Sonnet.
  *
  * Routes:
  *   GET  /                    → serve web UI
@@ -257,6 +257,49 @@ function normalizePdf(match) {
   };
 }
 
+function normalizeVideo(match) {
+  const m = match.metadata;
+  const speakers = (() => { try { return JSON.parse(m.speakers || "[]"); } catch { return []; } })();
+  const url = m.url || (m.video_id ? `https://www.youtube.com/watch?v=${m.video_id}` : null);
+  return {
+    docId:   m.video_id || match.id,
+    source:  "youtube",
+    score:   match.score,
+    type:    "talk",
+    label:   "TALK",
+    title:   m.title || "",
+    authors: speakers,
+    primary_author: speakers[0] || "Protocol Institute",
+    date:    (m.upload_date || "").slice(0, 4),
+    url,
+    summary: m.summary || "",
+    series:  m.series || "",
+    excerpt: m.text || m.summary || "",
+    isVideoSummary: m.chunk_type === "video_summary",
+  };
+}
+
+function normalizeBibliography(match) {
+  const m = match.metadata;
+  const authors = (() => { try { return JSON.parse(m.authors || "[]"); } catch { return []; } })();
+  return {
+    docId:   m.ref_id || match.id,
+    source:  "bibliography",
+    score:   match.score,
+    type:    "reference",
+    label:   "REFERENCE",
+    title:   m.title || "",
+    authors,
+    primary_author: authors[0] || "",
+    date:    m.year ? String(m.year) : "",
+    url:     m.url || (m.doi ? `https://doi.org/${m.doi}` : null),
+    summary: m.relevance_rationale || "",
+    venue:   m.venue || "",
+    relevance_score: m.relevance_score || 0,
+    excerpt: m.text || m.relevance_rationale || "",
+  };
+}
+
 function normalizeSubstack(match) {
   const m = match.metadata;
   const isPostSummary = m.chunk_type === "post_summary";
@@ -293,11 +336,18 @@ function normalizeSubstack(match) {
 
 // ── Merge ──────────────────────────────────────────────────────────────────────
 
-function mergeResults(pdfItems, substackItems, maxSources) {
-  // Simple score-based merge with slight PDF boost for academic rigor
+function mergeResults(pdfItems, substackItems, videoItems, bibItems, maxSources) {
+  // Tier weights: PI-authored primary sources score at full value;
+  // video transcripts and bibliography at 0.9 (secondary sources).
+  // Bibliography items are further scaled by their protocol relevance_score (0-3)/3.
   const allItems = [
     ...pdfItems.map(m => ({ ...m, weightedScore: m.score * 1.0 })),
     ...substackItems.map(m => ({ ...m, weightedScore: m.score * 1.0 })),
+    ...videoItems.map(m => ({ ...m, weightedScore: m.score * 0.9 })),
+    ...bibItems.map(m => {
+      const relScale = m.relevance_score >= 2 ? 1.0 : m.relevance_score >= 1 ? 0.85 : 0.6;
+      return { ...m, weightedScore: m.score * 0.85 * relScale };
+    }),
   ];
   const byId = new Map();
   for (const m of allItems) {
@@ -1282,6 +1332,8 @@ ${SUBNAV_CSS}
 .c3po-badge-fiction   { background: #e8d8f0; color: #5a3890; }
 .c3po-badge-game      { background: #f0e8c8; color: #705818; }
 .c3po-badge-substack  { background: #c8e8e0; color: var(--accent); }
+.c3po-badge-talk      { background: #fde8d0; color: #7a3800; }
+.c3po-badge-reference { background: #e8e8e8; color: #444; }
 
 /* ── Share ────────────────────────────────────────────── */
 .c3po-share-section { margin-top: 2em; padding-top: 1em; border-top: 1px solid #f0ece4; }
@@ -1656,6 +1708,8 @@ ${subnav('/')}
 
   function badgeForSource(s) {
     if (s.source === "substack") return '<span class="c3po-badge c3po-badge-substack">Protocolized</span>';
+    if (s.source === "youtube") return '<span class="c3po-badge c3po-badge-talk">Talk</span>';
+    if (s.source === "bibliography") return '<span class="c3po-badge c3po-badge-reference">Reference</span>';
     const t = (s.type || "").toLowerCase();
     if (t === "fiction") return '<span class="c3po-badge c3po-badge-fiction">Fiction</span>';
     if (t === "game" || t === "game-design" || t === "game design")
@@ -1785,6 +1839,10 @@ ${subnav('/')}
         const urlLine = s.url ? "\nURL: " + s.url : "";
         const label = s.source === "substack"
           ? "[Protocolized — \"" + s.title + "\" — " + authors + (s.date ? " — " + s.date : "") + "]" + urlLine
+          : s.source === "youtube"
+          ? "[Talk — \"" + s.title + "\" — " + authors + (s.date ? " — " + s.date : "") + "]" + urlLine
+          : s.source === "bibliography"
+          ? "[Reference — \"" + s.title + "\" — " + authors + (s.date ? " — " + s.date : "") + (s.venue ? " — " + s.venue : "") + "]" + urlLine
           : "[" + (s.label || "PDF") + " — \"" + s.title + "\" — " + authors + (s.date ? " — " + s.date : "") + "]" + urlLine;
         lines.push(label);
         if (s.excerpt) lines.push(s.excerpt.trim());
@@ -2026,6 +2084,8 @@ ${subnav('/how-it-works')}
 <tbody>
 <tr><td>Summer of Protocols PDFs</td><td>82 papers &middot; 766 vectors</td><td>Research papers, theoretical essays, protocol fiction, game materials (2023&ndash;2024)</td></tr>
 <tr><td>Protocolized Substack</td><td>116+ posts &middot; 1,040 vectors</td><td>Fictions (58), Articles (47), Obliquities (5); 38 author profiles; 13 collection cards</td></tr>
+<tr><td>Protocol Institute YouTube</td><td>91 talks &middot; 2,940 vectors</td><td>Researcher salons, symposia, public lectures, guest talks (2023&ndash;2025)</td></tr>
+<tr><td>Bibliography</td><td>252 refs &middot; 248+ vectors</td><td>External works cited by PI corpus; scored 0&ndash;3 for protocol relevance; abstracts + OA PDFs where available</td></tr>
 <tr><td>Shared transcripts</td><td>~4 vectors (growing)</td><td>Published conversations with C3PO</td></tr>
 </tbody>
 </table>
@@ -2047,10 +2107,12 @@ ${subnav('/how-it-works')}
 <tbody>
 <tr><td><code>pdfs</code></td><td>766</td><td>Body chunks + doc_summary vectors for 82 PDFs</td></tr>
 <tr><td><code>substack</code></td><td>1,040</td><td>Body chunks, post_summary, collection_card, author_profile vectors</td></tr>
+<tr><td><code>videos</code></td><td>2,940</td><td>Body chunks + video_summary vectors for 91 YouTube talks</td></tr>
+<tr><td><code>bibliography</code></td><td>248+</td><td>ref_summary + body chunks for externally cited works</td></tr>
 <tr><td><code>transcripts</code></td><td>~4</td><td>Published conversations (grows with use)</td></tr>
 </tbody>
 </table>
-<p>All namespaces are queried in parallel on each request. Results are merged and ranked before being passed to the language model.</p>
+<p>All namespaces are queried in parallel on each request. Results are merged and ranked (PDFs/Substack at full weight, talks at 0.9×, bibliography scaled by relevance score) before being passed to the language model.</p>
 </div>
 
 <div class="hiw-section">
@@ -2255,13 +2317,17 @@ export default {
         if (!voyageRes.ok) return json({ error: "Embedding error" }, 502, corsHeaders);
         const qv = (await voyageRes.json()).data[0].embedding;
 
-        const [pdfRaw, subRaw] = await Promise.all([
+        const [pdfRaw, subRaw, vidRaw, bibRaw] = await Promise.all([
           queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "pdfs"),
           queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "substack"),
+          queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "videos"),
+          queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "bibliography"),
         ]);
         const sources = mergeResults(
           pdfRaw.map(normalizePdf),
           subRaw.map(normalizeSubstack),
+          vidRaw.map(normalizeVideo),
+          bibRaw.map(normalizeBibliography),
           MAX_SOURCES
         ).map(({ weightedScore, ...rest }) => rest);
 
@@ -2333,16 +2399,19 @@ export default {
       }
       const qv = (await voyageRes.json()).data[0].embedding;
 
-      // ── 2. Query both namespaces ───────────────────────────────────────────
-      const [pdfRaw, subRaw] = await Promise.all([
+      // ── 2. Query all namespaces ────────────────────────────────────────────
+      const [pdfRaw, subRaw, vidRaw, bibRaw] = await Promise.all([
         queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "pdfs"),
         queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "substack"),
+        queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "videos"),
+        queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "bibliography"),
       ]);
 
-      // Secondary retrieval: doc_summary / post_summary hits surface well for title queries
+      // Secondary retrieval: summary hits surface well for title queries
       // but contain only abstracts — fetch real body chunks for LLM context.
       const pdfSummaryHits = pdfRaw.filter(m => m.metadata?.chunk_type === "doc_summary");
       const subSummaryHits = subRaw.filter(m => m.metadata?.chunk_type === "post_summary");
+      const vidSummaryHits = vidRaw.filter(m => m.metadata?.chunk_type === "video_summary");
 
       const secondaryFetches = [
         ...pdfSummaryHits.map(hit => {
@@ -2359,22 +2428,32 @@ export default {
             { slug: { "$eq": hit.metadata.slug }, chunk_type: { "$ne": "post_summary" } }
           )
         ),
+        ...vidSummaryHits.map(hit =>
+          queryNamespace(
+            env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 4, "videos",
+            { video_id: { "$eq": hit.metadata.video_id }, chunk_type: { "$eq": "body" } }
+          )
+        ),
       ];
 
-      let pdfAugmented = pdfRaw, subAugmented = subRaw;
+      let pdfAugmented = pdfRaw, subAugmented = subRaw, vidAugmented = vidRaw;
       if (secondaryFetches.length > 0) {
         const secondary = await Promise.all(secondaryFetches);
         const flat = secondary.flat();
         // Remove the summary hits and add their body-chunk replacements
         const pdfSumIds = new Set(pdfSummaryHits.map(h => h.id));
         const subSumIds = new Set(subSummaryHits.map(h => h.id));
+        const vidSumIds = new Set(vidSummaryHits.map(h => h.id));
         pdfAugmented = [...pdfRaw.filter(m => !pdfSumIds.has(m.id)), ...flat.filter(m => m.metadata?.namespace === "pdfs" || m.metadata?.source === "pdf")];
         subAugmented = [...subRaw.filter(m => !subSumIds.has(m.id)), ...flat.filter(m => m.metadata?.source === "substack")];
+        vidAugmented = [...vidRaw.filter(m => !vidSumIds.has(m.id)), ...flat.filter(m => m.metadata?.source === "youtube")];
       }
 
       const pdfNorm = pdfAugmented.map(normalizePdf);
       const subNorm = subAugmented.map(normalizeSubstack);
-      const topItems = mergeResults(pdfNorm, subNorm, MAX_SOURCES);
+      const vidNorm = vidAugmented.map(normalizeVideo);
+      const bibNorm = bibRaw.map(normalizeBibliography);
+      const topItems = mergeResults(pdfNorm, subNorm, vidNorm, bibNorm, MAX_SOURCES);
       const sources  = topItems.map(({ weightedScore, ...rest }) => rest);
 
       if (mode === "sources") {

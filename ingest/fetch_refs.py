@@ -41,7 +41,7 @@ PDF_DIR = Path("sources/bibliography/pdfs")
 
 S2_BASE = "https://api.semanticscholar.org/graph/v1"
 S2_FIELDS = "title,authors,year,abstract,openAccessPdf,externalIds,publicationVenue,citationCount"
-REQUEST_DELAY = 3.2   # seconds between S2 requests (100 req/5min = 3s min)
+REQUEST_DELAY = 4.5   # seconds between S2 requests (100 req/5min = 3s min; 4.5s adds margin)
 
 
 # ---------------------------------------------------------------------------

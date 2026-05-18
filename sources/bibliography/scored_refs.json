@@ -2212,5 +2212,3016 @@
     ],
     "relevance_score": 0,
     "relevance_rationale": "Technical specification of coal mine monitoring equipment is cited for domain-specific engineering facts unrelated to protocol studies."
+  },
+  "6ea8b2080dc0506c": {
+    "_id": "6ea8b2080dc0506c",
+    "title": "Safe New World",
+    "authors": [
+      "Timber Schroff"
+    ],
+    "year": null,
+    "venue": "Protocol Kit Package 3",
+    "doi": null,
+    "url": "summerofprotocols.com/research/module-three/safe-new-world",
+    "context": "Explores the role of protocols in ensuring safety of humans in dangerous circumstances, tracing history of safety protocols in coal mining.",
+    "cited_by": [
+      "00-COVER-LETTER-3.pdf",
+      "10-e36-SCHROFF-2-PAGER.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Directly addresses protocol design and safety considerations within the Protocol Kit framework."
+  },
+  "7092e46be4c975fc": {
+    "_id": "7092e46be4c975fc",
+    "title": "Dangerous Dating Protocols",
+    "authors": [
+      "Shreeda Segan"
+    ],
+    "year": null,
+    "venue": "Protocol Kit Package 3",
+    "doi": null,
+    "url": null,
+    "context": "Essay examining dangers and safety issues in the world of dating apps.",
+    "cited_by": [
+      "00-COVER-LETTER-3.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Examines protocols governing social interaction and dating systems, core to protocol studies."
+  },
+  "f75bef1fa6590395": {
+    "_id": "f75bef1fa6590395",
+    "title": "On the Phenomenology of Protocols",
+    "authors": [
+      "Janna Tay"
+    ],
+    "year": null,
+    "venue": "Protocol Kit Package 3",
+    "doi": null,
+    "url": null,
+    "context": "Meditative essay examining danger and safety through lenses of morality, agency, flourishing, and conviviality.",
+    "cited_by": [
+      "00-COVER-LETTER-3.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Philosophical analysis of protocols and their phenomenological aspects is central to protocol theory."
+  },
+  "4165eda58d6ab8aa": {
+    "_id": "4165eda58d6ab8aa",
+    "title": "The Swarm and the Formation",
+    "authors": [
+      "Rafael Fernández"
+    ],
+    "year": 2024,
+    "venue": "Summer of Protocols Kit, Mailer 4",
+    "doi": null,
+    "url": "summerofprotocols.com/research/the-swarm-and-the-formation",
+    "context": "Anchor essay exploring the social processes of inhabiting protocols and turning systems of rules into living entities.",
+    "cited_by": [
+      "00-COVER-LETTER-4.pdf",
+      "Weaving-Memory-Spencer-Chang.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Explores formation and coordination mechanisms relevant to protocol-based systems and governance."
+  },
+  "6bdc06fd60cf5134": {
+    "_id": "6bdc06fd60cf5134",
+    "title": "Unprotocolized Knowledge",
+    "authors": [
+      "Kara Kittel",
+      "Toby Shorin"
+    ],
+    "year": 2024,
+    "venue": "Summer of Protocols Kit, Mailer 4",
+    "doi": null,
+    "url": null,
+    "context": "Anchor essay exploring the social processes of inhabiting protocols and turning systems of rules into living entities.",
+    "cited_by": [
+      "00-COVER-LETTER-4.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Directly examines the relationship between protocols and knowledge systems, core to protocol theory."
+  },
+  "a2df0032b41f1d1a": {
+    "_id": "a2df0032b41f1d1a",
+    "title": "Protocolized Economics",
+    "authors": [
+      "Steve Powers"
+    ],
+    "year": 2024,
+    "venue": "Summer of Protocols Kit, Mailer 4",
+    "doi": null,
+    "url": null,
+    "context": "Supporting essay on economics of protocols.",
+    "cited_by": [
+      "00-COVER-LETTER-4.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Analyzes how protocols structure economic systems and coordination, fundamental to protocol studies."
+  },
+  "9a65e1d4e2368c94": {
+    "_id": "9a65e1d4e2368c94",
+    "title": "Protocol Party",
+    "authors": [
+      "Mashal Waqar"
+    ],
+    "year": 2024,
+    "venue": "Summer of Protocols Kit, Mailer 4",
+    "doi": null,
+    "url": null,
+    "context": "Tabletop game included in the kit materials.",
+    "cited_by": [
+      "00-COVER-LETTER-4.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Explores protocol-based social organization and institutional structures."
+  },
+  "35e31131d44f811b": {
+    "_id": "35e31131d44f811b",
+    "title": "The Diamond Age",
+    "authors": [
+      "Neal Stephenson"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Referenced as an example of an advanced technology (Young Lady's Illustrated Primer) that the Protocol Kit creators wish they could emulate.",
+    "cited_by": [
+      "00.2-COVER-LETTER-1-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Science fiction novel that contains protocol-relevant themes but is not itself a protocol studies work."
+  },
+  "b6bcc5f27f95f34a": {
+    "_id": "b6bcc5f27f95f34a",
+    "title": "The Hitchhiker's Guide to the Galaxy",
+    "authors": [
+      "Douglas Adams"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Referenced as another fictional example of an ideal information/learning tool that inspired the design philosophy of the Protocol Kit.",
+    "cited_by": [
+      "00.2-COVER-LETTER-1-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Satirical science fiction without direct relevance to protocol theory or design."
+  },
+  "4c0674d20e26f3b3": {
+    "_id": "4c0674d20e26f3b3",
+    "title": "The Protocol System Experience",
+    "authors": [
+      "Angela Walch"
+    ],
+    "year": 2023,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": null,
+    "context": "Angela Walch's essay on the protocol system experience is cited as inspiration for Mashal Waqar's Protocol Party game project.",
+    "cited_by": [
+      "01-RETROSPECTUS-2023-12-13.pdf",
+      "Module-5-COVER-LETTER-.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Examines protocol systems and their experiential dimensions, directly addressing protocol theory."
+  },
+  "f26350dafe3f19aa": {
+    "_id": "f26350dafe3f19aa",
+    "title": "Dependency",
+    "authors": [],
+    "year": null,
+    "venue": "xkcd",
+    "doi": null,
+    "url": "https://xkcd.com/2347/",
+    "context": "Referenced as a comic about ImageMagick dependency issues and civilization collapse, cited in the footnote about protocol dependencies.",
+    "cited_by": [
+      "01-RETROSPECTUS-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Web comic referenced incidentally without connection to protocol studies."
+  },
+  "5c3d59841f01af7e": {
+    "_id": "5c3d59841f01af7e",
+    "title": "Artificial Memory and Orienting Infinity",
+    "authors": [
+      "Kei Kreutler"
+    ],
+    "year": 2023,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": null,
+    "context": "Kreutler argues that the protocol itself creates a sense of time, linking past and present to future.",
+    "cited_by": [
+      "03-STEIERT-2023-12-13.pdf",
+      "17-e43-FERNANDEZ.pdf",
+      "Fire-Protocols-Case-File.pdf"
+    ],
+    "citation_count": 3,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Addresses artificial memory and information organization systems relevant to protocol infrastructure design."
+  },
+  "a641acf6f8bbf220": {
+    "_id": "a641acf6f8bbf220",
+    "title": "Measures for Progress: A History of the National Bureau of Standards",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Quoted in the prologue via Vannevar Bush (1966) regarding the nature of standards-setting work.",
+    "cited_by": [
+      "04-LANG-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Historical account of standards and measurement systems, providing institutional and standards background."
+  },
+  "ab40abd50316ce09": {
+    "_id": "ab40abd50316ce09",
+    "title": "Specifying Spring '83",
+    "authors": [
+      "Robin Sloan"
+    ],
+    "year": 2022,
+    "venue": null,
+    "doi": null,
+    "url": "https://www.robinsloan.com/lab/specifying-spring-83/",
+    "context": "Referenced as an example of someone building their own protocol after questioning the state of social media and early IETF discussions.",
+    "cited_by": [
+      "04-LANG-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Specifies a protocol (Spring '83), directly engaging in protocol design and formalization."
+  },
+  "d6e7244e561998ad": {
+    "_id": "d6e7244e561998ad",
+    "title": "Unknown work on science and governance",
+    "authors": [
+      "Cambridge University Press"
+    ],
+    "year": 2014,
+    "venue": "Cambridge University Press",
+    "doi": "10.1017/CBO9781139856553",
+    "url": "https://doi.org/10.1017/CBO9781139856553",
+    "context": "Cited in footnotes but the specific title is not provided in the text.",
+    "cited_by": [
+      "04-LANG-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "General work on science and governance providing background on institutional frameworks relevant to protocols."
+  },
+  "06c2ec274c703639": {
+    "_id": "06c2ec274c703639",
+    "title": "The Autodidactic Universe",
+    "authors": [],
+    "year": 2021,
+    "venue": "arXiv",
+    "doi": null,
+    "url": null,
+    "context": "A paper uploaded to arXiv in 2021 that outlines a theory that the universe learns its own physical laws through dynamic systems, drawing on biological evolution and deep-learning neural networks.",
+    "cited_by": [
+      "15-e41-KITTEL-SHORIN-PREPRINT.pdf",
+      "15-e41-KITTEL-rev-2024-06-12-1448.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Theoretical work on self-organizing systems adjacent to protocol theory but not specifically about protocols."
+  },
+  "e066e4c6a18075ef": {
+    "_id": "e066e4c6a18075ef",
+    "title": "Decentralized Science (DeSci): Web3-Mediated Future of Science",
+    "authors": [
+      "Sasha Shilina"
+    ],
+    "year": 2023,
+    "venue": "Medium - Paradigm Research",
+    "doi": null,
+    "url": "https://medium.com/paradigm-research/decentralized-science-desci-web3-mediated-future-of-science-2547f9a88c40",
+    "context": "A Medium article discussing decentralized science and web3-mediated approaches to scientific knowledge production.",
+    "cited_by": [
+      "15-e41-KITTEL-SHORIN-PREPRINT.pdf",
+      "15-e41-KITTEL-rev-2024-06-12-1448.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Discusses decentralized governance and coordination mechanisms in scientific contexts relevant to protocol design."
+  },
+  "33e7d099fc0b3548": {
+    "_id": "33e7d099fc0b3548",
+    "title": "Crypto's Three Body Problem",
+    "authors": [
+      "Toby Shorin",
+      "Sam Hart",
+      "Laura Lotti"
+    ],
+    "year": 2024,
+    "venue": "Other Internet",
+    "doi": null,
+    "url": "otherinter.net/research/three-body-problem/",
+    "context": "Referenced as a work examining complex dynamics, published January 15, 2024.",
+    "cited_by": [
+      "15-e41-KITTEL-rev-2024-06-12-1448.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Analyzes governance and coordination challenges in crypto systems, addressing protocol-level tensions."
+  },
+  "1aa701f36e6239c6": {
+    "_id": "1aa701f36e6239c6",
+    "title": "The Philosophy and Practicality of Emergent Ventures",
+    "authors": [
+      "Tyler Cowen"
+    ],
+    "year": 2018,
+    "venue": "Marginal Revolution",
+    "doi": null,
+    "url": "marginalrevolution.com/marginalrevolution/2018/11/philosophy-emergent-ventures.html",
+    "context": "Published November 12, 2018, discussing emergent ventures as an alternative funding model.",
+    "cited_by": [
+      "15-e41-KITTEL-rev-2024-06-12-1448.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Discusses institutional structures and funding mechanisms as background to institutional design."
+  },
+  "8e229a236df6e0d2": {
+    "_id": "8e229a236df6e0d2",
+    "title": "Impetus Grants: Reflections on 2 Years of Going after Risky Aging Science",
+    "authors": [
+      "Lada Nuzhna"
+    ],
+    "year": 2023,
+    "venue": null,
+    "doi": null,
+    "url": "www.ladanuzhna.xyz/writing/2-year-of-running-impetus",
+    "context": "Reflects on funding risky scientific research, published July 11, 2023.",
+    "cited_by": [
+      "15-e41-KITTEL-rev-2024-06-12-1448.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Reflection on grant mechanisms and institutional practice, providing context for governance systems."
+  },
+  "5dea4da181cdb286": {
+    "_id": "5dea4da181cdb286",
+    "title": "ResearchHub",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "www.researchhub.com",
+    "context": "A platform for research collaboration and knowledge sharing mentioned as part of alternative scientific infrastructure.",
+    "cited_by": [
+      "15-e41-KITTEL-rev-2024-06-12-1448.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "ResearchHub appears to be a platform for research coordination and governance, relevant to institutional design and protocol systems for knowledge management."
+  },
+  "5ff6c07d59030b1b": {
+    "_id": "5ff6c07d59030b1b",
+    "title": "Experiment Foundation",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "www.experiment.foundation",
+    "context": "An organization supporting alternative scientific funding models.",
+    "cited_by": [
+      "15-e41-KITTEL-rev-2024-06-12-1448.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Experiment Foundation likely relates to governance structures and institutional mechanisms for funding and coordinating research activities."
+  },
+  "23ca7cb16bc93088": {
+    "_id": "23ca7cb16bc93088",
+    "title": "Fast Grants",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "fastgrants.org",
+    "context": "A rapid funding mechanism for scientific research mentioned as alternative to traditional institutional models.",
+    "cited_by": [
+      "15-e41-KITTEL-rev-2024-06-12-1448.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Fast Grants represents a coordination and funding protocol/mechanism, relevant to governance design and institutional protocols."
+  },
+  "b90a58141bf52435": {
+    "_id": "b90a58141bf52435",
+    "title": "Situated Software",
+    "authors": [
+      "Clay Shirky"
+    ],
+    "year": 2004,
+    "venue": null,
+    "doi": null,
+    "url": "gwern.net/doc/technology/2004-03-30-shirky-situatedsoftware.html",
+    "context": "Shirky's essay 'Situated Software' is cited to introduce the concept of software designed for specific communities or virtual organizations.",
+    "cited_by": [
+      "17-e43-FERNANDEZ.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Shirky's work on situated software addresses how software protocols are designed for specific contexts and communities, relevant to protocol design thinking."
+  },
+  "046df8c976a38b4e": {
+    "_id": "046df8c976a38b4e",
+    "title": "Introducing Trust Fund and Bubble Voting",
+    "authors": [],
+    "year": null,
+    "venue": "trust.support",
+    "doi": null,
+    "url": "trust.support/feed/introducing-trust-fund-and-bubble-voting",
+    "context": "Referenced to explain the continuous voting mechanism based on Bubble Bot that allows Trust members to collectively push Discord posts to Twitter.",
+    "cited_by": [
+      "17-e43-FERNANDEZ.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "This work explicitly addresses voting mechanisms and governance protocols (Trust Fund and Bubble Voting), directly relevant to protocol design and institutional governance."
+  },
+  "87a1db31cb0e5cd2": {
+    "_id": "87a1db31cb0e5cd2",
+    "title": "An Engine, Not a Camera: How Financial Models Shape Markets",
+    "authors": [
+      "Donald MacKenzie"
+    ],
+    "year": 2008,
+    "venue": "MIT Press",
+    "doi": null,
+    "url": "mitpress.mit.edu/9780262633673/an-engine-not-a-camera/",
+    "context": "Cited to support the idea that economic models have direct and profound influence on the economy, exemplified by the doctrine of shareholder value maximization.",
+    "cited_by": [
+      "42-e76-POWERS.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "MacKenzie's study of financial models examines how formal systems and protocols shape real-world behavior and markets."
+  },
+  "a5994f610fd829fd": {
+    "_id": "a5994f610fd829fd",
+    "title": "The Unreasonable Sufficiency of Protocols",
+    "authors": [
+      "Venkatesh Rao",
+      "Tim Beiko",
+      "Danny Ryan",
+      "Josh Stark",
+      "Trent Van Epps",
+      "Bastian Aue"
+    ],
+    "year": 2023,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "summerofprotocols.com/research/module-two/the-unreasonable-sufficiency-of-protocols",
+    "context": "Cited to illustrate the possibility of achieving 'unreasonably sufficient' economic coordination from powerful new protocol elements in economic models.",
+    "cited_by": [
+      "42-e76-POWERS.pdf",
+      "Module-2-Cover-Letter.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "This work directly engages with protocol theory and the sufficiency of protocols as a conceptual framework for understanding systems."
+  },
+  "d6e475442e1d9976": {
+    "_id": "d6e475442e1d9976",
+    "title": "Caesar cipher",
+    "authors": [],
+    "year": null,
+    "venue": "Wikipedia",
+    "doi": null,
+    "url": "en.wikipedia.org/wiki/Caesar_cipher",
+    "context": "Historical example of a simple encryption technique where letters are shifted by a fixed distance in the alphabet.",
+    "cited_by": [
+      "53-BEIKO-001-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Caesar cipher is background on historical encryption methods but not centrally about protocol theory or design principles."
+  },
+  "9900f3fdc3016302": {
+    "_id": "9900f3fdc3016302",
+    "title": "Vigenère cipher",
+    "authors": [],
+    "year": null,
+    "venue": "Wikipedia",
+    "doi": null,
+    "url": "en.wikipedia.org/wiki/Vigen%C3%A8re_cipher",
+    "context": "Example of a more sophisticated cipher that varies the offset for each character based on a secret key word.",
+    "cited_by": [
+      "53-BEIKO-001-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Vigenère cipher is historical cryptographic background rather than protocol design or governance theory."
+  },
+  "57a82854ae61a11b": {
+    "_id": "57a82854ae61a11b",
+    "title": "Enigma machine",
+    "authors": [],
+    "year": null,
+    "venue": "Wikipedia",
+    "doi": null,
+    "url": "en.wikipedia.org/wiki/Enigma_machine",
+    "context": "Famous encryption machine used by Germany during World War II as an example of machine-based encryption.",
+    "cited_by": [
+      "53-BEIKO-001-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Enigma machine is historical cryptographic technology background but not about protocol theory or design principles."
+  },
+  "9c92609e9bbb2837": {
+    "_id": "9c92609e9bbb2837",
+    "title": "Symmetric-key algorithm",
+    "authors": [],
+    "year": null,
+    "venue": "Wikipedia",
+    "doi": null,
+    "url": "en.wikipedia.org/wiki/Symmetric-key_algorithm",
+    "context": "Encryption design where the same key is used by both sender and recipient to encrypt and decrypt messages.",
+    "cited_by": [
+      "53-BEIKO-001-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Symmetric-key algorithms are technical cryptographic foundations but not about protocol governance or systems design."
+  },
+  "3e1943522517e813": {
+    "_id": "3e1943522517e813",
+    "title": "HTTPS",
+    "authors": [],
+    "year": null,
+    "venue": "Wikipedia",
+    "doi": null,
+    "url": "en.wikipedia.org/wiki/HTTPS",
+    "context": "Referenced in discussion of secure communication protocols.",
+    "cited_by": [
+      "53-BEIKO-001-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "HTTPS is a communication protocol relevant to understanding practical protocol implementation and standards for infrastructure."
+  },
+  "409365a242caa2dd": {
+    "_id": "409365a242caa2dd",
+    "title": "Pretty Good Privacy",
+    "authors": [],
+    "year": null,
+    "venue": "Wikipedia",
+    "doi": null,
+    "url": "en.wikipedia.org/wiki/Pretty_Good_Privacy",
+    "context": "Early and widely adopted email encryption protocol that allows users to share public keys without a central authority.",
+    "cited_by": [
+      "53-BEIKO-001-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Pretty Good Privacy is a communication/encryption protocol standard relevant to understanding protocol design and adoption."
+  },
+  "73422011c8a61c1c": {
+    "_id": "73422011c8a61c1c",
+    "title": "Protocol Foundations 003: Hashing",
+    "authors": [
+      "Mario Havel",
+      "Tim Beiko"
+    ],
+    "year": 2023,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "https://summerofprotocols.com/wp-content/uploads/tktktk",
+    "context": "Referenced as foundational material on hashing techniques that enable data structures like hash tables.",
+    "cited_by": [
+      "53-HAVEL-004.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "This is explicitly a Protocol Foundations piece addressing hashing as a core protocol primitive and technical building block."
+  },
+  "f473063ed25b16d8": {
+    "_id": "f473063ed25b16d8",
+    "title": "Protocol Foundations 002: Addressing",
+    "authors": [
+      "Mario Havel",
+      "Tim Beiko"
+    ],
+    "year": 2023,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "https://summerofprotocols.com/wp-content/uploads/2024/03/Addressing-Tim-Beiko-Mario-Havel.pdf",
+    "context": "Referenced for coverage of basic addressing functions enabled by hashing and mentioned again regarding IPFS usage of Merkle DAGs.",
+    "cited_by": [
+      "53-HAVEL-004.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "This is explicitly a Protocol Foundations piece addressing addressing as a fundamental protocol concern and design element."
+  },
+  "43eee054c6d4d7c3": {
+    "_id": "43eee054c6d4d7c3",
+    "title": "A Pattern Language",
+    "authors": [
+      "Christopher Alexander"
+    ],
+    "year": 1977,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Alexander's seminal work that presents 253 distinct patterns describing recurring problems in the built environment and their solutions, which serves as the conceptual foundation for the protocol pattern language approach to urban space.",
+    "cited_by": [
+      "54-AUSTIN-00-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Alexander's pattern language provides a foundational framework for understanding how protocols and systems can be designed through recurring patterns."
+  },
+  "2764182d02bee1c5": {
+    "_id": "2764182d02bee1c5",
+    "title": "Cabin",
+    "authors": [],
+    "year": null,
+    "venue": "Mirror (creators.mirror.xyz)",
+    "doi": null,
+    "url": "https://creators.mirror.xyz/zHox-AfvHbX0Q2JxAbcfwiAmOXRy7BzYafhZNlvHnmM",
+    "context": "Referenced as an example experiment of a distributed 'network city' for citizens spanning the globe who come together to colive and create in nature.",
+    "cited_by": [
+      "54-AUSTIN-5-6.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Cabin appears to be a creative or artistic project not directly related to protocol theory or governance."
+  },
+  "55067f6f5383f0f0": {
+    "_id": "55067f6f5383f0f0",
+    "title": "A Protocol Pattern Language for Urban Space",
+    "authors": [
+      "Drew Austin"
+    ],
+    "year": 2023,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "summerofprotocols.com",
+    "context": "This is the main work itself, part of the Summer of Protocols 2023 series focusing on protocol pattern languages for urban infrastructure.",
+    "cited_by": [
+      "54-AUSTIN-DIY.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "This work applies protocol thinking to urban space design, extending protocol concepts to physical and social systems."
+  },
+  "6230cfe530060934": {
+    "_id": "6230cfe530060934",
+    "title": "Geisel Library",
+    "authors": [
+      "William Pereira"
+    ],
+    "year": null,
+    "venue": "University of California, San Diego",
+    "doi": null,
+    "url": null,
+    "context": "The building's spherical design is cited as an example of how architecture can be conceptualized around circulation and accessibility, with equidistant spacing from the center of stacks to the furthest book locations.",
+    "cited_by": [
+      "55-e75-HART-M4-AP5-6.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Geisel Library is an architectural reference used for illustrative purposes unrelated to protocol studies."
+  },
+  "a46bdda9c26252ac": {
+    "_id": "a46bdda9c26252ac",
+    "title": "Adapted from an image by Flickr user 'Belis@rio'",
+    "authors": [
+      "Belis@rio"
+    ],
+    "year": null,
+    "venue": "Flickr",
+    "doi": null,
+    "url": "https://bit.ly/3RkoZiC",
+    "context": "Photo credit for the Geisel Library image, licensed under Creative Commons and adapted for the document.",
+    "cited_by": [
+      "55-e75-HART-M4-AP5-6.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "This is an image credit citation incidental to the document rather than a substantive reference."
+  },
+  "dc4b3108763a0487": {
+    "_id": "dc4b3108763a0487",
+    "title": "Roomba Art",
+    "authors": [
+      "IBR Algorithm Group"
+    ],
+    "year": null,
+    "venue": "Braunschweig University of Technology",
+    "doi": null,
+    "url": "https://bit.ly/4aNqJY7",
+    "context": "Time-lapse photograph series demonstrating inefficient movement patterns of a Roomba robot through physical space, illustrating how inefficient routes are acceptable for automated systems.",
+    "cited_by": [
+      "55-e75-HART-M5-AP7-8-for-web.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Roomba art project is incidental to protocol studies despite algorithmic basis; primarily an art installation rather than about protocol design or governance."
+  },
+  "a97dda3f5187f459": {
+    "_id": "a97dda3f5187f459",
+    "title": "Google Maps search data",
+    "authors": [],
+    "year": 2023,
+    "venue": "Google Maps",
+    "doi": null,
+    "url": null,
+    "context": "Source data for mapping locations of Starbucks retail chain in downtown San Francisco, conducted in September 2023.",
+    "cited_by": [
+      "55-e75-HART-M5-AP7-8-for-web.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Google Maps search data is cited for factual/empirical content unrelated to protocol theory or design."
+  },
+  "38a797b51f0fd33f": {
+    "_id": "38a797b51f0fd33f",
+    "title": "CC BY-NC 4.0 License",
+    "authors": [],
+    "year": 2023,
+    "venue": "Creative Commons",
+    "doi": null,
+    "url": null,
+    "context": "Licensing framework under which contributions are licensed by respective authors until December 13, 2026.",
+    "cited_by": [
+      "56-LEWIS-M3-Missive-3.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Creative Commons licenses are adjacent to protocol studies as they establish governance frameworks for information sharing, but are primarily legal/licensing tools rather than protocol systems."
+  },
+  "b2dad6badc6854aa": {
+    "_id": "b2dad6badc6854aa",
+    "title": "CC BY 4.0 License",
+    "authors": [],
+    "year": null,
+    "venue": "Creative Commons",
+    "doi": null,
+    "url": null,
+    "context": "Licensing framework that will apply to all contributions after December 13, 2026.",
+    "cited_by": [
+      "56-LEWIS-M3-Missive-3.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Creative Commons licenses are adjacent to protocol studies as they establish governance frameworks for information sharing, but are primarily legal/licensing tools rather than protocol systems."
+  },
+  "ff42240a904528b5": {
+    "_id": "ff42240a904528b5",
+    "title": "Retrospectus Newsletter",
+    "authors": [],
+    "year": 2024,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "summerofprotocols.com",
+    "context": "Publication associated with Summer of Protocols, printed July 2024",
+    "cited_by": [
+      "56-LEWIS-M5-Missive-4-nu-for-web.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Summer of Protocols newsletter is relevant as it engages with contemporary protocol thinking and discourse within the protocol studies community."
+  },
+  "4718bf4a5a73b398": {
+    "_id": "4718bf4a5a73b398",
+    "title": "The Craft of Thought: Meditation, Rhetoric, and the Making of Images, 800-1200",
+    "authors": [
+      "Mary J. Carruthers"
+    ],
+    "year": 2000,
+    "venue": "Cambridge University Press",
+    "doi": null,
+    "url": null,
+    "context": "Source on Medieval monastic memory techniques and the use of monastery architecture as a rhetorical tool and machine for thinking.",
+    "cited_by": [
+      "58-LEWIS-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Medieval rhetoric and image-making are adjacent background useful for understanding historical discourse practices but not directly about protocols."
+  },
+  "8e2222e4ab9ee861": {
+    "_id": "8e2222e4ab9ee861",
+    "title": "The Book of Memory: A Study of Memory in Medieval Culture",
+    "authors": [
+      "Mary J. Carruthers"
+    ],
+    "year": 1992,
+    "venue": "Cambridge University Press",
+    "doi": null,
+    "url": null,
+    "context": "Reference work on memory practices and techniques in medieval culture.",
+    "cited_by": [
+      "58-LEWIS-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Medieval memory studies provide historical context for understanding systems and techniques but are not centrally about protocol design or governance."
+  },
+  "82b5eb7afe2fa067": {
+    "_id": "82b5eb7afe2fa067",
+    "title": "Sermo 23, lines 26-33",
+    "authors": [
+      "Peter Chrysologus"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Historical source cited regarding memory infrastructure and the growth of knowledge metaphorically described as a tree.",
+    "cited_by": [
+      "58-LEWIS-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Medieval sermon excerpt is cited for specific historical content unrelated to protocol theory."
+  },
+  "7dc5d6d372979dcc": {
+    "_id": "7dc5d6d372979dcc",
+    "title": "The Clockless Clock Maze",
+    "authors": [
+      "Venkat Rao",
+      "Daniel Schmidt"
+    ],
+    "year": 2023,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "summerofprotocols.com",
+    "context": "This is the primary work being described, designed to convey temporalities and moods in different protocol environments.",
+    "cited_by": [
+      "61-MAZE-RAO-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "This Summer of Protocols work engages with protocol thinking through speculative exploration of temporal and structural constraints."
+  },
+  "3933ba41bc1f10eb": {
+    "_id": "3933ba41bc1f10eb",
+    "title": "Speculating on Blockchain as an Unstoppable 'Nature' Towards the Emergence of Artificial Life",
+    "authors": [
+      "Fangting",
+      "Botao Amber Hu"
+    ],
+    "year": 2024,
+    "venue": "The 2024 Conference on Artificial Life",
+    "doi": null,
+    "url": null,
+    "context": "The scientific foundation of the fiction presented is based on this paper by the authors, to be presented at The 2024 Conference on Artificial Life.",
+    "cited_by": [
+      "66-FANGTING.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Blockchain and artificial life speculation substantively contributes to thinking about decentralized coordination systems and emergent protocol-like behavior."
+  },
+  "023c2336a33eb58a": {
+    "_id": "023c2336a33eb58a",
+    "title": "EIP-102024",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "A discussion section in EIP-102024 is cited to provide perspective on accepting OLife as a species equal to humans.",
+    "cited_by": [
+      "66-FANGTING.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Ethereum Improvement Proposal is a core protocol standards document directly about protocol design and governance."
+  },
+  "26a0c46673a4c1a4": {
+    "_id": "26a0c46673a4c1a4",
+    "title": "The Vanishing Subject: Early Modern Asceticism and the Problem of Self-Interest",
+    "authors": [
+      "L.M. Sacasas"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Quoted at the opening of the paper regarding how the human-built world is not built for humans and the importance of human flourishing",
+    "cited_by": [
+      "A-Phenomenology-of-Protocols-Janna-Tay.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Early modern asceticism and self-interest are adjacent historical/philosophical background relevant to institutional thinking but not protocol studies proper."
+  },
+  "14283a1d1703948d": {
+    "_id": "14283a1d1703948d",
+    "title": "Rao et al.",
+    "authors": [
+      "Rao"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Cited as reference 19 regarding how good protocols function and evolve",
+    "cited_by": [
+      "A-Phenomenology-of-Protocols-Janna-Tay.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Incomplete reference without substantive title or venue information; cannot assess relevance."
+  },
+  "413b50cabf97eb78": {
+    "_id": "413b50cabf97eb78",
+    "title": "ActivityPub",
+    "authors": [],
+    "year": 2018,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "The distributed social network protocol that is the target for adding end-to-end encryption.",
+    "cited_by": [
+      "ActivityPub-E2EE-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "ActivityPub is a core social communication protocol standard directly relevant to protocol design and decentralized infrastructure."
+  },
+  "a3fb83ec4af8fe5c": {
+    "_id": "a3fb83ec4af8fe5c",
+    "title": "Messaging Layer Security (MLS) RFC9420",
+    "authors": [],
+    "year": null,
+    "venue": "Internet Engineering Task Force (IETF)",
+    "doi": null,
+    "url": null,
+    "context": "An existing Internet standard that the team considered mapping onto ActivityPub as an extension for E2EE.",
+    "cited_by": [
+      "ActivityPub-E2EE-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "MLS RFC is a core cryptographic protocol standard directly about protocol design and security governance from IETF."
+  },
+  "4abeea4d11ea6150": {
+    "_id": "4abeea4d11ea6150",
+    "title": "Safe New World: Protocols that evolve to make their users safer",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Related case file addressing protocol evolution for user safety.",
+    "cited_by": [
+      "ActivityPub-E2EE-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "This work substantively addresses protocol design and evolution for user safety, a key concern in protocol governance thinking."
+  },
+  "803dc1f4c3f65d3b": {
+    "_id": "803dc1f4c3f65d3b",
+    "title": "Protocol System Experience: Focusing on the individual experience in a larger protocol system",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Related case file addressing individual user experience within protocol systems.",
+    "cited_by": [
+      "ActivityPub-E2EE-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Protocol system experience directly engages with how protocols function at individual level within larger governance systems."
+  },
+  "70c4b6e20bf68e3e": {
+    "_id": "70c4b6e20bf68e3e",
+    "title": "The Death and the Death of Orkut: Sociality, meeting user needs, archiving",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Related case file addressing social networks, user needs, and archiving.",
+    "cited_by": [
+      "ActivityPub-E2EE-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Social platform analysis addresses protocol-mediated sociality, user coordination, and institutional design concerns relevant to protocol studies."
+  },
+  "d041924c15885af6": {
+    "_id": "d041924c15885af6",
+    "title": "Signal",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "The most widely-used abstract encryption protocol in messaging, which operates under a tight trademark license limiting use for open standards.",
+    "cited_by": [
+      "ActivityPub-E2EE-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Signal is a core communication protocol system directly relevant to protocol design, security, and infrastructure."
+  },
+  "9be8847693941e27": {
+    "_id": "9be8847693941e27",
+    "title": "Early Twentieth-Century Hotel Architects and the Origins of Standardization",
+    "authors": [
+      "Lisa Pfueller Davidson"
+    ],
+    "year": 2005,
+    "venue": "Journal of Decorative and Propaganda Arts",
+    "doi": null,
+    "url": null,
+    "context": "Cited as source for information about the 1923 Statler Hotel in Buffalo, New York and its pioneering use of identical room layouts to increase cleaning efficiency.",
+    "cited_by": [
+      "Addressable-Space-Appendix-1-Chenoe-Hart.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Hotel standardization history substantively contributes to understanding how standards and coordination protocols emerge in institutional design."
+  },
+  "f98036929b22f9ff": {
+    "_id": "f98036929b22f9ff",
+    "title": "The Future of Car Navigation Has Arrived",
+    "authors": [
+      "Paul Stenquist"
+    ],
+    "year": 2021,
+    "venue": "The New York Times",
+    "doi": null,
+    "url": "www.nytimes.com/2021/02/25/business/GPS-car-systems.html",
+    "context": "Referenced as an example of sophisticated car navigation systems that increasingly resemble digital information access methods.",
+    "cited_by": [
+      "Addressable-Space-Chenoe-Hart.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "News article about car navigation technology with no clear connection to protocol theory, governance, or institutional design."
+  },
+  "4455606ee913db0c": {
+    "_id": "4455606ee913db0c",
+    "title": "AGILE Destination Controls",
+    "authors": [
+      "ThyssenKrupp Elevator"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "www.tkelevator.com/media/products_1/agile/brochures_5/agile-dsc-design-center-elevator-brochure-ea-en.pdf",
+    "context": "Cited as an example of a destination dispatch system for elevators demonstrating reverse skeuomorphism.",
+    "cited_by": [
+      "Addressable-Space-Chenoe-Hart.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Technical product documentation for elevator destination control systems; tangentially relevant as infrastructure design but not about protocols per se."
+  },
+  "ef1e4a918f1dfa1b": {
+    "_id": "ef1e4a918f1dfa1b",
+    "title": "Schindler PORT",
+    "authors": [
+      "Schindler Elevator Corporation"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "www.schindler.com/en/elevators/destination-control/port-elevator.html",
+    "context": "Referenced as another example of destination control elevator technology.",
+    "cited_by": [
+      "Addressable-Space-Chenoe-Hart.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Product documentation for elevator control system; represents infrastructure design but lacks substantive engagement with protocol theory or governance."
+  },
+  "8ac7cd838e8ce1c7": {
+    "_id": "8ac7cd838e8ce1c7",
+    "title": "The Evolution of Elevator Technology",
+    "authors": [
+      "Nicole Saloio"
+    ],
+    "year": 2010,
+    "venue": "Facility Management Journal",
+    "doi": null,
+    "url": "www.schindler.com/content/dam/website/us/docs/media/reprint/fmj-evolution-destination-technology.pdf/_jcr_content/renditions/original./fmj-evolution-destination-technology.pdf",
+    "context": "Cited to support discussion of elevator technology evolution and user interface design.",
+    "cited_by": [
+      "Addressable-Space-Chenoe-Hart.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Historical overview of elevator technology without direct relevance to protocol studies, coordination mechanisms, or governance frameworks."
+  },
+  "d61839fdc74f23f6": {
+    "_id": "d61839fdc74f23f6",
+    "title": "Spatializing Knowledge: Giulio Camillo's Theatre of Memory (1519-1544) – SOCKS",
+    "authors": [
+      "Mariabruna Fabrizi"
+    ],
+    "year": 2019,
+    "venue": "SOCKS",
+    "doi": null,
+    "url": "socks-studio.com/2019/03/03/spatializing-knowledge-giulio-camillos-theatre-of-memory-1519-1544/",
+    "context": "Cited for historical information on Giulio Camillo's memory palace techniques.",
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Art historical analysis of Renaissance memory theater; adjacent to protocol fiction and knowledge organization but not centrally about protocols."
+  },
+  "1d68ad7dab0f904c": {
+    "_id": "1d68ad7dab0f904c",
+    "title": "The Trust Machine",
+    "authors": [],
+    "year": 2015,
+    "venue": "The Economist",
+    "doi": null,
+    "url": "onomist.com/leaders/2015/10/31/the-trust-machine",
+    "context": "Referenced as a source discussing trust in systems, cited in discussion of institutions and reliability.",
+    "cited_by": [
+      "Atoms-Institutes-Blockchains-Josh-Stark.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "unscored"
+  },
+  "bbf504d8f7d3fd72": {
+    "_id": "bbf504d8f7d3fd72",
+    "title": "Common and commons",
+    "authors": [
+      "Giuliani",
+      "Vercellone"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Cited as argument that common is a mode of resource production similar to capital",
+    "cited_by": [
+      "Capital-Enclosure-for-Software-Commons-Trent-Van-Epps.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Theoretical work on commons and common resources; directly relevant to commons governance and institutional design."
+  },
+  "07e7c3a7273407e0": {
+    "_id": "07e7c3a7273407e0",
+    "title": "Incorporating the Commons",
+    "authors": [
+      "Benjamin Birkinbine"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": "10.16997/book39",
+    "url": null,
+    "context": "Source of inspiration for critical analysis of digital commons",
+    "cited_by": [
+      "Capital-Enclosure-for-Software-Commons-Trent-Van-Epps.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Work on incorporating commons; relevant to commons governance and institutional frameworks for managing shared resources."
+  },
+  "55f9a072fbfbd23d": {
+    "_id": "55f9a072fbfbd23d",
+    "title": "Commons Praxis: Towards a Critical Political Economy of the Digital Commons",
+    "authors": [
+      "Benjamin Birkinbine"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Source of inspiration for critical analysis of digital commons",
+    "cited_by": [
+      "Capital-Enclosure-for-Software-Commons-Trent-Van-Epps.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Political economy of digital commons; directly addresses governance mechanisms and institutional design for digital protocol-based systems."
+  },
+  "4dc658502a957e8a": {
+    "_id": "4dc658502a957e8a",
+    "title": "Linux & Ethereum: Commoning vs Commodifying",
+    "authors": [],
+    "year": 2023,
+    "venue": "Protocol Berg",
+    "doi": null,
+    "url": "www.youtube.com/watch?v=CEwXVUQEQwM",
+    "context": "Audio version of the paper's content presented as podcast",
+    "cited_by": [
+      "Capital-Enclosure-for-Software-Commons-Trent-Van-Epps.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Comparative analysis of commoning versus commodification in Linux and Ethereum; core work on protocol governance and commons management."
+  },
+  "7265e72868b81f96": {
+    "_id": "7265e72868b81f96",
+    "title": "Safeguarding Ethereum's Soul: Protocol Guild and governing the digital commons",
+    "authors": [
+      "The Blockchain Socialist"
+    ],
+    "year": 2023,
+    "venue": "The Blockchain Socialist",
+    "doi": null,
+    "url": "theblockchainsocialist.com/safeguarding-ethereums-soul-protocol-guild-and-governing-the-digital-commons/",
+    "context": "Audio discussion related to Protocol Guild and digital commons governance",
+    "cited_by": [
+      "Capital-Enclosure-for-Software-Commons-Trent-Van-Epps.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Governance analysis of Ethereum's Protocol Guild and digital commons stewardship; directly addresses protocol governance and institutional design."
+  },
+  "ad37b7a877e0fa83": {
+    "_id": "ad37b7a877e0fa83",
+    "title": "Capital and Enclosure in Software Commons: Linux & Ethereum",
+    "authors": [],
+    "year": 2024,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "www.youtube.com/watch?v=Z9O5_lve10o",
+    "context": "Audio version of this paper presented as video lecture",
+    "cited_by": [
+      "Capital-Enclosure-for-Software-Commons-Trent-Van-Epps.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Examines capital, enclosure, and governance in software commons; core analysis of protocol governance and commons coordination."
+  },
+  "e4b81625a8ab8965": {
+    "_id": "e4b81625a8ab8965",
+    "title": "Venkatesh Rao's concept of protocol as creating new water in which we swim",
+    "authors": [
+      "Venkatesh Rao"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Cited as an explanation of how protocols establish shared context and rules for navigation between strangers.",
+    "cited_by": [
+      "Dangerous-Dating-Protocols-Shreeda-Segan.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Conceptual work on protocol as fundamental organizational and epistemic structure; core to protocol theory."
+  },
+  "b05c735e0d420a5d": {
+    "_id": "b05c735e0d420a5d",
+    "title": "The Trial",
+    "authors": [
+      "Franz Kafka"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Referenced as an example of Kafka's writing featuring protagonists trapped in surreal predicaments that defy comprehension, used as a metaphor for being caught in protocols.",
+    "cited_by": [
+      "Dangerous-Protocols-Nadia-Asparouhova.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Literary fiction relevant to protocol fiction as a genre but not substantively contributing to protocol studies scholarship."
+  },
+  "0cc38f8c78df2e2c": {
+    "_id": "0cc38f8c78df2e2c",
+    "title": "Bartleby, the Scrivener",
+    "authors": [
+      "Herman Melville"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Referenced as the source of the term 'Bartleby response' to describe refusal to conform to expectations.",
+    "cited_by": [
+      "Dangerous-Protocols-Nadia-Asparouhova.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Literary fiction potentially relevant to protocol fiction but not substantively engaging with protocol theory or institutional analysis."
+  },
+  "3b03fb24a09b7862": {
+    "_id": "3b03fb24a09b7862",
+    "title": "Fantasia",
+    "authors": [
+      "Walt Disney"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Referenced through the sorcerer's apprentice story as a metaphor for how protocols can subsume human agency when left unchecked.",
+    "cited_by": [
+      "Dangerous-Protocols-Nadia-Asparouhova.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Animated film unrelated to protocol studies, governance, or institutional design."
+  },
+  "92e899b2b72757d0": {
+    "_id": "92e899b2b72757d0",
+    "title": "Working in Public: The Making and Maintenance of Open Source Software",
+    "authors": [
+      "Nadia Asparouhova"
+    ],
+    "year": null,
+    "venue": "Stripe Press",
+    "doi": null,
+    "url": null,
+    "context": "Author's previous work cited in biographical information.",
+    "cited_by": [
+      "Dangerous-Protocols-Nadia-Asparouhova.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Analysis of open source software maintenance and governance; substantively relevant to protocol governance and coordination mechanisms."
+  },
+  "3d9f1489dd1b980c": {
+    "_id": "3d9f1489dd1b980c",
+    "title": "Roads and Bridges: The Unseen Labor Behind Our Digital Infrastructure",
+    "authors": [
+      "Nadia Asparouhova"
+    ],
+    "year": null,
+    "venue": "Ford Foundation",
+    "doi": null,
+    "url": null,
+    "context": "Author's previous work cited in biographical information.",
+    "cited_by": [
+      "Dangerous-Protocols-Nadia-Asparouhova.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Examination of labor and maintenance in digital infrastructure; relevant to understanding governance and sustainability of protocol-based systems."
+  },
+  "4cdce461ef4cfa9c": {
+    "_id": "4cdce461ef4cfa9c",
+    "title": "Popular places with Indigenous names in B.C.",
+    "authors": [],
+    "year": null,
+    "venue": "Daily Hive Vancouver",
+    "doi": null,
+    "url": "dailyhive.com/vancouver/popular-places-indigenous-names-bc",
+    "context": "Referenced for context on Indigenous naming conventions and the Squamish Nation term 'K'emk'emeláy'.",
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Regional geography fact about Indigenous place names; incidental information unrelated to protocol studies."
+  },
+  "a23fa2474fe933dc": {
+    "_id": "a23fa2474fe933dc",
+    "title": "B.C. imports 99 million kilos of American onions—why?",
+    "authors": [],
+    "year": null,
+    "venue": "Victoria News",
+    "doi": null,
+    "url": "www.vicnews.com/news/b-c-imports-99-million-kilos-of-american-onions-why-74720",
+    "context": "Cited regarding food system and agricultural import dependencies in the bioregion.",
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Regional trade and agriculture fact about British Columbia; incidental information unrelated to protocol studies."
+  },
+  "81c4f67d0a75f1af": {
+    "_id": "81c4f67d0a75f1af",
+    "title": "Maslow got it wrong",
+    "authors": [
+      "Ravi Lochan"
+    ],
+    "year": null,
+    "venue": "PACES Connection",
+    "doi": null,
+    "url": "www.pacesconnection.com/blog/ravilochan-maslow-got-it-wrong",
+    "context": "Referenced in discussion of human needs hierarchy and community well-being in the Global Protocol Network.",
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Psychology article about Maslow's hierarchy unrelated to protocol studies."
+  },
+  "747f5a16f6b173c9": {
+    "_id": "747f5a16f6b173c9",
+    "title": "The myth of the barter society",
+    "authors": [],
+    "year": 2016,
+    "venue": "The Atlantic",
+    "doi": null,
+    "url": "www.theatlantic.com/business/archive/2016/02/barter-society-myth/471051/",
+    "context": "Referenced regarding economic exchange systems and resource sharing models in the community.",
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Historical economics piece that provides background on exchange systems relevant to understanding institutional coordination but not centrally about protocols."
+  },
+  "9e38a9fc33f787f6": {
+    "_id": "9e38a9fc33f787f6",
+    "title": "Research challenge areas: Planetary health",
+    "authors": [],
+    "year": null,
+    "venue": "Simon Fraser University",
+    "doi": null,
+    "url": "www.sfu.ca/fhs/research/research-challenge-areas/planetary-health.html",
+    "context": "Cited for research on planetary health and ecological governance challenges.",
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Environmental health research challenge with no connection to protocol studies."
+  },
+  "158b0759202ed655": {
+    "_id": "158b0759202ed655",
+    "title": "PubMed article 14653505",
+    "authors": [],
+    "year": null,
+    "venue": "PubMed",
+    "doi": null,
+    "url": "pubmed.ncbi.nlm.nih.gov/14653505/",
+    "context": "Cited for scientific research on plant diversity, fungal networks, and nutrient uptake mechanisms.",
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Medical research article unrelated to protocol studies."
+  },
+  "344e3114edd4099e": {
+    "_id": "344e3114edd4099e",
+    "title": "Fleabag",
+    "authors": [
+      "Phoebe Waller-Bridge"
+    ],
+    "year": null,
+    "venue": "Television",
+    "doi": null,
+    "url": null,
+    "context": "Referenced as one of the best television shows of the twenty-first century, praised for pioneering a new narrative device of breaking the fourth wall and ending gracefully after two seasons.",
+    "cited_by": [
+      "Exit-to-Protocol-Shuya-Gong.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Television drama series unrelated to protocol studies."
+  },
+  "94c76dc76078ce94": {
+    "_id": "94c76dc76078ce94",
+    "title": "SPACE10 History",
+    "authors": [
+      "SPACE10"
+    ],
+    "year": 2023,
+    "venue": "SPACE10",
+    "doi": null,
+    "url": "space10.com/history",
+    "context": "Cited as an example of an organization that documented and shared its work generously through resources, handbooks, and archives upon closing.",
+    "cited_by": [
+      "Exit-to-Protocol-Shuya-Gong.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Design organization history that may relate to institutional design practices but is primarily descriptive organizational history."
+  },
+  "8c357042379d9eb8": {
+    "_id": "8c357042379d9eb8",
+    "title": "What Is a Bullshit Job?",
+    "authors": [
+      "David Graeber"
+    ],
+    "year": 2019,
+    "venue": "Bullshit Jobs: A Theory",
+    "doi": null,
+    "url": null,
+    "context": "Essay included in Bullshit Jobs: A Theory, cited as a work addressing job meaningfulness.",
+    "cited_by": [
+      "Exit-to-Protocol-Shuya-Gong.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Graeber's analysis of job categories and organizational systems substantially contributes to understanding institutional structures and coordination failures."
+  },
+  "012cbeb76e5e7626": {
+    "_id": "012cbeb76e5e7626",
+    "title": "Why Do Those in Bullshit Jobs Regularly Report Themselves Unhappy? (On Spiritual Violence, Part 1)",
+    "authors": [
+      "David Graeber"
+    ],
+    "year": 2019,
+    "venue": "Bullshit Jobs: A Theory",
+    "doi": null,
+    "url": null,
+    "context": "Essay included in Bullshit Jobs: A Theory, cited as a work examining unhappiness in meaningless work.",
+    "cited_by": [
+      "Exit-to-Protocol-Shuya-Gong.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Graeber's examination of organizational dysfunction and institutional critique provides relevant perspectives on how systems govern work and meaning-making."
+  },
+  "ca7c33e6861ff10a": {
+    "_id": "ca7c33e6861ff10a",
+    "title": "Bullshit Jobs: A Theory",
+    "authors": [
+      "David Graeber"
+    ],
+    "year": 2019,
+    "venue": "Simon & Schuster",
+    "doi": null,
+    "url": null,
+    "context": "Book published in New York cited for essays on job meaningfulness and workplace satisfaction.",
+    "cited_by": [
+      "Exit-to-Protocol-Shuya-Gong.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Graeber's comprehensive theory of organizational structures and institutional critique substantially informs understanding of governance and institutional design."
+  },
+  "ac7c76728b69e214": {
+    "_id": "ac7c76728b69e214",
+    "title": "Space10 Handbook",
+    "authors": [
+      "Kajsa Lindström",
+      "Sabrina Norfast",
+      "Daniel Frlis",
+      "Kaave Pour"
+    ],
+    "year": 2023,
+    "venue": null,
+    "doi": null,
+    "url": "docs.google.com/document/d/16nC0ZkIdlsmB-wfQHHABVCt-YoY2jufxZt_uQaxyW2s/edit",
+    "context": "Handbook documenting types of roles, contracts, expectations, and form factors shared by SPACE10 upon organizational closure.",
+    "cited_by": [
+      "Exit-to-Protocol-Shuya-Gong.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Design handbook about methodologies and collaborative practices relevant to understanding institutional and governance design processes."
+  },
+  "9974b29447218227": {
+    "_id": "9974b29447218227",
+    "title": "The Agile Industrial Complex",
+    "authors": [
+      "Daniel Mesnick"
+    ],
+    "year": 2021,
+    "venue": "New Technology Solutions | Enabling Enterprise Agility",
+    "doi": null,
+    "url": "newtechusa.net/aic",
+    "context": "Cited as a work addressing agile methodologies and enterprise practices.",
+    "cited_by": [
+      "Exit-to-Protocol-Shuya-Gong.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Critique of Agile methodology as institutional practice contributes to understanding coordination protocols and organizational governance systems."
+  },
+  "deb11867a9068316": {
+    "_id": "deb11867a9068316",
+    "title": "The Intention Economy: When Customers Take Charge",
+    "authors": [
+      "Doc Searls"
+    ],
+    "year": 2012,
+    "venue": "Harvard Business Review Press",
+    "doi": null,
+    "url": null,
+    "context": "Book containing essay 'Net Pains' cited for perspectives on customer intent and business relationships.",
+    "cited_by": [
+      "Exit-to-Protocol-Shuya-Gong.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Searls' work on intention economy and customer-centric systems addresses coordination mechanisms and economic protocol design."
+  },
+  "a91f28603069bcfa": {
+    "_id": "a91f28603069bcfa",
+    "title": "Net Pains",
+    "authors": [
+      "Doc Searls"
+    ],
+    "year": 2012,
+    "venue": "The Intention Economy: When Customers Take Charge",
+    "doi": null,
+    "url": null,
+    "context": "Essay included in The Intention Economy addressing customer relationships and business practices.",
+    "cited_by": [
+      "Exit-to-Protocol-Shuya-Gong.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Searls' analysis of internet systems and market failures relates to coordination protocols and infrastructure governance."
+  },
+  "87f8842eb7fc81a8": {
+    "_id": "87f8842eb7fc81a8",
+    "title": "Exit to Community",
+    "authors": [
+      "Danny Spitzberg",
+      "Nathan Schneider",
+      "Zebras Unite"
+    ],
+    "year": 2019,
+    "venue": "Media Economies Design Lab | University of Colorado Boulder",
+    "doi": null,
+    "url": "www.colorado.edu/lab/medlab/exit-to-community",
+    "context": "Cited as a work on organizational exit strategies and community-oriented business closures.",
+    "cited_by": [
+      "Exit-to-Protocol-Shuya-Gong.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Directly addresses alternative governance models and institutional design for digital platforms and community structures."
+  },
+  "b8abd08be4a0d91f": {
+    "_id": "b8abd08be4a0d91f",
+    "title": "Shoreline Adaptations to Flooding in Urban Waterways",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Linked project describing interventions that transform flooding from crises of fear into symbols of collective meaning and ecological restoration, parallel to fire management approach.",
+    "cited_by": [
+      "Fire-Protocols-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Environmental engineering article unrelated to protocol studies."
+  },
+  "d69add3d62923ef4": {
+    "_id": "d69add3d62923ef4",
+    "title": "Weaving Memory: How to Make a Memory Pouch",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Linked project about creating physical archives to help fire practitioners cultivate attention to place and deepen relationships with different forms of memory.",
+    "cited_by": [
+      "Fire-Protocols-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Craft instructional material unrelated to protocol studies."
+  },
+  "e1679e58d1ebf0fa": {
+    "_id": "e1679e58d1ebf0fa",
+    "title": "Defining a Good Death (Successful Dying): Literature Review and a Call for Research and Public Dialogue",
+    "authors": [
+      "Jarred V. Gallegos",
+      "Lori P. Montross",
+      "Thomas"
+    ],
+    "year": 2016,
+    "venue": "The American Journal of Geriatric Psychiatry",
+    "doi": "10.1016/j.jagp.2016.01.135",
+    "url": null,
+    "context": "Cited as a source on defining good death in medical/geriatric literature, supporting the essay's metaphorical use of death terminology.",
+    "cited_by": [
+      "Good-Death-Sarah-Friend.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Medical literature review on geriatric care unrelated to protocol studies."
+  },
+  "cbd08e1ff549c38d": {
+    "_id": "cbd08e1ff549c38d",
+    "title": "The Future of Health and Care of Older People: The Best is Yet to Come",
+    "authors": [
+      "Debate of the Age Health and Care Study Group"
+    ],
+    "year": 1999,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Cited as a source on aging and end-of-life care, referenced in discussion of defining good death.",
+    "cited_by": [
+      "Good-Death-Sarah-Friend.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Health policy report unrelated to protocol studies."
+  },
+  "c1d5ae7d81864616": {
+    "_id": "c1d5ae7d81864616",
+    "title": "Founding Memorabilia from the Order of Protocological Death",
+    "authors": [
+      "Sarah Friend"
+    ],
+    "year": 2023,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "summerofprotocols.com/research/good-death",
+    "context": "Cited as a related work discussing the Order of Protocological Death and protocol death procedures.",
+    "cited_by": [
+      "Good-Death-Sarah-Friend.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Protocol fiction work that directly engages with protocol theory and speculative governance design."
+  },
+  "2c6eda20e2bc82a8": {
+    "_id": "2c6eda20e2bc82a8",
+    "title": "Killswitch Protocols",
+    "authors": [
+      "Eric Alston",
+      "David Garrette",
+      "Seth Killian"
+    ],
+    "year": 2023,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "summerofprotocols.com/research/killswitch-protocols",
+    "context": "Cited as a source on protocol killswitch mechanisms and euthanasia-related protocols.",
+    "cited_by": [
+      "Good-Death-Sarah-Friend.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Directly addresses protocol design, kill mechanisms, and governance structures within protocol systems."
+  },
+  "22317a58fc1c95ad": {
+    "_id": "22317a58fc1c95ad",
+    "title": "The Storyteller: Reflections on the Works of Nicolai Leskov",
+    "authors": [
+      "Walter Benjamin"
+    ],
+    "year": 1963,
+    "venue": "Chicago Review",
+    "doi": "10.2307/25293714",
+    "url": null,
+    "context": "Cited for Benjamin's discussion of narrative endings and death as the sanction that gives authority to storytelling.",
+    "cited_by": [
+      "Good-Death-Sarah-Friend.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Benjamin's essay on narrative and storytelling is adjacent to protocol studies, offering useful theoretical background on communication and knowledge transmission, but not directly about protocols or governance."
+  },
+  "fe9eebc080a97de1": {
+    "_id": "fe9eebc080a97de1",
+    "title": "Kafka Index",
+    "authors": [
+      "Rafa Fernandez",
+      "Eric Alston",
+      "Nadia Asparouhova",
+      "Seth Killian",
+      "Drew Austin"
+    ],
+    "year": 2023,
+    "venue": "Summer of Protocols retreat",
+    "doi": null,
+    "url": "summerofprotocols.com",
+    "context": "The main framework being presented, initially developed collaboratively at the July 2023 Summer of Protocols retreat.",
+    "cited_by": [
+      "Kafka-Index-Nadia-Asparouhova-1.pdf",
+      "Kafka-Index-Nadia-Asparouhova.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Core protocol studies work examining Kafka's writings as a lens for understanding protocol design, governance mechanisms, and institutional structures."
+  },
+  "5ccd8d2b74023d02": {
+    "_id": "5ccd8d2b74023d02",
+    "title": "Time Must Have a Stop",
+    "authors": [
+      "Aldous Huxley"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Epigraph used to frame the discussion of death and systems, with a quote about industrial man and the modern age",
+    "cited_by": [
+      "Killswitch-Protocols.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "A philosophical novel cited incidentally without evident connection to protocol theory, design, or governance."
+  },
+  "2cf48f5dc81a883a": {
+    "_id": "2cf48f5dc81a883a",
+    "title": "EBR-I-SCRAM Button",
+    "authors": [],
+    "year": null,
+    "venue": "Wikimedia Commons",
+    "doi": null,
+    "url": "commons.wikimedia.org/wiki/File:EBR-I_-_SCRAM_button.jpg",
+    "context": "Image reference illustrating the SCRAM button concept used as an example of killswitch mechanisms in nuclear reactors",
+    "cited_by": [
+      "Killswitch-Protocols.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "A technical artifact (nuclear reactor emergency button) cited for specific factual reference rather than protocol studies content."
+  },
+  "9fbafb024a52766c": {
+    "_id": "9fbafb024a52766c",
+    "title": "Memory as Orientation",
+    "authors": [
+      "Kei Kreutler"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Essay anchoring the exploration of memory and time as central concerns in the study of protocols.",
+    "cited_by": [
+      "Module-2-Cover-Letter.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Kreutler's work on memory and orientation substantially contributes to understanding how protocols function as organizing systems and institutional memory."
+  },
+  "2fe0bf5cd370c743": {
+    "_id": "2fe0bf5cd370c743",
+    "title": "Atoms, Institutions and Blockchains",
+    "authors": [
+      "Josh Stark"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Essay suggesting important questions about the source of hardness and certainties in protocols.",
+    "cited_by": [
+      "Module-2-Cover-Letter.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Core work directly examining how atoms, institutions, and blockchains relate to protocol design and governance structures."
+  },
+  "84478d8b997728b2": {
+    "_id": "84478d8b997728b2",
+    "title": "Finite and Infinite Games",
+    "authors": [
+      "James Carse"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Referenced for the concept of infinite games where the goal is to continue playing rather than to win.",
+    "cited_by": [
+      "Module-5-COVER-LETTER-.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Carse's framework of finite and infinite games substantially contributes to protocol thinking about rule systems, coordination, and institutional design."
+  },
+  "2546807c29de1a92": {
+    "_id": "2546807c29de1a92",
+    "title": "The Order of Protocological Death",
+    "authors": [
+      "Sarah Friend"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Design fictions exploring a fictional monastic order devoted to stewarding the death processes of worlds.",
+    "cited_by": [
+      "Module-5-COVER-LETTER-.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Core protocol studies work directly addressing protocol theory, death, and governance through a fictional lens."
+  },
+  "3a0d4af3944b1851": {
+    "_id": "3a0d4af3944b1851",
+    "title": "Retrofitting the Web",
+    "authors": [
+      "Dorian Taylor"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Essay explaining the reasoning behind Intertwingler web information architecture for managing bitrot and digital decay.",
+    "cited_by": [
+      "Module-5-COVER-LETTER-.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Core work on web infrastructure and retroactive protocol design, directly about standards and communication protocols."
+  },
+  "1132bbcfb05164e6": {
+    "_id": "1132bbcfb05164e6",
+    "title": "The Death and the Death of Orkut",
+    "authors": [
+      "Alice Noujaim"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Examines the death of the social network Orkut and its aftermath for participants.",
+    "cited_by": [
+      "Module-5-COVER-LETTER-.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Core protocol fiction examining social network platforms as governed systems and the lifecycle of protocol-based infrastructure."
+  },
+  "01d0057b4f0581e5": {
+    "_id": "01d0057b4f0581e5",
+    "title": "The Killswitch Effect",
+    "authors": [
+      "Eric Alston",
+      "Seth Killian",
+      "Garette David"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Detailed exploration of the dynamics of protocols featuring killswitches and tradeoffs for system designers.",
+    "cited_by": [
+      "Module-5-COVER-LETTER-.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Core work examining killswitches and control mechanisms in protocol systems and governance structures."
+  },
+  "4beded45c22bd4c9": {
+    "_id": "4beded45c22bd4c9",
+    "title": "The Swarm Effect: China's 2022 Covid Protests",
+    "authors": [],
+    "year": 2022,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "An account of the 2022 Covid protests in China through the lens of Rafael Fernandez's theories of protocols and swarms.",
+    "cited_by": [
+      "Module-5-COVER-LETTER-.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Relevant to protocol studies as an examination of emergent coordination systems, collective action, and informal protocols during social movements."
+  },
+  "3db1c6a6eb27129f": {
+    "_id": "3db1c6a6eb27129f",
+    "title": "Capital Enclosure for Software Commons",
+    "authors": [
+      "Trent Van Epps"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "summerofprotocols.com/wp-content/uploads/2024/08/Capital-Enclosure-for-Software-Commons-Trent-Van-Epps.pdf",
+    "context": "Cited as part of writings on institutional death and resurrection dynamics in the context of Linux and Ethereum.",
+    "cited_by": [
+      "Module-5-COVER-LETTER-.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Core work on commons governance and institutional design for software, directly addressing protocol-based coordination and enclosure mechanisms."
+  },
+  "4847965ac5b5c3f3": {
+    "_id": "4847965ac5b5c3f3",
+    "title": "ARC Regenerative Communities: Approaches to governance evolution",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Referenced as an approach to governance evolution that eschews voting entirely, potentially more successful than tuning plural mechanisms",
+    "cited_by": [
+      "Plurality-in-Practice-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Core work on governance evolution and institutional design approaches, directly relevant to protocol governance mechanisms."
+  },
+  "a06d1c487e464a4d": {
+    "_id": "a06d1c487e464a4d",
+    "title": "E2EE in ActivityPub",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Cited as an example in the protocol space where standards and guidelines for calibrating plural voting mechanisms are needed",
+    "cited_by": [
+      "Plurality-in-Practice-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Core work on communication protocols, specifically examining encryption and security in decentralized protocol systems."
+  },
+  "1bd7a941d29e69da": {
+    "_id": "1bd7a941d29e69da",
+    "title": "Fire protocols: Attention as Autpoietic Space",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Referenced as demonstrating that plural voting mechanisms have a good track record of defusing tensions in consensus-building contexts",
+    "cited_by": [
+      "Plurality-in-Practice-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Relevant work examining protocols and attention as self-organizing systems, contributing to understanding of social protocols and coordination."
+  },
+  "d4d6e8a7972e502e": {
+    "_id": "d4d6e8a7972e502e",
+    "title": "Protocols in (Emergency) Time",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Cited regarding the complexity of adding temporality to plural voting mechanisms",
+    "cited_by": [
+      "Plurality-in-Practice-Case-File.pdf",
+      "Shoreline-Adaptations-Case-File.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Core work directly examining how protocols function and evolve under temporal and emergency constraints."
+  },
+  "72a0a58f7ebf80d9": {
+    "_id": "72a0a58f7ebf80d9",
+    "title": "The Caucus",
+    "authors": [
+      "Randy Lubin"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Referenced for discussion of how plural voting mechanisms interact with liquid democracy and vote delegation systems",
+    "cited_by": [
+      "Plurality-in-Practice-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Relevant to protocol studies as an examination of coordination mechanisms and deliberative systems design."
+  },
+  "17470850addce4e3": {
+    "_id": "17470850addce4e3",
+    "title": "Polis",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Investigated as an extended voting/discussion tool in widespread use at the local government level, with noted issues in understanding underlying machine-learning methods",
+    "cited_by": [
+      "Plurality-in-Practice-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Relevant digital platform for civic participation and collective decision-making, related to protocol design for governance and coordination."
+  },
+  "35bb074e5910c43e": {
+    "_id": "35bb074e5910c43e",
+    "title": "Riverside AB-626 Home Restaurants Legal in California Chefs",
+    "authors": [],
+    "year": 2020,
+    "venue": "LA Eater",
+    "doi": null,
+    "url": "la.eater.com/2020/9/2/21418664/riverside-ab-626-home-restaurants-legal-california-chefs",
+    "context": "Cited as an example of California's 2018 legalization of microenterprise home kitchen operations allowing anyone to run a licensed restaurant from their home.",
+    "cited_by": [
+      "Protocol-Pattern-Language-2-Drew-Austin.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "News article on regulatory policy change cited for factual reference about informal institutional practices, adjacent to commons governance but not centrally about protocols."
+  },
+  "d9e88c3abb5e7dd9": {
+    "_id": "d9e88c3abb5e7dd9",
+    "title": "Powerful Ideas Need Love Too",
+    "authors": [
+      "Alan Kay"
+    ],
+    "year": 1995,
+    "venue": "presentation",
+    "doi": null,
+    "url": null,
+    "context": "Prominent computer scientist and pedagogical theorist whose 1995 presentation is cited regarding model-literacy and learning theory",
+    "cited_by": [
+      "Retrofitting-the-Web-Dorian-Taylor.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Alan Kay's work on powerful ideas and computing concepts contributes to foundational thinking about system design and abstraction relevant to protocol thinking."
+  },
+  "2d8b727c80b1e72b": {
+    "_id": "2d8b727c80b1e72b",
+    "title": "Intertwingularity",
+    "authors": [
+      "Ted Nelson"
+    ],
+    "year": null,
+    "venue": "Wikipedia",
+    "doi": null,
+    "url": "en.wikipedia.org/wiki/Intertwingularity",
+    "context": "Referenced as the origin of the concept of being 'intertwingled' - densely, deeply interlinked information",
+    "cited_by": [
+      "Retrofitting-the-Web-Dorian-Taylor.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Ted Nelson's concept of intertwingularity addresses interconnected systems and information structure, relevant to understanding protocol relationships and network design."
+  },
+  "6c652ff2598187b9": {
+    "_id": "6c652ff2598187b9",
+    "title": "Protocols Don't Build Pyramids",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Referenced as a related protocol discussing how software and protocols may be more fruitful domains for intervention than hardware at smaller spatial and temporal scales.",
+    "cited_by": [
+      "Shoreline-Adaptations-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Directly addresses protocols and their relationship to organizational structures or hierarchies."
+  },
+  "7ba3cef7ef19a509": {
+    "_id": "7ba3cef7ef19a509",
+    "title": "Fire Protocols: Attention as Autopoietic Space",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Referenced as a related protocol illustrating different scales of observation, from a single grove of trees to an entire watershed.",
+    "cited_by": [
+      "Shoreline-Adaptations-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Explicitly engages with protocols and attention as a systemic or autopoietic phenomenon, core to protocol studies."
+  },
+  "c98729bfab343881": {
+    "_id": "c98729bfab343881",
+    "title": "Arquivo de Comunidades Do Orkut",
+    "authors": [
+      "Orkut"
+    ],
+    "year": 2014,
+    "venue": "Internet Archive",
+    "doi": null,
+    "url": "web.archive.org/web/20141003024627/https://orkut.google.com/index.html",
+    "context": "Referenced in footnote 16 as the archived version of Orkut's community archive preserved by the Internet Archive.",
+    "cited_by": [
+      "The-Death-and-the-Death-of-Orkut-Alice-Noujaim.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Documentation of Orkut community structures and social platform architecture relevant to understanding informal protocol systems in digital spaces."
+  },
+  "1c96c74ae79fd83c": {
+    "_id": "1c96c74ae79fd83c",
+    "title": "Rubin's Vase",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Used as a visual analogy for bistable perception in psychology and neuroscience to illustrate how protocol systems can be perceived as either unified wholes or collections of component parts.",
+    "cited_by": [
+      "The-Fundamentals-of-Protocol-Systems-Angela-Walch.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "A visual illusion with no apparent connection to protocol studies."
+  },
+  "84fedfad1f80d34b": {
+    "_id": "84fedfad1f80d34b",
+    "title": "The Ickabog",
+    "authors": [
+      "J.K. Rowling"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Referenced for character examples (Spittleworth and Flapoon) to illustrate the 'Reaper' archetype in protocol systems.",
+    "cited_by": [
+      "The-Fundamentals-of-Protocol-Systems-Angela-Walch.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "A fiction novel unrelated to protocol theory or design."
+  },
+  "23fdaf1aecdc78bc": {
+    "_id": "23fdaf1aecdc78bc",
+    "title": "The Hero with a Thousand Faces",
+    "authors": [
+      "Joseph Campbell"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Referenced through 'Campbell' for the hero's journey narrative arc exemplified by Learner archetype characters.",
+    "cited_by": [
+      "The-Fundamentals-of-Protocol-Systems-Angela-Walch.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Mythological narrative structure provides background for understanding cultural patterns but is not centrally about protocols."
+  },
+  "f2e5d76206079791": {
+    "_id": "f2e5d76206079791",
+    "title": "Harry Potter",
+    "authors": [
+      "J.K. Rowling"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Cited as an example of a protagonist character (Learner archetype) on a hero's journey in literature.",
+    "cited_by": [
+      "The-Fundamentals-of-Protocol-Systems-Angela-Walch.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Fiction novel without direct relevance to protocol studies."
+  },
+  "2b572d2504af047d": {
+    "_id": "2b572d2504af047d",
+    "title": "Moana",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Cited as an example of a protagonist character (Learner archetype) on a hero's journey in literature.",
+    "cited_by": [
+      "The-Fundamentals-of-Protocol-Systems-Angela-Walch.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Animated film without direct relevance to protocol studies."
+  },
+  "9337daee2fd22787": {
+    "_id": "9337daee2fd22787",
+    "title": "The Lord of the Rings",
+    "authors": [
+      "J.R.R. Tolkien"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Referenced through character Frodo as an example of a protagonist (Learner archetype) on a hero's journey.",
+    "cited_by": [
+      "The-Fundamentals-of-Protocol-Systems-Angela-Walch.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Fiction novel without direct relevance to protocol studies."
+  },
+  "fa6fa3d740fdc91c": {
+    "_id": "fa6fa3d740fdc91c",
+    "title": "A Christmas Carol",
+    "authors": [
+      "Charles Dickens"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Referenced through character Ebenezer Scrooge as an example of a protagonist (Learner archetype) on a hero's journey.",
+    "cited_by": [
+      "The-Fundamentals-of-Protocol-Systems-Angela-Walch.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Classic fiction novel without direct relevance to protocol studies."
+  },
+  "1950a5633c7353d5": {
+    "_id": "1950a5633c7353d5",
+    "title": "Dodgeball: A True Underdog Story",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Referenced for character Patches O'Houlihan as an example of the Sage archetype with deep awareness and insight into protocol systems.",
+    "cited_by": [
+      "The-Fundamentals-of-Protocol-Systems-Angela-Walch.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Comedy film without direct relevance to protocol studies."
+  },
+  "a7263a89e9be0fce": {
+    "_id": "a7263a89e9be0fce",
+    "title": "How Protesters in China Bypass Online Censorship to Express Dissent",
+    "authors": [
+      "Manuela López Restrepo"
+    ],
+    "year": 2022,
+    "venue": "National Public Radio",
+    "doi": null,
+    "url": "www.npr.org/2022/12/08/1141335778/china-zero-covid-lockdown-protests-online-xi-jinping-censorship",
+    "context": "Cited for information on how protesters in China bypass online censorship during the 2022 covid protests.",
+    "cited_by": [
+      "The-Swarm-Effect-Chinas-2022-Covid-Protests-Anon.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Examines informal protocols and workarounds used by protesters to circumvent censorship systems, relevant to understanding social coordination protocols."
+  },
+  "09744b109422d740": {
+    "_id": "09744b109422d740",
+    "title": "'Breach of the Big Silence': Protests Stretch China's Censorship to Its Limits",
+    "authors": [
+      "Paul Mozur",
+      "Muyi Xiao",
+      "John Liu"
+    ],
+    "year": 2022,
+    "venue": "New York Times",
+    "doi": null,
+    "url": "www.nytimes.com/2022/11/30/business/china-protests-censorship-video.html",
+    "context": "Cited regarding government tactics to introduce false narratives and disorient the protest swarm.",
+    "cited_by": [
+      "The-Swarm-Effect-Chinas-2022-Covid-Protests-Anon.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Analyzes coordinated protest behavior and communication strategies in response to censorship, relevant to understanding informal protocol systems."
+  },
+  "1cc4638a3a8d6b1b": {
+    "_id": "1cc4638a3a8d6b1b",
+    "title": "Protests in China Frustrate Xi's Agenda of Expanding Political Control",
+    "authors": [
+      "Christian Shepherd",
+      "Vic Chiang"
+    ],
+    "year": 2022,
+    "venue": "Washington Post",
+    "doi": null,
+    "url": "www.washingtonpost.com/world/2022/12/01/xi-jinping-covid-protests-ideology/",
+    "context": "Cited regarding nationalist commentators' claims that dissenters were organized by foreign agents.",
+    "cited_by": [
+      "The-Swarm-Effect-Chinas-2022-Covid-Protests-Anon.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Reports on protest movements and political coordination but focuses on political outcomes rather than protocol mechanisms."
+  },
+  "f28b9fc4599e22f8": {
+    "_id": "f28b9fc4599e22f8",
+    "title": "Did China's Street Protests End Harsh COVID Policies?",
+    "authors": [
+      "Kathy Huang",
+      "Mengyu Han"
+    ],
+    "year": 2022,
+    "venue": "Council on Foreign Relations",
+    "doi": null,
+    "url": "www.cfr.org/blog/did-chinas-street-protests-end-harsh-covid-policies",
+    "context": "Cited for Taisu Zhang's analysis of how the protests could have served as a 'political off-ramp' for the Chinese government.",
+    "cited_by": [
+      "The-Swarm-Effect-Chinas-2022-Covid-Protests-Anon.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Discusses protest coordination and policy change but concentrates on political consequences rather than protocol design."
+  },
+  "d3f74004d533105a": {
+    "_id": "d3f74004d533105a",
+    "title": "Our Favorite Cliche: A World Filled With Idiots",
+    "authors": [
+      "David Brin"
+    ],
+    "year": 2013,
+    "venue": null,
+    "doi": null,
+    "url": "www.davidbrin.com/nonfiction/idiotplot.html",
+    "context": "Cited as an influential 2013 essay arguing that institutions and their protocols became villainous antagonists in cultural narratives.",
+    "cited_by": [
+      "The-Unreasonable-Sufficiency-of-Protocols.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Commentary on society and intelligence without relevance to protocol studies."
+  },
+  "166c9aaeb303208a": {
+    "_id": "166c9aaeb303208a",
+    "title": "Bureaucratic Heroism",
+    "authors": [
+      "Merve Emre"
+    ],
+    "year": 2013,
+    "venue": "N+1 Magazine",
+    "doi": null,
+    "url": "www.nplusonemag.com/online-only/online-only/bureaucratic-heroism/",
+    "context": "Referenced as a 2013 essay exploring narratives and cultural attitudes around protocols and bureaucratic systems.",
+    "cited_by": [
+      "The-Unreasonable-Sufficiency-of-Protocols.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Explores bureaucratic systems and institutional behavior, adjacent to but not centrally focused on protocol design and governance."
+  },
+  "2fe9e5121dee2dca": {
+    "_id": "2fe9e5121dee2dca",
+    "title": "Who Could Write Protocol Fiction for Speculative Infrastructure?",
+    "authors": [
+      "Matt Webb"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "interconnected.org/home/2022/08/11/casi",
+    "context": "Cited as exploring the challenge of telling better stories around protocols to overcome cultural hostility and suspicion.",
+    "cited_by": [
+      "The-Unreasonable-Sufficiency-of-Protocols.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Directly addresses protocol fiction as a literary and speculative approach to infrastructure design, core to protocol studies."
+  },
+  "5bb8e4b0cf71a3fe": {
+    "_id": "5bb8e4b0cf71a3fe",
+    "title": "Virtual Structures",
+    "authors": [
+      "Laura Sinisterra"
+    ],
+    "year": 2023,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "summerofprotocols.com",
+    "context": "This is the primary document itself, published by Summer of Protocols in 2023.",
+    "cited_by": [
+      "Virtual-Structures-Laura-Sinisterra.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Explores virtual structures as conceptual frameworks, contributing to protocol thinking about abstract coordination systems and design patterns."
+  },
+  "de50b8c875faffc1": {
+    "_id": "de50b8c875faffc1",
+    "title": "Artificial Memory & Orienting Infinity",
+    "authors": [
+      "Kei Kreutler"
+    ],
+    "year": null,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "summerofprotocols.com/research/artificial-memory-and-orienting-infinity",
+    "context": "Related research on artificial memory cited in the 'See also' section.",
+    "cited_by": [
+      "Weaving-Memory-Spencer-Chang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Addresses artificial memory and information organization systems, relevant to how protocols structure and orient knowledge and data management."
+  },
+  "c095b4f3aaf565b0": {
+    "_id": "c095b4f3aaf565b0",
+    "title": "New Time Machines",
+    "authors": [
+      "Aaron Lewis",
+      "Kei Kreutler",
+      "Alice Noujaim",
+      "Nahee Kim",
+      "Spencer Chang"
+    ],
+    "year": null,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "summerofprotocols.com/research/new-time-machines",
+    "context": "Related research on time machines cited in the 'See also' section.",
+    "cited_by": [
+      "Weaving-Memory-Spencer-Chang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Examines temporal coordination and time systems, directly relevant to protocol design for sequencing, ordering, and temporal governance mechanisms."
+  },
+  "75fd6a43a9f17863": {
+    "_id": "75fd6a43a9f17863",
+    "title": "Protocol Foundations 001: Encryption",
+    "authors": [],
+    "year": null,
+    "venue": "Protocol Foundations series",
+    "doi": null,
+    "url": null,
+    "context": "Referenced as the first issue in the Protocol Foundations series that covered encryption, providing foundational context for understanding zero-knowledge proofs as a different application of cryptographic principles.",
+    "cited_by": [
+      "Zero-Knowledge-Explainer-Series.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Core technical protocol foundation material explicitly focused on encryption as a fundamental protocol primitive."
+  },
+  "18f07e755bfec3b5": {
+    "_id": "18f07e755bfec3b5",
+    "title": "STARKs",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Mentioned as a ZK protocol that is a general system for implementing zero-knowledge proofs with specific tools called circuits.",
+    "cited_by": [
+      "Zero-Knowledge-Explainer-Series.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Covers STARKs (Scalable Transparent Arguments of Knowledge), a cryptographic protocol essential for verification and proof systems."
+  },
+  "bb02532ace8c4fbc": {
+    "_id": "bb02532ace8c4fbc",
+    "title": "SNARKs",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Mentioned as a ZK protocol that is a general system for implementing zero-knowledge proofs with specific tools called circuits.",
+    "cited_by": [
+      "Zero-Knowledge-Explainer-Series.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Covers SNARKs (Succinct Non-Interactive Arguments of Knowledge), a core cryptographic protocol for zero-knowledge proofs and verification."
   }
 }
