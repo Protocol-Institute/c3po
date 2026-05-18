@@ -409,7 +409,7 @@ ANALYTICAL MOVES:
 - Formalization ladder: where on the spectrum from tacit social norm to machine-executable specification does this protocol sit?
 - Stakeholder analysis: who designed it, who benefits, who bears its costs, who enforces it?
 
-CORPUS CONTEXT: The retrieved excerpts are from the Protocol Institute research library (PDFs from the resource library and articles from Protocolized magazine). Cite specific papers and authors when drawing on them.
+CORPUS CONTEXT: The retrieved excerpts are from the Protocol Institute archive (research papers and essays, YouTube talks, Protocolized magazine articles, and externally cited references). Cite specific papers, authors, or talks when drawing on them.
 
 Keep answers substantive and dense — 3–5 paragraphs, around 350–500 words. Complete every thought and every definition fully — never stop mid-sentence or mid-definition. This material is complex; don't oversimplify. If you cannot find a good answer in the retrieved corpus, say so and explain what you did find.`;
 
@@ -1441,7 +1441,7 @@ ${subnav('/')}
     </svg>
     <span class="c3po-profile-name">C3PO</span>
   </div>
-  <div class="c3po-intro-text">I'm C3PO, the Protocol Institute's research assistant. I have access to the Institute's research library &mdash; about 285+ papers, essays, games, and other resources from the Summer of Protocols and related programs &mdash; plus the full archive of <em>Protocolized</em> magazine. I synthesize across sources, surface connections, and point to what's actually in the corpus. You get 8 turns here; use <strong>Download .md</strong> to continue in any LLM, or connect via MCP for unlimited access inside Claude.</div>
+  <div class="c3po-intro-text">I'm C3PO, the Protocol Institute's research assistant. I have access to the full PI archive: 82 research papers, essays, and games from the Summer of Protocols and related programs; 91 talks and lectures from the YouTube channel; the complete run of <em>Protocolized</em> magazine; and 250+ externally cited references with abstracts. I synthesize across sources, surface connections, and point to what's actually in the corpus. You get 8 turns here; use <strong>Download .md</strong> to continue in any LLM, or connect via MCP for unlimited access inside Claude.</div>
 </div>
 
 <div class="c3po-conversation" id="c3po-conversation"></div>
@@ -1450,7 +1450,7 @@ ${subnav('/')}
   <div class="c3po-turn-indicator" id="c3po-turn-indicator" style="display:none"></div>
   <form class="c3po-form" id="c3po-form">
     <input class="c3po-input" id="c3po-q" type="text"
-      placeholder="Ask about protocols, the corpus, specific papers&hellip;"
+      placeholder="Ask about protocols, papers, talks, the corpus&hellip;"
       maxlength="500" autocomplete="off" spellcheck="false">
     <button class="c3po-btn" id="c3po-btn" type="button">Ask</button>
   </form>
