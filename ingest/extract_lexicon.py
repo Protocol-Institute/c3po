@@ -60,6 +60,11 @@ TARGET_SLUGS = [
     "Safe-New-World-Timber-Stinson-Schroff",
 ]
 
+
+def all_pdf_slugs() -> list[str]:
+    """Return slugs for every PDF in PDF_DIR."""
+    return sorted(p.stem for p in PDF_DIR.glob("*.pdf"))
+
 EXTRACTION_PROMPT = """You are analyzing a Protocol Institute research paper. Extract all terms that are:
 - Explicitly defined or coined by the author
 - Used in a technical or specialized sense specific to protocol theory
@@ -137,6 +142,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--slug", help="Process a single PDF slug")
+    parser.add_argument("--all", action="store_true", help="Process every PDF in data/pdfs/")
     parser.add_argument("--force", action="store_true", help="Re-extract even if slug already in draft")
     args = parser.parse_args()
 
@@ -146,7 +152,12 @@ def main():
     if OUTPUT.exists():
         existing = json.loads(OUTPUT.read_text())
 
-    slugs = [args.slug] if args.slug else TARGET_SLUGS
+    if args.slug:
+        slugs = [args.slug]
+    elif args.all:
+        slugs = all_pdf_slugs()
+    else:
+        slugs = TARGET_SLUGS
 
     all_terms: dict = dict(existing)  # term → best entry
     total_new = 0
