@@ -1,0 +1,42 @@
+PROTOCOL LEXICON (PI-specific meanings — use these, not generic definitions):
+protocol: A codified set of behaviors that, when adopted by enough agents, enables coordination without continuous negotiation — distinguished from mere rules by its adoption-threshold function.
+hard/soft protocol: Hard protocols fail on small deviations (TCP/IP); soft protocols tolerate wide variance (English grammar). Hardness is a design variable, not a given.
+hardness: How resistant a protocol is to circumvention, corruption, or capture — ranging from cryptographic (extreme) to social norms (very soft). Core PI analytical axis.
+unreasonable sufficiency: Good protocols consistently solve more than their simplicity would predict — why they diffuse so effectively.
+trilemma: Only two of three desirable protocol properties can be achieved simultaneously; a recurring structural constraint across domains.
+tension: A tradeoff plus a conflict — requires ongoing management, not resolution.
+engineered argument: A protocol as a technology that embodies and enforces an underlying argument, making it durable through adoption.
+Kafka protocol: A protocol trapping participants in pointless loops with no recourse; the protocol holds all power, the participant has none.
+Bartleby protocol: A protocol where a participant derives agency through passive non-compliance ("I would prefer not to").
+Whitehead advance/protocol: A protocol enabling important operations without conscious thought, freeing attention for higher-order work. Named for A.N. Whitehead.
+Kafka index: Criteria for bad protocol design: no feedback loops, invisible costs, unaccountable enforcement, participant trapping.
+protocolization: The gradual process by which informal coordination becomes encoded in explicit, legible, enforceable protocols — a civilizational force, neither simply good nor bad.
+protocolization 1.0/2.0: 1.0 = industrial-era bureaucratic encoding of action; 2.0 = current algorithmic encoding of discourse and opinion.
+protocolization of identity: Stage where protocols are internalized as personal identity — circumvention feels like self-betrayal.
+implicit/explicit protocols: Implicit protocols operate below awareness; explicit ones are known and deliberate. Making implicit ones visible changes their properties.
+solved conversations: Discourse so protocolized that all positions and responses are algorithmically predictable — a symptom of 2.0.
+protocol tai chi: Subverting a protocol by following its rules so precisely that its absurdity becomes structurally visible.
+selection pressure: Institutional or incentive-based force shaping which protocols propagate versus atrophy and die.
+dynamic non-event: A sustained absence of failures from well-functioning protocols — politically invisible because nothing happened, but the primary purpose of safety protocols.
+ETTO: Efficiency-Thoroughness Trade-Off — successful safety protocols get abandoned because their success makes prevented harm invisible.
+tech-protocol cycle: New technology creates hazards → hazards generate protocols → protocols constrain technology → cycle repeats.
+protocol atrophy/death: Atrophy = gradual decline through disuse; death = complete abandonment. Selection pressure drives both.
+exit to protocol: Organizational retirement by publishing all knowledge and processes as open protocols for others to continue.
+protocol dysphoria: Distress from inhabiting ossified or dysfunctional protocols — the protocol structure, not the work, produces the distress.
+whale fall: An organization's dissolution as ecological gift — releasing people, knowledge, and resources to nourish what comes next.
+Person in Protocol (Pip): Walch's analytical unit — a conceptual figure tracking the protocol system journey: pre-entry, entry, participation, exit, aftermath.
+protocol archetypes: Recurring participant roles — Guardian (sustaining), Consciousian (critically aware), Dualist (ambivalent), Hierarchic (power-positioned), Threat (destructive).
+protocol overhang: Being bound to a protocol system one cannot or will not exit — often sustained by protocol scars or determinism.
+protocol scars: Psychological damage from negative protocol experiences that shapes future protocol engagement.
+protocol determinism: A person's role in one protocol system constraining their behavior in others — role bleeds across contexts.
+atom/institution/blockchain hardness: The three hardness sources — physics, organized human behavior, and cryptographic/networked systems — each with distinct cost and failure properties.
+cast: A future-state claim ("I will do X") made reliable by a hardness source; the hardness level determines whether it's a commitment or an intention.
+hyperstructures: Protocols on blockchain hardness that can run forever without maintenance or centralized oversight.
+addressable space: Physical space organized through informational systems that decouple physical presence from access — the space can be physically open but informationally closed.
+informational walls: Access barriers defined by information systems rather than physical structures; changes how exclusion is enforced and by whom.
+unprotocolized knowledge: Knowledge developing outside formal institutional protocols — citizen science, feral scholarship, self-tracking data — in productive friction with credentialed knowledge.
+feral scholars: Unaffiliated amateur researchers operating outside institutional protocols; "feral" marks their relationship to institutions, not the quality of their work.
+paradigm refugees: Researchers excluded from formal recognition for working outside recognized paradigms — structural exclusion, not epistemic failure.
+protocol stewardship: Tending relationships between actors and a protocol's evolutionary history — distinct from ownership, governance, or enforcement.
+strategic forgetting: Encoding knowledge into protocols to free working memory — the productivity gain and the fragility of losing tacit knowledge are the same thing.
+protocol-pilled: Perceiving coordination mechanisms, hardness gradients, and formalization ladders across domains — having internalized the protocol paradigm.

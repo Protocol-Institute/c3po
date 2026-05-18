@@ -1,0 +1,1717 @@
+{
+  "selection pressure": {
+    "term": "selection pressure",
+    "definition": "A factor or mechanism that influences which protocols are more likely to be adopted, propagated, and sustained within a population or organization.",
+    "context": "Protocol selection pressures: Selection pressure Description. Efficiency-Thoroughness Trade-Off (ETTO)",
+    "source": "Safe New World",
+    "source_slug": "10-e36-SCHROFF-2-PAGER"
+  },
+  "efficiency-thoroughness trade-off (etto)": {
+    "term": "efficiency-thoroughness trade-off (ETTO)",
+    "definition": "A selection pressure whereby safety protocols that significantly reduce accidents are more likely to spread only if their productivity costs remain acceptable to workers and employers.",
+    "context": "Safety protocols that greatly reduce accidents will be more likely to propagate, as long as they do not reduce productivity too much. Safety protocols with steep productivity costs are less successful.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "agency/freedom": {
+    "term": "agency/freedom",
+    "definition": "The degree to which actors can choose to follow or abandon a protocol; high-agency actors can easily opt in and out, while low-agency actors face significant constraints.",
+    "context": "High-agency actors can easily opt-in and opt out of following protocols. Low-agency actors cannot. Protocols that impose high personal costs if they are not followed are more likely to replicate.",
+    "source": "Safe New World",
+    "source_slug": "10-e36-SCHROFF-2-PAGER"
+  },
+  "bandwidth (cognition, memory, physical)": {
+    "term": "bandwidth (cognition, memory, physical)",
+    "definition": "The limited capacity of individuals to perceive, remember, and replicate protocols across cognitive, memory, and physical dimensions; protocols compete in a zero-sum manner for these resources.",
+    "context": "Actors' abilities to perceive, remember, and replicate protocols are limited by cognition, memory, and physical bandwidth. Protocols engage in zero-sum competition for these resources.",
+    "source": "Safe New World",
+    "source_slug": "10-e36-SCHROFF-2-PAGER"
+  },
+  "network memory": {
+    "term": "network memory",
+    "definition": "The capacity of a human network to store, preserve, and transmit protocol knowledge through its interconnected actors; larger, denser networks with higher information flow retain complex protocols better.",
+    "context": "A network acts as a sort of memory. Large, dense, and high-rate flow networks provide a substrate for protocols that are more difficult to mimic. Small, sparse, low-flow networks kill complex protocols.",
+    "source": "Safe New World",
+    "source_slug": "10-e36-SCHROFF-2-PAGER"
+  },
+  "protocol legibility": {
+    "term": "protocol legibility",
+    "definition": "The degree to which the benefits or costs of following a protocol are visible and understandable to actors; legible benefits increase adoption while legible costs decrease it.",
+    "context": "Protocols with legible benefits are more likely to be mimicked. Eye protection provides more legible benefits than hearing protection. The opposite is true for costs—the less legible the costs of following protocol, the more likely it will be followed.",
+    "source": "Safe New World",
+    "source_slug": "10-e36-SCHROFF-2-PAGER"
+  },
+  "feedback loops (speed of costs and benefits)": {
+    "term": "feedback loops (speed of costs and benefits)",
+    "definition": "The temporal immediacy of consequences from following or not following a protocol; immediate benefits and delayed costs favor protocol adoption.",
+    "context": "Protocols with immediate benefits are more likely to replicate. Short-term interests, like survival and status games, select protocols with immediate benefits. The opposite is true for costs—the less immediate the costs of following protocol, the more likely it will be followed.",
+    "source": "Safe New World",
+    "source_slug": "10-e36-SCHROFF-2-PAGER"
+  },
+  "horizon of concern": {
+    "term": "horizon of concern",
+    "definition": "The temporal scope over which an actor considers future consequences; longer horizons enable adoption of protocols with delayed benefits, while shorter horizons favor immediate-benefit protocols.",
+    "context": "Longer horizons of concern, unlocked by longevity and or wealth, allow protocols with non-immediate benefits to compete. Workers focused on meeting near-term needs like food, water, and shelter don't have the luxury to follow protocols that will benefit them only in 20+ years.",
+    "source": "Safe New World",
+    "source_slug": "10-e36-SCHROFF-2-PAGER"
+  },
+  "agnostic adjacent networks": {
+    "term": "agnostic adjacent networks",
+    "definition": "Networks where a protocol can be followed by all members regardless of personal preference, because the protocol is universally compatible; such protocols replicate more readily.",
+    "context": "If a group has an absolute preference for following a protocol AND that protocol can be followed by the surrounding network, that protocol is likely to replicate. Food processing protocols, like a nut-free facility, are a good case. Not everyone can eat nuts, but everyone can not eat nuts.",
+    "source": "Safe New World",
+    "source_slug": "10-e36-SCHROFF-2-PAGER"
+  },
+  "protocol mutation": {
+    "term": "protocol mutation",
+    "definition": "Changes in how protocols are replicated and performed, occurring through unintentional errors, deliberate tinkering, or intentional design, each with different speeds and magnitudes of change.",
+    "context": "Following protocol involves several actions: perceive another person following protocol or receive instructions on how to follow the protocol; store the protocol in memory; and replicate the protocol. Errors can occur during any one of these actions.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "cost displacement": {
+    "term": "cost displacement",
+    "definition": "The transfer of risks or burdens imposed by a safety protocol from one group of actors onto another; requires power to sustain.",
+    "context": "Some safety protocols displace costs from one group onto another, e.g., SUVs are safe, but reduce the safety of other drivers and pedestrians. The more risk a protocol displaces, the more power its participants need.",
+    "source": "Safe New World",
+    "source_slug": "10-e36-SCHROFF-2-PAGER"
+  },
+  "protocol generality": {
+    "term": "protocol generality",
+    "definition": "The breadth of actors or contexts that benefit from a protocol; protocols benefiting larger populations are more likely to replicate.",
+    "context": "Protocols that benefit a larger variety of actors are more likely to replicate. Anti-smoking protocols benefit not just smokers, but surrounding actors.",
+    "source": "Safe New World",
+    "source_slug": "10-e36-SCHROFF-2-PAGER"
+  },
+  "tech-protocol cycle": {
+    "term": "tech-protocol cycle",
+    "definition": "A cyclical model describing how technological progress creates new hazards, which generate new protocols, which reshape the social order, which then directs future technological progress.",
+    "context": "Protocols are born as a first response to new hazards, which arise from technological progress, environmental change, changes to the social order, and changes to the definition of safety. Because protocols limit human behavior in some way, they influence social hierarchies... The social order directs technological progress. Technological progress changes the environment. And so on.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "protocol replication": {
+    "term": "protocol replication",
+    "definition": "The process by which protocols spread across populations and become adopted by new groups, constrained by selection pressures.",
+    "context": "Protocols that help those with power are more likely to replicate. Protocols that impose high personal costs if they are not followed are more likely to replicate.",
+    "source": "Safe New World",
+    "source_slug": "10-e36-SCHROFF-2-PAGER"
+  },
+  "situation awareness": {
+    "term": "situation awareness",
+    "definition": "The ability to understand what is happening in one's surroundings, how things work, and effective ways of thinking and talking about the world.",
+    "context": "What follows is my framing of the issue and what I'm doing about it... situation awareness has never been more important.",
+    "source": "Retrofitting the Web",
+    "source_slug": "Retrofitting-the-Web-Dorian-Taylor"
+  },
+  "system dynamics": {
+    "term": "system dynamics",
+    "definition": "A formal structure of entities connected by relationships that represents some part of reality and enables reasoning about how systems change and behave over time.",
+    "context": "system dynamics (which I will refer to interchangeably as models and data)... system dynamics are actually what give us agency, whether we're aware of them or not.",
+    "source": "Retrofitting the Web",
+    "source_slug": "Retrofitting-the-Web-Dorian-Taylor"
+  },
+  "model-literacy": {
+    "term": "model-literacy",
+    "definition": "The capacity to understand and work with formal models—conceptual or mathematical structures—that represent systems and enable prediction and reasoning about the world.",
+    "context": "We need to get more people model-literate, which means an order-of-magnitude (or two) increase in the efficiency of uptake.",
+    "source": "Retrofitting the Web",
+    "source_slug": "Retrofitting-the-Web-Dorian-Taylor"
+  },
+  "cargo cult": {
+    "term": "cargo cult",
+    "definition": "The practice of copying behavior or procedures without understanding the underlying mechanism or reason why they work, based solely on observing correlation between actions and outcomes.",
+    "context": "'Cargo culting' has since become a verb, especially in matters to do with computers, for copying behaviour without understanding the underlying mechanism.",
+    "source": "Retrofitting the Web",
+    "source_slug": "Retrofitting-the-Web-Dorian-Taylor"
+  },
+  "paradigm": {
+    "term": "paradigm",
+    "definition": "In media theory, the entire universe or model of possibilities—the complete set of elements and relationships from which specific narratives or paths are generated.",
+    "context": "The word for this, according to media theorist Lev Manovich, is paradigm, meaning pretty much how you may already be familiar with the term: world-view, model, universe of possibilities.",
+    "source": "Retrofitting the Web",
+    "source_slug": "Retrofitting-the-Web-Dorian-Taylor"
+  },
+  "syntagm": {
+    "term": "syntagm",
+    "definition": "In media theory, one specific path or narrative through a paradigm; the concrete story or sequence generated from the larger universe of possibilities.",
+    "context": "Its complement—and I promise you, this is the only weird new word, is syntagm—one specific path through the paradigm.",
+    "source": "Retrofitting the Web",
+    "source_slug": "Retrofitting-the-Web-Dorian-Taylor"
+  },
+  "hypermedia": {
+    "term": "hypermedia",
+    "definition": "Media that combines ordinary text, images, or other conventional media with a fractal dimension enabling nonlinear navigation, tunneling, rearrangement, and drilling into details.",
+    "context": "Hypertext, or hypermedia to generalize, is when you take ordinary text (or other conventional media) and add a kind of fractal dimension to it.",
+    "source": "Retrofitting the Web",
+    "source_slug": "Retrofitting-the-Web-Dorian-Taylor"
+  },
+  "random access": {
+    "term": "random access",
+    "definition": "The computational capability to address a very large number of small pieces of information where the cost of visiting any one address is nearly equal, enabling construction of large complex systems.",
+    "context": "This capability, called random access, is what gives computers their power, because it enables them to construct large, complex systems out of many simple parts.",
+    "source": "Retrofitting the Web",
+    "source_slug": "Retrofitting-the-Web-Dorian-Taylor"
+  },
+  "dense hypermedia": {
+    "term": "dense hypermedia",
+    "definition": "A hypermedia system with dramatically increased density of information, smaller basic units, and a greatly expanded number and variety of connections between those units.",
+    "context": "By fixing URLs... it's possible to dramatically shrink the basic unit while simultaneously cranking up both the number and variety of connections between them... something I'm calling dense hypermedia.",
+    "source": "Retrofitting the Web",
+    "source_slug": "Retrofitting-the-Web-Dorian-Taylor"
+  },
+  "semantic web": {
+    "term": "semantic web",
+    "definition": "An effort to retrofit the Web with enhanced semantic structure and meaning, attempted by retrofitting formal relationships and meanings onto existing web infrastructure.",
+    "context": "Tim Berners-Lee... set about retrofitting it—something he called the Semantic Web.",
+    "source": "Retrofitting the Web",
+    "source_slug": "Retrofitting-the-Web-Dorian-Taylor"
+  },
+  "intertwingler": {
+    "term": "intertwingler",
+    "definition": "An engine and protocol designed to solve URL brittleness and retrofit the Web into dense hypermedia by enabling deferred naming and reliable linking at scale.",
+    "context": "The embodiment of this project is a thing I'm calling Intertwingler... I view it as a set of demonstrations for what it takes to tackle the URL brittleness problem, and subsequently, the kinds of things one can achieve once the problem is solved. In other words, a protocol.",
+    "source": "Retrofitting the Web",
+    "source_slug": "Retrofitting-the-Web-Dorian-Taylor"
+  },
+  "intertwingled": {
+    "term": "intertwingled",
+    "definition": "To be inextricably, densely, and deeply interlinked such that nothing is truly separate from anything else.",
+    "context": "To be intertwingled is to be inextricably, densely, deeply interlinked, where nothing is truly separate from anything else.",
+    "source": "Retrofitting the Web",
+    "source_slug": "Retrofitting-the-Web-Dorian-Taylor"
+  },
+  "url brittleness": {
+    "term": "url brittleness",
+    "definition": "The structural vulnerability of URLs whereby changes to resource locations break all existing references to them, creating a downward pressure on linking density and reliability.",
+    "context": "Because it's very cheap to rename files—and thus their URLs—and very expensive, if not impossible, to update all the places a given URL is referenced, they tend to be extremely brittle.",
+    "source": "Retrofitting the Web",
+    "source_slug": "Retrofitting-the-Web-Dorian-Taylor"
+  },
+  "compression event": {
+    "term": "compression event",
+    "definition": "A conceptual breakthrough in which the dynamics of multiple separate models are recognized as fundamentally similar, enabling construction of a single more abstract model that handles them both.",
+    "context": "You might also find that the dynamics of one model are very similar to the dynamics of another, and construct a new, more abstract mental model that handles them both. These 'compression events' are highly sought after in physics.",
+    "source": "Retrofitting the Web",
+    "source_slug": "Retrofitting-the-Web-Dorian-Taylor"
+  },
+  "model nucleation": {
+    "term": "model nucleation",
+    "definition": "The process by which individual models connect to other models in a person's mind to form increasingly larger, more comprehensive models for understanding more aspects of the world.",
+    "context": "The cool thing about models is they nucleate: they connect to other models inside your head to make bigger models to make sense of more things about the world.",
+    "source": "Retrofitting the Web",
+    "source_slug": "Retrofitting-the-Web-Dorian-Taylor"
+  },
+  "protocol": {
+    "term": "protocol",
+    "definition": "A relatively simple and codified set of behaviors that, when adopted by a sufficient number of participants (human and/or artificial) in a situation, reliably leads to good-enough outcomes for all.",
+    "context": "A protocol is a relatively simple and codified set of behaviors that, when adopted by a sufficient number of participants (human and/or artificial) in a situation, reliably leads to good-enough outcomes for all.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "unreasonable sufficiency": {
+    "term": "unreasonable sufficiency",
+    "definition": "The characteristic that good protocols solve more of their target problem than expected, more completely than expected, relative to their size and complexity.",
+    "context": "Protocols, we believe, deserve to be first-class concepts in any discussion of coordination phenomena, at every level: from handshakes to civilizational futures. What is truly remarkable is that they defy expectations of failure as often as they do. Good protocols manage to catalyze good enough outcomes with respect to a variety of contending criteria, via surprisingly limited and compact interventions.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "stratum of codified behavior": {
+    "term": "stratum of codified behavior",
+    "definition": "A layer of explicit, formally specified rules and behaviors that allows for construction or emergence of complex coordinated behaviors at adjacent organizational levels.",
+    "context": "A protocol is a stratum of codified behavior that allows for the construction or emergence of complex coordinated behaviors at adjacent loci.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "hard protocol": {
+    "term": "hard protocol",
+    "definition": "A protocol with relatively inflexible expectations where small deviations cause errors, typically exemplified by traditional computer protocols.",
+    "context": "Loosely speaking, a hard protocol is one with relatively inflexible expectations, with atomic small deviations causing errors. Traditional computer protocols are typically hard in this sense.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "soft protocol": {
+    "term": "soft protocol",
+    "definition": "A protocol that accommodates a wide range of behaviors and deviations, typically exemplified by human behavioral protocols like handshakes.",
+    "context": "A soft protocol on the other hand, accommodates a wide range of behaviors. Human behavioral protocols, such as handshakes, are usually soft, but in the case of highly formalized examples, such as ceremonial military protocols, can have nearly machine-like hardness.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "atomic protocol": {
+    "term": "atomic protocol",
+    "definition": "A protocol that is difficult or pointless to further decompose into simpler constituent protocols.",
+    "context": "An atomic protocol is one that is difficult or pointless to further decompose, while a systemic protocol is one that is made up of many atomic protocols, often organized in strata.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "systemic protocol": {
+    "term": "systemic protocol",
+    "definition": "A protocol composed of many atomic protocols, often organized in distinct strata or layers.",
+    "context": "An atomic protocol is one that is difficult or pointless to further decompose, while a systemic protocol is one that is made up of many atomic protocols, often organized in strata.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "sufficiently generative": {
+    "term": "sufficiently generative",
+    "definition": "The characteristic of good protocols to create self-sustaining value through hard-edged, compact rules that induce fluid, expansive emergent coordination patterns.",
+    "context": "Good protocols are usually hard-edged, parsimonious, compact, legible, and slow-changing. Surprisingly often, however, the emergent layers of coordination they induce are fluid, profligate, expansive, illegible, and in a state of constant flux. Good protocols are sufficiently generative in that they create a self-sustaining amount of value.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "sufficiently legible": {
+    "term": "sufficiently legible",
+    "definition": "The quality of protocols being understandable and explicable through conceptual metaphors and frameworks, even when resistant to single monolithic interpretations.",
+    "context": "Protocols, however, seem unusually resistant to broadly illuminating and monolithic conceptual metaphors. This resistance is perhaps at the root of their illegibility relative to peer concepts. Notably though, protocols are not so illegible as to be impossible to talk about or work with.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "sufficiently stewardable": {
+    "term": "sufficiently stewardable",
+    "definition": "The characteristic of good protocols to thread the needle between too much and too little automation, and too much and too little room for discretionary governance decisions.",
+    "context": "Good protocols seem to thread the needle between too much and too little automation, and too much and too little room for discretionary governance decisions, stabilizing at the right level for their circumstances. They are sufficiently stewardable.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "muddling through": {
+    "term": "muddling through",
+    "definition": "A method of successive approximations in which imperfect and limited solutions are repeatedly applied over an extended lifespan to manage protocol evolution and second-order problems.",
+    "context": "Only a process of muddling through with a series a series of imperfect and limited solutions (via what is sometimes called the method of successive approximations) can arrive at good mature equilibrium states.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "sufficiently evolvable": {
+    "term": "sufficiently evolvable",
+    "definition": "The capacity of protocols to mutate, improve, and compete with other protocols within evolving technological and social ecosystems while admitting deliberate design choices.",
+    "context": "The recent explosion of capabilities in machine learning is particularly interesting to watch, since clear protocols for the training and deployment of these capabilities have yet to emerge. Protocols appear to be sufficiently evolvable to allow good protocols to gradually dominate.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "creative destruction": {
+    "term": "creative destruction",
+    "definition": "The process of displacement and replacement wherein new protocols and technologies supplant older ones, often involving significant upheaval.",
+    "context": "Unlike purely social realities, which often aim to create stable institutional environments for humans, and confine processes of creative destruction to fully domesticated roles, protocols usually aim to catalyze valuable equilibrium shifts, in both material and social built environments, without incurring the cost of significant creative destruction.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "sufficiently legitimate": {
+    "term": "sufficiently legitimate",
+    "definition": "The quality of protocols maintaining endemic legitimacy challenges yet persisting through sufficient voluntary participation and rule-of-law character despite skepticism.",
+    "context": "Successful protocols invariably face endemic legitimacy challenges from influential voices, yet manage to maintain sufficient legitimacy to persist in practice. Voluntary participation, even if with grudgingly given consent, is preferred by enough potential participants that they are sustainably politically viable.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "rule of law": {
+    "term": "rule of law",
+    "definition": "The principle that protocols embody consistent, non-arbitrary governance through formal rules equally applied, with resistance to exceptions.",
+    "context": "Reinforcing this tendency, protocols embody the idea of rule of law much more strongly than other kinds of institutions, (with many in the blockchain world adopting the stronger principle of \"code is law\"), and typically exhibit a much stronger resistance to exceptions, especially formal ones.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "sufficiently constrained": {
+    "term": "sufficiently constrained",
+    "definition": "The characteristic of protocols operating within fundamental, often trilemmatic limits that structure their design possibilities and trade-offs.",
+    "context": "In computer science, hypothesized limits often take the form of formal and semi-formal trilemmas, which conjecture that only 2 of 3 desirable properties can be satisfied together. The CAP theorem (concerning the desirable properties of consistency, availability, and partition resistance), is perhaps the best known.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "pace layering": {
+    "term": "pace layering",
+    "definition": "An architectural metaphor describing how protocols consist of strata evolving at different speeds, derived from the life histories of physical buildings.",
+    "context": "Stewart Brand's architectural metaphor of \"pace layering,\" derived from the life histories of physical buildings, and gesturing at strata evolving at different speeds, is another candidate metaphor in the same spirit.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "ossification": {
+    "term": "ossification",
+    "definition": "The process by which protocols become rigid and unfit for their original purpose, unable to adapt through mutation due to institutional selection pressures that prevent evolution.",
+    "context": "However, the power dynamics in a workplace can impose selection pressures that prevent protocols from adapting through mutation, resulting in productivity protocols that become unfit for purpose. This stuckness has characteristics comparable to the ossification of internet protocols.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "escape velocity": {
+    "term": "escape velocity",
+    "definition": "A metaphor describing the point at which a protocol has achieved sufficient functionality and adoption to be safely ossifiable without losing its core identity.",
+    "context": "Another metaphor with isolated utility is that of escape velocity for describing a protocol that has achieved sufficient functionality to be safely ossifiable.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "tightening knots": {
+    "term": "tightening knots",
+    "definition": "A metaphor for how protocols present evolving bottleneck problems that limit progress, and as they are solved, new harder problems appear at other loci.",
+    "context": "As they mature, protocols seem to present an evolving set of bottleneck problems that limit progress, and as they are solved, new and typically harder ones appear at other loci. In our discussions, the metaphor of \"tightening knots\" proved helpful in talking about this phenomenon.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "backwards compatibility": {
+    "term": "backwards compatibility",
+    "definition": "The principle of respecting past versions of a technology to create strong historical continuity and ground evolution in a culture of precedents.",
+    "context": "One important way this is achieved is via strong emphasis on backwards compatibility. A respect for past versions of a technology creates strong historical continuity, and grounds evolution in a culture of precedents, which helps grow legitimacy over time.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "schelling point": {
+    "term": "schelling point",
+    "definition": "A focal point of coordination around which agents converge when communication is absent, in protocol contexts, the stable solution that participants willingly adopt.",
+    "context": "Good protocols tend to form persistent Schelling points in spaces of problems worth solving, around solutions good enough to live with—for a while.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "trilemma": {
+    "term": "trilemma",
+    "definition": "A formal or semi-formal constraint model conjecturing that only 2 of 3 desirable properties of a system can be simultaneously satisfied.",
+    "context": "In computer science, hypothesized limits often take the form of formal and semi-formal trilemmas, which conjecture that only 2 of 3 desirable properties can be satisfied together. The CAP theorem (concerning the desirable properties of consistency, availability, and partition resistance), is perhaps the best known.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "conceptual metaphor": {
+    "term": "conceptual metaphor",
+    "definition": "A cognitive framework through which we understand complex domains by mapping them onto more familiar domains, used to make protocols legible.",
+    "context": "Conceptual metaphors, arguably, are at the heart of how we make our complex social realities legible to ourselves. The metaphor of parent-child relationships, for example, is widely used to structure our understanding of relations between nation-states and their citizens.",
+    "source": "The Unreasonable Sufficiency of Protocols",
+    "source_slug": "The-Unreasonable-Sufficiency-of-Protocols"
+  },
+  "protocol-pilled": {
+    "term": "protocol-pilled",
+    "definition": "To be literate in the powerful emerging technological idiom of protocols and its associated discourses, and to be deeply engaged or absorbed by the concepts and mental models it offers.",
+    "context": "To be protocol-pilled is to be both literate in the powerful emerging technological idiom of protocols and its associated discourses and, to use a term coined by cartoonist Randall Munroe, nerdsniped by the deeply satisfying lenses, levers, and mental models it offers.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "protocol punk hero": {
+    "term": "protocol punk hero",
+    "definition": "An archetype that merges the insider bureaucrat hero and outsider maverick hacker hero, operating with mastery of both smooth and striated spaces within protocolized environments where boundaries between inside and outside are increasingly meaningless.",
+    "context": "The protocol punk hero is an archetype that merges the 1950s style insider bureaucrat hero and the 1980–90s style outsider maverick hacker hero. It is an archetype whose earliest manifestations can perhaps be traced to characters like Andy DuFresne in The Shawshank Redemption, John McClane in Die Hard...and, of course, Neo in The Matrix.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "technology without technocracy": {
+    "term": "technology without technocracy",
+    "definition": "A mode of technological mastery and agency that remains attuned to underlying protocolized systems rather than merely operating within technocratic structures, enabling navigation across boundaries and cosmetic appearances.",
+    "context": "This mastery is marked by a sensitive attunement to what program participant Samuel Chua described as 'technology without technocracy.' Such attunement enables the hero to disregard boundaries and cosmetic appearances and, like the awakened protagonists of the Matrix, engage directly with the protocolized bedrock of our environment.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "whitehead advance": {
+    "term": "Whitehead advance",
+    "definition": "A technological or behavioral advance that enables important operations to be performed without conscious thought, extending the number of things civilization can do automatically.",
+    "context": "The phrase Whitehead advance has become a term of art in our research conversations. Whitehead advances often take the form of protocols. It took a pandemic to make most of us realize that we possessed disciplined handwashing behaviors, and that at one time they constituted a Whitehead advance in public health.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "kafka protocol": {
+    "term": "Kafka protocol",
+    "definition": "A speculative protocol representing the absolute worst conceivable design for given circumstances, used as a diagnostic and thought-experimental tool to understand oppressive or destructive protocol dynamics.",
+    "context": "Through exploring the ways protocols can become oppressive and destructive, Nadia's research inspired what has since become both a term of art and a research technique in our program—the Kafka protocol: a speculative protocol that is the absolute worst one conceivable for given circumstances. It turns out that the thought experiment of Kafka protocols—which some real-world protocols such as TSA airport security approximate—is a surprisingly useful diagnostic tool.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "whitehead protocol": {
+    "term": "Whitehead protocol",
+    "definition": "A protocol that represents Whitehead advances and embodies net benign and positive patterns of control that enable operations to happen unconsciously and beneficially.",
+    "context": "In her account, Nadia suggests two other categories of protocols—Whitehead protocols, protocols that represent Whitehead advances and embody net benign and positive patterns of control, and Bartleby protocols, named for the Melville short story, where agency can only be found through inaction and passive resistance.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "bartleby protocol": {
+    "term": "Bartleby protocol",
+    "definition": "A protocol named after Melville's character where meaningful agency can only be found through inaction and passive resistance, rather than through active participation or compliance.",
+    "context": "In her account, Nadia suggests two other categories of protocols—Whitehead protocols, protocols that represent Whitehead advances and embody net benign and positive patterns of control, and Bartleby protocols, named for the Melville short story, where agency can only be found through inaction and passive resistance.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "hardness": {
+    "term": "hardness",
+    "definition": "A property of certain technological systems where desirable outcomes like censorship resistance, data rights, and decentralization are anchored in the inviolability of mathematical theorems rather than ideology or legal assurances.",
+    "context": "They began to acquire a taste for a property of certain technological systems that Josh Stark calls hardness in one of the essays included in this volume, 'Atoms, Institutions, and Blockchains.' To use a phrase many of them would go on to encounter, they had discovered a world whose lighthouse principle was not Google's don't be evil, but can't be evil.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "can't be evil": {
+    "term": "can't be evil",
+    "definition": "A principle describing technological systems where beneficial outcomes are guaranteed by mathematical or cryptographic means rather than by the goodwill or ethical commitments of centralized actors.",
+    "context": "To use a phrase many of them would go on to encounter, they had discovered a world whose lighthouse principle was not Google's don't be evil, but can't be evil. A phrase that strikes some as naively utopian and others as more ominous than Google's motto, but has significant substance no matter how you think about it.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "tension": {
+    "term": "tension",
+    "definition": "A tradeoff plus a conflict; a dynamic state that requires ongoing management rather than a discrete decision, particularly relevant to protocol evolution and design.",
+    "context": "A tension is a tradeoff plus a conflict. This definition emerged from a week-long futures workshop held as part of our 2024 program in collaboration with Edge City, an ongoing experiment in virtual urbanism, and 0xParc, a protocols research collective.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "engineered argument": {
+    "term": "engineered argument",
+    "definition": "A protocol understood as a technology consciously designed to embody and structure underlying conflicts and tensions rather than attempt to resolve them once and for all.",
+    "context": "A recent fruit of this process is a definition we're enamored of: A protocol is an engineered argument. This definition was inspired by a definition of the word tension proposed by Tim Beiko, one of the directors of this program.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "engineered agreement": {
+    "term": "engineered agreement",
+    "definition": "A complementary concept to protocol; an API or technological interface designed from a fiat perspective to solve a problem once and for all, typically serving the interests of a single dominant actor with a play-to-win mindset.",
+    "context": "The pluralist infinite-game idea of a protocol as an engineered argument can be contrasted with a complementary 'playing to win' definition of an API suggested by Tim Beiko: an engineered agreement. Unlike a protocol, an API can be, and usually is, the design outcome of a fiat perspective that aims to solve a problem once and for all, to serve the interests of a single dominant actor.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "protocol whisperer": {
+    "term": "protocol whisperer",
+    "definition": "A skilled practitioner who manages tensions at an ecosystem level through soft personal authority, trusted relationships, and collective memory stewardship, combining social engineering with technical and architectural expertise.",
+    "context": "A major component of the work of protocol whisperers is to manage constantly shifting tensions at an ecosystem level, rather than within a single organization. Often the only levers available are soft personal authority earned through a history of contribution, trusted relationships with allies on many sides of many active arguments, and, perhaps most importantly, a strong sense of the collective memory of an evolving commons.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "protocol stewardship": {
+    "term": "protocol stewardship",
+    "definition": "The role of mediating relationships of all actors to the evolutionary history of a protocol, requiring a deep sense of historical context and playing an intercessory role in protocol narrative and feature evolution.",
+    "context": "Stewards of these narratives play something like an intercessory role in the evolution of protocols, mediating relationships of all actors to the evolutionary history that came before them. A commonly held tenet is that a deep sense of history is necessary—without a traditionalist's attachment to that history—and almost sufficient for effective protocol stewardship.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "infinite game": {
+    "term": "infinite game",
+    "definition": "After philosopher James Carse, a game played to continue the game rather than to win, where the objective is perpetuation and evolution rather than victory or completion.",
+    "context": "In the protocol paradigm, the game of technology becomes what the philosopher James Carse called an infinite game—one where you play to continue the game rather than to win. This does not mean that protocols are immortal, or that immortality is a desirable feature. Nor does it mean that protocols preclude competitive vigor or radical changes.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "protocolized environment": {
+    "term": "protocolized environment",
+    "definition": "A technological and social environment whose infrastructure and behavioral norms are increasingly structured by explicit, codified protocols rather than centralized authority or traditional institutions.",
+    "context": "Over the last four decades, our environment has gotten increasingly technologically structured, sophisticated, and abstract, in ways that cut across traditional institutional boundaries. Computers and software are everywhere. And even where they are not, our behaviors are increasingly protocolized or 'by the book'—a result of necessary training in (often counterintuitive) procedural skills without which many kinds of advanced technological agency are not accessible.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "protocol phenomenology": {
+    "term": "protocol phenomenology",
+    "definition": "The study of the characteristic ways protocols manifest and are experienced in the world, including their invisibility, slow adoption, persistence, and capacity to reshape human behavior and identity.",
+    "context": "As the on-screen portrayal of protocols correctly suggests, the phenomenology of protocols is vast. Janna Tay's essay, 'The Phenomenology of Protocols,' and Olivia Steiert's 'Protocols in (Emergency) Time' explore this territory in broad ways, but it is worth highlighting a few key elements.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "tensions game": {
+    "term": "Tensions Game",
+    "definition": "A peer-to-peer research methodology and collective-visioning mechanism where participants exchange constraint cards representing key tensions, imagining futures progressively shaped by them.",
+    "context": "In one exercise, participants collected 'tension cards' from each other—for example 'ossification vs. adaptability' or 'regionalism vs. nationalism'—and imagine futures progressively constrained by them. The activity worked beautifully and led to some fascinating output. The Tensions Game, as we call it now, has become a key research tool of the program.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "protocol literacy": {
+    "term": "protocol literacy",
+    "definition": "The ability to navigate multiple things changing simultaneously, understand patterns in technological and social systems, and manage ongoing tensions rather than make discrete tradeoff decisions; a primarily social rather than technical competency.",
+    "context": "The Tensions Game helps build perhaps the important element of protocol literacy—the ability to navigate multiple things changing at once, not all of which you are able to even observe, let alone control. This literacy is primarily social, not technical.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "seeing like a state": {
+    "term": "seeing like a state",
+    "definition": "A tendency toward authoritarian high modernism where powerful actors attempt to solve problems once and for all through centralized fiat rather than managing ongoing tensions, resulting in fragility and destruction of commons.",
+    "context": "In his eponymously titled classic 1998 book, James Scott called this tendency seeing like a state, and the associated technological ideology authoritarian high modernism. While the book is increasingly popular in technological circles, contributing to the generally growing awareness and literacy, in protocol-oriented technological circles its lessons are everyday lived realities.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "consensus memory": {
+    "term": "consensus memory",
+    "definition": "The shared collective memory of a protocol's evolutionary history and community, serving as a source of continuously renewable legitimacy and authority in protocol evolution.",
+    "context": "The authority of consensus memory is perhaps the closest thing protocols have to a source of continuously renewable legitimacy. The evolution of protocols can be seen as ongoing arguments about what features to enshrine in the protocol itself and what associated narratives to enshrine in the meta of the protocol, to borrow a term from gaming.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "protocol social media": {
+    "term": "protocol social media",
+    "definition": "A class of social media platforms built on open protocols rather than proprietary platforms, where users interact through decentralized clients, instances, or relays rather than through single points of entry.",
+    "context": "Instead of looking for yet another flavor of what they were already used to, they went looking for an alternative technology paradigm. And began discovering a curious class of alternatives to Twitter that described themselves as protocols rather than products or platforms. They found themselves immediately mired in confusion swirling around both the word protocol and the curious things it was pointing to. What on earth was this Fediverse?",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "ludic immersion": {
+    "term": "ludic immersion",
+    "definition": "The deepening absorption in patterned behaviors and roles within protocols, where humans unconsciously identify with their roles in the system and develop tacit skills through repeated practice.",
+    "context": "Protocols create new kinds of humans because the patterned near-invisibility of successful protocols induces a kind of deepening ludic immersion. Such immersion molds human personalities so strongly that we begin to identify with the roles we play in protocols, often without even being aware of them, like fish in water.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "protocol ossification": {
+    "term": "protocol ossification",
+    "definition": "The process of stabilizing and crystallizing a protocol's core functional scope to make it reliable and lasting across decades or centuries, managing tension between adding new features and achieving minimal reliable stability.",
+    "context": "Summer of Protocols was initially funded by the Ethereum Foundation, and motivated by a relatively narrow but fiendishly difficult sociotechnical challenge—the problem of consciously 'ossifying' the Ethereum blockchain: managing the tension between the desire to keep adding tempting new features and the opposed desire to converge on a minimal reliable functional scope, capable of lasting not merely years or even decades, but a century or longer.",
+    "source": "Introduction to The Protocol Reader",
+    "source_slug": "Introduction-to-the-Protocol-Reader-Venkatesh-Rao"
+  },
+  "protocol system": {
+    "term": "protocol system",
+    "definition": "A comprehensive set of interconnected workplace protocols that collectively form the organizational environment and structures a worker inhabits, encompassing various roles and behavioral patterns.",
+    "context": "Larger productivity protocols or protocol systems are recognizable by name as design sprints, scrum, or agile processes. They are intended to shape a more effective organization.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "bistable perception": {
+    "term": "bistable perception",
+    "definition": "The psychological phenomenon where two distinct perceptions can emerge from the same sensory input, with consciousness oscillating between them rather than experiencing both simultaneously.",
+    "context": "Protocol systems are like Rubin's Vase. When you direct your attention to them, the perspective is unstable, or bistable, to be more precise. This undulating perception is called bistable perception—when you have two perceptions that can emerge from the same sensory input, and your brain swings between the two rather than experiencing them simultaneously.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "role": {
+    "term": "role",
+    "definition": "The part a person plays in a protocol system, distinguished by name from other roles and comprising expectations for behavior, path, and relationships within the system.",
+    "context": "A role is the part a person plays in a protocol system. Your role is how you are known to others and it has a name that distinguishes it from other roles within the system. In a family, you may have a parent or child role. In a religion, a minister or a parishioner.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "compelled inauthenticity": {
+    "term": "compelled inauthenticity",
+    "definition": "A state of dysphoria experienced when there is a poor fit between a person's internal self and the role they perform in a protocol system.",
+    "context": "If there is a bad fit between your internal self and your role, you can suffer from a sense of compelled inauthenticity, or dysphoria, while if there is a good fit, and you authentically align with your role, you can thrive.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "protocol determinism": {
+    "term": "protocol determinism",
+    "definition": "The phenomenon where a person's role in one protocol system constrains or compels their behavior and choices in another protocol system, often without their awareness.",
+    "context": "Sometimes people believe they are autonomously choosing to join a protocol system and take on a certain role, but don't realize they are taking this action because their role in a different protocol system requires it, an effect of what I call protocol determinism (e.g., you become a doctor because your role as a daughter in a family protocol system compels you to abide by your parents' wishes).",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "protocol action": {
+    "term": "protocol action",
+    "definition": "An action performed in relation to a protocol system that either sustains or weakens that system, categorized as supportive, destructive, or double-edged.",
+    "context": "A protocol action is an action performed in relation to a protocol system that either sustains or weakens that system. Supportive protocol actions serve to support, grow, or extend the life of a protocol system. Destructive protocol actions serve to weaken, shrink, or kill off a protocol system.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "supportive protocol action": {
+    "term": "supportive protocol action",
+    "definition": "An action performed by a participant that serves to support, grow, or extend the life of a protocol system, such as recruiting new members or creating loyalty.",
+    "context": "A few examples of supportive protocol actions are recruiting new people to join the system, creating loyalty amongst participants, and maintaining the system.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "destructive protocol action": {
+    "term": "destructive protocol action",
+    "definition": "An action performed by a participant that serves to weaken, shrink, or kill off a protocol system, such as not following protocols or encouraging others to leave.",
+    "context": "Destructive protocol actions include not following the protocols of the system, encouraging participants to leave the system, and publicly criticizing the system.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "double-edged protocol action": {
+    "term": "double-edged protocol action",
+    "definition": "An action that could help or hurt a protocol system depending on the context, such as educating participants about the system's actual versus mythologized nature or enforcing participation through coercion.",
+    "context": "Double-edged protocol actions occupy a middle ground and can be either supportive or destructive depending on the context. Some may help a system grow rapidly but contribute to an early death, while others may foster slow or little growth, but help the system live a long life.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "protocol archetype": {
+    "term": "protocol archetype",
+    "definition": "A common persona or character type that appears across all types of protocol systems, defined by the protocol actions they perform, their place in the power structure, or their awareness of the system.",
+    "context": "The Protocol System Experience is filled with common personas, or protocol archetypes, who appear in all types of protocol systems, from nations to middle school popularity systems. A single person may act as multiple protocol archetypes in a single protocol system.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "guardian": {
+    "term": "guardian",
+    "definition": "A protocol archetype defined by performing supportive protocol actions that serve to help a protocol system grow and endure.",
+    "context": "First, we have the performers of supportive protocol actions. As a cluster, they serve as the guardians of the protocol system—helping it to grow and endure.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "threat": {
+    "term": "threat",
+    "definition": "A protocol archetype that performs destructive protocol actions aimed at weakening or destroying a protocol system.",
+    "context": "Protocol archetypes can perform destructive protocol actions, acting to weaken or destroy a protocol system. We can call them threats.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "dualist": {
+    "term": "dualist",
+    "definition": "A protocol archetype that performs double-edged protocol actions which can strengthen or threaten a protocol system depending on circumstances.",
+    "context": "Protocol archetypes can perform double-edged protocol actions—the dualists. In some circumstances, the dualists strengthen a protocol system; in others they act as threats.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "hierarchic": {
+    "term": "hierarchic",
+    "definition": "A protocol archetype defined by their position within the power structure or hierarchy of a protocol system.",
+    "context": "Protocol archetypes can be defined by their place in the power structure of the protocol system—the hierarchics.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "consciousian": {
+    "term": "consciousian",
+    "definition": "A protocol archetype defined by their level of awareness of and insight into the protocol system and how it operates.",
+    "context": "Finally, we have protocol archetypes defined by their awareness of and insight into the protocol system (their consciousness of it)—the consciousians.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "person in protocol (pip)": {
+    "term": "Person in Protocol (Pip)",
+    "definition": "A conceptual figure used to illustrate the stages and experiences of moving through protocol systems across the lifespan; represents any individual navigating multiple protocol systems.",
+    "context": "I'd like you to meet Pip, our 'Person in Protocol,' who spends their life inhabiting and journeying through countless protocol systems. As you may remember from Lord of the Rings, 'Pippin' or 'Pip' is short for 'Peregrine,' so Pip is a real traveler.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "protocol system journey": {
+    "term": "protocol system journey",
+    "definition": "The stages a person moves through when engaging with a protocol system, including pre-entry, entry, participation, change, exit, and aftermath.",
+    "context": "Pip goes through a set of inflection points, or stages, that are common to all of the protocol systems in their life, whether the protocol system is a blockchain, a religion, a career, a friendship, a marriage, or a nation. Stages like preparing for entry, the moment of entry, participating in the protocol system, changing the protocol system, exiting the protocol system, heading off to something new, or returning to the protocol system.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "pre-entry": {
+    "term": "pre-entry",
+    "definition": "The stage before joining a protocol system during which a person investigates, educates themselves, and completes qualifying requirements for membership.",
+    "context": "When Pip is preparing for entry, they may investigate what they need to do to gain entry, then educate or otherwise prepare themselves for entry, and finally complete the qualifying requirements. Pre-entry involves things like completing education or training requirements, licensing exams, applications, interviews; making promises to behave a certain way (e.g., taking an oath); paying money or other resources; wearing certain attire; grooming a certain way.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "entry": {
+    "term": "entry",
+    "definition": "The fleeting moment when a person crosses the threshold of a protocol system and transitions from outsider to insider, assuming their role as a participant.",
+    "context": "Entry into a protocol system is the fleeting moment when Pip crosses the threshold of a protocol system on their way into it. They move from an outsider to an insider as Pip transforms into a participant and assumes their role in the system.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "participation": {
+    "term": "participation",
+    "definition": "The stage in which a person is inside a protocol system, performing their assigned or chosen role and engaging in the expected behaviors and relationships of that role.",
+    "context": "Once inside the system, Pip begins to perform their role (whether assigned or chosen). The role Pip has is distinguished from other roles within the system and it is how they are known to others.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "exit": {
+    "term": "exit",
+    "definition": "A moment of transition in which a person leaves a protocol system, severing bonds to their role and potentially losing associated relationships, resources, or status.",
+    "context": "Like the entry stage, the exit stage is a moment of transition, only this time Pip leaves the system instead of joining it. They are saying goodbye to their role and potentially relationships, resources, or status as they go.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "aftermath": {
+    "term": "aftermath",
+    "definition": "The stage following exit from a protocol system, during which a person is no longer bound by the system's protocols and must navigate what comes next.",
+    "context": "The aftermath occurs after Pip has exited their protocol system. They are no longer bound by the protocols of their former system, but they may be adrift and unsure of where to go next.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "auto-enrollment": {
+    "term": "auto-enrollment",
+    "definition": "The automatic enrollment of a person into a protocol system at birth or during childhood without their active choice or consent.",
+    "context": "Sometimes people have the ability to pursue preferences about what role to play in a protocol system; in other cases they do not, such as when they are auto-enrolled in roles in protocol systems at birth or during childhood (e.g., when parents assign a default heterosexual role to their young child).",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "protocol overhang": {
+    "term": "protocol overhang",
+    "definition": "A state in which a person is controlled by or bound to a protocol system and is unable or unwilling to acknowledge and disentangle themselves from this control.",
+    "context": "Pip may be controlled by what I call 'protocol overhang,' and be unable or unwilling to acknowledge it and disentangle themselves from it.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "protocol scars": {
+    "term": "protocol scars",
+    "definition": "Psychological or social damage resulting from negative experiences within a protocol system that may persist after exiting the system.",
+    "context": "Pip may also have protocol scars or, if lucky, some protocol afterglow, as I discuss below.",
+    "source": "The Fundamentals of Protocol Systems",
+    "source_slug": "The-Fundamentals-of-Protocol-Systems-Angela-Walch"
+  },
+  "protocols": {
+    "term": "protocols",
+    "definition": "Procedural systems of social control that simplify communication between actors by reducing the number of decisions that need to be made and establishing predetermined ways to manage complex coordination.",
+    "context": "I define protocols as procedural systems of social control that simplify communication between actors: Protocols reduce the number of decisions that need to be made: Protocols dissuade participants from reason, which is outsourced to the protocol.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "protocolization": {
+    "term": "protocolization",
+    "definition": "The gradual process by which informal coordination and decision-making become encoded into explicit, then increasingly implicit, rule structures that eventually become internalized as part of individual identity and behavior.",
+    "context": "Protocolization pervades our social worlds even more strongly. These technical protocols are comparatively easy to identify and discuss, so we might overlook other protocol-like things we find ourselves embedded in.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "protocolization 1.0": {
+    "term": "protocolization 1.0",
+    "definition": "The bureaucratic mindset that emerged during industrialization to manage information overload through standardized forms, hierarchical organization, and explicit rules enforced by central authorities.",
+    "context": "The bureaucratic Protocolization 1.0 mindset, applied today, would emphasize the manipulation and management of social data itself: privacy, data ownership, surveillance.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "protocolization 2.0": {
+    "term": "protocolization 2.0",
+    "definition": "The current era of protocolization defined by the automation of ideas and opinions rather than data, where individuals adopt pre-formed takes on complex issues through recommender systems and social networks, creating a crisis-driven identity rather than bureaucratic organization.",
+    "context": "Protocolization 2.0 is defined not by the protocolization of data, but of ideas. We now have unlimited, infinite access to off-the-shelf takes on everything from reusable shopping bags to European geopolitics, at a magnitude we've never experienced before.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "explicit protocols": {
+    "term": "explicit protocols",
+    "definition": "Protocols in their early stages of entrenchment where all participants know what the protocol is and willingly enter under its governance; protocols that are stated and enforced by physical constraints or a central authority.",
+    "context": "Explicit protocols frequently arise in connection with social institutions—school, family, work. They are comparatively easier to identify and manipulate, because they are stated and enforced by physical constraints or a central authority.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "implicit protocols": {
+    "term": "implicit protocols",
+    "definition": "Protocols that are fully internalized by participants who are unaware they are operating by protocol; protocols where participants believe they are expressing themselves as individuals rather than following rules, with no visible authority enforcing compliance.",
+    "context": "Implicit protocols are fully internalized by participants who are unaware that they are operating by protocol, just as we're unaware of the gut bacteria that inhabit our bodies and influence our minds. There is no visible authority; instead, participants believe they are expressing themselves as individuals.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "control revolution": {
+    "term": "control revolution",
+    "definition": "The period of industrialization when sudden explosion of information created by new manufacturing processes necessitated new systems and mindsets for managing, organizing, and controlling complex information flows.",
+    "context": "Protocolized thinking boomed with the onset of industrialization, or what historian James Beniger called the control revolution, a need to regain control over the sudden explosion of information created by new manufacturing processes.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "solved conversations": {
+    "term": "solved conversations",
+    "definition": "Conversations on complex topics where all possible positions and responses are already known or knowable through cultural algorithms and memetic patterns, leaving no room for novel thinking or genuine debate.",
+    "context": "Aaron Z. Lewis calls this phenomenon 'solved conversations,' a term derived from so-called solved games like chess—where all possible moves are known or knowable—versus games like poker, where imperfect information makes it computationally impossible to solve the game.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "crisis mindset": {
+    "term": "crisis mindset",
+    "definition": "A stable, paradoxical protocolized way of organizing people and society around the management of real or imagined catastrophic threats, where working toward crisis prevention is seen as a laudable form of self-expression rather than external obligation.",
+    "context": "Rather than intense, focused public attention on a single crisis, multiple crises coexist alongside one another. Accepting the inevitability of a major crisis establishes a frame of control, enabling social protocols to arise within each ecosystem.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "protocol tai chi": {
+    "term": "protocol tai chi",
+    "definition": "A method of subverting protocols by working through them rather than against them, following protocol in a way that better suits participants' needs while remaining bound by the overall protocol structure.",
+    "context": "The art of protocol subversion looks more commonly like tai chi, where participants follow protocol, but in a way that better suits their needs. As Galloway proposed, 'it is through protocol that one must guide one's efforts, not against it.'",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "vibe culture": {
+    "term": "vibe culture",
+    "definition": "A cultural mode characterized by the experience and choice to engage with cultural 'exformation' rather than the replication of explicit memes; a way of protecting one's mind while online by prioritizing felt experience over commodified content.",
+    "context": "Vibes are cultural 'exformation' the body receives, coupled with a choice to experience them. Vibes govern our public behavior (e.g., 'good vibes,' 'the vibes are off'), but participants feel they are the ones curating and discerning culture, rather than passively consuming or spreading it.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "memetic culture": {
+    "term": "memetic culture",
+    "definition": "A cultural mode where memes—culturally transmissible ideas coupled with an urge to replicate them—are the primary unit of cultural information, emphasizing replication and spread over individual curation or experience.",
+    "context": "Memes are cultural information the mind perceives, coupled with an urge to replicate them. Mimetic culture is giving way to 'vibe culture,' as Peter Limberg eloquently expressed.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "inadequate equilibria": {
+    "term": "inadequate equilibria",
+    "definition": "Stable yet suboptimal social and institutional arrangements where everyone is acting rationally given others' behavior, but the collective outcome is worse than available alternatives; situations where civilizations get stuck at a local maximum.",
+    "context": "Eliezer Yudkowsky called these 'inadequate equilibria' in his book of the same name—'a sticky, stable equilibrium of everyone acting insane in a way that's secretly a sane response to everyone else acting insane'—where civilizations get stuck at a local maximum.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "kafka index": {
+    "term": "kafka index",
+    "definition": "A set of evaluative criteria for identifying bad protocol design, including lack of feedback loops, hidden outcomes, ambiguous success conditions, and traps that prevent participant exit or understanding.",
+    "context": "This brings us to the Kafka Index: a set of evaluative criteria for identifying bad protocols. Bad protocols create more complexity, instead of abstracting complexity away.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "kafka archetype": {
+    "term": "kafka archetype",
+    "definition": "A protocol failure mode where the protocol holds too much power and the participant is trapped in an incomprehensible maze they cannot escape; represented by Kafka's statement 'I can't find my way round in this darkness.'",
+    "context": "Kafka — failure archetype. 'I can't find my way round in this darkness.' Protocol holds too much power. Participant is trapped in a maze that they can't understand and also can't escape.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "bartleby archetype": {
+    "term": "bartleby archetype",
+    "definition": "A protocol failure mode where the participant holds too much power and excessive agency makes it difficult to manage complex tasks; represented by Bartleby's refusal 'I would prefer not to.'",
+    "context": "Bartleby — failure archetype. 'I would prefer not to.' Participant holds too much power. Maintaining a high level of agency limits their ability to manage increasingly complex tasks.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "whitehead archetype": {
+    "term": "whitehead archetype",
+    "definition": "A successful protocol design that achieves balanced power between protocol and participant, allowing people to relinquish some agency over routine decisions to accomplish much more complex goals, based on Whitehead's principle of civilization advancing through automation of important operations.",
+    "context": "Whitehead — success archetype. 'Civilization advances by extending the number of important operations which we can perform without thinking about them.' Balanced power between protocol and participant.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "hard infrastructure": {
+    "term": "hard infrastructure",
+    "definition": "The physical, technical, or structural foundation layer of a system that determines what behaviors and protocols can emerge at scale, as opposed to surface-level interface or design choices.",
+    "context": "However, without sufficient innovation at the 'hard infrastructure' layer, we should expect the same behaviors to inevitably emerge at scale, no matter how new or different each option seems to be.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "fog of war": {
+    "term": "fog of war",
+    "definition": "A situation where participants in a protocol lack visibility into feedback loops and outcomes, making it impossible to evaluate whether the protocol still serves their goals or to understand why it persists.",
+    "context": "In this situation, participants typically suffer from a 'fog of war' problem, where feedback loops no longer exist to evaluate a protocol's ongoing benefit. Instead, they remain trapped in a functional, yet suboptimal system.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "protocolization of identity": {
+    "term": "protocolization of identity",
+    "definition": "The final and most dangerous stage of protocol entrenchment where protocols become internalized as part of an individual's sense of self, causing them to view compliance as self-expression rather than external control.",
+    "context": "It is this final stage—the protocolization of identity—that presents a new and dangerous chapter of protocol history today. When someone takes a Myers-Briggs personality test for work, they don't see themselves as being told who they are, but rather a reflection of their true selves.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "cozy web": {
+    "term": "cozy web",
+    "definition": "The private, gatekeeper-bounded spaces and semi-private layers of the internet where participants retreat to engage in less monitored, more authentic communication away from public social media protocols.",
+    "context": "The spiciest conversations have been pushed down a few layers into the cozy web, or the private, gatekeeper-bounded spaces of the internet we have all retreated to over the last few years.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "exformation": {
+    "term": "exformation",
+    "definition": "Cultural information that the body or mind receives as context or feeling rather than explicit content; the implicit context surrounding communication that is perceived but not directly stated.",
+    "context": "Vibes are cultural 'exformation' the body receives, coupled with a choice to experience them.",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "energy scarcity assumption": {
+    "term": "energy scarcity assumption",
+    "definition": "The protocolized belief that reducing energy usage is necessary to achieve sustainability, which limits the range of solutions considered and creates a specific set of behavioral protocols around conservation.",
+    "context": "For the last few decades, the climate crisis response was based on energy scarcity: the belief that reducing energy usage was needed to bring us to 'sustainable' levels. What if we don't assume energy scarcity, but instead seek energy abundance?",
+    "source": "Dangerous Protocols",
+    "source_slug": "Dangerous-Protocols-Nadia-Asparouhova"
+  },
+  "flourishing": {
+    "term": "flourishing",
+    "definition": "The actualization of distinctively human capacities including self-making, cultivation of character, development of rationality, and realization of wisdom that enhances quality of life.",
+    "context": "To build a world hospitable to us, that is for us, is to build a world that nurtures and encourages human flourishing. Flourishing is the capacity to develop the aspects of our being that are our most distinctive to humanity: the capacity to self-make, cultivate our character, develop rationality, and realize wisdom.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "mediation": {
+    "term": "mediation",
+    "definition": "The active process by which protocols and artifacts shape the relationship between humans and their environment, affecting what actions are possible and how reality is perceived.",
+    "context": "Postphenomenological thinkers such as Peter-Paul Verbeek argue that artifacts and technologies mediate between humans and world—they actively shape the ways in which we can be present in the world and the ways in which the world presents reality to us.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "affordances": {
+    "term": "affordances",
+    "definition": "The relationship between the properties of an object or artifact and the capabilities of an agent that determine what actions the agent can take with that object.",
+    "context": "Postphenomenology draws on James Gibson's concept of 'affordances' to explain how technology affects our world. The affordances of an artifact or environment are what it offers for an agent to do with it.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "stability": {
+    "term": "stability",
+    "definition": "A protocol characteristic wherein the unchanging nature of its content introduces sufficient order into the world such that participants can reliably predict and follow the protocol to take action.",
+    "context": "In establishing order and certainty, stability affords different levels of individual agency, giving participants the freedom to act. At the most fundamental layer, the stability of a protocol in the unchanging nature of its content introduces sufficient order into the world such that one can act at all.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "constraint": {
+    "term": "constraint",
+    "definition": "A protocol characteristic wherein protocols restrict the actions participants can take to those set out by the protocol and constrain the options available to participants.",
+    "context": "Protocols act as constraints in requiring that participants follow protocol. They prioritize one set of actions and restrict the ability to take others. In doing so, they save participants from the complexities of decision-making by removing optionality and supplying the requisite knowledge.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "legitimacy": {
+    "term": "legitimacy",
+    "definition": "A protocol characteristic wherein protocols act as a source of authority and guidance for action, potentially leading participants to disclaim responsibility for their actions by deferring to the protocol's authority.",
+    "context": "Constraint and passivity can also lead individuals in the protocol to disclaim responsibility for their actions by reference to the protocol due to perceptions that the protocol has been designed and implemented by figures of authority.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "narrativity": {
+    "term": "narrativity",
+    "definition": "A protocol characteristic wherein protocols reveal and create worlds by telling stories about the contexts they operate in and the people who partake in them, shaping participants' perception of reality.",
+    "context": "Protocols reveal and create worlds. They tell stories about the contexts they operate in and the people who partake in them. Codifying something in a protocol directs attention to a particular area, thus in some circumstances bringing it into existence for protocol participants.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "aliveness": {
+    "term": "aliveness",
+    "definition": "A quality in the structure or organization of a place or system that generates congruence within humans, allowing them to align with their biological reality and natural desires.",
+    "context": "We perceive a place as alive when it is structured or organized to allow congruence within us—this congruence is the capacity to align us with our biological reality and natural desires, allowing those forces to move freely.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "co-constitute": {
+    "term": "co-constitute",
+    "definition": "The mutual process by which protocols and their participants together create and shape reality, perception, and the conditions for action and being.",
+    "context": "In mediating between us and our environments, protocols co-constitute reality with us and encourage or impede our flourishing. Participants and protocols co-constitute reality—because of this, protocols have an inalienable moral dimension.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "rationality": {
+    "term": "rationality",
+    "definition": "The distinctively human capacity to overcome self-deception, cultivate character, come into closer contact with reality, and develop wisdom through cognitive development.",
+    "context": "The capacity to do this is the distinctively human capacity of rationality, the development of which allows us to then develop wisdom. Because this cognitive development is greatly influenced by one's environment, the choices that go into building a world are moral choices.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "wisdom": {
+    "term": "wisdom",
+    "definition": "The self-transformation of cognitive processing that enhances the quality of life in a comprehensive manner through insight and the ability to flexibly reframe the world.",
+    "context": "Wisdom involves the 'self-transformation of cognitive processing that enhances the quality of life in some comprehensive manner.' This is, in other words, the picture of flourishing.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "attunement of attention": {
+    "term": "attunement of attention",
+    "definition": "The manner in which consciousness is disposed toward what exists, rendering the world what it is; the construction of reality and framing of the world is directed by attention.",
+    "context": "attunement of attention—attention is 'the manner in which our consciousness is disposed towards whatever else exists . . . it renders the world what it is.' Aspects of the world can only be real for us if we can attend to them and the construction of our reality and framing of the world is directed by our attention.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "insight": {
+    "term": "insight",
+    "definition": "The capacity to pierce through illusion and glimpse the world as it truly is, arising from the ability to flexibly reframe the world and fundamental to developing rationality and wisdom.",
+    "context": "insight—this insight pierces through illusion and glimpses the world as it is, and it arises through the ability to flexibly reframe the world. Insight is fundamental to honing rationality and achieving wisdom because it is the method by which we see through our narratives and self-deceptions.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "sufficient order": {
+    "term": "sufficient order",
+    "definition": "A necessary condition for flourishing wherein protocols establish enough stability and predictability to allow humans to take actions beyond survival and create space for reflection, training, and responding to changing demands.",
+    "context": "sufficient order—this allows us to take actions beyond survival and creates space for us to act and reflect, train and rewire our processes and intuitions in order to appropriately respond to and act in the face of the changing demands of our environments.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "self-knowledge": {
+    "term": "self-knowledge",
+    "definition": "The ability to know through self-reflection how one perceives and participates in the world, such that one can change how one acts in the world.",
+    "context": "self-knowledge—going beyond factual knowledge, this is the ability to know through self-reflection how we perceive and participate in the world, such that we can change how we act in the world.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "majesty protocol": {
+    "term": "majesty protocol",
+    "definition": "A behavioral code exemplified by court etiquette that operates to uphold respect and veneration for law through prescribed deference and obedience in language and conduct.",
+    "context": "I call this the 'majesty protocol' because it operates to uphold respect and veneration for the law. The majesty protocol reinforces the narrative that the law is above us, as reflected visually by the physical elevation and distancing of a judge in court.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "technological mediation": {
+    "term": "technological mediation",
+    "definition": "The process by which technologies and protocols actively shape human perception, action, and being in the world rather than serving as neutral intermediaries.",
+    "context": "objects are not neutral intermediaries between us and the world. Rather, they actively shape our relationship with the world—they mediate. The actions or states that an object allows or discourages is the reality that the object mediates for its user.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "moral dimension of protocols": {
+    "term": "moral dimension of protocols",
+    "definition": "The inalienable ethical character of protocols arising from their characteristics and mediating role, which necessarily affects human flourishing regardless of instrumental intent.",
+    "context": "As a result of these characteristics, participants in protocols are encouraged to develop certain modes of being that can foster or impede their ability to pursue flourishing and, therefore, those protocols possess an inalienable moral dimension.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "self-transcendence": {
+    "term": "self-transcendence",
+    "definition": "The human capacity to move beyond one's current state and limitations, a key component of flourishing achieved through the development of rationality and wisdom.",
+    "context": "We are self-making—unlike other creatures, we are able to overcome self-deception, cultivate our character to come into closer contact with reality, realize wisdom, and self-transcend.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "postphenomenology": {
+    "term": "postphenomenology",
+    "definition": "A philosophical approach examining how artifacts and technologies mediate between humans and the world, shaping the ways humans can be present and how reality presents itself.",
+    "context": "Postphenomenological thinkers such as Peter-Paul Verbeek argue that artifacts and technologies mediate between humans and world—they actively shape the ways in which we can be present in the world and the ways in which the world presents reality to us.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "strategic forgetting": {
+    "term": "strategic forgetting",
+    "definition": "The process by which civilizations advance by codifying knowledge in protocols and systems, allowing operations to be performed without conscious thought of underlying knowledge.",
+    "context": "Civilizations evolve through strategic forgetting—protocols play a part in giving rise to advance through increasing the number of operations that can be performed without thinking of them.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "congruence": {
+    "term": "congruence",
+    "definition": "The alignment of human beings with their biological reality and natural desires within a structured environment, enabling forces and tendencies to move freely.",
+    "context": "We perceive a place as alive when it is structured or organized to allow congruence within us—this congruence is the capacity to align us with our biological reality and natural desires, allowing those forces to move freely.",
+    "source": "A Phenomenology of Protocols",
+    "source_slug": "A-Phenomenology-of-Protocols-Janna-Tay"
+  },
+  "addressable space": {
+    "term": "addressable space",
+    "definition": "Physical space organized through abstract informational systems (numbers, addresses, labels) that enable random access to locations, similar to how computer memory uses address codes rather than sequential access.",
+    "context": "Like computers, where software programs use pointers to indirectly access data in physical memory, floors and apartments subject to abstract addressing schemes become randomly accessible.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "legible": {
+    "term": "legible",
+    "definition": "Information presented in a standardized, processable form that can be comprehended and acted upon by abstract organizational systems or authorities.",
+    "context": "This translation process might mean that information has to be made appropriately legible, to borrow a term from political scientist James C. Scott, in order to exist in a form capable of being processed by an abstract organizational system.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "binary spatial condition": {
+    "term": "binary spatial condition",
+    "definition": "A space defined by a simple on/off state—either accessible for its intended purpose or not—making it metaphorically similar to digital systems.",
+    "context": "Such a room could be said to embody a binary spatial condition. By virtue of this binary nature, these spaces could also be metaphorically described as digital.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "randomly accessible medium": {
+    "term": "randomly accessible medium",
+    "definition": "A system where any element can be accessed directly in any order without needing to traverse through intermediate elements, similar to computer RAM versus sequential storage.",
+    "context": "Elevators were introduced into buildings in the 19th and early 20th centuries. Their subsequent technological evolution enabled physical space to become, like modern computer memory chips, a randomly accessible medium.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "quantized": {
+    "term": "quantized",
+    "definition": "The process of reducing continuous analog information into discrete digital steps or units, eliminating intermediate values.",
+    "context": "The range of potential vertical spaces was reduced (or, in signal processing terms, quantized) by the logic of the elevator vator design.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "whence and whither": {
+    "term": "whence and whither",
+    "definition": "The continuous visual narrative and directional awareness experienced when moving through architectural space, showing both where one has come from and where one is going.",
+    "context": "The architect Philip Johnson once lamented that elevators disrupted the 'whence and whither' of a continuous unfolding visual narrative which visitors might otherwise experience when walking through a building.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "connect episodes": {
+    "term": "connect episodes",
+    "definition": "An architectural or cinematic technique of linking disparate spaces or scenes without showing the mundane transitions between them, creating a curated narrative experience.",
+    "context": "Just as a movie may cut abruptly between footage of two different locations, leaving out mundane events outside of its main narrative, architectural spaces could similarly be designed to 'connect episodes.'",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "informational walls": {
+    "term": "informational walls",
+    "definition": "Barriers to access defined by information systems and labeling rather than by physical structures, making certain spaces invisible or inaccessible to awareness.",
+    "context": "An elevator's jumps through space create additional walls in a building, defined by information rather than physical space. Shaded-out areas of architectural floor plans can sometimes present the inaccessibility of physical barriers like walls.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "poché": {
+    "term": "poché",
+    "definition": "Shaded or patterned areas on architectural floor plans used to represent solid, impassable space or hidden structural elements.",
+    "context": "Architectural spaces could be presented shaded-out with a color or pattern of impassable poché.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "poor door": {
+    "term": "poor door",
+    "definition": "Separate entrances, lobbies, and circulation systems in mixed-income residential buildings that segregate access for affordable housing residents from market-rate residents.",
+    "context": "Some real estate developers constructing new residential apartment buildings in cities where they are required to include affordable housing units have incorporated separate circulation systems for accessing those units. These buildings feature what could be said to be quantized while a ramp was not.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "instance": {
+    "term": "instance",
+    "definition": "In the context of chain businesses, an individual location of a franchised or standardized business that follows a common prototype design and brand identity.",
+    "context": "In the terminology of object-oriented programming, an individual location of a chain business could be called an instance of a class.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "cloud kitchen": {
+    "term": "cloud kitchen",
+    "definition": "A kitchen facility that operates exclusively for food delivery services with no physical dining space, concealing the food's origin through digital ordering platforms.",
+    "context": "One example is the 'cloud' or 'ghost' kitchens providing food-delivery services. With their growth catalyzed by the Coronavirus pandemic, these kitchen-only, online-only cooked meal providers had no need for the costs associated with providing seating.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "montage": {
+    "term": "montage",
+    "definition": "An editing technique that connects disparate scenes or spaces by omitting the transitions between them, creating meaning through juxtaposition rather than continuity.",
+    "context": "Nitsche, like Koolhaas, turned to the concept of montage as a reference point when constructing his virtual spaces, employing the same term when discussing the capabilities of game design as a medium.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "spatial connection": {
+    "term": "spatial connection",
+    "definition": "A logical or physical link between different locations that respects the continuous geometry of space, as opposed to abstract informational links.",
+    "context": "This teleportation provides game designers with what we might interpret as a Koolhaas-esque opportunity to, in Nitsche's words, 'interlink' game spaces 'in any way' without a 'spatial connection' between their data files.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "teleportation": {
+    "term": "teleportation",
+    "definition": "Instant movement between two distant locations without traversing the space between them, enabled by abstract information systems rather than physical navigation.",
+    "context": "The Common Tales player's instant journey might have been physically impossible. But like an elevator ride, it still involved bypassing a space located between two other spaces.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "despatialized": {
+    "term": "despatialized",
+    "definition": "Separated from or no longer dependent on physical location and spatial relationships, existing primarily as information accessed through digital interfaces.",
+    "context": "As our physical spaces start to mirror facets of digital worlds, including abstraction, random-access convenience, and arbitrary barriers, methods of navigating these physical spaces increasingly resemble those we use for accessing despatialized digital information.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "reverse skeuomorphism": {
+    "term": "reverse skeuomorphism",
+    "definition": "The phenomenon where physical world spaces and interfaces increasingly mirror the logic and appearance of digital systems, inverting the traditional skeuomorphic pattern where digital interfaces mimicked physical objects.",
+    "context": "Today, we are witnessing a pattern of reverse skeuomorphism, where our offline physical world starts to resemble not only the external interfaces of a computer's hardware but also the underlying logic of its software.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "hidden floors": {
+    "term": "hidden floors",
+    "definition": "Floors in a building that are either physically nonexistent or inaccessible, concealed through informational systems like building numbering schemes or elevator panel design.",
+    "context": "Whether a building's hidden floors are nonexistent or inaccessible, they are presented in a similar manner to visitors: as spaces concealed by information.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "piano nobile": {
+    "term": "piano nobile",
+    "definition": "In traditional hierarchical building design, the principal inhabited floor of a building, typically the main residence level accessible by initial flights of stairs.",
+    "context": "The main level, where a house's owner resided, was called the piano nobile, and was accessible by two or three flights of stairs, while the cramped garrets, just below the roof, commonly housed servants.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "enclosed room": {
+    "term": "enclosed room",
+    "definition": "A room with a single designated entry point and walls that create psychological and physical separation from surrounding spaces, characteristic of Victorian architectural design.",
+    "context": "Enter was via a single door on one wall, leaving other walls closed off from their surroundings. We might perceive such an enclosed room as a discrete entity, a place where awareness of the external spaces and events occurring beyond its walls is not necessarily present.",
+    "source": "Addressable Space",
+    "source_slug": "Addressable-Space-Chenoe-Hart"
+  },
+  "cast": {
+    "term": "cast",
+    "definition": "The informational content of hardness; a statement or claim about the future state of the world that is made hard by a system.",
+    "context": "First, what is the hardness about? What is the informational content of the hardness? I will call this the cast. The cast is the 'thing that is hard,' and it always takes the form of a statement or claim about the future.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "atom hardness": {
+    "term": "atom hardness",
+    "definition": "Hardness sourced from the physical properties of the universe, including matter, physical laws, and natural constants that make certain future states predictable.",
+    "context": "Atom hardness refers to hardness that is sourced from the physical properties of our universe. This hardness includes not just literal atoms (i.e., matter, physical stuff), but all other properties of nature like physical laws and constants.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "institution hardness": {
+    "term": "institution hardness",
+    "definition": "Hardness created through organized human behavior, where groups of people act in predictable ways over time to enforce rules and make future states reliable.",
+    "context": "In other cases, the source of hardness might be an institution. A contract is only hard if there is an institution that makes it so. Groups of people—lawyers, judges, police officers—who share a common understanding of how to work together.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "blockchain hardness": {
+    "term": "blockchain hardness",
+    "definition": "A natively digital source of hardness created through cryptography, networked software, and commoditized human incentives that make digital records and programs permanently reliable.",
+    "context": "Recently, we've invented a new way to create hardness: blockchains. Using an elegant combination of cryptography, networked software, and commoditized human incentives, we are able to create software and digital records that have a degree of permanence.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "institution": {
+    "term": "institution",
+    "definition": "A broad category of organized human groups including legal systems, governments, corporations, and religious bodies that act predictably to create hardness and enforce rules.",
+    "context": "Institution here is an extremely broad category, including: legal systems, legislatures, police forces, governments, central banks and other monetary authorities, private banks, corporations, startups, religious institutions.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "credible neutrality": {
+    "term": "credible neutrality",
+    "definition": "The property of blockchains where rules are transparent and verifiable, making them appear impartial rather than subject to arbitrary human discretion.",
+    "context": "Blockchains can be credibly neutral because their rules are transparent and verifiable, and casts about those rules are made hard by the blockchain itself.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "composability": {
+    "term": "composability",
+    "definition": "The ability of applications built on blockchains like Ethereum to reliably build on top of each other because their foundations are made hard and will not change.",
+    "context": "Ethereum enables composability between applications because applications built on Ethereum can be very hard, with high assurances that they will not change. Applications that are deployed on mainnet will stay there, letting developers build on top of what has already been built.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "hyperstructures": {
+    "term": "hyperstructures",
+    "definition": "Protocols built on blockchain hardness that can theoretically run forever without requiring maintenance or central coordination because their foundations are permanently reliable.",
+    "context": "Ethereum enables hyperstructures—protocols that can run forever—because blockchains provide a native source of hardness that makes the structures built on top of them extremely likely to persist into the future.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "trustless": {
+    "term": "trustless",
+    "definition": "A property of blockchains where hardness is created without depending on the behavior or discretion of individual people or institutions.",
+    "context": "Blockchains can be trustless in the sense that they create hardness without any reliance on the behavior of individual people or institutions.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "decentralized finance (defi)": {
+    "term": "decentralized finance (defi)",
+    "definition": "Financial systems built on blockchain hardness that recreate complex financial relationships without requiring institutional intermediaries.",
+    "context": "Ethereum enables decentralized finance (defi) because it lets us create programmable hardness sufficient to recreate the complex intersecting web of relationships that characterize traditional finance.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "web3": {
+    "term": "web3",
+    "definition": "An ecosystem of digital services, protocols, and applications whose infrastructure is grounded primarily in blockchain hardness rather than institutional hardness.",
+    "context": "Ethereum enables web3: an ecosystem of web services, protocols, applications, and communities whose foundations are built primarily on blockchain hardness rather than institutional hardness.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "source of hardness": {
+    "term": "source of hardness",
+    "definition": "The underlying mechanism or system that makes a cast (future claim) hard; atoms, institutions, or blockchains.",
+    "context": "Second, there is the source of hardness. The source of hardness is the reason that the cast can be hard in the first place. It is what the cast is made out of: atoms, institutions, or blockchains.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "programmable hardness": {
+    "term": "programmable hardness",
+    "definition": "The ability to customize and create arbitrary future claims that are made reliable through software running on blockchains.",
+    "context": "Just as institutions let us create hard casts with any arbitrary content that can be interpreted and executed by humans, Ethereum lets us create hard casts with arbitrary content that can be interpreted and executed by a computer.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "cryptographic hardness": {
+    "term": "cryptographic hardness",
+    "definition": "Hardness derived from the mathematical properties of cryptographic systems that make it computationally infeasible to forge or alter digital information.",
+    "context": "The specific cryptographic tools used by blockchains are public and available for study, and generally their properties are very well understood. The cost of attacking the system to subvert it (e.g., through a so-called 51% attack) is known and we can estimate it accurately.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "51% attack": {
+    "term": "51% attack",
+    "definition": "An attack on a blockchain where a malicious actor controls over half the network's computing power, allowing them to subvert the system's hardness.",
+    "context": "The cost of attacking the system to subvert it (e.g., through a so-called 51% attack) is known and we can estimate it accurately.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "natively digital": {
+    "term": "natively digital",
+    "definition": "Systems or properties that are inherently designed for and dependent on digital technology and internet infrastructure.",
+    "context": "Blockchains are natively digital. They create hardness about software, data, and programs. Anyone with an internet connection can access and interact with a blockchain.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "mainnet": {
+    "term": "mainnet",
+    "definition": "The main operational blockchain network where applications are deployed with high assurance of permanence.",
+    "context": "Applications that are deployed on mainnet will stay there, letting developers build on top of what has already been built, with high confidence that those foundations can never crumble beneath them.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "atoms, institutions, and blockchains (aib)": {
+    "term": "atoms, institutions, and blockchains (AIB)",
+    "definition": "The three sources of hardness available to human civilization for creating predictability and reliability in complex systems.",
+    "context": "Atoms, Institutions, and Blockchains are some of the raw materials this infrastructure is built with. Just as an architect must carefully plan not only the design of a building, but also the materials used to construct that design, so must we carefully consider the materials for our civilization's infrastructure.",
+    "source": "Atoms, Institutions, Blockchains",
+    "source_slug": "Atoms-Institutes-Blockchains-Josh-Stark"
+  },
+  "unprotocolized knowledge": {
+    "term": "unprotocolized knowledge",
+    "definition": "Information and theories that develop and circulate outside formal institutional knowledge production systems, often through internet communities, influencers, and amateur researchers rather than peer review or academic validation.",
+    "context": "There's something powerful about how online seed oil researchers have developed their hypotheses in an unprotocolized way. Seed oils are at the center of a variety of theories, identified as the culprit behind issues ranging from the obesity epidemic to chronic disease.",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "knowledge protocols": {
+    "term": "knowledge protocols",
+    "definition": "Formal systems and procedures through which societies organize, validate, and legitimize information, including peer review, credentials, teaching, and empirical methods.",
+    "context": "It is only because of these shared, recognized protocols—teaching, refereed publication, credentials, and empiricism, to name a few—that our society construes itself as knowing anything at all.",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "populist paradigms": {
+    "term": "populist paradigms",
+    "definition": "Popular, contested theories and ideas that gain widespread traction outside academic institutions, often spreading through internet communities and challenging established scientific paradigms.",
+    "context": "These 'populist paradigms,' to twist Thomas Kuhn's term, present a dual challenge. On the one hand, they obviously have spread largely outside the university, bypassing and thus failing to meet the rigorous standards for adjudication that typically accompany scientific claims.",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "paradigm refugees": {
+    "term": "paradigm refugees",
+    "definition": "Scientists and researchers who are systematically excluded from grants and publishing opportunities because their work challenges the dominant paradigm in their field, forcing them to abandon their original research.",
+    "context": "The decades-long silent embargo forced some researchers to pivot to other topics, creating a class of 'paradigm refugees' unable to continue their original work in a hostile environment.",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "reasonable insufficiency": {
+    "term": "reasonable insufficiency",
+    "definition": "The quality of protocols that have become over-successful and now generate unintended maladaptive problems that require further protocol evolution and adaptation.",
+    "context": "Perhaps this quality of protocols might be called their reasonable insufficiency: The emergence of unmanaged maladaptive phenomena around too-successful protocols.",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "republic of letters": {
+    "term": "Republic of Letters",
+    "definition": "A historical intellectual network of 15th-century scholars who shared thoughts, news, and responses across national boundaries through written correspondence, laying groundwork for modern scholarly communication.",
+    "context": "As 15th-century scholars shared thoughts, news, and responses across national boundaries, they began to understand themselves as participating in a global scholarly conversation, the Republic of Letters.",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "epistemic tribalism": {
+    "term": "epistemic tribalism",
+    "definition": "A condition where information and truth-claims are evaluated primarily through allegiance to ideological or social groups rather than through objective evidence or reasoning.",
+    "context": "To members of the establishment, the internet's superspeed and superabundance of information creates a condition of 'epistemic tribalism' or 'post-truth.'",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "context collapse": {
+    "term": "context collapse",
+    "definition": "The phenomenon where the internet eliminates distinctions between academic and public spheres, causing information and communication designed for one audience to reach multiple, unintended audiences simultaneously.",
+    "context": "The alternative view is more realistic and more optimistic: the internet merely collapses the context between academia and the public, leading to new information behaviors that our knowledge production protocols aren't designed to handle.",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "feral scholars": {
+    "term": "feral scholars",
+    "definition": "Unaffiliated amateur researchers and fact-checkers who investigate, verify, and circulate information independently, often in response to gaps or distrust in mainstream academic institutions.",
+    "context": "Combine this with 'feral scholars' who fact-check, research, and circulate supposedly reputable information in response to the drama.",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "internet of beefs": {
+    "term": "Internet of Beefs",
+    "definition": "A social media ecosystem characterized by ongoing, highly publicized conflicts and disputes between public figures and their followers, often organized around ideological or lifestyle positions.",
+    "context": "In the chaotic space outside the jurisdiction of scholarly protocols, in the subscriber lists of influencers' Patreons, a horde of enthusiasts comes into play. Here is where the dynamics resemble less a scientific forum and more the 'Internet of Beefs.'",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "coercive citation": {
+    "term": "coercive citation",
+    "definition": "A predatory publishing practice where journal editors pressure authors to cite articles that benefit the journal's impact scores, even when not directly relevant to the work.",
+    "context": "Journals, too, exhibit this overeffective quality, having extended far beyond their original function... employing 'coercive citation': editors strong-arming authors to cite articles that benefit their journals' impact scores.",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "pre-paradigm theory": {
+    "term": "pre-paradigm theory",
+    "definition": "A competing set of hypotheses and explanations that has not yet achieved the status of an established scientific paradigm but may offer viable alternatives to dominant theoretical frameworks.",
+    "context": "Nevertheless, these speculations may collectively be compelling enough to be considered a viable pre-paradigm theory.",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "dyoresearchers": {
+    "term": "DYOResearchers",
+    "definition": "Do-it-yourself researchers who conduct their own experiments, analysis, and investigations independent of institutional affiliation or formal credentials.",
+    "context": "The products of intellectual labor now live freely online, inspiring swaths of DYOResearchers.",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "citizen science": {
+    "term": "citizen science",
+    "definition": "Scientific research conducted by non-professional scientists, often amateurs or hobbyists, who contribute data collection, analysis, or experimentation under the framework of formal studies.",
+    "context": "Recent improvements in mobile sensors and smartphones have unlocked new opportunities for citizen science and crowdsourcing.",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "datafication": {
+    "term": "datafication",
+    "definition": "The process of converting various aspects of human experience and activity into quantifiable data that can be recorded, analyzed, and used in research and decision-making.",
+    "context": "The increasing datafication of health via biometrics points to future evolutions that may be possible for both scientific and internet health communities.",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "biomonitoring devices": {
+    "term": "biomonitoring devices",
+    "definition": "Wearable or portable technologies that measure and track biological indicators such as heart rate, sleep patterns, and other health metrics for personal health tracking or research purposes.",
+    "context": "Widely available biomonitoring devices could bring down the high cost of quantified selfhood.",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "participatory science": {
+    "term": "participatory science",
+    "definition": "Scientific research conducted with direct involvement and collaboration from non-professional community members in design, data collection, and evaluation of results.",
+    "context": "the internet making possible a 'global spasm of participatory science.'",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "epistemic uncertainty": {
+    "term": "epistemic uncertainty",
+    "definition": "A state of doubt or lack of certainty about what can be known, believed, or validated as true within an information environment.",
+    "context": "As it stands, we lack the organizing models necessary to deal with the epistemic uncertainty they create to validate their ideas.",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "quantified selfhood": {
+    "term": "quantified selfhood",
+    "definition": "The practice of tracking, measuring, and analyzing detailed personal data about one's own body, behavior, and health through devices and self-monitoring.",
+    "context": "Widely available biomonitoring devices could bring down the high cost of quantified selfhood.",
+    "source": "Unprotocolized Knowledge",
+    "source_slug": "15-e41-KITTEL-rev-2024-06-12-1448"
+  },
+  "workplace productivity protocols": {
+    "term": "workplace productivity protocols",
+    "definition": "Intentional patterns of human behavior designed to increase an organization's capability to outperform itself, prescribing a choreography for objects, bodies, and brains across meetings and communications.",
+    "context": "Borrowing from this framing, workplace productivity protocols can be defined as intentional patterns of human behavior that increase the capability of an organization to outperform itself. These protocols prescribe a choreography for objects and bodies and brains and brains, a dance notation spanning months of run time on the stage of meeting rooms and emails.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "protocol dysphoria": {
+    "term": "protocol dysphoria",
+    "definition": "A state of dissatisfaction or distress experienced by workers when inhabiting ossified or misaligned productivity protocols that no longer serve their actual work needs.",
+    "context": "A protocolized framing of a bullshit job would be any worker experiencing what Summer of Protocols researcher Angela Walch calls protocol dysphoria.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "protocol identity": {
+    "term": "protocol identity",
+    "definition": "The particular role and set of responsibilities a worker assumes when entering a workplace as part of the larger system of protocols that govern organizational behavior.",
+    "context": "These organizations are in effect systems of protocols that a worker inhabits when entering a workplace, taking on a particular protocol identity depending on their role.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "protocol evolution": {
+    "term": "protocol evolution",
+    "definition": "The continuous improvement and adaptation of protocols through the evolutionary cycle of birth, mutation, selection, and death, similar to how internet protocols develop.",
+    "context": "If workplace productivity protocols have similar attributes to internet protocols wherein nobody owns them, everybody can use them, and anybody can improve them, then like internet protocols, they attract continuous improvement through the same evolutionary cycle of birth, mutation, selection, and death.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "exit to protocol": {
+    "term": "exit to protocol",
+    "definition": "A form of organizational retirement in which an organization ceases operations while publicly sharing its workplace protocols and operational knowledge, allowing new communities and organizations to inherit and evolve these patterns.",
+    "context": "Instead, through retiring and sharing some of its workplace protocols publically, this exit may shape many and new communities. This we might call an exit to protocol.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "whale fall": {
+    "term": "whale fall",
+    "definition": "An ecological process where a dead whale sinks to the ocean floor and its decomposition creates a nutrient-rich habitat that enables the rapid evolution of new species adapted to those conditions.",
+    "context": "An exit to protocol could be compared to a whale fall in ocean ecosystems, where the death of a whale and its subsequent decay process after falling to the ocean floor creates an energy-rich habitat and frees up nutrients to incubate rapidly evolving new life forms.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "adaptive radiation": {
+    "term": "adaptive radiation",
+    "definition": "The ecological process by which new species rapidly evolve and diversify in response to the novel environmental conditions created by a whale fall or similar nutrient-rich habitat.",
+    "context": "New species are commonly created through this process, known as adaptive radiation.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "exit to community": {
+    "term": "exit to community",
+    "definition": "A movement that helps startups mature into community ownership by their stakeholders rather than pursuing acquisition or public stock offerings.",
+    "context": "Misaligned-incentive bullshit jobs might find a solution in the movement of Exit to Community, a movement that helps startups 'aim to mature into ownership by their community of stakeholders' rather than 'aiming for an acquisition by a more established company or a public stock offering.'",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "role in a box": {
+    "term": "role in a box",
+    "definition": "A protocol system design that conveys the people and their relationships to data, spaces, and other people by encapsulating a role with preset levels of access, permissions, and incentives within an organization.",
+    "context": "The protocol system conveys the people and their relationship to data, spaces, and other people, describing it as a 'role in a box' with different preset levels of access, permissions, and incentives to represent and augment the organization.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "hats protocol": {
+    "term": "hats protocol",
+    "definition": "A digital protocol that empowers groups to delegate responsibilities to contributors while giving them necessary authorities and installing accountability mechanisms to ensure task completion in distributed work environments.",
+    "context": "Hats empowers groups to get things done by delegating responsibilities to the right contributors, giving them the hard and soft authorities they need to do their work, and installing real-time accountability mechanisms to ensure people follow through.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "bullshit jobs": {
+    "term": "bullshit jobs",
+    "definition": "Forms of employment that are so completely pointless, unnecessary, or pernicious that even employees cannot justify their existence, though they feel obliged to pretend otherwise.",
+    "context": "Rather than experiencing protocol death through abandonment, the agile industrial complex creates an entire workforce engaged in what David Graeber called bullshit jobs—a group of workers kept employed under imbalanced power structures that encourage keeping up the pretenses of unnecessary work.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "intellectual monopoly capitalism": {
+    "term": "intellectual monopoly capitalism",
+    "definition": "An economic system where corporations prioritize the capture and management of intellectual assets and knowledge as their most strategic resources, with learning itself becoming the primary corporate goal.",
+    "context": "The rise of intellectual monopoly capitalism presents a new buyer of workplace protocols for the sake of the protocols themselves, and not necessarily for their resulting productivity.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "bannister effect": {
+    "term": "bannister effect",
+    "definition": "A phenomenon where organizational or emergent groups feel more confident about adopting new methods after seeing that success was possible with them, inspired by a celebratory rather than crisis-driven retirement.",
+    "context": "Retirement that ends on a celebratory note allows for the Bannister Effect, where organizations or emergent groups may feel more confident about adopting the new methods through seeing that it was possible to achieve success with them.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "metawork": {
+    "term": "metawork",
+    "definition": "The documentation and operational processes of how work is performed, distinct from the actual work product itself; the practices and systems that enable and organize the primary work.",
+    "context": "Such generous documentation and sharing of the metawork of a studio or any place of knowledge work is beyond rare in an industry where most documents are labeled confidential and nondisclosure agreements are signed.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "selection pressures": {
+    "term": "selection pressures",
+    "definition": "Institutional, structural, or incentive-based forces that constrain how protocols can evolve and adapt, often preventing necessary mutations that would improve protocol fitness.",
+    "context": "However, the power dynamics in a workplace can impose selection pressures that prevent protocols from adapting through mutation, resulting in productivity protocols that become unfit for purpose.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "protocol death": {
+    "term": "protocol death",
+    "definition": "The discontinuation or abandonment of a protocol when it is no longer needed because environmental conditions have changed or the behavior it codified is no longer necessary.",
+    "context": "In the same way that a safety protocol is no longer needed because a hazard has been removed, a workplace productivity protocol is not needed when human behaviors no longer account for resulting productivity.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "dumb storage": {
+    "term": "dumb storage",
+    "definition": "A practice of archiving organizational knowledge and resources in sealed or inaccessible formats that prevent their use or evolution by others, keeping them dormant for potential future recreation.",
+    "context": "An organization might have kept confidential to maximize future consulting fees, or as Friend puts it in Good Death, sealed in 'dumb storage' so that the 'fantasy of recreating the thing being archived potentially exists.'",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "agile industrial complex": {
+    "term": "agile industrial complex",
+    "definition": "A self-perpetuating ecosystem of consultants, thought leaders, and institutions that profit from continuous promotion and implementation of agile methodologies, creating perverse incentives that prevent protocol evolution.",
+    "context": "This stuckness has characteristics comparable to the ossification of internet protocols. Agile development expert Daniel Mezick's 2016 essay, The Agile Industrial Complex, presents a fantastic case study of how a productivity protocol system has stagnated.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "misaligned incentives": {
+    "term": "misaligned incentives",
+    "definition": "Organizational structures or reward systems where individual workers' incentives diverge from the overall organization's actual productivity needs, contributing to the creation of unnecessary work.",
+    "context": "Flunkies, duct tapers, and type 2 taskmasters exist as a result of misaligned incentives and unbalanced power structures.",
+    "source": "Exit to Protocol: A Future After Retirement",
+    "source_slug": "Exit-to-Protocol-Shuya-Gong"
+  },
+  "safety protocols": {
+    "term": "safety protocols",
+    "definition": "Intentional patterns of constraint on human behavior designed to reduce injury, disease, and death in work environments.",
+    "context": "I define these as intentional patterns of constraint on human behavior that reduce injury, disease, and death. Safety protocols have evolved in lockstep with changes in the industrial environment.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "dynamic non-event": {
+    "term": "dynamic non-event",
+    "definition": "A sustained absence of accidents or negative outcomes resulting from successful human actions and moment-to-moment adjustments, which our brains fail to notice because they lack the discrete, eventful quality of accidents.",
+    "context": "Safety is a dynamic non-event. Talking about safety (and health) is difficult because it is a sustained absence of events, not an event itself.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "limit of unacceptable performance": {
+    "term": "limit of unacceptable performance",
+    "definition": "A threshold below which action outcomes become noticeable to human attention and trigger awareness or concern, distinguishing successful from failed performances.",
+    "context": "After a while, the only actions that catch our attention are those with outcome values below the 'limit of unacceptable performance'.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "protocol-based social order": {
+    "term": "protocol-based social order",
+    "definition": "A social arrangement with new norms, divisions of labor, and decision-making hierarchies that emerge to enforce and sustain behavioral constraints established by protocols.",
+    "context": "New norms, divisions of labor, and decision-making hierarchies emerge to enforce such constraints. This results in a new protocol-based social order.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "chokedamp": {
+    "term": "chokedamp",
+    "definition": "Carbonic acid gas (CO2) found in coal mines that acts as an asphyxiant, historically identified as a hazard when a candle flame dimmed or extinguished near floor level.",
+    "context": "chokedamp: stythe, damp, or blackdamp; carbonic acid gas; an asphyxiant gas. Chokedamp is heavier than air; miners would hold a candle near the floor. If it dimmed or went out, it was time to go.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "firedamp": {
+    "term": "firedamp",
+    "definition": "Methane gas (carburetted hydrogen) found in coal mines that is highly explosive, historically addressed by miners preemptively igniting gas buildups.",
+    "context": "firedamp: methane gas/carburetted hydrogen; a highly explosive gas. Miners avoided firedamp by preemptively igniting buildups.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "afterdamp": {
+    "term": "afterdamp",
+    "definition": "A mixture of carbon monoxide, firedamp, and nitrogen produced after mine explosions that acts as both an asphyxiant and poisonous gas.",
+    "context": "afterdamp: mix of carbon monoxide, firedamp, and nitrogen; an asphyxiant and poisonous gas.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "stinkdamp": {
+    "term": "stinkdamp",
+    "definition": "Hydrogen sulfide gas found in coal mines, a poisonous gas historically identified by its distinctive odor.",
+    "context": "stinkdamp: hydrogen sulfide; a poisonous gas.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "bell pit": {
+    "term": "bell pit",
+    "definition": "An early method of coal extraction from the 13th century using a narrow vertical shaft with a widened bottom chamber, abandoned once structural instability appeared and a new shaft was sunk nearby.",
+    "context": "As early as the 13th century, Europeans started to mine coal in bell pits. Miners sunk bell pits to about 30 feet below ground, with a narrow mouth, and dug wider at the bottom.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "drift mine": {
+    "term": "drift mine",
+    "definition": "An early coal mining method in which miners dug a near-horizontal slope into a hillside or cliff rather than sinking a vertical shaft, used in terrain where vertical shafts were impractical.",
+    "context": "Drift mines were another early method of coal extraction. Miners dug a near-horizontal slope into a hillside or cliff, rather than digging a vertical shaft in a field.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "piece wage": {
+    "term": "piece wage",
+    "definition": "A compensation system in which workers are paid based on the amount of work output (e.g., coal produced) rather than time spent working, creating economic incentives to prioritize productivity over safety.",
+    "context": "miners were often paid a piece wage (by the amount of coal produced, rather than time spent mining). Lack of supervision plus the incentive of piece wages led miners to trade safety for productivity.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "the carbon flywheel": {
+    "term": "the carbon flywheel",
+    "definition": "The period (1700-1850 A.D.) when the introduction of steam engines and industrial machinery created a self-reinforcing cycle of increased coal demand and production expansion.",
+    "context": "After centuries of incremental progress, the coal industry had a big bang. With the industrial revolution came steam engines, boilers, coal furnaces, new machinery, and cheaper steel. These technologies enabled a new flywheel of productivity in the coal industry.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "root cause analysis": {
+    "term": "root cause analysis",
+    "definition": "An investigative method used after industrial accidents to identify the underlying cause of failures, initially assumed to be human error before researchers shifted focus to systemic and organizational factors.",
+    "context": "First, root cause analysis led safety experts to assume incidents were being caused by human error. If the technology is safe, then it must be the humans who mess up.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "safety culture": {
+    "term": "safety culture",
+    "definition": "The collective values, attitudes, and practices within an organization that prioritize and reinforce safe behavior, as distinct from technical engineering approaches to safety.",
+    "context": "The focus turned to sociology instead of psychology. Protocols to improve 'safety culture' came about. Take Five (taking a few minutes to consider the risks and safety measures required for a task), Safety Walk (management walking through a workplace to identify and address hazards), Poka-Yoke...",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "systems theory (in accident prevention)": {
+    "term": "systems theory (in accident prevention)",
+    "definition": "An approach holding that accidents result from unexpected interactions between tightly coupled components within complex systems and are therefore inherently unpredictable and 'normal' despite prevention efforts.",
+    "context": "Finally, systems theory came along—holding that 'unexpected interactions' between 'tightly coupled' components within a system cause accidents, and that such accidents are unpredictable. Ultimately, experts found that accidents are 'normal.'",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "normal accidents": {
+    "term": "normal accidents",
+    "definition": "The concept that accidents are inherent and inevitable consequences of complex, tightly coupled systems despite rigorous safety measures, as both preventable and unprevantable phenomena coexist.",
+    "context": "These two statements are both true: all accidents are preventable and we cannot prevent all accidents.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "health protocols": {
+    "term": "health protocols",
+    "definition": "Behavioral constraints designed to prevent cumulative, irreparable damage and long-term disease rather than discrete workplace injuries, addressing chronic conditions and lifestyle risk factors.",
+    "context": "Health is, first, about avoiding cumulative, irreparable damage. Having a pet rattlesnake is unsafe. Working a stressful job that drives you to smoke is unhealthy.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "tinkering (protocol design)": {
+    "term": "tinkering (protocol design)",
+    "definition": "The intentional, incremental modification of existing protocols by adding or adjusting specific steps, characterized by moderate speed and magnitude of change relative to design or error-based mutation.",
+    "context": "To tinker is to intentionally mutate a protocol in some way. For example, one could add a step to a workplace inspection checklist. The pace of mutation by tinkering is likely slower than by memetic error. But it is faster and less dramatic than protocol design.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "protocol design": {
+    "term": "protocol design",
+    "definition": "The intentional creation or comprehensive redesign of protocols to be substantially different from existing protocols, characterized by the strongest magnitude of mutation but high risk of rejection if too radical.",
+    "context": "Protocol design, which is creating or changing a protocol so that it is unique from existing protocols. The strength of mutations from design easily places protocols into the realm of infeasibility, where actors will reject them.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "protocol atrophy": {
+    "term": "protocol atrophy",
+    "definition": "The gradual decline and death of a protocol through disuse when it is no longer actively performed or reinforced by the social network.",
+    "context": "Like muscles, without use, a protocol atrophies; for a protocol to die, it needs only to not be used.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "hazard creation (sources)": {
+    "term": "hazard creation (sources)",
+    "definition": "The three primary drivers that generate new workplace dangers: environmental change, technological progress including knowledge, and shifts in the social order and power distribution.",
+    "context": "New protocols emerge when we encounter newly created hazards. There are three sources of hazard creation. The first source of hazard creation in the model is environmental change... The second source of hazard creation is technological progress... The third source of hazard creation is change in the social order.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  },
+  "latency period": {
+    "term": "latency period",
+    "definition": "The delayed interval between occupational exposure to a hazard (such as asbestos) and the clinical manifestation of disease, complicating causal attribution and health protocol development.",
+    "context": "causality is difficult to prove given the long timespan between exposure and disease (for example, asbestosis has a latency period of 15 to 30 years), and a mechanism of harm is often below the level of human perception.",
+    "source": "Safe New World",
+    "source_slug": "Safe-New-World-Timber-Stinson-Schroff"
+  }
+}
