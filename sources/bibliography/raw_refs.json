@@ -1,0 +1,2004 @@
+{
+  "e7d0a4dd6c9b6607": {
+    "_id": "e7d0a4dd6c9b6607",
+    "title": "A Pattern Language: Towns, Buildings, Construction",
+    "authors": [
+      "Christopher Alexander",
+      "Sara Ishikawa",
+      "Murray Silverstein"
+    ],
+    "year": 1977,
+    "venue": "Oxford University Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "d9ae80fb901c8034": {
+    "_id": "d9ae80fb901c8034",
+    "title": "The Great Gizmo",
+    "authors": [
+      "Reyner Banham"
+    ],
+    "year": 1965,
+    "venue": "Penny Sparke, ed. Design by Choice (London: Academy Editions, 1981)",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "3d3d9dd9c695da22": {
+    "_id": "3d3d9dd9c695da22",
+    "title": "The New Science of Cities",
+    "authors": [
+      "Michael Batty"
+    ],
+    "year": 2013,
+    "venue": "MIT Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "0c30ba746ad40d0f": {
+    "_id": "0c30ba746ad40d0f",
+    "title": "How Buildings Learn: What Happens After They're Built",
+    "authors": [
+      "Stewart Brand"
+    ],
+    "year": 1994,
+    "venue": "Viking Penguin",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "46cfb0b609bd245f": {
+    "_id": "46cfb0b609bd245f",
+    "title": "White Noise",
+    "authors": [
+      "Don DeLillo"
+    ],
+    "year": 1985,
+    "venue": "Viking Penguin",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "3d06753e1868fe15": {
+    "_id": "3d06753e1868fe15",
+    "title": "Extrastatecraft: The Power of Infrastructure Space",
+    "authors": [
+      "Keller Easterling"
+    ],
+    "year": 2014,
+    "venue": "Verso",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "452dc1a4138ff7a4": {
+    "_id": "452dc1a4138ff7a4",
+    "title": "Junkspace",
+    "authors": [
+      "Rem Koolhaas"
+    ],
+    "year": 2002,
+    "venue": "October 100 (Spring 2002)",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "419d835ff2e60971": {
+    "_id": "419d835ff2e60971",
+    "title": "What Ever Happened to Urbanism",
+    "authors": [
+      "Rem Koolhaas"
+    ],
+    "year": 1995,
+    "venue": "S,M,L,XL, edited by Jennifer Sigler, Monacelli Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "bedbe0a7ee25e96e": {
+    "_id": "bedbe0a7ee25e96e",
+    "title": "The Culture of Cities",
+    "authors": [
+      "Lewis Mumford"
+    ],
+    "year": 1938,
+    "venue": "Harcourt Brace Jovanovich",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "69d8d90caad31e2a": {
+    "_id": "69d8d90caad31e2a",
+    "title": "Ladders",
+    "authors": [
+      "Albert Pope"
+    ],
+    "year": 1996,
+    "venue": "Princeton Architectural Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "6b5a5302fa2310d1": {
+    "_id": "6b5a5302fa2310d1",
+    "title": "The Social Life of Small Urban Spaces",
+    "authors": [
+      "William H. Whyte"
+    ],
+    "year": 1980,
+    "venue": "Project for Public Spaces",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "1512d9442a776bd1": {
+    "_id": "1512d9442a776bd1",
+    "title": "The Lives of the Ancients and the Power of the Human Mind",
+    "authors": [],
+    "year": 2017,
+    "venue": "Atlantic Books",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "f9aec6041a6fe747": {
+    "_id": "f9aec6041a6fe747",
+    "title": "Amazon—Leading the Way through Chaos",
+    "authors": [],
+    "year": 2012,
+    "venue": "SSI SCHÄFER Blog",
+    "doi": null,
+    "url": "web.archive.org/web/20120420040000/http://www.ssi-schaefer.de/blog/en/order-picking/chaotic-storage-amazon/",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "a3dbfecd9c84a4a5": {
+    "_id": "a3dbfecd9c84a4a5",
+    "title": "An Artificial Intelligence Developed Its Own Non-Human Language",
+    "authors": [
+      "LaFrance, Adrienne"
+    ],
+    "year": 2017,
+    "venue": "The Atlantic",
+    "doi": null,
+    "url": "www.theatlantic.com/technology/archive/2017/06/artificial-intelligence-develops-its-own-non-human-language/530436/",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "ae8f9598baab07df": {
+    "_id": "ae8f9598baab07df",
+    "title": "Latent Space",
+    "authors": [],
+    "year": 2023,
+    "venue": "Wikipedia",
+    "doi": null,
+    "url": "en.wikipedia.org/w/index.php?title=Latent_space",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "958c757d32e9aa16": {
+    "_id": "958c757d32e9aa16",
+    "title": "Aby Warburg's Pathosformel as Methodological Paradigm",
+    "authors": [
+      "Becker, Colleen"
+    ],
+    "year": 2013,
+    "venue": "Journal of Art Historiography",
+    "doi": null,
+    "url": "arthistoriography.files.wordpress.com/2013/12/becker.pdf",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "abb66b567c8b0a44": {
+    "_id": "abb66b567c8b0a44",
+    "title": "Waiting for the East Wind: An Analysis of Marshallese Stick Charts and Their Connection to Maritime Space",
+    "authors": [
+      "Loon, Elise Van"
+    ],
+    "year": 2021,
+    "venue": "University of Southampton",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "ad3db68fe793af60": {
+    "_id": "ad3db68fe793af60",
+    "title": "Understanding Media: The Extensions of Man",
+    "authors": [
+      "McLuhan, Marshall"
+    ],
+    "year": 2010,
+    "venue": "Routledge Classics",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "06304c7c5416c6c9": {
+    "_id": "06304c7c5416c6c9",
+    "title": "Large Lore Models",
+    "authors": [
+      "Milne, Alasdair",
+      "dmstfctn",
+      "Jäger, Eva"
+    ],
+    "year": null,
+    "venue": "Autonomous Worlds (blog)",
+    "doi": null,
+    "url": "aw.network/posts/large-lore-models",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "96ef50b6513e10da": {
+    "_id": "96ef50b6513e10da",
+    "title": "Wilder",
+    "authors": [
+      "Borg, Jemma"
+    ],
+    "year": 2022,
+    "venue": "Liverpool University Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "3d48075511450bba": {
+    "_id": "3d48075511450bba",
+    "title": "Collected Fictions",
+    "authors": [
+      "Borges, Jorge Luis",
+      "Hurley, Andrew"
+    ],
+    "year": 1998,
+    "venue": "Penguin Books",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "df251da89bfb8b04": {
+    "_id": "df251da89bfb8b04",
+    "title": "How a Mother's Microbiome Helps Shape Her Baby's Development",
+    "authors": [],
+    "year": 2022,
+    "venue": "Broad Institute",
+    "doi": null,
+    "url": "www.broadinstitute.org/news/how-mothers-microbiome-helps-shape-her-babys-development",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "3c767731a35d7191": {
+    "_id": "3c767731a35d7191",
+    "title": "Computing: A Concise History",
+    "authors": [
+      "Ceruzzi, Paul E."
+    ],
+    "year": 2012,
+    "venue": "MIT Press Essential Knowledge Series",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "02e9cc57702c282b": {
+    "_id": "02e9cc57702c282b",
+    "title": "Your Memory Isn't What You Think It Is",
+    "authors": [
+      "Dobrin, Arthur"
+    ],
+    "year": null,
+    "venue": "Psychology Today",
+    "doi": null,
+    "url": "www.psychologytoday.com/intl/blog/am-i-right/201307/your-memory-isnt-what-you-think-it-is",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "1335c09a50482bf9": {
+    "_id": "1335c09a50482bf9",
+    "title": "Walking through Doorways Causes Forgetting: Situation Models and Experienced Space",
+    "authors": [
+      "Radvansky, Gabriel A.",
+      "Copeland, David E."
+    ],
+    "year": 2006,
+    "venue": "Memory & Cognition",
+    "doi": "org/10.3758/BF03193261",
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "327377e3cdd59f95": {
+    "_id": "327377e3cdd59f95",
+    "title": "Spatializing Knowledge: Giulio Camillo's Theatre of Memory (1519-1544)",
+    "authors": [
+      "Fabrizi, Mariabruna"
+    ],
+    "year": 2019,
+    "venue": "SOCKS",
+    "doi": null,
+    "url": "socks-studio.com/2019/03/03/spatializing-knowledge-giulio-camillos-theatre-of-memory-1519-1544/",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "0498b72f8cd7a18e": {
+    "_id": "0498b72f8cd7a18e",
+    "title": "Logic and the Art of Memory: The Quest for a Universal Language",
+    "authors": [
+      "Rossi, Paolo"
+    ],
+    "year": 2006,
+    "venue": "Continuum",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "ceec9fcc315bc222": {
+    "_id": "ceec9fcc315bc222",
+    "title": "The Ister",
+    "authors": [],
+    "year": 2004,
+    "venue": "Icarus Films",
+    "doi": null,
+    "url": "vimeo.com/ondemand/theister",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "1f8b75557e66bd93": {
+    "_id": "1f8b75557e66bd93",
+    "title": "Good Death",
+    "authors": [
+      "Friend, Sarah"
+    ],
+    "year": null,
+    "venue": "Summer of Protocols (blog)",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "40aa4fc1e276954b": {
+    "_id": "40aa4fc1e276954b",
+    "title": "Addressable Space",
+    "authors": [
+      "Hart, Chenoe"
+    ],
+    "year": null,
+    "venue": "Summer of Protocols (blog)",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "8edf3593c967ba4d": {
+    "_id": "8edf3593c967ba4d",
+    "title": "Memory, Metaphor, and Aby Warburg's Atlas of Images",
+    "authors": [
+      "Johnson, Christopher D."
+    ],
+    "year": 2012,
+    "venue": "Cornell University Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "e74d69753ea95835": {
+    "_id": "e74d69753ea95835",
+    "title": "The Future of Nuclear Waste: What Art and Archaeology Can Tell Us about Securing the World's Most Hazardous Material",
+    "authors": [
+      "Joyce, Rosemary A."
+    ],
+    "year": 2020,
+    "venue": "Oxford University Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "ee8966416afea138": {
+    "_id": "ee8966416afea138",
+    "title": "Datenportal",
+    "authors": [
+      "Museum für Naturkunde"
+    ],
+    "year": 2023,
+    "venue": null,
+    "doi": null,
+    "url": "www.museumfuernaturkunde.berlin/de/wissenschaft/datenportal",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "396e9aca729e2d53": {
+    "_id": "396e9aca729e2d53",
+    "title": "Ramon Llull",
+    "authors": [
+      "Priani, Ernesto"
+    ],
+    "year": 2021,
+    "venue": "The Stanford Encyclopedia of Philosophy",
+    "doi": null,
+    "url": "plato.stanford.edu/archives/spr2021/entries/llull/",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "8f4808854abe6e5c": {
+    "_id": "8f4808854abe6e5c",
+    "title": "Remembrance of Things Past",
+    "authors": [
+      "Proust, Marcel"
+    ],
+    "year": 1982,
+    "venue": "Vintage Books",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "fb98ab7f893841f3": {
+    "_id": "fb98ab7f893841f3",
+    "title": "Lands of Lorecraft",
+    "authors": [
+      "Rao, Venkatesh"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "studio.ribbonfarm.com/p/lands-of-lorecraft",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "61ef2d1d389189b9": {
+    "_id": "61ef2d1d389189b9",
+    "title": "The Internet Has Become the External Hard Drive for Our Memories",
+    "authors": [
+      "Ward, Daniel M.",
+      "Wegner, Adrian F."
+    ],
+    "year": null,
+    "venue": "Scientific American",
+    "doi": "doi.org/10.1038/scientificamerican1213-58",
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "8eb00c424210b4b1": {
+    "_id": "8eb00c424210b4b1",
+    "title": "The Art of Memory",
+    "authors": [
+      "Yates, Frances A."
+    ],
+    "year": 2014,
+    "venue": "The Bodley Head",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "87afe9c72b4e40df": {
+    "_id": "87afe9c72b4e40df",
+    "title": "Technics, Time and the Internation: Bernard Stiegler's Thought—A Dialogue with Daniel Ross",
+    "authors": [
+      "Bishop, Ryan",
+      "Ross, Daniel"
+    ],
+    "year": 2021,
+    "venue": "Theory, Culture & Society",
+    "doi": "org/10.1177/0263276421990435",
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "8532a932423277d6": {
+    "_id": "8532a932423277d6",
+    "title": "Dangerous Protocols",
+    "authors": [
+      "Asparahouva, Nadia"
+    ],
+    "year": 2023,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "summerofprotocols.com/research/dangerous-protocols",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "582fda9fac9c7b70": {
+    "_id": "582fda9fac9c7b70",
+    "title": "Early Tech Adopters in Ancient Rome Had Portable Sundials",
+    "authors": [
+      "Bartels, Meghan"
+    ],
+    "year": 2017,
+    "venue": "Smithsonian Magazine",
+    "doi": null,
+    "url": "www.smithsonianmag.com/innovation/early-tech-adopters-ancient-rome-had-portable-sundials-180962225/",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "2922a55920dbd688": {
+    "_id": "2922a55920dbd688",
+    "title": "The Scent of Time. A Study of the Use of Fire and Incense for Time Measurement in Oriental Countries",
+    "authors": [
+      "Bedini, Silvio A."
+    ],
+    "year": null,
+    "venue": "Science Museum",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "31d4a7d07f7ca198": {
+    "_id": "31d4a7d07f7ca198",
+    "title": "Scent of Time. A Study of the Use of Fire and Incense for Time Measurement in Oriental Countries",
+    "authors": [
+      "Bedini, Silvio A."
+    ],
+    "year": 1963,
+    "venue": "American Philosophical Society",
+    "doi": null,
+    "url": "babel.hathitrust.org/cgi/pt?id=mdp.39076006361401&seq=14",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "fd976e2993a9df3d": {
+    "_id": "fd976e2993a9df3d",
+    "title": "Time Measurement with Incense in Japan With Sticks and Coils",
+    "authors": [
+      "Bedini, Silvio A."
+    ],
+    "year": 2002,
+    "venue": null,
+    "doi": null,
+    "url": "web.archive.org/web/20160308214700/http://japanese-incense.com/time.htm",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "39e5c1e4e62d525c": {
+    "_id": "39e5c1e4e62d525c",
+    "title": "A Descriptive and Historical Account of Hydraulic and Other Machines for Raising Water, Ancient and Modern: With Observations on Various Subjects Connected with the Mechanic Arts, Including the Progressive Development of the Steam Engine. In Five Books",
+    "authors": [
+      "Ewbank, Thomas"
+    ],
+    "year": 1876,
+    "venue": "Scribner, Armstrong & Co.",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "0b8df3573ebdc3c9": {
+    "_id": "0b8df3573ebdc3c9",
+    "title": "Flaubert's Rule for Artists: Be Regular? Settled? Ordinary as a Bourgeois? Essay 28 of #52essays2017",
+    "authors": [
+      "Godin, M. Leona"
+    ],
+    "year": 2017,
+    "venue": null,
+    "doi": null,
+    "url": "drmlgodin.com/2017/10/",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "54ea74507cc5fbfd": {
+    "_id": "54ea74507cc5fbfd",
+    "title": "Technics and Civilization",
+    "authors": [
+      "Mumford, Lewis"
+    ],
+    "year": 1934,
+    "venue": "Routledge & Kegan Paul",
+    "doi": null,
+    "url": "archive.org/details/in.ernet.dli.2015.49974",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "bf5e478e5aaada4d": {
+    "_id": "bf5e478e5aaada4d",
+    "title": "The Colonisation of Time: Ritual, Routine and Resistance in the British Empire",
+    "authors": [
+      "Nanni, Giordano"
+    ],
+    "year": 2013,
+    "venue": "Manchester University Press",
+    "doi": "10.7765/9781526118394.00010",
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "0b9a01cebb2f9b72": {
+    "_id": "0b9a01cebb2f9b72",
+    "title": "About Time: A History of Civilization in Twelve Clocks",
+    "authors": [
+      "Rooney, David"
+    ],
+    "year": 2021,
+    "venue": "W.W. Norton",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "8c9bb0415513c120": {
+    "_id": "8c9bb0415513c120",
+    "title": "A Chinese incense clock that tells the time with smell",
+    "authors": [],
+    "year": 2019,
+    "venue": null,
+    "doi": null,
+    "url": "www.youtube.com/watch?v=FnPQM6-paew",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "bfab020c055334df": {
+    "_id": "bfab020c055334df",
+    "title": "Wisdom's Watch Upon the Hours",
+    "authors": [
+      "Suso, Henry"
+    ],
+    "year": 1994,
+    "venue": "Catholic University of America Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "634705446dec227c": {
+    "_id": "634705446dec227c",
+    "title": "Keeping Time with Incense Clocks",
+    "authors": [
+      "Soth, Amelia"
+    ],
+    "year": 2022,
+    "venue": "JSTOR Daily",
+    "doi": null,
+    "url": "daily.jstor.org/keeping-time-with-incense-clocks/",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "c703165a2c8ad641": {
+    "_id": "c703165a2c8ad641",
+    "title": "Hourglass History",
+    "authors": [
+      "T & K Young"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "www.tkyoung.com/history.html",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "a1072bf211ac2ba2": {
+    "_id": "a1072bf211ac2ba2",
+    "title": "An Introduction to Mathematics",
+    "authors": [
+      "Whitehead, Alfred North"
+    ],
+    "year": 1911,
+    "venue": "Oxford University Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "37df50ab9a3e4736": {
+    "_id": "37df50ab9a3e4736",
+    "title": "The Tyranny of Time",
+    "authors": [
+      "Zadeh, Joe"
+    ],
+    "year": 2021,
+    "venue": "Noema",
+    "doi": null,
+    "url": "www.noemamag.com/the-tyranny-of-time",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "a819da2805c655c9": {
+    "_id": "a819da2805c655c9",
+    "title": "Popular Places Indigenous Names BC",
+    "authors": [],
+    "year": null,
+    "venue": "Daily Hive Vancouver",
+    "doi": null,
+    "url": "dailyhive.com/vancouver/popular-places-indigenous-names-bc",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "90d9a80d25a2d5c8": {
+    "_id": "90d9a80d25a2d5c8",
+    "title": "California Drought Crisis Could Come to B.C. Says UBC Professor",
+    "authors": [],
+    "year": null,
+    "venue": "CBC News",
+    "doi": null,
+    "url": "www.cbc.ca/news/canada/british-columbia/california-drought-crisis-could-come-to-b-c-says-ubc-professor-1.3006242",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "138e9acfdf32fdd1": {
+    "_id": "138e9acfdf32fdd1",
+    "title": "The Language of Bears",
+    "authors": [],
+    "year": null,
+    "venue": "Hakai Magazine",
+    "doi": null,
+    "url": "hakaimagazine.com/news/the-language-of-bears/",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "c2676b683bcefef9": {
+    "_id": "c2676b683bcefef9",
+    "title": "It's Absolutely Guaranteed: The Best and Worst Case Scenarios for Sea Level Rise",
+    "authors": [],
+    "year": 2023,
+    "venue": "The Guardian",
+    "doi": null,
+    "url": "www.theguardian.com/environment/2023/jun/26/its-absolutely-guaranteed-the-best-and-worst-case-scenarios-for-sea-level-rise",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "c11815b757712834": {
+    "_id": "c11815b757712834",
+    "title": "Seeing the Garden Through the Trees: The Indigenous Forest Gardens of Coastal B.C.",
+    "authors": [],
+    "year": null,
+    "venue": "Canadian Geographic",
+    "doi": null,
+    "url": "canadiangeographic.ca/articles/seeing-the-garden-through-the-trees-the-indigenous-forest-gardens-of-coastal-b-c/",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "94683866143dcde3": {
+    "_id": "94683866143dcde3",
+    "title": "Indigenous Funding Model is a Win-Win for Ecosystems and Local Economies in Canada",
+    "authors": [],
+    "year": 2023,
+    "venue": "Mongabay News",
+    "doi": null,
+    "url": "news.mongabay.com/2023/03/indigenous-funding-model-is-a-win-win-for-ecosystems-and-local-economies-in-canada/",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "d65e838a888e90ea": {
+    "_id": "d65e838a888e90ea",
+    "title": "B.C. Imports 99 Million Kilos of American Onions: Why",
+    "authors": [],
+    "year": null,
+    "venue": "Victoria News",
+    "doi": null,
+    "url": "www.vicnews.com/news/b-c-imports-99-million-kilos-of-american-onions-why-74720",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "7bea2d744718e38c": {
+    "_id": "7bea2d744718e38c",
+    "title": "The Philosophical Concept of Rhizome",
+    "authors": [],
+    "year": 2017,
+    "venue": "Literariness",
+    "doi": null,
+    "url": "literariness.org/2017/04/26/the-philosophical-concept-of-rhizome/",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "9eec2250e0185d43": {
+    "_id": "9eec2250e0185d43",
+    "title": "Planetary Health Research Challenge Areas",
+    "authors": [],
+    "year": null,
+    "venue": "Simon Fraser University",
+    "doi": null,
+    "url": "www.sfu.ca/fhs/research/research-challenge-areas/planetary-health.html",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "da3582bbc972d65d": {
+    "_id": "da3582bbc972d65d",
+    "title": "Ravi Lochan: Maslow Got It Wrong",
+    "authors": [],
+    "year": null,
+    "venue": "Paces Connection",
+    "doi": null,
+    "url": "www.pacesconnection.com/blog/ravilochan-maslow-got-it-wrong",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "c715959f2f29e3a1": {
+    "_id": "c715959f2f29e3a1",
+    "title": "Value Collective",
+    "authors": [
+      "Madelyn Capozzi"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "madelyncapozzi.com/projects/value_collective",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "421eb7d0ad81a08e": {
+    "_id": "421eb7d0ad81a08e",
+    "title": "The Barter Society Myth",
+    "authors": [],
+    "year": 2016,
+    "venue": "The Atlantic",
+    "doi": null,
+    "url": "www.theatlantic.com/business/archive/2016/02/barter-society-myth/471051/",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "8fe848aebe991330": {
+    "_id": "8fe848aebe991330",
+    "title": "New Leaf Project Results",
+    "authors": [],
+    "year": null,
+    "venue": "CBC News",
+    "doi": null,
+    "url": "www.cbc.ca/news/canada/british-columbia/new-leaf-project-results-1.5752714",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "0689edb032a772a5": {
+    "_id": "0689edb032a772a5",
+    "title": "The Jena Experiment",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "the-jena-experiment.de",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "3ad281ea546a20a3": {
+    "_id": "3ad281ea546a20a3",
+    "title": "Summer of Protocols",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "summerofprotocols.com",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "baffe9ab9a7b2f67": {
+    "_id": "baffe9ab9a7b2f67",
+    "title": "Barter society myth",
+    "authors": [],
+    "year": 2016,
+    "venue": "The Atlantic",
+    "doi": null,
+    "url": "www.theatlantic.com/business/archive/2016/02/barter-society-myth/471051/",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "77ecf510eb861878": {
+    "_id": "77ecf510eb861878",
+    "title": "Coal Fatalities 1900 Through 2017",
+    "authors": [
+      "Mine Safety and Health Administration"
+    ],
+    "year": 2018,
+    "venue": null,
+    "doi": null,
+    "url": "www.msha.gov/coal-fatalities-1900-through-2017",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "5930c9a34243f3ea": {
+    "_id": "5930c9a34243f3ea",
+    "title": "A Short History of Occupational Health",
+    "authors": [
+      "Abrams, Herbert"
+    ],
+    "year": 2001,
+    "venue": "Journal of Public Health Policy",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "b72a991769803407": {
+    "_id": "b72a991769803407",
+    "title": "Energy in the American Economy, 1850–1975: An Economic Study of Its History and Prospects",
+    "authors": [
+      "Netschert, Bruce",
+      "Schurr, Sam"
+    ],
+    "year": 1960,
+    "venue": "Johns Hopkins Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "c394c241d867831f": {
+    "_id": "c394c241d867831f",
+    "title": "Safety First: Technology, Labor, and Business in the Building of American Work Safety, 1870-1939",
+    "authors": [
+      "Aldrich, Mark"
+    ],
+    "year": 1997,
+    "venue": "Johns Hopkins University Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "de80cfcf1dd680ea": {
+    "_id": "de80cfcf1dd680ea",
+    "title": "Mining Lights and Hats",
+    "authors": [
+      "National Museum of American History"
+    ],
+    "year": 2023,
+    "venue": null,
+    "doi": null,
+    "url": "americanhistory.si.edu/collections/object-groups/mining-lights-and-hats",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "e3858b4257d33484": {
+    "_id": "e3858b4257d33484",
+    "title": "Our Approach to Safety",
+    "authors": [
+      "Arch Resources"
+    ],
+    "year": 2023,
+    "venue": null,
+    "doi": null,
+    "url": "www.archrsc.com/sustainability/safety",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "565a948e16e648de": {
+    "_id": "565a948e16e648de",
+    "title": "Peter on the Four Horsemen of Chronic Disease",
+    "authors": [
+      "Attia, Peter"
+    ],
+    "year": 2022,
+    "venue": "Peter Attia, MD (blog)",
+    "doi": null,
+    "url": "peterattiamd.com/peter-on-the-four-horsemen-of-chronic-disease/",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "9e19a8d8a13c743c": {
+    "_id": "9e19a8d8a13c743c",
+    "title": "'Coal Workers are Orphans': The Children and Slaves Mining Pakistan's Coal",
+    "authors": [
+      "Baloch, Shah Meer",
+      "Ellis-Petersen, Hannah"
+    ],
+    "year": 2020,
+    "venue": "The Guardian",
+    "doi": null,
+    "url": "www.theguardian.com/global-development/2020/feb/19/coal-workers-are-orphans-the-children-and-slaves-mining-pakistans-coal",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "1103baf52b723a86": {
+    "_id": "1103baf52b723a86",
+    "title": "Ironies of Automation",
+    "authors": [
+      "Bainbridge, Lisanne"
+    ],
+    "year": 1983,
+    "venue": "Automatica",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "2303e35f60fc64ec": {
+    "_id": "2303e35f60fc64ec",
+    "title": "The Rise of the Industry Continued: The 14th Century, 1301-1350",
+    "authors": [
+      "Bradley, Robert"
+    ],
+    "year": 2014,
+    "venue": "A comprehensive history of mining in the Derbyshire, Nottinghamshire and Leicestershire Coalfields (website)",
+    "doi": null,
+    "url": "www.healeyhero.co.uk/rescue/individual/Bob_Bradley/Bk-1/1300.html",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "bf20741d1bcf5fc6": {
+    "_id": "bf20741d1bcf5fc6",
+    "title": "The Impact of Black Lung and a Methodology for Controlling Respirable Dust",
+    "authors": [
+      "Colinet, Jay F."
+    ],
+    "year": 2020,
+    "venue": "Mining, Metallurgy & Exploration",
+    "doi": "10.1007/s42461-020-00278-7",
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "4b8d4ab16caa0bf9": {
+    "_id": "4b8d4ab16caa0bf9",
+    "title": "The Age and Depth of Mines",
+    "authors": [
+      "Department of the Interior"
+    ],
+    "year": 1924,
+    "venue": "Science",
+    "doi": null,
+    "url": "www.science.org/doi/pdf/10.1126/science.60.1541.viii.s",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "a2a245db8f20813a": {
+    "_id": "a2a245db8f20813a",
+    "title": "Early Coal Mining",
+    "authors": [
+      "Durham Mining Museum"
+    ],
+    "year": 2017,
+    "venue": null,
+    "doi": null,
+    "url": "http://www.dmm.org.uk/pitwork/html/history1.htm",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "f058c5774276b9d4": {
+    "_id": "f058c5774276b9d4",
+    "title": "Coal: A Human History",
+    "authors": [
+      "Freese, Barbara"
+    ],
+    "year": 2003,
+    "venue": "Basic Books",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "e7b785bc60993bf3": {
+    "_id": "e7b785bc60993bf3",
+    "title": "The End of History and the Last Man",
+    "authors": [
+      "Fukuyama, Francis"
+    ],
+    "year": 1992,
+    "venue": "HarperCollins",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "bd553f002744fdcb": {
+    "_id": "bd553f002744fdcb",
+    "title": "A Day When (Almost) Nothing Happened",
+    "authors": [
+      "Hollnagel, Erik"
+    ],
+    "year": 2021,
+    "venue": "Safety Science",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "2beb6fc531c4dd63": {
+    "_id": "2beb6fc531c4dd63",
+    "title": "Introduction to Safety II",
+    "authors": [
+      "Hollnagel, Erik"
+    ],
+    "year": 2019,
+    "venue": null,
+    "doi": null,
+    "url": "safetysynthesis.com/onewebmedia/Introduction%20to%20S-II%20Part%202%20%28OCT2020%29.pdf",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "4242746b429f08e6": {
+    "_id": "4242746b429f08e6",
+    "title": "Safety-I and Safety-II: The Past and Future of Safety Management",
+    "authors": [
+      "Hollnagel, Erik"
+    ],
+    "year": 2014,
+    "venue": "Ashgate Publishing, Ltd.",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "d9ca79c6ccac96c8": {
+    "_id": "d9ca79c6ccac96c8",
+    "title": "Data Mining Mining Data: MSHA Enforcement Efforts, Underground Coal Mine Safety, and New Health Policy Implications",
+    "authors": [
+      "Kniesner, Thomas J.",
+      "Leeth, John D."
+    ],
+    "year": 2004,
+    "venue": "Journal of Risk and Uncertainty",
+    "doi": null,
+    "url": "www.jstor.org/stable/41761169",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "b64147de7279435a": {
+    "_id": "b64147de7279435a",
+    "title": "The Unanticipated Consequences of Purposive Social Action",
+    "authors": [
+      "Merton, Robert"
+    ],
+    "year": 1936,
+    "venue": "American Sociological Review",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "b00fbd4f5a3a1578": {
+    "_id": "b00fbd4f5a3a1578",
+    "title": "Mine Disasters",
+    "authors": [
+      "Mine Safety and Health Administration"
+    ],
+    "year": 2000,
+    "venue": null,
+    "doi": null,
+    "url": "digitallibrary.msha.gov",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "495759797ace71e2": {
+    "_id": "495759797ace71e2",
+    "title": "Normal Accidents: Living with High-Risk Technologies",
+    "authors": [
+      "Perrow, Charles"
+    ],
+    "year": 1999,
+    "venue": "Princeton University Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "877db362115c6f3e": {
+    "_id": "877db362115c6f3e",
+    "title": "Registers of Mine Accidents (PA) for the Anthracite Districts, 1899–1972",
+    "authors": [
+      "Pennsylvania Historical & Museum Commission"
+    ],
+    "year": 1986,
+    "venue": null,
+    "doi": null,
+    "url": "digitalarchives.powerlibrary.org/psa/islandora/object/psa%3Armaad",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "18837380e859d3ae": {
+    "_id": "18837380e859d3ae",
+    "title": "2021 Environmental, Social, and Governance Report",
+    "authors": [
+      "Peabody"
+    ],
+    "year": 2021,
+    "venue": null,
+    "doi": null,
+    "url": "www.peabodyenergy.com/Peabody/media/MediaLibrary/Sustainability/Peabody_ESG_2021-Report_FINAL.pdf",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "00902126ba7fe412": {
+    "_id": "00902126ba7fe412",
+    "title": "Protocol Society",
+    "authors": [
+      "Schneider, Nathan"
+    ],
+    "year": 2023,
+    "venue": "Journal of Brief Ideas",
+    "doi": "10.5281/zenodo.8019263",
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "817477d1bfbdb781": {
+    "_id": "817477d1bfbdb781",
+    "title": "Streetgate Bell Pit",
+    "authors": [
+      "Sunniside Local History Society"
+    ],
+    "year": 2007,
+    "venue": null,
+    "doi": null,
+    "url": "www.sunnisidelocalhistorysociety.co.uk/bellpit.html",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "1b2818c48b9ae083": {
+    "_id": "1b2818c48b9ae083",
+    "title": "Health and Economic Development II: Longevity",
+    "authors": [
+      "Sagan, Leonard A.",
+      "Afifi, Abdelmonem A."
+    ],
+    "year": 1978,
+    "venue": "International Institute for Applied Systems Analysis",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "8c7f0ae42927dd35": {
+    "_id": "8c7f0ae42927dd35",
+    "title": "Asbestos Effects on Health",
+    "authors": [
+      "South Carolina Department of Health and Environmental Control"
+    ],
+    "year": null,
+    "venue": "Asbestos Information for Homeowners (blog)",
+    "doi": null,
+    "url": "scdhec.gov/environment/your-home/asbestos/asbestos-effects-health",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "7d4decead09fa4ce": {
+    "_id": "7d4decead09fa4ce",
+    "title": "The Most Intolerant Wins: The Dominance of the Stubborn Minority",
+    "authors": [
+      "Taleb, Nassim Nicholas"
+    ],
+    "year": 2018,
+    "venue": "Skin in the Game: Hidden Asymmetries in Daily Life",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "326ca5f6a04ba31c": {
+    "_id": "326ca5f6a04ba31c",
+    "title": "Educational Organizations as Loosely Coupled Systems",
+    "authors": [
+      "Weick, Karl"
+    ],
+    "year": 1976,
+    "venue": "Administrative Science Quarterly",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "1d6da42672f2507a": {
+    "_id": "1d6da42672f2507a",
+    "title": "Organizational Culture as a Source of High Reliability",
+    "authors": [
+      "Weick, Karl"
+    ],
+    "year": 1987,
+    "venue": "California Management Review",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "c840ff4c0055b801": {
+    "_id": "c840ff4c0055b801",
+    "title": "The Whale and the Reactor: A Search for Limits in an Age of High Technology",
+    "authors": [
+      "Winner, Langdon"
+    ],
+    "year": 1988,
+    "venue": "University of Chicago Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "79705ce7f3bc986d": {
+    "_id": "79705ce7f3bc986d",
+    "title": "WHO/ILO Joint Estimates of the Work-Related Burden of Disease and Injury, 2000-2016: Global Monitoring Report",
+    "authors": [
+      "World Health Organization"
+    ],
+    "year": 2021,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "c10b2cf7c1173cde": {
+    "_id": "c10b2cf7c1173cde",
+    "title": "Searching for Safety",
+    "authors": [
+      "Wildavsky, Aaron"
+    ],
+    "year": 1988,
+    "venue": "Transaction Publishers",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  },
+  "b662d8400b50b0d9": {
+    "_id": "b662d8400b50b0d9",
+    "title": "Tube bundle system: for monitoring of coal mine atmosphere",
+    "authors": [
+      "Zipf, R. Karl Jr.",
+      "Marchewka, W.",
+      "Mohamed, K.",
+      "Addis, J.",
+      "Karnack, F."
+    ],
+    "year": 2013,
+    "venue": "Mining Engineering",
+    "doi": null,
+    "url": "www.ncbi.nlm.nih.gov/pmc/articles/PMC4545479/",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ]
+  }
+}

@@ -1,5 +1,34 @@
 # C3PO — Status Log
 
+## 2026-05-17 — YouTube ingest + bibliography mining (session 8, in progress)
+
+**YouTube transcript ingest — COMPLETE**
+- `fetch_youtube_meta.py`: 91/91 videos, captions downloaded via yt-dlp (VTT → clean text)
+- `enrich_youtube.py`: Haiku enrichment (summary, categories, speakers, key_concepts) for all 91
+- `ingest_youtube.py`: 2,940 vectors upserted → namespace `videos` (2,849 body + 91 summaries)
+- Plans: `plans/youtube-ingest.md`, `plans/bibliography-mining.md`
+- **Pinecone:** substack: 1,040 · pdfs: 766 · videos: 2,940 · transcripts: 4 · **Total: 4,750**
+
+**Bibliography mining — IN PROGRESS (explicit pass done, fetch_refs paused)**
+- `mine_bibliography.py --mode explicit`: 6 PDFs with explicit ref sections → 106 unique refs extracted
+- Scoring complete: score 3 (core): 7 · score 2 (relevant): 24 · score 1 (adjacent): 30 · score 0 (incidental): 45
+- `fetch_refs.py` written but NOT yet run — needs ~6 min at 3s/req for 106 S2 lookups
+- `ingest_bibliography.py` — NOT YET WRITTEN
+- Inline pass (`--mode inline`) on remaining 71 PDFs — NOT YET RUN
+
+**Resume point:** Run `python3 ingest/fetch_refs.py` (foreground, ~6 min), then write and run `ingest_bibliography.py`, then run `mine_bibliography.py --mode inline` for the inline-citation pass on the other 71 PDFs.
+
+**Open TODOs (priority order):**
+1. Resume bibliography: `fetch_refs.py` → `ingest_bibliography.py` → `mine_bibliography.py --mode inline`
+2. Tier weighting in `mergeResults()` — first vgr_zirp item, small change
+3. CORPUS_MAP in system prompt — prevents false denials
+4. Protocol lexicon — ML extraction + hand curation (~40 terms)
+5. D1 setup → encryption → strike/ban → self-notes → per-query logging
+6. GitHub Actions cron for `sync_substack.py`
+7. Phase 2B: MCP Worker
+
+---
+
 ## 2026-05-17 — Curly-quote root-cause fix, subnav, How It Works + Terms pages
 
 - **Root cause found and fixed:** 314 curly/smart quotes (U+201C/201D) throughout `worker.js` caused ALL HTML attribute parsing to fail — `getElementById`, CSS selectors, every `href`. Browser URL clue: "Conversations" link navigated to `%E2%80%9D/%E2%80%9D` (URL-encoded curly quotes). Fixed via Python unicode replacement; confirmed 0 remaining.

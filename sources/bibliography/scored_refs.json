@@ -1,0 +1,2216 @@
+{
+  "e7d0a4dd6c9b6607": {
+    "_id": "e7d0a4dd6c9b6607",
+    "title": "A Pattern Language: Towns, Buildings, Construction",
+    "authors": [
+      "Christopher Alexander",
+      "Sara Ishikawa",
+      "Murray Silverstein"
+    ],
+    "year": 1977,
+    "venue": "Oxford University Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Foundational work on design patterns and systematic rule systems for organizing physical and social space, directly applicable to protocol design methodology."
+  },
+  "d9ae80fb901c8034": {
+    "_id": "d9ae80fb901c8034",
+    "title": "The Great Gizmo",
+    "authors": [
+      "Reyner Banham"
+    ],
+    "year": 1965,
+    "venue": "Penny Sparke, ed. Design by Choice (London: Academy Editions, 1981)",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Design history essay with tangential relevance to infrastructure and technological systems but not centrally concerned with protocols or governance."
+  },
+  "3d3d9dd9c695da22": {
+    "_id": "3d3d9dd9c695da22",
+    "title": "The New Science of Cities",
+    "authors": [
+      "Michael Batty"
+    ],
+    "year": 2013,
+    "venue": "MIT Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Addresses computational models of urban organization and emergent systems, relevant to understanding protocol-like coordination mechanisms in complex systems."
+  },
+  "0c30ba746ad40d0f": {
+    "_id": "0c30ba746ad40d0f",
+    "title": "How Buildings Learn: What Happens After They're Built",
+    "authors": [
+      "Stewart Brand"
+    ],
+    "year": 1994,
+    "venue": "Viking Penguin",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Examines how systems adapt and evolve after implementation, relevant to understanding protocol iteration and institutional learning."
+  },
+  "46cfb0b609bd245f": {
+    "_id": "46cfb0b609bd245f",
+    "title": "White Noise",
+    "authors": [
+      "Don DeLillo"
+    ],
+    "year": 1985,
+    "venue": "Viking Penguin",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Literary fiction with no direct relevance to protocol studies, governance, standards, or institutional design."
+  },
+  "3d06753e1868fe15": {
+    "_id": "3d06753e1868fe15",
+    "title": "Extrastatecraft: The Power of Infrastructure Space",
+    "authors": [
+      "Keller Easterling"
+    ],
+    "year": 2014,
+    "venue": "Verso",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Directly addresses infrastructure as governance system and spatial protocols, core to understanding how infrastructure functions as protocol."
+  },
+  "452dc1a4138ff7a4": {
+    "_id": "452dc1a4138ff7a4",
+    "title": "Junkspace",
+    "authors": [
+      "Rem Koolhaas"
+    ],
+    "year": 2002,
+    "venue": "October 100 (Spring 2002)",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Critical analysis of standardized urban space and spatial systems, relevant to understanding how protocols manifest in built environment."
+  },
+  "419d835ff2e60971": {
+    "_id": "419d835ff2e60971",
+    "title": "What Ever Happened to Urbanism",
+    "authors": [
+      "Rem Koolhaas"
+    ],
+    "year": 1995,
+    "venue": "S,M,L,XL, edited by Jennifer Sigler, Monacelli Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Discusses urban design systems and organizational logics, relevant to understanding spatial and institutional protocols."
+  },
+  "bedbe0a7ee25e96e": {
+    "_id": "bedbe0a7ee25e96e",
+    "title": "The Culture of Cities",
+    "authors": [
+      "Lewis Mumford"
+    ],
+    "year": 1938,
+    "venue": "Harcourt Brace Jovanovich",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Historical and cultural analysis of cities with some relevance to institutional structures but primarily historical rather than protocol-focused."
+  },
+  "69d8d90caad31e2a": {
+    "_id": "69d8d90caad31e2a",
+    "title": "Ladders",
+    "authors": [
+      "Albert Pope"
+    ],
+    "year": 1996,
+    "venue": "Princeton Architectural Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Architectural theory about spatial organization with tangential relevance to systematic ordering but not centrally about protocols or governance."
+  },
+  "6b5a5302fa2310d1": {
+    "_id": "6b5a5302fa2310d1",
+    "title": "The Social Life of Small Urban Spaces",
+    "authors": [
+      "William H. Whyte"
+    ],
+    "year": 1980,
+    "venue": "Project for Public Spaces",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "02-AUSTIN-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Studies social norms and emergent behavior in urban spaces, relevant to understanding how informal protocols govern space usage."
+  },
+  "1512d9442a776bd1": {
+    "_id": "1512d9442a776bd1",
+    "title": "The Lives of the Ancients and the Power of the Human Mind",
+    "authors": [],
+    "year": 2017,
+    "venue": "Atlantic Books",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Biographical or historical work on ancient figures unrelated to protocol studies, standards, or institutional design."
+  },
+  "f9aec6041a6fe747": {
+    "_id": "f9aec6041a6fe747",
+    "title": "Amazon—Leading the Way through Chaos",
+    "authors": [],
+    "year": 2012,
+    "venue": "SSI SCHÄFER Blog",
+    "doi": null,
+    "url": "web.archive.org/web/20120420040000/http://www.ssi-schaefer.de/blog/en/order-picking/chaotic-storage-amazon/",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Business blog post about corporate management practices, incidental to protocol research unless specifically about organizational protocols."
+  },
+  "a3dbfecd9c84a4a5": {
+    "_id": "a3dbfecd9c84a4a5",
+    "title": "An Artificial Intelligence Developed Its Own Non-Human Language",
+    "authors": [
+      "LaFrance, Adrienne"
+    ],
+    "year": 2017,
+    "venue": "The Atlantic",
+    "doi": null,
+    "url": "www.theatlantic.com/technology/archive/2017/06/artificial-intelligence-develops-its-own-non-human-language/530436/",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "News article about AI language development with adjacent relevance to communication protocols but primarily journalistic rather than analytical."
+  },
+  "ae8f9598baab07df": {
+    "_id": "ae8f9598baab07df",
+    "title": "Latent Space",
+    "authors": [],
+    "year": 2023,
+    "venue": "Wikipedia",
+    "doi": null,
+    "url": "en.wikipedia.org/w/index.php?title=Latent_space",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Wikipedia entry on mathematical concept with no clear connection to protocol studies unless specifically addressing protocol-related applications."
+  },
+  "958c757d32e9aa16": {
+    "_id": "958c757d32e9aa16",
+    "title": "Aby Warburg's Pathosformel as Methodological Paradigm",
+    "authors": [
+      "Becker, Colleen"
+    ],
+    "year": 2013,
+    "venue": "Journal of Art Historiography",
+    "doi": null,
+    "url": "arthistoriography.files.wordpress.com/2013/12/becker.pdf",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Art history methodology paper with tangential relevance to pattern analysis but not focused on protocols or governance."
+  },
+  "abb66b567c8b0a44": {
+    "_id": "abb66b567c8b0a44",
+    "title": "Waiting for the East Wind: An Analysis of Marshallese Stick Charts and Their Connection to Maritime Space",
+    "authors": [
+      "Loon, Elise Van"
+    ],
+    "year": 2021,
+    "venue": "University of Southampton",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Examines traditional navigation protocols and knowledge systems encoded in material form, relevant to understanding informal protocol design and transmission."
+  },
+  "ad3db68fe793af60": {
+    "_id": "ad3db68fe793af60",
+    "title": "Understanding Media: The Extensions of Man",
+    "authors": [
+      "McLuhan, Marshall"
+    ],
+    "year": 2010,
+    "venue": "Routledge Classics",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Foundational media theory addressing how communication systems shape society, relevant to understanding protocols as mediating technologies."
+  },
+  "06304c7c5416c6c9": {
+    "_id": "06304c7c5416c6c9",
+    "title": "Large Lore Models",
+    "authors": [
+      "Milne, Alasdair",
+      "dmstfctn",
+      "Jäger, Eva"
+    ],
+    "year": null,
+    "venue": "Autonomous Worlds (blog)",
+    "doi": null,
+    "url": "aw.network/posts/large-lore-models",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Technical blog post on machine learning with limited relevance to protocol studies unless specifically addressing algorithmic governance or coordination."
+  },
+  "96ef50b6513e10da": {
+    "_id": "96ef50b6513e10da",
+    "title": "Wilder",
+    "authors": [
+      "Borg, Jemma"
+    ],
+    "year": 2022,
+    "venue": "Liverpool University Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Literary or cultural work on wilderness with marginal relevance to institutional or governance systems unless specifically addressing commons protocols."
+  },
+  "3d48075511450bba": {
+    "_id": "3d48075511450bba",
+    "title": "Collected Fictions",
+    "authors": [
+      "Borges, Jorge Luis",
+      "Hurley, Andrew"
+    ],
+    "year": 1998,
+    "venue": "Penguin Books",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Literary fiction collection unrelated to protocol studies or systems thinking."
+  },
+  "df251da89bfb8b04": {
+    "_id": "df251da89bfb8b04",
+    "title": "How a Mother's Microbiome Helps Shape Her Baby's Development",
+    "authors": [],
+    "year": 2022,
+    "venue": "Broad Institute",
+    "doi": null,
+    "url": "www.broadinstitute.org/news/how-mothers-microbiome-helps-shape-her-babys-development",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Microbiology research on infant development unrelated to protocols."
+  },
+  "3c767731a35d7191": {
+    "_id": "3c767731a35d7191",
+    "title": "Computing: A Concise History",
+    "authors": [
+      "Ceruzzi, Paul E."
+    ],
+    "year": 2012,
+    "venue": "MIT Press Essential Knowledge Series",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "General history of computing provides useful context for understanding communication and computing protocols."
+  },
+  "02e9cc57702c282b": {
+    "_id": "02e9cc57702c282b",
+    "title": "Your Memory Isn't What You Think It Is",
+    "authors": [
+      "Dobrin, Arthur"
+    ],
+    "year": null,
+    "venue": "Psychology Today",
+    "doi": null,
+    "url": "www.psychologytoday.com/intl/blog/am-i-right/201307/your-memory-isnt-what-you-think-it-is",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Psychology of memory unrelated to protocol studies."
+  },
+  "1335c09a50482bf9": {
+    "_id": "1335c09a50482bf9",
+    "title": "Walking through Doorways Causes Forgetting: Situation Models and Experienced Space",
+    "authors": [
+      "Radvansky, Gabriel A.",
+      "Copeland, David E."
+    ],
+    "year": 2006,
+    "venue": "Memory & Cognition",
+    "doi": "org/10.3758/BF03193261",
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Cognitive science research on spatial memory unrelated to protocols."
+  },
+  "327377e3cdd59f95": {
+    "_id": "327377e3cdd59f95",
+    "title": "Spatializing Knowledge: Giulio Camillo's Theatre of Memory (1519-1544)",
+    "authors": [
+      "Fabrizi, Mariabruna"
+    ],
+    "year": 2019,
+    "venue": "SOCKS",
+    "doi": null,
+    "url": "socks-studio.com/2019/03/03/spatializing-knowledge-giulio-camillos-theatre-of-memory-1519-1544/",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Analysis of memory theater as organizational system relevant to protocol design and information architecture."
+  },
+  "0498b72f8cd7a18e": {
+    "_id": "0498b72f8cd7a18e",
+    "title": "Logic and the Art of Memory: The Quest for a Universal Language",
+    "authors": [
+      "Rossi, Paolo"
+    ],
+    "year": 2006,
+    "venue": "Continuum",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Explores formal logical systems and universal languages relevant to protocol theory and design."
+  },
+  "ceec9fcc315bc222": {
+    "_id": "ceec9fcc315bc222",
+    "title": "The Ister",
+    "authors": [],
+    "year": 2004,
+    "venue": "Icarus Films",
+    "doi": null,
+    "url": "vimeo.com/ondemand/theister",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Documentary film unrelated to protocol studies."
+  },
+  "1f8b75557e66bd93": {
+    "_id": "1f8b75557e66bd93",
+    "title": "Good Death",
+    "authors": [
+      "Friend, Sarah"
+    ],
+    "year": null,
+    "venue": "Summer of Protocols (blog)",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Explores death protocols and rituals as social coordination systems relevant to protocol studies."
+  },
+  "40aa4fc1e276954b": {
+    "_id": "40aa4fc1e276954b",
+    "title": "Addressable Space",
+    "authors": [
+      "Hart, Chenoe"
+    ],
+    "year": null,
+    "venue": "Summer of Protocols (blog)",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Directly addresses addressable space as a core protocol concept for organization and governance."
+  },
+  "8edf3593c967ba4d": {
+    "_id": "8edf3593c967ba4d",
+    "title": "Memory, Metaphor, and Aby Warburg's Atlas of Images",
+    "authors": [
+      "Johnson, Christopher D."
+    ],
+    "year": 2012,
+    "venue": "Cornell University Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Art historical analysis of memory systems provides adjacent context for understanding information organization protocols."
+  },
+  "e74d69753ea95835": {
+    "_id": "e74d69753ea95835",
+    "title": "The Future of Nuclear Waste: What Art and Archaeology Can Tell Us about Securing the World's Most Hazardous Material",
+    "authors": [
+      "Joyce, Rosemary A."
+    ],
+    "year": 2020,
+    "venue": "Oxford University Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Examines long-term governance and communication protocols for hazardous material management and institutional memory."
+  },
+  "ee8966416afea138": {
+    "_id": "ee8966416afea138",
+    "title": "Datenportal",
+    "authors": [
+      "Museum für Naturkunde"
+    ],
+    "year": 2023,
+    "venue": null,
+    "doi": null,
+    "url": "www.museumfuernaturkunde.berlin/de/wissenschaft/datenportal",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Data portal infrastructure relates to protocol design for knowledge organization and access systems."
+  },
+  "396e9aca729e2d53": {
+    "_id": "396e9aca729e2d53",
+    "title": "Ramon Llull",
+    "authors": [
+      "Priani, Ernesto"
+    ],
+    "year": 2021,
+    "venue": "The Stanford Encyclopedia of Philosophy",
+    "doi": null,
+    "url": "plato.stanford.edu/archives/spr2021/entries/llull/",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Analysis of Ramon Llull's combinatorial logic and universal language systems relevant to protocol design theory."
+  },
+  "8f4808854abe6e5c": {
+    "_id": "8f4808854abe6e5c",
+    "title": "Remembrance of Things Past",
+    "authors": [
+      "Proust, Marcel"
+    ],
+    "year": 1982,
+    "venue": "Vintage Books",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Literary fiction about memory unrelated to protocol systems."
+  },
+  "fb98ab7f893841f3": {
+    "_id": "fb98ab7f893841f3",
+    "title": "Lands of Lorecraft",
+    "authors": [
+      "Rao, Venkatesh"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "studio.ribbonfarm.com/p/lands-of-lorecraft",
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Exploration of fictional world-building provides adjacent context for protocol design and rule systems."
+  },
+  "61ef2d1d389189b9": {
+    "_id": "61ef2d1d389189b9",
+    "title": "The Internet Has Become the External Hard Drive for Our Memories",
+    "authors": [
+      "Ward, Daniel M.",
+      "Wegner, Adrian F."
+    ],
+    "year": null,
+    "venue": "Scientific American",
+    "doi": "doi.org/10.1038/scientificamerican1213-58",
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Discusses internet as memory infrastructure, relevant as background for understanding digital protocols."
+  },
+  "8eb00c424210b4b1": {
+    "_id": "8eb00c424210b4b1",
+    "title": "The Art of Memory",
+    "authors": [
+      "Yates, Frances A."
+    ],
+    "year": 2014,
+    "venue": "The Bodley Head",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Foundational study of memory techniques as formal systems directly central to protocol and architecture theory."
+  },
+  "87afe9c72b4e40df": {
+    "_id": "87afe9c72b4e40df",
+    "title": "Technics, Time and the Internation: Bernard Stiegler's Thought—A Dialogue with Daniel Ross",
+    "authors": [
+      "Bishop, Ryan",
+      "Ross, Daniel"
+    ],
+    "year": 2021,
+    "venue": "Theory, Culture & Society",
+    "doi": "org/10.1177/0263276421990435",
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Engages with Stiegler's temporal and technical systems theory relevant to protocol temporality and design."
+  },
+  "8532a932423277d6": {
+    "_id": "8532a932423277d6",
+    "title": "Dangerous Protocols",
+    "authors": [
+      "Asparahouva, Nadia"
+    ],
+    "year": 2023,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "summerofprotocols.com/research/dangerous-protocols",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Directly addresses dangerous protocols and their governance, core to protocol studies scholarship."
+  },
+  "582fda9fac9c7b70": {
+    "_id": "582fda9fac9c7b70",
+    "title": "Early Tech Adopters in Ancient Rome Had Portable Sundials",
+    "authors": [
+      "Bartels, Meghan"
+    ],
+    "year": 2017,
+    "venue": "Smithsonian Magazine",
+    "doi": null,
+    "url": "www.smithsonianmag.com/innovation/early-tech-adopters-ancient-rome-had-portable-sundials-180962225/",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Historical anecdote about portable sundials in ancient Rome with no connection to protocol theory, governance, or institutional design."
+  },
+  "2922a55920dbd688": {
+    "_id": "2922a55920dbd688",
+    "title": "The Scent of Time. A Study of the Use of Fire and Incense for Time Measurement in Oriental Countries",
+    "authors": [
+      "Bedini, Silvio A."
+    ],
+    "year": null,
+    "venue": "Science Museum",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Documents historical time measurement systems which provide background context for understanding protocols as standardized practices, though not directly about protocol theory or design."
+  },
+  "31d4a7d07f7ca198": {
+    "_id": "31d4a7d07f7ca198",
+    "title": "Scent of Time. A Study of the Use of Fire and Incense for Time Measurement in Oriental Countries",
+    "authors": [
+      "Bedini, Silvio A."
+    ],
+    "year": 1963,
+    "venue": "American Philosophical Society",
+    "doi": null,
+    "url": "babel.hathitrust.org/cgi/pt?id=mdp.39076006361401&seq=14",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Historical documentation of incense-based time measurement systems that illustrate standardized temporal protocols across cultures, but lacks direct engagement with protocol theory."
+  },
+  "fd976e2993a9df3d": {
+    "_id": "fd976e2993a9df3d",
+    "title": "Time Measurement with Incense in Japan With Sticks and Coils",
+    "authors": [
+      "Bedini, Silvio A."
+    ],
+    "year": 2002,
+    "venue": null,
+    "doi": null,
+    "url": "web.archive.org/web/20160308214700/http://japanese-incense.com/time.htm",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Describes specific time measurement protocols using incense in Japan, demonstrating standardized systems but primarily as historical documentation rather than protocol analysis."
+  },
+  "39e5c1e4e62d525c": {
+    "_id": "39e5c1e4e62d525c",
+    "title": "A Descriptive and Historical Account of Hydraulic and Other Machines for Raising Water, Ancient and Modern: With Observations on Various Subjects Connected with the Mechanic Arts, Including the Progressive Development of the Steam Engine. In Five Books",
+    "authors": [
+      "Ewbank, Thomas"
+    ],
+    "year": 1876,
+    "venue": "Scribner, Armstrong & Co.",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Historical account of mechanical systems and technological development provides context for understanding infrastructure design but lacks focus on protocol or governance mechanisms."
+  },
+  "0b8df3573ebdc3c9": {
+    "_id": "0b8df3573ebdc3c9",
+    "title": "Flaubert's Rule for Artists: Be Regular? Settled? Ordinary as a Bourgeois? Essay 28 of #52essays2017",
+    "authors": [
+      "Godin, M. Leona"
+    ],
+    "year": 2017,
+    "venue": null,
+    "doi": null,
+    "url": "drmlgodin.com/2017/10/",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Essay on Flaubert's artistic philosophy is unrelated to protocol studies, governance, coordination, or institutional design."
+  },
+  "54ea74507cc5fbfd": {
+    "_id": "54ea74507cc5fbfd",
+    "title": "Technics and Civilization",
+    "authors": [
+      "Mumford, Lewis"
+    ],
+    "year": 1934,
+    "venue": "Routledge & Kegan Paul",
+    "doi": null,
+    "url": "archive.org/details/in.ernet.dli.2015.49974",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Mumford's foundational work on technology and civilization substantially contributes to understanding how protocols and standards shape social organization and infrastructure."
+  },
+  "bf5e478e5aaada4d": {
+    "_id": "bf5e478e5aaada4d",
+    "title": "The Colonisation of Time: Ritual, Routine and Resistance in the British Empire",
+    "authors": [
+      "Nanni, Giordano"
+    ],
+    "year": 2013,
+    "venue": "Manchester University Press",
+    "doi": "10.7765/9781526118394.00010",
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Examines how temporal protocols and routine practices functioned as mechanisms of colonial governance and social control, directly relevant to protocol as institutional design."
+  },
+  "0b9a01cebb2f9b72": {
+    "_id": "0b9a01cebb2f9b72",
+    "title": "About Time: A History of Civilization in Twelve Clocks",
+    "authors": [
+      "Rooney, David"
+    ],
+    "year": 2021,
+    "venue": "W.W. Norton",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Historical narrative of timekeeping technologies provides background context for understanding protocols but does not engage with protocol theory or design principles."
+  },
+  "8c9bb0415513c120": {
+    "_id": "8c9bb0415513c120",
+    "title": "A Chinese incense clock that tells the time with smell",
+    "authors": [],
+    "year": 2019,
+    "venue": null,
+    "doi": null,
+    "url": "www.youtube.com/watch?v=FnPQM6-paew",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Describes a specific time measurement protocol using incense but appears to be a brief article lacking theoretical depth about protocol design or governance."
+  },
+  "bfab020c055334df": {
+    "_id": "bfab020c055334df",
+    "title": "Wisdom's Watch Upon the Hours",
+    "authors": [
+      "Suso, Henry"
+    ],
+    "year": 1994,
+    "venue": "Catholic University of America Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Medieval religious text is cited for historical context unrelated to protocol studies, governance mechanisms, or institutional design."
+  },
+  "634705446dec227c": {
+    "_id": "634705446dec227c",
+    "title": "Keeping Time with Incense Clocks",
+    "authors": [
+      "Soth, Amelia"
+    ],
+    "year": 2022,
+    "venue": "JSTOR Daily",
+    "doi": null,
+    "url": "daily.jstor.org/keeping-time-with-incense-clocks/",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Documents incense clock protocols as historical practice but remains primarily descriptive rather than engaging with protocol theory or design frameworks."
+  },
+  "c703165a2c8ad641": {
+    "_id": "c703165a2c8ad641",
+    "title": "Hourglass History",
+    "authors": [
+      "T & K Young"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "www.tkyoung.com/history.html",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Historical documentation of hourglass technology provides background on time measurement systems but lacks engagement with protocol or institutional analysis."
+  },
+  "a1072bf211ac2ba2": {
+    "_id": "a1072bf211ac2ba2",
+    "title": "An Introduction to Mathematics",
+    "authors": [
+      "Whitehead, Alfred North"
+    ],
+    "year": 1911,
+    "venue": "Oxford University Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Mathematics introduction is unrelated to protocol studies unless specifically cited for formal protocol modeling, which is not indicated here."
+  },
+  "37df50ab9a3e4736": {
+    "_id": "37df50ab9a3e4736",
+    "title": "The Tyranny of Time",
+    "authors": [
+      "Zadeh, Joe"
+    ],
+    "year": 2021,
+    "venue": "Noema",
+    "doi": null,
+    "url": "www.noemamag.com/the-tyranny-of-time",
+    "context": null,
+    "cited_by": [
+      "Control-and-Consciousness-of-Time-Saffron-Huang.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Discusses temporal systems and their social implications, offering relevant background for understanding time as a governed institution but not directly about protocol design."
+  },
+  "a819da2805c655c9": {
+    "_id": "a819da2805c655c9",
+    "title": "Popular Places Indigenous Names BC",
+    "authors": [],
+    "year": null,
+    "venue": "Daily Hive Vancouver",
+    "doi": null,
+    "url": "dailyhive.com/vancouver/popular-places-indigenous-names-bc",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Local geography article about indigenous place names is unrelated to protocol studies."
+  },
+  "90d9a80d25a2d5c8": {
+    "_id": "90d9a80d25a2d5c8",
+    "title": "California Drought Crisis Could Come to B.C. Says UBC Professor",
+    "authors": [],
+    "year": null,
+    "venue": "CBC News",
+    "doi": null,
+    "url": "www.cbc.ca/news/canada/british-columbia/california-drought-crisis-could-come-to-b-c-says-ubc-professor-1.3006242",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "News article about drought and climate is unrelated to protocol studies."
+  },
+  "138e9acfdf32fdd1": {
+    "_id": "138e9acfdf32fdd1",
+    "title": "The Language of Bears",
+    "authors": [],
+    "year": null,
+    "venue": "Hakai Magazine",
+    "doi": null,
+    "url": "hakaimagazine.com/news/the-language-of-bears/",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Magazine article about bear language/behavior is unrelated to protocol studies."
+  },
+  "c2676b683bcefef9": {
+    "_id": "c2676b683bcefef9",
+    "title": "It's Absolutely Guaranteed: The Best and Worst Case Scenarios for Sea Level Rise",
+    "authors": [],
+    "year": 2023,
+    "venue": "The Guardian",
+    "doi": null,
+    "url": "www.theguardian.com/environment/2023/jun/26/its-absolutely-guaranteed-the-best-and-worst-case-scenarios-for-sea-level-rise",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "News article about sea level rise scenarios is unrelated to protocol studies."
+  },
+  "c11815b757712834": {
+    "_id": "c11815b757712834",
+    "title": "Seeing the Garden Through the Trees: The Indigenous Forest Gardens of Coastal B.C.",
+    "authors": [],
+    "year": null,
+    "venue": "Canadian Geographic",
+    "doi": null,
+    "url": "canadiangeographic.ca/articles/seeing-the-garden-through-the-trees-the-indigenous-forest-gardens-of-coastal-b-c/",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Magazine article about indigenous forest gardens is unrelated to protocol studies."
+  },
+  "94683866143dcde3": {
+    "_id": "94683866143dcde3",
+    "title": "Indigenous Funding Model is a Win-Win for Ecosystems and Local Economies in Canada",
+    "authors": [],
+    "year": 2023,
+    "venue": "Mongabay News",
+    "doi": null,
+    "url": "news.mongabay.com/2023/03/indigenous-funding-model-is-a-win-win-for-ecosystems-and-local-economies-in-canada/",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Concerns indigenous funding mechanisms for ecosystem conservation, not protocol design or governance systems."
+  },
+  "d65e838a888e90ea": {
+    "_id": "d65e838a888e90ea",
+    "title": "B.C. Imports 99 Million Kilos of American Onions: Why",
+    "authors": [],
+    "year": null,
+    "venue": "Victoria News",
+    "doi": null,
+    "url": "www.vicnews.com/news/b-c-imports-99-million-kilos-of-american-onions-why-74720",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Regional trade news about onion imports with no relevance to protocol studies."
+  },
+  "7bea2d744718e38c": {
+    "_id": "7bea2d744718e38c",
+    "title": "The Philosophical Concept of Rhizome",
+    "authors": [],
+    "year": 2017,
+    "venue": "Literariness",
+    "doi": null,
+    "url": "literariness.org/2017/04/26/the-philosophical-concept-of-rhizome/",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Philosophical concept from literary theory unrelated to protocol governance or design."
+  },
+  "9eec2250e0185d43": {
+    "_id": "9eec2250e0185d43",
+    "title": "Planetary Health Research Challenge Areas",
+    "authors": [],
+    "year": null,
+    "venue": "Simon Fraser University",
+    "doi": null,
+    "url": "www.sfu.ca/fhs/research/research-challenge-areas/planetary-health.html",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Environmental health research challenge areas without protocol governance focus."
+  },
+  "da3582bbc972d65d": {
+    "_id": "da3582bbc972d65d",
+    "title": "Ravi Lochan: Maslow Got It Wrong",
+    "authors": [],
+    "year": null,
+    "venue": "Paces Connection",
+    "doi": null,
+    "url": "www.pacesconnection.com/blog/ravilochan-maslow-got-it-wrong",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Personal philosophy blog post about human motivation unrelated to protocols."
+  },
+  "c715959f2f29e3a1": {
+    "_id": "c715959f2f29e3a1",
+    "title": "Value Collective",
+    "authors": [
+      "Madelyn Capozzi"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "madelyncapozzi.com/projects/value_collective",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Collective value organization that may touch on coordination but lacks clear protocol governance substance."
+  },
+  "421eb7d0ad81a08e": {
+    "_id": "421eb7d0ad81a08e",
+    "title": "The Barter Society Myth",
+    "authors": [],
+    "year": 2016,
+    "venue": "The Atlantic",
+    "doi": null,
+    "url": "www.theatlantic.com/business/archive/2016/02/barter-society-myth/471051/",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Addresses historical economic exchange systems and social coordination mechanisms relevant to protocol design."
+  },
+  "8fe848aebe991330": {
+    "_id": "8fe848aebe991330",
+    "title": "New Leaf Project Results",
+    "authors": [],
+    "year": null,
+    "venue": "CBC News",
+    "doi": null,
+    "url": "www.cbc.ca/news/canada/british-columbia/new-leaf-project-results-1.5752714",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Program results evaluation that may involve governance mechanisms but lacks clear protocol focus."
+  },
+  "0689edb032a772a5": {
+    "_id": "0689edb032a772a5",
+    "title": "The Jena Experiment",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "the-jena-experiment.de",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Scientific experiment on ecosystem dynamics without protocol governance relevance."
+  },
+  "3ad281ea546a20a3": {
+    "_id": "3ad281ea546a20a3",
+    "title": "Summer of Protocols",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "summerofprotocols.com",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan-1.pdf",
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 2,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Directly addresses protocols as a field of study and design practice."
+  },
+  "baffe9ab9a7b2f67": {
+    "_id": "baffe9ab9a7b2f67",
+    "title": "Barter society myth",
+    "authors": [],
+    "year": 2016,
+    "venue": "The Atlantic",
+    "doi": null,
+    "url": "www.theatlantic.com/business/archive/2016/02/barter-society-myth/471051/",
+    "context": null,
+    "cited_by": [
+      "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Addresses historical economic coordination and exchange systems relevant to protocol thinking."
+  },
+  "77ecf510eb861878": {
+    "_id": "77ecf510eb861878",
+    "title": "Coal Fatalities 1900 Through 2017",
+    "authors": [
+      "Mine Safety and Health Administration"
+    ],
+    "year": 2018,
+    "venue": null,
+    "doi": null,
+    "url": "www.msha.gov/coal-fatalities-1900-through-2017",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Mining fatality statistics, cited for factual data unrelated to protocol studies."
+  },
+  "5930c9a34243f3ea": {
+    "_id": "5930c9a34243f3ea",
+    "title": "A Short History of Occupational Health",
+    "authors": [
+      "Abrams, Herbert"
+    ],
+    "year": 2001,
+    "venue": "Journal of Public Health Policy",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Historical health and safety policy background useful for understanding occupational protocol development."
+  },
+  "b72a991769803407": {
+    "_id": "b72a991769803407",
+    "title": "Energy in the American Economy, 1850–1975: An Economic Study of Its History and Prospects",
+    "authors": [
+      "Netschert, Bruce",
+      "Schurr, Sam"
+    ],
+    "year": 1960,
+    "venue": "Johns Hopkins Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Economic history of energy systems without focus on protocol design or governance."
+  },
+  "c394c241d867831f": {
+    "_id": "c394c241d867831f",
+    "title": "Safety First: Technology, Labor, and Business in the Building of American Work Safety, 1870-1939",
+    "authors": [
+      "Aldrich, Mark"
+    ],
+    "year": 1997,
+    "venue": "Johns Hopkins University Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Institutional and organizational development of safety standards and formal rule systems in American industry."
+  },
+  "de80cfcf1dd680ea": {
+    "_id": "de80cfcf1dd680ea",
+    "title": "Mining Lights and Hats",
+    "authors": [
+      "National Museum of American History"
+    ],
+    "year": 2023,
+    "venue": null,
+    "doi": null,
+    "url": "americanhistory.si.edu/collections/object-groups/mining-lights-and-hats",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Museum exhibit on mining equipment history with no protocol governance relevance."
+  },
+  "e3858b4257d33484": {
+    "_id": "e3858b4257d33484",
+    "title": "Our Approach to Safety",
+    "authors": [
+      "Arch Resources"
+    ],
+    "year": 2023,
+    "venue": null,
+    "doi": null,
+    "url": "www.archrsc.com/sustainability/safety",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Corporate safety policy statement without broader protocol design or governance contribution."
+  },
+  "565a948e16e648de": {
+    "_id": "565a948e16e648de",
+    "title": "Peter on the Four Horsemen of Chronic Disease",
+    "authors": [
+      "Attia, Peter"
+    ],
+    "year": 2022,
+    "venue": "Peter Attia, MD (blog)",
+    "doi": null,
+    "url": "peterattiamd.com/peter-on-the-four-horsemen-of-chronic-disease/",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Medical health blog post on chronic disease unrelated to protocol studies."
+  },
+  "9e19a8d8a13c743c": {
+    "_id": "9e19a8d8a13c743c",
+    "title": "'Coal Workers are Orphans': The Children and Slaves Mining Pakistan's Coal",
+    "authors": [
+      "Baloch, Shah Meer",
+      "Ellis-Petersen, Hannah"
+    ],
+    "year": 2020,
+    "venue": "The Guardian",
+    "doi": null,
+    "url": "www.theguardian.com/global-development/2020/feb/19/coal-workers-are-orphans-the-children-and-slaves-mining-pakistans-coal",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Journalistic reporting on labor conditions with no protocol governance focus."
+  },
+  "1103baf52b723a86": {
+    "_id": "1103baf52b723a86",
+    "title": "Ironies of Automation",
+    "authors": [
+      "Bainbridge, Lisanne"
+    ],
+    "year": 1983,
+    "venue": "Automatica",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Studies human-machine interaction and automation relevant to system design but not centrally about protocols."
+  },
+  "2303e35f60fc64ec": {
+    "_id": "2303e35f60fc64ec",
+    "title": "The Rise of the Industry Continued: The 14th Century, 1301-1350",
+    "authors": [
+      "Bradley, Robert"
+    ],
+    "year": 2014,
+    "venue": "A comprehensive history of mining in the Derbyshire, Nottinghamshire and Leicestershire Coalfields (website)",
+    "doi": null,
+    "url": "www.healeyhero.co.uk/rescue/individual/Bob_Bradley/Bk-1/1300.html",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Historical account of mining industry development with no connection to protocol studies."
+  },
+  "bf20741d1bcf5fc6": {
+    "_id": "bf20741d1bcf5fc6",
+    "title": "The Impact of Black Lung and a Methodology for Controlling Respirable Dust",
+    "authors": [
+      "Colinet, Jay F."
+    ],
+    "year": 2020,
+    "venue": "Mining, Metallurgy & Exploration",
+    "doi": "10.1007/s42461-020-00278-7",
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Technical paper on occupational health hazard control in mining, unrelated to protocols."
+  },
+  "4b8d4ab16caa0bf9": {
+    "_id": "4b8d4ab16caa0bf9",
+    "title": "The Age and Depth of Mines",
+    "authors": [
+      "Department of the Interior"
+    ],
+    "year": 1924,
+    "venue": "Science",
+    "doi": null,
+    "url": "www.science.org/doi/pdf/10.1126/science.60.1541.viii.s",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Historical data on mine characteristics with no relevance to protocol theory or design."
+  },
+  "a2a245db8f20813a": {
+    "_id": "a2a245db8f20813a",
+    "title": "Early Coal Mining",
+    "authors": [
+      "Durham Mining Museum"
+    ],
+    "year": 2017,
+    "venue": null,
+    "doi": null,
+    "url": "http://www.dmm.org.uk/pitwork/html/history1.htm",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Historical documentation of early coal mining practices without protocol focus."
+  },
+  "f058c5774276b9d4": {
+    "_id": "f058c5774276b9d4",
+    "title": "Coal: A Human History",
+    "authors": [
+      "Freese, Barbara"
+    ],
+    "year": 2003,
+    "venue": "Basic Books",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Popular history of coal as commodity with no engagement with protocol systems or governance."
+  },
+  "e7b785bc60993bf3": {
+    "_id": "e7b785bc60993bf3",
+    "title": "The End of History and the Last Man",
+    "authors": [
+      "Fukuyama, Francis"
+    ],
+    "year": 1992,
+    "venue": "HarperCollins",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Political philosophy work on historical end-states unrelated to protocol studies."
+  },
+  "bd553f002744fdcb": {
+    "_id": "bd553f002744fdcb",
+    "title": "A Day When (Almost) Nothing Happened",
+    "authors": [
+      "Hollnagel, Erik"
+    ],
+    "year": 2021,
+    "venue": "Safety Science",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Safety science paper that may inform thinking about system design and resilience protocols."
+  },
+  "2beb6fc531c4dd63": {
+    "_id": "2beb6fc531c4dd63",
+    "title": "Introduction to Safety II",
+    "authors": [
+      "Hollnagel, Erik"
+    ],
+    "year": 2019,
+    "venue": null,
+    "doi": null,
+    "url": "safetysynthesis.com/onewebmedia/Introduction%20to%20S-II%20Part%202%20%28OCT2020%29.pdf",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Framework for understanding system safety as emergent coordination, relevant to protocol design thinking."
+  },
+  "4242746b429f08e6": {
+    "_id": "4242746b429f08e6",
+    "title": "Safety-I and Safety-II: The Past and Future of Safety Management",
+    "authors": [
+      "Hollnagel, Erik"
+    ],
+    "year": 2014,
+    "venue": "Ashgate Publishing, Ltd.",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Establishes safety management as system governance approach applicable to protocol design principles."
+  },
+  "d9ca79c6ccac96c8": {
+    "_id": "d9ca79c6ccac96c8",
+    "title": "Data Mining Mining Data: MSHA Enforcement Efforts, Underground Coal Mine Safety, and New Health Policy Implications",
+    "authors": [
+      "Kniesner, Thomas J.",
+      "Leeth, John D."
+    ],
+    "year": 2004,
+    "venue": "Journal of Risk and Uncertainty",
+    "doi": null,
+    "url": "www.jstor.org/stable/41761169",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Policy analysis of mining regulation and enforcement mechanisms relevant to governance frameworks."
+  },
+  "b64147de7279435a": {
+    "_id": "b64147de7279435a",
+    "title": "The Unanticipated Consequences of Purposive Social Action",
+    "authors": [
+      "Merton, Robert"
+    ],
+    "year": 1936,
+    "venue": "American Sociological Review",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Foundational sociology on unintended consequences useful for analyzing protocol outcomes and design."
+  },
+  "b00fbd4f5a3a1578": {
+    "_id": "b00fbd4f5a3a1578",
+    "title": "Mine Disasters",
+    "authors": [
+      "Mine Safety and Health Administration"
+    ],
+    "year": 2000,
+    "venue": null,
+    "doi": null,
+    "url": "digitallibrary.msha.gov",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Administrative data on mine disasters without analysis of regulatory or coordination protocols."
+  },
+  "495759797ace71e2": {
+    "_id": "495759797ace71e2",
+    "title": "Normal Accidents: Living with High-Risk Technologies",
+    "authors": [
+      "Perrow, Charles"
+    ],
+    "year": 1999,
+    "venue": "Princeton University Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Systems theory of complex technological coordination with implications for protocol design in high-risk environments."
+  },
+  "877db362115c6f3e": {
+    "_id": "877db362115c6f3e",
+    "title": "Registers of Mine Accidents (PA) for the Anthracite Districts, 1899–1972",
+    "authors": [
+      "Pennsylvania Historical & Museum Commission"
+    ],
+    "year": 1986,
+    "venue": null,
+    "doi": null,
+    "url": "digitalarchives.powerlibrary.org/psa/islandora/object/psa%3Armaad",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Historical accident records used as data source without protocol analysis."
+  },
+  "18837380e859d3ae": {
+    "_id": "18837380e859d3ae",
+    "title": "2021 Environmental, Social, and Governance Report",
+    "authors": [
+      "Peabody"
+    ],
+    "year": 2021,
+    "venue": null,
+    "doi": null,
+    "url": "www.peabodyenergy.com/Peabody/media/MediaLibrary/Sustainability/Peabody_ESG_2021-Report_FINAL.pdf",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Corporate sustainability report on mining operations unrelated to protocol studies."
+  },
+  "00902126ba7fe412": {
+    "_id": "00902126ba7fe412",
+    "title": "Protocol Society",
+    "authors": [
+      "Schneider, Nathan"
+    ],
+    "year": 2023,
+    "venue": "Journal of Brief Ideas",
+    "doi": "10.5281/zenodo.8019263",
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Directly addresses protocol as social and organizational framework central to protocol studies."
+  },
+  "817477d1bfbdb781": {
+    "_id": "817477d1bfbdb781",
+    "title": "Streetgate Bell Pit",
+    "authors": [
+      "Sunniside Local History Society"
+    ],
+    "year": 2007,
+    "venue": null,
+    "doi": null,
+    "url": "www.sunnisidelocalhistorysociety.co.uk/bellpit.html",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Local historical documentation of mining site with no protocol analysis."
+  },
+  "1b2818c48b9ae083": {
+    "_id": "1b2818c48b9ae083",
+    "title": "Health and Economic Development II: Longevity",
+    "authors": [
+      "Sagan, Leonard A.",
+      "Afifi, Abdelmonem A."
+    ],
+    "year": 1978,
+    "venue": "International Institute for Applied Systems Analysis",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Statistical health economics study unrelated to protocol theory or design."
+  },
+  "8c7f0ae42927dd35": {
+    "_id": "8c7f0ae42927dd35",
+    "title": "Asbestos Effects on Health",
+    "authors": [
+      "South Carolina Department of Health and Environmental Control"
+    ],
+    "year": null,
+    "venue": "Asbestos Information for Homeowners (blog)",
+    "doi": null,
+    "url": "scdhec.gov/environment/your-home/asbestos/asbestos-effects-health",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Health information resource on hazard effects without protocol governance component."
+  },
+  "7d4decead09fa4ce": {
+    "_id": "7d4decead09fa4ce",
+    "title": "The Most Intolerant Wins: The Dominance of the Stubborn Minority",
+    "authors": [
+      "Taleb, Nassim Nicholas"
+    ],
+    "year": 2018,
+    "venue": "Skin in the Game: Hidden Asymmetries in Daily Life",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Game theory analysis of minority influence applicable to understanding protocol adoption dynamics."
+  },
+  "326ca5f6a04ba31c": {
+    "_id": "326ca5f6a04ba31c",
+    "title": "Educational Organizations as Loosely Coupled Systems",
+    "authors": [
+      "Weick, Karl"
+    ],
+    "year": 1976,
+    "venue": "Administrative Science Quarterly",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Weick's analysis of loose coupling in organizations substantially contributes to understanding coordination mechanisms and organizational design patterns relevant to protocol studies."
+  },
+  "1d6da42672f2507a": {
+    "_id": "1d6da42672f2507a",
+    "title": "Organizational Culture as a Source of High Reliability",
+    "authors": [
+      "Weick, Karl"
+    ],
+    "year": 1987,
+    "venue": "California Management Review",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Examines how organizational cultures function as informal rule systems and governance mechanisms for maintaining reliability, directly relevant to protocol studies' treatment of social norms as protocols."
+  },
+  "c840ff4c0055b801": {
+    "_id": "c840ff4c0055b801",
+    "title": "The Whale and the Reactor: A Search for Limits in an Age of High Technology",
+    "authors": [
+      "Winner, Langdon"
+    ],
+    "year": 1988,
+    "venue": "University of Chicago Press",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Winner's critical examination of technology and politics provides relevant background on how technical systems embody values and governance structures, though not centrally focused on protocols themselves."
+  },
+  "79705ce7f3bc986d": {
+    "_id": "79705ce7f3bc986d",
+    "title": "WHO/ILO Joint Estimates of the Work-Related Burden of Disease and Injury, 2000-2016: Global Monitoring Report",
+    "authors": [
+      "World Health Organization"
+    ],
+    "year": 2021,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "WHO/ILO epidemiological report on work-related disease burden is cited for specific public health data unrelated to protocol studies."
+  },
+  "c10b2cf7c1173cde": {
+    "_id": "c10b2cf7c1173cde",
+    "title": "Searching for Safety",
+    "authors": [
+      "Wildavsky, Aaron"
+    ],
+    "year": 1988,
+    "venue": "Transaction Publishers",
+    "doi": null,
+    "url": null,
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Wildavsky's work on risk management and decision-making under uncertainty provides adjacent theoretical background but is not centrally about protocols or governance systems."
+  },
+  "b662d8400b50b0d9": {
+    "_id": "b662d8400b50b0d9",
+    "title": "Tube bundle system: for monitoring of coal mine atmosphere",
+    "authors": [
+      "Zipf, R. Karl Jr.",
+      "Marchewka, W.",
+      "Mohamed, K.",
+      "Addis, J.",
+      "Karnack, F."
+    ],
+    "year": 2013,
+    "venue": "Mining Engineering",
+    "doi": null,
+    "url": "www.ncbi.nlm.nih.gov/pmc/articles/PMC4545479/",
+    "context": null,
+    "cited_by": [
+      "Safe-New-World-Timber-Stinson-Schroff.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Technical specification of coal mine monitoring equipment is cited for domain-specific engineering facts unrelated to protocol studies."
+  }
+}
