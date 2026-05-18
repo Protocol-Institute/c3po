@@ -357,5 +357,57 @@
         }
       ]
     }
+  ,
+    {
+      "id": 8,
+      "sort_key": 8.0,
+      "label": "Session 8",
+      "title": "Namespace Wiring, System Prompt Enrichment, and Full-Corpus Lexicon Extraction",
+      "date": "2026-05-18",
+      "time_pt": "14:55–16:10 PT",
+      "tracks": [
+        "worker-api",
+        "corpus-ingestion",
+        "vector-architecture"
+      ],
+      "costs_usd": {
+        "haiku_lexicon_extraction": 1.10,
+        "voyage_embedding": 0.01
+      },
+      "vector_counts": {
+        "pdfs": 766,
+        "substack": 1040,
+        "videos": 2940,
+        "bibliography": 278,
+        "transcripts": 4
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "Videos + bibliography wired into live worker",
+          "html": "<strong>Videos + bibliography wired into live worker.</strong> Both <code>GET /search</code> and <code>POST /query</code> now query all four Pinecone namespaces in parallel: <code>pdfs</code>, <code>substack</code>, <code>videos</code>, <code>bibliography</code>. Added <code>normalizeVideo()</code> and <code>normalizeBibliography()</code> normalizers. <code>mergeResults()</code> updated to four-array signature with tier weighting: pdfs/substack at 1.0×, videos at 0.9×, bibliography at 0.85× scaled by per-entry relevance_score (0–3). POST /query secondary retrieval extended to handle <code>video_summary</code> hits: when a summary vector matches, a follow-up query fetches the actual body chunks from the same video. Fixed a latent operator-precedence bug in <code>normalizeBibliography</code> where <code>m.url || m.doi ? ... : null</code> was binding as <code>(m.url || m.doi) ? ...</code> rather than the intended <code>m.url || (m.doi ? ...)</code>. Added Talk (orange) and Reference (grey) badge CSS classes and <code>badgeForSource()</code> cases. Total corpus now queryable: 5,028 vectors across five namespaces."
+        },
+        {
+          "title": "System prompt: institute context + corpus map + lexicon",
+          "html": "<strong>System prompt enriched with three new blocks.</strong> (1) <strong>ABOUT THE PROTOCOL INSTITUTE:</strong> PI history, SoP provenance (EF-funded, 80+ researchers, 270+ works, 2023–2024), current programs (Protocolized magazine, Protocol School 2025, Bridge Atlas, Researcher Salons, Protocol Symposium), leadership (Rao as founder/director, Stinson-Schroff and Beiko as key figures), independence. (2) <strong>INDEXED CORPUS:</strong> Named listing of landmark papers by title/author, YouTube series with speaker names, Substack top contributors — preventing false denials on materials that are actually indexed. (3) <strong>PROTOCOL LEXICON:</strong> 40-term compact block with PI-specific one-line definitions for protocolization, hardness, Kafka/Bartleby/Whitehead protocols, ETTO, dynamic non-event, protocol archetypes, addressable space, and 32 other coined or redefined terms. The lexicon uses the PI meaning, not generic definitions — preventing Claude from defining 'hardness' as a material property or 'tension' as physical force."
+        },
+        {
+          "title": "Full-corpus lexicon extraction: 914 terms from 66 PDFs",
+          "html": "<strong>Full-corpus lexicon extraction via Haiku.</strong> <code>ingest/extract_lexicon.py</code> sends each PDF's full text to Haiku with a structured prompt asking for defined terms, technical vocabulary, and coined concepts. Initial pass covered 12 key theoretical papers (245 terms). Extended with <code>--all</code> flag to process all 82 PDFs, yielding <strong>914 terms from 66 papers</strong> (16 papers had insufficient text — mostly image-only or very short supplementary materials; one failure: Virtual Structures by Sinisterra, image-based PDF). Notable new contributions beyond the initial 12: Fangting's <em>Composable Life</em> (composable life, OALife, digital hardness, algorithmic traceology), Kreutler's <em>Artificial Memory</em> (living/latent memory, lore, memory images, associative arrangement), Huang's <em>Control and Consciousness of Time</em> (horological politics, device consciousness, device-mediated social protocol), Van Epps' <em>Capital Enclosure</em> (commons, anti-rival, commons-based peer production, extraction vs. apportionment), Lang's standards paper (de facto/consortium/disruptive standards-making, failure to launch, commercial diplomacy), Rajamohan's <em>Dispatches from Cascadia</em> (bioregional protocol, downward merge, flywheel economy). All 914 entries carry <code>term</code>, <code>definition</code>, <code>source</code> (paper title), <code>source_slug</code>, and <code>context</code> (verbatim excerpt). Saved to <code>sources/lexicon_draft.json</code>."
+        },
+        {
+          "title": "Protocol Lexicon as hosted resource on protocolized.io",
+          "html": "<strong>Protocol Lexicon published to protocolized-website.</strong> <code>src/content/resources/protocol-lexicon.md</code> — a <code>framework</code>-type resource, marked <code>featured: true</code>. 41 entries organized into thematic sections: Core Protocol Theory, Archetypes and Failure Modes, Protocolization as Phenomenon, Protocol Lifecycle, Participants and Roles, Hardness Sources, Addressability, Knowledge and Epistemics. Each entry has a full 2–4 sentence definition and source attribution. Considerably richer than the compact system-prompt block. Definitions derived from Haiku extraction with editorial refinement. Will be updated as lexicon curation proceeds."
+        },
+        {
+          "title": "Architecture decision: lexicon as retrieval, not injection",
+          "html": "<strong>Architecture decision: full lexicon → Pinecone, not system prompt.</strong> 914 terms × ~47 tokens/entry ≈ 43,000 tokens — far too large for static injection (would add ~$0.04/query at Sonnet pricing and likely degrade response quality). Decision: ingest <code>lexicon_draft.json</code> as vectors into a new <code>definitions</code> namespace, retrieved on demand like any other corpus material. The system prompt retains a 40-term <em>anchor block</em> for the most critical PI-specific terms (the ones most likely to trigger wrong generic definitions). Everything else — the remaining 874 terms including Fangting's composable life vocabulary, Huang's horological politics, Kreutler's memory framework — surfaces through semantic retrieval when relevant. Planned as next ingest step."
+        },
+        {
+          "title": "Magazine lexicon plan",
+          "html": "<strong>Magazine lexicon plan written, not executed.</strong> <code>plans/magazine-lexicon.md</code> covers a two-pass extraction over the Protocolized archive (116 posts): a fiction pass (72 posts) tuned to capture fictional protocols, memetically resonant concepts, and design fictions — all clearly tagged <code>fictional: true</code> to prevent C3PO from treating speculative protocols as real coordination mechanisms — and a nonfiction pass (theory/editorial/protocol-watching) tuned for coined terms and protocol-watching observations. Full post HTML available locally at <code>data/substack/posts/</code>. Estimated cost: ~$0.70. Not yet executed — will follow lexicon ingest and definitions namespace work."
+        }
+      ]
+    }
   ]
 }

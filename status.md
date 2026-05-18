@@ -1,31 +1,44 @@
 # C3PO — Status Log
 
-## 2026-05-17 — YouTube ingest + bibliography mining (session 8, in progress)
+## 2026-05-18 — Namespace wiring, system prompt enrichment, lexicon extraction (session 8, complete)
 
-**YouTube transcript ingest — COMPLETE**
-- `fetch_youtube_meta.py`: 91/91 videos, captions downloaded via yt-dlp (VTT → clean text)
-- `enrich_youtube.py`: Haiku enrichment (summary, categories, speakers, key_concepts) for all 91
-- `ingest_youtube.py`: 2,940 vectors upserted → namespace `videos` (2,849 body + 91 summaries)
-- Plans: `plans/youtube-ingest.md`, `plans/bibliography-mining.md`
-- **Pinecone:** substack: 1,040 · pdfs: 766 · videos: 2,940 · transcripts: 4 · **Total: 4,750**
+**Videos + bibliography wired into live worker — COMPLETE**
+- `normalizeVideo()` and `normalizeBibliography()` added to worker.js
+- `mergeResults()` updated: pdfs/substack 1.0×, videos 0.9×, bibliography 0.85×relevance_scale
+- Both GET /search and POST /query now query all 4 namespaces in parallel
+- POST /query secondary retrieval extended to handle video_summary → body chunk expansion
+- Talk (orange) and Reference (grey) badge CSS added; URL operator precedence bug fixed
+- Chat page blurb updated to enumerate all 4 source types; input placeholder updated
+- **Pinecone:** pdfs: 766 · substack: 1,040 · videos: 2,940 · bibliography: 278 · transcripts: 4 · **Total: 5,028**
 
-**Bibliography mining — IN PROGRESS (explicit pass done, fetch_refs paused)**
-- `mine_bibliography.py --mode explicit`: 6 PDFs with explicit ref sections → 106 unique refs extracted
-- Scoring complete: score 3 (core): 7 · score 2 (relevant): 24 · score 1 (adjacent): 30 · score 0 (incidental): 45
-- `fetch_refs.py` written but NOT yet run — needs ~6 min at 3s/req for 106 S2 lookups
-- `ingest_bibliography.py` — NOT YET WRITTEN
-- Inline pass (`--mode inline`) on remaining 71 PDFs — NOT YET RUN
+**System prompt enriched — COMPLETE**
+- Added ABOUT THE PROTOCOL INSTITUTE block (SoP history, current programs, leadership, independence)
+- Added INDEXED CORPUS block listing named papers, series, speakers — prevents false denials
+- Added 40-term PROTOCOL LEXICON with PI-specific compact definitions (injected inline)
 
-**Resume point:** Run `python3 ingest/fetch_refs.py` (foreground, ~6 min), then write and run `ingest_bibliography.py`, then run `mine_bibliography.py --mode inline` for the inline-citation pass on the other 71 PDFs.
+**Bibliography — all 136 currently sourced refs ingested**
+- fetch_refs.py still running (PID 96761) for remaining 116 inline-pass refs
+- ingest_bibliography.py run on all 136 sourced → 278 vectors (136 ref_summary + 142 body)
+
+**Lexicon extraction — COMPLETE**
+- `extract_lexicon.py` written with --all flag for full-corpus pass
+- First pass: 12 key papers → 245 terms
+- Full pass: 82 PDFs → 914 terms from 66 papers (16 skipped: too short/image-only)
+- All entries have: term, definition, source (paper title), source_slug, context (verbatim)
+- `sources/lexicon_draft.json` — full 914-term draft for future curation
+- `sources/lexicon_prompt_block.txt` — compact 40-term system prompt block
+- `protocol-lexicon.md` resource published to protocolized-website repo
+- Plan: `plans/magazine-lexicon.md` — fiction + nonfiction magazine pass (not yet executed)
 
 **Open TODOs (priority order):**
-1. Resume bibliography: `fetch_refs.py` → `ingest_bibliography.py` → `mine_bibliography.py --mode inline`
-2. Tier weighting in `mergeResults()` — first vgr_zirp item, small change
-3. CORPUS_MAP in system prompt — prevents false denials
-4. Protocol lexicon — ML extraction + hand curation (~40 terms)
-5. D1 setup → encryption → strike/ban → self-notes → per-query logging
-6. GitHub Actions cron for `sync_substack.py`
-7. Phase 2B: MCP Worker
+1. Ingest lexicon_draft.json as vectors → new `definitions` namespace in Pinecone
+2. Wire `definitions` namespace into query handler (5th namespace)
+3. Magazine lexicon pass — see `plans/magazine-lexicon.md`
+4. Curate lexicon_draft.json → update protocolized.io resource page
+5. Structural navigation — section_summary + list_extract for PDFs (see `plans/structural-navigation.md`)
+6. D1 setup → encryption → strike/ban → self-notes → per-query logging
+7. GitHub Actions cron for `sync_substack.py`
+8. Phase 2B: MCP Worker at `/mcp`
 
 ---
 

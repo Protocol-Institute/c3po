@@ -4342,5 +4342,1212 @@
     ],
     "oa_pdf_url": null,
     "local_pdf": null
+  },
+  "9c92609e9bbb2837": {
+    "_id": "9c92609e9bbb2837",
+    "title": "Symmetric-key algorithm",
+    "authors": [],
+    "year": 2024,
+    "venue": "Wikipedia",
+    "doi": null,
+    "url": "en.wikipedia.org/wiki/Symmetric-key_algorithm",
+    "context": "Encryption design where the same key is used by both sender and recipient to encrypt and decrypt messages.",
+    "cited_by": [
+      "53-BEIKO-001-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Symmetric-key algorithms are technical cryptographic foundations but not about protocol governance or systems design.",
+    "s2_status": "pdf_downloaded",
+    "abstract": "Now-a-days, healthcare monitoring system is very much important system in the medical field to know the patient‘s health status immediately. In the proposed system, the sensors are fixed over the patient’s body or placed at some distances around the body to collect patient’s significant parameters like blood pressure, temperature, heart beat rate, etc. These parameters are collected by the healthcare professionals through some connectivity mechanisms like Bluetooth, ZigBee, etc. These significant data will be outsourced to the cloud storage in a secure way to avoid attack from the attackers. So, we need some protection mechanism to safeguard this information. This article proposes a light weight cryptographic algorithm (symmetric key) via random number key generation using Diffie-Hellman key exchange based on Elliptic Curve (ECDH) cryptography. As a result of substituting bytes (S-box) and folding (horizontal and vertical) operations, the proposed symmetric key algorithm achieves the foremost properties of cryptography such as confusion and diffusion quite well. Experimental results showed that the overall execution time of the proposed algorithm is superior to the standard Advanced Encryption Standard (AES) algorithm. The throughput rate of the proposed algorithm is 20.525095 KB/seconds whereas for the standard AES algorithm throughput rate is 18.727215 KB/seconds. So, the proposed algorithm is faster than the existing AES algorithm. Moreover, the construction of S-box, IS-box and the key generation procedures are entirely different in the proposed algorithm so, it increases the complexity for the attacker and it will create confusion to the attacker",
+    "s2_paper_id": "99819601930410990a7cbd1651064a6b088f63ce",
+    "s2_citation_count": 5,
+    "s2_title": "Healthcare data security in cloud storage using light weight symmetric key algorithm",
+    "s2_authors": [
+      "V. Parthasarathy",
+      "Kalaichelvi Visvalingam"
+    ],
+    "oa_pdf_url": "https://doi.org/10.34028/iajit/21/1/5",
+    "local_pdf": "sources/bibliography/pdfs/9c92609e9bbb2837.pdf"
+  },
+  "3e1943522517e813": {
+    "_id": "3e1943522517e813",
+    "title": "HTTPS",
+    "authors": [],
+    "year": 2024,
+    "venue": "Wikipedia",
+    "doi": null,
+    "url": "en.wikipedia.org/wiki/HTTPS",
+    "context": "Referenced in discussion of secure communication protocols.",
+    "cited_by": [
+      "53-BEIKO-001-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "HTTPS is a communication protocol relevant to understanding practical protocol implementation and standards for infrastructure.",
+    "s2_status": "found_oa",
+    "abstract": "This paper details the implementation of a Web crawler aimed at automating ruleset construction for “HTTPS Everywhere,” with a goal to convert HTTP URLs to secure HTTPS equivalents for enhanced communication security. Developed within a seven-month timeframe, the crawler faced challenges in verifying HTTPS support, varying based on SSL certificate existence and validity. Successful ruleset creation and testing in Firefox and Chrome, adhering to stylistic standards, demonstrated the potential for effective development. The paper explores improving productivity through alternative libraries like Scrapy and Scrapy Cloud. While certain goals, such as in-depth cryptocurrency analysis and web crawler background reading, were unmet due to time constraints, valuable insights were gained. The conclusion underscores the difficulties, successes, and promises of automating ruleset generation through web crawlers for “HTTPS Everywhere,” offering valuable recommendations for advancing web security.",
+    "s2_paper_id": "0eed96082ac9ab660c4bb25d8035c0db05a714d9",
+    "s2_citation_count": 15,
+    "s2_title": "Automated Ruleset Generation for \"HTTPS Everywhere\": Challenges, Implementation, and Insights",
+    "s2_authors": [
+      "Fares Alharbi",
+      "G. Kashyap",
+      "B. Allehyani"
+    ],
+    "oa_pdf_url": "https://www.igi-global.com/ViewTitle.aspx?TitleId=347330&isxn=9798369324721",
+    "local_pdf": null
+  },
+  "409365a242caa2dd": {
+    "_id": "409365a242caa2dd",
+    "title": "Pretty Good Privacy",
+    "authors": [],
+    "year": 2025,
+    "venue": "Wikipedia",
+    "doi": null,
+    "url": "en.wikipedia.org/wiki/Pretty_Good_Privacy",
+    "context": "Early and widely adopted email encryption protocol that allows users to share public keys without a central authority.",
+    "cited_by": [
+      "53-BEIKO-001-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Pretty Good Privacy is a communication/encryption protocol standard relevant to understanding protocol design and adoption.",
+    "s2_status": "found",
+    "abstract": "ABSTRACT - This study investigates the integration of Pretty Good Privacy (PGP) encryption into e-commerce platforms, focusing on the use of RSA, AES and SHA-256 cryptographic algorithms. PGP enhances the security of online communications and transactions by combining symmetric encryption (AES), asymmetric encryption (RSA) and secure hashing (SHA-256). These mechanisms work together to ensure data confidentiality, authentication, and integrity. The paper presents the principles behind PGP, details the encryption and hashing techniques and examines their practical application in securing e-commerce transactions.\n\nKey Words: Pretty Good Privacy (PGP), RSA, AES, SHA-256, Product Authentication, Digital Signatures, Public-Key Cryptography, E-commerce Security, Data Integrity, Online Shopping.",
+    "s2_paper_id": "a9f7d411c5bf1542dc57481931bcf6fbc4b9ead8",
+    "s2_citation_count": 0,
+    "s2_title": "Pretty Good Privacy on Online Shopping",
+    "s2_authors": [
+      "K. Shinde"
+    ],
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "73422011c8a61c1c": {
+    "_id": "73422011c8a61c1c",
+    "title": "Protocol Foundations 003: Hashing",
+    "authors": [
+      "Mario Havel",
+      "Tim Beiko"
+    ],
+    "year": 2023,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "https://summerofprotocols.com/wp-content/uploads/tktktk",
+    "context": "Referenced as foundational material on hashing techniques that enable data structures like hash tables.",
+    "cited_by": [
+      "53-HAVEL-004.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "This is explicitly a Protocol Foundations piece addressing hashing as a core protocol primitive and technical building block.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "f473063ed25b16d8": {
+    "_id": "f473063ed25b16d8",
+    "title": "Protocol Foundations 002: Addressing",
+    "authors": [
+      "Mario Havel",
+      "Tim Beiko"
+    ],
+    "year": 2023,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "https://summerofprotocols.com/wp-content/uploads/2024/03/Addressing-Tim-Beiko-Mario-Havel.pdf",
+    "context": "Referenced for coverage of basic addressing functions enabled by hashing and mentioned again regarding IPFS usage of Merkle DAGs.",
+    "cited_by": [
+      "53-HAVEL-004.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "This is explicitly a Protocol Foundations piece addressing addressing as a fundamental protocol concern and design element.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "43eee054c6d4d7c3": {
+    "_id": "43eee054c6d4d7c3",
+    "title": "A Pattern Language",
+    "authors": [
+      "Christopher Alexander"
+    ],
+    "year": 1977,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Alexander's seminal work that presents 253 distinct patterns describing recurring problems in the built environment and their solutions, which serves as the conceptual foundation for the protocol pattern language approach to urban space.",
+    "cited_by": [
+      "54-AUSTIN-00-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Alexander's pattern language provides a foundational framework for understanding how protocols and systems can be designed through recurring patterns.",
+    "s2_status": "found",
+    "abstract": null,
+    "s2_paper_id": "cdaeebff8b8ed05d942b9a28d4fb53feb3f793ae",
+    "s2_citation_count": 4627,
+    "s2_title": "A Pattern Language: Towns, Buildings, Construction",
+    "s2_authors": [
+      "Jack Quinan",
+      "C. Alexander"
+    ],
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "2764182d02bee1c5": {
+    "_id": "2764182d02bee1c5",
+    "title": "Cabin",
+    "authors": [],
+    "year": 2024,
+    "venue": "Mirror (creators.mirror.xyz)",
+    "doi": null,
+    "url": "https://creators.mirror.xyz/zHox-AfvHbX0Q2JxAbcfwiAmOXRy7BzYafhZNlvHnmM",
+    "context": "Referenced as an example experiment of a distributed 'network city' for citizens spanning the globe who come together to colive and create in nature.",
+    "cited_by": [
+      "54-AUSTIN-5-6.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Cabin appears to be a creative or artistic project not directly related to protocol theory or governance.",
+    "s2_status": "found_oa",
+    "abstract": "Contactless acoustic sensing has been actively exploited in the past few years to enable a large range of applications, ranging from fine-grained vital sign monitoring to coarse-grained human tracking. However, existing acoustic sensing systems mainly work on smartphone or smart speaker platforms. In this paper, we envision an exciting new acoustic sensing platform, i.e., car cabin which is inherently embedded with a large number of speakers and microphones. We propose the new concept of distributed acoustic sensing and develop novel designs leveraging the unique characteristics of rich multi-path in car cabin to enable fine-grained sensing even when the primary reflection is totally blocked. By using child presence detection as the application example, we show that child presence can be detected through body motions or even subtle breath (when the child is sleeping or in coma) at all locations in the cabin without any blind spots. We further show that the proposed system can robustly work in different car cabins, achieving an average detection accuracy of 97% and a false alarm rate always below 2% under different scenarios including those challenging ones such as rear-facing seat blockage. We believe the proposed distributed sensing modality in car cabin pushes acoustic sensing one big step towards real-life adoption.",
+    "s2_paper_id": "633b2f7d8a6d0fdbe6ae8318e0fe2f58fa779376",
+    "s2_citation_count": 22,
+    "s2_title": "Embracing Distributed Acoustic Sensing in Car Cabin for Children Presence Detection",
+    "s2_authors": [
+      "Yuqi Su",
+      "Fusang Zhang",
+      "Kai Niu",
+      "Tianben Wang",
+      "Beihong Jin",
+      "Zhi Wang",
+      "Yalan Jiang",
+      "Daqing Zhang",
+      "Lili Qiu",
+      "Jie Xiong"
+    ],
+    "oa_pdf_url": "https://dl.acm.org/doi/pdf/10.1145/3643548",
+    "local_pdf": null
+  },
+  "55067f6f5383f0f0": {
+    "_id": "55067f6f5383f0f0",
+    "title": "A Protocol Pattern Language for Urban Space",
+    "authors": [
+      "Drew Austin"
+    ],
+    "year": 2023,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "summerofprotocols.com",
+    "context": "This is the main work itself, part of the Summer of Protocols 2023 series focusing on protocol pattern languages for urban infrastructure.",
+    "cited_by": [
+      "54-AUSTIN-DIY.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "This work applies protocol thinking to urban space design, extending protocol concepts to physical and social systems.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "6230cfe530060934": {
+    "_id": "6230cfe530060934",
+    "title": "Geisel Library",
+    "authors": [
+      "William Pereira"
+    ],
+    "year": 2024,
+    "venue": "University of California, San Diego",
+    "doi": null,
+    "url": null,
+    "context": "The building's spherical design is cited as an example of how architecture can be conceptualized around circulation and accessibility, with equidistant spacing from the center of stacks to the furthest book locations.",
+    "cited_by": [
+      "55-e75-HART-M4-AP5-6.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Geisel Library is an architectural reference used for illustrative purposes unrelated to protocol studies.",
+    "s2_status": "found_oa",
+    "abstract": "This paper focuses on system identification (SID) of the UC San Diego Geisel Library building using ambient vibration (AV) data, assuming that the building’s behavior can be fully described by linear models in terms of material, geometry, damping, etc. Three state-space-based, output-only time domain SID methods are applied and fully automated to identify the library’s modal properties using AV data from both a 15-day and a 486-day monitoring period. The modes identified from the AV data are higher-order coupled torsional-flexural modes. The identified modal properties are influenced by the atmospheric conditions, and the amplitude of the building’s ambient vibration. The time-varying identified modal properties show a cyclical 1-day pattern due to human activity, earth tremors, and short-term changes in atmospheric conditions such as wind speed and temperature. One of the output-only SID methods was used to estimate modal properties from ambient vibration data recorded continuously over a 486-day period, including three low-intensity earthquakes. No permanent changes in the identified modal properties were observed due to the three low-intensity earthquakes that occurred during that period. Renovations of the Geisel Library involving only non-structural components (e.g., non-load-bearing partition walls, changes in space allocations, and inertial/live loads) caused some discontinuities in the identification of the modes of interest in this study. The influence of the data window length on system identification results, in terms of identification success rate and estimation uncertainty, was investigated. The identified state-space models are also used to assess the relative contribution of the ambient base excitation to the building’s total ambient vibrational response. This research offered a unique opportunity to study linear SID of a large and complex real-world structure under ambient excitations, and the effects of changing environmental conditions on the identified modal properties. It provided insight into some of the causes of the observed temporal variation in the identified modal properties. The SID results presented in this study also provide a baseline for future structural health monitoring studies of the Geisel Library building.",
+    "s2_paper_id": "8ffdd18e1932915d8749948f426f76e96cb638c3",
+    "s2_citation_count": 4,
+    "s2_title": "Linear system identification of the UC San Diego Geisel Library building under ambient vibration",
+    "s2_authors": [
+      "Lin Sun",
+      "Joel P. Conte",
+      "Michael D. Todd",
+      "R. Astroza",
+      "Yehuda Bock",
+      "G. Offield",
+      "Frank Vernon"
+    ],
+    "oa_pdf_url": "https://doi.org/10.1007/s13349-024-00889-4",
+    "local_pdf": null
+  },
+  "a46bdda9c26252ac": {
+    "_id": "a46bdda9c26252ac",
+    "title": "Adapted from an image by Flickr user 'Belis@rio'",
+    "authors": [
+      "Belis@rio"
+    ],
+    "year": null,
+    "venue": "Flickr",
+    "doi": null,
+    "url": "https://bit.ly/3RkoZiC",
+    "context": "Photo credit for the Geisel Library image, licensed under Creative Commons and adapted for the document.",
+    "cited_by": [
+      "55-e75-HART-M4-AP5-6.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "This is an image credit citation incidental to the document rather than a substantive reference.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "dc4b3108763a0487": {
+    "_id": "dc4b3108763a0487",
+    "title": "Roomba Art",
+    "authors": [
+      "IBR Algorithm Group"
+    ],
+    "year": null,
+    "venue": "Braunschweig University of Technology",
+    "doi": null,
+    "url": "https://bit.ly/4aNqJY7",
+    "context": "Time-lapse photograph series demonstrating inefficient movement patterns of a Roomba robot through physical space, illustrating how inefficient routes are acceptable for automated systems.",
+    "cited_by": [
+      "55-e75-HART-M5-AP7-8-for-web.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Roomba art project is incidental to protocol studies despite algorithmic basis; primarily an art installation rather than about protocol design or governance.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "a97dda3f5187f459": {
+    "_id": "a97dda3f5187f459",
+    "title": "Google Maps search data",
+    "authors": [],
+    "year": 2023,
+    "venue": "Google Maps",
+    "doi": null,
+    "url": null,
+    "context": "Source data for mapping locations of Starbucks retail chain in downtown San Francisco, conducted in September 2023.",
+    "cited_by": [
+      "55-e75-HART-M5-AP7-8-for-web.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Google Maps search data is cited for factual/empirical content unrelated to protocol theory or design.",
+    "s2_status": "found",
+    "abstract": "This study suggests using a genetic algorithm to determine the shortest path between any two points on a map. The suggested method uses the longitude as well as the latitude of a present location to anticipate and pinpoint the closest cities and includes the ideas of the crossover and mutation to create novel approaches. The suggested genetic algorithm technique surpasses standard algorithms in terms of quality of solution and computing performance, according to experimental data. The suggested method gives a fresh answer to the shortest route on a map and sheds light on the application of genetic methods in this situation.",
+    "s2_paper_id": "f57bc68fdeefa58b8a8cf3171938a90dd3a3befb",
+    "s2_citation_count": 3,
+    "s2_title": "Exploring KD Trees and KNN Search in the context of Google Maps: An Insightful Overview",
+    "s2_authors": [
+      "K. Chowdary",
+      "R. Kumar",
+      "M. Tanuja",
+      "K. Chandana"
+    ],
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "38a797b51f0fd33f": {
+    "_id": "38a797b51f0fd33f",
+    "title": "CC BY-NC 4.0 License",
+    "authors": [],
+    "year": 2023,
+    "venue": "Creative Commons",
+    "doi": null,
+    "url": null,
+    "context": "Licensing framework under which contributions are licensed by respective authors until December 13, 2026.",
+    "cited_by": [
+      "56-LEWIS-M3-Missive-3.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Creative Commons licenses are adjacent to protocol studies as they establish governance frameworks for information sharing, but are primarily legal/licensing tools rather than protocol systems.",
+    "s2_status": "found",
+    "abstract": null,
+    "s2_paper_id": "faa33de68d5da418861a766598b49363403a29aa",
+    "s2_citation_count": 2,
+    "s2_title": "Commons Attribution CC-BY-NC 4.0 License. Threats posed by serious and organised crime for the safety and",
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "b2dad6badc6854aa": {
+    "_id": "b2dad6badc6854aa",
+    "title": "CC BY 4.0 License",
+    "authors": [],
+    "year": 2023,
+    "venue": "Creative Commons",
+    "doi": null,
+    "url": null,
+    "context": "Licensing framework that will apply to all contributions after December 13, 2026.",
+    "cited_by": [
+      "56-LEWIS-M3-Missive-3.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Creative Commons licenses are adjacent to protocol studies as they establish governance frameworks for information sharing, but are primarily legal/licensing tools rather than protocol systems.",
+    "s2_status": "found_oa",
+    "abstract": "Many secret signs and symbols area associated with the Yoruba as we have it amongst many tribes in Nigeria. Some of these signs and symbols have deep meanings and have connotations amongst the tribe. They form the everyday language of the people and a thorough understanding of them is key in their relationship with one another as a people. The objective of this study is to express the cultural connotations of selected symbols in relation to the Yoruba people of Nigeria. The study hinges on the theories of Mimesis, Structural Formalism and Semiotics. This was validated through ethnographic study of symbols such as art, architecture, clothing, body marks and decorations among others to discover deep and hidden information about cultural beliefs and assumptions among the people under study. Pertinent literatures were reviewed, interviews were conducted, information was sourced from the internet and personal experience was explored. The study points out to the fact that a lot of deep and secret meanings are attached to the selected signs and symbols. The paper concludes that meanings expressed are generally accepted by a host of the Yoruba people; however, there could be slight differences in belief system from one locality to another. The paper had contributed to the pool of knowledge by bringing unknown and hidden meanings of selected signs and symbols of the Yoruba people to limelight. The paper recommends that signs and symbols commonly used in communication among the Yoruba people of Nigeria should incorporated into the curricula of schools; especially Yoruba as a subject and taught to preserve the tradition from extinction. It is also recommended that folklores, mythology and oral tradition be encouraged among younger generation so as to preserve cultural values.",
+    "s2_paper_id": "81b4ea65aefed65664f3a5ccab595abdebc70fe7",
+    "s2_citation_count": 448,
+    "s2_title": "©2023 by the Authors. This Article is an open access article distributed under the terms and conditions of the Creative Commons Attribution (CC BY) license (http://creativecommons.org/licenses/by/4.0/",
+    "s2_authors": [
+      "Sunday James"
+    ],
+    "oa_pdf_url": "https://ajpojournals.org/journals/index.php/EJPCR/article/download/1572/1694",
+    "local_pdf": null
+  },
+  "ff42240a904528b5": {
+    "_id": "ff42240a904528b5",
+    "title": "Retrospectus Newsletter",
+    "authors": [],
+    "year": 2024,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "summerofprotocols.com",
+    "context": "Publication associated with Summer of Protocols, printed July 2024",
+    "cited_by": [
+      "56-LEWIS-M5-Missive-4-nu-for-web.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Summer of Protocols newsletter is relevant as it engages with contemporary protocol thinking and discourse within the protocol studies community.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "4718bf4a5a73b398": {
+    "_id": "4718bf4a5a73b398",
+    "title": "The Craft of Thought: Meditation, Rhetoric, and the Making of Images, 800-1200",
+    "authors": [
+      "Mary J. Carruthers"
+    ],
+    "year": 2000,
+    "venue": "Cambridge University Press",
+    "doi": null,
+    "url": null,
+    "context": "Source on Medieval monastic memory techniques and the use of monastery architecture as a rhetorical tool and machine for thinking.",
+    "cited_by": [
+      "58-LEWIS-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Medieval rhetoric and image-making are adjacent background useful for understanding historical discourse practices but not directly about protocols.",
+    "s2_status": "found",
+    "abstract": null,
+    "s2_paper_id": "6f05e6bfbd61eecc682f21d1ce24f2028f32f172",
+    "s2_citation_count": 122,
+    "s2_title": "The Craft of Thought: Meditation, Rhetoric, and the Making of Images, 400-1200 (review)",
+    "s2_authors": [
+      "David Daintree"
+    ],
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "8e2222e4ab9ee861": {
+    "_id": "8e2222e4ab9ee861",
+    "title": "The Book of Memory: A Study of Memory in Medieval Culture",
+    "authors": [
+      "Mary J. Carruthers"
+    ],
+    "year": 1992,
+    "venue": "Cambridge University Press",
+    "doi": null,
+    "url": null,
+    "context": "Reference work on memory practices and techniques in medieval culture.",
+    "cited_by": [
+      "58-LEWIS-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Medieval memory studies provide historical context for understanding systems and techniques but are not centrally about protocol design or governance.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "82b5eb7afe2fa067": {
+    "_id": "82b5eb7afe2fa067",
+    "title": "Sermo 23, lines 26-33",
+    "authors": [
+      "Peter Chrysologus"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Historical source cited regarding memory infrastructure and the growth of knowledge metaphorically described as a tree.",
+    "cited_by": [
+      "58-LEWIS-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Medieval sermon excerpt is cited for specific historical content unrelated to protocol theory.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "7dc5d6d372979dcc": {
+    "_id": "7dc5d6d372979dcc",
+    "title": "The Clockless Clock Maze",
+    "authors": [
+      "Venkat Rao",
+      "Daniel Schmidt"
+    ],
+    "year": 2023,
+    "venue": "Summer of Protocols",
+    "doi": null,
+    "url": "summerofprotocols.com",
+    "context": "This is the primary work being described, designed to convey temporalities and moods in different protocol environments.",
+    "cited_by": [
+      "61-MAZE-RAO-2023-12-13.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "This Summer of Protocols work engages with protocol thinking through speculative exploration of temporal and structural constraints.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "3933ba41bc1f10eb": {
+    "_id": "3933ba41bc1f10eb",
+    "title": "Speculating on Blockchain as an Unstoppable 'Nature' Towards the Emergence of Artificial Life",
+    "authors": [
+      "Fangting",
+      "Botao Amber Hu"
+    ],
+    "year": 2024,
+    "venue": "The 2024 Conference on Artificial Life",
+    "doi": null,
+    "url": null,
+    "context": "The scientific foundation of the fiction presented is based on this paper by the authors, to be presented at The 2024 Conference on Artificial Life.",
+    "cited_by": [
+      "66-FANGTING.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Blockchain and artificial life speculation substantively contributes to thinking about decentralized coordination systems and emergent protocol-like behavior.",
+    "s2_status": "found",
+    "abstract": null,
+    "s2_paper_id": "70328371df14c6f1171ad54a1a4973c1bed0477c",
+    "s2_citation_count": 6,
+    "s2_title": "Speculating on Blockchain as an Unstoppable ‘Nature’ Towards the Emergence of Artificial Life",
+    "s2_authors": [
+      "B. Hu",
+      "Fangting"
+    ],
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "023c2336a33eb58a": {
+    "_id": "023c2336a33eb58a",
+    "title": "EIP-102024",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "A discussion section in EIP-102024 is cited to provide perspective on accepting OLife as a species equal to humans.",
+    "cited_by": [
+      "66-FANGTING.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Ethereum Improvement Proposal is a core protocol standards document directly about protocol design and governance.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "26a0c46673a4c1a4": {
+    "_id": "26a0c46673a4c1a4",
+    "title": "The Vanishing Subject: Early Modern Asceticism and the Problem of Self-Interest",
+    "authors": [
+      "L.M. Sacasas"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Quoted at the opening of the paper regarding how the human-built world is not built for humans and the importance of human flourishing",
+    "cited_by": [
+      "A-Phenomenology-of-Protocols-Janna-Tay.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Early modern asceticism and self-interest are adjacent historical/philosophical background relevant to institutional thinking but not protocol studies proper.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "14283a1d1703948d": {
+    "_id": "14283a1d1703948d",
+    "title": "Rao et al.",
+    "authors": [
+      "Rao"
+    ],
+    "year": 2026,
+    "venue": "American Journal of Gastroenterology",
+    "doi": null,
+    "url": null,
+    "context": "Cited as reference 19 regarding how good protocols function and evolve",
+    "cited_by": [
+      "A-Phenomenology-of-Protocols-Janna-Tay.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Incomplete reference without substantive title or venue information; cannot assess relevance.",
+    "s2_status": "found",
+    "abstract": null,
+    "s2_paper_id": "2b8dc9b4acc33b4ade2c2f65e16d8f6bee442d5a",
+    "s2_citation_count": 0,
+    "s2_title": "Response to Rao et al.",
+    "s2_authors": [
+      "Khaled Elfert",
+      "Sherif E. Elhanafi"
+    ],
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "413b50cabf97eb78": {
+    "_id": "413b50cabf97eb78",
+    "title": "ActivityPub",
+    "authors": [],
+    "year": 2018,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "The distributed social network protocol that is the target for adding end-to-end encryption.",
+    "cited_by": [
+      "ActivityPub-E2EE-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "ActivityPub is a core social communication protocol standard directly relevant to protocol design and decentralized infrastructure.",
+    "s2_status": "found",
+    "abstract": "In recent years, platforms such as learning management systems and massive open online courses have provided abundant learning resources. However, the issue of allowing individuals to control and manage their lifelong learning data while protecting their privacy remains to be resolved. In this study, we developed a decentralized learning data aggregation and management architecture named Active Study. Within the Active Study architecture, individuals can aggregate and manage their personal learning records and achievements in their ubiquitous personal online datastore (UPOD). Utilizing the ActivityPub protocol, which is widely applied in decentralized social networks, UPOD not only unifies and centralizes the management of LMS and MOOC data but also aggregates physiological and geographical location information collected in real-time during the learning process. By introducing the concept of virtual roles for data categorization and designing a learning data distribution mechanism, UPOD allows users to customize the allocation of data to different virtual roles and decide freely whether to share this data with third parties. We further developed a prototype to evaluate the architecture we proposed. The experimental results confirmed the architecture's feasibility and demonstrated its ability to enrich data for lifelong learning records and personalized learning services.",
+    "s2_paper_id": "53ca1950b62435d70e090b4e174474d60ab67b9b",
+    "s2_citation_count": 0,
+    "s2_title": "Active Study: An Architecture for Decentralized Learning Data Aggregation and Management Based on ActivityPub",
+    "s2_authors": [
+      "Tao Zhou",
+      "Yunhao Ni",
+      "Hong Chen"
+    ],
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "a3fb83ec4af8fe5c": {
+    "_id": "a3fb83ec4af8fe5c",
+    "title": "Messaging Layer Security (MLS) RFC9420",
+    "authors": [],
+    "year": 2023,
+    "venue": "Internet Engineering Task Force (IETF)",
+    "doi": null,
+    "url": null,
+    "context": "An existing Internet standard that the team considered mapping onto ActivityPub as an extension for E2EE.",
+    "cited_by": [
+      "ActivityPub-E2EE-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "MLS RFC is a core cryptographic protocol standard directly about protocol design and security governance from IETF.",
+    "s2_status": "found",
+    "abstract": null,
+    "s2_paper_id": "1cca6bd52ffbfd31f9480b724b6f545c2bac6375",
+    "s2_citation_count": 140,
+    "s2_title": "The Messaging Layer Security (MLS) Protocol",
+    "s2_authors": [
+      "Richard L. Barnes",
+      "B. Beurdouche",
+      "Raphael Robert",
+      "J. Millican",
+      "E. Omara",
+      "Katriel Cohn-Gordon"
+    ],
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "4abeea4d11ea6150": {
+    "_id": "4abeea4d11ea6150",
+    "title": "Safe New World: Protocols that evolve to make their users safer",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Related case file addressing protocol evolution for user safety.",
+    "cited_by": [
+      "ActivityPub-E2EE-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "This work substantively addresses protocol design and evolution for user safety, a key concern in protocol governance thinking.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "803dc1f4c3f65d3b": {
+    "_id": "803dc1f4c3f65d3b",
+    "title": "Protocol System Experience: Focusing on the individual experience in a larger protocol system",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Related case file addressing individual user experience within protocol systems.",
+    "cited_by": [
+      "ActivityPub-E2EE-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Protocol system experience directly engages with how protocols function at individual level within larger governance systems.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "70c4b6e20bf68e3e": {
+    "_id": "70c4b6e20bf68e3e",
+    "title": "The Death and the Death of Orkut: Sociality, meeting user needs, archiving",
+    "authors": [],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Related case file addressing social networks, user needs, and archiving.",
+    "cited_by": [
+      "ActivityPub-E2EE-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Social platform analysis addresses protocol-mediated sociality, user coordination, and institutional design concerns relevant to protocol studies.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "d041924c15885af6": {
+    "_id": "d041924c15885af6",
+    "title": "Signal",
+    "authors": [],
+    "year": 2018,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "The most widely-used abstract encryption protocol in messaging, which operates under a tight trademark license limiting use for open standards.",
+    "cited_by": [
+      "ActivityPub-E2EE-Case-File.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Signal is a core communication protocol system directly relevant to protocol design, security, and infrastructure.",
+    "s2_status": "found_oa",
+    "abstract": "Compressive Sensing (CS) based techniques generally discretize the signal space and assume that the signal has a sparse support restricted on the discretized grid points. This restriction of representing the signal on a discretized grid results in the off-grid problem which causes performance degradation in the reconstruction of signals. Sensor calibration is another issue which can cause performance degradation if not properly addressed. Calibration aims to reduce the disruptive effects of the phase and the gain biases. In this paper, a CS based blind calibration technique is proposed for the reconstruction of multiple off-grid signals. The proposed technique is capable of estimating the off-grid signals and correcting the gain and the phase biases due to insuﬃcient calibration simultaneously. It is applied to off-grid frequency estimation and direction ﬁnding applications using blind calibration. Extensive simulation analyses are performed for both applications. Results show that the proposed technique has superior reconstruction performance.",
+    "s2_paper_id": "0fb6718d8697745b21c1b4b8b9db8dd34bb2bbcc",
+    "s2_citation_count": 4304,
+    "s2_title": "Digital signal processing",
+    "s2_authors": [
+      "T. Cavicchi",
+      "Umberto Spagnolini"
+    ],
+    "oa_pdf_url": "https://doi.org/10.1007/978-3-319-44431-4_8",
+    "local_pdf": null
+  },
+  "9be8847693941e27": {
+    "_id": "9be8847693941e27",
+    "title": "Early Twentieth-Century Hotel Architects and the Origins of Standardization",
+    "authors": [
+      "Lisa Pfueller Davidson"
+    ],
+    "year": 2005,
+    "venue": "Journal of Decorative and Propaganda Arts",
+    "doi": null,
+    "url": null,
+    "context": "Cited as source for information about the 1923 Statler Hotel in Buffalo, New York and its pioneering use of identical room layouts to increase cleaning efficiency.",
+    "cited_by": [
+      "Addressable-Space-Appendix-1-Chenoe-Hart.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Hotel standardization history substantively contributes to understanding how standards and coordination protocols emerge in institutional design.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "f98036929b22f9ff": {
+    "_id": "f98036929b22f9ff",
+    "title": "The Future of Car Navigation Has Arrived",
+    "authors": [
+      "Paul Stenquist"
+    ],
+    "year": 2021,
+    "venue": "The New York Times",
+    "doi": null,
+    "url": "www.nytimes.com/2021/02/25/business/GPS-car-systems.html",
+    "context": "Referenced as an example of sophisticated car navigation systems that increasingly resemble digital information access methods.",
+    "cited_by": [
+      "Addressable-Space-Chenoe-Hart.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "News article about car navigation technology with no clear connection to protocol theory, governance, or institutional design.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "4455606ee913db0c": {
+    "_id": "4455606ee913db0c",
+    "title": "AGILE Destination Controls",
+    "authors": [
+      "ThyssenKrupp Elevator"
+    ],
+    "year": 2022,
+    "venue": "Tourism Recreation Resarch",
+    "doi": null,
+    "url": "www.tkelevator.com/media/products_1/agile/brochures_5/agile-dsc-design-center-elevator-brochure-ea-en.pdf",
+    "context": "Cited as an example of a destination dispatch system for elevators demonstrating reverse skeuomorphism.",
+    "cited_by": [
+      "Addressable-Space-Chenoe-Hart.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Technical product documentation for elevator destination control systems; tangentially relevant as infrastructure design but not about protocols per se.",
+    "s2_status": "found",
+    "abstract": "ABSTRACT Destination marketing organizations (DMOs) have faced significant challenges, and as a result, had to adapt their marketing and management strategies to cope with rapid changes and uncertainty. The objective of this study is to draw from stakeholder management theory and connect it with the literature on agile management to investigate how DMOs have embraced an agile mindset that is more flexible as well as employee and customer-focused amidst these difficult times. In-depth interviews were conducted with senior management at executive levels in the European Travel Commission as well as other from national DMOs across different continents (e.g. Indonesia, Australia, Malta, and South Africa). Overall, this study contributes by presenting a ‘Framework of Agile Destination Management and Marketing’ to the tourism literature. From a practical perspective, this study provides insights to DMOs by integrating the roles of management, customers, and employees as they relate to the strategies of re-branding, re-segmentation, and re-allocation, respectively. It provides recommendations on how DMOs could adopt insights from this framework to address changes in the future.",
+    "s2_paper_id": "53430c4ea793a6a502fcc4bdc798f3591a40b70e",
+    "s2_citation_count": 13,
+    "s2_title": "Agile destination management and marketing",
+    "s2_authors": [
+      "Min Anna Maria Au-Yeung",
+      "V. Tung",
+      "Serene Wai Tsz Tse"
+    ],
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "ef1e4a918f1dfa1b": {
+    "_id": "ef1e4a918f1dfa1b",
+    "title": "Schindler PORT",
+    "authors": [
+      "Schindler Elevator Corporation"
+    ],
+    "year": null,
+    "venue": null,
+    "doi": null,
+    "url": "www.schindler.com/en/elevators/destination-control/port-elevator.html",
+    "context": "Referenced as another example of destination control elevator technology.",
+    "cited_by": [
+      "Addressable-Space-Chenoe-Hart.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Product documentation for elevator control system; represents infrastructure design but lacks substantive engagement with protocol theory or governance.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "8ac7cd838e8ce1c7": {
+    "_id": "8ac7cd838e8ce1c7",
+    "title": "The Evolution of Elevator Technology",
+    "authors": [
+      "Nicole Saloio"
+    ],
+    "year": 2010,
+    "venue": "Facility Management Journal",
+    "doi": null,
+    "url": "www.schindler.com/content/dam/website/us/docs/media/reprint/fmj-evolution-destination-technology.pdf/_jcr_content/renditions/original./fmj-evolution-destination-technology.pdf",
+    "context": "Cited to support discussion of elevator technology evolution and user interface design.",
+    "cited_by": [
+      "Addressable-Space-Chenoe-Hart.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 0,
+    "relevance_rationale": "Historical overview of elevator technology without direct relevance to protocol studies, coordination mechanisms, or governance frameworks.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "d61839fdc74f23f6": {
+    "_id": "d61839fdc74f23f6",
+    "title": "Spatializing Knowledge: Giulio Camillo's Theatre of Memory (1519-1544) – SOCKS",
+    "authors": [
+      "Mariabruna Fabrizi"
+    ],
+    "year": 2019,
+    "venue": "SOCKS",
+    "doi": null,
+    "url": "socks-studio.com/2019/03/03/spatializing-knowledge-giulio-camillos-theatre-of-memory-1519-1544/",
+    "context": "Cited for historical information on Giulio Camillo's memory palace techniques.",
+    "cited_by": [
+      "Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "Art historical analysis of Renaissance memory theater; adjacent to protocol fiction and knowledge organization but not centrally about protocols.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "1d68ad7dab0f904c": {
+    "_id": "1d68ad7dab0f904c",
+    "title": "The Trust Machine",
+    "authors": [],
+    "year": 2015,
+    "venue": "The Economist",
+    "doi": null,
+    "url": "onomist.com/leaders/2015/10/31/the-trust-machine",
+    "context": "Referenced as a source discussing trust in systems, cited in discussion of institutions and reliability.",
+    "cited_by": [
+      "Atoms-Institutes-Blockchains-Josh-Stark.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 1,
+    "relevance_rationale": "unscored",
+    "s2_status": "found_oa",
+    "abstract": null,
+    "s2_paper_id": "beda8f20c35f7f48b217f86175c273162d663af5",
+    "s2_citation_count": 59,
+    "s2_title": "Attacking the trust machine: Developing an information systems research agenda for blockchain cybersecurity",
+    "s2_authors": [
+      "Vincent Schlatt",
+      "T. Guggenberger",
+      "Jonathan Schmid",
+      "Nils Urbach"
+    ],
+    "oa_pdf_url": "https://doi.org/10.1016/j.ijinfomgt.2022.102470",
+    "local_pdf": null
+  },
+  "bbf504d8f7d3fd72": {
+    "_id": "bbf504d8f7d3fd72",
+    "title": "Common and commons",
+    "authors": [
+      "Giuliani",
+      "Vercellone"
+    ],
+    "year": 2019,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Cited as argument that common is a mode of resource production similar to capital",
+    "cited_by": [
+      "Capital-Enclosure-for-Software-Commons-Trent-Van-Epps.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Theoretical work on commons and common resources; directly relevant to commons governance and institutional design.",
+    "s2_status": "found",
+    "abstract": null,
+    "s2_paper_id": "18819a4fc46cee47733e2a9afb2bfd8a8738e710",
+    "s2_citation_count": 2,
+    "s2_title": "Common and commons in the contradictory dynamics between knowledge-based economy and cognitive capitalism",
+    "s2_authors": [
+      "Carlo Vercellone",
+      "Alfonso Giuliani"
+    ],
+    "oa_pdf_url": null,
+    "local_pdf": null
+  },
+  "07e7c3a7273407e0": {
+    "_id": "07e7c3a7273407e0",
+    "title": "Incorporating the Commons",
+    "authors": [
+      "Benjamin Birkinbine"
+    ],
+    "year": 2020,
+    "venue": null,
+    "doi": "10.16997/book39",
+    "url": null,
+    "context": "Source of inspiration for critical analysis of digital commons",
+    "cited_by": [
+      "Capital-Enclosure-for-Software-Commons-Trent-Van-Epps.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Work on incorporating commons; relevant to commons governance and institutional frameworks for managing shared resources.",
+    "s2_status": "found_oa",
+    "abstract": "The concept of ‘the commons’ has been used as a framework to understand resources shared by a community rather than a private entity, and it has also inspired social movements working against the enclosure of public goods and resources. One such resource is free (libre) and open source software (FLOSS). FLOSS emerged as an alternative to proprietary software in the 1980s. However, both the products and production processes of FLOSS have become incorporated into capitalist production. For example, Red Hat, Inc. is a large publicly traded company whose business model relies entirely on free software, and IBM, Intel, Cisco, Samsung, Google are some of the largest contributors to Linux, the open-source operating system. This book explores the ways in which FLOSS has been incorporated into digital capitalism. Just as the commons have been used as a motivational frame for radical social movements, it has also served the interests of free-marketeers, corporate libertarians, and states to expand their reach by dragging the shared resources of social life onto digital platforms so they can be integrated into the global capitalist system.  The book concludes by asserting the need for a critical political economic understanding of the commons that foregrounds (digital) labour, class struggle, and uneven power distribution within the digital commons as well as between FLOSS communities and their corporate sponsors.",
+    "s2_paper_id": "b9e1584db4c9aa3234851a4a393b7e07403f9751",
+    "s2_citation_count": 37,
+    "s2_title": "Incorporating the Digital Commons: Corporate Involvement in Free and Open Source Software",
+    "s2_authors": [
+      "Benjamin J. Birkinbine"
+    ],
+    "oa_pdf_url": "https://www.uwestminsterpress.co.uk/site/books/10.16997/book39/download/3161/",
+    "local_pdf": null
+  },
+  "55f9a072fbfbd23d": {
+    "_id": "55f9a072fbfbd23d",
+    "title": "Commons Praxis: Towards a Critical Political Economy of the Digital Commons",
+    "authors": [
+      "Benjamin Birkinbine"
+    ],
+    "year": 2018,
+    "venue": null,
+    "doi": null,
+    "url": null,
+    "context": "Source of inspiration for critical analysis of digital commons",
+    "cited_by": [
+      "Capital-Enclosure-for-Software-Commons-Trent-Van-Epps.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 2,
+    "relevance_rationale": "Political economy of digital commons; directly addresses governance mechanisms and institutional design for digital protocol-based systems.",
+    "s2_status": "pdf_downloaded",
+    "abstract": "The concept of the commons has provided a useful framework for understanding a wide range of resources and cultural activities associated with the creation of value outside of the traditional market mechanisms under capitalism (i.e. private property, rational selfinterest, and profit maximization). However, these communities often continue to intersect with capital and the state attempts to appropriate their resources. Recent scholarship has sought to unpack some of the contradictions inherent in the claims made about the revolutionary potential of the commons by offering conceptual frameworks for assessing commonsbased projects. This paper builds upon this research by developing a two-pronged argument. First, by drawing examples from the free software movement, I argue that critical political economy provides the most useful analytical framework for understanding the contradictions inherent in the relationship between capital and the commons. Second, I argue for a commons praxis that attempts to overcome some of these contradictions. Within this discussion, I build on the notion of ‘boundary commoning’ to understand organisational form, and I develop the concept of ‘subversive commoning’ for understanding various forms of commoning that seek to undermine the capitalist logics of the digital commons.",
+    "s2_paper_id": "d702fe9f40d70186b8468457e3bcd736bd3ad6e0",
+    "s2_citation_count": 30,
+    "s2_title": "Commons Praxis: Toward a Critical Political Economy of the Digital Commons",
+    "s2_authors": [
+      "Benjamin J. Birkinbine"
+    ],
+    "oa_pdf_url": "https://www.triple-c.at/index.php/tripleC/article/download/929/1173",
+    "local_pdf": "sources/bibliography/pdfs/55f9a072fbfbd23d.pdf"
+  },
+  "4dc658502a957e8a": {
+    "_id": "4dc658502a957e8a",
+    "title": "Linux & Ethereum: Commoning vs Commodifying",
+    "authors": [],
+    "year": 2023,
+    "venue": "Protocol Berg",
+    "doi": null,
+    "url": "www.youtube.com/watch?v=CEwXVUQEQwM",
+    "context": "Audio version of the paper's content presented as podcast",
+    "cited_by": [
+      "Capital-Enclosure-for-Software-Commons-Trent-Van-Epps.pdf"
+    ],
+    "citation_count": 1,
+    "extraction_mode": [
+      "explicit"
+    ],
+    "relevance_score": 3,
+    "relevance_rationale": "Comparative analysis of commoning versus commodification in Linux and Ethereum; core work on protocol governance and commons management.",
+    "s2_status": "not_found",
+    "abstract": null,
+    "s2_paper_id": null,
+    "s2_citation_count": null,
+    "s2_title": null,
+    "s2_authors": null,
+    "oa_pdf_url": null,
+    "local_pdf": null
   }
 }
