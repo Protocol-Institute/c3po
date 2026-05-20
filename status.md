@@ -1,5 +1,40 @@
 # C3PO — Status Log
 
+## 2026-05-20 — Lexicon namespace, attachment capture, monitoring dashboard, star weighting (session 18)
+
+**Lexicon definitions namespace — COMPLETE**
+- Migrated `sources/lexicon_draft.json` schema: flat `{term: entry}` → `{term: [entry, ...]}` (list-of-dicts for multi-definition support)
+- New `ingest/sync_lexicon.py`: ingests triage a+b (560 entries) into `definitions` namespace
+- Vector IDs: `lexicon__{term_slug}__{source_slug}`; metadata: term, triage, source, source_slug, variant_count, definition_index
+- 560 vectors upserted
+
+**Attachment capture — COMPLETE**
+- New `ingest/attachments.py`: download Discord CDN attachments locally before 24h expiry
+- Storage: `data/attachments/{channel_id}/{msg_id}/{filename}` (gitignored, local only)
+- PDF/text attachments embedded as separate `discord_attachment` / `sig_attachment` vectors
+- No backfill of historical attachments (deferred indefinitely)
+
+**Monitoring Dashboard — COMPLETE**
+- `sync_discord.py`, `sync_sig.py`, `fetch_discord_links.py`, `enrich_discord_links.py` all write structured JSON entries to `data/sync_log.json` (90-day rolling)
+- New `ingest/generate_monitoring_page.py`: reads log + manifest + links registry → writes `../website/monitoring.html`
+- Wired into `bin/daily_sync.sh`; pushed daily with SIG pages
+
+**Star weighting — already implemented (stale TODO cleared)**
+- `normalizeDiscord()` + `mergeResults()` in `api/worker.js` already implemented
+- Fixed forum post URL construction in normalizeDiscord (was using channel_id instead of thread_id)
+
+**Daily sync — link farming wired in**
+- `bin/daily_sync.sh` now calls `fetch_discord_links.py --limit 200` + `enrich_discord_links.py` after each discord sync
+
+**Pinecone state: 24,765 vectors**
+- definitions: 560 | discord_links: 8,864 | discord: 5,518 | sig: 4,795 | videos: 2,940 | substack: 1,040 | pdfs: 766 | bibliography: 278 | transcripts: 4
+
+**Open TODOs (priority order):**
+1. Wire `definitions` namespace into worker.js query (decide blend weight vs. other namespaces)
+2. YouTube transcript pass — 161 deferred URLs (18 succeeded in first pass; 177 failed)
+3. c3po_oracle Discord bot — slash commands via Cloudflare Worker deferred response
+4. GitHub Actions cron for `sync_substack.py`
+
 ## 2026-05-20 — Archived channel sweep complete; forum channel support (session 17)
 
 **Archived channels onboarded — COMPLETE (13 channels total in manifest)**

@@ -52,12 +52,12 @@ Planned migration: `Protocol-Institute/c3po` when handing off to org (Phase 6)
 ## Pinecone Index (live)
 
 Host: `https://c3po-bwo39z7.svc.aped-4627-b74a.pinecone.io`
-Namespaces: `substack` (1,040 · 2026-05-14), `pdfs` (766 · 2026-05-15), `videos` (2,940 · 2026-05-17), `bibliography` (278 · 2026-05-18), `transcripts` (4 · grows with use), `discord` (5,518 · 2026-05-20), `sig` (4,795 · 2026-05-20), `discord_links` (8,651 · 2026-05-20) — **Total: 23,992** (pending ~134 more from latest link fetch)
+Namespaces: `substack` (1,040 · 2026-05-14), `pdfs` (766 · 2026-05-15), `videos` (2,940 · 2026-05-17), `bibliography` (278 · 2026-05-18), `transcripts` (4 · grows with use), `discord` (5,518 · 2026-05-20), `sig` (4,795 · 2026-05-20), `discord_links` (8,864 · 2026-05-20), `definitions` (560 · 2026-05-20) — **Total: 24,765**
 
 Discord ingest: `ingest/sync_discord.py` — REST-only batch poll, no gateway, no privileged intents.
 Channel types supported: `general` (text channel messages), `forum` (Discord type=15, fetches threads as posts).
 Channel registry: `data/channel_manifest.json` — 15 channels (4 active general+forum, 4 active SIG, 7 archived).
-Star weighting (TODO — worker not yet updated): starred messages (`star_count > 0`) → 1.0×; unstarred → 0.70× in `normalizeDiscord()` + `mergeResults()` in `api/worker.js`.
+Star weighting: starred messages (`star_count > 0`) → 1.0×; unstarred → 0.70× in `normalizeDiscord()` + `mergeResults()` in `api/worker.js`.
 
 SIG ingest: `ingest/sync_sig.py` — same REST approach, all 4 SIG channels. State in `data/sig_state.json`.
 All 4 SIG channels ingested (2026-05-19): SIGFPT (757), MRG (433), SIGPfB (2,214), ProtFiSIG (1,179).
