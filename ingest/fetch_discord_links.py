@@ -35,7 +35,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).parent))
-from utils import clean_text, chunk_text, embed_chunks, chunk_id, get_voyage_client, get_pinecone_index, PINECONE_BATCH
+from utils import clean_text, chunk_text, embed_chunks, chunk_id, get_voyage_client, get_pinecone_index, PINECONE_BATCH, append_run_log
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
@@ -303,6 +303,39 @@ def ingest_page(url: str, text: str, entry: dict, vc, index) -> int:
     return len(records)
 
 
+# ── YouTube transcript fetch ───────────────────────────────────────────────────
+
+def extract_youtube_id(url: str) -> str | None:
+    try:
+        p = urllib.parse.urlparse(url)
+        if p.netloc in ("youtu.be", "www.youtu.be"):
+            return p.path.lstrip("/").split("?")[0] or None
+        qs = urllib.parse.parse_qs(p.query)
+        return qs.get("v", [None])[0]
+    except Exception:
+        return None
+
+
+def fetch_youtube_transcript(url: str) -> str | None:
+    """Fetch a YouTube transcript using youtube-transcript-api. Returns text or None."""
+    try:
+        from youtube_transcript_api import YouTubeTranscriptApi
+    except ImportError:
+        print("Install youtube-transcript-api")
+        return None
+
+    video_id = extract_youtube_id(url)
+    if not video_id:
+        return None
+    try:
+        api = YouTubeTranscriptApi()
+        transcript = api.fetch(video_id)
+        text = " ".join(s.text for s in transcript)
+        return f"YouTube video transcript: {url}\n\n{text}"
+    except Exception:
+        return None
+
+
 # ── Harvest URLs from Pinecone discord + sig namespaces ───────────────────────
 
 def harvest_urls_from_namespace(idx, namespace: str) -> dict:
@@ -371,6 +404,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--limit", type=int, help="Max URLs to fetch this run")
+    parser.add_argument("--youtube-only", action="store_true",
+                        help="Only process deferred YouTube URLs via transcript API")
     parser.add_argument("--refresh-failed", action="store_true",
                         help="Retry URLs previously marked as failed")
     parser.add_argument("--rescan-fetched", action="store_true",
@@ -379,6 +414,58 @@ def main():
 
     pc_index = get_pinecone_index()
     vc = None if args.dry_run else get_voyage_client()
+
+    # ── YouTube-only mode ──────────────────────────────────────────────────────
+    if args.youtube_only:
+        registry = load_registry()
+        yt_keys = [
+            k for k, e in registry.items()
+            if e.get("fetch_status") == "deferred"
+            and "youtube" in e.get("defer_reason", "").lower()
+        ]
+        if args.limit:
+            yt_keys = yt_keys[:args.limit]
+        print(f"YouTube transcript pass: {len(yt_keys)} deferred URLs")
+        fetched_ok = fetched_fail = total_vectors = 0
+        for i, key in enumerate(yt_keys):
+            url = registry[key]["url"]
+            print(f"[{i+1}/{len(yt_keys)}] {url[:80]}")
+            text = fetch_youtube_transcript(url)
+            if not text:
+                registry[key]["fetch_status"] = "failed"
+                registry[key]["fail_reason"] = "no transcript available"
+                fetched_fail += 1
+                save_registry(registry)
+                continue
+            try:
+                n = ingest_page(url, text, registry[key], vc, pc_index)
+            except ValueError as e:
+                registry[key]["fetch_status"] = "rejected"
+                registry[key]["fail_reason"] = str(e)
+                save_registry(registry)
+                continue
+            registry[key]["fetch_status"] = "fetched"
+            registry[key]["fetched_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+            registry[key]["vector_count"] = n
+            fetched_ok += 1
+            total_vectors += n
+            save_registry(registry)
+            print(f"  ✓ transcript → {n} vectors")
+            time.sleep(0.5)
+        print(f"\n── Done ───────────────────────────────")
+        print(f"  Fetched OK   : {fetched_ok}")
+        print(f"  Failed       : {fetched_fail}")
+        print(f"  Vectors added: {total_vectors}")
+        if not args.dry_run:
+            append_run_log({
+                "ts": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "script": "fetch_links_youtube",
+                "fetched_ok": fetched_ok,
+                "failed": fetched_fail,
+                "vectors_added": total_vectors,
+                "registry_total": len(registry),
+            })
+        return
 
     # Step 1: harvest URLs from discord namespace and merge into registry
     registry = load_registry()
@@ -528,6 +615,17 @@ def main():
     print(f"  Injection rejected: {injections}")
     print(f"  Vectors added     : {total_vectors}")
     print(f"  Registry          : {len(registry)} total URLs")
+
+    if not args.dry_run:
+        append_run_log({
+            "ts": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "script": "fetch_links",
+            "fetched_ok": fetched_ok,
+            "failed": fetched_fail,
+            "injections_rejected": injections,
+            "vectors_added": total_vectors,
+            "registry_total": len(registry),
+        })
 
 
 if __name__ == "__main__":

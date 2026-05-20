@@ -1,9 +1,12 @@
 """Shared utilities: chunking, cleaning, Voyage embedding, Pinecone upsert."""
 
 import hashlib
+import json
 import os
 import re
 import time
+from datetime import datetime, timezone, timedelta
+from pathlib import Path
 from typing import Iterator
 
 import voyageai
@@ -68,6 +71,22 @@ def embed_chunks(texts: list[str], vc: voyageai.Client) -> list[list[float]]:
         if i + EMBED_BATCH < len(texts):
             time.sleep(0.5)  # respect rate limits
     return vectors
+
+
+_LOG_PATH = Path(__file__).parent.parent / "data" / "sync_log.json"
+_LOG_RETENTION_DAYS = 90
+
+
+def append_run_log(entry: dict):
+    """Append a run record to data/sync_log.json, pruning entries older than 90 days."""
+    try:
+        data = json.loads(_LOG_PATH.read_text()) if _LOG_PATH.exists() else {"runs": []}
+        cutoff = (datetime.now(timezone.utc) - timedelta(days=_LOG_RETENTION_DAYS)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        data["runs"] = [r for r in data["runs"] if r.get("ts", "") >= cutoff]
+        data["runs"].append(entry)
+        _LOG_PATH.write_text(json.dumps(data, indent=2, ensure_ascii=False))
+    except Exception as e:
+        print(f"  Warning: failed to write run log: {e}")
 
 
 def upsert_chunks(chunks: list[str], vectors: list[list[float]],

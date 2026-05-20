@@ -23,13 +23,14 @@ import json
 import os
 import sys
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 
 import anthropic
 from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).parent))
-from utils import chunk_id, get_pinecone_index
+from utils import chunk_id, get_pinecone_index, append_run_log
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
@@ -226,6 +227,16 @@ def main():
     print(f"  Deleted (0): {deleted}")
     print(f"  Errors     : {errors}")
     print(f"  Distribution: {score_dist}")
+
+    if not args.dry_run:
+        append_run_log({
+            "ts": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "script": "enrich_links",
+            "scored": scored,
+            "pruned_irrelevant": deleted,
+            "errors": errors,
+            "score_dist": {str(k): v for k, v in score_dist.items()},
+        })
 
 
 if __name__ == "__main__":

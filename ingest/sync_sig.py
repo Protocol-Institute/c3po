@@ -38,7 +38,7 @@ from dotenv import load_dotenv
 import anthropic
 
 sys.path.insert(0, str(Path(__file__).parent))
-from utils import clean_text, chunk_text, embed_chunks, chunk_id, get_voyage_client, get_pinecone_index, PINECONE_BATCH
+from utils import clean_text, chunk_text, embed_chunks, chunk_id, get_voyage_client, get_pinecone_index, PINECONE_BATCH, append_run_log
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
@@ -687,7 +687,7 @@ def process_channel(channel_id: str, config: dict, state: dict,
     print(f"  Main channel msgs   : {message_count}")
     print(f"  Vectors upserted    : {total_vectors}")
 
-    return total_vectors
+    return {"vectors": total_vectors, "meetings": meeting_count, "messages": message_count}
 
 
 def main():
@@ -712,19 +712,36 @@ def main():
     index = None if args.dry_run else get_pinecone_index()
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
 
+    run_ts = datetime.now(timezone.utc)
     grand_total = 0
+    channel_stats = []
     for channel_id, config in target_channels.items():
         print(f"\n{'═'*60}")
         print(f"#{config['name']} ({config['display']})")
         print("═" * 60)
-        n = process_channel(channel_id, config, state, vc, index, client,
-                            backfill=args.backfill, dry_run=args.dry_run,
-                            all_channels=all_channels)
-        grand_total += n
+        result = process_channel(channel_id, config, state, vc, index, client,
+                                 backfill=args.backfill, dry_run=args.dry_run,
+                                 all_channels=all_channels)
+        grand_total += result["vectors"]
+        channel_stats.append({
+            "sig": config["display"],
+            "new_vectors": result["vectors"],
+            "new_meetings": result["meetings"],
+            "new_messages": result["messages"],
+        })
 
     print(f"\n{'═'*60}")
     print(f"Total vectors upserted: {grand_total}")
     print(f"Namespace: {NAMESPACE}")
+
+    if not args.dry_run:
+        append_run_log({
+            "ts": run_ts.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "script": "sync_sig",
+            "channels": channel_stats,
+            "total_new_vectors": grand_total,
+            "total_new_meetings": sum(c["new_meetings"] for c in channel_stats),
+        })
 
 
 if __name__ == "__main__":

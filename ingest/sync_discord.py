@@ -43,7 +43,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).parent))
-from utils import clean_text, embed_chunks, get_voyage_client, get_pinecone_index, PINECONE_BATCH
+from utils import clean_text, embed_chunks, get_voyage_client, get_pinecone_index, PINECONE_BATCH, append_run_log
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
@@ -465,7 +465,6 @@ def main():
             print(f"ERROR: channel {args.channel} not found in manifest")
             sys.exit(1)
 
-    summary_channel_id = os.environ.get("DISCORD_SUMMARY_CHANNEL_ID", "")
     state = load_state()
     vc = None if args.dry_run else get_voyage_client()
     index = None if args.dry_run else get_pinecone_index()
@@ -475,7 +474,8 @@ def main():
     total_threads = 0
     total_starred = 0
     total_urls = 0
-    channel_reports = []
+    channel_reports = []   # (name, n, scanned, threads, starred, urls)
+    channel_cfgs = []      # parallel list of ch_cfg dicts for log
     links_registry = load_links_registry()
 
     for ch_cfg in channels:
@@ -536,6 +536,7 @@ def main():
             total_starred += ch_starred
             total_urls += ch_urls
             channel_reports.append((channel_name, n, len(threads), ch_threads, ch_starred, ch_urls))
+            channel_cfgs.append(ch_cfg)
             print(f"  Ingested: {n}  (posts: {ch_threads}  ⭐: {ch_starred}  🔗: {ch_urls})")
 
         else:
@@ -610,6 +611,7 @@ def main():
             total_starred += ch_starred
             total_urls += ch_urls
             channel_reports.append((channel_name, n, len(messages), ch_threads, ch_starred, ch_urls))
+            channel_cfgs.append(ch_cfg)
             print(f"  Ingested: {n}  (threads: {ch_threads}  ⭐: {ch_starred}  🔗: {ch_urls})")
 
     if not args.dry_run:
@@ -622,25 +624,37 @@ def main():
     ts_label = run_ts.strftime("%Y-%m-%d %H:%M UTC")
 
     ch_lines = "\n".join(
-        f"  **#{name}** — {n} ingested of {scanned} new"
-        + (f" ({threads} threads" + ("⭐" if starred else "") + ")" if threads or starred else "")
+        f"  #{name} — {n} ingested of {scanned} new"
+        + (f" ({threads} threads" if threads else "")
+        + (f"  ⭐{starred}" if starred else "")
+        + (")" if threads else "")
         for name, n, scanned, threads, starred, _ in channel_reports
     )
-    summary = (
-        f"**{label}C3PO Discord Harvest** — {ts_label}\n"
+    print(
+        f"\n{label}C3PO Discord Harvest — {ts_label}\n"
         f"{'─' * 40}\n"
         f"{ch_lines}\n"
         f"⭐ Starred: {total_starred}  |  🔗 URLs: {total_urls}  |  🧵 Threads: {total_threads}  |  "
         f"📥 Total: {total_ingested}"
     )
 
-    print(f"\n{summary}")
-
-    if not args.dry_run and summary_channel_id and total_ingested > 0:
-        post_to_channel(summary_channel_id, summary)
-        print(f"Summary posted to channel {summary_channel_id}")
-    elif not summary_channel_id:
-        print("(DISCORD_SUMMARY_CHANNEL_ID not set — skipping Discord post)")
+    if not args.dry_run:
+        append_run_log({
+            "ts": run_ts.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "script": "sync_discord",
+            "channels": [
+                {
+                    "name": name,
+                    "type": cfg.get("type", "general"),
+                    "new_vectors": n,
+                    "new_urls": ch_urls,
+                }
+                for (name, n, scanned, threads, starred, ch_urls), cfg
+                in zip(channel_reports, channel_cfgs)
+            ],
+            "total_new_vectors": total_ingested,
+            "total_new_urls": total_urls,
+        })
 
 
 if __name__ == "__main__":
