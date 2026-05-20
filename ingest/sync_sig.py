@@ -45,6 +45,7 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 NAMESPACE = "sig"
 STATE_PATH = Path(__file__).parent.parent / "data" / "sig_state.json"
 LINKS_REGISTRY_PATH = Path(__file__).parent.parent / "data" / "discord_links_registry.json"
+MANIFEST_PATH = Path(__file__).parent.parent / "data" / "channel_manifest.json"
 DISCORD_API = "https://discord.com/api/v10"
 GUILD_ID = os.environ.get("DISCORD_GUILD_ID", "")
 
@@ -106,9 +107,27 @@ SIG_CHANNELS = {
 }
 
 
-def is_meeting(thread_name: str, channel_id: str) -> bool:
-    config = SIG_CHANNELS.get(channel_id, {})
-    return any(p.search(thread_name) for p in config.get("meeting_patterns", []))
+def load_sig_channels() -> dict:
+    """Load SIG channel configs from manifest, falling back to hardcoded SIG_CHANNELS."""
+    if MANIFEST_PATH.exists():
+        manifest = json.loads(MANIFEST_PATH.read_text())
+        result = {}
+        for ch in manifest.get("channels", {}).values():
+            if ch.get("type") == "sig" and ch.get("status") == "active":
+                cid = ch["channel_id"]
+                result[cid] = {
+                    "name": ch["name"],
+                    "display": ch["sig_display"],
+                    "meeting_patterns": [re.compile(p, re.I) for p in ch.get("meeting_patterns", [])],
+                }
+        if result:
+            return result
+    return SIG_CHANNELS
+
+
+def is_meeting(thread_name: str, channel_id: str, channels: dict | None = None) -> bool:
+    cfg = (channels or SIG_CHANNELS).get(channel_id, {})
+    return any(p.search(thread_name) for p in cfg.get("meeting_patterns", []))
 
 
 # ── Discord REST client ────────────────────────────────────────────────────────
@@ -499,7 +518,7 @@ def save_state(state: dict):
 
 def process_channel(channel_id: str, config: dict, state: dict,
                     vc, index, client: anthropic.Anthropic,
-                    backfill: bool, dry_run: bool):
+                    backfill: bool, dry_run: bool, all_channels: dict | None = None):
 
     ch_state = state["channels"].setdefault(channel_id, {
         "last_main_message_id": None, "threads": {}
@@ -526,7 +545,7 @@ def process_channel(channel_id: str, config: dict, state: dict,
         if "is_meeting_override" in thread_state:
             meeting = thread_state["is_meeting_override"]
         else:
-            meeting = is_meeting(thread_name, channel_id)
+            meeting = is_meeting(thread_name, channel_id, all_channels)
 
         # Skip if unchanged
         if last_count == reported_count and thread_state.get("processed"):
@@ -674,12 +693,14 @@ def main():
     parser.add_argument("--channel", help="Process only this channel ID")
     args = parser.parse_args()
 
-    target_channels = SIG_CHANNELS
+    all_channels = load_sig_channels()
+    target_channels = all_channels
     if args.channel:
-        if args.channel not in SIG_CHANNELS:
+        if args.channel not in all_channels:
             print(f"Unknown channel: {args.channel}")
+            print(f"Known SIG channels: {', '.join(all_channels.keys())}")
             sys.exit(1)
-        target_channels = {args.channel: SIG_CHANNELS[args.channel]}
+        target_channels = {args.channel: all_channels[args.channel]}
 
     state = load_state()
     vc = None if args.dry_run else get_voyage_client()
@@ -692,7 +713,8 @@ def main():
         print(f"#{config['name']} ({config['display']})")
         print("═" * 60)
         n = process_channel(channel_id, config, state, vc, index, client,
-                            backfill=args.backfill, dry_run=args.dry_run)
+                            backfill=args.backfill, dry_run=args.dry_run,
+                            all_channels=all_channels)
         grand_total += n
 
     print(f"\n{'═'*60}")

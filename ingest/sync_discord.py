@@ -49,6 +49,7 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 
 NAMESPACE = "discord"
 STATE_PATH = Path(__file__).parent.parent / "data" / "discord_state.json"
+MANIFEST_PATH = Path(__file__).parent.parent / "data" / "channel_manifest.json"
 DISCORD_API = "https://discord.com/api/v10"
 
 ORIG_MIN_CHARS = 20    # floor for original posts (fortune-cookie thoughts)
@@ -56,6 +57,21 @@ REPLY_MIN_CHARS = 150  # floor for replies (skip short acks)
 INITIAL_BACKFILL_DAYS = 30
 
 URL_RE = re.compile(r'https?://\S+')
+
+
+def load_general_channels() -> list[dict]:
+    """Return active general channels from manifest, falling back to env var."""
+    if MANIFEST_PATH.exists():
+        manifest = json.loads(MANIFEST_PATH.read_text())
+        channels = [
+            ch for ch in manifest.get("channels", {}).values()
+            if ch.get("type") == "general" and ch.get("status") == "active"
+        ]
+        if channels:
+            return channels
+    # Fallback: build minimal dicts from env var
+    ids = [c.strip() for c in os.environ.get("DISCORD_CHANNEL_IDS", "").split(",") if c.strip()]
+    return [{"channel_id": cid, "min_chars_orig": ORIG_MIN_CHARS, "min_chars_reply": REPLY_MIN_CHARS} for cid in ids]
 
 
 # ── Discord REST client ────────────────────────────────────────────────────────
@@ -306,9 +322,9 @@ def main():
                         help="Harvest this many days back, ignoring saved state")
     args = parser.parse_args()
 
-    channel_ids = [c.strip() for c in os.environ.get("DISCORD_CHANNEL_IDS", "").split(",") if c.strip()]
-    if not channel_ids:
-        print("ERROR: DISCORD_CHANNEL_IDS not set")
+    channels = load_general_channels()
+    if not channels:
+        print("ERROR: no general channels configured (set DISCORD_CHANNEL_IDS or add to channel_manifest.json)")
         sys.exit(1)
 
     summary_channel_id = os.environ.get("DISCORD_SUMMARY_CHANNEL_ID", "")
@@ -323,8 +339,9 @@ def main():
     total_urls = 0
     channel_reports = []
 
-    for channel_id in channel_ids:
-        channel_name = fetch_channel_name(channel_id)
+    for ch_cfg in channels:
+        channel_id = ch_cfg["channel_id"]
+        channel_name = ch_cfg.get("name") or fetch_channel_name(channel_id)
 
         if args.backfill_days:
             after_id = None

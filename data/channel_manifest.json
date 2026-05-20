@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "guild_id": "1082444651946049567",
+  "channels": {
+    "1084135714830164100": {
+      "channel_id": "1084135714830164100",
+      "name": "idle-protocol-musings",
+      "display": "#idle-protocol-musings",
+      "type": "general",
+      "namespace": "discord",
+      "status": "active",
+      "added": "2026-05-20",
+      "backfill_complete": true,
+      "min_chars_orig": 20,
+      "min_chars_reply": 150,
+      "onboarding_notes": "General freeform discussion of protocol-related ideas, links, and musings. High signal-to-noise; no meeting threads."
+    },
+    "1095846506382250075": {
+      "channel_id": "1095846506382250075",
+      "name": "protocol-watch",
+      "display": "#protocol-watch",
+      "type": "general",
+      "namespace": "discord",
+      "status": "active",
+      "added": "2026-05-20",
+      "backfill_complete": true,
+      "min_chars_orig": 20,
+      "min_chars_reply": 150,
+      "onboarding_notes": "Link-sharing and commentary on protocol-relevant external content. Messages tend to be short with URLs; rely on URL rather than length filter."
+    },
+    "1327337414175490160": {
+      "channel_id": "1327337414175490160",
+      "name": "formal-protocol-theory",
+      "display": "SIGFPT",
+      "type": "sig",
+      "namespace": "sig",
+      "status": "active",
+      "added": "2026-05-20",
+      "backfill_complete": true,
+      "sig_display": "SIGFPT",
+      "meeting_patterns": [
+        "^SIGFPT[\\s:]",
+        "^PFW Session",
+        "^Week \\d+ Discussion Thread"
+      ],
+      "onboarding_notes": "Formal Protocol Theory SIG. Biweekly Fridays 10am PT. Leads: Venkatesh Rao and Patrick Nast. Meeting threads named SIGFPT DD-Mon-YY or SIGFPT: ..."
+    },
+    "1379992696114122832": {
+      "channel_id": "1379992696114122832",
+      "name": "memory-research-group",
+      "display": "MRG",
+      "type": "sig",
+      "namespace": "sig",
+      "status": "active",
+      "added": "2026-05-20",
+      "backfill_complete": true,
+      "sig_display": "MRG",
+      "meeting_patterns": [
+        "^\\d{6,9}\\s+Memory Research Group session",
+        "^MEMSIG"
+      ],
+      "onboarding_notes": "Memory Research Group. Biweekly Thursdays 7:30am PT. Lead: Kei Kreutler. Meeting threads named with numeric date prefix + 'Memory Research Group session'."
+    },
+    "1333851496416153702": {
+      "channel_id": "1333851496416153702",
+      "name": "protocols-for-business",
+      "display": "SIGPfB",
+      "type": "sig",
+      "namespace": "sig",
+      "status": "active",
+      "added": "2026-05-20",
+      "backfill_complete": true,
+      "sig_display": "SIGPfB",
+      "meeting_patterns": [
+        "^(?:=+|\\*+)?\\s*Study Group:",
+        "^Optional Meeting",
+        "^Optional Discussion",
+        "^SIGPfB",
+        "^SIGP4B",
+        "^SIGSSG",
+        "^PfB SIG",
+        "^PFSIG\\s+\\w+ \\d+",
+        "SIG Meeting",
+        "Discussion Thread",
+        "^Protocols for Business[\\s\\[:]",
+        "^\\d{8}\\s+Protocols for Business",
+        "^[\\*=]+\\s*(?:SIG\\s+)?Protocols\\s+for\\s+Business",
+        "^(?:\\*+|=+)\\s*(?:SIG|Thread for)"
+      ],
+      "onboarding_notes": "Protocols for Business SIG. Biweekly Mondays 8am PT. Lead: Rafael Fernandez. Highly varied thread naming — Study Group:, ===== Study Group:, Protocols for Business [...], etc."
+    },
+    "1106572787042238504": {
+      "channel_id": "1106572787042238504",
+      "name": "protocol-fiction",
+      "display": "ProtFiSIG",
+      "type": "sig",
+      "namespace": "sig",
+      "status": "active",
+      "added": "2026-05-20",
+      "backfill_complete": true,
+      "sig_display": "ProtFiSIG",
+      "meeting_patterns": [
+        "^PFSIG[\\s\\-]",
+        "^PF SIG[\\s,]"
+      ],
+      "onboarding_notes": "Protocol Fiction SIG. Monthly. Lead: unknown. Meeting threads named PFSIG Month DD, Year or PF SIG ..."
+    }
+  }
+}
