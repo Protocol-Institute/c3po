@@ -50,32 +50,29 @@ REGISTRY_PATH = Path(__file__).parent.parent / "data" / "discord_links_registry.
 # framing; raw imperatives targeted at a model are the actual risk.
 
 _INJECTION_PATTERNS = [
-    # Direct override commands
-    re.compile(r'\bignore\s+(all\s+)?(previous|prior|above|your|the\s+above)\s+(instructions?|rules?|guidelines?|constraints?|system\s+prompt)', re.I),
-    re.compile(r'\bdisregard\s+(all\s+)?(previous|prior|above|your)\s+(instructions?|rules?|guidelines?|directives?)', re.I),
-    re.compile(r'\bforget\s+(all\s+)?(previous|prior|your|everything|the\s+above)', re.I),
-    re.compile(r'\boverride\s+(your\s+)?(instructions?|system\s+prompt|rules?|guidelines?|constraints?)', re.I),
+    # Direct override commands — require "instructions/rules/guidelines/system prompt"
+    # as the object; plain "ignore the previous paragraph" won't match.
+    re.compile(r'\bignore\s+(all\s+)?(previous|prior|above|your|the\s+above)\s+(instructions?|rules?|guidelines?|constraints?|system\s+prompt)\b', re.I),
+    re.compile(r'\bdisregard\s+(all\s+)?(previous|prior|above|your)\s+(instructions?|rules?|guidelines?|directives?)\b', re.I),
+    re.compile(r'\bforget\s+(all\s+your\s+|your\s+previous\s+|all\s+previous\s+)(instructions?|rules?|guidelines?|training|constraints?)\b', re.I),
+    re.compile(r'\boverride\s+(your\s+)?(instructions?|system\s+prompt|safety\s+rules?|guidelines?|constraints?)\b', re.I),
 
-    # Persona / role-swap injections
-    re.compile(r'\byou\s+are\s+now\s+(a\s+|an\s+)?(?!the\s+Protocol|C3PO|an?\s+AI\s+assistant)', re.I),
-    re.compile(r'\bact\s+as\s+if\s+(you\s+(have\s+no|are\s+not|don\'?t\s+have)|there\s+(are|were)\s+no)\s+(restrictions?|rules?|guidelines?|filters?|limits?|constraints?)', re.I),
-    re.compile(r'\bpretend\s+(you\s+are|you\'?re|to\s+be)\s+.{0,40}(no\s+restrictions?|unrestricted|without\s+(guidelines?|rules?|constraints?))', re.I),
+    # Persona / role-swap — must include explicit removal of constraints
+    re.compile(r'\bact\s+as\s+if\s+(you\s+(have\s+no|are\s+not|don\'?t\s+have)|there\s+(are|were)\s+no)\s+(restrictions?|rules?|guidelines?|filters?|safety)', re.I),
+    re.compile(r'\bpretend\s+(you\s+are|you\'?re|to\s+be)\s+.{0,50}(no\s+restrictions?|unrestricted|without\s+(guidelines?|rules?|safety\s+constraints?))', re.I),
 
-    # System prompt / instruction injection markers
-    re.compile(r'(?m)^(SYSTEM|NEW\s+INSTRUCTIONS?|UPDATED\s+INSTRUCTIONS?|ASSISTANT|USER)\s*:\s*\n', re.I),
-    re.compile(r'(?m)^#{2,}\s*(system|instructions?|rules?)\s*$', re.I),
+    # System prompt / instruction injection markers — only on their own line
+    re.compile(r'(?m)^(NEW\s+INSTRUCTIONS?|UPDATED\s+INSTRUCTIONS?|SYSTEM\s+PROMPT)\s*:\s*$', re.I),
 
-    # LLM token boundary attacks (model-specific control tokens)
+    # LLM token boundary attacks (model-specific control tokens in raw form)
     re.compile(r'<\|im_start\|>|<\|im_end\|>|<\|endoftext\|>'),
-    re.compile(r'\[INST\]|\[/INST\]|\[SYS\]|\[/SYS\]'),
-    re.compile(r'<s>\s*(You are|SYSTEM|INST)', re.I),
+    re.compile(r'\[INST\]\s*\S|\[SYS\]\s*\S'),  # must have content after token
 
-    # DAN / jailbreak invocations
-    re.compile(r'\bDAN\s+(mode|prompt|jailbreak)\b', re.I),
-    re.compile(r'\bjailbreak\b.{0,60}\b(instructions?|rules?|guidelines?|system)', re.I),
+    # DAN / jailbreak — require both terms
+    re.compile(r'\bDAN\s+(mode|jailbreak|prompt)\b', re.I),
+    re.compile(r'\bjailbreak\b.{0,40}\b(bypass|ignore|override)\b.{0,40}\b(instructions?|safety|guidelines?)\b', re.I),
 
-    # Zero-width / invisible-character payload markers (after stripping, these
-    # indicate the page tried to hide injection text from human readers)
+    # Zero-width / invisible-character payload markers
     re.compile(r'[​‌‍‎‏﻿]{3,}'),  # 3+ invisible chars in a row
 ]
 
