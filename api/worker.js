@@ -392,12 +392,87 @@ function normalizeSubstack(match) {
   };
 }
 
+function normalizeDiscord(match) {
+  const m = match.metadata;
+  const isThread = m.chunk_type === "thread";
+  const starred  = (m.star_count || 0) > 0;
+  const guild    = m.guild_id || "1082444651946049567";
+  const target   = isThread ? (m.thread_id || m.channel_id) : m.channel_id;
+  const suffix   = isThread ? "" : `/${m.message_id}`;
+  const url = guild && target ? `https://discord.com/channels/${guild}/${target}${suffix}` : null;
+  const allAuthors = (() => { try { return JSON.parse(m.all_authors || "[]"); } catch { return []; } })();
+  return {
+    docId:          m.thread_id || m.message_id || match.id,
+    source:         "discord",
+    score:          match.score,
+    type:           "discussion",
+    label:          "DISCORD",
+    title:          `#${m.channel_name || "discord"}`,
+    authors:        isThread ? allAuthors : [m.author].filter(Boolean),
+    primary_author: m.author || allAuthors[0] || "",
+    date:           (m.timestamp || "").slice(0, 10),
+    url,
+    excerpt:        m.text || "",
+    channel_name:   m.channel_name || "",
+    star_count:     m.star_count || 0,
+    starred,
+    isThread,
+  };
+}
+
+function normalizeSig(match) {
+  const m = match.metadata;
+  const chunkType        = m.chunk_type || "sig_message";
+  const isMeetingSummary = chunkType === "sig_meeting_summary";
+  const isMeetingBody    = chunkType === "sig_meeting_body";
+  const isDiscussion     = chunkType === "sig_discussion";
+  const starred          = (m.star_count || 0) > 0;
+  const guild            = m.guild_id || "1082444651946049567";
+  const SIG_NAMES = { SIGFPT: "Formal Protocol Theory", MRG: "Memory Research Group", SIGPfB: "Protocols for Business", ProtFiSIG: "Protocol Fiction" };
+
+  let url = null;
+  if ((isMeetingSummary || isMeetingBody || isDiscussion) && guild && m.thread_id) {
+    url = `https://discord.com/channels/${guild}/${m.thread_id}`;
+  } else if (guild && m.channel_id && m.message_id) {
+    url = `https://discord.com/channels/${guild}/${m.channel_id}/${m.message_id}`;
+  }
+
+  const title = isMeetingSummary || isMeetingBody
+    ? (m.meeting_title || m.thread_name || "")
+    : isDiscussion
+    ? (m.thread_name || `${m.sig_display} discussion`)
+    : `${m.sig_display} — #${m.channel_name}`;
+
+  const participants = (() => { try { return JSON.parse(m.participants || "[]"); } catch { return []; } })();
+
+  return {
+    docId:          (isMeetingSummary || isMeetingBody || isDiscussion) ? (m.thread_id || match.id) : (m.message_id || match.id),
+    source:         "sig",
+    score:          match.score,
+    type:           chunkType,
+    label:          m.sig_display || "SIG",
+    title,
+    authors:        participants.length ? participants : [m.author].filter(Boolean),
+    primary_author: participants[0] || m.author || "",
+    date:           (m.meeting_date || m.timestamp || "").slice(0, 10),
+    url,
+    excerpt:        m.text || "",
+    sig_display:    m.sig_display || "",
+    sig_name:       SIG_NAMES[m.sig_display] || m.sig_display || "",
+    isMeetingSummary,
+    isMeetingBody,
+    isDiscussion,
+    star_count:     m.star_count || 0,
+    starred,
+  };
+}
+
 // ── Merge ──────────────────────────────────────────────────────────────────────
 
-function mergeResults(pdfItems, substackItems, videoItems, bibItems, maxSources) {
-  // Tier weights: PI-authored primary sources score at full value;
-  // video transcripts and bibliography at 0.9 (secondary sources).
-  // Bibliography items are further scaled by their protocol relevance_score (0-3)/3.
+function mergeResults(pdfItems, substackItems, videoItems, bibItems, discordItems, sigItems, maxSources) {
+  // Tier weights: PI primary sources at full value; community content (discord/sig) at lower weight.
+  // discord starred: 0.85×; unstarred: 0.65×.
+  // sig meeting summaries: 0.85×; body chunks: 0.75×; discussions/messages: 0.70×/0.60×.
   const allItems = [
     ...pdfItems.map(m => ({ ...m, weightedScore: m.score * 1.0 })),
     ...substackItems.map(m => ({ ...m, weightedScore: m.score * 1.0 })),
@@ -405,6 +480,11 @@ function mergeResults(pdfItems, substackItems, videoItems, bibItems, maxSources)
     ...bibItems.map(m => {
       const relScale = m.relevance_score >= 2 ? 1.0 : m.relevance_score >= 1 ? 0.85 : 0.6;
       return { ...m, weightedScore: m.score * 0.85 * relScale };
+    }),
+    ...discordItems.map(m => ({ ...m, weightedScore: m.score * (m.starred ? 0.85 : 0.65) })),
+    ...sigItems.map(m => {
+      const w = m.isMeetingSummary ? 0.85 : m.isMeetingBody ? 0.75 : m.isDiscussion ? 0.70 : (m.starred ? 0.75 : 0.60);
+      return { ...m, weightedScore: m.score * w };
     }),
   ];
   const byId = new Map();
@@ -430,6 +510,13 @@ function buildContextBlock(items) {
       label = `[SERIES/COLLECTION OVERVIEW — "${item.title}"]`;
     } else if (item.isAuthorProfile) {
       label = `[AUTHOR PROFILE — ${item.title}]`;
+    } else if (item.source === "discord") {
+      const chan = item.channel_name ? `#${item.channel_name}` : "Discord";
+      label = `[DISCORD — ${chan}${item.date ? " — " + item.date : ""}${authors !== "Protocol Institute" ? " — participants: " + authors : ""}]`;
+    } else if (item.source === "sig") {
+      const sigName = item.sig_name || item.sig_display || "SIG";
+      const typeLabel = item.isMeetingSummary ? "MEETING" : item.isMeetingBody ? "MEETING TRANSCRIPT" : item.isDiscussion ? "DISCUSSION" : "MESSAGE";
+      label = `[${sigName} ${typeLabel}${item.title ? ` — "${item.title}"` : ""}${item.date ? " — " + item.date : ""}]`;
     } else {
       const coll = item.collection ? ` — ${item.collection}` : "";
       label = `[${item.label} — "${item.title}" — ${authors}${item.date ? " — " + item.date : ""}${coll}]`;
@@ -1483,6 +1570,8 @@ ${SUBNAV_CSS}
 .c3po-badge-substack  { background: #c8e8e0; color: var(--accent); }
 .c3po-badge-talk      { background: #fde8d0; color: #7a3800; }
 .c3po-badge-reference { background: #e8e8e8; color: #444; }
+.c3po-badge-discord   { background: #dce0f8; color: #3a3a90; }
+.c3po-badge-sig       { background: #d8f0ec; color: #1a5a52; }
 
 /* ── Share ────────────────────────────────────────────── */
 .c3po-share-section { margin-top: 2em; padding-top: 1em; border-top: 1px solid #f0ece4; }
@@ -1856,6 +1945,11 @@ ${subnav('/')}
     if (s.source === "substack") return '<span class="c3po-badge c3po-badge-substack">Protocolized</span>';
     if (s.source === "youtube") return '<span class="c3po-badge c3po-badge-talk">Talk</span>';
     if (s.source === "bibliography") return '<span class="c3po-badge c3po-badge-reference">Reference</span>';
+    if (s.source === "discord") return '<span class="c3po-badge c3po-badge-discord">Discord</span>';
+    if (s.source === "sig") {
+      const sigLabel = s.sig_display || "SIG";
+      return '<span class="c3po-badge c3po-badge-sig">' + escHtml(sigLabel) + '</span>';
+    }
     const t = (s.type || "").toLowerCase();
     if (t === "fiction") return '<span class="c3po-badge c3po-badge-fiction">Fiction</span>';
     if (t === "game" || t === "game-design" || t === "game design")
@@ -1965,6 +2059,12 @@ ${subnav('/')}
     const url = s.url ? " — " + s.url : "";
     const who = s.primary_author || "Protocol Institute";
     if (s.source === "substack") return '• [Protocolized] "' + s.title + '" by ' + who + ' (' + (s.date || "") + ')' + url;
+    if (s.source === "discord") return '• [Discord] #' + (s.channel_name || "discord") + (s.date ? ' (' + s.date + ')' : '') + url;
+    if (s.source === "sig") {
+      const sigLabel = s.sig_name || s.sig_display || "SIG";
+      const typeLabel = s.isMeetingSummary || s.isMeetingBody ? "meeting" : s.isDiscussion ? "discussion" : "message";
+      return '• [' + sigLabel + ' ' + typeLabel + '] "' + (s.title || "") + '"' + (s.date ? ' (' + s.date + ')' : '') + url;
+    }
     return '• [' + (s.label || "PDF") + '] "' + s.title + '" — ' + who + ' (' + (s.date || "") + ')' + url;
   }
 
@@ -1989,6 +2089,10 @@ ${subnav('/')}
           ? "[Talk — \"" + s.title + "\" — " + authors + (s.date ? " — " + s.date : "") + "]" + urlLine
           : s.source === "bibliography"
           ? "[Reference — \"" + s.title + "\" — " + authors + (s.date ? " — " + s.date : "") + (s.venue ? " — " + s.venue : "") + "]" + urlLine
+          : s.source === "discord"
+          ? "[Discord — #" + (s.channel_name || "discord") + (s.date ? " — " + s.date : "") + "]" + urlLine
+          : s.source === "sig"
+          ? "[" + (s.sig_name || s.sig_display || "SIG") + (s.isMeetingSummary || s.isMeetingBody ? " meeting" : s.isDiscussion ? " discussion" : " message") + (s.title ? " — \"" + s.title + "\"" : "") + (s.date ? " — " + s.date : "") + "]" + urlLine
           : "[" + (s.label || "PDF") + " — \"" + s.title + "\" — " + authors + (s.date ? " — " + s.date : "") + "]" + urlLine;
         lines.push(label);
         if (s.excerpt) lines.push(s.excerpt.trim());
@@ -2297,7 +2401,7 @@ ${subnav('/how-it-works')}
 </tbody>
 </table>
 
-<p><strong><code>search_corpus</code></strong> is open &mdash; no key required. You can filter by namespace (<code>pdfs</code>, <code>substack</code>, <code>videos</code>, <code>bibliography</code>, or <code>all</code>) and set a result limit (1&ndash;20, default 10). Good for agentic workflows that need raw retrieval without LLM cost.</p>
+<p><strong><code>search_corpus</code></strong> is open &mdash; no key required. You can filter by namespace (<code>pdfs</code>, <code>substack</code>, <code>videos</code>, <code>bibliography</code>, <code>discord</code>, <code>sig</code>, or <code>all</code>) and set a result limit (1&ndash;20, default 10). Good for agentic workflows that need raw retrieval without LLM cost.</p>
 <p><strong><code>ask_c3po</code></strong> requires a Bearer token because each call invokes Claude Sonnet and Voyage AI at real cost. To request access email <a href="mailto:team@protocol-institute.org">team@protocol-institute.org</a>.</p>
 
 <h3>Claude Code</h3>
@@ -2423,18 +2527,19 @@ const MCP_TOOLS = [
     description:
       "Search the Protocol Institute's research archive — 82 research papers and essays " +
       "from the Summer of Protocols and related programs, 91 YouTube talks and lectures, " +
-      "the complete Protocolized magazine archive (fiction, essays, columns), and 270+ " +
-      "bibliography references with abstracts. Returns ranked source excerpts with " +
-      "metadata and URLs. No authentication required.",
+      "the complete Protocolized magazine archive (fiction, essays, columns), 270+ " +
+      "bibliography references with abstracts, Discord community discussions, and " +
+      "SIG (Special Interest Group) meeting archives. Returns ranked source excerpts " +
+      "with metadata and URLs. No authentication required.",
     inputSchema: {
       type: "object",
       properties: {
         query: { type: "string", description: "What to search for" },
         namespace: {
           type: "string",
-          enum: ["pdfs", "substack", "videos", "bibliography", "all"],
+          enum: ["pdfs", "substack", "videos", "bibliography", "discord", "sig", "all"],
           default: "all",
-          description: "Corpus section to search. Default: all",
+          description: "Corpus section to search. 'discord' = community discussions; 'sig' = SIG meeting archives. Default: all",
         },
         limit: {
           type: "integer", minimum: 1, maximum: 20, default: 10,
@@ -2482,11 +2587,13 @@ async function runMcpSearch(args, env) {
 
   const vec = await embed(query, env.VOYAGE_API_KEY);
 
-  const [pdfRaw, subRaw, vidRaw, bibRaw] = await Promise.all([
+  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw] = await Promise.all([
     ["pdfs",        "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "pdfs")         : Promise.resolve([]),
     ["substack",    "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "substack")     : Promise.resolve([]),
     ["videos",      "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "videos")       : Promise.resolve([]),
     ["bibliography","all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "bibliography") : Promise.resolve([]),
+    ["discord",     "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "discord")      : Promise.resolve([]),
+    ["sig",         "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "sig")          : Promise.resolve([]),
   ]);
 
   const items = mergeResults(
@@ -2494,9 +2601,14 @@ async function runMcpSearch(args, env) {
     subRaw.map(normalizeSubstack),
     vidRaw.map(normalizeVideo),
     bibRaw.map(normalizeBibliography),
+    discordRaw.map(normalizeDiscord),
+    sigRaw.map(normalizeSig),
     limit,
-  ).map(({ source, type, label, title, authors, primary_author, date, url, summary, excerpt }) => ({
+  ).map(({ source, type, label, title, authors, primary_author, date, url, summary, excerpt,
+           channel_name, sig_display, sig_name, isMeetingSummary, isMeetingBody, isDiscussion }) => ({
     source, type, label, title, authors, primary_author, date, url, summary, excerpt,
+    ...(source === "discord" ? { channel_name } : {}),
+    ...(source === "sig"     ? { sig_display, sig_name, isMeetingSummary, isMeetingBody, isDiscussion } : {}),
   }));
 
   return mcpToolContent(JSON.stringify({ query, namespace: ns, count: items.length, results: items }, null, 2));
@@ -2510,17 +2622,22 @@ async function runMcpAsk(args, env, ctx) {
   const exchangeNum = Math.floor(history.length / 2) + 1;
   const vec = await embed(question, env.VOYAGE_API_KEY);
 
-  const [pdfRaw, subRaw, vidRaw, bibRaw] = await Promise.all([
+  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw] = await Promise.all([
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "pdfs"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "substack"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "videos"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "bibliography"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "discord"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "sig"),
   ]);
 
-  const topItems     = mergeResults(pdfRaw.map(normalizePdf), subRaw.map(normalizeSubstack), vidRaw.map(normalizeVideo), bibRaw.map(normalizeBibliography), MAX_SOURCES);
+  const topItems     = mergeResults(pdfRaw.map(normalizePdf), subRaw.map(normalizeSubstack), vidRaw.map(normalizeVideo), bibRaw.map(normalizeBibliography), discordRaw.map(normalizeDiscord), sigRaw.map(normalizeSig), MAX_SOURCES);
   const contextBlock = buildContextBlock(topItems);
-  const sources      = topItems.map(({ source, type, label, title, authors, primary_author, date, url, summary }) => ({
+  const sources      = topItems.map(({ source, type, label, title, authors, primary_author, date, url, summary,
+                                       channel_name, sig_display, sig_name, isMeetingSummary, isMeetingBody, isDiscussion }) => ({
     source, type, label, title, authors, primary_author, date, url, summary,
+    ...(source === "discord" ? { channel_name } : {}),
+    ...(source === "sig"     ? { sig_display, sig_name, isMeetingSummary, isMeetingBody, isDiscussion } : {}),
   }));
 
   const messages = [
@@ -2784,17 +2901,21 @@ export default {
         if (!voyageRes.ok) return json({ error: "Embedding error" }, 502, corsHeaders);
         const qv = (await voyageRes.json()).data[0].embedding;
 
-        const [pdfRaw, subRaw, vidRaw, bibRaw] = await Promise.all([
+        const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw] = await Promise.all([
           queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "pdfs"),
           queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "substack"),
           queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "videos"),
           queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "bibliography"),
+          queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "discord"),
+          queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "sig"),
         ]);
         const sources = mergeResults(
           pdfRaw.map(normalizePdf),
           subRaw.map(normalizeSubstack),
           vidRaw.map(normalizeVideo),
           bibRaw.map(normalizeBibliography),
+          discordRaw.map(normalizeDiscord),
+          sigRaw.map(normalizeSig),
           MAX_SOURCES
         ).map(({ weightedScore, ...rest }) => rest);
 
@@ -2877,11 +2998,13 @@ export default {
       const qv = (await voyageRes.json()).data[0].embedding;
 
       // ── 2. Query all namespaces ────────────────────────────────────────────
-      const [pdfRaw, subRaw, vidRaw, bibRaw] = await Promise.all([
+      const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw] = await Promise.all([
         queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "pdfs"),
         queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "substack"),
         queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "videos"),
         queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "bibliography"),
+        queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "discord"),
+        queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "sig"),
       ]);
 
       // Secondary retrieval: summary hits surface well for title queries
@@ -2926,12 +3049,14 @@ export default {
         vidAugmented = [...vidRaw.filter(m => !vidSumIds.has(m.id)), ...flat.filter(m => m.metadata?.source === "youtube")];
       }
 
-      const pdfNorm = pdfAugmented.map(normalizePdf);
-      const subNorm = subAugmented.map(normalizeSubstack);
-      const vidNorm = vidAugmented.map(normalizeVideo);
-      const bibNorm = bibRaw.map(normalizeBibliography);
-      const topItems = mergeResults(pdfNorm, subNorm, vidNorm, bibNorm, MAX_SOURCES);
-      const sources  = topItems.map(({ weightedScore, ...rest }) => rest);
+      const pdfNorm     = pdfAugmented.map(normalizePdf);
+      const subNorm     = subAugmented.map(normalizeSubstack);
+      const vidNorm     = vidAugmented.map(normalizeVideo);
+      const bibNorm     = bibRaw.map(normalizeBibliography);
+      const discordNorm = discordRaw.map(normalizeDiscord);
+      const sigNorm     = sigRaw.map(normalizeSig);
+      const topItems    = mergeResults(pdfNorm, subNorm, vidNorm, bibNorm, discordNorm, sigNorm, MAX_SOURCES);
+      const sources     = topItems.map(({ weightedScore, ...rest }) => rest);
 
       if (mode === "sources") {
         return json({ sources, query }, 200, corsHeaders);
