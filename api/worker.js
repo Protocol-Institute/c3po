@@ -66,9 +66,11 @@ const CF_MONTHLY_USD    = 5.00;
 function ptDateStr() {
   return new Date(Date.now() - 8 * 3600 * 1000).toISOString().slice(0, 10);
 }
-function hourKey()     { return "stats:hour:"     + new Date().toISOString().slice(0, 13); }
-function dayKey()      { return "stats:day:"      + ptDateStr(); }
-function lifetimeKey() { return "stats:lifetime"; }
+function hourKey()      { return "stats:hour:"        + new Date().toISOString().slice(0, 13); }
+function dayKey()       { return "stats:day:"         + ptDateStr(); }
+function lifetimeKey()  { return "stats:lifetime"; }
+function mcpDayKey()    { return "stats:mcp:day:"     + ptDateStr(); }
+function mcpLifeKey()   { return "stats:mcp:lifetime"; }
 
 function calcClaudeCost(s) {
   return (s.in_tok            || 0) * PRICE_IN
@@ -171,26 +173,55 @@ async function trackSessionStart(env) {
   ]);
 }
 
+async function trackMcpRequest(env, usage) {
+  if (!env.RATE_LIMIT) return;
+  const dk = mcpDayKey(), lk = mcpLifeKey();
+  const [ds, ls] = await Promise.all([
+    env.RATE_LIMIT.get(dk, "json"),
+    env.RATE_LIMIT.get(lk, "json"),
+  ]);
+  const zero = { reqs: 0, in_tok: 0, cache_create_tok: 0, cache_read_tok: 0, out_tok: 0 };
+  const d = { ...zero, ...(ds || {}) };
+  const l = { ...zero, ...(ls || {}) };
+  for (const s of [d, l]) {
+    s.reqs             += 1;
+    s.in_tok           += usage?.input_tokens                || 0;
+    s.cache_create_tok += usage?.cache_creation_input_tokens || 0;
+    s.cache_read_tok   += usage?.cache_read_input_tokens     || 0;
+    s.out_tok          += usage?.output_tokens               || 0;
+  }
+  await Promise.all([
+    env.RATE_LIMIT.put(dk, JSON.stringify(d), { expirationTtl: 30 * 24 * 3600 }),
+    env.RATE_LIMIT.put(lk, JSON.stringify(l)),
+  ]);
+}
+
 async function handleStats(env, corsHeaders) {
   if (!env.RATE_LIMIT) return json({ error: "stats unavailable" }, 503, corsHeaders);
   const sessDayKey  = "stats:sessions:day:"      + ptDateStr();
   const sessLifeKey = "stats:sessions:lifetime";
-  const [hs, ds, ls, circuit, sds, sls] = await Promise.all([
+  const [hs, ds, ls, circuit, sds, sls, mds, mls] = await Promise.all([
     env.RATE_LIMIT.get(hourKey(),     "json"),
     env.RATE_LIMIT.get(dayKey(),      "json"),
     env.RATE_LIMIT.get(lifetimeKey(), "json"),
     env.RATE_LIMIT.get("circuit",     "json"),
     env.RATE_LIMIT.get(sessDayKey,    "json"),
     env.RATE_LIMIT.get(sessLifeKey,   "json"),
+    env.RATE_LIMIT.get(mcpDayKey(),   "json"),
+    env.RATE_LIMIT.get(mcpLifeKey(),  "json"),
   ]);
   const zero = { reqs: 0, in_tok: 0, cache_create_tok: 0, cache_read_tok: 0, out_tok: 0 };
-  const h = { ...zero, ...(hs || {}) };
-  const d = { ...zero, ...(ds || {}) };
-  const l = { ...zero, ...(ls || {}) };
+  const h  = { ...zero, ...(hs  || {}) };
+  const d  = { ...zero, ...(ds  || {}) };
+  const l  = { ...zero, ...(ls  || {}) };
+  const md = { ...zero, ...(mds || {}) };
+  const ml = { ...zero, ...(mls || {}) };
   return json({
-    hour:     { reqs: h.reqs, cost_usd: +calcTotalCost(h).toFixed(4) },
-    day:      { reqs: d.reqs, cost_usd: +calcTotalCost(d).toFixed(4) },
-    lifetime: { reqs: l.reqs, cost_usd: +calcTotalCost(l).toFixed(2) },
+    hour:         { reqs: h.reqs,  cost_usd: +calcTotalCost(h).toFixed(4)  },
+    day:          { reqs: d.reqs,  cost_usd: +calcTotalCost(d).toFixed(4)  },
+    lifetime:     { reqs: l.reqs,  cost_usd: +calcTotalCost(l).toFixed(2)  },
+    mcp_day:      { reqs: md.reqs, cost_usd: +calcTotalCost(md).toFixed(4) },
+    mcp_lifetime: { reqs: ml.reqs, cost_usd: +calcTotalCost(ml).toFixed(2) },
     sessions: { today: sds?.count ?? 0, lifetime: sls?.count ?? 0 },
     sleeping:       !!circuit?.sleeping,
     since:          circuit?.since || null,
@@ -1457,7 +1488,8 @@ ${SUBNAV_CSS}
 .csg-label { color: var(--muted); white-space: nowrap; }
 .csg-val   { font-weight: 500; color: #333; font-variant-numeric: tabular-nums; }
 .c3po-stats-headline { font-size: 1.05em; font-weight: 700; color: #333; margin-bottom: 0.6em; padding-bottom: 0.5em; border-bottom: 1px solid var(--border); }
-.c3po-stats-footer { font-size: 0.78em; color: #bbb; border-top: 1px solid var(--border); padding-top: 0.35em; margin-top: 0.3em; }
+.c3po-stats-transcripts { font-size: 0.88em; color: #555; padding: 0.45em 0 0.3em; border-top: 1px solid var(--border); margin-top: 0.3em; }
+.c3po-stats-footer { font-size: 0.78em; color: #bbb; border-top: 1px solid var(--border); padding-top: 0.35em; margin-top: 0.1em; }
 .c3po-stats-sleeping { color: #c07030; font-style: italic; }
 
 @media (max-width: 600px) {
@@ -1528,18 +1560,17 @@ ${subnav('/')}
     <button class="c3po-mcp-btn" id="c3po-mcp-btn" onclick="toggleMcpPanel()">Connect via MCP</button>
   </div>
   <div class="c3po-mcp-panel" id="c3po-mcp-panel">
-    <p>Add C3PO to your AI client (MCP coming soon &mdash; connect the worker URL):</p>
+    <p>Add C3PO to your AI client. <strong>search_corpus</strong> is open &mdash; no key needed. <strong>ask_c3po</strong> requires a Bearer key: <a href="mailto:team@protocol-institute.org">request access</a>.</p>
     <p class="c3po-mcp-label">Claude Code</p>
     <div class="c3po-mcp-code">
-      <code id="mcp-code-cc">claude mcp add c3po --transport http https://c3po.protocol-institute.workers.dev/mcp</code>
+      <code id="mcp-code-cc">claude mcp add c3po --transport http https://c3po.vgr-702.workers.dev/mcp --header "Authorization: Bearer &lt;your-key&gt;"</code>
       <button class="c3po-mcp-copy" onclick="copyMcp('mcp-code-cc', this)">Copy</button>
     </div>
     <p class="c3po-mcp-label">Claude Desktop / other MCP clients</p>
     <div class="c3po-mcp-code">
-      <code id="mcp-code-cd">{"mcpServers":{"c3po":{"type":"http","url":"https://c3po.protocol-institute.workers.dev/mcp"}}}</code>
+      <code id="mcp-code-cd">{"mcpServers":{"c3po":{"type":"http","url":"https://c3po.vgr-702.workers.dev/mcp","headers":{"Authorization":"Bearer &lt;your-key&gt;"}}}}</code>
       <button class="c3po-mcp-copy" onclick="copyMcp('mcp-code-cd', this)">Copy</button>
     </div>
-    <p>MCP support is in development. To continue <em>this specific conversation</em>: click <strong>Download .md</strong> above, then paste the file as your opening message to any LLM.</p>
   </div>
   <div class="c3po-gate-search">
     No LLM needed &mdash; browse the <a href="https://protocolized.io/resources" target="_blank" rel="noopener">Protocol Institute resource library</a> directly.
@@ -2022,14 +2053,20 @@ ${subnav('/')}
       if (!res.ok) return;
       const data = await res.json();
       if (data.sleeping) { showOfflineState(); return; }
-      const d   = data.day      || {};
-      const lt  = data.lifetime || {};
-      const ses = data.sessions || {};
-      const dayReqs  = d.reqs         ?? 0;
-      const dayTotal = d.cost_usd     ?? 0;
-      const ltReqs   = lt.reqs        ?? 0;
-      const ltTotal  = lt.cost_usd    ?? 0;
-      const sessLife = ses.lifetime   ?? 0;
+      const d   = data.day          || {};
+      const lt  = data.lifetime     || {};
+      const md  = data.mcp_day      || {};
+      const ml  = data.mcp_lifetime || {};
+      const ses = data.sessions     || {};
+      const dayReqs    = d.reqs        ?? 0;
+      const dayTotal   = d.cost_usd    ?? 0;
+      const ltReqs     = lt.reqs       ?? 0;
+      const ltTotal    = lt.cost_usd   ?? 0;
+      const mcpDayReqs  = md.reqs      ?? 0;
+      const mcpDayTotal = md.cost_usd  ?? 0;
+      const mcpLtReqs   = ml.reqs      ?? 0;
+      const mcpLtTotal  = ml.cost_usd  ?? 0;
+      const sessLife   = ses.lifetime  ?? 0;
       const hourLim  = data.hour_limit_usd != null ? "$" + data.hour_limit_usd.toFixed(2) : "—";
       const dayLim   = data.day_limit_usd  != null ? "$" + data.day_limit_usd.toFixed(2)  : "—";
 
@@ -2040,10 +2077,12 @@ ${subnav('/')}
         daysLive = Math.round((today - launch) / 86400000);
       }
 
+      const totalLifetimeCost = ltTotal + mcpLtTotal;
+
       const DROID_STATS = '<svg class="c3po-droid-icon" viewBox="0 0 40 46" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="currentColor"><rect x="18" y="0" width="4" height="6" rx="2"/><circle cx="20" cy="1" r="2.5"/><rect x="7" y="6" width="26" height="22" rx="5"/><ellipse cx="15" cy="15" rx="4" ry="4" fill="#f0ede6"/><ellipse cx="25" cy="15" rx="4" ry="4" fill="#f0ede6"/><rect x="12" y="22" width="4" height="4" rx="0.5" fill="#f0ede6"/><rect x="18" y="22" width="4" height="4" rx="0.5" fill="#f0ede6"/><rect x="24" y="22" width="4" height="4" rx="0.5" fill="#f0ede6"/><rect x="15" y="28" width="10" height="5" rx="1"/><rect x="9" y="33" width="22" height="10" rx="4"/></svg>';
 
-      function row(label, val) {
-        return '<span class="csg-label">' + label + '</span><span class="csg-val">' + val + '</span><span></span>';
+      function row(label, v1, v2) {
+        return '<span class="csg-label">' + label + '</span><span class="csg-val">' + v1 + '</span><span class="csg-val">' + v2 + '</span>';
       }
 
       el.innerHTML =
@@ -2053,15 +2092,19 @@ ${subnav('/')}
           '<span class="c3po-profile-name">C3PO</span>' +
         '</div>' +
         '<div class="c3po-stats-body">' +
-          '<div class="c3po-stats-title">&#x25B8; C3PO :: health</div>' +
-          '<div class="c3po-stats-headline">Live ' + daysLive + 'd &nbsp;&middot;&nbsp; $' + ltTotal.toFixed(2) + ' lifetime</div>' +
+          '<div class="c3po-stats-title">&#x25B8; C3PO :: health stats</div>' +
+          '<div class="c3po-stats-headline">Live ' + daysLive + 'd &nbsp;&middot;&nbsp; $' + totalLifetimeCost.toFixed(2) + ' lifetime</div>' +
           '<div class="c3po-stats-grid">' +
-            '<span class="csg-head"></span><span class="csg-head">TODAY</span><span></span>' +
-            row("queries", dayReqs) +
-            row("cost", "$" + dayTotal.toFixed(3)) +
-            row("sessions", sessLife + " total") +
+            '<span class="csg-head"></span><span class="csg-head">WEB</span><span class="csg-head">MCP</span>' +
+            row("queries today",    dayReqs,                    mcpDayReqs) +
+            row("cost today",       "$" + dayTotal.toFixed(3),  "$" + mcpDayTotal.toFixed(3)) +
+            row("lifetime queries", ltReqs,                     mcpLtReqs) +
+            row("lifetime cost",    "$" + ltTotal.toFixed(2),   "$" + mcpLtTotal.toFixed(2)) +
           '</div>' +
-          '<div class="c3po-stats-footer">Hourly limit ' + hourLim + ' &middot; Daily ' + dayLim + ' &middot; resets midnight PT</div>' +
+          '<div class="c3po-stats-transcripts">' +
+            sessLife + ' lifetime sessions' +
+          '</div>' +
+          '<div class="c3po-stats-footer">Hourly ' + hourLim + ' &middot; Daily ' + dayLim + ' &middot; resets midnight PT</div>' +
         '</div>';
     } catch (_) {}
   })();
@@ -2243,6 +2286,237 @@ ${subnav('/terms')}
 </body>
 </html>`;
 
+// ── Embed helper ───────────────────────────────────────────────────────────────
+
+async function embed(text, apiKey) {
+  const res = await fetch(VOYAGE_URL, {
+    method: "POST",
+    headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ input: [text], model: VOYAGE_MODEL, input_type: "query" }),
+  });
+  if (!res.ok) throw new Error(`Voyage error ${res.status}`);
+  return (await res.json()).data[0].embedding;
+}
+
+// ── MCP ────────────────────────────────────────────────────────────────────────
+
+const MCP_TOOLS = [
+  {
+    name: "search_corpus",
+    description:
+      "Search the Protocol Institute's research archive — 82 research papers and essays " +
+      "from the Summer of Protocols and related programs, 91 YouTube talks and lectures, " +
+      "the complete Protocolized magazine archive (fiction, essays, columns), and 270+ " +
+      "bibliography references with abstracts. Returns ranked source excerpts with " +
+      "metadata and URLs. No authentication required.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        query: { type: "string", description: "What to search for" },
+        namespace: {
+          type: "string",
+          enum: ["pdfs", "substack", "videos", "bibliography", "all"],
+          default: "all",
+          description: "Corpus section to search. Default: all",
+        },
+        limit: {
+          type: "integer", minimum: 1, maximum: 20, default: 10,
+          description: "Max results. Default: 10",
+        },
+      },
+      required: ["query"],
+    },
+  },
+  {
+    name: "ask_c3po",
+    description:
+      "Ask C-3PO, the Protocol Institute's research assistant, a question. Retrieves " +
+      "relevant excerpts from the full PI archive and synthesizes a substantive response. " +
+      "Supply history for multi-turn conversations. Requires Bearer authentication — " +
+      "contact team@protocol-institute.org for access. " +
+      "Usage subject to https://c3po.vgr-702.workers.dev/terms",
+    inputSchema: {
+      type: "object",
+      properties: {
+        question: { type: "string", description: "The question to ask C-3PO" },
+        history: {
+          type: "array",
+          description: "Prior conversation turns for multi-turn dialogue",
+          items: {
+            type: "object",
+            properties: {
+              role:    { type: "string", enum: ["user", "assistant"] },
+              content: { type: "string" },
+            },
+            required: ["role", "content"],
+          },
+        },
+      },
+      required: ["question"],
+    },
+  },
+];
+
+async function runMcpSearch(args, env) {
+  const query = String(args.query || "").trim();
+  const ns    = String(args.namespace || "all");
+  const limit = Math.min(Math.max(parseInt(args.limit || 10), 1), 20);
+  if (!query) throw new Error("query is required");
+
+  const vec = await embed(query, env.VOYAGE_API_KEY);
+
+  const [pdfRaw, subRaw, vidRaw, bibRaw] = await Promise.all([
+    ["pdfs",        "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "pdfs")         : Promise.resolve([]),
+    ["substack",    "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "substack")     : Promise.resolve([]),
+    ["videos",      "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "videos")       : Promise.resolve([]),
+    ["bibliography","all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "bibliography") : Promise.resolve([]),
+  ]);
+
+  const items = mergeResults(
+    pdfRaw.map(normalizePdf),
+    subRaw.map(normalizeSubstack),
+    vidRaw.map(normalizeVideo),
+    bibRaw.map(normalizeBibliography),
+    limit,
+  ).map(({ source, type, label, title, authors, primary_author, date, url, summary, excerpt }) => ({
+    source, type, label, title, authors, primary_author, date, url, summary, excerpt,
+  }));
+
+  return mcpToolContent(JSON.stringify({ query, namespace: ns, count: items.length, results: items }, null, 2));
+}
+
+async function runMcpAsk(args, env, ctx) {
+  const question = String(args.question || "").trim();
+  const history  = Array.isArray(args.history) ? args.history : [];
+  if (!question) throw new Error("question is required");
+
+  const exchangeNum = Math.floor(history.length / 2) + 1;
+  const vec = await embed(question, env.VOYAGE_API_KEY);
+
+  const [pdfRaw, subRaw, vidRaw, bibRaw] = await Promise.all([
+    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "pdfs"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "substack"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "videos"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "bibliography"),
+  ]);
+
+  const topItems     = mergeResults(pdfRaw.map(normalizePdf), subRaw.map(normalizeSubstack), vidRaw.map(normalizeVideo), bibRaw.map(normalizeBibliography), MAX_SOURCES);
+  const contextBlock = buildContextBlock(topItems);
+  const sources      = topItems.map(({ source, type, label, title, authors, primary_author, date, url, summary }) => ({
+    source, type, label, title, authors, primary_author, date, url, summary,
+  }));
+
+  const messages = [
+    ...history.map(t => ({ role: t.role, content: t.content })),
+    { role: "user", content: `Question: ${question}\n\nRelevant archive excerpts:\n\n${contextBlock}` },
+  ];
+
+  const claudeRes = await fetch(CLAUDE_URL, {
+    method: "POST",
+    headers: {
+      "x-api-key":         env.ANTHROPIC_API_KEY,
+      "anthropic-version": ANTHROPIC_VER,
+      "anthropic-beta":    "prompt-caching-2024-07-31",
+      "Content-Type":      "application/json",
+    },
+    body: JSON.stringify({
+      model:      CLAUDE_MODEL,
+      max_tokens: 1200,
+      system:     [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
+      messages,
+    }),
+  });
+
+  if (!claudeRes.ok) {
+    console.error("MCP Claude error:", await claudeRes.text());
+    throw new Error("LLM error");
+  }
+
+  const claudeBody = await claudeRes.json();
+  const answer     = claudeBody.content?.[0]?.text || "";
+
+  ctx.waitUntil(trackMcpRequest(env, claudeBody.usage).catch(() => {}));
+
+  return mcpToolContent(JSON.stringify({ question, answer, sources, exchange: exchangeNum, version: BOT_VERSION }, null, 2));
+}
+
+async function handleMcp(request, env, ctx) {
+  if (request.method === "GET") {
+    return new Response(
+      `C3PO MCP server ${BOT_VERSION} — Protocol Institute research assistant. ` +
+      "POST JSON-RPC 2.0. Tools: search_corpus (open), ask_c3po (Bearer auth required).",
+      { status: 200 }
+    );
+  }
+  if (request.method !== "POST") return new Response("POST only", { status: 405 });
+
+  let body;
+  try { body = await request.json(); }
+  catch { return mcpRpc(null, null, { code: -32700, message: "Parse error" }, 400); }
+
+  const { id, method, params } = body;
+
+  // Notifications (no id) — acknowledge silently
+  if (id === undefined || id === null) return new Response(null, { status: 202 });
+
+  try {
+    switch (method) {
+      case "initialize":
+        return mcpRpc(id, {
+          protocolVersion: "2024-11-05",
+          capabilities: { tools: {} },
+          serverInfo: { name: "c3po", version: BOT_VERSION },
+        });
+
+      case "ping":
+        return mcpRpc(id, {});
+
+      case "tools/list":
+        return mcpRpc(id, { tools: MCP_TOOLS });
+
+      case "tools/call": {
+        const { name, arguments: args = {} } = params || {};
+
+        if (name === "search_corpus") {
+          return mcpRpc(id, await runMcpSearch(args, env));
+        }
+
+        if (name === "ask_c3po") {
+          const authHeader = request.headers.get("Authorization") || "";
+          const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7).trim() : "";
+          if (!env.MCP_API_KEY || token !== env.MCP_API_KEY) {
+            return mcpRpc(id, null, { code: -32001, message: "Unauthorized. Contact team@protocol-institute.org for MCP access." });
+          }
+          const circuit = env.RATE_LIMIT ? await env.RATE_LIMIT.get("circuit", "json") : null;
+          if (circuit?.sleeping) {
+            return mcpRpc(id, null, { code: -32001, message: "C3PO is resting (surge protection). Try again next hour." });
+          }
+          return mcpRpc(id, await runMcpAsk(args, env, ctx));
+        }
+
+        return mcpRpc(id, null, { code: -32602, message: `Unknown tool: ${name}` });
+      }
+
+      default:
+        return mcpRpc(id, null, { code: -32601, message: "Method not found" });
+    }
+  } catch (err) {
+    console.error("MCP error:", err);
+    return mcpRpc(id, null, { code: -32603, message: "Internal error: " + (err.message || err) });
+  }
+}
+
+function mcpRpc(id, result, error, status = 200) {
+  const body = error
+    ? { jsonrpc: "2.0", id: id ?? null, error }
+    : { jsonrpc: "2.0", id, result };
+  return new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
+}
+
+function mcpToolContent(text) {
+  return { content: [{ type: "text", text }] };
+}
+
 // ── Worker ─────────────────────────────────────────────────────────────────────
 
 export default {
@@ -2258,6 +2532,9 @@ export default {
     if (request.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: corsHeaders });
     }
+
+    // ── MCP ─────────────────────────────────────────────────────────────────
+    if (url.pathname === "/mcp") return handleMcp(request, env, ctx);
 
     // ── GET / → serve UI ────────────────────────────────────────────────────
     if (request.method === "GET" && url.pathname === "/") {
