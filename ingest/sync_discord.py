@@ -59,13 +59,18 @@ INITIAL_BACKFILL_DAYS = 30
 URL_RE = re.compile(r'https?://\S+')
 
 
-def load_general_channels() -> list[dict]:
-    """Return active general channels from manifest, falling back to env var."""
+def load_general_channels(include_archived: bool = False) -> list[dict]:
+    """Return general channels from manifest, falling back to env var.
+
+    By default returns only active channels. Pass include_archived=True to
+    also include archived channels (used when --channel targets a specific one).
+    """
     if MANIFEST_PATH.exists():
         manifest = json.loads(MANIFEST_PATH.read_text())
+        statuses = {"active", "archived"} if include_archived else {"active"}
         channels = [
             ch for ch in manifest.get("channels", {}).values()
-            if ch.get("type") == "general" and ch.get("status") == "active"
+            if ch.get("type") == "general" and ch.get("status") in statuses
         ]
         if channels:
             return channels
@@ -320,12 +325,18 @@ def main():
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--backfill-days", type=int,
                         help="Harvest this many days back, ignoring saved state")
+    parser.add_argument("--channel", help="Process only this channel ID")
     args = parser.parse_args()
 
-    channels = load_general_channels()
+    channels = load_general_channels(include_archived=bool(args.channel))
     if not channels:
         print("ERROR: no general channels configured (set DISCORD_CHANNEL_IDS or add to channel_manifest.json)")
         sys.exit(1)
+    if args.channel:
+        channels = [ch for ch in channels if ch["channel_id"] == args.channel]
+        if not channels:
+            print(f"ERROR: channel {args.channel} not found in manifest")
+            sys.exit(1)
 
     summary_channel_id = os.environ.get("DISCORD_SUMMARY_CHANNEL_ID", "")
     state = load_state()

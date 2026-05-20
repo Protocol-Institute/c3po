@@ -125,7 +125,7 @@ Questions to consider:
 - What filtering thresholds make sense (min_chars_orig, min_chars_reply)?
 
 Output ONLY valid JSON with this exact structure (no markdown fences):
-{
+{{
   "type": "general" or "sig",
   "namespace": "discord" or "sig",
   "display": "<human-readable channel name, e.g. #general or SIGFPT>",
@@ -134,7 +134,7 @@ Output ONLY valid JSON with this exact structure (no markdown fences):
   "min_chars_reply": <integer, 0-200>,
   "meeting_patterns": [<regex strings if type=sig, else empty list>],
   "onboarding_notes": "<2-3 sentence summary of channel purpose and ingestion notes>"
-}"""
+}}"""
 
 
 def analyze_channel(channel_id: str, channel_info: dict, messages: list[dict], threads: list[dict]) -> dict:
@@ -293,18 +293,26 @@ def main():
     if run_backfill:
         print("\nRunning backfill...")
         if proposed["type"] == "general":
-            # For archived channels fetch full history (10 years); active channels use the
-            # sync script's own default (30-day window on first run).
-            cmd = [sys.executable, str(Path(__file__).parent / "sync_discord.py")]
+            # --channel scopes to just this channel; --backfill-days goes all the way back
+            # for archived channels vs. the 30-day default for new active channels.
+            cmd = [sys.executable, str(Path(__file__).parent / "sync_discord.py"),
+                   "--channel", channel_id]
             if args.archive:
                 cmd += ["--backfill-days", "3650"]
-            subprocess.run(cmd, cwd=Path(__file__).parent.parent)
+            result = subprocess.run(cmd, cwd=Path(__file__).parent.parent)
         elif proposed["type"] == "sig":
             # sync_sig already does a 1500-day backfill on first run for new channels.
-            subprocess.run(
+            result = subprocess.run(
                 [sys.executable, str(Path(__file__).parent / "sync_sig.py"), "--channel", channel_id],
                 cwd=Path(__file__).parent.parent,
             )
+        else:
+            result = subprocess.CompletedProcess(args=[], returncode=0)
+
+        if result.returncode != 0:
+            print(f"ERROR: backfill failed (exit {result.returncode}) — channel added to manifest but backfill_complete remains False.")
+            sys.exit(result.returncode)
+
         # Mark backfill complete
         manifest = load_manifest()
         manifest["channels"][channel_id]["backfill_complete"] = True

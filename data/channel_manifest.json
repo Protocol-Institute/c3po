@@ -87,7 +87,7 @@
         "^[\\*=]+\\s*(?:SIG\\s+)?Protocols\\s+for\\s+Business",
         "^(?:\\*+|=+)\\s*(?:SIG|Thread for)"
       ],
-      "onboarding_notes": "Protocols for Business SIG. Biweekly Mondays 8am PT. Lead: Rafael Fernandez. Highly varied thread naming — Study Group:, ===== Study Group:, Protocols for Business [...], etc."
+      "onboarding_notes": "Protocols for Business SIG. Biweekly Mondays 8am PT. Lead: Rafael Fernandez. Highly varied thread naming \u2014 Study Group:, ===== Study Group:, Protocols for Business [...], etc."
     },
     "1106572787042238504": {
       "channel_id": "1106572787042238504",
@@ -104,6 +104,105 @@
         "^PF SIG[\\s,]"
       ],
       "onboarding_notes": "Protocol Fiction SIG. Monthly. Lead: unknown. Meeting threads named PFSIG Month DD, Year or PF SIG ..."
+    },
+    "1107728758628159570": {
+      "channel_id": "1107728758628159570",
+      "name": "\ud83d\udd78credit-protocols",
+      "display": "#credit-protocols",
+      "type": "general",
+      "namespace": "discord",
+      "status": "archived",
+      "added": "2026-05-20",
+      "backfill_complete": true,
+      "min_chars_orig": 60,
+      "min_chars_reply": 40,
+      "onboarding_notes": "This channel supports an active research project on credit protocols and knowledge credentialing, with participants collaboratively drafting and refining essays, sharing references, and workshopping concepts like 'paradigm refugees' and 'blobs' as theoretical constructs. Conversations mix substantive intellectual discussion with coordination noise (editor searches, feedback requests, document links), so moderate character thresholds are appropriate to filter out short social reactions while preserving conceptual exchanges. No recurring structured meeting threads are evident; ingestion should treat this as general discussion and embed into the discord namespace."
+    },
+    "1107728832548589669": {
+      "channel_id": "1107728832548589669",
+      "name": "\ud83d\udd6fdeath-memory",
+      "display": "#death-memory",
+      "type": "general",
+      "namespace": "discord",
+      "status": "archived",
+      "added": "2026-05-20",
+      "backfill_complete": true,
+      "min_chars_orig": 60,
+      "min_chars_reply": 40,
+      "onboarding_notes": "This channel serves as a working space for the New Time Machines research program, focused on themes of death, memory, archiving, digital preservation, and related philosophical and material practices. Members share drafts, peer feedback (notae threads), references, and prototypes around memory protocols. Ingestion should favor substantive messages and named threads (especially 'notae' and working group threads); short reaction messages, emoji-only posts, and logistics pings should be filtered out via character thresholds."
+    },
+    "1107728702378365008": {
+      "channel_id": "1107728702378365008",
+      "name": "\ud83e\udde0unconscious-protocols",
+      "display": "#unconscious-protocols",
+      "type": "general",
+      "namespace": "discord",
+      "status": "archived",
+      "added": "2026-05-20",
+      "backfill_complete": true,
+      "min_chars_orig": 80,
+      "min_chars_reply": 40,
+      "onboarding_notes": "This channel is a substantive discussion space for developing and refining theoretical frameworks around unconscious and conscious protocol participation, including concepts like protocol dysphoria, implicit/explicit protocols, and states of protocol awareness. Conversations frequently reference draft essays and external academic sources (Foucault, Durkheim, Vervaeke), with members collaboratively building on each other's intellectual work. Messages are generally high-quality and worth embedding; short reaction-style messages and bare link drops without commentary should be filtered out via the character thresholds."
+    },
+    "1107727857595203644": {
+      "channel_id": "1107727857595203644",
+      "name": "\ud83d\udd27tech-standards",
+      "display": "#tech-standards",
+      "type": "general",
+      "namespace": "discord",
+      "status": "archived",
+      "added": "2026-05-20",
+      "backfill_complete": true,
+      "min_chars_orig": 60,
+      "min_chars_reply": 40,
+      "onboarding_notes": "This channel serves as a mixed-purpose discussion space covering technical standards, protocols, and related tooling\u2014with notable recurring contributions from @doriantaylor on RDF/knowledge graph infrastructure and @davidtlang on standards theory and history. Conversations range from substantive technical design discussions and external resource sharing to lighter coordination messages, so moderate character thresholds are appropriate to filter out pure reaction/acknowledgment messages while preserving the meaningful discourse. Threads appear to be ad hoc topical spinoffs rather than recurring structured meetings, so general ingestion is appropriate."
+    },
+    "1102973331071828119": {
+      "channel_id": "1102973331071828119",
+      "name": "\ud83c\udfd9built-environment",
+      "display": "#built-environment",
+      "type": "general",
+      "namespace": "discord",
+      "status": "archived",
+      "added": "2026-05-20",
+      "backfill_complete": true,
+      "min_chars_orig": 80,
+      "min_chars_reply": 60,
+      "onboarding_notes": "This channel hosts substantive research discussion centered on the concept of 'addressable space' \u2014 how physical and digital environments are indexed, labeled, and navigated \u2014 with active collaborative essay development among Protocol Institute researchers and affiliates. Threads are used for artifact sharing and focused sub-discussions (e.g., Christopher Alexander, robot swarm behavior) rather than recurring structured meetings, so general ingestion is appropriate. Messages are generally high-quality and intellectually dense; moderate character thresholds are recommended to filter out short acknowledgments and link-only posts while preserving the rich conceptual exchanges."
+    },
+    "1124384276633362613": {
+      "channel_id": "1124384276633362613",
+      "name": "affiliate-chat",
+      "display": "#affiliate-chat",
+      "type": "sig",
+      "namespace": "sig",
+      "status": "archived",
+      "added": "2026-05-20",
+      "backfill_complete": true,
+      "min_chars_orig": 40,
+      "min_chars_reply": 20,
+      "onboarding_notes": "This is the primary coordination and discussion channel for Protocol Institute affiliate researchers, featuring recurring weekly meetings with dedicated transcript threads (e.g. '8/9 Affiliate Meeting', 'Affiliate Meeting 8/16 One Liner Updates Thread'). Affiliates share work-in-progress artifacts, resources, and project updates here, making thread content particularly substantive and worth prioritizing. General channel noise is moderate \u2014 short logistical pings and scheduling messages are common \u2014 so modest character thresholds are applied to filter those out while preserving meaningful project-related exchanges.",
+      "sig_display": "Affiliates",
+      "meeting_patterns": [
+        "(?i)affiliate\\s+meeting\\s+\\d+[/\\-]\\d+",
+        "(?i)affiliate\\s+kick[\\-\\s]?off",
+        "(?i)affliate\\s+meeting\\s+\\d+[/\\-]\\d+",
+        "(?i)affliate\\s+agenda\\s+for\\s+\\d+[/\\-]\\d+",
+        "(?i)affiliate\\s+.*\\bone\\s+liner\\b"
+      ]
+    },
+    "1107728906116665374": {
+      "channel_id": "1107728906116665374",
+      "name": "\ud83d\udc1dorganizational-protocols",
+      "display": "#organizational-protocols",
+      "type": "general",
+      "namespace": "discord",
+      "status": "archived",
+      "added": "2026-05-20",
+      "backfill_complete": true,
+      "min_chars_orig": 80,
+      "min_chars_reply": 40,
+      "onboarding_notes": "This channel serves as a collaborative working space for research artifact development, primarily around swarm behavior, organizational safety protocols, and attunement technologies. Discussions blend substantive intellectual exchange (draft feedback, academic references, conceptual debate) with light coordination chatter (scheduling, status updates), so moderate character thresholds are appropriate to filter out one-word acknowledgments while retaining short but meaningful replies. Threads are rich and topically varied \u2014 covering essay drafts, taxonomy brainstorms, and reading references \u2014 and should be ingested alongside main-channel messages for full context."
     }
   }
 }

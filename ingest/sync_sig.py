@@ -107,13 +107,18 @@ SIG_CHANNELS = {
 }
 
 
-def load_sig_channels() -> dict:
-    """Load SIG channel configs from manifest, falling back to hardcoded SIG_CHANNELS."""
+def load_sig_channels(include_archived: bool = False) -> dict:
+    """Load SIG channel configs from manifest, falling back to hardcoded SIG_CHANNELS.
+
+    By default returns only active channels. Pass include_archived=True to
+    also include archived channels (used when --channel targets a specific one).
+    """
     if MANIFEST_PATH.exists():
         manifest = json.loads(MANIFEST_PATH.read_text())
+        statuses = {"active", "archived"} if include_archived else {"active"}
         result = {}
         for ch in manifest.get("channels", {}).values():
-            if ch.get("type") == "sig" and ch.get("status") == "active":
+            if ch.get("type") == "sig" and ch.get("status") in statuses:
                 cid = ch["channel_id"]
                 result[cid] = {
                     "name": ch["name"],
@@ -693,7 +698,7 @@ def main():
     parser.add_argument("--channel", help="Process only this channel ID")
     args = parser.parse_args()
 
-    all_channels = load_sig_channels()
+    all_channels = load_sig_channels(include_archived=bool(args.channel))
     target_channels = all_channels
     if args.channel:
         if args.channel not in all_channels:
