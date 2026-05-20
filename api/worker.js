@@ -947,10 +947,23 @@ async function handleAdminTranscripts(request, env, corsHeaders) {
 
 const SUBNAV_SVG = '<svg width="22" height="22" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="c3po-subnav-robot" aria-hidden="true"><rect x="10" y="12" width="20" height="16" rx="3" fill="currentColor"/><rect x="14" y="16" width="4" height="4" rx="1" fill="var(--bg,#fafaf8)"/><rect x="22" y="16" width="4" height="4" rx="1" fill="var(--bg,#fafaf8)"/><rect x="17" y="22" width="6" height="2" rx="1" fill="var(--bg,#fafaf8)"/><rect x="18" y="6" width="4" height="6" rx="2" fill="currentColor"/><rect x="4" y="18" width="6" height="3" rx="1.5" fill="currentColor"/><rect x="30" y="18" width="6" height="3" rx="1.5" fill="currentColor"/></svg>';
 
-const SUBNAV_CSS = '.c3po-subnav{display:flex;align-items:center;gap:0.6em;padding:0.75em 0;margin-bottom:1.5em;border-bottom:1px solid var(--border,#e0dbd3);}.c3po-subnav-brand{display:flex;align-items:center;gap:0.45em;text-decoration:none;color:var(--accent,#0F6E56);flex-shrink:0;}.c3po-subnav-wordmark{font-family:"Instrument Serif",serif;font-size:1.05em;line-height:1.1;color:var(--accent,#0F6E56);}.c3po-beta-badge{display:inline-block;font-family:Outfit,system-ui,sans-serif;font-size:0.6em;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#fff;background:#D85A30;padding:0.15em 0.45em;border-radius:3px;line-height:1.5;}.c3po-subnav-spacer{flex:1;}.c3po-back-link{font-family:Outfit,system-ui,sans-serif;font-size:0.8em;color:var(--muted,#888);text-decoration:none;flex-shrink:0;}.c3po-back-link:hover{color:var(--text,#222);}';
+const SUBNAV_CSS = '.c3po-subnav{display:flex;align-items:center;gap:0.5em;padding:0.75em 0;margin-bottom:1.5em;border-bottom:1px solid var(--border,#e0dbd3);flex-wrap:wrap;row-gap:0.4em;}.c3po-subnav-brand{display:flex;align-items:center;gap:0.45em;text-decoration:none;color:var(--accent,#0F6E56);flex-shrink:0;}.c3po-subnav-wordmark{font-family:"Instrument Serif",serif;font-size:1.05em;line-height:1.1;color:var(--accent,#0F6E56);}.c3po-beta-badge{display:inline-block;font-family:Outfit,system-ui,sans-serif;font-size:0.6em;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#fff;background:#D85A30;padding:0.15em 0.45em;border-radius:3px;line-height:1.5;}.c3po-subnav-links{display:flex;align-items:center;gap:0.15em;margin-left:0.4em;}.c3po-subnav-link{font-family:Outfit,system-ui,sans-serif;font-size:0.78em;color:var(--muted,#888);text-decoration:none;padding:0.2em 0.5em;border-radius:3px;white-space:nowrap;}.c3po-subnav-link:hover{color:var(--text,#222);background:var(--bg2,#f3f0ea);}.c3po-subnav-link.active{color:var(--accent,#0F6E56);font-weight:500;}.c3po-subnav-spacer{flex:1;}.c3po-back-link{font-family:Outfit,system-ui,sans-serif;font-size:0.8em;color:var(--muted,#888);text-decoration:none;flex-shrink:0;white-space:nowrap;}.c3po-back-link:hover{color:var(--text,#222);}';
 
-function subnav(_current) {
-  return '<div class="c3po-subnav"><a href="/" class="c3po-subnav-brand">' + SUBNAV_SVG + '<span class="c3po-subnav-wordmark">C3PO</span><span class="c3po-beta-badge">Beta</span></a><span class="c3po-subnav-spacer"></span><a href="https://protocolized.io" class="c3po-back-link">← protocolized.io</a></div>';
+function subnav(current) {
+  function navLink(href, label) {
+    var cls = 'c3po-subnav-link' + (current === href ? ' active' : '');
+    return '<a href="' + href + '" class="' + cls + '">' + label + '</a>';
+  }
+  return '<div class="c3po-subnav">'
+    + '<a href="/" class="c3po-subnav-brand">' + SUBNAV_SVG + '<span class="c3po-subnav-wordmark">C3PO</span><span class="c3po-beta-badge">Beta</span></a>'
+    + '<div class="c3po-subnav-links">'
+    + navLink('/how-it-works', 'How It Works')
+    + navLink('/roadmap', 'Roadmap')
+    + navLink('/chats', 'Conversations')
+    + '</div>'
+    + '<span class="c3po-subnav-spacer"></span>'
+    + '<a href="https://protocolized.io" class="c3po-back-link">← protocolized.io</a>'
+    + '</div>';
 }
 
 const CHATS_HTML = String.raw`<!DOCTYPE html>
@@ -2370,6 +2383,202 @@ window.copyMcp = function (id, btn) {
 </body>
 </html>`;
 
+const ROADMAP_HTML = String.raw`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C3PO &mdash; Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root { --accent:#0F6E56; --bg:#fafaf8; --bg2:#f3f0ea; --border:#e0dbd3; --muted:#888; --text:#222; }
+* { box-sizing:border-box; }
+body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:var(--bg); color:var(--text); font-size:16px; line-height:1.6; }
+.rm-page { max-width:740px; margin:0 auto; padding:2rem 1.25rem 4rem; }
+.rm-section { margin-bottom:2.2em; }
+.rm-section h2 { font-size:1em; font-weight:600; border-bottom:1px solid var(--border); padding-bottom:0.3em; margin-bottom:0.75em; }
+.rm-section h3 { font-size:0.92em; font-weight:600; color:#444; margin:1.2em 0 0.35em; }
+.rm-section p { margin:0.3em 0 0.7em; line-height:1.65; color:#444; font-size:0.95em; }
+.rm-section a { color:var(--accent); }
+.rm-section code { font-family:"JetBrains Mono","Fira Code",ui-monospace,monospace; font-size:0.86em; background:#ede9e1; padding:0.1em 0.35em; border-radius:2px; }
+.rm-table { width:100%; border-collapse:collapse; font-size:0.87em; margin:0.7em 0 1em; }
+.rm-table th { text-align:left; font-weight:600; border-bottom:1px solid var(--border); padding:0.3em 0.7em; background:var(--bg2); color:#444; }
+.rm-table td { padding:0.3em 0.7em; border-bottom:1px solid #f0ece4; vertical-align:top; line-height:1.5; }
+.rm-table tr:last-child td { border-bottom:none; }
+.rm-items { list-style:none; margin:0.4em 0 0.8em; padding:0; }
+.rm-items li { font-size:0.92em; color:#444; padding:0.2em 0 0.2em 1.3em; position:relative; line-height:1.5; }
+.rm-items li::before { content:""; position:absolute; left:0; top:0.6em; width:6px; height:6px; border-radius:50%; background:var(--border); }
+.rm-items li.done::before { background:var(--accent); }
+.rm-items li.active::before { background:#D85A30; }
+.rm-phase { border:1px solid var(--border); border-radius:5px; padding:1em 1.2em; margin:0.8em 0; background:#fff; }
+.rm-phase-head { display:flex; align-items:baseline; gap:0.7em; margin-bottom:0.5em; }
+.rm-phase-label { font-size:0.75em; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-family:Outfit,system-ui,sans-serif; }
+.rm-phase-label.live { color:var(--accent); }
+.rm-phase-label.active { color:#D85A30; }
+.rm-phase-label.planned { color:#888; }
+.rm-phase-title { font-size:0.97em; font-weight:600; color:#222; }
+.rm-phase p { font-size:0.9em; color:#555; margin:0 0 0.5em; line-height:1.55; }
+.rm-tag { display:inline-block; font-size:0.72em; font-weight:500; font-family:Outfit,system-ui,sans-serif; padding:0.1em 0.5em; border-radius:3px; vertical-align:middle; margin-left:0.3em; }
+.rm-tag.done { background:#e6f4ee; color:#0F6E56; }
+.rm-tag.wip  { background:#fdf0e8; color:#c05020; }
+.rm-tag.next { background:#f3f0ea; color:#666; }
+.rm-cl-entry { display:flex; gap:1em; font-size:0.88em; padding:0.5em 0; border-bottom:1px solid #f5f2ec; align-items:baseline; }
+.rm-cl-entry:last-child { border-bottom:none; }
+.rm-cl-date { color:#999; flex-shrink:0; width:6.5em; font-variant-numeric:tabular-nums; }
+.rm-cl-text { color:#444; line-height:1.5; flex:1; }
+.rm-note { background:var(--bg2); border-left:3px solid var(--border); padding:0.65em 1em; font-size:0.9em; margin:0.8em 0; color:#555; }
+${SUBNAV_CSS}
+</style>
+</head>
+<body>
+<div class="rm-page">
+${subnav('/roadmap')}
+
+<h1 style="font-family:Lora,serif;font-size:1.45em;font-weight:600;margin:0 0 0.3em;line-height:1.3;">C3PO Development Roadmap</h1>
+<p style="color:#666;font-size:0.9em;margin-bottom:0.4em;">Protocol Institute Oracle &mdash; continuously updated, publicly reviewed</p>
+<p style="color:#999;font-size:0.82em;margin-bottom:2em;">Last updated: 2026-05-20 &mdash; <a href="https://github.com/vgururao/c3po" style="color:#999">github.com/vgururao/c3po</a></p>
+
+<div class="rm-note">This roadmap is a live document. Development on C3PO is continuous and openly tracked. The corpus, weights, scoring, and soul document are all in active revision. If you have questions or suggestions, reach out via <a href="https://protocolized.io">protocolized.io</a>.</div>
+
+<div class="rm-section">
+<h2>Current state</h2>
+
+<h3>Corpus &mdash; 19,634 vectors across 8 namespaces</h3>
+<table class="rm-table">
+<thead><tr><th>Namespace</th><th>Vectors</th><th>Contents</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>pdfs</code></td><td>766</td><td>82 papers, essays &amp; games from the Summer of Protocols</td><td>Stable</td></tr>
+<tr><td><code>substack</code></td><td>1,040</td><td>116+ Protocolized posts — fiction, theory, editorial</td><td>Daily sync</td></tr>
+<tr><td><code>videos</code></td><td>2,940</td><td>91 YouTube talks and lectures</td><td>Stable</td></tr>
+<tr><td><code>bibliography</code></td><td>278</td><td>250+ externally cited works with abstracts</td><td>Stable</td></tr>
+<tr><td><code>discord</code></td><td>3,301</td><td>#idle-musings and #protocol-watch community channels</td><td>Periodic sync</td></tr>
+<tr><td><code>sig</code></td><td>4,583</td><td>78 sessions across 4 SIG groups (SIGFPT, MRG, SIGPfB, ProtFiSIG)</td><td>Periodic sync</td></tr>
+<tr><td><code>discord_links</code></td><td>6,722</td><td>Web content linked from Discord/SIG — fetched, chunked, relevance-scored</td><td>v2 rescore in progress</td></tr>
+<tr><td><code>transcripts</code></td><td>4</td><td>Published C3PO conversations (grows with use)</td><td>On demand</td></tr>
+</tbody>
+</table>
+
+<h3>Scope</h3>
+<p>C3PO was reframed in May 2026 from a narrow research assistant to a broad-based oracle covering protocols and their full intellectual world: theory, fiction, history, technology, governance, memory, culture, and the science of coordination. The narrower scope produced systematic over-filtering of relevant material; the expanded scope is being validated through a dual scoring comparison.</p>
+
+<h3>Lexicon</h3>
+<p>914 PI corpus terms have been extracted from the PDF corpus and triaged into three categories: <strong>233 PI-coined</strong> (invented by PI/SoP researchers), <strong>320 PI-specific usage</strong> (standard terms given a distinct PI definition), and <strong>349 standard field terms</strong> (useful for detecting adjacencies with adjacent fields). The lexicon has not yet been embedded or published; that is Phase 3 work.</p>
+
+<h3>Relevance scoring</h3>
+<p>Web links in <code>discord_links</code> carry two relevance scores. <strong>v1</strong> (narrow: "is this protocol research?") was used for the initial fetch pass; it deleted 485 of 1,412 fetched URLs as irrelevant. <strong>v2</strong> (broad: "is this part of the PI intellectual world?") rescored all 1,412 URLs under the expanded scope; 281 of the 485 deleted entries were rescued, and scores shifted strongly upward. The v2 scores are in the registry; Pinecone metadata update and tier weight adjustment are pending.</p>
+</div>
+
+<div class="rm-section">
+<h2>Phases</h2>
+
+<div class="rm-phase">
+  <div class="rm-phase-head">
+    <span class="rm-phase-label live">Live</span>
+    <span class="rm-phase-title">Phase 2C — Multi-source oracle with community layer</span>
+  </div>
+  <p>All 8 namespaces active. Discord and SIG archives integrated with badge display, deep links, and tier-weighted retrieval. Web links layer with injection filtering and dual relevance scoring. Expanded oracle scope in system prompt and SOUL document.</p>
+  <ul class="rm-items">
+    <li class="done">8 namespaces, 19,634 vectors</li>
+    <li class="done">Discord + SIG retrieval with badge display and deep links</li>
+    <li class="done">Web links fetch pipeline with prompt injection filter</li>
+    <li class="done">Dual relevance scoring (v1 narrow / v2 expanded scope)</li>
+    <li class="done">Expanded oracle scope: 11 topic areas, 9 intellectual commitments</li>
+    <li class="done">914-term lexicon triage (a/b/c classification)</li>
+    <li class="active">Tier weighting revision <span class="rm-tag wip">in progress</span></li>
+    <li class="active">SOUL.md v2 via corpus sampling <span class="rm-tag wip">in progress</span></li>
+    <li class="active">Pinecone metadata update with v2 relevance scores <span class="rm-tag next">pending</span></li>
+  </ul>
+</div>
+
+<div class="rm-phase">
+  <div class="rm-phase-head">
+    <span class="rm-phase-label planned">Next</span>
+    <span class="rm-phase-title">Phase 3 — Lexicon, knowledge structure, and automation</span>
+  </div>
+  <p>Publish the PI lexicon, embed it as a queryable namespace, and automate corpus maintenance.</p>
+  <ul class="rm-items">
+    <li>Magazine lexicon pass — extract fictional protocols, memetic concepts, and design fictions from Protocolized fiction archive (~65 posts, ~$0.70 Haiku)</li>
+    <li>Lexicon curation — 914 terms → publishable set for protocolized.io resource page + 40–60 term prompt block</li>
+    <li>Embed lexicon as <code>definitions</code> namespace in Pinecone — makes lexicon terms retrievable in context</li>
+    <li>Protocol observations database — named PI analyses of real-world protocols, from protocol-watching pieces</li>
+    <li>YouTube transcript pass — 161 deferred URLs, transcripts via youtube-transcript-api (no API key required)</li>
+    <li>launchd automation — daily <code>sync_discord.py</code>, weekly <code>sync_sig.py</code> + <code>fetch_discord_links.py</code></li>
+    <li>GitHub Actions cron for <code>sync_substack.py</code></li>
+  </ul>
+</div>
+
+<div class="rm-phase">
+  <div class="rm-phase-head">
+    <span class="rm-phase-label planned">Planned</span>
+    <span class="rm-phase-title">Phase 4 — Corpus expansion</span>
+  </div>
+  <p>Broaden the sources the corpus draws from.</p>
+  <ul class="rm-items">
+    <li>Attachment capture — download Discord/SIG media files at sync time before CDN URLs expire (24h window)</li>
+    <li>Additional Discord channels beyond #idle-musings and #protocol-watch</li>
+    <li>Twitter/X archive pass — 194 deferred URLs (requires Twitter API v2 credentials)</li>
+    <li>Exhibit extraction for PDFs — section summaries, list exhibits, figure captions, table summaries for the 82 core papers</li>
+    <li>Explore: newsletter/blog RSS feeds cited frequently in Discord as persistent sources</li>
+  </ul>
+</div>
+
+<div class="rm-phase">
+  <div class="rm-phase-head">
+    <span class="rm-phase-label planned">Research</span>
+    <span class="rm-phase-title">Phase 5 — Intelligence and routing</span>
+  </div>
+  <p>Make retrieval smarter about what's being asked, not just what was written.</p>
+  <ul class="rm-items">
+    <li>Query-domain classification — detect when a query is about memory, fiction, governance, technology, etc. and boost the authoritative namespace accordingly (e.g. MRG for memory, ProtFiSIG for fiction)</li>
+    <li>Dynamic tier weighting — weights that adapt to query domain rather than fixed global multipliers</li>
+    <li>Chunk-type awareness — summary vectors weighted differently from body chunks depending on query specificity</li>
+    <li>Personalization hooks — MCP clients can specify a focus domain; C3PO adjusts retrieval emphasis</li>
+  </ul>
+</div>
+
+<div class="rm-phase">
+  <div class="rm-phase-head">
+    <span class="rm-phase-label planned">Future</span>
+    <span class="rm-phase-title">Phase 6 — Handoff and scale</span>
+  </div>
+  <p>Transition from personal infrastructure to Protocol Institute organizational infrastructure.</p>
+  <ul class="rm-items">
+    <li>Migrate repo from <code>vgururao/c3po</code> to <code>Protocol-Institute/c3po</code></li>
+    <li>Transfer API key billing and ownership to PI org accounts</li>
+    <li>Public API key program — open <code>ask_c3po</code> MCP access beyond current invite-only</li>
+    <li>Contributor guide — how community members can propose corpus additions or lexicon edits</li>
+  </ul>
+</div>
+</div>
+
+<div class="rm-section">
+<h2>Open questions under active consideration</h2>
+<ul class="rm-items">
+  <li><strong>Tier weighting after scope expansion</strong> — PDFs and Substack at 1.0&times; made sense as the primary corpus. Now that SIG meeting summaries (4,583 vectors) and web links (6,722 vectors) are large and well-scored, the hierarchy needs revision. Currently being designed.</li>
+  <li><strong>How to sample the corpus for SOUL.md v2</strong> — the soul document should emerge from what the corpus actually contains, not from what we think it should contain. Need a systematic sampling approach across all 8 namespaces before writing v2.</li>
+  <li><strong>Fiction lexicon integration</strong> — fictional protocols from Protocolized fiction should be surfaced by C3PO but clearly marked as fictional. The right format (a separate system prompt block? a metadata flag?) is under consideration.</li>
+  <li><strong>Scoring for general-interest web content</strong> — the v2 rubric rescues much more web content as "adjacent" (score 1). Score-1 content is retained in Pinecone but weighted at 0.55&times;. Is that the right floor, or does it add noise?</li>
+</ul>
+</div>
+
+<div class="rm-section">
+<h2>Changelog</h2>
+<div class="rm-cl-entry"><span class="rm-cl-date">2026-05-20</span><span class="rm-cl-text">Expanded oracle scope deployed — 11 topic areas, 9 intellectual commitments, new SCOPE section in system prompt and SOUL_EXCERPT. Roadmap page published.</span></div>
+<div class="rm-cl-entry"><span class="rm-cl-date">2026-05-20</span><span class="rm-cl-text">914-term lexicon triage complete: 233 PI-coined / 320 PI-specific / 349 standard field terms. v2 relevance rescore complete: 281 of 485 dropped web links rescued. Score-2 bucket nearly tripled (276 → 668).</span></div>
+<div class="rm-cl-entry"><span class="rm-cl-date">2026-05-20</span><span class="rm-cl-text">discord_links namespace live — 1,412 URLs fetched from Discord/SIG messages, injection-filtered, chunked into ~6,722 vectors (post-enrichment). Prompt injection filter: 11 patterns + invisible-char density guard.</span></div>
+<div class="rm-cl-entry"><span class="rm-cl-date">2026-05-20</span><span class="rm-cl-text">Phase 2C deployed — Discord and SIG archives integrated into retrieval. Badges, deep links, tier-weighted merging. All 4 SIG groups indexed: SIGFPT, MRG, SIGPfB, ProtFiSIG (78 sessions, 4,583 vectors).</span></div>
+<div class="rm-cl-entry"><span class="rm-cl-date">2026-05-19</span><span class="rm-cl-text">Security hardening — IP strike/ban system, history-smuggling detection, MCP rate limit (100 calls/IP/day). Roleplay-as-unrestricted and corpus-weaponization filters added.</span></div>
+<div class="rm-cl-entry"><span class="rm-cl-date">2026-05-18</span><span class="rm-cl-text">Bibliography namespace — 252 externally cited works with abstracts and relevance scores (278 vectors).</span></div>
+<div class="rm-cl-entry"><span class="rm-cl-date">2026-05-17</span><span class="rm-cl-text">YouTube namespace — 91 talks, 2,940 vectors. Title-anchored embeddings, per-video summary vectors.</span></div>
+<div class="rm-cl-entry"><span class="rm-cl-date">2026-05-15</span><span class="rm-cl-text">PDF namespace — 82 SoP papers, 766 vectors. doc_summary vectors for summary-level retrieval.</span></div>
+<div class="rm-cl-entry"><span class="rm-cl-date">2026-05-14</span><span class="rm-cl-text">Substack namespace — 116+ Protocolized posts, 1,040 vectors including post_summary, collection_card, author_profile chunk types.</span></div>
+<div class="rm-cl-entry"><span class="rm-cl-date">2026-05-12</span><span class="rm-cl-text">Initial deployment — Phase 1, PDFs + Substack only, Cloudflare Workers, Voyage AI embeddings, Pinecone, Claude Sonnet.</span></div>
+</div>
+
+</div>
+</body>
+</html>`;
+
 const HOW_IT_WORKS_HTML = String.raw`<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2896,6 +3105,13 @@ export default {
     // ── GET /chats/:id → individual chat page ────────────────────────────────
     if (request.method === "GET" && url.pathname.startsWith("/chats/") && url.pathname.length > 7) {
       return new Response(CHAT_HTML, {
+        headers: { "Content-Type": "text/html; charset=UTF-8", "Cache-Control": "no-cache" },
+      });
+    }
+
+    // ── GET /roadmap ─────────────────────────────────────────────────────────
+    if (request.method === "GET" && url.pathname === "/roadmap") {
+      return new Response(ROADMAP_HTML, {
         headers: { "Content-Type": "text/html; charset=UTF-8", "Cache-Control": "no-cache" },
       });
     }
