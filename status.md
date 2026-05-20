@@ -1,5 +1,40 @@
 # C3PO — Status Log
 
+## 2026-05-20 — Archived channel sweep complete; forum channel support (session 17)
+
+**Archived channels onboarded — COMPLETE (13 channels total in manifest)**
+- General/archived: #credit-protocols, #death-memory, #unconscious-protocols, #tech-standards, #built-environment, #organizational-protocols, #field-reports
+- SIG/archived: #affiliate-chat (Affiliates SIG)
+- Forum/archived: #reading-room (Discord type=15 — all content as forum post threads, 81 posts)
+- URL registry: 3,824 URLs total after all sweeps
+
+**Forum channel support in sync_discord.py — COMPLETE**
+- New `fetch_forum_threads()`: fetches active (guild-level) + archived public threads, sorted oldest-first
+- New `format_forum_post_chunk()`: bundles thread + replies into one chunk (chunk_type=`forum_post`)
+- `load_general_channels()` now includes `type=forum` entries
+- State tracking: `last_thread_ids` dict (separate from `last_message_ids` for text channels)
+- URL registration wired in for all forum post content
+
+**onboard_channel.py — Forum-aware**
+- Detects Discord type=15; passes `discord_type` and label into ANALYSIS_PROMPT so Claude proposes `type=forum`
+- Manifest entry gets `discord_type: 15` stored for reference
+- Backfill routes `type=forum` same as `type=general` (sync_discord.py --channel)
+
+**Link farming — COMPLETE for all archived channels**
+- Previous fetch (507 URLs): 222 OK, 1,929 vectors → discord_links namespace
+- New fetch (134 URLs from #field-reports + #reading-room): running in background
+
+**Pinecone state: 23,992 vectors** (+ ~134 pending link fetch)
+- discord: 5,518 | sig: 4,795 | discord_links: 8,651 | videos: 2,940 | substack: 1,040 | pdfs: 766 | bibliography: 278 | transcripts: 4
+
+**Open TODOs (priority order):**
+1. Set `DISCORD_SUMMARY_CHANNEL_ID` in `.env` — choose a channel for sync heartbeat posts
+2. YouTube transcript pass — 161 deferred URLs
+3. Attachment capture in sync scripts — download at ingest time before 24h CDN expiry
+4. c3po_oracle Discord bot — slash commands via Cloudflare Worker deferred response
+5. Add definitions namespace (`lexicon_draft.json`)
+6. GitHub Actions cron for `sync_substack.py`
+
 ## 2026-05-20 — Channel manifest, onboarding tool, daily launchd sync (session 16)
 
 **Channel manifest — COMPLETE**

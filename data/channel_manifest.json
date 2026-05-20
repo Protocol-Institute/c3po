@@ -87,7 +87,7 @@
         "^[\\*=]+\\s*(?:SIG\\s+)?Protocols\\s+for\\s+Business",
         "^(?:\\*+|=+)\\s*(?:SIG|Thread for)"
       ],
-      "onboarding_notes": "Protocols for Business SIG. Biweekly Mondays 8am PT. Lead: Rafael Fernandez. Highly varied thread naming \u2014 Study Group:, ===== Study Group:, Protocols for Business [...], etc."
+      "onboarding_notes": "Protocols for Business SIG. Biweekly Mondays 8am PT. Lead: Rafael Fernandez. Highly varied thread naming — Study Group:, ===== Study Group:, Protocols for Business [...], etc."
     },
     "1106572787042238504": {
       "channel_id": "1106572787042238504",
@@ -107,7 +107,7 @@
     },
     "1107728758628159570": {
       "channel_id": "1107728758628159570",
-      "name": "\ud83d\udd78credit-protocols",
+      "name": "🕸credit-protocols",
       "display": "#credit-protocols",
       "type": "general",
       "namespace": "discord",
@@ -120,7 +120,7 @@
     },
     "1107728832548589669": {
       "channel_id": "1107728832548589669",
-      "name": "\ud83d\udd6fdeath-memory",
+      "name": "🕯death-memory",
       "display": "#death-memory",
       "type": "general",
       "namespace": "discord",
@@ -133,7 +133,7 @@
     },
     "1107728702378365008": {
       "channel_id": "1107728702378365008",
-      "name": "\ud83e\udde0unconscious-protocols",
+      "name": "🧠unconscious-protocols",
       "display": "#unconscious-protocols",
       "type": "general",
       "namespace": "discord",
@@ -146,7 +146,7 @@
     },
     "1107727857595203644": {
       "channel_id": "1107727857595203644",
-      "name": "\ud83d\udd27tech-standards",
+      "name": "🔧tech-standards",
       "display": "#tech-standards",
       "type": "general",
       "namespace": "discord",
@@ -155,11 +155,11 @@
       "backfill_complete": true,
       "min_chars_orig": 60,
       "min_chars_reply": 40,
-      "onboarding_notes": "This channel serves as a mixed-purpose discussion space covering technical standards, protocols, and related tooling\u2014with notable recurring contributions from @doriantaylor on RDF/knowledge graph infrastructure and @davidtlang on standards theory and history. Conversations range from substantive technical design discussions and external resource sharing to lighter coordination messages, so moderate character thresholds are appropriate to filter out pure reaction/acknowledgment messages while preserving the meaningful discourse. Threads appear to be ad hoc topical spinoffs rather than recurring structured meetings, so general ingestion is appropriate."
+      "onboarding_notes": "This channel serves as a mixed-purpose discussion space covering technical standards, protocols, and related tooling—with notable recurring contributions from @doriantaylor on RDF/knowledge graph infrastructure and @davidtlang on standards theory and history. Conversations range from substantive technical design discussions and external resource sharing to lighter coordination messages, so moderate character thresholds are appropriate to filter out pure reaction/acknowledgment messages while preserving the meaningful discourse. Threads appear to be ad hoc topical spinoffs rather than recurring structured meetings, so general ingestion is appropriate."
     },
     "1102973331071828119": {
       "channel_id": "1102973331071828119",
-      "name": "\ud83c\udfd9built-environment",
+      "name": "🏙built-environment",
       "display": "#built-environment",
       "type": "general",
       "namespace": "discord",
@@ -168,7 +168,7 @@
       "backfill_complete": true,
       "min_chars_orig": 80,
       "min_chars_reply": 60,
-      "onboarding_notes": "This channel hosts substantive research discussion centered on the concept of 'addressable space' \u2014 how physical and digital environments are indexed, labeled, and navigated \u2014 with active collaborative essay development among Protocol Institute researchers and affiliates. Threads are used for artifact sharing and focused sub-discussions (e.g., Christopher Alexander, robot swarm behavior) rather than recurring structured meetings, so general ingestion is appropriate. Messages are generally high-quality and intellectually dense; moderate character thresholds are recommended to filter out short acknowledgments and link-only posts while preserving the rich conceptual exchanges."
+      "onboarding_notes": "This channel hosts substantive research discussion centered on the concept of 'addressable space' — how physical and digital environments are indexed, labeled, and navigated — with active collaborative essay development among Protocol Institute researchers and affiliates. Threads are used for artifact sharing and focused sub-discussions (e.g., Christopher Alexander, robot swarm behavior) rather than recurring structured meetings, so general ingestion is appropriate. Messages are generally high-quality and intellectually dense; moderate character thresholds are recommended to filter out short acknowledgments and link-only posts while preserving the rich conceptual exchanges."
     },
     "1124384276633362613": {
       "channel_id": "1124384276633362613",
@@ -181,7 +181,7 @@
       "backfill_complete": true,
       "min_chars_orig": 40,
       "min_chars_reply": 20,
-      "onboarding_notes": "This is the primary coordination and discussion channel for Protocol Institute affiliate researchers, featuring recurring weekly meetings with dedicated transcript threads (e.g. '8/9 Affiliate Meeting', 'Affiliate Meeting 8/16 One Liner Updates Thread'). Affiliates share work-in-progress artifacts, resources, and project updates here, making thread content particularly substantive and worth prioritizing. General channel noise is moderate \u2014 short logistical pings and scheduling messages are common \u2014 so modest character thresholds are applied to filter those out while preserving meaningful project-related exchanges.",
+      "onboarding_notes": "This is the primary coordination and discussion channel for Protocol Institute affiliate researchers, featuring recurring weekly meetings with dedicated transcript threads (e.g. '8/9 Affiliate Meeting', 'Affiliate Meeting 8/16 One Liner Updates Thread'). Affiliates share work-in-progress artifacts, resources, and project updates here, making thread content particularly substantive and worth prioritizing. General channel noise is moderate — short logistical pings and scheduling messages are common — so modest character thresholds are applied to filter those out while preserving meaningful project-related exchanges.",
       "sig_display": "Affiliates",
       "meeting_patterns": [
         "(?i)affiliate\\s+meeting\\s+\\d+[/\\-]\\d+",
@@ -193,7 +193,7 @@
     },
     "1107728906116665374": {
       "channel_id": "1107728906116665374",
-      "name": "\ud83d\udc1dorganizational-protocols",
+      "name": "🐝organizational-protocols",
       "display": "#organizational-protocols",
       "type": "general",
       "namespace": "discord",
@@ -202,7 +202,34 @@
       "backfill_complete": true,
       "min_chars_orig": 80,
       "min_chars_reply": 40,
-      "onboarding_notes": "This channel serves as a collaborative working space for research artifact development, primarily around swarm behavior, organizational safety protocols, and attunement technologies. Discussions blend substantive intellectual exchange (draft feedback, academic references, conceptual debate) with light coordination chatter (scheduling, status updates), so moderate character thresholds are appropriate to filter out one-word acknowledgments while retaining short but meaningful replies. Threads are rich and topically varied \u2014 covering essay drafts, taxonomy brainstorms, and reading references \u2014 and should be ingested alongside main-channel messages for full context."
+      "onboarding_notes": "This channel serves as a collaborative working space for research artifact development, primarily around swarm behavior, organizational safety protocols, and attunement technologies. Discussions blend substantive intellectual exchange (draft feedback, academic references, conceptual debate) with light coordination chatter (scheduling, status updates), so moderate character thresholds are appropriate to filter out one-word acknowledgments while retaining short but meaningful replies. Threads are rich and topically varied — covering essay drafts, taxonomy brainstorms, and reading references — and should be ingested alongside main-channel messages for full context."
+    },
+    "1097633612955914340": {
+      "channel_id": "1097633612955914340",
+      "name": "field-reports",
+      "display": "#field-reports",
+      "type": "general",
+      "namespace": "discord",
+      "status": "archived",
+      "added": "2026-05-20",
+      "backfill_complete": true,
+      "min_chars_orig": 80,
+      "min_chars_reply": 40,
+      "onboarding_notes": "This channel is intended for first-hand field observations, photos, and protocol-relevant findings — no opinion or news per the topic rules. However, the sampled messages show significant drift into discursive opinion-exchange (managerialism, financialization debates), suggesting the channel is loosely moderated in practice. Ingestion should use moderately high thresholds to filter short reactive messages and focus on substantive posts that share actual observations, links, or artifacts; noisy conversational threads like the August 9 exchange should largely self-filter at these thresholds."
+    },
+    "1090752622031536189": {
+      "channel_id": "1090752622031536189",
+      "name": "reading-room",
+      "display": "#reading-room",
+      "type": "forum",
+      "namespace": "discord",
+      "status": "archived",
+      "added": "2026-05-20",
+      "backfill_complete": true,
+      "min_chars_orig": 30,
+      "min_chars_reply": 50,
+      "onboarding_notes": "This is a curated reading-list forum where members post links to articles, papers, and essays relevant to protocol studies, governance, and related topics, with emoji upvotes indicating community interest. Each forum post represents a distinct reading recommendation; the original post typically contains a link and brief description, while replies (when present) contain discussion or commentary worth capturing. Filtering thresholds are set low for original posts (to capture link-only or short-description posts) but slightly higher for replies to avoid trivial reactions or one-word responses.",
+      "discord_type": 15
     }
   }
 }

@@ -107,26 +107,28 @@ Analyze this Discord channel and propose an ingestion configuration.
 CHANNEL INFO:
 Name: #{name}
 Topic: {topic}
+Discord channel type: {discord_type} ({discord_type_label})
 Guild: Protocol Institute
 
 RECENT MESSAGES SAMPLE ({msg_count} messages, oldest to newest):
 {messages}
 
-RECENT THREADS ({thread_count} threads, newest first):
+RECENT THREADS / FORUM POSTS ({thread_count} threads, newest first):
 {threads}
 
 Based on this sample, answer each question and output a JSON config block.
 
 Questions to consider:
-- What is the primary purpose of this channel? (general discussion, SIG meeting channel, announcements, resource sharing, off-topic, etc.)
-- Does it have recurring structured meetings/sessions with transcript threads? If so, what naming patterns do the threads use?
-- What's the appropriate ingestion type: "general" (embed messages into discord namespace) or "sig" (meeting detection + summaries, embed into sig namespace)?
-- Are messages generally substantive enough to embed, or is there a lot of noise?
-- What filtering thresholds make sense (min_chars_orig, min_chars_reply)?
+- What is the primary purpose of this channel?
+- If discord_type is 15 (FORUM): this is a forum channel — all content is in forum posts (threads). Use type="forum".
+- Does it have recurring structured meetings/sessions with transcript threads? If so, use type="sig".
+- Otherwise use type="general" for regular text channels.
+- Are posts generally substantive enough to embed, or is there a lot of noise?
+- What filtering thresholds make sense (min_chars_orig for posts/messages, min_chars_reply for replies)?
 
 Output ONLY valid JSON with this exact structure (no markdown fences):
 {{
-  "type": "general" or "sig",
+  "type": "general", "sig", or "forum",
   "namespace": "discord" or "sig",
   "display": "<human-readable channel name, e.g. #general or SIGFPT>",
   "sig_display": "<SIG acronym if type=sig, else null>",
@@ -135,6 +137,12 @@ Output ONLY valid JSON with this exact structure (no markdown fences):
   "meeting_patterns": [<regex strings if type=sig, else empty list>],
   "onboarding_notes": "<2-3 sentence summary of channel purpose and ingestion notes>"
 }}"""
+
+DISCORD_TYPE_LABELS = {
+    0: "TEXT", 2: "VOICE", 4: "CATEGORY", 5: "ANNOUNCEMENT",
+    10: "ANNOUNCEMENT_THREAD", 11: "PUBLIC_THREAD", 12: "PRIVATE_THREAD",
+    13: "STAGE_VOICE", 15: "FORUM", 16: "MEDIA",
+}
 
 
 def analyze_channel(channel_id: str, channel_info: dict, messages: list[dict], threads: list[dict]) -> dict:
@@ -153,11 +161,14 @@ def analyze_channel(channel_id: str, channel_info: dict, messages: list[dict], t
         msgs = t.get("message_count", "?")
         return f"  [{d}] {t['name']!r} ({msgs} msgs)"
 
+    discord_type = channel_info.get("type", 0)
     prompt = ANALYSIS_PROMPT.format(
         name=channel_info.get("name", channel_id),
         topic=channel_info.get("topic", "(none)"),
+        discord_type=discord_type,
+        discord_type_label=DISCORD_TYPE_LABELS.get(discord_type, "UNKNOWN"),
         msg_count=len(messages),
-        messages="\n".join(fmt_msg(m) for m in messages[-40:]) or "  (no messages)",
+        messages="\n".join(fmt_msg(m) for m in messages[-40:]) or "  (no messages — forum channel has no main messages)",
         thread_count=len(threads),
         threads="\n".join(fmt_thread(t) for t in threads[:SAMPLE_THREADS]) or "  (no threads)",
     )
@@ -283,6 +294,8 @@ def main():
     if proposed["type"] == "sig":
         entry["sig_display"] = proposed.get("sig_display") or proposed["display"]
         entry["meeting_patterns"] = proposed.get("meeting_patterns", [])
+    elif proposed["type"] == "forum":
+        entry["discord_type"] = channel_info.get("type", 15)
 
     manifest["channels"][channel_id] = entry
     save_manifest(manifest)
@@ -292,7 +305,7 @@ def main():
     run_backfill = args.backfill or (not args.yes and input("\nRun initial backfill now? [y/N] ").strip().lower() == "y")
     if run_backfill:
         print("\nRunning backfill...")
-        if proposed["type"] == "general":
+        if proposed["type"] in ("general", "forum"):
             # --channel scopes to just this channel; --backfill-days goes all the way back
             # for archived channels vs. the 30-day default for new active channels.
             cmd = [sys.executable, str(Path(__file__).parent / "sync_discord.py"),
@@ -320,8 +333,8 @@ def main():
         print("✓ Backfill complete.")
     else:
         print(f"\nNext: run the appropriate sync script to backfill.")
-        if proposed["type"] == "general":
-            print(f"  python3 ingest/sync_discord.py")
+        if proposed["type"] in ("general", "forum"):
+            print(f"  python3 ingest/sync_discord.py --channel {channel_id}")
         elif proposed["type"] == "sig":
             print(f"  python3 ingest/sync_sig.py --channel {channel_id}")
 

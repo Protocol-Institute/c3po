@@ -50,6 +50,7 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 NAMESPACE = "discord"
 STATE_PATH = Path(__file__).parent.parent / "data" / "discord_state.json"
 MANIFEST_PATH = Path(__file__).parent.parent / "data" / "channel_manifest.json"
+LINKS_REGISTRY_PATH = Path(__file__).parent.parent / "data" / "discord_links_registry.json"
 DISCORD_API = "https://discord.com/api/v10"
 
 ORIG_MIN_CHARS = 20    # floor for original posts (fortune-cookie thoughts)
@@ -60,7 +61,7 @@ URL_RE = re.compile(r'https?://\S+')
 
 
 def load_general_channels(include_archived: bool = False) -> list[dict]:
-    """Return general channels from manifest, falling back to env var.
+    """Return general and forum channels from manifest, falling back to env var.
 
     By default returns only active channels. Pass include_archived=True to
     also include archived channels (used when --channel targets a specific one).
@@ -70,7 +71,7 @@ def load_general_channels(include_archived: bool = False) -> list[dict]:
         statuses = {"active", "archived"} if include_archived else {"active"}
         channels = [
             ch for ch in manifest.get("channels", {}).values()
-            if ch.get("type") == "general" and ch.get("status") in statuses
+            if ch.get("type") in ("general", "forum") and ch.get("status") in statuses
         ]
         if channels:
             return channels
@@ -195,7 +196,44 @@ def post_to_channel(channel_id: str, text: str):
     discord_request("POST", f"/channels/{channel_id}/messages", {"content": text})
 
 
-# ── Message processing ─────────────────────────────────────────────────────────
+def fetch_forum_threads(channel_id: str, after_id: str | None = None) -> list[dict]:
+    """Fetch threads in a forum channel (active + archived), sorted oldest-first."""
+    guild_id = os.environ.get("DISCORD_GUILD_ID", "")
+    threads = []
+
+    if guild_id:
+        try:
+            data = discord_request("GET", f"/guilds/{guild_id}/threads/active")
+            active = [t for t in data.get("threads", []) if t.get("parent_id") == channel_id]
+            threads.extend(active)
+        except Exception:
+            pass
+
+    before = None
+    while True:
+        params: dict = {"limit": 100}
+        if before:
+            params["before"] = before
+        try:
+            data = discord_request("GET", f"/channels/{channel_id}/threads/archived/public?{urllib.parse.urlencode(params)}")
+        except urllib.error.HTTPError:
+            break
+        batch = data.get("threads", [])
+        if not batch:
+            break
+        threads.extend(batch)
+        if not data.get("has_more"):
+            break
+        before = batch[-1]["id"]
+        time.sleep(1.1)
+
+    threads.sort(key=lambda t: int(t["id"]))
+    if after_id:
+        threads = [t for t in threads if int(t["id"]) > int(after_id)]
+    return threads
+
+
+# ── Message / post formatting ─────────────────────────────────────────────────
 
 def snowflake_to_dt(snowflake: str) -> datetime:
     ts_ms = (int(snowflake) >> 22) + 1420070400000
@@ -278,6 +316,53 @@ def format_thread_chunk(starter: dict, thread_msgs: list[dict],
     return text, meta
 
 
+def format_forum_post_chunk(thread: dict, messages: list[dict], channel_name: str) -> tuple[str, dict]:
+    """Bundle a forum post (thread) and its replies into one chunk."""
+    thread_name = thread.get("name", "Untitled Post")
+    ts = snowflake_to_dt(thread["id"]).strftime("%Y-%m-%dT%H:%M:%SZ")
+    post_msgs = [m for m in messages if not m.get("author", {}).get("bot")]
+    if not post_msgs:
+        return "", {}
+
+    starter = post_msgs[0]
+    author = starter.get("author", {}).get("username", "unknown")
+    starter_text = clean_text(starter.get("content", ""))
+
+    lines = [f"Discord #{channel_name} | Forum Post: {thread_name!r} | @{author} | {ts}", "", starter_text]
+    for msg in post_msgs[1:]:
+        reply_author = msg.get("author", {}).get("username", "unknown")
+        reply_text = clean_text(msg.get("content", ""))
+        if reply_text:
+            reply_ts = snowflake_to_dt(msg["id"]).strftime("%Y-%m-%dT%H:%M:%SZ")
+            lines.append(f"\n  @{reply_author} ({reply_ts}): {reply_text}")
+
+    all_authors = list(dict.fromkeys([m.get("author", {}).get("username", "") for m in post_msgs]))
+    all_urls = [u for m in post_msgs for u in extract_urls(m.get("content", ""))]
+    stars = get_star_count(starter)
+
+    text = "\n".join(lines)
+    meta = {
+        "source": "discord",
+        "namespace": NAMESPACE,
+        "chunk_type": "forum_post",
+        "guild_id": os.environ.get("DISCORD_GUILD_ID", ""),
+        "channel_id": thread.get("parent_id", ""),
+        "channel_name": channel_name,
+        "thread_id": thread["id"],
+        "thread_name": thread_name,
+        "author": author,
+        "all_authors": json.dumps(all_authors),
+        "timestamp": ts,
+        "message_id": thread["id"],
+        "reply_count": len(post_msgs) - 1,
+        "star_count": stars,
+        "urls": json.dumps(all_urls[:10]),
+        "has_url": bool(all_urls),
+        "text": text[:1000],
+    }
+    return text, meta
+
+
 def format_message_chunk(msg: dict, channel_name: str) -> tuple[str, dict]:
     """Format a standalone message (original post or reply) as a chunk."""
     content = msg.get("content", "")
@@ -310,12 +395,54 @@ def format_message_chunk(msg: dict, channel_name: str) -> tuple[str, dict]:
 
 def load_state() -> dict:
     if STATE_PATH.exists():
-        return json.loads(STATE_PATH.read_text())
-    return {"last_message_ids": {}, "last_run": None}
+        state = json.loads(STATE_PATH.read_text())
+        state.setdefault("last_thread_ids", {})
+        return state
+    return {"last_message_ids": {}, "last_thread_ids": {}, "last_run": None}
 
 
 def save_state(state: dict):
     STATE_PATH.write_text(json.dumps(state, indent=2))
+
+
+def load_links_registry() -> dict:
+    if LINKS_REGISTRY_PATH.exists():
+        return json.loads(LINKS_REGISTRY_PATH.read_text())
+    return {}
+
+
+def save_links_registry(registry: dict):
+    LINKS_REGISTRY_PATH.write_text(json.dumps(registry, indent=2, ensure_ascii=False))
+
+
+def register_urls(urls: list[str], channel_name: str, channel_id: str,
+                  message_id: str, author: str, registry: dict):
+    from urllib.parse import urlparse, urlunparse
+    keep_query = {"youtube.com", "youtu.be", "m.youtube.com", "www.youtube.com"}
+
+    def normalize(url: str) -> str:
+        try:
+            p = urlparse(url.strip())
+            netloc = p.netloc.lower().removeprefix("www.")
+            query = p.query if netloc in keep_query else ""
+            return urlunparse((p.scheme.lower(), p.netloc.lower(), p.path.rstrip("/"), "", query, ""))
+        except Exception:
+            return url.strip()
+
+    for url in urls:
+        key = normalize(url)
+        if key not in registry:
+            registry[key] = {
+                "url": url,
+                "domain": urlparse(url).netloc.lower(),
+                "first_seen": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "sources": [],
+                "fetch_status": "pending",
+            }
+        src = {"channel_name": channel_name, "channel_id": channel_id,
+               "message_id": message_id, "author": author}
+        if src not in registry[key]["sources"]:
+            registry[key]["sources"].append(src)
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────
@@ -349,88 +476,146 @@ def main():
     total_starred = 0
     total_urls = 0
     channel_reports = []
+    links_registry = load_links_registry()
 
     for ch_cfg in channels:
         channel_id = ch_cfg["channel_id"]
         channel_name = ch_cfg.get("name") or fetch_channel_name(channel_id)
+        is_forum = ch_cfg.get("type") == "forum"
 
-        if args.backfill_days:
-            after_id = None
-            cutoff_dt = run_ts - timedelta(days=args.backfill_days)
-        elif channel_id in state["last_message_ids"]:
-            after_id = state["last_message_ids"][channel_id]
-            cutoff_dt = None
-        else:
-            after_id = None
-            cutoff_dt = run_ts - timedelta(days=INITIAL_BACKFILL_DAYS)
-
-        print(f"\n#{channel_name}")
-        messages = fetch_messages_since(channel_id, after_id, cutoff_dt)
-        print(f"  {len(messages)} messages fetched")
-
-        new_last_id = after_id
         records = []
         ch_threads = 0
         ch_starred = 0
         ch_urls = 0
 
-        for msg in messages:
-            msg_id = msg["id"]
-            if new_last_id is None or int(msg_id) > int(new_last_id):
-                new_last_id = msg_id
+        if is_forum:
+            after_id = None if args.backfill_days else state["last_thread_ids"].get(channel_id)
+            print(f"\n#{channel_name} [forum]")
+            threads = fetch_forum_threads(channel_id, after_id)
+            print(f"  {len(threads)} forum posts fetched")
 
-            if msg.get("author", {}).get("bot"):
-                continue
+            new_last_thread_id = after_id
+            for thread in threads:
+                thread_id = thread["id"]
+                if new_last_thread_id is None or int(thread_id) > int(new_last_thread_id):
+                    new_last_thread_id = thread_id
 
-            content = msg.get("content", "")
-            stars = get_star_count(msg)
-            urls = extract_urls(content)
-
-            if not qualifies(msg, content, stars, urls):
-                continue
-
-            if "thread" in msg:
-                # Fetch and bundle the full thread
-                thread_id = msg["thread"]["id"]
                 thread_msgs = fetch_thread_messages(thread_id)
-                text, meta = format_thread_chunk(msg, thread_msgs, channel_name)
-                record_id = f"discord__thread__{thread_id}"
+                text, meta = format_forum_post_chunk(thread, thread_msgs, channel_name)
+                if not text:
+                    continue
+
+                all_post_urls = [u for m in thread_msgs for u in extract_urls(m.get("content", ""))]
+                if all_post_urls and not args.dry_run:
+                    post_author = thread_msgs[0].get("author", {}).get("username", "") if thread_msgs else ""
+                    register_urls(all_post_urls, channel_name, channel_id, thread_id, post_author, links_registry)
+
+                record_id = f"discord__forum__{thread_id}"
                 ch_threads += 1
-                ch_urls += len(json.loads(meta["urls"]))
-                if stars:
+                ch_urls += len(json.loads(meta.get("urls", "[]")))
+                if meta.get("star_count", 0):
                     ch_starred += 1
+                records.append({"id": record_id, "text": text, "meta": meta})
+                time.sleep(0.5)
+
+            if not args.dry_run and records:
+                vectors = embed_chunks([r["text"] for r in records], vc)
+                pinecone_records = [
+                    {"id": r["id"], "values": v, "metadata": r["meta"]}
+                    for r, v in zip(records, vectors)
+                ]
+                for i in range(0, len(pinecone_records), PINECONE_BATCH):
+                    index.upsert(vectors=pinecone_records[i:i + PINECONE_BATCH], namespace=NAMESPACE)
+
+            if new_last_thread_id and not args.dry_run:
+                state["last_thread_ids"][channel_id] = new_last_thread_id
+
+            n = len(records)
+            total_ingested += n
+            total_threads += ch_threads
+            total_starred += ch_starred
+            total_urls += ch_urls
+            channel_reports.append((channel_name, n, len(threads), ch_threads, ch_starred, ch_urls))
+            print(f"  Ingested: {n}  (posts: {ch_threads}  ⭐: {ch_starred}  🔗: {ch_urls})")
+
+        else:
+            if args.backfill_days:
+                after_id = None
+                cutoff_dt = run_ts - timedelta(days=args.backfill_days)
+            elif channel_id in state["last_message_ids"]:
+                after_id = state["last_message_ids"][channel_id]
+                cutoff_dt = None
             else:
-                text, meta = format_message_chunk(msg, channel_name)
-                record_id = f"discord__{msg_id}"
-                ch_urls += len(urls)
-                if stars:
-                    ch_starred += 1
+                after_id = None
+                cutoff_dt = run_ts - timedelta(days=INITIAL_BACKFILL_DAYS)
 
-            records.append({"id": record_id, "text": text, "meta": meta})
+            print(f"\n#{channel_name}")
+            messages = fetch_messages_since(channel_id, after_id, cutoff_dt)
+            print(f"  {len(messages)} messages fetched")
 
-        if not args.dry_run and records:
-            vectors = embed_chunks([r["text"] for r in records], vc)
-            pinecone_records = [
-                {"id": r["id"], "values": v, "metadata": r["meta"]}
-                for r, v in zip(records, vectors)
-            ]
-            for i in range(0, len(pinecone_records), PINECONE_BATCH):
-                index.upsert(vectors=pinecone_records[i:i + PINECONE_BATCH], namespace=NAMESPACE)
+            new_last_id = after_id
 
-        if new_last_id and not args.dry_run:
-            state["last_message_ids"][channel_id] = new_last_id
+            for msg in messages:
+                msg_id = msg["id"]
+                if new_last_id is None or int(msg_id) > int(new_last_id):
+                    new_last_id = msg_id
 
-        n = len(records)
-        total_ingested += n
-        total_threads += ch_threads
-        total_starred += ch_starred
-        total_urls += ch_urls
-        channel_reports.append((channel_name, n, len(messages), ch_threads, ch_starred, ch_urls))
-        print(f"  Ingested: {n}  (threads: {ch_threads}  ⭐: {ch_starred}  🔗: {ch_urls})")
+                if msg.get("author", {}).get("bot"):
+                    continue
+
+                content = msg.get("content", "")
+                stars = get_star_count(msg)
+                urls = extract_urls(content)
+                author = msg.get("author", {}).get("username", "")
+
+                if urls and not args.dry_run:
+                    register_urls(urls, channel_name, channel_id, msg_id, author, links_registry)
+
+                if not qualifies(msg, content, stars, urls):
+                    continue
+
+                if "thread" in msg:
+                    thread_id = msg["thread"]["id"]
+                    thread_msgs = fetch_thread_messages(thread_id)
+                    text, meta = format_thread_chunk(msg, thread_msgs, channel_name)
+                    record_id = f"discord__thread__{thread_id}"
+                    ch_threads += 1
+                    ch_urls += len(json.loads(meta["urls"]))
+                    if stars:
+                        ch_starred += 1
+                else:
+                    text, meta = format_message_chunk(msg, channel_name)
+                    record_id = f"discord__{msg_id}"
+                    ch_urls += len(urls)
+                    if stars:
+                        ch_starred += 1
+
+                records.append({"id": record_id, "text": text, "meta": meta})
+
+            if not args.dry_run and records:
+                vectors = embed_chunks([r["text"] for r in records], vc)
+                pinecone_records = [
+                    {"id": r["id"], "values": v, "metadata": r["meta"]}
+                    for r, v in zip(records, vectors)
+                ]
+                for i in range(0, len(pinecone_records), PINECONE_BATCH):
+                    index.upsert(vectors=pinecone_records[i:i + PINECONE_BATCH], namespace=NAMESPACE)
+
+            if new_last_id and not args.dry_run:
+                state["last_message_ids"][channel_id] = new_last_id
+
+            n = len(records)
+            total_ingested += n
+            total_threads += ch_threads
+            total_starred += ch_starred
+            total_urls += ch_urls
+            channel_reports.append((channel_name, n, len(messages), ch_threads, ch_starred, ch_urls))
+            print(f"  Ingested: {n}  (threads: {ch_threads}  ⭐: {ch_starred}  🔗: {ch_urls})")
 
     if not args.dry_run:
         state["last_run"] = run_ts.strftime("%Y-%m-%dT%H:%M:%SZ")
         save_state(state)
+        save_links_registry(links_registry)
 
     # ── Summary ────────────────────────────────────────────────────────────────
     label = "[DRY RUN] " if args.dry_run else ""

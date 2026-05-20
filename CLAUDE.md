@@ -52,16 +52,19 @@ Planned migration: `Protocol-Institute/c3po` when handing off to org (Phase 6)
 ## Pinecone Index (live)
 
 Host: `https://c3po-bwo39z7.svc.aped-4627-b74a.pinecone.io`
-Namespaces: `substack` (1,040 · 2026-05-14), `pdfs` (766 · 2026-05-15), `videos` (2,940 · 2026-05-17), `bibliography` (278 · 2026-05-18), `transcripts` (4 · grows with use), `discord` (3,301 · 2026-05-19), `sig` (4,689 · 2026-05-20), `discord_links` (6,722 · 2026-05-20, post-enrichment) — **Total: 19,740**
+Namespaces: `substack` (1,040 · 2026-05-14), `pdfs` (766 · 2026-05-15), `videos` (2,940 · 2026-05-17), `bibliography` (278 · 2026-05-18), `transcripts` (4 · grows with use), `discord` (5,518 · 2026-05-20), `sig` (4,795 · 2026-05-20), `discord_links` (8,651 · 2026-05-20) — **Total: 23,992** (pending ~134 more from latest link fetch)
 
 Discord ingest: `ingest/sync_discord.py` — REST-only batch poll, no gateway, no privileged intents.
-Channels: `#idle-musings` + `#protocol-watch` whitelisted via `DISCORD_CHANNEL_IDS`. State in `data/discord_state.json`.
+Channel types supported: `general` (text channel messages), `forum` (Discord type=15, fetches threads as posts).
+Channel registry: `data/channel_manifest.json` — 15 channels (4 active general+forum, 4 active SIG, 7 archived).
 Star weighting (TODO — worker not yet updated): starred messages (`star_count > 0`) → 1.0×; unstarred → 0.70× in `normalizeDiscord()` + `mergeResults()` in `api/worker.js`.
 
 SIG ingest: `ingest/sync_sig.py` — same REST approach, all 4 SIG channels. State in `data/sig_state.json`.
 All 4 SIG channels ingested (2026-05-19): SIGFPT (757), MRG (433), SIGPfB (2,214), ProtFiSIG (1,179).
 Totals: 77 meeting summaries + body chunks, 169 discussions, 4,015 main messages.
 SIG chunk types: `sig_message`, `sig_reply`, `sig_discussion`, `sig_meeting_body`, `sig_meeting_summary`.
+
+Link farming: `data/discord_links_registry.json` — 3,824 URLs total. Run `python3 ingest/fetch_discord_links.py` to fetch pending. Run `python3 ingest/enrich_discord_links.py` after to score/prune.
 
 ## At Session Start
 
