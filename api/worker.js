@@ -1739,7 +1739,7 @@ ${subnav('/')}
     </svg>
     <span class="c3po-profile-name">C3PO</span>
   </div>
-  <div class="c3po-intro-text">I'm C3PO, the Protocol Institute's research assistant. I have access to the full PI archive: 82 research papers, essays, and games from the Summer of Protocols; 91 talks and lectures from the YouTube channel; the complete run of <em>Protocolized</em> magazine; 250+ externally cited references with abstracts; Discord community discussions; and 78 SIG meeting archives from four active research groups &mdash; Formal Protocol Theory, Memory Research Group, Protocols for Business, and Protocol Fiction. You get 8 turns here; use <strong>Download .md</strong> to continue in any LLM, or connect via MCP for unlimited access inside Claude.</div>
+  <div class="c3po-intro-text">I'm C3PO, the Protocol Institute's oracle &mdash; a knowledge resource for exploring protocols and their extended intellectual world: theory, fiction, history, technology, governance, memory, culture, and the science of coordination. My corpus: 82 papers and essays from the Summer of Protocols; 91 talks from the YouTube channel; the complete run of <em>Protocolized</em> magazine; 250+ cited references; Discord community discussions; 78 SIG meeting archives from Formal Protocol Theory, Memory Research Group, Protocols for Business, and Protocol Fiction; and web content shared by the PI community. You get 8 turns here; use <strong>Download .md</strong> to continue in any LLM, or connect via MCP for unlimited access inside Claude.</div>
 </div>
 
 <div class="c3po-conversation" id="c3po-conversation"></div>
@@ -2403,11 +2403,12 @@ ${SUBNAV_CSS}
 ${subnav('/how-it-works')}
 
 <h1 style="font-family:Lora,serif;font-size:1.45em;font-weight:600;margin:0 0 0.3em;line-height:1.3;">How C3PO Works</h1>
-<p style="color:#666;font-size:0.9em;margin-bottom:2em;">Protocol Institute Research Assistant &mdash; technical overview</p>
+<p style="color:#666;font-size:0.9em;margin-bottom:2em;">Protocol Institute Oracle &mdash; technical overview</p>
 
 <div class="hiw-section">
 <h2>What is C3PO?</h2>
-<p>C3PO is a retrieval-augmented Q&amp;A system that answers questions about Protocol Institute research. It retrieves relevant passages from the actual corpus and synthesizes answers grounded in that material. It is not a fine-tuned model &mdash; the underlying language model is Claude Sonnet, with the Protocol Institute corpus injected as retrieval context at query time.</p>
+<p>C3PO is the Protocol Institute&rsquo;s oracle &mdash; a broad-based knowledge resource for exploring protocols and their extended intellectual world. It answers questions grounded in the PI corpus: theory, fiction, history, technology, governance, memory, culture, and the science of coordination are all in scope. Protocols are the organizing thread, but the aperture is wide.</p>
+<p>Technically, C3PO is a retrieval-augmented generation (RAG) system. It retrieves relevant passages from the corpus and synthesizes answers using those passages as grounding. It is not a fine-tuned model &mdash; the underlying language model is Claude Sonnet, with PI corpus material injected as retrieval context at query time.</p>
 </div>
 
 <div class="hiw-section">
@@ -2424,7 +2425,7 @@ ${subnav('/how-it-works')}
 <tr><td>Shared transcripts</td><td>~4 vectors (growing)</td><td>Published conversations with C3PO</td></tr>
 </tbody>
 </table>
-<p>The PDFs include work from the Summer of Protocols program &mdash; a research initiative exploring the theory and practice of protocols across disciplines. The Substack corpus spans the full run of the Protocolized newsletter, including protocol fiction that argues through narrative rather than exposition. The Discord and SIG archives bring in the live research community: ongoing discussions, meeting transcripts, and the working knowledge that circulates between publications.</p>
+<p>The PDFs span the Summer of Protocols program &mdash; a research initiative that defined the field. The Substack corpus covers the full run of Protocolized, including protocol fiction, theory, and editorial. Discord and SIG archives bring in the live community: ongoing discussions, meeting transcripts, working knowledge that never makes it into formal publications. The web links layer adds external content the community has found worth sharing &mdash; screened for scope and scored for relevance.</p>
 </div>
 
 <div class="hiw-section">
@@ -2446,16 +2447,17 @@ ${subnav('/how-it-works')}
 <tr><td><code>bibliography</code></td><td>278</td><td>ref_summary + body chunks for externally cited works</td></tr>
 <tr><td><code>discord</code></td><td>3,301</td><td>Thread and message chunks from community channels; includes star_count for quality weighting</td></tr>
 <tr><td><code>sig</code></td><td>4,583</td><td>sig_meeting_summary, sig_meeting_body, sig_discussion, sig_message, sig_reply chunk types across 4 SIG channels</td></tr>
+<tr><td><code>discord_links</code></td><td>6,722</td><td>Web content linked from Discord/SIG messages; fetched, chunked, and scored 1&ndash;3 for scope relevance; source_count tracks how many messages shared each URL</td></tr>
 <tr><td><code>transcripts</code></td><td>~4</td><td>Published conversations (grows with use)</td></tr>
 </tbody>
 </table>
-<p>All namespaces are queried in parallel on each request. Results are merged and tier-weighted before being passed to the language model: PDFs and Substack at 1.0&times;; talks at 0.9&times;; bibliography scaled by relevance score (0.6&ndash;1.0&times;); Discord at 0.65&times; (starred: 0.85&times;); SIG meeting summaries at 0.85&times;, body chunks at 0.75&times;, discussions at 0.70&times;.</p>
+<p>All namespaces are queried in parallel on each request. Results are merged and tier-weighted before being passed to the language model: PDFs and Substack at 1.0&times;; talks at 0.9&times;; bibliography scaled by relevance score (0.6&ndash;1.0&times;); Discord at 0.65&times; (starred: 0.85&times;); SIG meeting summaries at 0.85&times;, body chunks at 0.75&times;, discussions at 0.70&times;; web links weighted by relevance score and source popularity (0.55&ndash;0.85&times;).</p>
 </div>
 
 <div class="hiw-section">
 <h2>The language model</h2>
 <p>Claude Sonnet is used throughout &mdash; both for answering queries and for background tasks like document enrichment. Protocol Institute research is dense and cross-disciplinary; the material benefits from strong synthesis rather than simple extraction.</p>
-<p>The system prompt is derived from the Protocol Institute&rsquo;s SOUL.md &mdash; a document describing the intellectual orientation, voice, and commitments of the Institute. It includes a corpus map so the model knows what is and isn&rsquo;t indexed, preventing false denials.</p>
+<p>The system prompt is derived from the Protocol Institute&rsquo;s SOUL.md &mdash; a document describing C3PO&rsquo;s intellectual orientation, scope, voice, analytical commitments, and protocol lexicon. It includes a corpus map (what is and isn&rsquo;t indexed) and an explicit scope declaration (what topic areas are in and out of range), preventing false denials and scope mismatches.</p>
 <p><strong>Rate limits:</strong> 20 queries per IP per hour via the web UI. After 8 turns, the conversation can be downloaded as Markdown and continued in Claude, or accessed without a turn limit via MCP.</p>
 </div>
 
