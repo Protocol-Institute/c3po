@@ -1,5 +1,30 @@
 # C3PO — Status Log
 
+## 2026-05-19 — Discord ingest pipeline (session 9)
+
+**Discord harvester built and run — COMPLETE**
+- `ingest/sync_discord.py` — REST-only batch poll, no gateway, no persistent process
+- Filter: originals ≥20 chars, replies ≥150 chars, thread starters always included
+- Thread starters fetch and bundle full thread as one conversation chunk
+- Pagination bug fixed: backfill uses `before` (backward), incremental uses `after` (forward)
+- Guild ID added to metadata in both format functions; 2,390 existing vectors patched via `index.update`
+- `ingest/analyze_discord.py` — one-shot analysis: stats + stratified Claude Haiku pass
+- Full historical ingest of `#🤔-idle-protocol-musings` (4 years): 2,877 fetched → 2,390 ingested
+- Discord corpus: 1,795 originals · 465 replies · 130 bundled threads · 119 authors · 441 URLs · 104 starred
+- Claude analysis: ~85-90% signal, 10 topic clusters identified; saved to `sources/discord_analysis.md`
+- **Pinecone:** discord: 2,390 · substack: 1,040 · videos: 2,940 · pdfs: 766 · bibliography: 278 · transcripts: 4 · **Total: 7,418**
+
+**Open TODOs (priority order):**
+1. Add `discord` namespace to worker.js (`normalizeDiscord()`, Discord badge, link generation using guild_id+channel_id+message_id)
+2. Wire discord namespace into `mergeResults()`: starred 1.0×, unstarred 0.70×
+3. Add more Discord channels to DISCORD_CHANNEL_IDS + set DISCORD_SUMMARY_CHANNEL_ID
+4. Set up launchd plist for daily sync_discord.py run
+5. Ingest lexicon_draft.json as `definitions` namespace (deferred from session 8)
+6. Wire `definitions` namespace into query handler (5th active namespace)
+7. Magazine lexicon pass — `plans/magazine-lexicon.md`
+8. GitHub Actions cron for `sync_substack.py`
+9. Phase 2B: MCP Worker at `/mcp`
+
 ## 2026-05-18 — Namespace wiring, system prompt enrichment, lexicon extraction (session 8, complete)
 
 **Videos + bibliography wired into live worker — COMPLETE**

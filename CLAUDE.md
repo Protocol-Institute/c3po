@@ -52,16 +52,16 @@ Planned migration: `Protocol-Institute/c3po` when handing off to org (Phase 6)
 ## Pinecone Index (live)
 
 Host: `https://c3po-bwo39z7.svc.aped-4627-b74a.pinecone.io`
-Namespaces: `substack` (1,040 · 2026-05-14), `pdfs` (766 · 2026-05-15), `videos` (2,940 · 2026-05-17), `bibliography` (278 · 2026-05-18), `transcripts` (~4 · grows with use) — **Total: 5,028**
+Namespaces: `substack` (1,040 · 2026-05-14), `pdfs` (766 · 2026-05-15), `videos` (2,940 · 2026-05-17), `bibliography` (278 · 2026-05-18), `transcripts` (~4 · grows with use), `discord` (0 · pending first run) — **Total: 5,028**
+
+Discord ingest: `ingest/sync_discord.py` — REST-only batch poll, no gateway, no privileged intents.
+Channels are explicitly whitelisted via `DISCORD_CHANNEL_IDS`. State in `data/discord_state.json`.
+Star weighting (TODO — worker not yet updated): starred messages (`star_count > 0`) → 1.0×; unstarred → 0.70× in `normalizeDiscord()` + `mergeResults()` in `api/worker.js`.
 
 ## At Session Start
 
-**Always do this first before any other work:**
-
-1. Run `python3 devlog_session.py start` — records session start time to `/tmp/c3po_devlog_session_start.txt`.
-2. Run `python3 ../admin/expenses/track.py status` — shows all active PI project sessions and flags any overlap. If another project session is already running, no action needed; overlap is tracked automatically.
-3. Read `status.md` — review the last entry for open questions, blockers, and where the previous session ended.
-4. Check current Pinecone vector counts:
+1. Read `status.md` — review the last entry for open questions, blockers, and where the previous session ended.
+2. Check current Pinecone vector counts:
    ```bash
    source .venv/bin/activate
    python3 -c "
@@ -75,32 +75,26 @@ Namespaces: `substack` (1,040 · 2026-05-14), `pdfs` (766 · 2026-05-15), `video
    print(f'Total: {stats.total_vector_count:,}')
    "
    ```
-5. Run the Substack sync dry-run to check for new or edited posts since last session:
+3. Run the Substack sync dry-run to check for new or edited posts since last session:
    ```bash
    source .venv/bin/activate
    python3 ingest/sync_substack.py --dry-run
    ```
-6. Briefly summarize to Venkat: vector counts vs. last session's recorded counts in `status.md`, any new/edited Substack posts pending, and the open questions or next steps from `status.md`.
+4. Briefly summarize to Venkat: vector counts vs. last session's recorded counts in `status.md`, any new/edited Substack posts pending, and the open questions or next steps from `status.md`.
 
 ---
 
 ## After Each Session
 
 **Documentation (always):**
-1. `data/devlog.json` — add session entry (label, title, date, time_pt, tracks, costs_usd, vector_counts, items in HTML). Run `python3 devlog_session.py end` for the timestamp. Run `python3 devlog_render.py` to regenerate `DEVLOG.md`. The devlog is the primary record of architectural decisions, corpus discoveries, and cost data — write for a public technical audience.
-2. `status.md` — add a dated log entry with PT start–end times and a one-line summary of what changed.
-3. `CLAUDE.md` — update Pinecone vector counts and namespace state if the index was modified.
+1. `status.md` — add a dated log entry with PT start–end times and a one-line summary of what changed.
+2. `CLAUDE.md` — update Pinecone vector counts and namespace state if the index was modified.
 
 **Keys/env (if changed):**
-4. New env vars: update `.env.template`; add to `../.env.keys` with `owner`/`billing`/`projects`/`registered` annotations; add a row to `../admin/keys.md`. Do not add to `Code/.env.keys`.
+3. New env vars: update `.env.template`; add to `../.env.keys` with `owner`/`billing`/`projects`/`registered` annotations; add a row to `../admin/keys.md`. Do not add to `Code/.env.keys`.
 
 **Repo:**
-5. `git add` relevant files (never `.env`); `git commit`; `git push`.
-
-**Expenses (always):**
-6. `python3 ../admin/expenses/track.py end` — computes billable hours from all active session start files; detects overlap; prints a pre-filled log entry.
-7. Paste the entry into `../admin/expenses/log-{your-id}.json` sessions array; fill in `api_costs` (pull from this session's `costs_usd` in devlog) and `notes`.
-8. `python3 ../admin/expenses/render.py` — regenerates `EXPENSES.md` and `expenses.csv`.
+4. `git add` relevant files (never `.env`); `git commit`; `git push`.
 
 **Memory:**
-9. Update Claude memory (`/Users/Venkat/.claude/projects/.../memory/`) — save anything non-obvious about corpus structure, pipeline decisions, or workflow preferences that would help future sessions. Do not duplicate what's in CLAUDE.md or recoverable from code.
+5. Update Claude memory (`/Users/Venkat/.claude/projects/.../memory/`) — save anything non-obvious about corpus structure, pipeline decisions, or workflow preferences that would help future sessions. Do not duplicate what's in CLAUDE.md or recoverable from code.
