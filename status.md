@@ -1,5 +1,34 @@
 # C3PO — Status Log
 
+## 2026-05-20 — Wire discord/sig into worker, corpus description rewrite (session 12)
+
+**Worker wiring — COMPLETE**
+- Badge CSS: `.c3po-badge-discord` (blue), `.c3po-badge-sig` (teal) added to worker CSS
+- `badgeForSource()`: discord → "Discord"; sig → SIG display name (SIGFPT, MRG, etc.)
+- `buildContextBlock()`: discord label shows channel + date + participants; sig label shows SIG name + chunk type (MEETING / MEETING TRANSCRIPT / DISCUSSION / MESSAGE) + title + date
+- `srcLine()`: discord and sig cases for clipboard text export
+- `buildExportMarkdown()`: discord and sig cases for .md download
+- All 4 query callsites updated to fetch discord + sig namespaces in parallel: `runMcpSearch`, `runMcpAsk`, `GET /search`, `POST /query`
+- `mergeResults()` signature: 6 item lists + maxSources (was 5); discord/sig weights wired
+- MCP `search_corpus` schema: namespace enum now includes `discord` and `sig`; description updated
+- **Deployed:** Phase 2C live at c3po.vgr-702.workers.dev
+
+**Corpus descriptions — COMPLETE**
+- UI intro blurb: names Discord + all four SIG groups with session counts
+- System prompt `INDEXED CORPUS`: two new entries (Discord channels, SIG sessions + leads)
+- How It Works "corpus" table: Discord and SIG rows added with vector counts
+- How It Works "Pinecone index" table: discord/sig rows; full tier-weight documentation
+- `SOUL_EXCERPT` (export md): replaced vague "285+" with accurate full corpus inventory
+- Phase note bumped to 2C
+
+**Open TODOs (priority order):**
+1. Attachment capture — extend `sync_sig.py` + `sync_discord.py` to read `msg["attachments"]`, store in registry, build `fetch_discord_attachments.py` (download at sync time before CDN URLs expire)
+2. Run `fetch_discord_links.py` (1,042+ URLs in registry) — ingest linked articles
+3. Add more general Discord channels to `DISCORD_CHANNEL_IDS`; set `DISCORD_SUMMARY_CHANNEL_ID`
+4. Set up launchd: daily `sync_discord.py` + weekly `sync_sig.py`
+5. Add definitions namespace (`lexicon_draft.json`, deferred from session 8)
+6. GitHub Actions cron for `sync_substack.py`
+
 ## 2026-05-19 — Security hardening, header restyle, PI website update (session 11)
 
 **Security & UI — COMPLETE**
