@@ -2234,7 +2234,12 @@ body { margin:0; padding:0; font-family:Outfit,system-ui,sans-serif; background:
 .hiw-page { max-width:740px; margin:0 auto; padding:2rem 1.25rem 4rem; }
 .hiw-section { margin-bottom:2.2em; }
 .hiw-section h2 { font-size:1em; font-weight:600; border-bottom:1px solid var(--border); padding-bottom:0.3em; margin-bottom:0.75em; font-family:Outfit,system-ui,sans-serif; }
+.hiw-section h3 { font-size:0.92em; font-weight:600; color:#555; margin:1.2em 0 0.4em; }
 .hiw-section p { margin:0.4em 0 0.8em; line-height:1.65; color:#444; font-size:0.95em; }
+.hiw-section a { color:var(--accent); }
+.hiw-section code { font-family:"JetBrains Mono","Fira Code",ui-monospace,monospace; font-size:0.86em; background:#ede9e1; padding:0.1em 0.35em; border-radius:2px; }
+.hiw-section pre { background:#f0ede6; border:1px solid #ddd8ce; border-radius:4px; padding:0.75em 1em; font-family:"JetBrains Mono","Fira Code",ui-monospace,monospace; font-size:0.82em; overflow-x:auto; margin:0.4em 0 1em; line-height:1.5; }
+.hiw-section pre code { background:none; padding:0; font-size:1em; }
 .hiw-table { width:100%; border-collapse:collapse; font-size:0.87em; margin:0.7em 0 1em; }
 .hiw-table th { text-align:left; font-weight:600; border-bottom:1px solid var(--border); padding:0.3em 0.7em; background:var(--bg2); color:#444; }
 .hiw-table td { padding:0.3em 0.7em; border-bottom:1px solid #f0ece4; vertical-align:top; }
@@ -2274,8 +2279,8 @@ ${subnav('/how-it-works')}
 <h2>Embedding and retrieval</h2>
 <p><strong>Embedding model:</strong> Voyage AI <code>voyage-3</code> &mdash; 1,024-dimensional dense vectors, cosine similarity. The same model encodes both documents (at index time) and queries (at query time).</p>
 <p><strong>Chunking:</strong> Documents are split into 512-token chunks with 64-token overlap. Each chunk is stored with metadata: source, document title, author, date, and content type.</p>
-<p><strong>Title-anchored embeddings:</strong> The text sent to Voyage for each body chunk is prefixed with "Title: {title}\nSummary: {summary}\n\n" before the chunk body. This ensures that title and topic keywords are always present in the vector even when they don&rsquo;t appear in the chunk itself. The stored display text is unchanged; only the embedding receives the prefix.</p>
-<p><strong>Summary vectors:</strong> Each document also generates a dedicated summary vector (chunk_type: "doc_summary" or "post_summary") that embeds only the title, summary, and tags. When a summary vector matches, a follow-up retrieval query surfaces the corresponding body chunks.</p>
+<p><strong>Title-anchored embeddings:</strong> The text sent to Voyage for each body chunk is prefixed with <code>"Title: {title}\nSummary: {summary}\n\n"</code> before the chunk body. This ensures that title and topic keywords are always present in the vector even when they don&rsquo;t appear in the chunk itself. The stored display text is unchanged; only the embedding receives the prefix.</p>
+<p><strong>Summary vectors:</strong> Each document also generates a dedicated summary vector (<code>chunk_type: "doc_summary"</code> or <code>"post_summary"</code>) that embeds only the title, summary, and tags. When a summary vector matches, a follow-up retrieval query surfaces the corresponding body chunks.</p>
 </div>
 
 <div class="hiw-section">
@@ -2290,20 +2295,68 @@ ${subnav('/how-it-works')}
 <tr><td><code>transcripts</code></td><td>~4</td><td>Published conversations (grows with use)</td></tr>
 </tbody>
 </table>
-<p>All namespaces are queried in parallel on each request. Results are merged and ranked (PDFs/Substack at full weight, talks at 0.9×, bibliography scaled by relevance score) before being passed to the language model.</p>
+<p>All namespaces are queried in parallel on each request. Results are merged and ranked (PDFs/Substack at full weight, talks at 0.9&times;, bibliography scaled by relevance score) before being passed to the language model.</p>
 </div>
 
 <div class="hiw-section">
 <h2>The language model</h2>
 <p>Claude Sonnet is used throughout &mdash; both for answering queries and for background tasks like document enrichment. Protocol Institute research is dense and cross-disciplinary; the material benefits from strong synthesis rather than simple extraction.</p>
 <p>The system prompt is derived from the Protocol Institute&rsquo;s SOUL.md &mdash; a document describing the intellectual orientation, voice, and commitments of the Institute. It includes a corpus map so the model knows what is and isn&rsquo;t indexed, preventing false denials.</p>
-<p><strong>Rate limits:</strong> 10 queries per hour, 30 per day per IP. After 8 turns, the conversation can be downloaded as Markdown and continued in Claude.</p>
+<p><strong>Rate limits:</strong> 20 queries per IP per hour via the web UI. After 8 turns, the conversation can be downloaded as Markdown and continued in Claude, or accessed without a turn limit via MCP.</p>
+</div>
+
+<div class="hiw-section" id="mcp">
+<h2>MCP access</h2>
+<p>C3PO is available as a <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener">Model Context Protocol</a> server (JSON-RPC 2.0) at <code>https://c3po.vgr-702.workers.dev/mcp</code>. Connect it to Claude Code or Claude Desktop to query the corpus directly inside your AI client &mdash; no turn limit, no browser required.</p>
+
+<table class="hiw-table">
+<thead><tr><th>Tool</th><th>What it does</th><th>Auth</th><th>Limit</th></tr></thead>
+<tbody>
+<tr><td><code>search_corpus</code></td><td>Semantic search across the PI archive &mdash; returns ranked excerpts with metadata and URLs; no LLM call</td><td>None</td><td>100 calls/IP/day</td></tr>
+<tr><td><code>ask_c3po</code></td><td>Full RAG: embed &rarr; retrieve &rarr; Claude Sonnet synthesis; supports multi-turn <code>history</code> for long conversations</td><td>Bearer token</td><td>Circuit-breaker shared with web UI</td></tr>
+</tbody>
+</table>
+
+<p><strong><code>search_corpus</code></strong> is open &mdash; no key required. You can filter by namespace (<code>pdfs</code>, <code>substack</code>, <code>videos</code>, <code>bibliography</code>, or <code>all</code>) and set a result limit (1&ndash;20, default 10). Good for agentic workflows that need raw retrieval without LLM cost.</p>
+<p><strong><code>ask_c3po</code></strong> requires a Bearer token because each call invokes Claude Sonnet and Voyage AI at real cost. To request access email <a href="mailto:team@protocol-institute.org">team@protocol-institute.org</a>.</p>
+
+<h3>Claude Code</h3>
+<p>Search only (no key needed) &mdash; run once in your terminal:</p>
+<pre><code>claude mcp add c3po --transport http https://c3po.vgr-702.workers.dev/mcp</code></pre>
+<p>Full access with Bearer token:</p>
+<pre><code>claude mcp add c3po --transport http https://c3po.vgr-702.workers.dev/mcp \
+  --header "Authorization: Bearer &lt;your-key&gt;"</code></pre>
+
+<h3>Claude Desktop</h3>
+<p>Add to <code>claude_desktop_config.json</code> (on Mac: <code>~/Library/Application Support/Claude/</code>):</p>
+<pre><code>{"mcpServers": {"c3po": {
+  "type": "http",
+  "url": "https://c3po.vgr-702.workers.dev/mcp",
+  "headers": {"Authorization": "Bearer &lt;your-key&gt;"}
+}}}</code></pre>
+<p>For search-only without auth, omit the <code>headers</code> key.</p>
+
+<h3>Other MCP clients</h3>
+<p>Any client that supports Streamable HTTP MCP transport can connect. Point it at <code>https://c3po.vgr-702.workers.dev/mcp</code> and supply the <code>Authorization: Bearer &lt;your-key&gt;</code> header if you want <code>ask_c3po</code>.</p>
+
+<div class="hiw-note"><strong>Multi-turn conversations via MCP:</strong> <code>ask_c3po</code> accepts a <code>history</code> array of <code>{"role": "user"|"assistant", "content": "..."}</code> objects alongside your question. Pass prior turns to maintain context across a session. The same hourly and daily circuit breakers that govern the web UI apply &mdash; if the budget is exhausted, calls return an error and auto-reset at the next hour or midnight PT.</div>
 </div>
 
 <div class="hiw-section">
 <h2>Infrastructure</h2>
-<p>The API and web UI are served from a single Cloudflare Worker. Transcript storage uses Cloudflare KV. The Worker is deployed from the <a href="https://github.com/vgururao/c3po" style="color:var(--accent)">vgururao/c3po</a> repository (migrating to Protocol-Institute org at Phase 6).</p>
-<div class="hiw-note">C3PO is in active development. Corpus coverage, retrieval quality, and features will expand over time. Current version: Phase 2A.</div>
+<p>The API, web UI, and MCP server are all served from a single Cloudflare Worker. Rate limiting, stats, and transcript storage use Cloudflare KV. The Worker is deployed from the <a href="https://github.com/vgururao/c3po">vgururao/c3po</a> repository (migrating to Protocol-Institute org at Phase 6).</p>
+<table class="hiw-table">
+<thead><tr><th>Component</th><th>Technology</th></tr></thead>
+<tbody>
+<tr><td>Worker</td><td>Cloudflare Workers (V8 isolates) &mdash; single worker serving web UI, RAG API, and MCP server</td></tr>
+<tr><td>Rate limiting</td><td>Cloudflare KV &mdash; 20 web queries/IP/hour; 100 <code>search_corpus</code> MCP calls/IP/day</td></tr>
+<tr><td>Circuit breaker</td><td>KV flag + hourly cron; sleeps when hourly spend exceeds $4, or all day when daily spend exceeds $30</td></tr>
+<tr><td>Usage stats</td><td>KV accumulators (hourly/daily/lifetime) for web and MCP separately; visible in stats box on the main page</td></tr>
+<tr><td>Transcript storage</td><td>Cloudflare KV &mdash; 90-day TTL; submitted conversations indexed into Pinecone <code>transcripts</code> namespace</td></tr>
+<tr><td>Alerts</td><td>Telegram bot (optional) &mdash; circuit trips and daily spend summary</td></tr>
+</tbody>
+</table>
+<div class="hiw-note">C3PO is in active development. Corpus coverage, retrieval quality, and features will expand over time. Current version: Phase 2B (MCP server live).</div>
 </div>
 
 </div>
