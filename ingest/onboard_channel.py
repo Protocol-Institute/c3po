@@ -9,9 +9,17 @@ Given a Discord channel ID, this script:
   5. Optionally runs initial backfill
 
 Usage:
+    # Active channel — added to daily monitoring rotation:
     python3 ingest/onboard_channel.py --channel <id>
     python3 ingest/onboard_channel.py --channel <id> --backfill
     python3 ingest/onboard_channel.py --channel <id> --yes  # skip confirmation
+
+    # Archived channel — one-time full-history sweep, NOT added to daily rotation:
+    python3 ingest/onboard_channel.py --channel <id> --archive
+    python3 ingest/onboard_channel.py --channel <id> --archive --yes
+
+--archive implies --backfill. It sets status="archived" in the manifest so the
+daily sync skips the channel, but the full message history is embedded once.
 
 The channel must be accessible by the bot token in .env.
 """
@@ -20,6 +28,7 @@ import argparse
 import json
 import os
 import re
+import subprocess
 import sys
 import time
 import urllib.error
@@ -183,8 +192,13 @@ def main():
     parser = argparse.ArgumentParser(description="Onboard a Discord channel into C3PO.")
     parser.add_argument("--channel", required=True, help="Discord channel ID to onboard")
     parser.add_argument("--backfill", action="store_true", help="Run full backfill after onboarding")
+    parser.add_argument("--archive", action="store_true",
+                        help="Mark as archived (one-time sweep, excluded from daily rotation). Implies --backfill.")
     parser.add_argument("--yes", action="store_true", help="Accept proposed config without prompting")
     args = parser.parse_args()
+
+    if args.archive:
+        args.backfill = True
 
     channel_id = args.channel
 
@@ -252,13 +266,14 @@ def main():
 
     # Build manifest entry
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    status = "archived" if args.archive else "active"
     entry = {
         "channel_id": channel_id,
         "name": channel_info.get("name", channel_id),
         "display": proposed["display"],
         "type": proposed["type"],
         "namespace": proposed["namespace"],
-        "status": "active",
+        "status": status,
         "added": today,
         "backfill_complete": False,
         "min_chars_orig": proposed.get("min_chars_orig", 20),
@@ -271,19 +286,22 @@ def main():
 
     manifest["channels"][channel_id] = entry
     save_manifest(manifest)
-    print(f"\n✓ Added #{channel_info.get('name')} to channel manifest.")
+    mode_label = "archived (one-time sweep)" if args.archive else "active (daily monitoring)"
+    print(f"\n✓ Added #{channel_info.get('name')} to channel manifest [{mode_label}].")
 
-    if args.backfill or (not args.yes and input("\nRun initial backfill now? [y/N] ").strip().lower() == "y"):
+    run_backfill = args.backfill or (not args.yes and input("\nRun initial backfill now? [y/N] ").strip().lower() == "y")
+    if run_backfill:
         print("\nRunning backfill...")
-        sys.path.insert(0, str(Path(__file__).parent))
         if proposed["type"] == "general":
-            import subprocess
-            result = subprocess.run(
-                [sys.executable, str(Path(__file__).parent / "sync_discord.py")],
-                cwd=Path(__file__).parent.parent,
-            )
+            # For archived channels fetch full history (10 years); active channels use the
+            # sync script's own default (30-day window on first run).
+            cmd = [sys.executable, str(Path(__file__).parent / "sync_discord.py")]
+            if args.archive:
+                cmd += ["--backfill-days", "3650"]
+            subprocess.run(cmd, cwd=Path(__file__).parent.parent)
         elif proposed["type"] == "sig":
-            result = subprocess.run(
+            # sync_sig already does a 1500-day backfill on first run for new channels.
+            subprocess.run(
                 [sys.executable, str(Path(__file__).parent / "sync_sig.py"), "--channel", channel_id],
                 cwd=Path(__file__).parent.parent,
             )
