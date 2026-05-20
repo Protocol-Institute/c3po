@@ -1,5 +1,25 @@
 # C3PO — Status Log
 
+## 2026-05-20 — Exhibit extraction plan revised (session 14)
+
+**Plan: structural-navigation.md revised — COMPLETE**
+- Reframed from section summaries + list extracts → four exhibit types: `section_summary`, `list_exhibit`, `figure_exhibit`, `table_exhibit`
+- Sampled 5 PDFs: SoP papers embed 20–30 full-page background images (design artifact, filter by >80% page size); pdfplumber table extraction unreliable (picks up typographic grids)
+- Strategy: two-pass — Haiku text pass for sections + lists; PyMuPDF render + Haiku vision for figures + tables
+- Core essays (>12 text pages) get section summaries; all get list pass; visual pages (<50 words) get vision pass
+- Estimated: ~450–550 new vectors, ~$1.30, new dep: pymupdf
+- Not yet built
+
+**Open TODOs (priority order):**
+1. Check enrichment results (session 13: bb2tle25s) — score distribution; update CLAUDE.md discord_links count
+2. Build `ingest/extract_structure.py` + `ingest/ingest_structure.py` (exhibit extraction)
+3. YouTube transcript pass (161 deferred URLs)
+4. Attachment capture — extend sync scripts to read `msg["attachments"]`
+5. Set up launchd: daily `sync_discord.py` + weekly `sync_sig.py` + `fetch_discord_links.py`
+6. Add more Discord channels; set `DISCORD_SUMMARY_CHANNEL_ID`
+7. Add definitions namespace (`lexicon_draft.json`)
+8. GitHub Actions cron for `sync_substack.py`
+
 ## 2026-05-20 — Discord links fetch + enrichment pipeline (session 13)
 
 **discord_links ingest — COMPLETE**
