@@ -1,5 +1,39 @@
 # C3PO — Status Log
 
+## 2026-05-20 — Channel manifest, onboarding tool, daily launchd sync (session 16)
+
+**Channel manifest — COMPLETE**
+- `data/channel_manifest.json`: unified registry for all 6 monitored channels (2 general, 4 SIG)
+- Tracked in git (added `!data/channel_manifest.json` exception to .gitignore)
+- Schema: type (general|sig), namespace, meeting_patterns, thresholds, onboarding_notes, status
+
+**Script refactor — COMPLETE**
+- `sync_discord.py`: reads general channels from manifest via `load_general_channels()`, falls back to env var
+- `sync_sig.py`: reads SIG channels from manifest via `load_sig_channels()`, falls back to hardcoded dict
+
+**`ingest/onboard_channel.py` — COMPLETE**
+- Given `--channel <id>`: fetches sample messages + threads, calls Claude Sonnet to classify + propose config
+- Prints proposed config for human approval; supports `y/N/edit` prompt and `--yes` / `--backfill` flags
+- Adds entry to manifest; optionally triggers backfill via subprocess
+
+**`bin/daily_sync.sh` — COMPLETE**
+- Coordinator: sync_discord → sync_sig → rebuild_sig_summaries → generate_sig_pages → conditional website push
+- Website push only if `git status` shows changes to sigs/ or sigs.html
+- Manual run tested successfully
+
+**launchd plist — COMPLETE**
+- `~/Library/LaunchAgents/org.protocol-institute.c3po.daily.plist` loaded
+- `StartInterval: 86400` (24h after last run, not calendar time — fires whenever laptop is awake)
+- Logs: `~/Library/Logs/c3po/daily.{log,err}`
+
+**Open TODOs (priority order):**
+1. Set `DISCORD_SUMMARY_CHANNEL_ID` in `.env` — choose a channel for sync heartbeat posts
+2. YouTube transcript pass — 161 deferred URLs
+3. Attachment capture in sync scripts — download at ingest time before 24h CDN expiry
+4. c3po_oracle Discord bot — slash commands via Cloudflare Worker deferred response
+5. Add definitions namespace (`lexicon_draft.json`)
+6. GitHub Actions cron for `sync_substack.py`
+
 ## 2026-05-20 — Missed SIG meetings recovered; Discord bot design doc (session 15)
 
 **Root cause fix — active threads invisible to sync — COMPLETE**
