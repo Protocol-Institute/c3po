@@ -11,16 +11,21 @@
 - Not yet built
 
 **Open TODOs (priority order):**
-1. Check enrichment results (session 13: bb2tle25s) — score distribution; update CLAUDE.md discord_links count
-2. Build `ingest/extract_structure.py` + `ingest/ingest_structure.py` (exhibit extraction)
-3. YouTube transcript pass (161 deferred URLs)
-4. Attachment capture — extend sync scripts to read `msg["attachments"]`
-5. Set up launchd: daily `sync_discord.py` + weekly `sync_sig.py` + `fetch_discord_links.py`
-6. Add more Discord channels; set `DISCORD_SUMMARY_CHANNEL_ID`
-7. Add definitions namespace (`lexicon_draft.json`)
-8. GitHub Actions cron for `sync_substack.py`
+1. Build `ingest/extract_structure.py` + `ingest/ingest_structure.py` (exhibit extraction)
+2. YouTube transcript pass (161 deferred URLs)
+3. Attachment capture — extend sync scripts to read `msg["attachments"]`
+4. Set up launchd: daily `sync_discord.py` + weekly `sync_sig.py` + `fetch_discord_links.py`
+5. Add more Discord channels; set `DISCORD_SUMMARY_CHANNEL_ID`
+6. Add definitions namespace (`lexicon_draft.json`)
+7. GitHub Actions cron for `sync_substack.py`
 
 ## 2026-05-20 — Discord links fetch + enrichment pipeline (session 13)
+
+**Enrichment results (bb2tle25s) — COMPLETE**
+- Scored 1,412 fetched URLs; 899 kept (score 1–3), 485 deleted from Pinecone (score 0), 28 errors (no text in Pinecone)
+- Score distribution: 0→485, 1→480, 2→276, 3→143
+- Final `discord_links` namespace: **6,722 vectors** (down from ~11,012 pre-enrich)
+- Total Pinecone: **19,634 vectors** across 8 namespaces
 
 **discord_links ingest — COMPLETE**
 - `fetch_discord_links.py` harvested 3,091 unique URLs (discord + sig namespaces); fetched 1,412; failed 942; skipped 373 (already seen); deferred 355 (161 YouTube, 194 Twitter/X); rejected 9 (injection filter)
