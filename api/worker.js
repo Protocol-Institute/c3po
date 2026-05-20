@@ -394,11 +394,13 @@ function normalizeSubstack(match) {
 
 function normalizeDiscord(match) {
   const m = match.metadata;
-  const isThread = m.chunk_type === "thread";
-  const starred  = (m.star_count || 0) > 0;
-  const guild    = m.guild_id || "1082444651946049567";
-  const target   = isThread ? (m.thread_id || m.channel_id) : m.channel_id;
-  const suffix   = isThread ? "" : `/${m.message_id}`;
+  const isThread    = m.chunk_type === "thread";
+  const isForumPost = m.chunk_type === "forum_post";
+  const starred     = (m.star_count || 0) > 0;
+  const guild       = m.guild_id || "1082444651946049567";
+  // threads and forum posts link directly to the thread/post; messages link to channel+message
+  const target = (isThread || isForumPost) ? (m.thread_id || m.channel_id) : m.channel_id;
+  const suffix = (isThread || isForumPost) ? "" : `/${m.message_id}`;
   const url = guild && target ? `https://discord.com/channels/${guild}/${target}${suffix}` : null;
   const allAuthors = (() => { try { return JSON.parse(m.all_authors || "[]"); } catch { return []; } })();
   return {
@@ -406,9 +408,9 @@ function normalizeDiscord(match) {
     source:         "discord",
     score:          match.score,
     type:           "discussion",
-    label:          "DISCORD",
-    title:          `#${m.channel_name || "discord"}`,
-    authors:        isThread ? allAuthors : [m.author].filter(Boolean),
+    label:          isForumPost ? "FORUM" : "DISCORD",
+    title:          isForumPost ? (m.thread_name ? `#${m.channel_name}: ${m.thread_name}` : `#${m.channel_name || "forum"}`) : `#${m.channel_name || "discord"}`,
+    authors:        (isThread || isForumPost) ? allAuthors : [m.author].filter(Boolean),
     primary_author: m.author || allAuthors[0] || "",
     date:           (m.timestamp || "").slice(0, 10),
     url,
@@ -417,6 +419,7 @@ function normalizeDiscord(match) {
     star_count:     m.star_count || 0,
     starred,
     isThread,
+    isForumPost,
   };
 }
 

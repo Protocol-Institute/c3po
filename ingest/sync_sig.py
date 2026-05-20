@@ -39,6 +39,7 @@ import anthropic
 
 sys.path.insert(0, str(Path(__file__).parent))
 from utils import clean_text, chunk_text, embed_chunks, chunk_id, get_voyage_client, get_pinecone_index, PINECONE_BATCH, append_run_log
+from attachments import process_attachments, attachment_meta_fields, extract_pdf_text
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
@@ -569,13 +570,17 @@ def process_channel(channel_id: str, config: dict, state: dict,
         msgs = fetch_all_thread_messages(thread_id)
         non_bot_msgs = [m for m in msgs if not m.get("author", {}).get("bot")]
 
-        # Register all URLs from this thread
+        # Register all URLs and download attachments from this thread
+        thread_att_infos = []
         for msg in non_bot_msgs:
             urls = extract_urls(msg.get("content", ""))
             if urls:
                 register_urls(urls, config["name"], channel_id,
                               msg["id"], msg.get("author", {}).get("username", ""),
                               links_registry)
+            if not dry_run and msg.get("attachments"):
+                atts = process_attachments(msg, channel_id)
+                thread_att_infos.extend(atts)
 
         records = []
 
@@ -609,6 +614,39 @@ def process_channel(channel_id: str, config: dict, state: dict,
                 "text": disc_text, "meta": disc_meta,
             })
             discussion_count += 1
+
+        # Embed attachment text for PDFs/text files found in this thread
+        if thread_att_infos:
+            records[0]["meta"].update(attachment_meta_fields(thread_att_infos))
+            from pathlib import Path as _Path
+            for att in thread_att_infos:
+                if att["is_pdf"]:
+                    pdf_text = extract_pdf_text(_Path(att["path"]))
+                    if pdf_text:
+                        att_text = (
+                            f"{config['display']} | Attachment: {att['filename']} | "
+                            f"{thread_name}\n\n{clean_text(pdf_text)}"
+                        )
+                        att_meta = {**records[0]["meta"], "chunk_type": "sig_attachment",
+                                    "attachment_filename": att["filename"],
+                                    "attachment_type": "pdf"}
+                        records.append({"id": f"sig_att__{thread_id}__{att['filename']}",
+                                        "text": att_text, "meta": att_meta})
+                elif att["is_text"]:
+                    try:
+                        txt = _Path(att["path"]).read_text(errors="replace").strip()
+                        if txt:
+                            att_text = (
+                                f"{config['display']} | Attachment: {att['filename']} | "
+                                f"{thread_name}\n\n{clean_text(txt)}"
+                            )
+                            att_meta = {**records[0]["meta"], "chunk_type": "sig_attachment",
+                                        "attachment_filename": att["filename"],
+                                        "attachment_type": "text"}
+                            records.append({"id": f"sig_att__{thread_id}__{att['filename']}",
+                                            "text": att_text, "meta": att_meta})
+                    except Exception:
+                        pass
 
         # Embed and upsert
         texts = [r["text"] for r in records]
@@ -654,7 +692,12 @@ def process_channel(channel_id: str, config: dict, state: dict,
         urls = extract_urls(content)
         stars = get_star_count(msg)
 
-        if not qualifies_main(msg, content, urls, stars):
+        # Download attachments regardless of whether message qualifies
+        att_infos = []
+        if not dry_run and msg.get("attachments"):
+            att_infos = process_attachments(msg, channel_id)
+
+        if not qualifies_main(msg, content, urls, stars) and not att_infos:
             continue
 
         if urls:
@@ -662,6 +705,8 @@ def process_channel(channel_id: str, config: dict, state: dict,
                           msg_id, msg.get("author", {}).get("username", ""), links_registry)
 
         text, meta = format_main_message(msg, channel_id, config)
+        if att_infos:
+            meta.update(attachment_meta_fields(att_infos))
         records.append({"id": f"sig_msg__{msg_id}", "text": text, "meta": meta})
         message_count += 1
 

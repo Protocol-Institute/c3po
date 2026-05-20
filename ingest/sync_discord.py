@@ -44,6 +44,7 @@ from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).parent))
 from utils import clean_text, embed_chunks, get_voyage_client, get_pinecone_index, PINECONE_BATCH, append_run_log
+from attachments import process_attachments, attachment_meta_fields, extract_pdf_text
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
@@ -572,7 +573,12 @@ def main():
                 if urls and not args.dry_run:
                     register_urls(urls, channel_name, channel_id, msg_id, author, links_registry)
 
-                if not qualifies(msg, content, stars, urls):
+                # Download attachments immediately (CDN URLs expire in ~24h)
+                att_infos = []
+                if not args.dry_run and msg.get("attachments"):
+                    att_infos = process_attachments(msg, channel_id)
+
+                if not qualifies(msg, content, stars, urls) and not att_infos:
                     continue
 
                 if "thread" in msg:
@@ -591,7 +597,42 @@ def main():
                     if stars:
                         ch_starred += 1
 
+                if att_infos:
+                    meta.update(attachment_meta_fields(att_infos))
+
                 records.append({"id": record_id, "text": text, "meta": meta})
+
+                # Create separate embedding records for PDF/text attachments
+                for att in att_infos:
+                    if att["is_pdf"]:
+                        from pathlib import Path as _Path
+                        pdf_text = extract_pdf_text(_Path(att["path"]))
+                        if pdf_text:
+                            att_text = (
+                                f"Discord #{channel_name} | Attachment: {att['filename']} | "
+                                f"@{author} | {meta.get('timestamp','')}\n\n{clean_text(pdf_text)}"
+                            )
+                            att_meta = {**meta, "chunk_type": "discord_attachment",
+                                        "attachment_filename": att["filename"],
+                                        "attachment_type": "pdf"}
+                            records.append({"id": f"discord_att__{msg_id}__{att['filename']}",
+                                            "text": att_text, "meta": att_meta})
+                    elif att["is_text"]:
+                        from pathlib import Path as _Path
+                        try:
+                            txt = _Path(att["path"]).read_text(errors="replace").strip()
+                            if txt:
+                                att_text = (
+                                    f"Discord #{channel_name} | Attachment: {att['filename']} | "
+                                    f"@{author} | {meta.get('timestamp','')}\n\n{clean_text(txt)}"
+                                )
+                                att_meta = {**meta, "chunk_type": "discord_attachment",
+                                            "attachment_filename": att["filename"],
+                                            "attachment_type": "text"}
+                                records.append({"id": f"discord_att__{msg_id}__{att['filename']}",
+                                                "text": att_text, "meta": att_meta})
+                        except Exception:
+                            pass
 
             if not args.dry_run and records:
                 vectors = embed_chunks([r["text"] for r in records], vc)

@@ -2,6 +2,7 @@
 data/*
 !data/devlog.json
 !data/channel_manifest.json
+data/attachments/
 sources/youtube/captions_raw/
 sources/youtube/captions/
 sources/bibliography/pdfs/
