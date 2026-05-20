@@ -1,5 +1,26 @@
 # C3PO — Status Log
 
+## 2026-05-20 — Discord links fetch + enrichment pipeline (session 13)
+
+**discord_links ingest — COMPLETE**
+- `fetch_discord_links.py` harvested 3,091 unique URLs (discord + sig namespaces); fetched 1,412; failed 942; skipped 373 (already seen); deferred 355 (161 YouTube, 194 Twitter/X); rejected 9 (injection filter)
+- ~11,012 vectors written to `discord_links` Pinecone namespace
+- Prompt injection filter: 11 regex patterns + invisible-char density guard (>1%); catches override/jailbreak/token-boundary attacks; false-positive-safe (tightened after rescan found 6 false positives with old patterns)
+- `enrich_discord_links.py`: scores each fetched URL 0–3 for protocol relevance via Claude Haiku; deletes score-0 vectors from Pinecone; stores score + reason in registry; resumable, dry-run + limit flags
+- Worker integration complete: `normalizeWebLink()`, `discord_links` namespace in all 4 query callsites, relevance-score weighting (0.55/0.65/0.75 base × popularity bonus), `c3po-badge-web` badge
+- Enrichment run kicked off in background after session end (bb2tle25s)
+- Bug fixed: `SCORE_PROMPT` JSON example had un-escaped braces (`{{"score":...}}`); caught in dry-run before full run
+
+**Open TODOs (priority order):**
+1. Check enrichment results (bb2tle25s) — verify score distribution; delete score-0 entries confirmed; update CLAUDE.md with final discord_links vector count
+2. YouTube transcript pass — 161 deferred URLs; use `youtube-transcript-api` (no API key)
+3. Twitter/X paid API pass — 194 deferred URLs; needs Twitter API v2 credentials
+4. Attachment capture — extend sync scripts to read `msg["attachments"]`, download at sync time before CDN URLs expire (24h)
+5. Set up launchd: daily `sync_discord.py` + weekly `sync_sig.py` + `fetch_discord_links.py`
+6. Add more Discord channels; set `DISCORD_SUMMARY_CHANNEL_ID`
+7. Add definitions namespace (`lexicon_draft.json`, deferred)
+8. GitHub Actions cron for `sync_substack.py`
+
 ## 2026-05-20 — Wire discord/sig into worker, corpus description rewrite (session 12)
 
 **Worker wiring — COMPLETE**

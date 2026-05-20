@@ -60,7 +60,7 @@ Scores:
     content explicitly cited in PI research)
 
 Respond with JSON only — no commentary:
-{"score": <0-3>, "reason": "<one sentence>"}
+{{"score": <0-3>, "reason": "<one sentence>"}}
 
 URL: {url}
 Domain: {domain}
