@@ -43,6 +43,76 @@ NAMESPACE     = "discord_links"
 SOURCE_NS     = ["discord", "sig"]   # namespaces to harvest URLs from
 REGISTRY_PATH = Path(__file__).parent.parent / "data" / "discord_links_registry.json"
 
+# ── Prompt injection filter ────────────────────────────────────────────────────
+# These patterns detect imperative commands that could manipulate LLM context
+# when the extracted text is injected as a retrieval chunk.
+# Legitimate AI-safety articles discussing these topics use quoted/third-person
+# framing; raw imperatives targeted at a model are the actual risk.
+
+_INJECTION_PATTERNS = [
+    # Direct override commands
+    re.compile(r'\bignore\s+(all\s+)?(previous|prior|above|your|the\s+above)\s+(instructions?|rules?|guidelines?|constraints?|system\s+prompt)', re.I),
+    re.compile(r'\bdisregard\s+(all\s+)?(previous|prior|above|your)\s+(instructions?|rules?|guidelines?|directives?)', re.I),
+    re.compile(r'\bforget\s+(all\s+)?(previous|prior|your|everything|the\s+above)', re.I),
+    re.compile(r'\boverride\s+(your\s+)?(instructions?|system\s+prompt|rules?|guidelines?|constraints?)', re.I),
+
+    # Persona / role-swap injections
+    re.compile(r'\byou\s+are\s+now\s+(a\s+|an\s+)?(?!the\s+Protocol|C3PO|an?\s+AI\s+assistant)', re.I),
+    re.compile(r'\bact\s+as\s+if\s+(you\s+(have\s+no|are\s+not|don\'?t\s+have)|there\s+(are|were)\s+no)\s+(restrictions?|rules?|guidelines?|filters?|limits?|constraints?)', re.I),
+    re.compile(r'\bpretend\s+(you\s+are|you\'?re|to\s+be)\s+.{0,40}(no\s+restrictions?|unrestricted|without\s+(guidelines?|rules?|constraints?))', re.I),
+
+    # System prompt / instruction injection markers
+    re.compile(r'(?m)^(SYSTEM|NEW\s+INSTRUCTIONS?|UPDATED\s+INSTRUCTIONS?|ASSISTANT|USER)\s*:\s*\n', re.I),
+    re.compile(r'(?m)^#{2,}\s*(system|instructions?|rules?)\s*$', re.I),
+
+    # LLM token boundary attacks (model-specific control tokens)
+    re.compile(r'<\|im_start\|>|<\|im_end\|>|<\|endoftext\|>'),
+    re.compile(r'\[INST\]|\[/INST\]|\[SYS\]|\[/SYS\]'),
+    re.compile(r'<s>\s*(You are|SYSTEM|INST)', re.I),
+
+    # DAN / jailbreak invocations
+    re.compile(r'\bDAN\s+(mode|prompt|jailbreak)\b', re.I),
+    re.compile(r'\bjailbreak\b.{0,60}\b(instructions?|rules?|guidelines?|system)', re.I),
+
+    # Zero-width / invisible-character payload markers (after stripping, these
+    # indicate the page tried to hide injection text from human readers)
+    re.compile(r'[​‌‍‎‏﻿]{3,}'),  # 3+ invisible chars in a row
+]
+
+# Minimum fraction of a 500-char window that must be printable ASCII/common Unicode
+# for the page to be considered non-adversarial text.
+_MIN_PRINTABLE_RATIO = 0.80
+
+
+def _strip_invisible(text: str) -> str:
+    """Remove zero-width and other invisible Unicode characters."""
+    return re.sub(r'[​‌‍‎‏﻿­]', '', text)
+
+
+def is_injection_attempt(text: str) -> tuple[bool, str]:
+    """
+    Returns (True, pattern_description) if the text contains prompt injection
+    markers, (False, "") otherwise.
+
+    Scans the full extracted text, not individual chunks, so context-stripping
+    attacks that hide intent across chunk boundaries are also caught.
+    """
+    clean = _strip_invisible(text)
+
+    # Invisible-char density check (adversarial steganography)
+    if len(text) > 100:
+        invisible = sum(1 for c in text if ord(c) in (0x200B, 0x200C, 0x200D, 0x200E, 0x200F, 0xFEFF, 0x00AD))
+        if invisible / len(text) > 0.01:  # >1% invisible chars
+            return True, f"high invisible-char density ({invisible}/{len(text)})"
+
+    for pat in _INJECTION_PATTERNS:
+        m = pat.search(clean)
+        if m:
+            snippet = clean[max(0, m.start()-30):m.end()+30].replace('\n', ' ')
+            return True, f"pattern '{pat.pattern[:60]}' matched: «{snippet}»"
+
+    return False, ""
+
 MIN_CONTENT_CHARS = 300   # below this = paywall / bot wall / empty page
 REQUEST_TIMEOUT   = 15
 INTER_REQUEST_SLEEP = 0.5
@@ -192,7 +262,12 @@ def extract_text(html: str) -> str:
 # ── Ingest ─────────────────────────────────────────────────────────────────────
 
 def ingest_page(url: str, text: str, entry: dict, vc, index) -> int:
-    """Chunk, embed, and upsert a fetched page. Returns vector count."""
+    """Chunk, embed, and upsert a fetched page. Returns vector count.
+    Raises ValueError if injection patterns are detected."""
+    flagged, reason = is_injection_attempt(text)
+    if flagged:
+        raise ValueError(f"injection_filter: {reason}")
+
     domain = entry.get("domain", domain_of(url))
     sources = entry.get("sources", [])
     primary_source = sources[0] if sources else {}
@@ -301,6 +376,8 @@ def main():
     parser.add_argument("--limit", type=int, help="Max URLs to fetch this run")
     parser.add_argument("--refresh-failed", action="store_true",
                         help="Retry URLs previously marked as failed")
+    parser.add_argument("--rescan-fetched", action="store_true",
+                        help="Re-run injection filter on already-fetched URLs (text-only, no re-fetch or re-embed)")
     args = parser.parse_args()
 
     pc_index = get_pinecone_index()
@@ -326,6 +403,30 @@ def main():
     print(f"  {added} new URLs added to registry ({len(registry)} total)")
     if not args.dry_run:
         save_registry(registry)
+
+    # Optional: re-scan already-fetched entries with injection filter
+    # (text is not stored in registry; this re-fetches the page, text-only, no re-embed)
+    if args.rescan_fetched:
+        print("\nRe-scanning fetched URLs for injection patterns...")
+        already_fetched = [k for k, e in registry.items() if e.get("fetch_status") == "fetched"]
+        flagged_count = 0
+        for key in already_fetched:
+            url = registry[key].get("url", key)
+            html = fetch_url(url)
+            if not html:
+                continue
+            text = extract_text(html)
+            flagged, reason = is_injection_attempt(text)
+            if flagged:
+                print(f"  ⚠ FLAGGED (already ingested): {url[:80]}")
+                print(f"    Reason: {reason[:100]}")
+                registry[key]["injection_flag"] = reason
+                flagged_count += 1
+        save_registry(registry)
+        print(f"  Scanned {len(already_fetched)} fetched URLs, flagged {flagged_count}")
+        if flagged_count:
+            print(f"  NOTE: flagged entries are still in Pinecone — manual review + delete required")
+        return
 
     # Step 2: determine what to fetch
     if args.refresh_failed:
@@ -372,8 +473,9 @@ def main():
         return
 
     # Step 3: fetch and ingest
-    fetched_ok = 0
-    fetched_fail = 0
+    fetched_ok    = 0
+    fetched_fail  = 0
+    injections    = 0
     total_vectors = 0
 
     for i, key in enumerate(to_fetch):
@@ -401,7 +503,18 @@ def main():
             time.sleep(INTER_REQUEST_SLEEP)
             continue
 
-        n = ingest_page(url, text, entry, vc, pc_index)
+        try:
+            n = ingest_page(url, text, entry, vc, pc_index)
+        except ValueError as e:
+            reason = str(e)
+            print(f"  ⚠ INJECTION FILTER: {reason[:120]}")
+            registry[key]["fetch_status"] = "rejected"
+            registry[key]["fail_reason"] = reason
+            injections += 1
+            save_registry(registry)
+            time.sleep(INTER_REQUEST_SLEEP)
+            continue
+
         registry[key]["fetch_status"] = "fetched"
         registry[key]["fetched_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         registry[key]["vector_count"] = n
@@ -413,10 +526,11 @@ def main():
         time.sleep(INTER_REQUEST_SLEEP)
 
     print(f"\n── Done ─────────────────────────────────────────")
-    print(f"  Fetched OK   : {fetched_ok}")
-    print(f"  Failed       : {fetched_fail}")
-    print(f"  Vectors added: {total_vectors}")
-    print(f"  Registry     : {len(registry)} total URLs")
+    print(f"  Fetched OK        : {fetched_ok}")
+    print(f"  Failed            : {fetched_fail}")
+    print(f"  Injection rejected: {injections}")
+    print(f"  Vectors added     : {total_vectors}")
+    print(f"  Registry          : {len(registry)} total URLs")
 
 
 if __name__ == "__main__":
