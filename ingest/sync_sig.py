@@ -70,7 +70,7 @@ SIG_CHANNELS = {
         "name": "memory-research-group",
         "display": "MRG",
         "meeting_patterns": [
-            re.compile(r'^\d{6,8}\s+Memory Research Group session', re.I),
+            re.compile(r'^\d{6,9}\s+Memory Research Group session', re.I),
             re.compile(r'^MEMSIG', re.I),
         ],
     },

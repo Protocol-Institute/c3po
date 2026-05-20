@@ -2,25 +2,27 @@
 
 ## 2026-05-19 — SIG channel ingest, sync_sig.py (session 10)
 
-**SIGFPT channel fully ingested — COMPLETE**
+**All 4 SIG channels ingested — COMPLETE**
 - `ingest/sync_sig.py` — batch SIG harvester, all 4 channels, two-level meeting ingestion
 - Meeting detection: per-channel regex patterns; SIGFPT, MRG, SIGPfB, ProtFiSIG each have tuned patterns
+- MRG pattern fix: `\d{6,9}` (one thread named `202500807` — 9-digit typo)
 - Meeting threads: Claude Haiku summary vector (sig_meeting_summary) + chunked body (sig_meeting_body)
 - Non-meeting threads: bundled as sig_discussion; main channel filtered same as sync_discord.py
-- Re-summarizes meetings only when message_count changes
-- Also updates discord_links_registry.json with all URLs from SIG messages/threads
-- SIGFPT full backfill: 29 meetings (1,500-day lookback), 38 discussions, 564 main msgs → **757 vectors** in `sig`
-- **Pinecone:** discord: 3,301 · sig: 757 · substack: 1,040 · videos: 2,940 · pdfs: 766 · bibliography: 278 · transcripts: 4 · **Total: 9,086**
+- SIGFPT: 29 meetings, 38 discussions, 564 msgs → 757 vectors
+- MRG: 16 meetings, 9 discussions, 378 msgs → 433 vectors
+- SIGPfB: 22 meetings, 77 discussions, 2,001 msgs → 2,214 vectors
+- ProtFiSIG: 11 meetings, 43 discussions, 1,072 msgs → 1,179 vectors
+- **Total sig: 4,583 vectors** | 77 meeting summaries, 169 discussions across all SIGs
+- **Pinecone:** discord: 3,301 · sig: 4,583 · substack: 1,040 · videos: 2,940 · pdfs: 766 · bibliography: 278 · transcripts: 4 · **Total: 12,912**
 
 **Open TODOs (priority order):**
-1. Run sync_sig.py on remaining 3 SIG channels: MRG, SIGPfB, ProtFiSIG (1 at a time)
-2. Add `discord` + `sig` namespaces to worker.js (normalizeDiscord, normalizeSig, Discord badges, link gen)
-3. Wire discord/sig into mergeResults(): starred 1.0×, unstarred 0.70×
-4. Run fetch_discord_links.py once all channels done (1,042+ URLs in registry)
-5. Add more general Discord channels to DISCORD_CHANNEL_IDS + set DISCORD_SUMMARY_CHANNEL_ID
-6. Set up launchd for daily sync_discord.py + weekly sync_sig.py
-7. Add definitions namespace (lexicon_draft.json, deferred session 8)
-8. GitHub Actions cron for sync_substack.py
+1. Add `discord` + `sig` namespaces to worker.js (normalizeDiscord, normalizeSig, Discord badges, link gen)
+2. Wire discord/sig into mergeResults(): starred 1.0×, unstarred 0.70×
+3. Run fetch_discord_links.py once all channels done (1,042+ URLs in registry)
+4. Add more general Discord channels to DISCORD_CHANNEL_IDS + set DISCORD_SUMMARY_CHANNEL_ID
+5. Set up launchd for daily sync_discord.py + weekly sync_sig.py
+6. Add definitions namespace (lexicon_draft.json, deferred session 8)
+7. GitHub Actions cron for sync_substack.py
 
 ## 2026-05-19 — Discord ingest pipeline (session 9)
 
