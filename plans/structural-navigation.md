@@ -1,214 +1,230 @@
-# Plan: Structural Navigation — Section-Level Summaries
+# Plan: Exhibit Extraction — Figures, Tables, Lists, Section Summaries
 
-**Status:** Draft  
-**Priority:** High (P1 after lexicon)  
-**Trigger:** "10 dimensions of sufficiency" failure — query returned partial enumerated list cut at chunk boundary; bot correctly refused to fabricate but couldn't enumerate a canonical framework from its own corpus.
+**Status:** Revised (2026-05-20)
+**Priority:** High
+**Trigger:** "10 dimensions of sufficiency" failure — query returned partial enumerated list cut at chunk boundary; bot refused to fabricate missing items but couldn't enumerate a canonical framework from its own corpus. Revised to cover the full space of structured exhibit artifacts: figures, tables, lists, and section summaries.
 
 ---
 
 ## Problem Statement
 
-The current ingest pipeline has two chunk types per document: body chunks (512-token windows) and a doc_summary vector (one per document). This works well for prose retrieval — "what does paper X argue about Y" — but fails for a distinct query type: **structural enumeration**.
+The current ingest pipeline has two chunk types per document: body chunks (512-token windows) and a `doc_summary` vector. This handles prose retrieval well but fails for **structural queries**:
 
-**Structural enumeration queries:**
-- "What are the 10 dimensions of sufficiency?"
-- "List the dimensions of the Kafka Index"
-- "What are the properties of a good protocol according to Rao et al.?"
-- "What frameworks does the Protocol Reader introduce?"
+- "What are the 10 dimensions of sufficiency?" → framework split across ~12 body chunks, no single unit covers all items
+- "Describe the diagram on page 6 of the Sufficiency paper" → no figure description exists in the index
+- "What does section 3 of the Protocol Reader argue?" → section heading and body are in different chunks
 
-These fail because:
-1. A numbered list or framework spanning 8 pages is split across ~12–15 body chunks
-2. The section heading ("3. Ten dimensions of sufficiency") is far from the individual section bodies (3.1–3.10) in both the PDF and in embedding space
-3. The doc_summary captures the paper's argument but not its internal structure
-4. No single retrievable unit contains all enumerated items — they are individually coherent but collectively unreachable
-
-**This is not a lexicon problem.** The lexicon is the right tool for *terms*: "what is a Kafka protocol?", "what is a dynamic non-event?". It is the wrong tool for *structured results* because:
-- A framework with 10 named dimensions cannot be well-served by a brief lexicon entry
-- The structure itself (section titles, sub-item hierarchy, key questions per section) is information that benefits from retrieval context, not injection verbatim
-- The corpus has dozens of such frameworks; hand-maintaining lexicon entries for all of them doesn't scale
-
-**This is an addressing problem.** The vector space has no representation for "give me the table of contents of this document" or "give me all items in this enumerated list." We need to add those representations.
+The fix is to index **exhibit artifacts** — well-defined, self-contained units of structured knowledge from the corpus.
 
 ---
 
-## Corpus Analysis
+## Corpus Reality (from sampling)
 
-The problem is specific to the PDF namespace. Substack posts are short-form (rarely >3,000 words) and seldom have the deeply nested section structure that causes this failure. Academic papers, research reports, and workshop materials — which make up the bulk of the 82 PDFs — frequently do.
+Sampling five representative PDFs revealed:
 
-Patterns that cause failures:
+**Background image pattern:** Every SoP paper embeds 20–30 full-page images (≈626×810px for standard letter-format papers) as decorative backgrounds from the publication design. These are NOT content figures.
 
-| Pattern | Example | Why it fails |
+**Content images:** After filtering out backgrounds, each paper has 4–13 smaller images (typically 150–280px), representing actual diagrams, illustrations, or embedded figures.
+
+**Visual pages:** Most papers have ~3 pages with <50 words of extractable text — these are full-page illustration spreads where the visual IS the content.
+
+**pdfplumber tables unreliable:** `extract_tables()` picks up typographic design elements (letter grids, decorative rules) as tables. One paper's "13 tables" were entirely the letters of the word "ADDRESSABLE SPACE" in a grid title. Programmatic table extraction is not viable; vision detection is required.
+
+**Paper types in corpus:**
+- *Text-essay papers* (Protocol Reader intro, Unreasonable Sufficiency, Killswitch, etc.): dense text, few embedded figures, worth section summaries
+- *Design-heavy SoP submissions* (most): full-page backgrounds, scattered small figures, section structure less formal
+- *Visual-first papers* (FERNANDEZ Flow brochure, some speculative pieces): images are the primary content
+
+---
+
+## Exhibit Types
+
+Four chunk types, all stored in the existing `pdfs` Pinecone namespace (additive, no schema changes):
+
+| Type | Unit | Trigger |
 |---|---|---|
-| Multi-section numbered framework | 10 dimensions of sufficiency (§3.1–3.10) | Each section is 1–2 pages; no chunk covers all |
-| Nested enumeration (n.m format) | Dimensions of the Kafka Index | Section headers and body are in different chunks |
-| Distributed taxonomy | Protocol Reader framework | Terms defined across separate sections |
-| Multi-column layout | Most SoP papers | pdfplumber interleaves columns, corrupting list text |
-| Cross-paper list | "What are all the key questions raised in the SoP corpus?" | No unit covers multiple documents |
+| `section_summary` | One per major section | Core essays only (>12 text pages) |
+| `list_exhibit` | One per enumerated framework or list | All text-bearing PDFs |
+| `figure_exhibit` | One per content image | Pages with qualifying images |
+| `table_exhibit` | One per data table | Vision-detected on qualifying pages |
 
 ---
 
-## Solution: Section Summary + List Extract Chunk Types
+## Extraction Strategy: Two Passes Per Paper
 
-Add two new chunk types to the PDF ingest pipeline, generated by a Haiku extraction pass after the body chunk step.
+### Pass 1 — Text (Haiku, no vision)
 
-### Chunk Type 1: `section_summary`
+For each of the 77 PDFs with extractable text:
 
-One vector per major section (h2-equivalent) in each paper. Contains the section's structural position, title, and a compact summary of its argument and key claims. Enables "what does section X cover" retrieval and surfaces section-level structure in the embedding space.
+1. Extract full text with pdfplumber (same as existing pipeline)
+2. Call Haiku with a combined prompt that produces JSON with two keys:
+   - `sections`: for core essays only — list of `{num, title, summary, key_claim}`
+   - `lists`: all papers — list of `{title, context, items: [...verbatim...]}` for any enumerated framework with 3+ distinct substantive items
 
-**ID format:** `{doc_slug}__section_{n}` (e.g., `The-Unreasonable-Sufficiency-of-Protocols__section_3_1`)
+**Core essay filter:** Papers where pdfplumber extracts text from >12 pages. Approximately 15–20 papers based on the corpus scan. Passed to Haiku as a flag in the prompt.
 
-**Text format (embedded):**
+**Output:** `sources/pdfs/structure_meta.json` — keyed by slug, merged with Pass 2 output.
+
+---
+
+### Pass 2 — Vision (Haiku with images, via PyMuPDF)
+
+**Dependency:** `pip install pymupdf` (not yet in venv)
+
+**Qualifying pages** — a page qualifies for a vision call if either condition holds:
+- It has at least one content image: an embedded image object that is NOT a full-page background (filter: width > 80% of page width AND height > 80% of page height → background, skip) AND NOT a tiny mark (filter: either dimension < 40px → skip)
+- It is a visual spread: the page extracts fewer than 50 words of text AND is not a cover/title page (detected by position: not page 1, or page 1 without standard cover patterns)
+
+**Per qualifying page:**
+1. Render page to PNG at 150 DPI using `fitz.open()` → `page.get_pixmap()`
+2. Send PNG + surrounding context (paper title, page number, text from adjacent pages) to Haiku vision
+3. Haiku prompt asks:
+   - Identify and describe any content figures (diagrams, charts, maps, illustrations, network graphs, timelines)
+   - Identify and reproduce any data tables (structured rows/columns with substantive content — NOT decorative typography)
+   - For each exhibit: type, caption (if visible in image), description of what it shows, what argument or claim it supports
+   - Return JSON: `{figures: [{caption, description, exhibit_type}], tables: [{caption, content_markdown, description}]}`
+4. Skip pages where Haiku returns empty arrays (no exhibits found)
+
+**Output:** Merged into `sources/pdfs/structure_meta.json`.
+
+---
+
+## Embedding Text Formats
+
+### `section_summary`
 ```
-Document: {title}
-Section: {n} — {section_title}
-Summary: {2-sentence argument summary}
-Key claim: {the single most important point, verbatim quote if possible}
+Document: {title} ({primary_author}, {year})
+Section {num}: {section_title}
+Summary: {2-sentence summary of argument}
+Key claim: {verbatim quote or distilled key point}
 ```
+Metadata: `chunk_type`, `section_num`, `section_title`, `doc_slug`, `url`, `title`, `primary_author`, `date`
 
-**Metadata:** `chunk_type: "section_summary"`, `section_num`, `section_title`, `doc_slug`, `url`, `title`, `primary_author`, `date`
-
-### Chunk Type 2: `list_extract`
-
-One vector per enumerated list, taxonomy, or numbered framework found in a document. Contains the full list reproduced verbatim — all items, all sub-items. This is the unit that answers "enumerate X" queries directly from retrieval, without expecting Claude to reassemble items from scattered body chunks.
-
-**When to create:** Haiku detects an enumerated list with 3+ items where the items are substantively distinct (not a bibliography, not a references section). Multi-level lists (n.m format) are kept intact.
-
-**ID format:** `{doc_slug}__list_{list_index}` (e.g., `The-Unreasonable-Sufficiency-of-Protocols__list_0`)
-
-**Text format (embedded):**
+### `list_exhibit`
 ```
-Document: {title}
-List: {list_title_or_heading}
+Document: {title} ({primary_author}, {year})
+List: {list_title}
 Context: {1 sentence describing what this list is}
 Items:
-  3.1 Sufficiently generative — Good protocols are usually hard-edged, parsimonious, compact, legible, and slow-changing.
-  3.2 Sufficiently legible — [...]
+  1. {item verbatim}
+  2. {item verbatim}
   ...
 ```
+Metadata: `chunk_type`, `list_title`, `item_count`, `doc_slug`, `url`, `title`, `primary_author`, `date`
 
-**Metadata:** `chunk_type: "list_extract"`, `list_title`, `item_count`, `doc_slug`, `url`, `title`, `primary_author`, `date`
+### `figure_exhibit`
+```
+Document: {title} ({primary_author}, {year})
+Figure (page {page}): {caption if available, else "Untitled figure"}
+Type: {diagram | chart | illustration | map | timeline | other}
+Description: {2–4 sentence description of what the figure shows}
+Context: {1 sentence on what argument or claim this figure supports}
+```
+Metadata: `chunk_type`, `page`, `figure_type`, `caption`, `doc_slug`, `url`, `title`, `primary_author`, `date`
 
-### Storage
+### `table_exhibit`
+```
+Document: {title} ({primary_author}, {year})
+Table (page {page}): {caption if available}
+Description: {1 sentence on what the table presents}
+Content:
+{markdown table}
+```
+Metadata: `chunk_type`, `page`, `caption`, `doc_slug`, `url`, `title`, `primary_author`, `date`
 
-Section summaries and list extracts go in the existing `pdfs` namespace. No new namespace needed. They are additive — existing body chunks and doc_summary vectors are unchanged.
+---
 
-Estimated new vectors: ~600 section_summary + ~80 list_extract for the 82-paper corpus (rough; depends on Haiku detection).
+## Worker Integration
+
+### Retrieval changes (`buildContextBlock()`)
+
+- `list_exhibit`: render all items verbatim, no truncation, prepend `[COMPLETE LIST]` marker
+- `figure_exhibit`: render description + context in full, prepend `[FIGURE]` marker
+- `table_exhibit`: render markdown table + description, prepend `[TABLE]` marker
+- `section_summary`: include as normal context, no special marker needed
+
+### Secondary retrieval
+
+- `list_exhibit` hit: no follow-up — the list IS the complete answer
+- `figure_exhibit` hit: no body-chunk follow-up needed (description is self-contained); optionally surface which pages to look at
+- `section_summary` hit: trigger body-chunk follow-up filtered by `doc_slug` + `section_num` to get full section prose
+
+### System prompt addition
+
+```
+EXHIBIT TYPES IN RETRIEVED CONTEXT:
+[COMPLETE LIST] — a verbatim enumeration extracted from the source. Reproduce all items exactly. Do not add, remove, or reorder items.
+[FIGURE] — a vision-generated description of a diagram or illustration. Describe what the figure shows; note it is a figure from the source.
+[TABLE] — structured data from a source table. Reproduce faithfully.
+```
 
 ---
 
 ## Implementation Plan
 
-### Phase A: Extraction Script (`ingest/extract_structure.py`)
+### Files
 
-```python
-# For each PDF in sources/pdfs/enriched_meta.json:
-#   1. Extract full text via pdfplumber (same as ingest_pdfs.py)
-#   2. Call Haiku with structure extraction prompt
-#   3. Save output to sources/pdfs/structure_meta.json (idempotent, keyed by slug)
+| File | Purpose |
+|---|---|
+| `ingest/extract_structure.py` | Runs Pass 1 (text) and Pass 2 (vision); writes `structure_meta.json` |
+| `ingest/ingest_structure.py` | Reads `structure_meta.json`; upserts vectors to Pinecone `pdfs` namespace |
+| `sources/pdfs/structure_meta.json` | Intermediate output (gitignored if large) |
+
+### Run order
+
+```bash
+source .venv/bin/activate
+pip install pymupdf
+python3 ingest/extract_structure.py   # ~20–30 min; writes structure_meta.json
+python3 ingest/ingest_structure.py    # ~5 min; upserts to Pinecone
 ```
 
-**Haiku prompt for structure extraction:**
-```
-You are analyzing an academic paper. Given the full text below, extract:
-
-1. SECTIONS: List all major sections (numbered or titled). For each, provide:
-   - section number/identifier
-   - section title
-   - 1-2 sentence summary of the argument
-   - The single most important claim or key question (verbatim quote preferred)
-
-2. LISTS: Identify all enumerated lists, numbered frameworks, or taxonomies where:
-   - There are 3 or more distinct items
-   - The items are substantive (not bibliography/references)
-   For each list, reproduce ALL items verbatim with their full text. Include sub-items.
-   Include the heading or title that names the list.
-
-Return as JSON: { "sections": [...], "lists": [...] }
-Do not invent. Only extract what is explicitly in the text.
-```
-
-Output saved to `sources/pdfs/structure_meta.json`:
-```json
-{
-  "The-Unreasonable-Sufficiency-of-Protocols": {
-    "sections": [
-      { "num": "3.1", "title": "Sufficiently generative", "summary": "...", "key_claim": "..." },
-      ...
-    ],
-    "lists": [
-      {
-        "title": "Ten dimensions of sufficiency",
-        "context": "A framework organizing protocol properties into ten sufficiency criteria",
-        "items": ["3.1 Sufficiently generative — ...", "3.2 ...", ...]
-      }
-    ]
-  }
-}
-```
-
-### Phase B: Ingest Script Extension (`ingest/ingest_structure.py`)
-
-Read `structure_meta.json` and upsert section_summary and list_extract vectors into the `pdfs` namespace. Idempotent — upsert by ID. Run after `ingest_pdfs.py`.
-
-### Phase C: Worker Retrieval Integration
-
-The existing secondary retrieval logic handles `doc_summary` → body chunk follow-up. Extend to handle the new types:
-
-- **`list_extract` hit:** If a list_extract appears in top results, include it as-is in the context block. Do NOT trigger a body-chunk follow-up — the list IS the answer. Add a `[LIST]` label in the context block so Claude knows it's complete.
-- **`section_summary` hit:** Trigger a body-chunk follow-up filtered by `doc_slug` + `section_num` to get the full section text. This gives the answer with full elaboration.
-
-Update `buildContextBlock()` to render list_extract chunks differently (render all items, not truncated to 1,000 chars).
-
-### Phase D: System Prompt Update
-
-Add a brief instruction to the system prompt:
-```
-When a COMPLETE LIST is included in the retrieved context (marked [LIST]), reproduce it fully and accurately. Do not add items or modify the enumeration.
-```
+Idempotent: both scripts key by `{slug}__{chunk_type}__{index}` and upsert, not insert.
 
 ---
 
-## Haiku Cost Estimate
+## Cost Estimate
 
-- 82 PDFs × avg 12,000 tokens input (full text) + ~800 tokens output = ~1.05M input tokens + ~65k output tokens
-- At Haiku pricing ($0.80 input / $4.00 output per 1M): ~$0.84 + $0.26 = ~**$1.10 total**
-- One-time cost; re-run only when new PDFs are added
+| Pass | Tokens | Cost |
+|---|---|---|
+| Pass 1 text (Haiku): 77 PDFs × ~10k tokens avg | ~770k input + ~50k output | ~$0.82 |
+| Pass 2 vision (Haiku): ~300 qualifying pages × ~1k image tokens + context | ~400k tokens | ~$0.50 |
+| **Total** | | **~$1.30** |
+
+One-time cost. Re-run only on new or changed PDFs (idempotency check by slug + content hash).
 
 ---
 
-## What This Fixes (and What It Doesn't)
+## Estimated Output
 
-**Fixes:**
-- "Enumerate all items in framework X" — list_extract vector answers directly
-- "What does section 3.4 of paper Y argue?" — section_summary + body-chunk follow-up
-- Nested numbering (3.1.2 etc.) — Haiku handles hierarchically
-- Multi-column PDF column interleaving — Haiku reconstructs meaning even from garbled pdfplumber output
-
-**Does not fix:**
-- "Enumerate all key questions raised across all SoP papers" — cross-document structural navigation, a different (harder) problem
-- Papers where pdfplumber extracts near-zero text (image-only PDFs — 5 in the current corpus)
-- Substack structural issues (minor; Substack posts rarely have this structure)
+| Type | Estimate |
+|---|---|
+| `section_summary` | ~200 (15–20 core essays × ~10 sections avg) |
+| `list_exhibit` | ~80 |
+| `figure_exhibit` | ~150–250 |
+| `table_exhibit` | ~20 |
+| **Total new vectors** | **~450–550** |
 
 ---
 
 ## Open Questions
 
-1. **Chunk size for list_extract:** Some lists are very long (10 dimensions × full elaboration could be 2,000+ tokens). Cap at 1,500 chars for the embedded text but store full text in metadata? Or embed the full thing and accept the length?
-   - Recommendation: embed full, no cap — these are purpose-built for exact enumeration and length matters.
+1. **Vision model:** Haiku 4.5 supports images. Is quality sufficient for diagram description, or do certain figures (complex network graphs, dense timelines) warrant Sonnet? Recommendation: start with Haiku, spot-check 10 figure_exhibit outputs, upgrade selectively.
 
-2. **Haiku vs. re-reading pdfplumber output:** pdfplumber text for two-column PDFs is garbled but Haiku handles it well (it reconstructs meaning). Alternative: use pdf2text with layout mode. Worth testing on a few representative PDFs before committing.
+2. **FERNANDEZ-type visual brochures:** Pages are all image-dense (70 content images, 0 background images). Every page qualifies for vision. Treat as a single exhibit pass with one figure_exhibit per significant spread rather than per image object.
 
-3. **Substack:** The fiction and longer essays in Substack occasionally have enumerated structures (lists of rules, game mechanics, etc.). Run the same extraction pass on Substack? Lower priority; can defer.
+3. **Section summary scope:** Current filter is >12 text pages. Verify against slug list before running — some long papers may be visual-first and not worth section summaries.
 
-4. **Freshness:** When the PDF corpus is updated, run `extract_structure.py` + `ingest_structure.py` for new/changed files only (same idempotency pattern as existing scripts).
+4. **Caption detection:** Captions are not embedded metadata in these PDFs — they appear as text near the figure. Pass 2 should include adjacent page text in the vision prompt context to improve caption detection.
 
 ---
 
 ## Dependencies
 
 - Existing: `ingest/ingest_pdfs.py`, `sources/pdfs/enriched_meta.json`, `data/pdfs/*.pdf`
-- New: `ingest/extract_structure.py`, `ingest/ingest_structure.py`, `sources/pdfs/structure_meta.json`
-- Worker changes: secondary retrieval logic, `buildContextBlock()`, system prompt
-- Pinecone: additive upserts, no index changes
+- New package: `pymupdf` (fitz)
+- New scripts: `ingest/extract_structure.py`, `ingest/ingest_structure.py`
+- New intermediate file: `sources/pdfs/structure_meta.json`
+- Worker changes: `buildContextBlock()`, system prompt
 
-**Not blocked by anything.** Can build independently of lexicon work.
+**Not blocked by anything.** Independent of Discord/SIG work.
