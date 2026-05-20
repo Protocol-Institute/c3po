@@ -799,14 +799,10 @@ async function handleAdminTranscripts(request, env, corsHeaders) {
 
 const SUBNAV_SVG = '<svg width="22" height="22" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="c3po-subnav-robot" aria-hidden="true"><rect x="10" y="12" width="20" height="16" rx="3" fill="currentColor"/><rect x="14" y="16" width="4" height="4" rx="1" fill="var(--bg,#fafaf8)"/><rect x="22" y="16" width="4" height="4" rx="1" fill="var(--bg,#fafaf8)"/><rect x="17" y="22" width="6" height="2" rx="1" fill="var(--bg,#fafaf8)"/><rect x="18" y="6" width="4" height="6" rx="2" fill="currentColor"/><rect x="4" y="18" width="6" height="3" rx="1.5" fill="currentColor"/><rect x="30" y="18" width="6" height="3" rx="1.5" fill="currentColor"/></svg>';
 
-const SUBNAV_CSS = '.c3po-subnav{display:flex;align-items:center;gap:0.7em;padding:0.75em 0;margin-bottom:1.5em;border-top:1px solid var(--border,#e0dbd3);border-bottom:1px solid var(--border,#e0dbd3);font-family:Outfit,system-ui,sans-serif;font-size:0.82em;}.c3po-subnav-brand{display:flex;align-items:center;text-decoration:none;color:var(--accent,#0F6E56);flex-shrink:0;line-height:0;}.c3po-subnav-sep{color:var(--border,#e0dbd3);margin:0 0.25em;user-select:none;}.c3po-subnav-links{display:flex;gap:1.1em;flex-wrap:wrap;}.c3po-subnav-links a{color:var(--muted,#888);text-decoration:none;font-family:Outfit,system-ui,sans-serif;}.c3po-subnav-links a:hover{color:var(--text,#222);}.c3po-subnav-links a.current{color:var(--accent,#0F6E56);font-weight:500;}';
+const SUBNAV_CSS = '.c3po-subnav{display:flex;align-items:center;gap:0.6em;padding:0.75em 0;margin-bottom:1.5em;border-bottom:1px solid var(--border,#e0dbd3);}.c3po-subnav-brand{display:flex;align-items:center;gap:0.45em;text-decoration:none;color:var(--accent,#0F6E56);flex-shrink:0;}.c3po-subnav-wordmark{font-family:"Instrument Serif",serif;font-size:1.05em;line-height:1.1;color:var(--accent,#0F6E56);}.c3po-beta-badge{display:inline-block;font-family:Outfit,system-ui,sans-serif;font-size:0.6em;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#fff;background:#D85A30;padding:0.15em 0.45em;border-radius:3px;line-height:1.5;}.c3po-subnav-spacer{flex:1;}.c3po-back-link{font-family:Outfit,system-ui,sans-serif;font-size:0.8em;color:var(--muted,#888);text-decoration:none;flex-shrink:0;}.c3po-back-link:hover{color:var(--text,#222);}';
 
-function subnav(current) {
-  var nav = [['/', 'Ask C3PO'], ['/chats', 'Conversations'], ['/how-it-works', 'How It Works'], ['/terms', 'Terms']];
-  var links = nav.map(function(p) {
-    return '<a href="' + p[0] + '"' + (p[0] === current ? ' class="current"' : '') + '>' + p[1] + '</a>';
-  }).join('\n    ');
-  return '<div class="c3po-subnav"><a href="/" class="c3po-subnav-brand">' + SUBNAV_SVG + '</a><span class="c3po-subnav-sep">/</span><nav class="c3po-subnav-links">\n    ' + links + '\n  </nav></div>';
+function subnav(_current) {
+  return '<div class="c3po-subnav"><a href="/" class="c3po-subnav-brand">' + SUBNAV_SVG + '<span class="c3po-subnav-wordmark">C3PO</span><span class="c3po-beta-badge">Beta</span></a><span class="c3po-subnav-spacer"></span><a href="https://protocolized.io" class="c3po-back-link">← protocolized.io</a></div>';
 }
 
 const CHATS_HTML = String.raw`<!DOCTYPE html>
@@ -1237,19 +1233,6 @@ body {
   margin: 0 auto;
   padding: 2rem 1.25rem 4rem;
 }
-.c3po-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.4rem;
-}
-.c3po-header-wordmark {
-  font-family: "Instrument Serif", serif;
-  font-size: 1.55rem;
-  color: var(--accent);
-  letter-spacing: -0.01em;
-  line-height: 1.1;
-}
 ${SUBNAV_CSS}
 .c3po-intro {
   display: flex;
@@ -1586,9 +1569,6 @@ ${SUBNAV_CSS}
 <body>
 <div class="c3po-page">
 
-<div class="c3po-header">
-  <div class="c3po-header-wordmark">C3PO</div>
-</div>
 ${subnav('/')}
 
 <div class="c3po-intro">
