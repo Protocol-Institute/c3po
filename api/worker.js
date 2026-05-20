@@ -560,6 +560,8 @@ PDFs (82): "The Unreasonable Sufficiency of Protocols" · "Introduction to the P
 Protocolized magazine (116+ posts): contributors include Rao, Stinson-Schroff, Sachin Benny, Spencer Nitkey, Marie-Hélène Lebeault, Kei Kreutler, Elizabeth Maher; categories: protocol-fiction, protocol-theory, editorial, protocol-watching
 YouTube (91 talks): Guest Talks (34), Town Halls (20), Protocol School 2025 (13), Researcher Salons (9), Symposium 2024 (7), Bridge Atlas (5); speakers include Primavera De Filippi, Nils Gilman, Yancey Strickler, Emmett Shear, Venkatesh Rao
 Bibliography (250+ referenced works with abstracts): external works cited by PI corpus; full texts only where open-access
+Discord community (3,300+ messages): discussions from #idle-musings and #protocol-watch community channels; includes starred highlights and threaded exchanges
+SIG meeting archives (78 sessions, 4 groups): Formal Protocol Theory (29 sessions, led by Venkatesh Rao & Patrick Nast) · Memory Research Group (16 sessions, led by Kei Kreutler) · Protocols for Business (22 sessions, led by Rafael Fernandez) · Protocol Fiction (11 sessions, led by Spencer Nitkey & Sachin Benny). Each session includes AI-generated summary, key insights, topics, and links discussed.
 NOT indexed: general internet, IETF/ISO standards bodies, work not cited by PI researchers, events after mid-2026
 
 PROTOCOL LEXICON (PI-specific meanings — use these, not generic definitions):
@@ -1677,7 +1679,7 @@ ${subnav('/')}
     </svg>
     <span class="c3po-profile-name">C3PO</span>
   </div>
-  <div class="c3po-intro-text">I'm C3PO, the Protocol Institute's research assistant. I have access to the full PI archive: 82 research papers, essays, and games from the Summer of Protocols and related programs; 91 talks and lectures from the YouTube channel; the complete run of <em>Protocolized</em> magazine; and 250+ externally cited references with abstracts. I synthesize across sources, surface connections, and point to what's actually in the corpus. You get 8 turns here; use <strong>Download .md</strong> to continue in any LLM, or connect via MCP for unlimited access inside Claude.</div>
+  <div class="c3po-intro-text">I'm C3PO, the Protocol Institute's research assistant. I have access to the full PI archive: 82 research papers, essays, and games from the Summer of Protocols; 91 talks and lectures from the YouTube channel; the complete run of <em>Protocolized</em> magazine; 250+ externally cited references with abstracts; Discord community discussions; and 78 SIG meeting archives from four active research groups &mdash; Formal Protocol Theory, Memory Research Group, Protocols for Business, and Protocol Fiction. You get 8 turns here; use <strong>Download .md</strong> to continue in any LLM, or connect via MCP for unlimited access inside Claude.</div>
 </div>
 
 <div class="c3po-conversation" id="c3po-conversation"></div>
@@ -2069,7 +2071,7 @@ ${subnav('/')}
   }
 
   // ── Download .md ─────────────────────────────────────────────────────────────
-  const SOUL_EXCERPT = 'You are C3PO, the Protocol Institute\'s research assistant. You have access to the Institute\'s research library (285+ papers, essays, games, and other resources from the Summer of Protocols and related programs, plus the Protocolized magazine archive). Your job is to help researchers navigate, synthesize, and extend the Institute\'s accumulated knowledge about protocols.\n\nProtocols are a genuine analytical category: coordination mechanisms with specific structural properties (roles, sequences, conditions, enforcement) that cut across domains from diplomacy to software to medicine to finance. The Protocol Institute is a "context tank" — its goal is to produce the conceptual infrastructure within which good policy thinking becomes possible.\n\nBe specific about sources. Name papers and authors. Mark when you\'re synthesizing. Acknowledge when the corpus doesn\'t cover something. Keep answers substantive and dense — 3–6 paragraphs. This material is complex; don\'t oversimplify.';
+  const SOUL_EXCERPT = 'You are C3PO, the Protocol Institute\'s research assistant. You have access to the Institute\'s full research archive: 82 papers, essays, and games from the Summer of Protocols and related programs; the complete Protocolized magazine archive; 91 YouTube talks and lectures; 250+ bibliography references; Discord community discussions; and 78 SIG meeting archives from four active research groups (Formal Protocol Theory, Memory Research Group, Protocols for Business, Protocol Fiction). Your job is to help researchers navigate, synthesize, and extend the Institute\'s accumulated knowledge about protocols.\n\nProtocols are a genuine analytical category: coordination mechanisms with specific structural properties (roles, sequences, conditions, enforcement) that cut across domains from diplomacy to software to medicine to finance. The Protocol Institute is a "context tank" — its goal is to produce the conceptual infrastructure within which good policy thinking becomes possible.\n\nBe specific about sources. Name papers and authors. Mark when you\'re synthesizing. Acknowledge when the corpus doesn\'t cover something. Keep answers substantive and dense — 3–6 paragraphs. This material is complex; don\'t oversimplify.';
 
   function buildExportMarkdown() {
     const date = new Date().toISOString().slice(0, 10);
@@ -2352,11 +2354,13 @@ ${subnav('/how-it-works')}
 <tr><td>Summer of Protocols PDFs</td><td>82 papers &middot; 766 vectors</td><td>Research papers, theoretical essays, protocol fiction, game materials (2023&ndash;2024)</td></tr>
 <tr><td>Protocolized Substack</td><td>116+ posts &middot; 1,040 vectors</td><td>Fictions (58), Articles (47), Obliquities (5); 38 author profiles; 13 collection cards</td></tr>
 <tr><td>Protocol Institute YouTube</td><td>91 talks &middot; 2,940 vectors</td><td>Researcher salons, symposia, public lectures, guest talks (2023&ndash;2025)</td></tr>
-<tr><td>Bibliography</td><td>252 refs &middot; 248+ vectors</td><td>External works cited by PI corpus; scored 0&ndash;3 for protocol relevance; abstracts + OA PDFs where available</td></tr>
+<tr><td>Bibliography</td><td>252 refs &middot; 278 vectors</td><td>External works cited by PI corpus; scored 0&ndash;3 for protocol relevance; abstracts + OA PDFs where available</td></tr>
+<tr><td>Discord community</td><td>3,300+ messages &middot; 3,301 vectors</td><td>#idle-musings and #protocol-watch channels; threaded exchanges and starred highlights</td></tr>
+<tr><td>SIG meeting archives</td><td>78 sessions &middot; 4,583 vectors</td><td>Four active research groups: Formal Protocol Theory, Memory Research Group, Protocols for Business, Protocol Fiction; AI-generated summaries + transcript chunks</td></tr>
 <tr><td>Shared transcripts</td><td>~4 vectors (growing)</td><td>Published conversations with C3PO</td></tr>
 </tbody>
 </table>
-<p>The PDFs include work from the Summer of Protocols program &mdash; a research initiative exploring the theory and practice of protocols across disciplines. The Substack corpus spans the full run of the Protocolized newsletter, including protocol fiction that argues through narrative rather than exposition.</p>
+<p>The PDFs include work from the Summer of Protocols program &mdash; a research initiative exploring the theory and practice of protocols across disciplines. The Substack corpus spans the full run of the Protocolized newsletter, including protocol fiction that argues through narrative rather than exposition. The Discord and SIG archives bring in the live research community: ongoing discussions, meeting transcripts, and the working knowledge that circulates between publications.</p>
 </div>
 
 <div class="hiw-section">
@@ -2375,11 +2379,13 @@ ${subnav('/how-it-works')}
 <tr><td><code>pdfs</code></td><td>766</td><td>Body chunks + doc_summary vectors for 82 PDFs</td></tr>
 <tr><td><code>substack</code></td><td>1,040</td><td>Body chunks, post_summary, collection_card, author_profile vectors</td></tr>
 <tr><td><code>videos</code></td><td>2,940</td><td>Body chunks + video_summary vectors for 91 YouTube talks</td></tr>
-<tr><td><code>bibliography</code></td><td>248+</td><td>ref_summary + body chunks for externally cited works</td></tr>
+<tr><td><code>bibliography</code></td><td>278</td><td>ref_summary + body chunks for externally cited works</td></tr>
+<tr><td><code>discord</code></td><td>3,301</td><td>Thread and message chunks from community channels; includes star_count for quality weighting</td></tr>
+<tr><td><code>sig</code></td><td>4,583</td><td>sig_meeting_summary, sig_meeting_body, sig_discussion, sig_message, sig_reply chunk types across 4 SIG channels</td></tr>
 <tr><td><code>transcripts</code></td><td>~4</td><td>Published conversations (grows with use)</td></tr>
 </tbody>
 </table>
-<p>All namespaces are queried in parallel on each request. Results are merged and ranked (PDFs/Substack at full weight, talks at 0.9&times;, bibliography scaled by relevance score) before being passed to the language model.</p>
+<p>All namespaces are queried in parallel on each request. Results are merged and tier-weighted before being passed to the language model: PDFs and Substack at 1.0&times;; talks at 0.9&times;; bibliography scaled by relevance score (0.6&ndash;1.0&times;); Discord at 0.65&times; (starred: 0.85&times;); SIG meeting summaries at 0.85&times;, body chunks at 0.75&times;, discussions at 0.70&times;.</p>
 </div>
 
 <div class="hiw-section">
@@ -2440,7 +2446,7 @@ ${subnav('/how-it-works')}
 <tr><td>Alerts</td><td>Telegram bot (optional) &mdash; circuit trips and daily spend summary</td></tr>
 </tbody>
 </table>
-<div class="hiw-note">C3PO is in active development. Corpus coverage, retrieval quality, and features will expand over time. Current version: Phase 2B (MCP server live).</div>
+<div class="hiw-note">C3PO is in active development. Corpus coverage, retrieval quality, and features will expand over time. Current version: Phase 2C (Discord + SIG community archives live).</div>
 </div>
 
 </div>
