@@ -39,7 +39,8 @@ from utils import clean_text, chunk_text, embed_chunks, chunk_id, get_voyage_cli
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
-NAMESPACE = "discord_links"
+NAMESPACE     = "discord_links"
+SOURCE_NS     = ["discord", "sig"]   # namespaces to harvest URLs from
 REGISTRY_PATH = Path(__file__).parent.parent / "data" / "discord_links_registry.json"
 
 MIN_CONTENT_CHARS = 300   # below this = paywall / bot wall / empty page
@@ -56,6 +57,18 @@ SKIP_DOMAINS = {
     "farcaster.xyz",
     "t.me",            # Telegram
     "mailto:",
+}
+
+# Deferred for a separate YouTube transcript fetch pass
+YOUTUBE_DOMAINS = {
+    "youtube.com", "www.youtube.com",
+    "youtu.be", "m.youtube.com",
+}
+
+# Deferred for a paid Twitter/X API run
+TWITTER_DOMAINS = {
+    "twitter.com", "www.twitter.com",
+    "x.com", "www.x.com",
 }
 
 
@@ -218,41 +231,65 @@ def ingest_page(url: str, text: str, entry: dict, vc, index) -> int:
     return len(records)
 
 
-# ── Harvest URLs from Pinecone discord namespace ───────────────────────────────
+# ── Harvest URLs from Pinecone discord + sig namespaces ───────────────────────
 
-def harvest_urls_from_pinecone(idx) -> dict:
-    """Pull all URLs from discord namespace metadata, return registry additions."""
-    print("Harvesting URLs from discord namespace...")
+def harvest_urls_from_namespace(idx, namespace: str) -> dict:
+    """Pull all URLs from a Pinecone namespace's `urls` metadata field."""
     all_ids = []
-    for page in idx.list(namespace="discord"):
+    for page in idx.list(namespace=namespace):
         all_ids.extend(item.id for item in page.vectors)
 
-    additions = {}  # key → entry (before merge into main registry)
-    for i in range(0, len(all_ids), 100):
-        batch = idx.fetch(ids=all_ids[i:i+100], namespace="discord")
+    additions = {}
+    for i in range(0, len(all_ids), 99):
+        batch = idx.fetch(ids=all_ids[i:i+99], namespace=namespace)
         for vid, vec in batch.vectors.items():
             m = vec.metadata
             raw_urls = m.get("urls", "[]")
-            urls = json.loads(raw_urls) if raw_urls else []
+            try:
+                urls = json.loads(raw_urls) if isinstance(raw_urls, str) else (raw_urls or [])
+            except Exception:
+                urls = []
             for url in urls:
+                if not url or not isinstance(url, str):
+                    continue
+                # Strip trailing punctuation that gets caught in URL extraction
+                url = url.rstrip(").,;")
                 key = normalize_url(url)
                 if key not in additions:
                     additions[key] = {
                         "url": url,
                         "domain": domain_of(url),
-                        "first_seen": m.get("timestamp", ""),
+                        "first_seen": m.get("timestamp", m.get("meeting_date", "")),
                         "sources": [],
                         "fetch_status": "pending",
+                        "source_namespace": namespace,
                     }
                 src = {
                     "channel_name": m.get("channel_name", ""),
                     "channel_id": m.get("channel_id", ""),
-                    "message_id": m.get("message_id", ""),
-                    "author": m.get("author", ""),
+                    "message_id": m.get("message_id", m.get("thread_id", "")),
+                    "author": m.get("author", m.get("sig_display", "")),
                 }
                 if src not in additions[key]["sources"]:
                     additions[key]["sources"].append(src)
-    print(f"  {len(additions)} unique URLs found")
+    return additions
+
+
+def harvest_urls_from_pinecone(idx) -> dict:
+    """Pull all URLs from discord + sig namespaces, merge, return registry additions."""
+    additions: dict = {}
+    for ns in SOURCE_NS:
+        print(f"  Harvesting from {ns} namespace...")
+        ns_additions = harvest_urls_from_namespace(idx, ns)
+        print(f"    {len(ns_additions)} unique URLs")
+        for key, entry in ns_additions.items():
+            if key not in additions:
+                additions[key] = entry
+            else:
+                for src in entry["sources"]:
+                    if src not in additions[key]["sources"]:
+                        additions[key]["sources"].append(src)
+    print(f"  Total: {len(additions)} unique URLs across all namespaces")
     return additions
 
 
@@ -296,18 +333,31 @@ def main():
     else:
         to_fetch = [k for k, e in registry.items() if e["fetch_status"] == "pending"]
 
-    # Classify skip domains
-    skipped = [k for k in to_fetch if domain_of(registry[k]["url"]) in SKIP_DOMAINS]
-    to_fetch = [k for k in to_fetch if k not in skipped]
+    # Classify skip/defer domains
+    skipped      = [k for k in to_fetch if domain_of(registry[k]["url"]) in SKIP_DOMAINS]
+    deferred_yt  = [k for k in to_fetch if k not in skipped
+                    and domain_of(registry[k]["url"]) in YOUTUBE_DOMAINS]
+    deferred_tw  = [k for k in to_fetch if k not in skipped and k not in deferred_yt
+                    and domain_of(registry[k]["url"]) in TWITTER_DOMAINS]
+    to_fetch     = [k for k in to_fetch
+                    if k not in skipped and k not in deferred_yt and k not in deferred_tw]
 
     if not args.dry_run:
         for key in skipped:
             registry[key]["fetch_status"] = "skipped"
             registry[key]["skip_reason"] = "domain blocklist"
+        for key in deferred_yt:
+            registry[key]["fetch_status"] = "deferred"
+            registry[key]["defer_reason"] = "youtube — run --youtube-only for transcript fetch"
+        for key in deferred_tw:
+            registry[key]["fetch_status"] = "deferred"
+            registry[key]["defer_reason"] = "twitter/x — run --twitter-only for paid API fetch"
         save_registry(registry)
 
-    print(f"\n  Pending fetch : {len(to_fetch)}")
-    print(f"  Skipped       : {len(skipped)}")
+    print(f"\n  Pending fetch    : {len(to_fetch)}")
+    print(f"  Skipped          : {len(skipped)}")
+    print(f"  Deferred (YT)    : {len(deferred_yt)}")
+    print(f"  Deferred (X)     : {len(deferred_tw)}")
 
     if args.limit is not None:
         to_fetch = to_fetch[:args.limit]
