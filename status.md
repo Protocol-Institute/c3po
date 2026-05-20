@@ -1,5 +1,37 @@
 # C3PO — Status Log
 
+## 2026-05-20 — Missed SIG meetings recovered; Discord bot design doc (session 15)
+
+**Root cause fix — active threads invisible to sync — COMPLETE**
+- `sync_sig.py`: replaced deprecated channel-level `/threads/active` (returns 404) with guild-level `/guilds/{id}/threads/active` filtered by `parent_id`
+- SIGFPT/ProtFiSIG threads auto-archive after 3 days; SIGPfB after 7 days — any meeting thread still active at sync time was silently missed
+- Added `is_meeting_override` field in state for manual thread classification without code changes
+
+**SIGPfB pattern fixes — COMPLETE**
+- Extended `^Protocols for Business` to match `:` delimiter as well as `[` and space
+- Added `^[\*=]+\s*(?:SIG\s+)?Protocols for Business` pattern for threads with `====` / `**===` decorative prefixes
+
+**10 missed meetings recovered — COMPLETE**
+- SIGFPT: 01May26 Stigmergy (38 msgs), 15May26 Stigmergy Part II (52 msgs)
+- SIGPfB: 20Apr26 API Design, 04May26 Technology, 18May26 Manufacturing, 03Nov25 FDEs, 08Dec25 LLM Adoption, 12Jan26 AI Infrastructure
+- ProtFiSIG: 12Mar26 Protocol Fairy Tales, 23Apr26 Wile E. Coyote
+- sig namespace: 4,583 → 4,689 vectors; website pages updated (80 → 88 meetings)
+
+**DISCORD_BOT_DESIGN.md — COMPLETE**
+- Two-bot architecture: `c3po_listener` (headless launchd batch scripts) vs. `c3po_oracle` (interactive slash-command bot)
+- Listener: 3 launchd plists — daily Discord sync, biweekly SIG sync + website pipeline, weekly link enrichment
+- Oracle: Discord Interactions webhook → Cloudflare Worker deferred response; `/ask`, `/search`, `/help` commands
+- Attachment CDN expiry (24h) and active-thread archival cadence noted as key constraints
+- Phase 3A–3F roadmap; 5 open questions documented
+
+**Open TODOs (priority order):**
+1. Build launchd plists for daily_sync + sig_sync (+ auto website push) + weekly_links (Phase 3A/3B)
+2. YouTube transcript pass — 161 deferred URLs (Phase 3D)
+3. Attachment capture in sync scripts — download at ingest time before CDN expiry (Phase 3C)
+4. c3po_oracle bot — Discord Interactions webhook (Phase 3E/3F)
+5. Add definitions namespace (`lexicon_draft.json`)
+6. GitHub Actions cron for `sync_substack.py`
+
 ## 2026-05-20 — Exhibit extraction plan revised (session 14)
 
 **Plan: structural-navigation.md revised — COMPLETE**

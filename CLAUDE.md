@@ -52,7 +52,7 @@ Planned migration: `Protocol-Institute/c3po` when handing off to org (Phase 6)
 ## Pinecone Index (live)
 
 Host: `https://c3po-bwo39z7.svc.aped-4627-b74a.pinecone.io`
-Namespaces: `substack` (1,040 · 2026-05-14), `pdfs` (766 · 2026-05-15), `videos` (2,940 · 2026-05-17), `bibliography` (278 · 2026-05-18), `transcripts` (4 · grows with use), `discord` (3,301 · 2026-05-19), `sig` (4,583 · 2026-05-19), `discord_links` (6,722 · 2026-05-20, post-enrichment) — **Total: 19,634**
+Namespaces: `substack` (1,040 · 2026-05-14), `pdfs` (766 · 2026-05-15), `videos` (2,940 · 2026-05-17), `bibliography` (278 · 2026-05-18), `transcripts` (4 · grows with use), `discord` (3,301 · 2026-05-19), `sig` (4,689 · 2026-05-20), `discord_links` (6,722 · 2026-05-20, post-enrichment) — **Total: 19,740**
 
 Discord ingest: `ingest/sync_discord.py` — REST-only batch poll, no gateway, no privileged intents.
 Channels: `#idle-musings` + `#protocol-watch` whitelisted via `DISCORD_CHANNEL_IDS`. State in `data/discord_state.json`.
