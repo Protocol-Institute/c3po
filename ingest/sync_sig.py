@@ -46,6 +46,7 @@ NAMESPACE = "sig"
 STATE_PATH = Path(__file__).parent.parent / "data" / "sig_state.json"
 LINKS_REGISTRY_PATH = Path(__file__).parent.parent / "data" / "discord_links_registry.json"
 DISCORD_API = "https://discord.com/api/v10"
+GUILD_ID = os.environ.get("DISCORD_GUILD_ID", "")
 
 ORIG_MIN_CHARS  = 20
 REPLY_MIN_CHARS = 150
@@ -88,8 +89,9 @@ SIG_CHANNELS = {
             re.compile(r'^PFSIG\s+\w+ \d+', re.I),      # PFSIG + month day
             re.compile(r'SIG Meeting', re.I),
             re.compile(r'Discussion Thread', re.I),
-            re.compile(r'^Protocols for Business\s+\d', re.I),
+            re.compile(r'^Protocols for Business[\s\[:]', re.I),  # bare name + any delimiter
             re.compile(r'^\d{8}\s+Protocols for Business', re.I),
+            re.compile(r'^[\*=]+\s*(?:SIG\s+)?Protocols\s+for\s+Business', re.I),  # ==== or **=== prefix
             re.compile(r'^(?:\*+|=+)\s*(?:SIG|Thread for)', re.I),
         ],
     },
@@ -134,14 +136,24 @@ def discord_request(method: str, path: str, payload: dict | None = None):
 
 
 def fetch_all_threads(channel_id: str) -> list[dict]:
-    """Fetch all active + archived threads for a channel."""
-    threads = []
-    try:
-        data = discord_request("GET", f"/channels/{channel_id}/threads/active")
-        threads.extend(data.get("threads", []))
-    except Exception:
-        pass
+    """Fetch all active + archived threads for a channel.
 
+    Active threads use the guild-level endpoint (channel-level is deprecated
+    and returns 404 for most channel types). Archived threads use the
+    channel-level paginated endpoint.
+    """
+    threads = []
+
+    # Active threads — guild endpoint, filter to this channel
+    if GUILD_ID:
+        try:
+            data = discord_request("GET", f"/guilds/{GUILD_ID}/threads/active")
+            active = [t for t in data.get("threads", []) if t.get("parent_id") == channel_id]
+            threads.extend(active)
+        except Exception:
+            pass
+
+    # Archived threads — channel-level paginated
     before = None
     for _ in range(30):
         params = {"limit": 100}
@@ -510,7 +522,11 @@ def process_channel(channel_id: str, config: dict, state: dict,
         reported_count = thread.get("message_count", 0)
         thread_state = ch_state["threads"].get(thread_id, {})
         last_count = thread_state.get("last_message_count", -1)
-        meeting = is_meeting(thread_name, channel_id)
+        # is_meeting_override in state lets operators manually classify threads
+        if "is_meeting_override" in thread_state:
+            meeting = thread_state["is_meeting_override"]
+        else:
+            meeting = is_meeting(thread_name, channel_id)
 
         # Skip if unchanged
         if last_count == reported_count and thread_state.get("processed"):
