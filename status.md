@@ -1,5 +1,29 @@
 # C3PO — Status Log
 
+## 2026-05-19 — Security hardening, header restyle, PI website update (session 11)
+
+**Security & UI — COMPLETE**
+- IP strike/ban system (3 strikes/1h → 24h ban), history smuggling detection, MCP search rate limit (100/day)
+- KBA filter expanded: Timber Stinson-Schroff, Tim Beiko, PI infrastructure added alongside Venkatesh Rao
+- DARKBECOME_RE (roleplay-as-unrestricted) and WIELD_RE (weaponize protocols) filters added
+- SYSTEM_PROMPT SAFETY CONSTRAINTS block updated with all protected individuals/assets
+- How It Works page: added MCP section (tool table, Claude Code commands, Claude Desktop JSON)
+- Worker header: replaced subnav nav menu with minimal brand bar — robot icon + C3PO + coral Beta badge + ← protocolized.io link
+- **Deployed:** c3po.vgr-702.workers.dev (Phase 2B)
+
+**PI website (protocol-institute.org) — COMPLETE**
+- `projects.html`: C3PO status → "Live · Beta"; description updated to RAG/12k vectors/MCP/Claude Sonnet; direct "Open C3PO →" link added
+- `c3po.html`: Status and Technical sections rewritten present-tense; adds live URL, corpus size (12k+ vectors), MCP server paragraph, direct "Try it →" link
+
+**Open TODOs (priority order):**
+1. Add `discord` + `sig` namespaces to worker.js (normalizeDiscord, normalizeSig, Discord badges, link gen) — *other agent working on this*
+2. Wire discord/sig into mergeResults(): starred 1.0×, unstarred 0.70×
+3. Run fetch_discord_links.py once all channels done (1,042+ URLs in registry)
+4. Add more general Discord channels to DISCORD_CHANNEL_IDS + set DISCORD_SUMMARY_CHANNEL_ID
+5. Set up launchd for daily sync_discord.py + weekly sync_sig.py
+6. Add definitions namespace (lexicon_draft.json, deferred session 8)
+7. GitHub Actions cron for sync_substack.py
+
 ## 2026-05-19 — SIG channel ingest, sync_sig.py (session 10)
 
 **All 4 SIG channels ingested — COMPLETE**
