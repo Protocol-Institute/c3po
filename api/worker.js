@@ -477,19 +477,20 @@ function normalizeWebLink(match) {
   const excerpt = textLines.length > 1 ? textLines.slice(1).join(" ").trim() : (m.text || "");
   const sourceCount = m.source_count || 1;
   return {
-    docId:         m.url || match.id,
-    source:        "web",
-    score:         match.score,
-    type:          "web_content",
-    label:         "WEB",
+    docId:           m.url || match.id,
+    source:          "web",
+    score:           match.score,
+    type:            "web_content",
+    label:           "WEB",
     title,
-    authors:       [],
-    primary_author: "",
-    date:           (m.fetch_date || "").slice(0, 10),
-    url:            m.url || null,
-    excerpt:        excerpt.slice(0, 600),
+    authors:         [],
+    primary_author:  "",
+    date:            (m.fetch_date || "").slice(0, 10),
+    url:             m.url || null,
+    excerpt:         excerpt.slice(0, 600),
     domain,
-    source_count:   sourceCount,
+    source_count:    sourceCount,
+    relevance_score: m.relevance_score !== undefined ? Number(m.relevance_score) : undefined,
   };
 }
 
@@ -513,9 +514,13 @@ function mergeResults(pdfItems, substackItems, videoItems, bibItems, discordItem
       return { ...m, weightedScore: m.score * w };
     }),
     ...webItems.map(m => {
-      // Boost for links shared multiple times — more endorsements = more relevant
-      const popularity = Math.min(m.source_count, 5) / 5;  // 0.2–1.0
-      return { ...m, weightedScore: m.score * (0.60 + 0.15 * popularity) };
+      const popularity = Math.min(m.source_count || 1, 5) / 5;  // 0.2–1.0
+      const relScore   = m.relevance_score;  // 0–3 from Haiku enrichment, or undefined
+      // If scored: 1→0.55, 2→0.65, 3→0.75 base (score 0 never reaches here — deleted at enrich time)
+      const relBase = relScore !== undefined
+        ? (relScore >= 3 ? 0.75 : relScore >= 2 ? 0.65 : 0.55)
+        : 0.60;  // unscored: treat as middling
+      return { ...m, weightedScore: m.score * (relBase + 0.10 * popularity) };
     }),
   ];
   const byId = new Map();
