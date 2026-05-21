@@ -94,15 +94,16 @@ Link farming: `data/discord_links_registry.json` — 3,824 URLs total. Run `pyth
 
 ## After Each Session
 
-**Documentation (always):**
+**Documentation (always — do not skip any of these):**
 1. `status.md` — add a dated log entry with PT start–end times and a one-line summary of what changed.
 2. `CLAUDE.md` — update Pinecone vector counts and namespace state if the index was modified.
+3. `data/devlog.json` — append a session entry with items covering the substantive work done. This is a public build log read by people curious about the process. Use the existing entries as a style guide. Do not skip this step.
 
 **Keys/env (if changed):**
-3. New env vars: update `.env.template`; add to `../.env.keys` with `owner`/`billing`/`projects`/`registered` annotations; add a row to `../admin/keys.md`. Do not add to `Code/.env.keys`.
+4. New env vars: update `.env.template`; add to `../.env.keys` with `owner`/`billing`/`projects`/`registered` annotations; add a row to `../admin/keys.md`. Do not add to `Code/.env.keys`.
 
 **Repo:**
-4. `git add` relevant files (never `.env`); `git commit`; `git push`.
+5. `git add` relevant files (never `.env`); `git commit`; `git push`.
 
 **Memory:**
-5. Update Claude memory (`/Users/Venkat/.claude/projects/.../memory/`) — save anything non-obvious about corpus structure, pipeline decisions, or workflow preferences that would help future sessions. Do not duplicate what's in CLAUDE.md or recoverable from code.
+6. Update Claude memory (`/Users/Venkat/.claude/projects/.../memory/`) — save anything non-obvious about corpus structure, pipeline decisions, or workflow preferences that would help future sessions. Do not duplicate what's in CLAUDE.md or recoverable from code.
