@@ -107,3 +107,6 @@ Link farming: `data/discord_links_registry.json` — 3,824 URLs total. Run `pyth
 
 **Memory:**
 6. Update Claude memory (`/Users/Venkat/.claude/projects/.../memory/`) — save anything non-obvious about corpus structure, pipeline decisions, or workflow preferences that would help future sessions. Do not duplicate what's in CLAUDE.md or recoverable from code.
+
+**Checklist report (always last — do not skip):**
+7. Print the checklist with a ✅/⚠️/n/a next to every item, and one sentence on what was done or why it was skipped. This is shown to Venkat before the session ends.
