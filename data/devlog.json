@@ -356,8 +356,7 @@
           "html": "<strong>Bibliography mining: explicit pass.</strong> <code>mine_bibliography.py --mode explicit</code> scanned all 82 PDFs for formal reference/bibliography sections (last standalone 'References', 'Bibliography', 'Notes', etc. header in the second half of the document). Six PDFs had parseable sections: Austin (architecture essay), Kei Kreutler (artificial memory), Saffron Huang (time and consciousness), two versions of Dispatches from Cascadia (URL footnotes), and Timber Schroff's Safe New World (coal mining safety). Haiku extracted 106 unique references after deduplication. A second Haiku pass scored every reference 0–3 for protocol relevance — nothing dropped, score stored as metadata for retrieval weighting. Distribution: core (3): 7 including <em>Extrastatecraft</em>, <em>A Pattern Language</em>, <em>Normal Accidents</em>; relevant (2): 24 including Safety-I/II, Technics and Civilization; adjacent (1): 30; incidental (0): 45 including White Noise, Proust. <code>fetch_refs.py</code> (Semantic Scholar abstract fetch + OA PDF download) written but not yet run — paused to end session."
         }
       ]
-    }
-  ,
+    },
     {
       "id": 8,
       "sort_key": 8.0,
@@ -371,7 +370,7 @@
         "vector-architecture"
       ],
       "costs_usd": {
-        "haiku_lexicon_extraction": 1.10,
+        "haiku_lexicon_extraction": 1.1,
         "voyage_embedding": 0.01
       },
       "vector_counts": {
@@ -406,6 +405,387 @@
         {
           "title": "Magazine lexicon plan",
           "html": "<strong>Magazine lexicon plan written, not executed.</strong> <code>plans/magazine-lexicon.md</code> covers a two-pass extraction over the Protocolized archive (116 posts): a fiction pass (72 posts) tuned to capture fictional protocols, memetically resonant concepts, and design fictions — all clearly tagged <code>fictional: true</code> to prevent C3PO from treating speculative protocols as real coordination mechanisms — and a nonfiction pass (theory/editorial/protocol-watching) tuned for coined terms and protocol-watching observations. Full post HTML available locally at <code>data/substack/posts/</code>. Estimated cost: ~$0.70. Not yet executed — will follow lexicon ingest and definitions namespace work."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "sort_key": 9.0,
+      "label": "Session 9",
+      "title": "Discord Ingest Pipeline",
+      "date": "2026-05-19",
+      "time_pt": "",
+      "tracks": [
+        "corpus-ingestion",
+        "vector-architecture",
+        "operations"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "substack": 1040,
+        "pdfs": 766,
+        "videos": 2940,
+        "bibliography": 278,
+        "transcripts": 4,
+        "discord": 2390
+      },
+      "deployed": false,
+      "items": [
+        {
+          "title": "sync_discord.py — REST-only batch harvester",
+          "html": "<strong>sync_discord.py — REST-only batch harvester:</strong> No Discord gateway, no persistent process, no privileged intents — pure REST. Polls the single general channel (<code>#🤔-idle-protocol-musings</code>) with cursor-based pagination. Filter: original messages ≥20 characters, replies ≥150 characters, thread starters always included. Thread starters fetch and bundle the entire thread as one conversation chunk. Pagination fix: backfill uses <code>before</code> (descending), incremental sync uses <code>after</code> (ascending) — the two directions require opposite cursor logic. State persisted in <code>data/discord_state.json</code>."
+        },
+        {
+          "title": "Full historical ingest of #idle-protocol-musings",
+          "html": "<strong>Full historical ingest of #🤔-idle-protocol-musings (4 years):</strong> 2,877 messages fetched → 2,390 ingested (1,795 originals, 465 replies, 130 bundled thread chunks). 119 unique authors, 441 URLs mentioned, 104 starred messages. Pinecone namespace <code>discord</code>: 2,390 vectors. Metadata includes <code>guild_id</code>, <code>channel_id</code>, <code>message_id</code>, <code>author</code>, <code>star_count</code>, <code>url_count</code>, chunk_type (<code>message</code>, <code>reply</code>, <code>thread</code>)."
+        },
+        {
+          "title": "Claude Haiku corpus analysis",
+          "html": "<strong>Claude Haiku corpus analysis via ingest/analyze_discord.py:</strong> Stratified sample of 200 messages passed to Haiku for qualitative analysis. Finding: ~85–90% signal — unusually high for a Discord channel. 10 topic clusters identified: protocol archetypes, hardness/softness, institutional memory, protocol failure modes, AI coordination, biological/evolutionary analogues, standards bodies, urban protocols, military/security protocols, protocol fiction. Analysis saved to <code>sources/discord_analysis.md</code>."
+        },
+        {
+          "title": "Guild ID metadata patch",
+          "html": "<strong>Guild ID metadata patch:</strong> After ingest, realized guild_id was missing from all 2,390 already-upserted vectors (needed for constructing Discord message URLs). Patched via <code>index.update()</code> loop — Pinecone supports metadata-only updates without re-embedding. All 2,390 vectors updated."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "sort_key": 10.0,
+      "label": "Session 10",
+      "title": "SIG Channel Ingest",
+      "date": "2026-05-19",
+      "time_pt": "",
+      "tracks": [
+        "corpus-ingestion",
+        "vector-architecture"
+      ],
+      "costs_usd": {
+        "haiku_sig_summaries": 0.15
+      },
+      "vector_counts": {
+        "substack": 1040,
+        "pdfs": 766,
+        "videos": 2940,
+        "bibliography": 278,
+        "transcripts": 4,
+        "discord": 2390,
+        "sig": 4583
+      },
+      "deployed": false,
+      "items": [
+        {
+          "title": "sync_sig.py — two-level meeting ingest",
+          "html": "<strong>sync_sig.py — two-level meeting ingest:</strong> All 4 SIG channels ingested: SIGFPT (Future Protocol Thinking), MRG (Memory Research Group), SIGPfB (Protocols for Business), ProtFiSIG (Protocol Fiction SIG). Meeting threads detected via per-channel regex patterns — each SIG has different naming conventions. Meeting threads: Claude Haiku generates a meeting summary vector (<code>sig_meeting_summary</code>) plus chunked meeting body vectors (<code>sig_meeting_body</code>). Non-meeting threads bundled as <code>sig_discussion</code>. Main channel messages filtered same as sync_discord.py."
+        },
+        {
+          "title": "Per-channel results",
+          "html": "<strong>Per-channel ingest results:</strong> SIGFPT: 29 meetings, 38 discussions, 564 main msgs → 757 vectors. MRG: 16 meetings, 9 discussions, 378 msgs → 433 vectors. SIGPfB: 22 meetings, 77 discussions, 2,001 msgs → 2,214 vectors. ProtFiSIG: 11 meetings, 43 discussions, 1,072 msgs → 1,179 vectors. Total <code>sig</code> namespace: 4,583 vectors. MRG pattern required special handling: one thread was named <code>202500807</code> (9-digit date typo) — extended digit pattern to <code>\\d{6,9}</code> to capture it."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "sort_key": 11.0,
+      "label": "Session 11",
+      "title": "Security Hardening, Header Restyle, PI Website Update",
+      "date": "2026-05-19",
+      "time_pt": "",
+      "tracks": [
+        "worker-api",
+        "ux",
+        "operations"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "substack": 1040,
+        "pdfs": 766,
+        "videos": 2940,
+        "bibliography": 278,
+        "transcripts": 4,
+        "discord": 2390,
+        "sig": 4583
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "IP strike/ban system and expanded moderation",
+          "html": "<strong>IP strike/ban system and expanded KBA/moderation filters:</strong> Ported strike/ban tracking from vgr_zirp: 3 strikes within 1 hour triggers a 24-hour IP ban stored in KV. KBA (Known Bad Actor) filter expanded to include Timber Stinson-Schroff, Tim Beiko, and PI infrastructure alongside VGR — prevents the oracle from being used as a social engineering or impersonation vector. Two new regex filters: DARKBECOME_RE (requests to roleplay as an unrestricted AI) and WIELD_RE (requests to weaponize protocols against people or groups). SYSTEM_PROMPT SAFETY CONSTRAINTS block updated to cover all protected individuals and assets. MCP search rate limited to 100 queries/day."
+        },
+        {
+          "title": "Worker header restyle — minimal brand bar",
+          "html": "<strong>Worker header restyle — minimal brand bar:</strong> Replaced the subnav nav menu approach with a minimal brand bar: C3PO robot icon + wordmark + coral Beta badge + ← protocolized.io link. Cleaner; positions C3PO as a tool within the PI ecosystem rather than a standalone product."
+        },
+        {
+          "title": "PI website update",
+          "html": "<strong>PI website update (protocol-institute.org):</strong> <code>projects.html</code>: C3PO status badge updated to \"Live · Beta\"; description rewritten to name the actual technology (RAG, 12k vectors, MCP, Claude Sonnet); direct \"Open C3PO →\" link added. <code>c3po.html</code>: Status and Technical sections rewritten present-tense; adds live URL, corpus size (12k+ vectors), MCP server paragraph, and direct \"Try it →\" CTA link."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "sort_key": 12.0,
+      "label": "Session 12",
+      "title": "Discord/SIG Wired into Worker; Corpus Description Rewrite",
+      "date": "2026-05-20",
+      "time_pt": "",
+      "tracks": [
+        "worker-api",
+        "ux"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "substack": 1040,
+        "pdfs": 766,
+        "videos": 2940,
+        "bibliography": 278,
+        "transcripts": 4,
+        "discord": 3301,
+        "sig": 4689
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "Discord + SIG namespaces wired into all 4 query callsites",
+          "html": "<strong>Discord + SIG namespaces wired into all 4 query callsites:</strong> <code>runMcpSearch</code>, <code>runMcpAsk</code>, <code>GET /search</code>, and <code>POST /query</code> now all query <code>discord</code> and <code>sig</code> in parallel with the other namespaces. <code>mergeResults()</code> signature extended to 6 input arrays + maxSources. Discord and SIG tier weights wired. <code>normalizeDiscord()</code> builds Discord message URLs from guild_id + channel_id + message_id; detects thread chunks and links to the thread. <code>normalizeSig()</code> shows SIG name + chunk type (MEETING / MEETING TRANSCRIPT / DISCUSSION / MESSAGE) + title + date. Badge CSS added: <code>c3po-badge-discord</code> (blue) and <code>c3po-badge-sig</code> (teal). Context block and export markdown/clipboard both handle discord and sig cases. MCP <code>search_corpus</code> schema namespace enum updated to include discord and sig."
+        },
+        {
+          "title": "Corpus description rewrite",
+          "html": "<strong>Corpus description rewrite across UI, system prompt, and How It Works:</strong> UI intro blurb names Discord and all four SIG groups with session counts. System prompt INDEXED CORPUS block: two new entries (Discord channels with channel description, SIG sessions listing all four groups with leads). How It Works corpus table and Pinecone index table both updated with discord/sig rows, vector counts, and tier-weight documentation. SOUL_EXCERPT (export markdown) replaced vague \"285+\" citation with full accurate corpus inventory. Phase note bumped to 2C."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "sort_key": 13.0,
+      "label": "Session 13",
+      "title": "Discord Links Fetch and Enrichment Pipeline",
+      "date": "2026-05-20",
+      "time_pt": "",
+      "tracks": [
+        "corpus-ingestion",
+        "vector-architecture",
+        "worker-api"
+      ],
+      "costs_usd": {
+        "haiku_enrichment": 0.08
+      },
+      "vector_counts": {
+        "substack": 1040,
+        "pdfs": 766,
+        "videos": 2940,
+        "bibliography": 278,
+        "transcripts": 4,
+        "discord": 3301,
+        "sig": 4689,
+        "discord_links": 6722
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "fetch_discord_links.py — link harvesting and web ingest",
+          "html": "<strong>fetch_discord_links.py — link harvesting and web ingest:</strong> Scanned all discord + sig Pinecone vectors for URLs in message text. Harvested 3,091 unique URLs. Fetched 1,412 (222 OK in first pass, 1,929 total vectors written to <code>discord_links</code> namespace); 942 failed (connection error/timeout/410); 373 skipped (already in registry); 355 deferred (161 YouTube, 194 Twitter/X — require separate pipelines). 9 rejected by prompt injection filter (11 regex patterns + invisible-character density guard >1%). Registry stored in <code>data/discord_links_registry.json</code>. Each fetched URL gets a <code>discord_link</code> chunk vector with the page title, description, and main text content (truncated at 2,500 chars)."
+        },
+        {
+          "title": "enrich_discord_links.py — relevance scoring and pruning",
+          "html": "<strong>enrich_discord_links.py — relevance scoring and pruning:</strong> Scores each fetched URL 0–3 for protocol relevance via Claude Haiku. Score 0 = no connection; 1 = tangential; 2 = relevant; 3 = core. Score-0 vectors deleted from Pinecone — reduces index noise. Results: 1,412 scored; 485 deleted (score 0); 899 kept. Score distribution: 0→485, 1→480, 2→276, 3→143. Final <code>discord_links</code> namespace: <strong>6,722 vectors</strong>. Bug fixed mid-run: SCORE_PROMPT JSON example had unescaped curly braces (Python f-string), caught in dry-run before full execution."
+        },
+        {
+          "title": "Worker integration — relevance-score weighting",
+          "html": "<strong>Worker integration — relevance-score weighting:</strong> <code>normalizeWebLink()</code> added; <code>discord_links</code> namespace queried in all 4 callsites. Retrieval weight uses base score by relevance tier (0.55/0.65/0.75) plus a small popularity bonus (url_count from the source messages). New <code>c3po-badge-web</code> badge. Total Pinecone: 19,634 vectors."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "sort_key": 14.0,
+      "label": "Session 14",
+      "title": "Exhibit Extraction Plan and SIG Meeting Recovery",
+      "date": "2026-05-20",
+      "time_pt": "",
+      "tracks": [
+        "corpus-ingestion",
+        "operations"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "substack": 1040,
+        "pdfs": 766,
+        "videos": 2940,
+        "bibliography": 278,
+        "transcripts": 4,
+        "discord": 3301,
+        "sig": 4689,
+        "discord_links": 6722
+      },
+      "deployed": false,
+      "items": [
+        {
+          "title": "Structural navigation plan revised",
+          "html": "<strong>Structural navigation plan revised (plans/structural-navigation.md):</strong> Reframed from section summaries + list extracts to four exhibit types: <code>section_summary</code>, <code>list_exhibit</code>, <code>figure_exhibit</code>, <code>table_exhibit</code>. Sampled 5 PDFs: SoP papers embed 20–30 full-page background images (design artifacts, filter by >80% page size); pdfplumber table extraction is unreliable (picks up typographic grids as tables). Strategy: two-pass — Haiku text pass for sections + lists; PyMuPDF render + Haiku Vision for figures + tables. Core essays (>12 text pages) get section summaries; all documents get list pass; visual pages (<50 words) get Vision pass. Estimated: ~450–550 new vectors, ~$1.30, new dep: pymupdf. Not yet built."
+        },
+        {
+          "title": "Discord bot architecture documented",
+          "html": "<strong>Discord bot architecture documented (DISCORD_BOT_DESIGN.md):</strong> Two-bot architecture: <code>c3po_listener</code> (headless launchd batch scripts — no gateway, no persistent process) and <code>c3po_oracle</code> (interactive slash-command bot via Discord Interactions webhook → Cloudflare Worker deferred response). Listener: 3 launchd plists planned — daily Discord sync, biweekly SIG sync + website pipeline, weekly link enrichment. Oracle: /ask, /search, /help commands. Key constraints documented: Discord CDN attachment URLs expire in 24h (must download at sync time); SIG thread auto-archive cadences (SIGFPT/ProtFiSIG 3 days, SIGPfB 7 days) mean sync must run at minimum every 2–3 days or active threads will be missed. Phase 3A–3F roadmap."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "sort_key": 15.0,
+      "label": "Session 15",
+      "title": "Missed SIG Meetings Recovered; Active-Thread Fix",
+      "date": "2026-05-20",
+      "time_pt": "",
+      "tracks": [
+        "corpus-ingestion",
+        "operations"
+      ],
+      "costs_usd": {
+        "haiku_sig_summaries": 0.05
+      },
+      "vector_counts": {
+        "substack": 1040,
+        "pdfs": 766,
+        "videos": 2940,
+        "bibliography": 278,
+        "transcripts": 4,
+        "discord": 3301,
+        "sig": 4795,
+        "discord_links": 6722
+      },
+      "deployed": false,
+      "items": [
+        {
+          "title": "Root cause: active threads invisible to sync",
+          "html": "<strong>Root cause fix — active threads invisible to sync:</strong> The channel-level <code>/threads/active</code> endpoint returns 404 for forum-style SIG channels — deprecated. Replaced with the guild-level <code>/guilds/{id}/threads/active</code> endpoint filtered by <code>parent_id</code>, which works for all channel types. SIGFPT and ProtFiSIG threads auto-archive after 3 days; SIGPfB after 7 days. Any meeting thread still active at sync time (e.g., a very recent meeting) was silently missed by the old code. Added <code>is_meeting_override</code> field to per-thread state in <code>data/sig_state.json</code> — allows manual classification without code changes."
+        },
+        {
+          "title": "SIGPfB pattern extensions",
+          "html": "<strong>SIGPfB pattern extensions:</strong> Two patterns added to capture previously unmatched meeting threads. Extended <code>^Protocols for Business</code> to match <code>:</code> as well as <code>[</code> and space as delimiters. Added <code>^[\\*=]+\\s*(?:SIG\\s+)?Protocols for Business</code> pattern for threads with decorative <code>====</code> or <code>**===</code> prefixes."
+        },
+        {
+          "title": "10 missed meetings recovered",
+          "html": "<strong>10 missed meetings recovered:</strong> SIGFPT: 01May26 Stigmergy (38 msgs), 15May26 Stigmergy Part II (52 msgs). SIGPfB: 20Apr26 API Design, 04May26 Technology, 18May26 Manufacturing, 03Nov25 FDEs, 08Dec25 LLM Adoption, 12Jan26 AI Infrastructure. ProtFiSIG: 12Mar26 Protocol Fairy Tales, 23Apr26 Wile E. Coyote. sig namespace: 4,583 → 4,795 vectors. Website SIG pages updated: 80 → 88 meetings across 4 SIGs."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "sort_key": 16.0,
+      "label": "Session 16",
+      "title": "Channel Manifest, Onboarding Tool, Daily launchd Sync",
+      "date": "2026-05-20",
+      "time_pt": "",
+      "tracks": [
+        "operations"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "substack": 1040,
+        "pdfs": 766,
+        "videos": 2940,
+        "bibliography": 278,
+        "transcripts": 4,
+        "discord": 5518,
+        "sig": 4795,
+        "discord_links": 6722
+      },
+      "deployed": false,
+      "items": [
+        {
+          "title": "data/channel_manifest.json — unified channel registry",
+          "html": "<strong>data/channel_manifest.json — unified channel registry:</strong> Single JSON file tracks all monitored channels with schema: type (general|sig|forum), namespace, status (active|archived), meeting_patterns, thresholds, onboarding_notes, added date. Tracked in git via <code>!data/channel_manifest.json</code> exception in .gitignore. <code>sync_discord.py</code> and <code>sync_sig.py</code> both read from manifest via <code>load_general_channels()</code> and <code>load_sig_channels()</code> respectively, with fallback to env vars / hardcoded dict if manifest is absent. Eliminates the need to edit script source to add or remove channels."
+        },
+        {
+          "title": "ingest/onboard_channel.py — semi-automated onboarding",
+          "html": "<strong>ingest/onboard_channel.py — semi-automated channel onboarding:</strong> Given <code>--channel &lt;id&gt;</code>, fetches a sample of recent messages and threads via REST, passes them to Claude Sonnet with an analysis prompt asking for channel classification (type, theme, meeting patterns, relevance). Prints proposed manifest config for human approval. Supports <code>y/N/edit</code> interactive prompt plus <code>--yes</code> flag for scripted use. If approved, appends entry to manifest and optionally triggers <code>sync_discord.py --channel &lt;id&gt;</code> backfill via subprocess. Reduces time to onboard a new channel from ~30 minutes of manual config to ~2 minutes."
+        },
+        {
+          "title": "bin/daily_sync.sh and launchd plist",
+          "html": "<strong>bin/daily_sync.sh and launchd plist installed:</strong> Shell coordinator runs: sync_discord.py → sync_sig.py → rebuild_sig_summaries.py → generate_sig_pages.py → conditional website push (only if git status shows changes to sigs/ or sigs.html). Website push commits and pushes <code>sigs/</code> and <code>sigs.html</code> with a datestamped auto-commit message. Installed as <code>~/Library/LaunchAgents/org.protocol-institute.c3po.daily.plist</code>; <code>StartInterval: 86400</code> (fires 24h after last successful run, compatible with sleep — fires on next wake). Logs to <code>~/Library/Logs/c3po/daily.{log,err}</code>. Manual run tested successfully."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "sort_key": 17.0,
+      "label": "Session 17",
+      "title": "Archived Channel Sweep; Forum Channel Support",
+      "date": "2026-05-20",
+      "time_pt": "",
+      "tracks": [
+        "corpus-ingestion",
+        "operations"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "substack": 1040,
+        "pdfs": 766,
+        "videos": 2940,
+        "bibliography": 278,
+        "transcripts": 4,
+        "discord": 5518,
+        "sig": 4795,
+        "discord_links": 8864
+      },
+      "deployed": false,
+      "items": [
+        {
+          "title": "7 archived general channels onboarded",
+          "html": "<strong>7 archived general channels onboarded via onboard_channel.py:</strong> #credit-protocols, #death-memory, #unconscious-protocols, #tech-standards, #built-environment, #organizational-protocols, #field-reports (all archived general text channels). Plus #affiliate-chat (archived SIG channel). All backfilled and ingested. URL registry grew from ~1,800 to 3,824 URLs across all channels. discord namespace grew from ~3,301 → 5,518 vectors."
+        },
+        {
+          "title": "Forum channel support (Discord type=15) — #reading-room",
+          "html": "<strong>Forum channel support (Discord type=15):</strong> Forum channels have no main channel messages — all content lives in threads (forum posts). New <code>fetch_forum_threads()</code> queries guild-level active + archived public thread endpoints filtered by parent_id, then fetches each thread's messages. New <code>format_forum_post_chunk()</code> bundles a thread opener + all replies into one chunk with <code>chunk_type=forum_post</code>. State tracked in <code>last_thread_ids</code> dict (separate key from <code>last_message_ids</code> for text channels). #reading-room: Discord type=15, 81 posts ingested. <code>onboard_channel.py</code> updated to detect type=15 channels, propose <code>type=forum</code> config, and store <code>discord_type: 15</code> in the manifest entry."
+        },
+        {
+          "title": "Monitoring Dashboard design — silent listener pattern",
+          "html": "<strong>Monitoring Dashboard design — silent listener pattern:</strong> Rejected Discord heartbeat posting (listener bot should be invisible). Instead: all sync scripts write structured JSON entries to <code>data/sync_log.json</code> (90-day rolling). New <code>ingest/generate_monitoring_page.py</code> reads log + manifest + links registry and produces a static HTML page pushed to the PI website at <code>monitoring.html</code>. Wired into <code>bin/daily_sync.sh</code>. Produces a channel table (type, status, vector count, last sync), a 14-day run history (per-script stats), and a link registry status table."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "sort_key": 18.0,
+      "label": "Session 18",
+      "title": "Lexicon Definitions Namespace; Attachment Capture; YouTube Transcripts",
+      "date": "2026-05-20",
+      "time_pt": "",
+      "tracks": [
+        "corpus-ingestion",
+        "vector-architecture",
+        "operations"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "substack": 1040,
+        "pdfs": 766,
+        "videos": 2940,
+        "bibliography": 278,
+        "transcripts": 4,
+        "discord": 5518,
+        "sig": 4795,
+        "discord_links": 8864,
+        "definitions": 560
+      },
+      "deployed": false,
+      "items": [
+        {
+          "title": "Lexicon schema migration: multi-definition support",
+          "html": "<strong>Lexicon schema migration: flat dict → list-of-dicts.</strong> <code>sources/lexicon_draft.json</code> migrated from <code>{term: entry_object}</code> to <code>{term: [entry_object, ...]}</code>. Motivation: terms like <em>protocol</em> have multiple competing definitions across 67 source documents — the flat schema silently dropped duplicates during extraction. The new schema supports multiple entries per term. All 914 existing entries wrapped in single-item lists (all currently variant_count=1). Future: a second extraction pass or editorial curation can append additional entries to any term's list."
+        },
+        {
+          "title": "ingest/sync_lexicon.py — definitions namespace ingest",
+          "html": "<strong>ingest/sync_lexicon.py — definitions namespace ingest:</strong> Ingests triage a+b entries only (239 + 321 = 560 entries; triage c excluded as standard terms without PI-specific usage). Vector ID scheme: <code>lexicon__{term_slug}__{source_slug}</code> — ensures uniqueness across both terms and sources, supports multiple definitions per term as distinct vectors. Metadata: <code>term</code>, <code>definition_index</code>, <code>variant_count</code>, <code>source</code>, <code>source_slug</code>, <code>triage</code>, <code>triage_reason</code>, <code>chunk_type=lexicon_definition</code>. Text format: bold term → Definition → Context → Source (markdown-structured for Claude synthesis). Non-ASCII slugify bug fixed: some term names contained Unicode characters (e.g., <em>poché</em>) — ASCII-stripped before slugification. 560 vectors upserted to <code>definitions</code> namespace."
+        },
+        {
+          "title": "Attachment capture in sync scripts",
+          "html": "<strong>Attachment capture in sync scripts:</strong> New <code>ingest/attachments.py</code> downloads Discord CDN attachments at ingest time, before the 24-hour CDN URL expiry. Storage: <code>data/attachments/{channel_id}/{msg_id}/{filename}</code> (gitignored, local only; Dropbox-ignored via xattr). PDF attachments extracted via pdfplumber and embedded as separate <code>discord_attachment</code> / <code>sig_attachment</code> vectors. Plain-text and markdown attachments embedded directly. No backfill of historical attachments (deferred indefinitely — CDN URLs for past messages have long expired). Both <code>sync_discord.py</code> and <code>sync_sig.py</code> updated to call <code>process_attachments()</code> during ingest."
+        },
+        {
+          "title": "YouTube transcript pass",
+          "html": "<strong>YouTube transcript pass (via youtube-transcript-api):</strong> 195 deferred YouTube URLs in the discord_links registry. First attempt failed: 0/195 succeeded due to API version mismatch — newer <code>youtube-transcript-api</code> uses instance API <code>YouTubeTranscriptApi().fetch(video_id)</code> not the class method <code>get_transcript()</code>. Fixed, reset all 195 from <code>failed</code> back to <code>deferred</code>, re-ran. Second pass: 18/185 succeeded (170 remaining — mostly restricted/age-gated videos or videos with captions disabled). Successful transcripts embedded as <code>discord_link</code> vectors in the <code>discord_links</code> namespace."
         }
       ]
     }
