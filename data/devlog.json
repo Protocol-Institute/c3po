@@ -788,6 +788,49 @@
           "html": "<strong>YouTube transcript pass (via youtube-transcript-api):</strong> 195 deferred YouTube URLs in the discord_links registry. First attempt failed: 0/195 succeeded due to API version mismatch — newer <code>youtube-transcript-api</code> uses instance API <code>YouTubeTranscriptApi().fetch(video_id)</code> not the class method <code>get_transcript()</code>. Fixed, reset all 195 from <code>failed</code> back to <code>deferred</code>, re-ran. Second pass: 18/185 succeeded (170 remaining — mostly restricted/age-gated videos or videos with captions disabled). Successful transcripts embedded as <code>discord_link</code> vectors in the <code>discord_links</code> namespace."
         }
       ]
+    },
+    {
+      "id": 19,
+      "sort_key": 19.0,
+      "label": "Session 19",
+      "title": "c3po_oracle Discord Bot — Code Complete",
+      "date": "2026-05-26",
+      "time_pt": "",
+      "tracks": [
+        "discord-bot",
+        "api"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "substack": 1040,
+        "pdfs": 766,
+        "videos": 2940,
+        "bibliography": 278,
+        "transcripts": 4,
+        "discord": 5518,
+        "sig": 4795,
+        "discord_links": 8864,
+        "definitions": 560
+      },
+      "deployed": false,
+      "items": [
+        {
+          "title": "POST /interactions — Discord webhook endpoint",
+          "html": "<strong>POST /interactions — Discord Interactions webhook endpoint:</strong> Implements the full Discord slash-command webhook flow in <code>api/worker.js</code>. Verifies the Ed25519 request signature using <code>crypto.subtle</code> (SubtleCrypto native, no dependencies). Handles the Discord PING/PONG handshake required during webhook registration. Routes APPLICATION_COMMAND interactions to /ask, /search, and /help handlers. Channel gating via <code>ORACLE_ALLOWED_CHANNEL_IDS</code> env var (comma-separated; empty = all channels). Security filters (injection, system prompt extraction, credential fishing, KBA, etc.) applied to query text before queuing. Per-user rate limit: 5 queries/hour tracked by Discord user ID in KV. /ask and /search return <code>{type:5}</code> (DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE), showing a \"thinking...\" state in Discord while the queue processes the RAG job."
+        },
+        {
+          "title": "runRagQuery() — shared RAG core extracted from POST /query",
+          "html": "<strong>runRagQuery() — shared RAG core extracted from POST /query:</strong> The embed → 7-namespace Pinecone query → secondary retrieval (doc_summary / post_summary / video_summary expansion) → normalize → merge → Claude call pipeline is now a standalone <code>async function runRagQuery(query, env, ctx, opts)</code>. Options: <code>includeAnswer</code> (skip Claude for search-only mode), <code>history</code> (conversation turns, preserved for the HTTP endpoint), <code>maxTokens</code> (Discord uses 800 to fit within 2000-char message limit; HTTP endpoint uses env.MAX_ANSWER_TOKENS). POST /query handler is now a thin wrapper: parse + validate + rate-limit + security check → call runRagQuery → logQuery + return. No behavioral change to existing routes."
+        },
+        {
+          "title": "Cloudflare Queue consumer — async queue() handler",
+          "html": "<strong>Cloudflare Queue consumer — <code>async queue(batch, env, ctx)</code>:</strong> Added to <code>export default</code> alongside <code>fetch</code> and <code>scheduled</code>. Processes one message at a time (<code>max_batch_size=1</code>). Each message carries <code>{commandName, query, applicationId, interactionToken}</code>. Consumer calls <code>runRagQuery</code>, formats the result, and POSTs to Discord's followup webhook: <code>DISCORD_API/webhooks/{applicationId}/{interactionToken}</code>. On error, posts a generic error message so the \"thinking...\" state doesn't hang. Queue name: <code>c3po-oracle</code> (needs <code>wrangler queues create</code> before first deploy)."
+        },
+        {
+          "title": "scripts/register_discord_commands.py — slash command registration",
+          "html": "<strong>scripts/register_discord_commands.py:</strong> One-time setup script that bulk-registers the three Oracle slash commands with Discord via the REST API. Commands: <code>/ask &lt;question&gt;</code> (RAG with synthesis), <code>/search &lt;query&gt;</code> (semantic search, no LLM), <code>/help</code> (ephemeral info). Supports <code>--guild-id</code> for instant guild-scoped registration (testing) and <code>--global</code> for production. Full 8-step deploy guide in <code>plans/oracle-bot-setup.md</code>."
+        }
+      ]
     }
   ]
 }

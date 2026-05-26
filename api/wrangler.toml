@@ -13,10 +13,26 @@ compatibility_date = "2025-01-01"
 #   ANTHROPIC_API_KEY     — Anthropic Claude API key
 #   ADMIN_KEY             — Admin endpoint auth (generate per security-policy.md)
 #   MCP_API_KEY           — MCP server auth key
+#   ORACLE_BOT_TOKEN      — c3po_oracle Discord bot token
+#   ORACLE_APPLICATION_ID — c3po_oracle Discord application ID
+#   ORACLE_PUBLIC_KEY     — c3po_oracle Discord app public key (Ed25519, for sig verification)
+#
+# Optional env vars (set in [vars] below or via wrangler secret put):
+#   ORACLE_ALLOWED_CHANNEL_IDS — comma-separated Discord channel IDs; empty = all channels
 
 [[kv_namespaces]]
 binding = "RATE_LIMIT"
 id = "54276a388ae9492ca414762e456223f4"  # C3PO_KV — created 2026-05-16, dedicated to this worker; document in MIGRATION.md when migrating to PI org account
+
+[[queues.producers]]
+binding = "ORACLE_QUEUE"
+queue   = "c3po-oracle"
+
+[[queues.consumers]]
+queue              = "c3po-oracle"
+max_batch_size     = 1
+max_batch_timeout  = 1
+max_retries        = 2
 
 # Future bindings (uncomment when ready):
 

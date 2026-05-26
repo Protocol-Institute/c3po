@@ -1,5 +1,30 @@
 # C3PO — Status Log
 
+## 2026-05-26 — c3po_oracle Discord bot — code complete, pending deploy (session 19)
+
+**c3po_oracle — Phase 3E — COMPLETE (code only; deploy in next session)**
+- `POST /interactions` endpoint: Ed25519 sig verification, PING/PONG handshake, channel gating, security filters, per-user rate limit (5/hr via KV)
+- `runRagQuery()` shared helper: extracted RAG core (embed → 7-namespace query → secondary retrieval → merge → Claude) from POST /query; used by both the HTTP endpoint and the new queue consumer
+- `async queue()` handler: consumes `c3po-oracle` Cloudflare Queue, runs RAG, posts back via Discord followup webhook; error fallback included
+- `scripts/register_discord_commands.py`: registers /ask, /search, /help slash commands (guild-scoped for testing, --global for production)
+- `api/wrangler.toml`: queue producer + consumer bindings added
+- `.env.template`: ORACLE_* vars documented
+- `plans/oracle-bot-setup.md`: step-by-step deploy guide (8 steps)
+
+**Pinecone state: 24,765 vectors — unchanged**
+- definitions: 560 | discord_links: 8,864 | discord: 5,518 | sig: 4,795 | videos: 2,940 | substack: 1,040 | pdfs: 766 | bibliography: 278 | transcripts: 4
+
+**Substack pending (not yet synced):**
+- 1 new post: `the-overloaded-train`
+- 1 edited post: `introducing-the-protocol-institute`
+
+**Open TODOs (priority order):**
+1. Execute oracle bot setup — see `plans/oracle-bot-setup.md` (create Discord app, wrangler queues create, set secrets, deploy, set Interactions URL, register commands, invite bot)
+2. Run `sync_substack.py` to ingest the-overloaded-train + edited post
+3. Wire `definitions` namespace into `runRagQuery()` (query it alongside the other 7)
+4. YouTube transcript pass — 161 deferred URLs
+5. GitHub Actions cron for `sync_substack.py`
+
 ## 2026-05-20 — Lexicon namespace, attachment capture, monitoring dashboard, star weighting (session 18)
 
 **Lexicon definitions namespace — COMPLETE**

@@ -38,6 +38,9 @@ const STRIKE_THRESHOLD = 3;    // probe events before 24h IP ban
 const BAN_TTL_SECONDS  = 24 * 3600;
 const MCP_SEARCH_DAY_LIMIT = 100; // search_corpus calls per IP per day
 
+const DISCORD_API           = "https://discord.com/api/v10";
+const ORACLE_RATE_LIMIT_MAX = 5;   // Discord queries per user per hour
+
 // PDF doc types → context block label
 const PDF_TYPE_LABELS = {
   "paper":          "PAPER",
@@ -3066,6 +3069,229 @@ function mcpToolContent(text) {
 
 // ── Worker ─────────────────────────────────────────────────────────────────────
 
+// ── Discord / Oracle helpers ───────────────────────────────────────────────────
+
+function hexToBytes(hex) {
+  const b = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < hex.length; i += 2) b[i / 2] = parseInt(hex.slice(i, i + 2), 16);
+  return b;
+}
+
+async function verifyDiscordSignature(rawBody, signature, timestamp, publicKey) {
+  if (!signature || !timestamp || !publicKey) return false;
+  try {
+    const key = await crypto.subtle.importKey(
+      "raw", hexToBytes(publicKey), { name: "Ed25519" }, false, ["verify"]
+    );
+    return await crypto.subtle.verify(
+      "Ed25519", key,
+      hexToBytes(signature),
+      new TextEncoder().encode(timestamp + rawBody)
+    );
+  } catch { return false; }
+}
+
+async function checkDiscordUserLimit(env, userId) {
+  if (!env.RATE_LIMIT || !userId) return true;
+  const cur = parseInt(await env.RATE_LIMIT.get(`discord:rl:${userId}`) || "0");
+  return cur < ORACLE_RATE_LIMIT_MAX;
+}
+
+async function recordDiscordUserRequest(env, userId) {
+  if (!env.RATE_LIMIT || !userId) return;
+  const key = `discord:rl:${userId}`;
+  const cur = parseInt(await env.RATE_LIMIT.get(key) || "0");
+  await env.RATE_LIMIT.put(key, String(cur + 1), { expirationTtl: RATE_LIMIT_TTL });
+}
+
+// Shared RAG core: embed → query all namespaces → secondary retrieval → merge → optionally Claude.
+// opts: { includeAnswer=true, history=[], maxTokens=null }
+// Returns { answer, sources } or throws.
+async function runRagQuery(query, env, ctx, opts = {}) {
+  const { includeAnswer = true, history = [], maxTokens = null } = opts;
+
+  const voyageRes = await fetch(VOYAGE_URL, {
+    method:  "POST",
+    headers: { "Authorization": `Bearer ${env.VOYAGE_API_KEY}`, "Content-Type": "application/json" },
+    body:    JSON.stringify({ input: [query], model: VOYAGE_MODEL, input_type: "query" }),
+  });
+  if (!voyageRes.ok) throw new Error("Embedding service error");
+  const qv = (await voyageRes.json()).data[0].embedding;
+
+  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw] = await Promise.all([
+    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "pdfs"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "substack"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "videos"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "bibliography"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "discord"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "sig"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "discord_links"),
+  ]);
+
+  const pdfSummaryHits = pdfRaw.filter(m => m.metadata?.chunk_type === "doc_summary");
+  const subSummaryHits = subRaw.filter(m => m.metadata?.chunk_type === "post_summary");
+  const vidSummaryHits = vidRaw.filter(m => m.metadata?.chunk_type === "video_summary");
+  const secondaryFetches = [
+    ...pdfSummaryHits.map(hit => {
+      const stem   = hit.id.replace("__doc_summary", "");
+      const pdfUrl = hit.metadata?.url || `/resources/${stem}.pdf`;
+      return queryNamespace(
+        env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 4, "pdfs",
+        { url: { "$eq": pdfUrl.startsWith("/resources/") ? pdfUrl : `/resources/${stem}.pdf` }, chunk_type: { "$eq": "body" } }
+      );
+    }),
+    ...subSummaryHits.map(hit =>
+      queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 4, "substack",
+        { slug: { "$eq": hit.metadata.slug }, chunk_type: { "$ne": "post_summary" } }
+      )
+    ),
+    ...vidSummaryHits.map(hit =>
+      queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 4, "videos",
+        { video_id: { "$eq": hit.metadata.video_id }, chunk_type: { "$eq": "body" } }
+      )
+    ),
+  ];
+
+  let pdfAug = pdfRaw, subAug = subRaw, vidAug = vidRaw;
+  if (secondaryFetches.length > 0) {
+    const secondary = await Promise.all(secondaryFetches);
+    const flat = secondary.flat();
+    const pdfSumIds = new Set(pdfSummaryHits.map(h => h.id));
+    const subSumIds = new Set(subSummaryHits.map(h => h.id));
+    const vidSumIds = new Set(vidSummaryHits.map(h => h.id));
+    pdfAug = [...pdfRaw.filter(m => !pdfSumIds.has(m.id)), ...flat.filter(m => m.metadata?.namespace === "pdfs" || m.metadata?.source === "pdf")];
+    subAug = [...subRaw.filter(m => !subSumIds.has(m.id)), ...flat.filter(m => m.metadata?.source === "substack")];
+    vidAug = [...vidRaw.filter(m => !vidSumIds.has(m.id)), ...flat.filter(m => m.metadata?.source === "youtube")];
+  }
+
+  const topItems = mergeResults(
+    pdfAug.map(normalizePdf), subAug.map(normalizeSubstack),
+    vidAug.map(normalizeVideo), bibRaw.map(normalizeBibliography),
+    discordRaw.map(normalizeDiscord), sigRaw.map(normalizeSig),
+    webRaw.map(normalizeWebLink), MAX_SOURCES
+  );
+  const sources = topItems.map(({ weightedScore, ...rest }) => rest);
+
+  if (!includeAnswer) return { answer: null, sources };
+
+  const contextBlock = buildContextBlock(topItems);
+  const claudeRes = await fetch(CLAUDE_URL, {
+    method:  "POST",
+    headers: {
+      "x-api-key":         env.ANTHROPIC_API_KEY,
+      "anthropic-version": ANTHROPIC_VER,
+      "anthropic-beta":    "prompt-caching-2024-07-31",
+      "Content-Type":      "application/json",
+    },
+    body: JSON.stringify({
+      model:      CLAUDE_MODEL,
+      max_tokens: maxTokens || parseInt(env.MAX_ANSWER_TOKENS || "1200"),
+      system:     [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
+      messages:   [...history, { role: "user", content: `Question: ${query}\n\nRelevant corpus excerpts:\n\n${contextBlock}` }],
+    }),
+  });
+  if (!claudeRes.ok) throw new Error("Oracle service error");
+
+  const claudeBody = await claudeRes.json();
+  const answer = claudeBody.content?.[0]?.text || "";
+  if (ctx) ctx.waitUntil(trackRequest(env, claudeBody.usage));
+  return { answer, sources };
+}
+
+function formatDiscordAsk(query, answer, sources) {
+  const lines = sources.slice(0, 5).map(s => {
+    const label = s.label || s.source.toUpperCase();
+    const title = s.title || s.url || "(untitled)";
+    const date  = s.date ? ` — ${s.date.slice(0, 7)}` : "";
+    const link  = s.url ? ` (<${s.url}>)` : "";
+    return `- [${label}] ${title}${date}${link}`;
+  });
+  const body = `**Q:** ${query}\n\n${answer}`;
+  const refs = lines.length ? `\n\n**Sources**\n${lines.join("\n")}` : "";
+  return (body + refs).slice(0, 2000);
+}
+
+function formatDiscordSearch(query, sources) {
+  if (!sources.length) return `No results found for: **${query}**`;
+  const lines = sources.slice(0, 8).map(s => {
+    const label = s.label || s.source.toUpperCase();
+    const title = s.title || s.url || "(untitled)";
+    const link  = s.url ? ` <${s.url}>` : "";
+    return `- [${label}] **${title}**${link}`;
+  });
+  return `**Search:** ${query}\n\n${lines.join("\n")}`.slice(0, 2000);
+}
+
+async function handleDiscordInteraction(request, env, ctx) {
+  const rawBody = await request.text();
+  const sig     = request.headers.get("x-signature-ed25519");
+  const ts      = request.headers.get("x-signature-timestamp");
+
+  if (!await verifyDiscordSignature(rawBody, sig, ts, env.ORACLE_PUBLIC_KEY)) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  const body = JSON.parse(rawBody);
+
+  // PING — Discord tests this during webhook registration
+  if (body.type === 1) return json({ type: 1 });
+
+  if (body.type === 2) {
+    const channelId  = body.channel_id;
+    const allowedIds = (env.ORACLE_ALLOWED_CHANNEL_IDS || "").split(",").map(s => s.trim()).filter(Boolean);
+    if (allowedIds.length && !allowedIds.includes(channelId)) {
+      return json({ type: 4, data: { content: "C3PO isn't available in this channel.", flags: 64 } });
+    }
+
+    const commandName = body.data?.name;
+    const userId      = body.member?.user?.id || body.user?.id;
+
+    if (commandName === "help") {
+      return json({
+        type: 4,
+        data: {
+          content: [
+            "**C3PO — Protocol Institute Research Assistant**",
+            "",
+            "`/ask <question>` — ask a question; C3PO synthesizes an answer from the corpus",
+            "`/search <query>` — semantic search; returns sources without synthesis",
+            "`/help` — this message",
+            "",
+            "Web interface: https://c3po.vgr-702.workers.dev",
+          ].join("\n"),
+          flags: 64,
+        },
+      });
+    }
+
+    if (commandName === "ask" || commandName === "search") {
+      const query = (body.data?.options?.[0]?.value || "").trim();
+      if (!query) return json({ type: 4, data: { content: "Please provide a question.", flags: 64 } });
+
+      const isProbe = [INJECTION_RE, SYSEXTRACT_RE, CREDENTIAL_RE, KBA_RE, INFRA_RE, DARKBECOME_RE, WIELD_RE]
+        .some(re => re.test(query));
+      if (isProbe) return json({ type: 4, data: { content: SECURITY_BLOCKED, flags: 64 } });
+
+      if (!await checkDiscordUserLimit(env, userId)) {
+        return json({ type: 4, data: { content: "You've reached the limit of 5 queries per hour. Please try again later.", flags: 64 } });
+      }
+
+      ctx.waitUntil(Promise.all([
+        recordDiscordUserRequest(env, userId),
+        env.ORACLE_QUEUE.send({ commandName, query, applicationId: env.ORACLE_APPLICATION_ID, interactionToken: body.token }),
+      ]));
+
+      return json({ type: 5 });  // DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE
+    }
+
+    return json({ type: 4, data: { content: "Unknown command.", flags: 64 } });
+  }
+
+  return new Response("", { status: 400 });
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+
 export default {
   async fetch(request, env, ctx) {
     const url    = new URL(request.url);
@@ -3226,6 +3452,11 @@ export default {
       }
     }
 
+    // ── POST /interactions — Discord Oracle webhook ───────────────────────────
+    if (request.method === "POST" && url.pathname === "/interactions") {
+      return handleDiscordInteraction(request, env, ctx);
+    }
+
     // ── POST /query — main RAG endpoint ─────────────────────────────────────
     if (url.pathname !== "/query") {
       return json({ error: "Not found" }, 404, corsHeaders);
@@ -3285,123 +3516,45 @@ export default {
     }
 
     try {
-      // ── 1. Embed query ─────────────────────────────────────────────────────
-      const voyageRes = await fetch(VOYAGE_URL, {
-        method:  "POST",
-        headers: { "Authorization": `Bearer ${env.VOYAGE_API_KEY}`, "Content-Type": "application/json" },
-        body:    JSON.stringify({ input: [query], model: VOYAGE_MODEL, input_type: "query" }),
+      const { answer, sources } = await runRagQuery(query, env, ctx, {
+        includeAnswer: mode !== "sources",
+        history,
       });
-      if (!voyageRes.ok) {
-        console.error("Voyage error:", await voyageRes.text());
-        return json({ error: "Embedding service error" }, 502, corsHeaders);
-      }
-      const qv = (await voyageRes.json()).data[0].embedding;
-
-      // ── 2. Query all namespaces ────────────────────────────────────────────
-      const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw] = await Promise.all([
-        queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "pdfs"),
-        queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "substack"),
-        queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "videos"),
-        queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "bibliography"),
-        queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "discord"),
-        queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "sig"),
-        queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "discord_links"),
-      ]);
-
-      // Secondary retrieval: summary hits surface well for title queries
-      // but contain only abstracts — fetch real body chunks for LLM context.
-      const pdfSummaryHits = pdfRaw.filter(m => m.metadata?.chunk_type === "doc_summary");
-      const subSummaryHits = subRaw.filter(m => m.metadata?.chunk_type === "post_summary");
-      const vidSummaryHits = vidRaw.filter(m => m.metadata?.chunk_type === "video_summary");
-
-      const secondaryFetches = [
-        ...pdfSummaryHits.map(hit => {
-          const stem = hit.id.replace("__doc_summary", "");
-          const pdfUrl = (hit.metadata?.url) || `/resources/${stem}.pdf`;
-          return queryNamespace(
-            env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 4, "pdfs",
-            { url: { "$eq": pdfUrl.startsWith("/resources/") ? pdfUrl : `/resources/${stem}.pdf` }, chunk_type: { "$eq": "body" } }
-          );
-        }),
-        ...subSummaryHits.map(hit =>
-          queryNamespace(
-            env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 4, "substack",
-            { slug: { "$eq": hit.metadata.slug }, chunk_type: { "$ne": "post_summary" } }
-          )
-        ),
-        ...vidSummaryHits.map(hit =>
-          queryNamespace(
-            env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 4, "videos",
-            { video_id: { "$eq": hit.metadata.video_id }, chunk_type: { "$eq": "body" } }
-          )
-        ),
-      ];
-
-      let pdfAugmented = pdfRaw, subAugmented = subRaw, vidAugmented = vidRaw;
-      if (secondaryFetches.length > 0) {
-        const secondary = await Promise.all(secondaryFetches);
-        const flat = secondary.flat();
-        // Remove the summary hits and add their body-chunk replacements
-        const pdfSumIds = new Set(pdfSummaryHits.map(h => h.id));
-        const subSumIds = new Set(subSummaryHits.map(h => h.id));
-        const vidSumIds = new Set(vidSummaryHits.map(h => h.id));
-        pdfAugmented = [...pdfRaw.filter(m => !pdfSumIds.has(m.id)), ...flat.filter(m => m.metadata?.namespace === "pdfs" || m.metadata?.source === "pdf")];
-        subAugmented = [...subRaw.filter(m => !subSumIds.has(m.id)), ...flat.filter(m => m.metadata?.source === "substack")];
-        vidAugmented = [...vidRaw.filter(m => !vidSumIds.has(m.id)), ...flat.filter(m => m.metadata?.source === "youtube")];
-      }
-
-      const pdfNorm     = pdfAugmented.map(normalizePdf);
-      const subNorm     = subAugmented.map(normalizeSubstack);
-      const vidNorm     = vidAugmented.map(normalizeVideo);
-      const bibNorm     = bibRaw.map(normalizeBibliography);
-      const discordNorm = discordRaw.map(normalizeDiscord);
-      const sigNorm     = sigRaw.map(normalizeSig);
-      const webNorm     = webRaw.map(normalizeWebLink);
-      const topItems    = mergeResults(pdfNorm, subNorm, vidNorm, bibNorm, discordNorm, sigNorm, webNorm, MAX_SOURCES);
-      const sources     = topItems.map(({ weightedScore, ...rest }) => rest);
-
-      if (mode === "sources") {
-        return json({ sources, query }, 200, corsHeaders);
-      }
-
-      // ── 3. Build context block ─────────────────────────────────────────────
-      const contextBlock = buildContextBlock(topItems);
-
-      // ── 4. Call Claude Sonnet ──────────────────────────────────────────────
-      const userMessage = `Question: ${query}\n\nRelevant corpus excerpts:\n\n${contextBlock}`;
-      const maxTokens   = parseInt(env.MAX_ANSWER_TOKENS || "1200");
-
-      const claudeRes = await fetch(CLAUDE_URL, {
-        method:  "POST",
-        headers: {
-          "x-api-key":         env.ANTHROPIC_API_KEY,
-          "anthropic-version": ANTHROPIC_VER,
-          "anthropic-beta":    "prompt-caching-2024-07-31",
-          "Content-Type":      "application/json",
-        },
-        body: JSON.stringify({
-          model:      CLAUDE_MODEL,
-          max_tokens: maxTokens,
-          system:     [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
-          messages:   [...history, { role: "user", content: userMessage }],
-        }),
-      });
-
-      if (!claudeRes.ok) {
-        console.error("Claude error:", await claudeRes.text());
-        return json({ error: "Oracle service error" }, 502, corsHeaders);
-      }
-
-      const claudeBody = await claudeRes.json();
-      const answer = claudeBody.content?.[0]?.text || "";
-      ctx.waitUntil(trackRequest(env, claudeBody.usage));
+      if (mode === "sources") return json({ sources, query }, 200, corsHeaders);
       ctx.waitUntil(logQuery(env, query, answer, sources, sessionId, turnNumber));
-
       return json({ answer, sources, query }, 200, corsHeaders);
-
     } catch (err) {
       console.error("Unhandled error:", err);
       return json({ error: "Internal server error" }, 500, corsHeaders);
+    }
+  },
+
+  async queue(batch, env, ctx) {
+    for (const msg of batch.messages) {
+      const { commandName, query, applicationId, interactionToken } = msg.body;
+      const followupUrl = `${DISCORD_API}/webhooks/${applicationId}/${interactionToken}`;
+      try {
+        const { answer, sources } = await runRagQuery(query, env, ctx, {
+          includeAnswer: commandName === "ask",
+          maxTokens: 800,
+        });
+        const content = commandName === "ask"
+          ? formatDiscordAsk(query, answer, sources)
+          : formatDiscordSearch(query, sources);
+        await fetch(followupUrl, {
+          method:  "POST",
+          headers: { "Content-Type": "application/json", "Authorization": `Bot ${env.ORACLE_BOT_TOKEN}` },
+          body:    JSON.stringify({ content }),
+        });
+      } catch (err) {
+        console.error("Discord queue error:", err);
+        await fetch(followupUrl, {
+          method:  "POST",
+          headers: { "Content-Type": "application/json", "Authorization": `Bot ${env.ORACLE_BOT_TOKEN}` },
+          body:    JSON.stringify({ content: "Sorry, I encountered an error processing your request. Please try again." }),
+        });
+      }
+      msg.ack();
     }
   },
 
