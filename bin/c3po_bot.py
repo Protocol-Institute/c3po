@@ -2,15 +2,16 @@
 """
 C3PO Discord bot — mention-based RAG interface.
 
-Mention @c3po with a question; the bot opens a thread and replies with
-an answer + sources from the C3PO Worker.
+Mention @c3po with a question; the bot opens a thread and replies.
+Continues responding in bot-created threads for up to MAX_THREAD_TURNS turns.
+Monitors #introductions for new member introductions.
 
 Requires: ORACLE_BOT_TOKEN in .env
 Message Content Intent must be enabled in the Discord Developer Portal.
 
 Usage:
     source .venv/bin/activate
-    python3 bin/c3po_bot.py
+    python3 -u bin/c3po_bot.py
 """
 
 import logging
@@ -31,6 +32,19 @@ WORKER_URL    = "https://c3po.vgr-702.workers.dev/query"
 BOT_TOKEN     = os.environ["ORACLE_BOT_TOKEN"]
 MAX_QUERY_LEN = 500
 MAX_MSG_LEN   = 2000
+MAX_THREAD_TURNS = 5
+
+ORACLE_ROLE_ID           = int(os.environ.get("ORACLE_ROLE_ID", "1509298797040107543"))
+INTRODUCTIONS_CHANNEL_ID = int(os.environ.get("INTRODUCTIONS_CHANNEL_ID", "0"))
+
+# SIG channels — used in introductions recommendations
+# Channel mention format in Discord: <#CHANNEL_ID>
+SIG_CHANNELS = {
+    "SIGFPT":    {"id": 1327337414175490160, "desc": "Formal Protocol Theory — mathematical/logical foundations"},
+    "MRG":       {"id": 1379992696114122832, "desc": "Memory Research Group — protocols of memory and archiving"},
+    "SIGPfB":    {"id": 1333851496416153702, "desc": "Protocols for Business — organizational and business protocols"},
+    "ProtFiSIG": {"id": 1106572787042238504, "desc": "Protocol Fiction — speculative and imaginative narratives"},
+}
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 
@@ -49,15 +63,11 @@ intents.message_content = True   # privileged — enable in Dev Portal → Bot t
 
 client = discord.Client(intents=intents)
 
-# When the bot joins a server Discord creates a managed role with the same name.
-# Users often @mention the role instead of the bot user — treat both as triggers.
-ORACLE_ROLE_ID = int(os.environ.get("ORACLE_ROLE_ID", "1509298797040107543"))
-
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 def format_sources(sources: list) -> str:
     lines = []
-    for s in sources[:6]:
+    for s in sources[:3]:
         label = s.get("label") or s.get("source", "").upper()
         title = s.get("title") or s.get("url") or "(untitled)"
         url   = s.get("url")
@@ -84,7 +94,179 @@ def split_message(text: str) -> list[str]:
         text = text[cut:].lstrip("\n")
     return chunks
 
+
+async def call_worker(query: str, history: list | None = None, max_tokens: int = 300) -> dict | None:
+    payload: dict = {"query": query, "max_tokens": max_tokens}
+    if history:
+        payload["history"] = history
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.post(
+                WORKER_URL,
+                json=payload,
+                timeout=aiohttp.ClientTimeout(total=60),
+            ) as resp:
+                if resp.status != 200:
+                    log.error(f"Worker {resp.status}: {(await resp.text())[:200]}")
+                    return None
+                return await resp.json()
+    except Exception as exc:
+        log.error(f"Worker request failed: {exc}")
+        return None
+
+
+async def send_answer(target, data: dict) -> None:
+    answer  = (data.get("answer") or "").strip()
+    sources = data.get("sources") or []
+    if not answer:
+        await target.send("No answer returned — the corpus may not cover this topic.")
+        return
+    for chunk in split_message(answer):
+        await target.send(chunk)
+    sources_text = format_sources(sources)
+    if sources_text:
+        await target.send(f"**Sources**\n{sources_text}")
+
+
+# ── Thread continuation ───────────────────────────────────────────────────────
+
+async def handle_thread_reply(message: discord.Message) -> None:
+    thread = message.channel
+
+    # Collect prior thread messages (exclude the just-received message)
+    prior: list[discord.Message] = []
+    async for msg in thread.history(oldest_first=True, limit=50):
+        if msg.id != message.id:
+            prior.append(msg)
+
+    # Count completed bot turns (skip sources-only messages)
+    bot_turns = sum(
+        1 for m in prior
+        if m.author.id == client.user.id and not m.content.startswith("**Sources**")
+    )
+
+    if bot_turns >= MAX_THREAD_TURNS:
+        await thread.send(
+            f"We've reached the {MAX_THREAD_TURNS}-turn limit for this thread. "
+            "For a longer conversation, use the web interface: https://protocolized.io/resources"
+        )
+        return
+
+    query = message.content.strip()
+    if not query:
+        return
+
+    log.info(f"Thread reply [{message.author}] turn={bot_turns + 1}: {query[:80]}")
+
+    # Build history starting with the original trigger query.
+    # For message-threads, Discord sets thread.id == original message.id.
+    history: list[dict] = []
+    try:
+        parent = client.get_channel(thread.parent_id)
+        if parent:
+            orig = await parent.fetch_message(thread.id)
+            orig_text = orig.content
+            for u in orig.mentions:
+                orig_text = orig_text.replace(f"<@{u.id}>", "").replace(f"<@!{u.id}>", "")
+            for r in orig.role_mentions:
+                orig_text = orig_text.replace(f"<@&{r.id}>", "")
+            orig_text = "".join(c for c in orig_text if c.isprintable()).strip()
+            if orig_text:
+                history.append({"role": "user", "content": orig_text})
+    except Exception:
+        pass
+
+    if not history:
+        history.append({"role": "user", "content": thread.name})
+
+    # Append subsequent thread exchanges; merge consecutive bot chunks
+    for msg in prior:
+        if msg.author.id == client.user.id:
+            if msg.content.startswith("**Sources**"):
+                continue
+            if history and history[-1]["role"] == "assistant":
+                history[-1]["content"] += "\n" + msg.content
+            else:
+                history.append({"role": "assistant", "content": msg.content})
+        elif not msg.author.bot:
+            history.append({"role": "user", "content": msg.content})
+
+    async with thread.typing():
+        data = await call_worker(query, history=history)
+
+    if data is None:
+        await thread.send("The oracle is unavailable right now — try again in a moment.")
+        return
+
+    try:
+        await send_answer(thread, data)
+    except discord.HTTPException as exc:
+        log.error(f"Failed to send thread reply: {exc}")
+
+
+# ── Introductions monitoring ──────────────────────────────────────────────────
+
+_SIG_PROMPT_LINES = "\n".join(
+    f"- {name} (<#{info['id']}>) — {info['desc']}"
+    for name, info in SIG_CHANNELS.items()
+)
+
+
+async def handle_introduction(message: discord.Message) -> None:
+    # Only respond to top-level posts, not replies within #introductions
+    if message.reference is not None:
+        return
+
+    intro_text = message.content[:800]
+    log.info(f"Introduction from [{message.author}]: {intro_text[:80]}")
+
+    prompt = (
+        f"A new member just posted their introduction in the Protocol Institute Discord:\n\n"
+        f"---\n{intro_text}\n---\n\n"
+        f"Based on their stated interests, do two things:\n"
+        f"1. Recommend ONE specific article, essay, or resource from our corpus that would be "
+        f"most relevant to them. Give a 1–2 sentence explanation of why.\n"
+        f"2. Recommend the ONE most relevant SIG (special interest group) from this list, "
+        f"mentioning it by its Discord channel mention exactly as shown:\n"
+        f"{_SIG_PROMPT_LINES}\n\n"
+        f"Explain in one sentence why that SIG fits their interests. "
+        f"Keep the total response to 3–5 sentences. Be warm but concise. "
+        f"Do not repeat back the introduction text."
+    )
+
+    async with message.channel.typing():
+        data = await call_worker(prompt, max_tokens=400)
+
+    if data is None:
+        return
+
+    answer  = (data.get("answer") or "").strip()
+    sources = data.get("sources") or []
+    if not answer:
+        return
+
+    reply = f"Welcome, {message.author.mention}!\n\n{answer}"
+
+    if sources:
+        src      = sources[0]
+        label    = src.get("label") or src.get("source", "").upper()
+        title    = src.get("title") or src.get("url") or "(untitled)"
+        url      = src.get("url")
+        date     = (src.get("date") or "")[:7]
+        date_str = f" ({date})" if date else ""
+        link_str = f" — <{url}>" if url else ""
+        reply += f"\n\n**Suggested reading:** [{label}] {title}{date_str}{link_str}"
+
+    try:
+        await message.reply(reply, mention_author=False)
+    except discord.HTTPException as exc:
+        log.error(f"Failed to send intro reply: {exc}")
+
+
 # ── Events ────────────────────────────────────────────────────────────────────
+
+GREETINGS = {"", "hey", "hi", "hello", "yo", "sup", "hiya", "howdy", "greetings"}
+
 
 @client.event
 async def on_ready():
@@ -96,12 +278,24 @@ async def on_message(message: discord.Message):
     if message.author.bot:
         return
 
+    # Thread continuation — respond to any message in bot-owned threads
+    if isinstance(message.channel, discord.Thread):
+        if message.channel.owner_id == client.user.id:
+            await handle_thread_reply(message)
+        return
+
+    # Introductions monitoring (set INTRODUCTIONS_CHANNEL_ID in .env to enable)
+    if INTRODUCTIONS_CHANNEL_ID and message.channel.id == INTRODUCTIONS_CHANNEL_ID:
+        await handle_introduction(message)
+        return
+
+    # Mention-based query (main channels)
     is_user_mention = client.user in message.mentions
     is_role_mention = any(r.id == ORACLE_ROLE_ID for r in message.role_mentions)
     if not is_user_mention and not is_role_mention:
         return
 
-    # Strip user and role mentions, then remove non-printable Unicode chars
+    # Strip user and role mentions, then non-printable Unicode chars
     query = message.content
     for u in message.mentions:
         query = query.replace(f"<@{u.id}>", "").replace(f"<@!{u.id}>", "")
@@ -111,7 +305,6 @@ async def on_message(message: discord.Message):
 
     log.info(f"Mention from [{message.author}] query={query!r}")
 
-    GREETINGS = {"", "hey", "hi", "hello", "yo", "sup", "hiya", "howdy", "greetings"}
     if query.lower() in GREETINGS:
         await message.reply(
             "Hi, I'm c3po, the Protocol Institute oracle. Ask me about anything in our archives. "
@@ -139,43 +332,17 @@ async def on_message(message: discord.Message):
         return
 
     async with thread.typing():
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    WORKER_URL,
-                    json={"query": query, "max_tokens": 300},
-                    timeout=aiohttp.ClientTimeout(total=60),
-                ) as resp:
-                    if resp.status != 200:
-                        err = await resp.text()
-                        log.error(f"Worker {resp.status}: {err[:200]}")
-                        if resp.status == 400:
-                            await thread.send("I didn't catch a question — try mentioning me with something to ask.")
-                        else:
-                            await thread.send("The oracle is unavailable right now — try again in a moment.")
-                        return
-                    data = await resp.json()
-        except Exception as exc:
-            log.error(f"Worker request failed: {exc}")
-            await thread.send("Failed to reach the oracle. Check network or Worker status.")
-            return
+        data = await call_worker(query)
 
-    answer  = (data.get("answer") or "").strip()
-    sources = data.get("sources") or []
-    log.info(f"Worker OK — answer {len(answer)} chars, {len(sources)} sources")
-
-    if not answer:
-        await thread.send("No answer returned — the corpus may not cover this topic.")
+    if data is None:
+        await thread.send("The oracle is unavailable right now — try again in a moment.")
         return
 
     try:
-        for chunk in split_message(answer):
-            await thread.send(chunk)
-        sources_text = format_sources(sources[:3])
-        if sources_text:
-            await thread.send(f"**Sources**\n{sources_text}")
+        await send_answer(thread, data)
     except discord.HTTPException as exc:
         log.error(f"Failed to send to thread: {exc}")
+
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
