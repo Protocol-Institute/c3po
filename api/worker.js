@@ -3494,12 +3494,13 @@ export default {
       return json({ error: "POST /query only" }, 405, corsHeaders);
     }
 
-    let query, mode, history, sessionId, turnNumber;
+    let query, mode, history, sessionId, turnNumber, reqMaxTokens;
     try {
       const body = await request.json();
-      query     = (body.query || "").trim();
-      mode      = body.mode || "answer";
-      sessionId = body.session_id || null;
+      query        = (body.query || "").trim();
+      mode         = body.mode || "answer";
+      sessionId    = body.session_id || null;
+      reqMaxTokens = body.max_tokens ? Math.min(Math.max(parseInt(body.max_tokens) || 0, 100), 800) : null;
       const raw = Array.isArray(body.history) ? body.history : [];
       history = raw
         .filter(m => (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
@@ -3548,6 +3549,7 @@ export default {
       const { answer, sources } = await runRagQuery(query, env, ctx, {
         includeAnswer: mode !== "sources",
         history,
+        maxTokens: reqMaxTokens,
       });
       if (mode === "sources") return json({ sources, query }, 200, corsHeaders);
       ctx.waitUntil(logQuery(env, query, answer, sources, sessionId, turnNumber));
