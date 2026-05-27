@@ -1,5 +1,34 @@
 # C3PO — Status Log
 
+## c3po_bot.py — running process
+
+**PID: 37015** (started 2026-05-27 14:54 PT)
+Log: `/tmp/c3po_bot.log`
+To restart: `kill <pid> && cd /Users/Venkat/Dropbox/Code/protocol-institute/c3po && source .venv/bin/activate && python3 -u bin/c3po_bot.py &>/tmp/c3po_bot.log & echo $!`
+Update PID here after each restart.
+
+## 2026-05-27 — c3po_bot: thread continuation + introductions monitoring (session 21)
+
+**Thread continuation — COMPLETE**
+- Bot now responds to any follow-up in bot-owned threads (no @mention needed), up to MAX_THREAD_TURNS=5
+- Fetches full thread history; recovers original trigger query from parent channel (thread.id == message.id in Discord)
+- Builds `history[]` of `{role, content}` and passes to Worker for multi-turn RAG context
+- Stops gracefully at turn 5 with a redirect to the web UI
+
+**Introductions monitoring — COMPLETE**
+- Monitors `INTRODUCTIONS_CHANNEL_ID=1082504762433490975` (#introductions)
+- Skips replies (only top-level posts); calls Worker with intro text + SIG menu
+- SIG channel mentions use Discord's `<#ID>` format so they render as clickable links
+- Replies with greeting + reading recommendation + SIG suggestion
+
+**Bot restarted — PID 37015** (14:54 PT), log at `/tmp/c3po_bot.log`
+- PID block added to top of status.md for easy reference going forward
+
+**Open TODOs (priority order):**
+1. YouTube transcript pass — 161 deferred URLs
+2. GitHub Actions cron for `sync_substack.py`
+3. Discord link farming — run `fetch_discord_links.py` + `enrich_discord_links.py` for pending URLs
+
 ## 2026-05-27 — Definitions namespace live; Substack synced (session 20)
 
 **Definitions namespace wired into query pipeline — COMPLETE**

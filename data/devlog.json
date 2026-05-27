@@ -871,6 +871,45 @@
           "html": "<strong>Cloudflare Queue created (oracle bot prerequisite):</strong> The <code>c3po-oracle</code> queue was blocking worker deployment (wrangler.toml references it as producer + consumer). Created it via <code>wrangler queues create c3po-oracle</code> \u2014 Step 2 of the oracle bot setup plan. Discord app creation and the remaining oracle bot steps (Steps 1, 3\u20138) are still pending."
         }
       ]
+    },
+    {
+      "id": 21,
+      "sort_key": 21.0,
+      "label": "Session 21",
+      "title": "Discord Bot: Thread Continuation + Introductions Monitoring",
+      "date": "2026-05-27",
+      "time_pt": "~14:30\u201315:00",
+      "tracks": [
+        "discord-bot"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "substack": 1057,
+        "definitions": 560,
+        "discord": 5533,
+        "discord_links": 9064,
+        "sig": 4905,
+        "videos": 2940,
+        "pdfs": 766,
+        "bibliography": 278,
+        "transcripts": 4,
+        "total": 25184
+      },
+      "deployed": false,
+      "items": [
+        {
+          "title": "Thread continuation (up to 5 turns):",
+          "html": "<strong>Thread continuation (up to 5 turns):</strong> The bot now responds to any follow-up message posted in a thread it created, without needing a fresh @mention. It fetches the full thread history, recovers the original query from the parent channel message (Discord sets <code>thread.id == original_message.id</code>), builds a <code>history[]</code> array of <code>{role, content}</code> objects, and passes it to the Worker\u2019s existing multi-turn RAG endpoint. After 5 bot turns it sends a graceful limit message with a redirect to the web UI."
+        },
+        {
+          "title": "Introductions channel monitoring:",
+          "html": "<strong>Introductions channel monitoring:</strong> The bot now watches <code>#introductions</code> (channel ID from the Discord URL). When a new top-level post appears, it sends the introduction text to the Worker along with a menu of the four active SIGs\u2014SIGFPT, MRG, SIGPfB, ProtFiSIG\u2014with their Discord <code>&lt;#ID&gt;</code> mention format. Claude picks the best-fit reading recommendation and SIG; the bot replies with a warm greeting, the answer, and the top source link. Replies within #introductions are skipped."
+        },
+        {
+          "title": "Bot process management:",
+          "html": "<strong>Bot process management:</strong> Restarted the bot (PID 37015) after the update. Added a running-process block at the top of <code>status.md</code> recording the current PID, log path, and restart command\u2014so future sessions can find and manage the bot process without hunting."
+        }
+      ]
     }
   ]
 }
