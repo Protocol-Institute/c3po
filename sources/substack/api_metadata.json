@@ -1,5 +1,43 @@
 [
   {
+    "id": 198855777,
+    "slug": "the-overloaded-train",
+    "title": "The Overloaded Train",
+    "subtitle": "In this, our first crossover between two protocol fiction universes, Sachin Benny's Unified Eurasian Train Line passes through Spencer Nitkey's Zoothesia",
+    "post_date": "2026-05-22T22:53:31.359Z",
+    "updated_at": "2026-05-22T22:58:44.744Z",
+    "type": "newsletter",
+    "wordcount": 5185,
+    "section_id": 333105,
+    "section_name": "Fictions",
+    "postTags": [
+      {
+        "id": "74473c8b-73fa-4c30-8ab7-ec6bc335eaed",
+        "name": "UET",
+        "slug": "uet"
+      }
+    ],
+    "publishedBylines": [
+      {
+        "id": 933715,
+        "name": "Sachin",
+        "handle": "summerlightning",
+        "bio": "writing Summer Lightning "
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 6,
+    "restacks": 1,
+    "comment_count": 0,
+    "previous_post_slug": "all-you-can-do-here-is-leave",
+    "next_post_slug": null
+  },
+  {
     "id": 197280065,
     "slug": "inventing-new-nature",
     "title": "Inventing New Nature",
@@ -8,9 +46,8 @@
     "updated_at": "2026-05-12T16:15:57.737Z",
     "type": "newsletter",
     "wordcount": 4276,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333103,
+    "section_name": "Obliquities",
     "postTags": [
       {
         "id": "f5b79685-66b2-41be-85b7-3acc6d387b25",
@@ -32,14 +69,11 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 29,
-    "restacks": 9,
-    "comment_count": 3,
-    "previous_post_slug": "a-primordial-computing-soup",
-    "next_post_slug": null,
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!NM4q!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8ad7fe1c-cbba-4ec3-8fc9-c1e869ab6db7_1024x1024.png",
-    "search_engine_description": null,
-    "section_name": "Obliquities"
+    "reaction_count": 44,
+    "restacks": 12,
+    "comment_count": 5,
+    "previous_post_slug": "introducing-the-protocol-institute",
+    "next_post_slug": null
   },
   {
     "id": 196920381,
@@ -50,9 +84,8 @@
     "updated_at": "2026-05-08T18:05:09.271Z",
     "type": "newsletter",
     "wordcount": 6567,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "74abb978-216b-4664-b93a-255d199d7f9e",
@@ -79,14 +112,11 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 4,
-    "restacks": 1,
+    "reaction_count": 7,
+    "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "the-headless-empire",
-    "next_post_slug": null,
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/f09b5536-f8b6-4fbd-a27d-b7c617269954_1200x630.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-overloaded-train"
   },
   {
     "id": 196457855,
@@ -97,9 +127,8 @@
     "updated_at": "2026-05-05T20:46:22.122Z",
     "type": "newsletter",
     "wordcount": 1338,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": null,
+    "section_name": "Protocolized",
     "postTags": [
       {
         "id": "d2125772-34f3-4070-8816-5c272bc1d616",
@@ -127,14 +156,11 @@
         "bio": "intellectual knuckledragger"
       }
     ],
-    "reaction_count": 23,
+    "reaction_count": 26,
     "restacks": 6,
     "comment_count": 1,
-    "previous_post_slug": "introducing-the-protocol-institute",
-    "next_post_slug": null,
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/f5568e8a-e3e2-4f6e-aba0-a3965b39c2aa_1200x630.png",
-    "search_engine_description": null,
-    "section_name": "Protocolized"
+    "previous_post_slug": "strangeness-illegibility-hardness",
+    "next_post_slug": null
   },
   {
     "id": 195635948,
@@ -142,12 +168,11 @@
     "title": "Introducing the Protocol Institute",
     "subtitle": "Building a field and community to steward the planetary-scale process of protocolization",
     "post_date": "2026-04-27T20:51:20.751Z",
-    "updated_at": "2026-04-27T20:53:17.142Z",
+    "updated_at": "2026-05-22T21:31:38.441Z",
     "type": "newsletter",
     "wordcount": 4529,
-    "audience": "everyone",
-    "is_published": true,
-    "section_id": null,
+    "section_id": 333103,
+    "section_name": "Obliquities",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -184,14 +209,11 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 94,
-    "restacks": 21,
-    "comment_count": 14,
-    "previous_post_slug": "strangeness-illegibility-hardness",
-    "next_post_slug": "protocols-for-the-long-now",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/43a9af18-f215-4818-bf7e-4f959a4de838_1200x630.png",
-    "search_engine_description": null,
-    "section_name": "Protocolized"
+    "reaction_count": 103,
+    "restacks": 24,
+    "comment_count": 15,
+    "previous_post_slug": "a-primordial-computing-soup",
+    "next_post_slug": "inventing-new-nature"
   },
   {
     "id": 194895283,
@@ -202,9 +224,8 @@
     "updated_at": "2026-04-24T05:43:56.845Z",
     "type": "newsletter",
     "wordcount": 5128,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "74abb978-216b-4664-b93a-255d199d7f9e",
@@ -235,10 +256,7 @@
     "restacks": 1,
     "comment_count": 3,
     "previous_post_slug": "the-flesh-perfected-is-the-flesh",
-    "next_post_slug": "all-you-can-do-here-is-leave",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/2b30eb05-a3d8-4d6c-af02-cc0f7b04f5e1_1200x630.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "all-you-can-do-here-is-leave"
   },
   {
     "id": 194140167,
@@ -249,9 +267,8 @@
     "updated_at": "2026-04-14T15:07:35.425Z",
     "type": "newsletter",
     "wordcount": 1363,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333103,
+    "section_name": "Obliquities",
     "postTags": [
       {
         "id": "f5b79685-66b2-41be-85b7-3acc6d387b25",
@@ -277,10 +294,7 @@
     "restacks": 4,
     "comment_count": 1,
     "previous_post_slug": "the-fabric-and-the-brain",
-    "next_post_slug": "inventing-new-nature",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!_TLp!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd71f7a50-2c22-469d-9909-b6b4c5094de6_1129x1129.png",
-    "search_engine_description": null,
-    "section_name": "Obliquities"
+    "next_post_slug": "introducing-the-protocol-institute"
   },
   {
     "id": 193041823,
@@ -291,9 +305,8 @@
     "updated_at": "2026-04-03T17:05:52.402Z",
     "type": "newsletter",
     "wordcount": 5979,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "95ca5b95-2296-4242-aec0-bb2aed087b4b",
@@ -319,10 +332,7 @@
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "the-faithful-channel",
-    "next_post_slug": "the-headless-empire",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/2455d5a9-eefd-465b-ac68-817b2e54c592_1200x630.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-headless-empire"
   },
   {
     "id": 192629998,
@@ -333,9 +343,8 @@
     "updated_at": "2026-03-31T19:34:27.033Z",
     "type": "newsletter",
     "wordcount": 4899,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333103,
+    "section_name": "Obliquities",
     "postTags": [
       {
         "id": "4f2fa9f4-2de3-4c1f-91c8-9fb7d89c6257",
@@ -366,10 +375,7 @@
     "restacks": 4,
     "comment_count": 3,
     "previous_post_slug": "have-your-factory-call-my-factory",
-    "next_post_slug": "a-primordial-computing-soup",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!XcX3!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff864098f-8365-430b-98b2-7507d2d06419_1129x1129.png",
-    "search_engine_description": null,
-    "section_name": "Obliquities"
+    "next_post_slug": "a-primordial-computing-soup"
   },
   {
     "id": 192292998,
@@ -380,9 +386,8 @@
     "updated_at": "2026-03-27T20:28:04.115Z",
     "type": "newsletter",
     "wordcount": 3480,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "35b99fe6-b9db-48f8-8c94-232b7932b8f0",
@@ -413,10 +418,7 @@
     "restacks": 1,
     "comment_count": 1,
     "previous_post_slug": "last-mile-optimism",
-    "next_post_slug": "the-flesh-perfected-is-the-flesh",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/d1219068-3c81-483e-b66f-a36ca89a46c4_1200x630.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-flesh-perfected-is-the-flesh"
   },
   {
     "id": 191397545,
@@ -427,9 +429,8 @@
     "updated_at": "2026-03-19T20:19:02.611Z",
     "type": "newsletter",
     "wordcount": 1913,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "4f2fa9f4-2de3-4c1f-91c8-9fb7d89c6257",
@@ -455,10 +456,7 @@
     "restacks": 6,
     "comment_count": 2,
     "previous_post_slug": "theorizing-protocolization-ii-atomic",
-    "next_post_slug": null,
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/6ea17520-ef13-4eba-9bf4-61f3ec7ec79f_1200x630.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": null
   },
   {
     "id": 190822675,
@@ -469,9 +467,8 @@
     "updated_at": "2026-03-14T18:10:02.451Z",
     "type": "newsletter",
     "wordcount": 1395,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": null,
+    "section_name": "Protocolized",
     "postTags": [
       {
         "id": "900bcfa4-14d5-4952-a7b8-de631ad228b0",
@@ -497,10 +494,7 @@
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "one-year-of-protocolized",
-    "next_post_slug": "introducing-the-protocol-institute",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/80a162ef-2938-4798-b86d-687cb4067815_1200x630.png",
-    "search_engine_description": null,
-    "section_name": "Protocolized"
+    "next_post_slug": "protocols-for-the-long-now"
   },
   {
     "id": 190514519,
@@ -511,9 +505,8 @@
     "updated_at": "2026-03-10T19:09:47.775Z",
     "type": "newsletter",
     "wordcount": 1513,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "95ca5b95-2296-4242-aec0-bb2aed087b4b",
@@ -539,10 +532,7 @@
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "caduceus-city",
-    "next_post_slug": "the-faithful-channel",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/ce2f2d1a-eb49-4524-9669-351cd4efae0c_1024x630.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-faithful-channel"
   },
   {
     "id": 189904608,
@@ -553,9 +543,8 @@
     "updated_at": "2026-03-04T22:42:10.878Z",
     "type": "newsletter",
     "wordcount": 3037,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "4f2fa9f4-2de3-4c1f-91c8-9fb7d89c6257",
@@ -592,10 +581,7 @@
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "black-resin-mirrors-and-the-adequacy",
-    "next_post_slug": "a-government-guide-to-open-protocols",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/3cd212b7-cc96-4504-a750-824f409e8f30_1200x630.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "a-government-guide-to-open-protocols"
   },
   {
     "id": 188950246,
@@ -606,9 +592,8 @@
     "updated_at": "2026-03-02T21:54:39.243Z",
     "type": "newsletter",
     "wordcount": 1582,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333103,
+    "section_name": "Obliquities",
     "postTags": [
       {
         "id": "4f2fa9f4-2de3-4c1f-91c8-9fb7d89c6257",
@@ -634,10 +619,7 @@
     "restacks": 11,
     "comment_count": 6,
     "previous_post_slug": "from-destination-ai-to-intelligence",
-    "next_post_slug": "the-fabric-and-the-brain",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!prec!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fefebe610-d5e7-47c1-a736-368e2bab2cdf_1129x1129.png",
-    "search_engine_description": null,
-    "section_name": "Obliquities"
+    "next_post_slug": "the-fabric-and-the-brain"
   },
   {
     "id": 189333380,
@@ -648,9 +630,8 @@
     "updated_at": "2026-02-28T07:18:17.597Z",
     "type": "newsletter",
     "wordcount": 3518,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "95ca5b95-2296-4242-aec0-bb2aed087b4b",
@@ -672,14 +653,11 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 6,
+    "reaction_count": 7,
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "american-skyway",
-    "next_post_slug": "last-mile-optimism",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!FKXl!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0b189635-4026-4cc3-8f92-e1f46df9cc97_896x1120.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "last-mile-optimism"
   },
   {
     "id": 188924640,
@@ -690,9 +668,8 @@
     "updated_at": "2026-02-23T21:43:46.939Z",
     "type": "newsletter",
     "wordcount": 5040,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "95ca5b95-2296-4242-aec0-bb2aed087b4b",
@@ -705,7 +682,7 @@
         "id": 6960774,
         "name": "Cameron Russell Armstrong",
         "handle": "realcameron",
-        "bio": "essayist. teknologist. poet. often at odds."
+        "bio": "my love of man, machine, and mud abounds"
       },
       {
         "id": 309790256,
@@ -714,14 +691,11 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 12,
+    "reaction_count": 13,
     "restacks": 6,
     "comment_count": 1,
     "previous_post_slug": "the-repossessed",
-    "next_post_slug": "caduceus-city",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/c3e4ca4a-ea6e-4402-9f57-fc525bdfab57_1024x1024.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "caduceus-city"
   },
   {
     "id": 188554017,
@@ -732,9 +706,8 @@
     "updated_at": "2026-02-20T18:56:56.478Z",
     "type": "podcast",
     "wordcount": 5,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": null,
+    "section_name": "Protocolized",
     "postTags": [],
     "publishedBylines": [
       {
@@ -748,10 +721,7 @@
     "restacks": 0,
     "comment_count": 0,
     "previous_post_slug": "what-is-protocol-fiction",
-    "next_post_slug": "strangeness-illegibility-hardness",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!1NQo!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5e9d96b0-f5f8-4ed7-a0d5-d991ae1c6dc1_1000x1000.jpeg",
-    "search_engine_description": null,
-    "section_name": "Protocolized"
+    "next_post_slug": "strangeness-illegibility-hardness"
   },
   {
     "id": 188364688,
@@ -762,9 +732,8 @@
     "updated_at": "2026-02-19T22:39:57.335Z",
     "type": "newsletter",
     "wordcount": 3157,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "95ca5b95-2296-4242-aec0-bb2aed087b4b",
@@ -790,10 +759,7 @@
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "desire-machines",
-    "next_post_slug": "american-skyway",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!6hvE!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb911bd31-3cec-471a-8c06-9304a8c0283f_1024x1024.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "american-skyway"
   },
   {
     "id": 187717356,
@@ -804,9 +770,8 @@
     "updated_at": "2026-02-15T10:07:44.195Z",
     "type": "newsletter",
     "wordcount": 4779,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "35b99fe6-b9db-48f8-8c94-232b7932b8f0",
@@ -829,13 +794,10 @@
       }
     ],
     "reaction_count": 12,
-    "restacks": 6,
+    "restacks": 7,
     "comment_count": 0,
     "previous_post_slug": "troll",
-    "next_post_slug": "the-repossessed",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!vWAG!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdeca7862-2db3-4cfa-a6f5-9a7f3c92ad53_1024x1024.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-repossessed"
   },
   {
     "id": 187659834,
@@ -846,9 +808,8 @@
     "updated_at": "2026-02-11T21:45:29.011Z",
     "type": "newsletter",
     "wordcount": 1582,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": null,
+    "section_name": "Protocolized",
     "postTags": [
       {
         "id": "900bcfa4-14d5-4952-a7b8-de631ad228b0",
@@ -874,10 +835,7 @@
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": null,
-    "next_post_slug": "one-year-of-protocolized",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!CSeB!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe5a33b9f-6405-4a03-a7c0-3f67091d5aaa_1000x1000.png",
-    "search_engine_description": null,
-    "section_name": "Protocolized"
+    "next_post_slug": "one-year-of-protocolized"
   },
   {
     "id": 187084331,
@@ -888,9 +846,8 @@
     "updated_at": "2026-02-06T15:50:32.974Z",
     "type": "newsletter",
     "wordcount": 2766,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "35b99fe6-b9db-48f8-8c94-232b7932b8f0",
@@ -916,10 +873,7 @@
     "restacks": 2,
     "comment_count": 1,
     "previous_post_slug": "minor-differences-repeating-forever",
-    "next_post_slug": "desire-machines",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!Y_eW!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F32186874-4c10-4b7d-98bb-b0bb7c750775_1536x1536.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "desire-machines"
   },
   {
     "id": 185356247,
@@ -930,9 +884,8 @@
     "updated_at": "2026-02-02T21:43:40.893Z",
     "type": "newsletter",
     "wordcount": 1224,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333103,
+    "section_name": "Obliquities",
     "postTags": [],
     "publishedBylines": [
       {
@@ -946,10 +899,7 @@
     "restacks": 7,
     "comment_count": 1,
     "previous_post_slug": null,
-    "next_post_slug": "have-your-factory-call-my-factory",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!5jiy!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6cd91ba2-b82e-43e3-9c1e-46db46106e1e_1129x1129.png",
-    "search_engine_description": null,
-    "section_name": "Obliquities"
+    "next_post_slug": "have-your-factory-call-my-factory"
   },
   {
     "id": 186086220,
@@ -960,9 +910,8 @@
     "updated_at": "2026-02-02T21:35:50.751Z",
     "type": "newsletter",
     "wordcount": 1109,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "4f2fa9f4-2de3-4c1f-91c8-9fb7d89c6257",
@@ -993,10 +942,7 @@
     "restacks": 6,
     "comment_count": 4,
     "previous_post_slug": "the-color-of-safety",
-    "next_post_slug": "theorizing-protocolization-ii-atomic",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/7cbea981-d55a-483e-b820-666792cd8f34_1200x801.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "theorizing-protocolization-ii-atomic"
   },
   {
     "id": 185546667,
@@ -1007,9 +953,8 @@
     "updated_at": "2026-02-03T10:27:09.908Z",
     "type": "newsletter",
     "wordcount": 2514,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "51fe23b7-723e-4dae-ab0b-72c7bbf7aa20",
@@ -1035,10 +980,7 @@
     "restacks": 3,
     "comment_count": 5,
     "previous_post_slug": "missing-not-at-random",
-    "next_post_slug": "troll",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/f2efc3d2-673e-45c3-9aa1-513e1cbbada8_1000x617.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "troll"
   },
   {
     "id": 183273887,
@@ -1049,9 +991,8 @@
     "updated_at": "2026-02-03T10:27:43.774Z",
     "type": "newsletter",
     "wordcount": 3053,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "4f2fa9f4-2de3-4c1f-91c8-9fb7d89c6257",
@@ -1077,10 +1018,7 @@
     "restacks": 5,
     "comment_count": 0,
     "previous_post_slug": "finding-fault-lines-within-the-firm",
-    "next_post_slug": "black-resin-mirrors-and-the-adequacy",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!Qb2F!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F81fb652a-14cc-4635-bef6-4fdcbe3a418f_1800x1200.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "black-resin-mirrors-and-the-adequacy"
   },
   {
     "id": 184584780,
@@ -1091,9 +1029,8 @@
     "updated_at": "2026-02-03T10:29:18.039Z",
     "type": "newsletter",
     "wordcount": 5454,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "51fe23b7-723e-4dae-ab0b-72c7bbf7aa20",
@@ -1124,10 +1061,7 @@
     "restacks": 5,
     "comment_count": 0,
     "previous_post_slug": "day-traitor",
-    "next_post_slug": "minor-differences-repeating-forever",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!E5fJ!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F42500297-6997-4689-8f93-e5768fa5ebc0_1000x1000.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "minor-differences-repeating-forever"
   },
   {
     "id": 184060017,
@@ -1138,9 +1072,8 @@
     "updated_at": "2026-02-03T10:29:11.199Z",
     "type": "newsletter",
     "wordcount": 3205,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "25400645-d8a7-44f0-bf8a-f9a187bcf9a3",
@@ -1171,10 +1104,7 @@
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "theorizing-protocolization-i-new",
-    "next_post_slug": "the-color-of-safety",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!TyUv!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5655c5e3-650d-43fe-9ff1-b6d850bb9b43_896x1120.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "the-color-of-safety"
   },
   {
     "id": 183714868,
@@ -1185,9 +1115,8 @@
     "updated_at": "2026-02-03T10:30:19.376Z",
     "type": "newsletter",
     "wordcount": 5408,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "4f2fa9f4-2de3-4c1f-91c8-9fb7d89c6257",
@@ -1218,10 +1147,7 @@
     "restacks": 10,
     "comment_count": 0,
     "previous_post_slug": "how-to-protocol-watch",
-    "next_post_slug": "finding-fault-lines-within-the-firm",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/616e982c-403e-4399-a9c1-6285182084dd_1024x547.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "finding-fault-lines-within-the-firm"
   },
   {
     "id": 183273160,
@@ -1232,9 +1158,8 @@
     "updated_at": "2026-02-03T10:31:28.616Z",
     "type": "newsletter",
     "wordcount": 5261,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "51fe23b7-723e-4dae-ab0b-72c7bbf7aa20",
@@ -1265,10 +1190,7 @@
     "restacks": 3,
     "comment_count": 1,
     "previous_post_slug": "the-predation-circuit",
-    "next_post_slug": "missing-not-at-random",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!F3ZA!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe8597da1-c3d6-40b2-89a1-ea96e6814191_1000x1000.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "missing-not-at-random"
   },
   {
     "id": 182784312,
@@ -1279,9 +1201,8 @@
     "updated_at": "2026-02-03T10:30:47.874Z",
     "type": "newsletter",
     "wordcount": 1643,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [],
     "publishedBylines": [
       {
@@ -1297,14 +1218,11 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 9,
-    "restacks": 1,
-    "comment_count": 1,
+    "reaction_count": 10,
+    "restacks": 2,
+    "comment_count": 2,
     "previous_post_slug": "memory-research-group-six-months",
-    "next_post_slug": "theorizing-protocolization-i-new",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!2-29!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc624a762-18a5-4abd-83ae-2ea59abedad1_1200x1200.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "theorizing-protocolization-i-new"
   },
   {
     "id": 181987879,
@@ -1315,9 +1233,8 @@
     "updated_at": "2026-02-03T10:30:51.384Z",
     "type": "newsletter",
     "wordcount": 1412,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "4f2fa9f4-2de3-4c1f-91c8-9fb7d89c6257",
@@ -1348,10 +1265,7 @@
     "restacks": 6,
     "comment_count": 1,
     "previous_post_slug": "curate-your-own-pipeline",
-    "next_post_slug": "how-to-protocol-watch",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/1fc04526-3ca7-4bc6-a65b-cc6f93cdc091_1200x630.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "how-to-protocol-watch"
   },
   {
     "id": 181988179,
@@ -1362,9 +1276,8 @@
     "updated_at": "2026-02-04T16:46:38.137Z",
     "type": "newsletter",
     "wordcount": 3906,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "51fe23b7-723e-4dae-ab0b-72c7bbf7aa20",
@@ -1395,10 +1308,7 @@
     "restacks": 4,
     "comment_count": 2,
     "previous_post_slug": "planetary-tech-support",
-    "next_post_slug": "day-traitor",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/509d2b23-d4bb-4353-bc09-1d808b7cef3c_1000x667.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "day-traitor"
   },
   {
     "id": 181988106,
@@ -1409,9 +1319,8 @@
     "updated_at": "2026-02-03T10:34:49.512Z",
     "type": "newsletter",
     "wordcount": 1232,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "95ca5b95-2296-4242-aec0-bb2aed087b4b",
@@ -1437,10 +1346,7 @@
     "restacks": 2,
     "comment_count": 1,
     "previous_post_slug": "the-second-glossolalia",
-    "next_post_slug": "the-predation-circuit",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!n6y2!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7eb027f5-cd4a-4eb5-8d1a-302df13245c2_896x1120.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-predation-circuit"
   },
   {
     "id": 181406543,
@@ -1451,9 +1357,8 @@
     "updated_at": "2026-02-03T10:35:23.514Z",
     "type": "newsletter",
     "wordcount": 2649,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "4f2fa9f4-2de3-4c1f-91c8-9fb7d89c6257",
@@ -1489,10 +1394,7 @@
     "restacks": 1,
     "comment_count": 0,
     "previous_post_slug": "disentangling-the-state-of-climate",
-    "next_post_slug": "memory-research-group-six-months",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!CzAG!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe62b242d-aab9-47d9-8087-e68aa93fb3ed_896x1120.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "memory-research-group-six-months"
   },
   {
     "id": 181164505,
@@ -1503,9 +1405,8 @@
     "updated_at": "2026-02-03T10:35:50.519Z",
     "type": "newsletter",
     "wordcount": 3052,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "95ca5b95-2296-4242-aec0-bb2aed087b4b",
@@ -1531,10 +1432,7 @@
     "restacks": 4,
     "comment_count": 2,
     "previous_post_slug": "would-you-stop-following-me-if-i",
-    "next_post_slug": "planetary-tech-support",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/8d5eefbe-cf7d-460f-88c7-91748e3d0d7a_1274x1024.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "planetary-tech-support"
   },
   {
     "id": 180814633,
@@ -1545,9 +1443,8 @@
     "updated_at": "2026-02-03T10:35:31.268Z",
     "type": "newsletter",
     "wordcount": 1911,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "4f2fa9f4-2de3-4c1f-91c8-9fb7d89c6257",
@@ -1573,10 +1470,7 @@
     "restacks": 5,
     "comment_count": 0,
     "previous_post_slug": "coffee-diplomacy-contest-news",
-    "next_post_slug": "curate-your-own-pipeline",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/f5c2f401-eb81-43ae-9121-d2f56529224a_2000x1333.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "curate-your-own-pipeline"
   },
   {
     "id": 180623575,
@@ -1587,9 +1481,8 @@
     "updated_at": "2026-02-04T16:45:36.157Z",
     "type": "newsletter",
     "wordcount": 4174,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "51fe23b7-723e-4dae-ab0b-72c7bbf7aa20",
@@ -1620,10 +1513,7 @@
     "restacks": 2,
     "comment_count": 1,
     "previous_post_slug": "perception-must-preserve",
-    "next_post_slug": "the-second-glossolalia",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/b8f12b56-d337-4569-b00a-50cd7d6f28af_1189x793.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-second-glossolalia"
   },
   {
     "id": 180132047,
@@ -1634,9 +1524,8 @@
     "updated_at": "2026-02-03T10:35:44.533Z",
     "type": "newsletter",
     "wordcount": 1120,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "370d24a5-e984-4345-ae10-2338d65b0df3",
@@ -1667,10 +1556,7 @@
     "restacks": 1,
     "comment_count": 0,
     "previous_post_slug": "bridge-atlas-episode-5-verifiability",
-    "next_post_slug": "disentangling-the-state-of-climate",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!HTz5!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7471e2a2-ad18-415b-846b-11d97a2e6230_1000x1000.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "disentangling-the-state-of-climate"
   },
   {
     "id": 179898908,
@@ -1681,9 +1567,8 @@
     "updated_at": "2026-02-04T16:44:39.428Z",
     "type": "newsletter",
     "wordcount": 3241,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "51fe23b7-723e-4dae-ab0b-72c7bbf7aa20",
@@ -1714,10 +1599,7 @@
     "restacks": 4,
     "comment_count": 2,
     "previous_post_slug": "the-partial",
-    "next_post_slug": "would-you-stop-following-me-if-i",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!05Ny!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbd50a731-ecc7-4fc0-a419-4884c52092bd_1000x1000.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "would-you-stop-following-me-if-i"
   },
   {
     "id": 179367259,
@@ -1728,9 +1610,8 @@
     "updated_at": "2026-02-03T10:45:09.874Z",
     "type": "newsletter",
     "wordcount": 1142,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "370d24a5-e984-4345-ae10-2338d65b0df3",
@@ -1750,10 +1631,7 @@
     "restacks": 1,
     "comment_count": 1,
     "previous_post_slug": "images-of-memory",
-    "next_post_slug": "coffee-diplomacy-contest-news",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!7_Cs!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3fe1a542-d4ae-40e5-9f7e-c0430ebbeb81_1200x1200.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "coffee-diplomacy-contest-news"
   },
   {
     "id": 179045063,
@@ -1764,9 +1642,8 @@
     "updated_at": "2026-02-03T10:46:12.923Z",
     "type": "newsletter",
     "wordcount": 1417,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "531c7445-22d2-4f5a-a55f-28036e9e5fcf",
@@ -1802,10 +1679,7 @@
     "restacks": 4,
     "comment_count": 1,
     "previous_post_slug": "bridge-atlas-episode-4-alignment",
-    "next_post_slug": "bridge-atlas-episode-5-verifiability",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!fE2O!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa82bc85c-deb5-486d-ab36-340140f24773_1000x1000.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "bridge-atlas-episode-5-verifiability"
   },
   {
     "id": 178885462,
@@ -1816,9 +1690,8 @@
     "updated_at": "2026-02-03T10:47:58.223Z",
     "type": "newsletter",
     "wordcount": 1176,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "370d24a5-e984-4345-ae10-2338d65b0df3",
@@ -1838,10 +1711,7 @@
     "restacks": 0,
     "comment_count": 0,
     "previous_post_slug": "protocol-fiction-aesthetics",
-    "next_post_slug": "images-of-memory",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/6217d1e3-9545-46d9-bb34-2ea77f673409_1800x1800.jpeg",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "images-of-memory"
   },
   {
     "id": 177910115,
@@ -1852,9 +1722,8 @@
     "updated_at": "2026-02-03T10:48:19.535Z",
     "type": "newsletter",
     "wordcount": 1122,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "74abb978-216b-4664-b93a-255d199d7f9e",
@@ -1890,10 +1759,7 @@
     "restacks": 3,
     "comment_count": 4,
     "previous_post_slug": "bridge-atlas-episode-3-commons",
-    "next_post_slug": "bridge-atlas-episode-4-alignment",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/1255a5f7-2bcf-45a2-8ae5-32263c9940a6_1000x1000.jpeg",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "bridge-atlas-episode-4-alignment"
   },
   {
     "id": 178428700,
@@ -1904,9 +1770,8 @@
     "updated_at": "2026-02-03T10:49:32.394Z",
     "type": "newsletter",
     "wordcount": 1268,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "370d24a5-e984-4345-ae10-2338d65b0df3",
@@ -1932,10 +1797,7 @@
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "bridge-atlas-episode-2-paradigms",
-    "next_post_slug": "protocol-fiction-aesthetics",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!fx7L!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F09c8ac5d-c6fc-4cda-bd4b-c6e758cf337f_1000x1000.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "protocol-fiction-aesthetics"
   },
   {
     "id": 177906792,
@@ -1946,9 +1808,8 @@
     "updated_at": "2026-02-03T10:49:46.441Z",
     "type": "newsletter",
     "wordcount": 1380,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [],
     "publishedBylines": [
       {
@@ -1968,10 +1829,7 @@
     "restacks": 7,
     "comment_count": 1,
     "previous_post_slug": "mr-cork-and-the-red-bus",
-    "next_post_slug": "perception-must-preserve",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/091bb5a4-71c1-4f30-88a7-d4c872e35fa4_896x640.jpeg",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "perception-must-preserve"
   },
   {
     "id": 177906812,
@@ -1982,9 +1840,8 @@
     "updated_at": "2026-02-03T10:49:30.330Z",
     "type": "newsletter",
     "wordcount": 938,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "370d24a5-e984-4345-ae10-2338d65b0df3",
@@ -2004,10 +1861,7 @@
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "bridge-atlas-ep-1-entry-points",
-    "next_post_slug": "bridge-atlas-episode-3-commons",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!DDex!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdd1d8fc2-27db-4906-8bcf-4d8c2f7d981e_1384x1384.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "bridge-atlas-episode-3-commons"
   },
   {
     "id": 177737312,
@@ -2018,9 +1872,8 @@
     "updated_at": "2026-02-03T10:49:42.891Z",
     "type": "newsletter",
     "wordcount": 957,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "370d24a5-e984-4345-ae10-2338d65b0df3",
@@ -2040,10 +1893,7 @@
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "generative-ai-in-cultural-projects",
-    "next_post_slug": "bridge-atlas-episode-2-paradigms",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/d864ceff-f215-4670-8ac4-a868b0ab14c8_896x640.jpeg",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "bridge-atlas-episode-2-paradigms"
   },
   {
     "id": 177392042,
@@ -2054,9 +1904,8 @@
     "updated_at": "2026-02-03T10:50:31.259Z",
     "type": "newsletter",
     "wordcount": 3322,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "6a1a9fd6-d0da-4e6b-935e-b5fff27a0ba7",
@@ -2092,10 +1941,7 @@
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "mismatch",
-    "next_post_slug": "the-partial",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/68deb313-801a-423b-80f0-8144c45ea02c_896x640.jpeg",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-partial"
   },
   {
     "id": 176969009,
@@ -2106,9 +1952,8 @@
     "updated_at": "2026-02-03T10:50:24.726Z",
     "type": "newsletter",
     "wordcount": 1739,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "4f2fa9f4-2de3-4c1f-91c8-9fb7d89c6257",
@@ -2144,10 +1989,7 @@
     "restacks": 0,
     "comment_count": 4,
     "previous_post_slug": "the-view-from-the-bridge",
-    "next_post_slug": "bridge-atlas-ep-1-entry-points",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!O_ik!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0b545b34-676b-4209-b06d-b29ffa6c42cf_1024x1024.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "bridge-atlas-ep-1-entry-points"
   },
   {
     "id": 176669547,
@@ -2158,9 +2000,8 @@
     "updated_at": "2026-02-03T10:51:12.841Z",
     "type": "newsletter",
     "wordcount": 4177,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -2206,10 +2047,7 @@
     "restacks": 9,
     "comment_count": 3,
     "previous_post_slug": "constructing-the-evil-twin-of-ai",
-    "next_post_slug": "generative-ai-in-cultural-projects",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/28344513-7417-4fc5-b578-25162b8401bc_896x640.jpeg",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "generative-ai-in-cultural-projects"
   },
   {
     "id": 176405564,
@@ -2220,9 +2058,8 @@
     "updated_at": "2026-02-03T10:53:24.880Z",
     "type": "newsletter",
     "wordcount": 1284,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "6a1a9fd6-d0da-4e6b-935e-b5fff27a0ba7",
@@ -2258,10 +2095,7 @@
     "restacks": 0,
     "comment_count": 0,
     "previous_post_slug": "consensus-nightmares",
-    "next_post_slug": "mr-cork-and-the-red-bus",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/646f4d8f-c860-4870-935a-df2c75f0eea1_1000x714.jpeg",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "mr-cork-and-the-red-bus"
   },
   {
     "id": 176174124,
@@ -2272,9 +2106,8 @@
     "updated_at": "2026-02-03T10:54:22.043Z",
     "type": "newsletter",
     "wordcount": 3033,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "d10af1bd-c238-4cb9-894f-9d8ade887f12",
@@ -2305,10 +2138,7 @@
     "restacks": 6,
     "comment_count": 0,
     "previous_post_slug": "centaur-fiction-with-stanley-chan",
-    "next_post_slug": "the-view-from-the-bridge",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!ft6T!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2923cd04-3c86-44e8-8e5e-8dea41aeef27_1000x1000.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "the-view-from-the-bridge"
   },
   {
     "id": 176180923,
@@ -2319,9 +2149,8 @@
     "updated_at": "2026-02-03T10:54:00.306Z",
     "type": "podcast",
     "wordcount": 1,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [],
     "publishedBylines": [
       {
@@ -2341,10 +2170,7 @@
     "restacks": 1,
     "comment_count": 0,
     "previous_post_slug": "reflections-from-memoria",
-    "next_post_slug": "constructing-the-evil-twin-of-ai",
-    "cover_image": "https://substack-video.s3.amazonaws.com/video_upload/post/176180923/ba816265-bf99-44b9-b2b8-acc8446d4346/transcoded-00001.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "constructing-the-evil-twin-of-ai"
   },
   {
     "id": 176128059,
@@ -2355,9 +2181,8 @@
     "updated_at": "2026-02-03T10:55:11.064Z",
     "type": "newsletter",
     "wordcount": 2327,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "531c7445-22d2-4f5a-a55f-28036e9e5fcf",
@@ -2388,10 +2213,7 @@
     "restacks": 6,
     "comment_count": 2,
     "previous_post_slug": "sigp4b-update-4-drift-stacking",
-    "next_post_slug": "centaur-fiction-with-stanley-chan",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/f56d5912-91f0-43d7-8592-6dc40b527f8c_1000x714.jpeg",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "centaur-fiction-with-stanley-chan"
   },
   {
     "id": 175883547,
@@ -2402,9 +2224,8 @@
     "updated_at": "2026-02-03T10:55:39.625Z",
     "type": "newsletter",
     "wordcount": 843,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -2470,10 +2291,7 @@
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "mechanical-currents",
-    "next_post_slug": "reflections-from-memoria",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!pY4j!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa9dd6875-096e-4929-b89b-a24d9ce8643a_1024x1024.jpeg",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "reflections-from-memoria"
   },
   {
     "id": 175605530,
@@ -2484,9 +2302,8 @@
     "updated_at": "2026-02-03T10:58:02.276Z",
     "type": "newsletter",
     "wordcount": 4930,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -2552,10 +2369,7 @@
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "signals-in-the-margins",
-    "next_post_slug": "mismatch",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!IFN8!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc016720e-20ae-4a01-b51c-4069ba15fdcc_1024x1024.jpeg",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "mismatch"
   },
   {
     "id": 175279847,
@@ -2566,9 +2380,8 @@
     "updated_at": "2026-02-03T10:58:12.355Z",
     "type": "newsletter",
     "wordcount": 4277,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "687d2b48-dc08-46c9-befb-d691e660c1eb",
@@ -2609,10 +2422,7 @@
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "hardwired",
-    "next_post_slug": "consensus-nightmares",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/01bacbf8-a1bf-4462-b8a5-d5d46a7d6ec6_1000x714.jpeg",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "consensus-nightmares"
   },
   {
     "id": 175040912,
@@ -2623,9 +2433,8 @@
     "updated_at": "2026-02-03T10:58:25.399Z",
     "type": "newsletter",
     "wordcount": 1496,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "6a1a9fd6-d0da-4e6b-935e-b5fff27a0ba7",
@@ -2661,10 +2470,7 @@
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "in-every-lifetime",
-    "next_post_slug": "signals-in-the-margins",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/181aeccb-1b05-4582-aabb-3940c9042c6e_1000x714.jpeg",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "signals-in-the-margins"
   },
   {
     "id": 174696777,
@@ -2675,9 +2481,8 @@
     "updated_at": "2026-02-03T10:58:42.075Z",
     "type": "newsletter",
     "wordcount": 1724,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "741e15fc-5d8b-4880-b897-26b4baab969e",
@@ -2713,10 +2518,7 @@
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "towel-uprising",
-    "next_post_slug": "hardwired",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/3638a101-22dd-4a0d-bc4c-35d07e06922c_1000x714.jpeg",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "hardwired"
   },
   {
     "id": 174359037,
@@ -2727,9 +2529,8 @@
     "updated_at": "2026-02-03T10:59:20.767Z",
     "type": "newsletter",
     "wordcount": 1305,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "6a1a9fd6-d0da-4e6b-935e-b5fff27a0ba7",
@@ -2765,10 +2566,7 @@
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "genius-in-the-bottle",
-    "next_post_slug": "in-every-lifetime",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!2B2k!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2e14a02f-36f2-420a-8581-61bc520c1642_1000x1000.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "in-every-lifetime"
   },
   {
     "id": 174102877,
@@ -2779,9 +2577,8 @@
     "updated_at": "2026-02-03T11:01:07.834Z",
     "type": "newsletter",
     "wordcount": 3079,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "6a1a9fd6-d0da-4e6b-935e-b5fff27a0ba7",
@@ -2822,10 +2619,7 @@
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "the-house-that-paid-its-own-bills",
-    "next_post_slug": "towel-uprising",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/e7d0b2d3-c89e-4a54-b069-5b38b862e5dc_1000x714.jpeg",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "towel-uprising"
   },
   {
     "id": 173090629,
@@ -2836,9 +2630,8 @@
     "updated_at": "2026-02-03T11:00:58.686Z",
     "type": "newsletter",
     "wordcount": 2974,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "741e15fc-5d8b-4880-b897-26b4baab969e",
@@ -2874,10 +2667,7 @@
     "restacks": 6,
     "comment_count": 2,
     "previous_post_slug": "we-shape-our-tools-and-thereafter",
-    "next_post_slug": "genius-in-the-bottle",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!po7T!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbb9022d1-199e-4fd7-9513-5006d71d1077_1000x1000.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "genius-in-the-bottle"
   },
   {
     "id": 173450662,
@@ -2888,9 +2678,8 @@
     "updated_at": "2026-02-03T11:01:31.131Z",
     "type": "newsletter",
     "wordcount": 1762,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "6a1a9fd6-d0da-4e6b-935e-b5fff27a0ba7",
@@ -2925,10 +2714,7 @@
     "restacks": 2,
     "comment_count": 2,
     "previous_post_slug": "latency",
-    "next_post_slug": "the-house-that-paid-its-own-bills",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/dfe2aa46-1771-4136-a389-b723a3017265_1000x714.jpeg",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-house-that-paid-its-own-bills"
   },
   {
     "id": 173100298,
@@ -2939,9 +2725,8 @@
     "updated_at": "2026-02-03T11:01:46.717Z",
     "type": "newsletter",
     "wordcount": 1672,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "25400645-d8a7-44f0-bf8a-f9a187bcf9a3",
@@ -2987,10 +2772,7 @@
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "sop-fall-forecast",
-    "next_post_slug": "sigp4b-update-4-drift-stacking",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/2dcf52d4-128e-400a-bfed-48287385bc1a_1000x714.jpeg",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "sigp4b-update-4-drift-stacking"
   },
   {
     "id": 172769538,
@@ -3001,9 +2783,8 @@
     "updated_at": "2026-02-03T11:03:38.140Z",
     "type": "newsletter",
     "wordcount": 1470,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "741e15fc-5d8b-4880-b897-26b4baab969e",
@@ -3039,10 +2820,7 @@
     "restacks": 1,
     "comment_count": 1,
     "previous_post_slug": "soda-sweet-as-blood",
-    "next_post_slug": "we-shape-our-tools-and-thereafter",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/327642b8-2a88-4955-8915-f067e03c41a1_1000x714.jpeg",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "we-shape-our-tools-and-thereafter"
   },
   {
     "id": 172570120,
@@ -3053,9 +2831,8 @@
     "updated_at": "2026-02-03T11:04:14.966Z",
     "type": "newsletter",
     "wordcount": 772,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -3095,10 +2872,7 @@
     "restacks": 5,
     "comment_count": 0,
     "previous_post_slug": "what-is-formal-protocol-theory",
-    "next_post_slug": "mechanical-currents",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/d19b4986-aa99-454f-bd34-60b9b66d1c82_1000x714.jpeg",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "mechanical-currents"
   },
   {
     "id": 172334723,
@@ -3109,9 +2883,8 @@
     "updated_at": "2026-02-03T11:05:30.418Z",
     "type": "newsletter",
     "wordcount": 3053,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "741e15fc-5d8b-4880-b897-26b4baab969e",
@@ -3147,10 +2920,7 @@
     "restacks": 6,
     "comment_count": 4,
     "previous_post_slug": "in-the-garden-of-eden-baby",
-    "next_post_slug": "latency",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/30a18c21-b360-4555-bc02-63ffdfe1cf36_1000x714.jpeg",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "latency"
   },
   {
     "id": 172092197,
@@ -3161,9 +2931,8 @@
     "updated_at": "2026-02-03T11:08:16.127Z",
     "type": "newsletter",
     "wordcount": 6137,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "6a1a9fd6-d0da-4e6b-935e-b5fff27a0ba7",
@@ -3209,10 +2978,7 @@
     "restacks": 3,
     "comment_count": 2,
     "previous_post_slug": "loyalty",
-    "next_post_slug": "soda-sweet-as-blood",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/26d07d7b-2e3e-4c21-a96c-699dcdfea8f5_1000x714.jpeg",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "soda-sweet-as-blood"
   },
   {
     "id": 171625517,
@@ -3223,9 +2989,8 @@
     "updated_at": "2026-02-03T11:08:10.481Z",
     "type": "newsletter",
     "wordcount": 3253,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "6a1a9fd6-d0da-4e6b-935e-b5fff27a0ba7",
@@ -3260,10 +3025,7 @@
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "the-last-archive",
-    "next_post_slug": "in-the-garden-of-eden-baby",
-    "cover_image": "https://substackcdn.com/image/fetch/$s_!w7IV!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F21855049-28e4-4fb0-aaa3-266f6d205cfe_1000x1000.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "in-the-garden-of-eden-baby"
   },
   {
     "id": 171144029,
@@ -3274,9 +3036,8 @@
     "updated_at": "2026-02-03T11:08:36.575Z",
     "type": "newsletter",
     "wordcount": 1195,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "4f2fa9f4-2de3-4c1f-91c8-9fb7d89c6257",
@@ -3327,10 +3088,7 @@
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "a-very-short-introduction-to-memory",
-    "next_post_slug": "sop-fall-forecast",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/0a78780b-052d-4e33-8128-c052883f7d52_1000x714.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "sop-fall-forecast"
   },
   {
     "id": 171133672,
@@ -3341,9 +3099,8 @@
     "updated_at": "2026-02-03T11:08:41.414Z",
     "type": "newsletter",
     "wordcount": 1456,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "4f2fa9f4-2de3-4c1f-91c8-9fb7d89c6257",
@@ -3394,10 +3151,7 @@
     "restacks": 18,
     "comment_count": 3,
     "previous_post_slug": "3-protocols-for-articulating-civilizational",
-    "next_post_slug": "what-is-formal-protocol-theory",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/feece6bb-c950-4568-ae76-bb98930452cb_1000x714.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "what-is-formal-protocol-theory"
   },
   {
     "id": 170878772,
@@ -3408,9 +3162,8 @@
     "updated_at": "2026-02-03T11:32:22.006Z",
     "type": "newsletter",
     "wordcount": 609,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [],
     "publishedBylines": [
       {
@@ -3424,10 +3177,7 @@
     "restacks": 0,
     "comment_count": 0,
     "previous_post_slug": "the-double-key",
-    "next_post_slug": "a-very-short-introduction-to-memory",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/c17d98b3-76b6-4dca-b868-6a92385f2396_1000x714.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "a-very-short-introduction-to-memory"
   },
   {
     "id": 170526327,
@@ -3438,9 +3188,8 @@
     "updated_at": "2026-02-03T11:36:02.010Z",
     "type": "newsletter",
     "wordcount": 1007,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "4f2fa9f4-2de3-4c1f-91c8-9fb7d89c6257",
@@ -3466,10 +3215,7 @@
     "restacks": 1,
     "comment_count": 0,
     "previous_post_slug": "brackish-strategy",
-    "next_post_slug": "3-protocols-for-articulating-civilizational",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/49a023e2-367a-4eee-b407-81f9cc7b55f6_1000x714.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "3-protocols-for-articulating-civilizational"
   },
   {
     "id": 170301947,
@@ -3480,9 +3226,8 @@
     "updated_at": "2026-02-03T11:35:17.817Z",
     "type": "newsletter",
     "wordcount": 1847,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "25400645-d8a7-44f0-bf8a-f9a187bcf9a3",
@@ -3518,10 +3263,7 @@
     "restacks": 1,
     "comment_count": 0,
     "previous_post_slug": "das-protokoll",
-    "next_post_slug": "the-double-key",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/2c36f06e-eb0f-4c4f-8b6f-ceb68589a8c3_1000x714.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "the-double-key"
   },
   {
     "id": 169926954,
@@ -3532,9 +3274,8 @@
     "updated_at": "2026-02-03T11:32:05.320Z",
     "type": "newsletter",
     "wordcount": 3326,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "687d2b48-dc08-46c9-befb-d691e660c1eb",
@@ -3569,10 +3310,7 @@
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "lessons-from-the-librarians",
-    "next_post_slug": "brackish-strategy",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/ad1fa2be-3d01-4d31-8023-ecb69ada4ef5_1000x714.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "brackish-strategy"
   },
   {
     "id": 169666199,
@@ -3583,9 +3321,8 @@
     "updated_at": "2026-02-03T11:34:56.548Z",
     "type": "newsletter",
     "wordcount": 2227,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "26d38dea-c166-48f9-aaf8-dfe8fba39e84",
@@ -3626,10 +3363,7 @@
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "2025-protocol-symposium",
-    "next_post_slug": "das-protokoll",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/3bcd9b33-d256-4efc-bde9-ccd0c1ef2079_1000x714.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "das-protokoll"
   },
   {
     "id": 169312127,
@@ -3640,9 +3374,8 @@
     "updated_at": "2026-02-03T11:33:08.573Z",
     "type": "newsletter",
     "wordcount": 1386,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "26d38dea-c166-48f9-aaf8-dfe8fba39e84",
@@ -3668,10 +3401,7 @@
     "restacks": 1,
     "comment_count": 1,
     "previous_post_slug": "circadia",
-    "next_post_slug": "loyalty",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/9a09d82b-da0f-4a0f-aaf6-3dcdfad7f553_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "loyalty"
   },
   {
     "id": 169040339,
@@ -3682,9 +3412,8 @@
     "updated_at": "2026-02-03T11:32:43.526Z",
     "type": "newsletter",
     "wordcount": 1827,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "31191c57-dd42-49e3-89e6-1f0f44c30763",
@@ -3725,10 +3454,7 @@
     "restacks": 1,
     "comment_count": 0,
     "previous_post_slug": "songs-of-hydropolia",
-    "next_post_slug": "the-last-archive",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/97d42c68-171c-48f6-8e2f-1f3747357b68_1000x714.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-last-archive"
   },
   {
     "id": 168732841,
@@ -3739,9 +3465,8 @@
     "updated_at": "2026-02-03T11:30:17.681Z",
     "type": "newsletter",
     "wordcount": 506,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [],
     "publishedBylines": [
       {
@@ -3761,10 +3486,7 @@
     "restacks": 6,
     "comment_count": 0,
     "previous_post_slug": "a-sea-of-distributed-ai",
-    "next_post_slug": "lessons-from-the-librarians",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/baf6fb23-92d2-4fd4-980f-ba42648e34d6_1200x968.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "lessons-from-the-librarians"
   },
   {
     "id": 168693919,
@@ -3775,9 +3497,8 @@
     "updated_at": "2026-02-03T11:30:10.882Z",
     "type": "newsletter",
     "wordcount": 1803,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "26d38dea-c166-48f9-aaf8-dfe8fba39e84",
@@ -3808,10 +3529,7 @@
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "necrophoresis",
-    "next_post_slug": "circadia",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/6dbce8ce-067e-4af3-ae24-626a0287a12c_1000x714.jpeg",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "circadia"
   },
   {
     "id": 168075350,
@@ -3822,9 +3540,8 @@
     "updated_at": "2026-02-03T11:29:02.197Z",
     "type": "newsletter",
     "wordcount": 2701,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "6a1a9fd6-d0da-4e6b-935e-b5fff27a0ba7",
@@ -3865,10 +3582,7 @@
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "phantom-in-eden",
-    "next_post_slug": "songs-of-hydropolia",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/13df111f-4092-4826-a851-330db2627690_1000x714.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "songs-of-hydropolia"
   },
   {
     "id": 168075378,
@@ -3879,9 +3593,8 @@
     "updated_at": "2026-02-03T11:28:26.988Z",
     "type": "newsletter",
     "wordcount": 2269,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "26d38dea-c166-48f9-aaf8-dfe8fba39e84",
@@ -3932,10 +3645,7 @@
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "the-reverie-loop",
-    "next_post_slug": "necrophoresis",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/ef999e40-588f-4abf-9b8a-f71c982ace8c_1000x714.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "necrophoresis"
   },
   {
     "id": 167595392,
@@ -3946,9 +3656,8 @@
     "updated_at": "2026-02-03T11:28:08.269Z",
     "type": "newsletter",
     "wordcount": 1841,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "6a1a9fd6-d0da-4e6b-935e-b5fff27a0ba7",
@@ -3989,10 +3698,7 @@
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "the-whimsy-index",
-    "next_post_slug": "phantom-in-eden",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/dd565a07-dca1-44ae-92b5-7241dd86182f_1000x714.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "phantom-in-eden"
   },
   {
     "id": 167498159,
@@ -4003,9 +3709,8 @@
     "updated_at": "2026-02-03T11:27:41.467Z",
     "type": "newsletter",
     "wordcount": 2293,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "26d38dea-c166-48f9-aaf8-dfe8fba39e84",
@@ -4051,10 +3756,7 @@
     "restacks": 6,
     "comment_count": 0,
     "previous_post_slug": "woods",
-    "next_post_slug": "the-reverie-loop",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/e2321f66-1da7-408a-ae6f-6fc6bf8887eb_1000x714.jpeg",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-reverie-loop"
   },
   {
     "id": 167041093,
@@ -4065,9 +3767,8 @@
     "updated_at": "2026-02-03T11:27:03.701Z",
     "type": "newsletter",
     "wordcount": 2318,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [],
     "publishedBylines": [
       {
@@ -4087,10 +3788,7 @@
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "ghosts-in-machines-d0a",
-    "next_post_slug": "2025-protocol-symposium",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/40f6b955-0386-40a7-93b1-c49296c46c4c_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "2025-protocol-symposium"
   },
   {
     "id": 166921085,
@@ -4101,9 +3799,8 @@
     "updated_at": "2026-02-03T11:26:35.230Z",
     "type": "newsletter",
     "wordcount": 2293,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -4204,10 +3901,7 @@
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "archive",
-    "next_post_slug": "the-whimsy-index",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/6ea93b09-ef95-404c-8f06-75a00de20e64_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-whimsy-index"
   },
   {
     "id": 166774485,
@@ -4218,9 +3912,8 @@
     "updated_at": "2026-02-03T11:25:41.238Z",
     "type": "newsletter",
     "wordcount": 706,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -4310,10 +4003,7 @@
     "restacks": 0,
     "comment_count": 0,
     "previous_post_slug": "operationalizing",
-    "next_post_slug": "a-sea-of-distributed-ai",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/ff5294d9-3946-410a-b854-b646333e648a_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "a-sea-of-distributed-ai"
   },
   {
     "id": 166418944,
@@ -4324,9 +4014,8 @@
     "updated_at": "2026-02-03T11:25:58.459Z",
     "type": "newsletter",
     "wordcount": 3982,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "26d38dea-c166-48f9-aaf8-dfe8fba39e84",
@@ -4397,10 +4086,7 @@
     "restacks": 6,
     "comment_count": 1,
     "previous_post_slug": "the-hungering-circuit",
-    "next_post_slug": "woods",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/e797a6bf-c6af-453e-837f-1f12658db60d_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "woods"
   },
   {
     "id": 165651280,
@@ -4411,9 +4097,8 @@
     "updated_at": "2026-02-03T11:24:32.977Z",
     "type": "newsletter",
     "wordcount": 531,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -4498,10 +4183,7 @@
     "restacks": 1,
     "comment_count": 0,
     "previous_post_slug": "tension-landscapes",
-    "next_post_slug": "ghosts-in-machines-d0a",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/38ab5acc-7964-4358-bc2c-f284af3c0852_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "ghosts-in-machines-d0a"
   },
   {
     "id": 165312536,
@@ -4512,9 +4194,8 @@
     "updated_at": "2026-02-03T11:24:34.080Z",
     "type": "newsletter",
     "wordcount": 1841,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "6a1a9fd6-d0da-4e6b-935e-b5fff27a0ba7",
@@ -4569,10 +4250,7 @@
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "the-air-gap",
-    "next_post_slug": "archive",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/0477bf66-c811-4438-bf18-f73276be6e9e_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "archive"
   },
   {
     "id": 165147368,
@@ -4583,9 +4261,8 @@
     "updated_at": "2026-02-03T11:24:18.166Z",
     "type": "newsletter",
     "wordcount": 3169,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -4666,10 +4343,7 @@
     "restacks": 1,
     "comment_count": 0,
     "previous_post_slug": "fine-print",
-    "next_post_slug": "the-hungering-circuit",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/3fb2beef-a77a-4fd5-b5cf-63b895369335_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-hungering-circuit"
   },
   {
     "id": 164575120,
@@ -4680,9 +4354,8 @@
     "updated_at": "2026-02-03T11:23:35.502Z",
     "type": "newsletter",
     "wordcount": 1861,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -4758,10 +4431,7 @@
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "time-to-die",
-    "next_post_slug": "the-air-gap",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/fb787881-0c03-4ce7-a656-c784c21b02bd_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-air-gap"
   },
   {
     "id": 163086583,
@@ -4772,9 +4442,8 @@
     "updated_at": "2026-02-03T11:22:52.570Z",
     "type": "newsletter",
     "wordcount": 1951,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -4850,10 +4519,7 @@
     "restacks": 1,
     "comment_count": 0,
     "previous_post_slug": "egregoretex",
-    "next_post_slug": "operationalizing",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/8256145a-5a40-4673-aa4e-e34d7a80f258_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "operationalizing"
   },
   {
     "id": 164032404,
@@ -4864,9 +4530,8 @@
     "updated_at": "2026-02-03T11:22:16.700Z",
     "type": "newsletter",
     "wordcount": 2069,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -4957,10 +4622,7 @@
     "restacks": 1,
     "comment_count": 0,
     "previous_post_slug": "noise-ordinance",
-    "next_post_slug": "fine-print",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/0e24a9ab-acaf-4281-b7c4-21ecca0fe8a7_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "fine-print"
   },
   {
     "id": 163646822,
@@ -4971,9 +4633,8 @@
     "updated_at": "2026-02-03T11:22:08.885Z",
     "type": "newsletter",
     "wordcount": 2838,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -5049,10 +4710,7 @@
     "restacks": 5,
     "comment_count": 0,
     "previous_post_slug": "the-40-hour-work-week",
-    "next_post_slug": "time-to-die",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/e08da19b-d5a2-41ea-8d91-1d98e262b002_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "time-to-die"
   },
   {
     "id": 163410549,
@@ -5063,9 +4721,8 @@
     "updated_at": "2026-02-03T11:22:03.540Z",
     "type": "newsletter",
     "wordcount": 3235,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -5166,10 +4823,7 @@
     "restacks": 4,
     "comment_count": 1,
     "previous_post_slug": "dhcp",
-    "next_post_slug": "noise-ordinance",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/12e0cd83-874b-44ed-9320-7a411195c471_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "noise-ordinance"
   },
   {
     "id": 163094570,
@@ -5180,9 +4834,8 @@
     "updated_at": "2026-02-03T11:21:26.713Z",
     "type": "newsletter",
     "wordcount": 2458,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -5283,10 +4936,7 @@
     "restacks": 3,
     "comment_count": 1,
     "previous_post_slug": "human-enough-dae",
-    "next_post_slug": "the-40-hour-work-week",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/330e82b3-e9c9-4004-9d9b-f04f190d1809_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-40-hour-work-week"
   },
   {
     "id": 163001722,
@@ -5297,9 +4947,8 @@
     "updated_at": "2026-02-03T11:19:34.814Z",
     "type": "newsletter",
     "wordcount": 1505,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -5380,10 +5029,7 @@
     "restacks": 1,
     "comment_count": 1,
     "previous_post_slug": "dirt-simple",
-    "next_post_slug": "tension-landscapes",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/6cc519c5-2c14-421d-8407-270439d045b0_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "tension-landscapes"
   },
   {
     "id": 162699619,
@@ -5394,9 +5040,8 @@
     "updated_at": "2026-02-03T11:19:14.903Z",
     "type": "newsletter",
     "wordcount": 2151,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -5489,13 +5134,10 @@
       }
     ],
     "reaction_count": 12,
-    "restacks": 4,
+    "restacks": 5,
     "comment_count": 0,
     "previous_post_slug": "libraries-of-tomorrow",
-    "next_post_slug": "egregoretex",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/6678ff23-5548-4d15-9d61-527b458122c2_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "egregoretex"
   },
   {
     "id": 162543841,
@@ -5506,9 +5148,8 @@
     "updated_at": "2026-02-03T11:18:05.373Z",
     "type": "newsletter",
     "wordcount": 2356,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -5599,10 +5240,7 @@
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "a-chronicle-of-lumina",
-    "next_post_slug": "dhcp",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/293fbd23-dca8-4709-a261-5a92fed36d84_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "dhcp"
   },
   {
     "id": 162146496,
@@ -5613,9 +5251,8 @@
     "updated_at": "2026-02-03T11:16:28.302Z",
     "type": "newsletter",
     "wordcount": 928,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -5700,10 +5337,7 @@
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "risky-autonomy-vs-walled-gardens",
-    "next_post_slug": "dirt-simple",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/eea08dd6-9211-4529-99f3-f363275af51a_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "dirt-simple"
   },
   {
     "id": 161807459,
@@ -5714,9 +5348,8 @@
     "updated_at": "2026-02-03T11:16:24.271Z",
     "type": "newsletter",
     "wordcount": 2426,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -5792,10 +5425,7 @@
     "restacks": 1,
     "comment_count": 0,
     "previous_post_slug": "zero-knowledge",
-    "next_post_slug": "human-enough-dae",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/6250a496-adc4-4e04-bc10-e5439ea19abe_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "human-enough-dae"
   },
   {
     "id": 161609035,
@@ -5806,9 +5436,8 @@
     "updated_at": "2026-02-03T11:15:27.863Z",
     "type": "newsletter",
     "wordcount": 1339,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -5889,10 +5518,7 @@
     "restacks": 7,
     "comment_count": 0,
     "previous_post_slug": "the-signal-under-innsmouth",
-    "next_post_slug": "a-chronicle-of-lumina",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/3c10d881-b469-4b78-a494-e24c74a90eae_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "a-chronicle-of-lumina"
   },
   {
     "id": 161316600,
@@ -5903,9 +5529,8 @@
     "updated_at": "2026-02-03T11:13:33.907Z",
     "type": "newsletter",
     "wordcount": 1919,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -5977,14 +5602,11 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 17,
+    "reaction_count": 18,
     "restacks": 7,
     "comment_count": 1,
     "previous_post_slug": "sop-2025-accelerating-order",
-    "next_post_slug": "libraries-of-tomorrow",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/4e74f855-1f97-4973-b03c-f0d8fb09b81b_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "libraries-of-tomorrow"
   },
   {
     "id": 160677347,
@@ -5995,9 +5617,8 @@
     "updated_at": "2026-02-03T11:12:41.372Z",
     "type": "newsletter",
     "wordcount": 2274,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "6a1a9fd6-d0da-4e6b-935e-b5fff27a0ba7",
@@ -6058,10 +5679,7 @@
     "restacks": 5,
     "comment_count": 0,
     "previous_post_slug": "fault-tolerance",
-    "next_post_slug": "zero-knowledge",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/26b33563-8c2d-4596-891f-7c92e0886299_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "zero-knowledge"
   },
   {
     "id": 160902576,
@@ -6072,9 +5690,8 @@
     "updated_at": "2026-02-03T11:11:59.830Z",
     "type": "newsletter",
     "wordcount": 3632,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "58e40768-e067-4c8f-873e-6b92b963fee1",
@@ -6140,10 +5757,7 @@
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "the-entropic-gate-part-ii",
-    "next_post_slug": "the-signal-under-innsmouth",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/14c18753-cf9f-4bec-b016-e13452359173_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-signal-under-innsmouth"
   },
   {
     "id": 159841175,
@@ -6154,9 +5768,8 @@
     "updated_at": "2026-02-03T11:10:58.554Z",
     "type": "newsletter",
     "wordcount": 3284,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -6222,10 +5835,7 @@
     "restacks": 4,
     "comment_count": 1,
     "previous_post_slug": "the-entropic-gate-part-i",
-    "next_post_slug": "fault-tolerance",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/c7487037-6eb3-4f89-984f-5878bf430dc7_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "fault-tolerance"
   },
   {
     "id": 159770350,
@@ -6236,9 +5846,8 @@
     "updated_at": "2026-02-03T11:10:11.939Z",
     "type": "newsletter",
     "wordcount": 2141,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -6309,10 +5918,7 @@
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "to-share-and-remember",
-    "next_post_slug": "the-entropic-gate-part-ii",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/b1689c45-5d38-4b18-83d2-b95c217aa48d_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-entropic-gate-part-ii"
   },
   {
     "id": 159510221,
@@ -6323,9 +5929,8 @@
     "updated_at": "2026-02-03T11:10:02.759Z",
     "type": "newsletter",
     "wordcount": 2468,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -6386,10 +5991,7 @@
     "restacks": 5,
     "comment_count": 0,
     "previous_post_slug": "haven-tailors",
-    "next_post_slug": "the-entropic-gate-part-i",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/e25af52b-5a55-44ea-af9f-737407f0342e_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "the-entropic-gate-part-i"
   },
   {
     "id": 158790938,
@@ -6400,9 +6002,8 @@
     "updated_at": "2026-02-03T11:10:30.939Z",
     "type": "newsletter",
     "wordcount": 4407,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -6510,10 +6111,7 @@
     "restacks": 10,
     "comment_count": 0,
     "previous_post_slug": "archives-of-discontinuity",
-    "next_post_slug": "risky-autonomy-vs-walled-gardens",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/483bd699-557d-4772-afe9-9c8d9cb93801_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "risky-autonomy-vs-walled-gardens"
   },
   {
     "id": 158615853,
@@ -6524,9 +6122,8 @@
     "updated_at": "2026-02-03T11:09:41.423Z",
     "type": "newsletter",
     "wordcount": 2275,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -6598,10 +6195,7 @@
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "chore-protocols",
-    "next_post_slug": "sop-2025-accelerating-order",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/c6847bd3-9a87-4b83-9748-4e1c4f5be650_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "sop-2025-accelerating-order"
   },
   {
     "id": 157813612,
@@ -6612,9 +6206,8 @@
     "updated_at": "2026-02-03T11:09:12.722Z",
     "type": "newsletter",
     "wordcount": 1478,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -6685,10 +6278,7 @@
     "restacks": 10,
     "comment_count": 23,
     "previous_post_slug": "one-tension-to-rule-them-all",
-    "next_post_slug": "archives-of-discontinuity",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/cb2d53bf-0d85-4f14-a34f-d0239761131a_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "archives-of-discontinuity"
   },
   {
     "id": 157583556,
@@ -6699,9 +6289,8 @@
     "updated_at": "2026-02-03T11:09:26.232Z",
     "type": "newsletter",
     "wordcount": 2901,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333105,
+    "section_name": "Fictions",
     "postTags": [
       {
         "id": "1be01130-95bb-4111-8207-b055d2688a9a",
@@ -6767,10 +6356,7 @@
     "restacks": 5,
     "comment_count": 4,
     "previous_post_slug": null,
-    "next_post_slug": "to-share-and-remember",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/049b7242-b020-4135-8be2-9a7a7eaedadc_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Fictions"
+    "next_post_slug": "to-share-and-remember"
   },
   {
     "id": 156258258,
@@ -6781,9 +6367,8 @@
     "updated_at": "2026-02-03T11:09:12.282Z",
     "type": "newsletter",
     "wordcount": 2010,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
@@ -6844,10 +6429,7 @@
     "restacks": 16,
     "comment_count": 3,
     "previous_post_slug": "strange-new-rules",
-    "next_post_slug": "chore-protocols",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/d3edfff5-14df-4fdb-ae43-cf852569ce24_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "chore-protocols"
   },
   {
     "id": 156629686,
@@ -6858,9 +6440,8 @@
     "updated_at": "2026-02-03T11:09:33.415Z",
     "type": "newsletter",
     "wordcount": 3894,
-    "audience": "everyone",
-    "is_published": true,
     "section_id": 333110,
+    "section_name": "Articles",
     "postTags": [
       {
         "id": "1be01130-95bb-4111-8207-b055d2688a9a",
@@ -6941,9 +6522,6 @@
     "restacks": 34,
     "comment_count": 6,
     "previous_post_slug": null,
-    "next_post_slug": "one-tension-to-rule-them-all",
-    "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/8c76657a-71e2-4bbe-9039-d08be8e7687f_2048x2048.png",
-    "search_engine_description": null,
-    "section_name": "Articles"
+    "next_post_slug": "one-tension-to-rule-them-all"
   }
 ]

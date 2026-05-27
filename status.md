@@ -1,5 +1,32 @@
 # C3PO — Status Log
 
+## 2026-05-27 — Definitions namespace live; Substack synced (session 20)
+
+**Definitions namespace wired into query pipeline — COMPLETE**
+- `normalizeDefinition()` added; queries `definitions` namespace in parallel with the other 7
+- All 4 query paths updated: `runRagQuery()`, `runMcpSearch()`, `runMcpAsk()`, `POST /search_corpus`
+- Context block label: `[LEXICON — "term" — PI-coined | PI-specific]`
+- Weight: 1.0× (same as PDFs/Substack — authoritative PI vocabulary)
+- MCP `search_corpus` now accepts `"definitions"` as a namespace filter
+- Deployed: `c3po.vgr-702.workers.dev` (Version ID: 617c215a)
+- Smoke tested: lexicon hits surface correctly for relevant queries
+
+**Substack sync — COMPLETE**
+- Ingested `the-overloaded-train` (new) + `introducing-the-protocol-institute` (edited)
+- 31 vectors upserted; substack: 1,040 → 1,057
+
+**c3po-oracle Cloudflare Queue created (oracle bot Step 2 done)**
+- Queue creation was blocking worker deploy; created it now
+- Remaining oracle bot steps: Discord app creation (Step 1), secrets (Step 3), Interactions URL (Step 5), register commands (Step 6), invite bot (Step 7)
+
+**Pinecone state: 25,184 vectors**
+- definitions: 560 | discord_links: 9,064 | discord: 5,533 | sig: 4,905 | videos: 2,940 | substack: 1,057 | pdfs: 766 | bibliography: 278 | transcripts: 4 | humboldt: 77 (ignored)
+
+**Open TODOs (priority order):**
+1. Execute oracle bot setup — Steps 1, 3–8 remain (see `plans/oracle-bot-setup.md`)
+2. YouTube transcript pass — 161 deferred URLs
+3. GitHub Actions cron for `sync_substack.py`
+
 ## 2026-05-26 — c3po_oracle Discord bot — code complete, pending deploy (session 19)
 
 **c3po_oracle — Phase 3E — COMPLETE (code only; deploy in next session)**

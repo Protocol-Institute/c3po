@@ -1,7 +1,7 @@
 {
   "project": "c3po",
-  "display_name": "C3PO — Build Log",
-  "description": "A build log for C3PO, the Protocol Institute's research assistant — how the corpus was assembled, what decisions were made, and where things stand. Written for readers curious about the process and for future maintainers.",
+  "display_name": "C3PO \u2014 Build Log",
+  "description": "A build log for C3PO, the Protocol Institute's research assistant \u2014 how the corpus was assembled, what decisions were made, and where things stand. Written for readers curious about the process and for future maintainers.",
   "tracks": {
     "corpus-ingestion": "Assembling and cleaning source material; export parsing, API fetches, enrichment",
     "vector-architecture": "Embedding strategy, chunk design, Pinecone index structure, retrieval quality",
@@ -13,7 +13,7 @@
     {
       "id": 1,
       "sort_key": 1.0,
-      "label": "Sessions 1–2",
+      "label": "Sessions 1\u20132",
       "title": "Corpus Archaeology and Substack Ingestion",
       "date": "2026-05-14",
       "time_pt": "",
@@ -32,7 +32,7 @@
       "items": [
         {
           "title": "Starting point:",
-          "html": "<strong>Starting point:</strong> Protocolized Substack HTML export (unzipped) — 131 HTML files in <code>posts/</code>, a <code>posts.csv</code> with metadata, and per-post <code>.delivers.csv</code> and <code>.opens.csv</code> email delivery files. The export is the fastest way to get all body HTML at once; but it is missing tags, authors, sections, and edit timestamps — all of which live only in the Substack API."
+          "html": "<strong>Starting point:</strong> Protocolized Substack HTML export (unzipped) \u2014 131 HTML files in <code>posts/</code>, a <code>posts.csv</code> with metadata, and per-post <code>.delivers.csv</code> and <code>.opens.csv</code> email delivery files. The export is the fastest way to get all body HTML at once; but it is missing tags, authors, sections, and edit timestamps \u2014 all of which live only in the Substack API."
         },
         {
           "title": "Export archaeology:",
@@ -40,35 +40,35 @@
         },
         {
           "title": "API discovery:",
-          "html": "<strong>API discovery:</strong> The Substack REST API at <code>/api/v1/posts</code> is public and unauthenticated for any public publication — it is the same endpoint Substack's own web interface uses to render publication pages. It returns fields entirely absent from the export: <code>postTags</code> (series/collection membership), <code>publishedBylines</code> (author attribution with handles), <code>section_id</code> (which subscription section a post belongs to), <code>updated_at</code> (last edit timestamp), <code>reaction_count</code>, <code>restacks</code>, and <code>wordcount</code>. Fetched all 115 posts in ~10 paginated calls. Saved to <code>sources/substack/api_metadata.json</code>."
+          "html": "<strong>API discovery:</strong> The Substack REST API at <code>/api/v1/posts</code> is public and unauthenticated for any public publication \u2014 it is the same endpoint Substack's own web interface uses to render publication pages. It returns fields entirely absent from the export: <code>postTags</code> (series/collection membership), <code>publishedBylines</code> (author attribution with handles), <code>section_id</code> (which subscription section a post belongs to), <code>updated_at</code> (last edit timestamp), <code>reaction_count</code>, <code>restacks</code>, and <code>wordcount</code>. Fetched all 115 posts in ~10 paginated calls. Saved to <code>sources/substack/api_metadata.json</code>."
         },
         {
           "title": "Section discovery:",
-          "html": "<strong>Section discovery:</strong> Protocolized uses Substack's multi-section feature — readers can subscribe to sections independently. The sections were not visible in the API metadata list directly, but <code>section_id</code> integers appeared on each post. Mapped IDs to names by extracting the preloaded JSON state from the publication homepage HTML: <strong>Fictions</strong> (ID 333105, 58 posts — fiction contests and series), <strong>Articles</strong> (ID 333110, 47 posts — essays, SIG reports, case studies), <strong>Obliquities</strong> (ID 333103, 5 posts — VGR's editorial column), and the catch-all <strong>Protocolized</strong> default (5 posts, no section_id). Section stored as <code>section_name</code> metadata on every Pinecone vector."
+          "html": "<strong>Section discovery:</strong> Protocolized uses Substack's multi-section feature \u2014 readers can subscribe to sections independently. The sections were not visible in the API metadata list directly, but <code>section_id</code> integers appeared on each post. Mapped IDs to names by extracting the preloaded JSON state from the publication homepage HTML: <strong>Fictions</strong> (ID 333105, 58 posts \u2014 fiction contests and series), <strong>Articles</strong> (ID 333110, 47 posts \u2014 essays, SIG reports, case studies), <strong>Obliquities</strong> (ID 333103, 5 posts \u2014 VGR's editorial column), and the catch-all <strong>Protocolized</strong> default (5 posts, no section_id). Section stored as <code>section_name</code> metadata on every Pinecone vector."
         },
         {
           "title": "Tag archaeology:",
-          "html": "<strong>Tag archaeology:</strong> Protocolized uses two layers of Substack tags. The first layer is publication-level category tags chosen by the editors (<em>Stories</em>, <em>Technology</em>, <em>Fiction</em>, <em>Culture</em>, <em>Philosophy</em>, etc.) — applied per-post and used for reader discovery. The second layer is publication-specific collection tags that carry series or SIG membership: <em>Terminological Twists</em>, <em>Ghosts in Machines</em>, <em>The Librarians</em>, <em>Building and Burning Bridges</em>, <em>Zoothesia</em>, <em>Bridge Atlas</em>, <em>SIGFPT</em>, <em>SIGBIZ</em>, <em>SIGMEM</em>, <em>SIGFIC</em>, <em>Obliquities</em>, <em>Protocols for the Long Now</em>."
+          "html": "<strong>Tag archaeology:</strong> Protocolized uses two layers of Substack tags. The first layer is publication-level category tags chosen by the editors (<em>Stories</em>, <em>Technology</em>, <em>Fiction</em>, <em>Culture</em>, <em>Philosophy</em>, etc.) \u2014 applied per-post and used for reader discovery. The second layer is publication-specific collection tags that carry series or SIG membership: <em>Terminological Twists</em>, <em>Ghosts in Machines</em>, <em>The Librarians</em>, <em>Building and Burning Bridges</em>, <em>Zoothesia</em>, <em>Bridge Atlas</em>, <em>SIGFPT</em>, <em>SIGBIZ</em>, <em>SIGMEM</em>, <em>SIGFIC</em>, <em>Obliquities</em>, <em>Protocols for the Long Now</em>."
         },
         {
           "title": "Collections map:",
-          "html": "<strong>Collections map:</strong> Built <code>sources/substack/collections.json</code> — the authoritative membership roster for all 13 named collections. Structure: fiction contests (4), series (3 including one emerging), proto-collections (1: Sachin Benny's UE-T1 train stories, which have no Substack tag yet), SIGs (4), and editorial column (1). Proto-collections are manually curated author series whose posts are thematically linked but haven't received an official tag yet."
+          "html": "<strong>Collections map:</strong> Built <code>sources/substack/collections.json</code> \u2014 the authoritative membership roster for all 13 named collections. Structure: fiction contests (4), series (3 including one emerging), proto-collections (1: Sachin Benny's UE-T1 train stories, which have no Substack tag yet), SIGs (4), and editorial column (1). Proto-collections are manually curated author series whose posts are thematically linked but haven't received an official tag yet."
         },
         {
           "title": "Author attribution:",
-          "html": "<strong>Author attribution:</strong> Author data is not in the export CSV or in post HTML bodies — only in the API <code>publishedBylines</code> field. Some bylines use display handles rather than real names: <em>Thing Party</em> = Elizabeth Maher (T.R.O.(L.L.) universe author), <em>Sachin</em> = Sachin Benny, <em>Spencer Nitkey - Writer</em> = Spencer Nitkey. 38 unique non-Protocolized contributors identified; 6 are regular contributors (3+ posts). Timber Stinson-Schroff is co-editor, not a guest contributor — his editorial posts are authoritative publication voice. Handle-to-name resolution table stored in <code>ingest/enrich_substack.py</code> and <code>sources/CORPUS_MAP.md</code>."
+          "html": "<strong>Author attribution:</strong> Author data is not in the export CSV or in post HTML bodies \u2014 only in the API <code>publishedBylines</code> field. Some bylines use display handles rather than real names: <em>Thing Party</em> = Elizabeth Maher (T.R.O.(L.L.) universe author), <em>Sachin</em> = Sachin Benny, <em>Spencer Nitkey - Writer</em> = Spencer Nitkey. 38 unique non-Protocolized contributors identified; 6 are regular contributors (3+ posts). Timber Stinson-Schroff is co-editor, not a guest contributor \u2014 his editorial posts are authoritative publication voice. Handle-to-name resolution table stored in <code>ingest/enrich_substack.py</code> and <code>sources/CORPUS_MAP.md</code>."
         },
         {
           "title": "Haiku enrichment:",
-          "html": "<strong>Haiku enrichment (~$0.05):</strong> One Claude Haiku call per post. Input: title + subtitle + bylines + first 1,200 characters of body text. Output: a two-sentence concrete summary, 2–4 categories from a fixed 11-term vocabulary (<em>protocol-fiction</em>, <em>protocol-theory</em>, <em>protocol-watching</em>, <em>editorial</em>, <em>research-report</em>, <em>technology-ai</em>, <em>governance</em>, <em>announcement</em>, <em>interview</em>, <em>memory-archival</em>, <em>organizations</em>), and a resolved primary author name. Ran on 129 posts (all non-podcast), 0 errors. Checkpoint saves every 10 posts so a mid-run failure loses at most 10 calls. Idempotent: skips slugs already in <code>enriched_meta.json</code>."
+          "html": "<strong>Haiku enrichment (~$0.05):</strong> One Claude Haiku call per post. Input: title + subtitle + bylines + first 1,200 characters of body text. Output: a two-sentence concrete summary, 2\u20134 categories from a fixed 11-term vocabulary (<em>protocol-fiction</em>, <em>protocol-theory</em>, <em>protocol-watching</em>, <em>editorial</em>, <em>research-report</em>, <em>technology-ai</em>, <em>governance</em>, <em>announcement</em>, <em>interview</em>, <em>memory-archival</em>, <em>organizations</em>), and a resolved primary author name. Ran on 129 posts (all non-podcast), 0 errors. Checkpoint saves every 10 posts so a mid-run failure loses at most 10 calls. Idempotent: skips slugs already in <code>enriched_meta.json</code>."
         },
         {
-          "title": "Embedding strategy — four vector types:",
-          "html": "<strong>Embedding strategy — four vector types:</strong> The corpus supports four distinct retrieval patterns, each needing a different vector shape. <strong>Body chunks</strong>: each post is chunked at ~512 tokens (64-token overlap); every chunk gets a prefix of <em>Title / Author / Collection (if any) / Summary</em> prepended before embedding, so a chunk about a specific narrative moment is anchored to its full semantic context. Vectors use the raw chunk for the stored <code>text</code> metadata field (clean, readable) but the prefixed version for embedding (richer signal). <strong>Post summaries</strong>: one vector per post at ID <code>{slug}__post_summary</code>, embedding the full title + author + date + section + categories + Haiku summary — catches queries that match the gist of a piece without matching any specific passage. <strong>Collection cards</strong>: one vector per collection/series/SIG at ID <code>collection__{slug}</code>, describing the collection and listing all its posts — catches queries like <em>what are the common themes in Ghosts in Machines</em>. <strong>Author profiles</strong>: one per contributor at ID <code>author__{slug}</code>, listing all their posts with collection membership — catches author-centric queries. Regular contributors (3+ posts) are labeled as such; one-off contributors are labeled as guest contributors."
+          "title": "Embedding strategy \u2014 four vector types:",
+          "html": "<strong>Embedding strategy \u2014 four vector types:</strong> The corpus supports four distinct retrieval patterns, each needing a different vector shape. <strong>Body chunks</strong>: each post is chunked at ~512 tokens (64-token overlap); every chunk gets a prefix of <em>Title / Author / Collection (if any) / Summary</em> prepended before embedding, so a chunk about a specific narrative moment is anchored to its full semantic context. Vectors use the raw chunk for the stored <code>text</code> metadata field (clean, readable) but the prefixed version for embedding (richer signal). <strong>Post summaries</strong>: one vector per post at ID <code>{slug}__post_summary</code>, embedding the full title + author + date + section + categories + Haiku summary \u2014 catches queries that match the gist of a piece without matching any specific passage. <strong>Collection cards</strong>: one vector per collection/series/SIG at ID <code>collection__{slug}</code>, describing the collection and listing all its posts \u2014 catches queries like <em>what are the common themes in Ghosts in Machines</em>. <strong>Author profiles</strong>: one per contributor at ID <code>author__{slug}</code>, listing all their posts with collection membership \u2014 catches author-centric queries. Regular contributors (3+ posts) are labeled as such; one-off contributors are labeled as guest contributors."
         },
         {
           "title": "Ingest results:",
-          "html": "<strong>Ingest results:</strong> 1,040 vectors in Pinecone namespace <code>substack</code> — approximately 873 body chunks, 116 post summaries, 13 collection cards, 38 author profiles. Voyage AI <code>voyage-3</code> model (1024 dimensions, cosine metric). Embedding cost approximately $0.04 at $0.06/M tokens."
+          "html": "<strong>Ingest results:</strong> 1,040 vectors in Pinecone namespace <code>substack</code> \u2014 approximately 873 body chunks, 116 post summaries, 13 collection cards, 38 author profiles. Voyage AI <code>voyage-3</code> model (1024 dimensions, cosine metric). Embedding cost approximately $0.04 at $0.06/M tokens."
         },
         {
           "title": "Sync strategy:",
@@ -76,7 +76,7 @@
         },
         {
           "title": "Corpus map:",
-          "html": "<strong>Corpus map:</strong> Created <code>sources/CORPUS_MAP.md</code> to record structural information that is not derivable from the code or API. Key entries: the four Substack sections and their IDs, Timber's co-editor status, the author handle resolution table, and the extended universe project — Spencer Nitkey (Zoothesia), Sachin Benny (UE-T1 train series), Elizabeth Maher (T.R.O.(L.L.) universe), and Randy Lubin (Caduceus City) are building a shared off-Substack fiction universe, currently seeded by their Protocolized posts. Expected to become a new C3PO data source in Q4 2026."
+          "html": "<strong>Corpus map:</strong> Created <code>sources/CORPUS_MAP.md</code> to record structural information that is not derivable from the code or API. Key entries: the four Substack sections and their IDs, Timber's co-editor status, the author handle resolution table, and the extended universe project \u2014 Spencer Nitkey (Zoothesia), Sachin Benny (UE-T1 train series), Elizabeth Maher (T.R.O.(L.L.) universe), and Randy Lubin (Caduceus City) are building a shared off-Substack fiction universe, currently seeded by their Protocolized posts. Expected to become a new C3PO data source in Q4 2026."
         },
         {
           "title": "Contraptions note:",
@@ -90,7 +90,7 @@
       "label": "Session 3",
       "title": "Devlog System, Session Rituals, and Org Admin Infrastructure",
       "date": "2026-05-14",
-      "time_pt": "14:30–18:56 PT",
+      "time_pt": "14:30\u201318:56 PT",
       "tracks": [
         "operations"
       ],
@@ -106,19 +106,19 @@
         },
         {
           "title": "Startup ritual:",
-          "html": "<strong>Startup ritual (6 steps, added to CLAUDE.md):</strong> (1) Record session start via <code>devlog_session.py start</code>. (2) Run <code>track.py status</code> to detect any concurrent PI project sessions and flag overlap. (3) Read <code>status.md</code> to review open questions and last session's state. (4) Check live Pinecone vector counts against the stored values in <code>status.md</code> — a fast sanity check that the index is intact. (5) Run <code>sync_substack.py --dry-run</code> to check for new or edited posts since last session. (6) Summarize delta to Venkat: vector counts, pending sync, open questions."
+          "html": "<strong>Startup ritual (6 steps, added to CLAUDE.md):</strong> (1) Record session start via <code>devlog_session.py start</code>. (2) Run <code>track.py status</code> to detect any concurrent PI project sessions and flag overlap. (3) Read <code>status.md</code> to review open questions and last session's state. (4) Check live Pinecone vector counts against the stored values in <code>status.md</code> \u2014 a fast sanity check that the index is intact. (5) Run <code>sync_substack.py --dry-run</code> to check for new or edited posts since last session. (6) Summarize delta to Venkat: vector counts, pending sync, open questions."
         },
         {
           "title": "Wrap-up ritual:",
-          "html": "<strong>Wrap-up ritual (9 steps, added to CLAUDE.md):</strong> Documentation (devlog entry, status.md, CLAUDE.md vector count update) → keys/env (update .env.template and ../admin/keys.md if new env vars were added) → repo (git add, commit, push) → expenses (track.py end, fill log-vgr.json, render.py) → memory (update Claude memory with non-obvious decisions). The checklist enforces that documentation and expense logging are never skipped at session end."
+          "html": "<strong>Wrap-up ritual (9 steps, added to CLAUDE.md):</strong> Documentation (devlog entry, status.md, CLAUDE.md vector count update) \u2192 keys/env (update .env.template and ../admin/keys.md if new env vars were added) \u2192 repo (git add, commit, push) \u2192 expenses (track.py end, fill log-vgr.json, render.py) \u2192 memory (update Claude memory with non-obvious decisions). The checklist enforces that documentation and expense logging are never skipped at session end."
         },
         {
           "title": "PI admin repo:",
-          "html": "<strong>PI admin repo (Protocol-Institute/admin, private):</strong> Created a new private GitHub repo to hold all Protocol Institute operational infrastructure: <code>expenses/</code> (expense tracker scripts, per-contributor log files, rendered EXPENSES.md), <code>keys.md</code> (key registry — owner, billing method, which projects use each key), and <code>security.md</code> (key storage policy, rotation procedures, incident response). This separates PI org admin from VGR's personal <code>Code/</code> directory, which tracks personal-scope keys only."
+          "html": "<strong>PI admin repo (Protocol-Institute/admin, private):</strong> Created a new private GitHub repo to hold all Protocol Institute operational infrastructure: <code>expenses/</code> (expense tracker scripts, per-contributor log files, rendered EXPENSES.md), <code>keys.md</code> (key registry \u2014 owner, billing method, which projects use each key), and <code>security.md</code> (key storage policy, rotation procedures, incident response). This separates PI org admin from VGR's personal <code>Code/</code> directory, which tracks personal-scope keys only."
         },
         {
           "title": "Expense model:",
-          "html": "<strong>Expense model:</strong> Per-contributor log files (<code>log-{id}.json</code>) — each contributor owns their file, eliminating merge conflicts. <code>track.py end</code> reads all active <code>/tmp/</code> session start files, takes the earliest start as the window start, and computes a single billable window — so if C3PO, website, and protocolized-website sessions all run simultaneously, the hours are not double-counted. A <code>key_ownership</code> map in each log file flags which API keys are personal (reimbursable) vs org (direct billing, not expensed). <code>render.py</code> aggregates all contributor logs into <code>EXPENSES.md</code> and <code>expenses.csv</code> with per-contributor sections and a grand total."
+          "html": "<strong>Expense model:</strong> Per-contributor log files (<code>log-{id}.json</code>) \u2014 each contributor owns their file, eliminating merge conflicts. <code>track.py end</code> reads all active <code>/tmp/</code> session start files, takes the earliest start as the window start, and computes a single billable window \u2014 so if C3PO, website, and protocolized-website sessions all run simultaneously, the hours are not double-counted. A <code>key_ownership</code> map in each log file flags which API keys are personal (reimbursable) vs org (direct billing, not expensed). <code>render.py</code> aggregates all contributor logs into <code>EXPENSES.md</code> and <code>expenses.csv</code> with per-contributor sections and a grand total."
         }
       ]
     },
@@ -128,7 +128,7 @@
       "label": "Session 4",
       "title": "PDF Corpus Ingest and Canonical Ingest Pipeline",
       "date": "2026-05-15",
-      "time_pt": "17:30–18:38 PT",
+      "time_pt": "17:30\u201318:38 PT",
       "tracks": [
         "corpus-ingestion",
         "vector-architecture"
@@ -145,15 +145,15 @@
       "items": [
         {
           "title": "Canonical ingest pipeline:",
-          "html": "<strong>Canonical ingest pipeline documented in ARCHITECTURE.md:</strong> Formalized the three-layer pattern that every corpus source should follow. Layer 1 (Haiku enrichment): one API call per document produces summary, categories (from a shared 11-term vocabulary), and primary_author — saved to <code>sources/&lt;type&gt;/enriched_meta.json</code>, idempotent. Layer 2 (body chunks): text chunked at 512 tokens / 64 overlap, with a <code>Title / Authors / Type / Summary</code> prefix prepended to each chunk before embedding but not stored in metadata — so every chunk vector carries full document context. Layer 3 (doc_summary): one vector per document at ID <code>{id}__doc_summary</code>, embedding a compact structured representation for 'what is this document about' queries. The pattern was derived by comparing the Substack ingest (which had all three layers) against the original PDF ingest skeleton (which had none). Now the spec for all future sources."
+          "html": "<strong>Canonical ingest pipeline documented in ARCHITECTURE.md:</strong> Formalized the three-layer pattern that every corpus source should follow. Layer 1 (Haiku enrichment): one API call per document produces summary, categories (from a shared 11-term vocabulary), and primary_author \u2014 saved to <code>sources/&lt;type&gt;/enriched_meta.json</code>, idempotent. Layer 2 (body chunks): text chunked at 512 tokens / 64 overlap, with a <code>Title / Authors / Type / Summary</code> prefix prepended to each chunk before embedding but not stored in metadata \u2014 so every chunk vector carries full document context. Layer 3 (doc_summary): one vector per document at ID <code>{id}__doc_summary</code>, embedding a compact structured representation for 'what is this document about' queries. The pattern was derived by comparing the Substack ingest (which had all three layers) against the original PDF ingest skeleton (which had none). Now the spec for all future sources."
         },
         {
           "title": "PDF enrichment:",
-          "html": "<strong>PDF enrichment (82 PDFs, 0 errors, ~$0.06):</strong> New script <code>ingest/enrich_pdfs.py</code>, structurally parallel to <code>enrich_substack.py</code>. Input per PDF: title + authors + type + tags from the protocolized-website resource markdowns (74 of 82 PDFs had matching entries), plus the first 1,500 characters of body text extracted by pdfplumber. Output: two-sentence summary, 2–4 categories from the shared vocabulary, and primary_author. 8 PDFs with no markdown entry (cover letters, title pages) were enriched from text alone — Haiku inferred institution-level authorship correctly. Checkpoint saves every 10 documents. All 82 enriched; saved to <code>sources/pdfs/enriched_meta.json</code>."
+          "html": "<strong>PDF enrichment (82 PDFs, 0 errors, ~$0.06):</strong> New script <code>ingest/enrich_pdfs.py</code>, structurally parallel to <code>enrich_substack.py</code>. Input per PDF: title + authors + type + tags from the protocolized-website resource markdowns (74 of 82 PDFs had matching entries), plus the first 1,500 characters of body text extracted by pdfplumber. Output: two-sentence summary, 2\u20134 categories from the shared vocabulary, and primary_author. 8 PDFs with no markdown entry (cover letters, title pages) were enriched from text alone \u2014 Haiku inferred institution-level authorship correctly. Checkpoint saves every 10 documents. All 82 enriched; saved to <code>sources/pdfs/enriched_meta.json</code>."
         },
         {
           "title": "PDF ingest:",
-          "html": "<strong>PDF ingest (766 vectors in Pinecone <code>pdfs</code> namespace):</strong> <code>ingest/ingest_pdfs.py</code> rewritten from the original skeleton to match the canonical pattern: prefix-before-embedding, <code>namespace='pdfs'</code> throughout, <code>chunk_type</code> and <code>namespace</code> in every vector's metadata, and a new <code>ingest_doc_summaries()</code> function. Results: 689 body chunk vectors from 77 PDFs (5 PDFs were image-only — pdfplumber extracted no text, but all 5 still received doc_summary vectors from enrichment); 82 doc_summary vectors. 771 upserted, 766 landed in Pinecone — 5 deduplicated via SHA256 chunk-id collision (identical text passages appearing in multiple PDFs). Total index: 1,806 vectors across two namespaces."
+          "html": "<strong>PDF ingest (766 vectors in Pinecone <code>pdfs</code> namespace):</strong> <code>ingest/ingest_pdfs.py</code> rewritten from the original skeleton to match the canonical pattern: prefix-before-embedding, <code>namespace='pdfs'</code> throughout, <code>chunk_type</code> and <code>namespace</code> in every vector's metadata, and a new <code>ingest_doc_summaries()</code> function. Results: 689 body chunk vectors from 77 PDFs (5 PDFs were image-only \u2014 pdfplumber extracted no text, but all 5 still received doc_summary vectors from enrichment); 82 doc_summary vectors. 771 upserted, 766 landed in Pinecone \u2014 5 deduplicated via SHA256 chunk-id collision (identical text passages appearing in multiple PDFs). Total index: 1,806 vectors across two namespaces."
         },
         {
           "title": "Image-only PDFs:",
@@ -161,7 +161,7 @@
         },
         {
           "title": "venv note:",
-          "html": "<strong>venv recreation note:</strong> The <code>.venv</code> directory was absent at session start — Dropbox does not sync venvs (correct behavior, consistent with the node_modules policy). Recreated with <code>/opt/homebrew/bin/python3 -m venv .venv</code> and reinstalled deps. Also discovered that <code>pinecone-client</code> has been renamed to <code>pinecone</code> by Pinecone — the old package name raises an exception on import. Updated the install command in CLAUDE.md."
+          "html": "<strong>venv recreation note:</strong> The <code>.venv</code> directory was absent at session start \u2014 Dropbox does not sync venvs (correct behavior, consistent with the node_modules policy). Recreated with <code>/opt/homebrew/bin/python3 -m venv .venv</code> and reinstalled deps. Also discovered that <code>pinecone-client</code> has been renamed to <code>pinecone</code> by Pinecone \u2014 the old package name raises an exception on import. Updated the install command in CLAUDE.md."
         }
       ]
     },
@@ -169,9 +169,9 @@
       "id": 4,
       "sort_key": 4.0,
       "label": "Session 5",
-      "title": "Phase 2A — Oracle Worker and Web UI",
+      "title": "Phase 2A \u2014 Oracle Worker and Web UI",
       "date": "2026-05-15",
-      "time_pt": "~19:00–19:12 PT",
+      "time_pt": "~19:00\u201319:12 PT",
       "tracks": [
         "worker",
         "ui",
@@ -185,24 +185,24 @@
       "deployed": false,
       "items": [
         {
-          "title": "api/worker.js — full Oracle Worker:",
-          "html": "<strong>api/worker.js — Phase 2A Oracle Worker (~1,100 lines):</strong> Adapted from vgr_zirp oracle/index.js for C3PO. Single Pinecone index with parallel namespace queries (<code>substack</code> + <code>pdfs</code>). Routes: <code>GET /</code> serves the embedded web UI, <code>POST /query</code> is the full RAG endpoint, <code>GET /search</code> is semantic-search-only (no LLM), <code>GET /stats</code> returns KV spend aggregates, <code>GET /health</code> checks Pinecone, <code>POST /share</code> stubs transcript sharing (503 until D1 provisioned in Phase 2C). All LLM calls use <code>claude-sonnet-4-6</code> — not Haiku — because the protocol research material is dense and requires strong synthesis."
+          "title": "api/worker.js \u2014 full Oracle Worker:",
+          "html": "<strong>api/worker.js \u2014 Phase 2A Oracle Worker (~1,100 lines):</strong> Adapted from vgr_zirp oracle/index.js for C3PO. Single Pinecone index with parallel namespace queries (<code>substack</code> + <code>pdfs</code>). Routes: <code>GET /</code> serves the embedded web UI, <code>POST /query</code> is the full RAG endpoint, <code>GET /search</code> is semantic-search-only (no LLM), <code>GET /stats</code> returns KV spend aggregates, <code>GET /health</code> checks Pinecone, <code>POST /share</code> stubs transcript sharing (503 until D1 provisioned in Phase 2C). All LLM calls use <code>claude-sonnet-4-6</code> \u2014 not Haiku \u2014 because the protocol research material is dense and requires strong synthesis."
         },
         {
           "title": "System prompt (SOUL.md-derived, prompt-cached):",
-          "html": "<strong>System prompt derived from SOUL.md, cached with <code>cache_control: ephemeral</code>:</strong> ~600-token structured prompt covering C3PO's identity (Protocol Institute research assistant), intellectual commitments (protocols as genuine analytical category, hardness, protocolization as civilizational force, context-tank mission), voice (scholarly, source-specific, honest about limits), and characteristic analytical moves (cross-domain comparison, hardness analysis, formalization ladder, stakeholder analysis). Cached on first call; subsequent calls pay the 10× cheaper cache-read price (~/bin/zsh.30/M vs .00/M input)."
+          "html": "<strong>System prompt derived from SOUL.md, cached with <code>cache_control: ephemeral</code>:</strong> ~600-token structured prompt covering C3PO's identity (Protocol Institute research assistant), intellectual commitments (protocols as genuine analytical category, hardness, protocolization as civilizational force, context-tank mission), voice (scholarly, source-specific, honest about limits), and characteristic analytical moves (cross-domain comparison, hardness analysis, formalization ladder, stakeholder analysis). Cached on first call; subsequent calls pay the 10\u00d7 cheaper cache-read price (~/bin/zsh.30/M vs .00/M input)."
         },
         {
           "title": "Secondary retrieval for summary vectors:",
-          "html": "<strong>Secondary retrieval:</strong> When Pinecone surfaces a <code>doc_summary</code> (PDF) or <code>post_summary</code> (Substack) vector as a top hit — these are excellent for title-query matching but contain only ~500-char abstracts — the worker immediately fires a follow-up filtered query to fetch 4 real body chunks from the same document. PDFs filtered by <code>url</code> field; Substack posts filtered by <code>slug</code>. Summary hits are then removed from the result set and replaced by their body-chunk siblings, giving the LLM actual prose to synthesize rather than an abstract."
+          "html": "<strong>Secondary retrieval:</strong> When Pinecone surfaces a <code>doc_summary</code> (PDF) or <code>post_summary</code> (Substack) vector as a top hit \u2014 these are excellent for title-query matching but contain only ~500-char abstracts \u2014 the worker immediately fires a follow-up filtered query to fetch 4 real body chunks from the same document. PDFs filtered by <code>url</code> field; Substack posts filtered by <code>slug</code>. Summary hits are then removed from the result set and replaced by their body-chunk siblings, giving the LLM actual prose to synthesize rather than an abstract."
         },
         {
           "title": "C3PO web UI (PI branding, no A/B testing):",
-          "html": "<strong>Web UI embedded in worker at <code>GET /</code>:</strong> Adapted from vgr_zirp.html. A/B testing removed entirely (no persona versions for C3PO). PI design tokens applied: primary <code>#0F6E56</code> (teal), Lora body font, Outfit UI font, Instrument Serif heading. Skull SVG replaced with robot/droid head SVG (antenna + head + eyes + grille + body — C-3PO-inspired). Source badges by document type: <em>Protocolized</em> (substack), Paper, Essay, Fiction, Game. SOUL_EXCERPT adapted for C3PO persona. Stats footer, action bar (copy/download/wrapup/clear), share section, and MCP panel all adapted. Offline notice points to protocolized.io resource library instead of Contraptions subscription."
+          "html": "<strong>Web UI embedded in worker at <code>GET /</code>:</strong> Adapted from vgr_zirp.html. A/B testing removed entirely (no persona versions for C3PO). PI design tokens applied: primary <code>#0F6E56</code> (teal), Lora body font, Outfit UI font, Instrument Serif heading. Skull SVG replaced with robot/droid head SVG (antenna + head + eyes + grille + body \u2014 C-3PO-inspired). Source badges by document type: <em>Protocolized</em> (substack), Paper, Essay, Fiction, Game. SOUL_EXCERPT adapted for C3PO persona. Stats footer, action bar (copy/download/wrapup/clear), share section, and MCP panel all adapted. Offline notice points to protocolized.io resource library instead of Contraptions subscription."
         },
         {
           "title": "Normalization and context block:",
-          "html": "<strong>Normalization and context block:</strong> Two normalize functions — <code>normalizePdf()</code> maps <code>type</code> to a label (PAPER, WORKING PAPER, ESSAY, FICTION, GAME DESIGN, DATASET, TALK/LECTURE, WORKSHOP REPORT, TEMPLATE, INTERVIEW); <code>normalizeSubstack()</code> maps <code>section</code> to label (Fictions → FICTION, Articles → ESSAY, Obliquities → ESSAY, else PROTOCOLIZED). Context block assembles as <code>[LABEL — Title — Authors — Year]\nchunk text</code> separated by <code>---</code> dividers. This matches Claude's trained affinity for structured retrieval context."
+          "html": "<strong>Normalization and context block:</strong> Two normalize functions \u2014 <code>normalizePdf()</code> maps <code>type</code> to a label (PAPER, WORKING PAPER, ESSAY, FICTION, GAME DESIGN, DATASET, TALK/LECTURE, WORKSHOP REPORT, TEMPLATE, INTERVIEW); <code>normalizeSubstack()</code> maps <code>section</code> to label (Fictions \u2192 FICTION, Articles \u2192 ESSAY, Obliquities \u2192 ESSAY, else PROTOCOLIZED). Context block assembles as <code>[LABEL \u2014 Title \u2014 Authors \u2014 Year]\nchunk text</code> separated by <code>---</code> dividers. This matches Claude's trained affinity for structured retrieval context."
         }
       ]
     },
@@ -212,7 +212,7 @@
       "label": "Session 6",
       "title": "Security Filters, Transcript Loop, and Chat Index UX",
       "date": "2026-05-16",
-      "time_pt": "16:36–19:28 PT",
+      "time_pt": "16:36\u201319:28 PT",
       "tracks": [
         "worker-api",
         "ux",
@@ -231,7 +231,7 @@
         },
         {
           "title": "Transcript submission loop",
-          "html": "<strong>Transcript submission loop:</strong> POST /share now generates a 6-character <code>chatId</code>, stores the full conversation as <code>submission:{ts}:{chatId}</code> in KV (90-day TTL), and writes a reverse-lookup key <code>chatid:{chatId}</code> for O(1) individual fetches. <code>autoModerate()</code> immediately classifies submissions as public/private/pending based on query length, answer length, and alphabetic content ratio — no 24-hour hold. Admin can PATCH status to override."
+          "html": "<strong>Transcript submission loop:</strong> POST /share now generates a 6-character <code>chatId</code>, stores the full conversation as <code>submission:{ts}:{chatId}</code> in KV (90-day TTL), and writes a reverse-lookup key <code>chatid:{chatId}</code> for O(1) individual fetches. <code>autoModerate()</code> immediately classifies submissions as public/private/pending based on query length, answer length, and alphabetic content ratio \u2014 no 24-hour hold. Admin can PATCH status to override."
         },
         {
           "title": "Chat index and individual chat pages",
@@ -243,7 +243,7 @@
         },
         {
           "title": "Token and word limits",
-          "html": "<strong>Token and word limits:</strong> Raised <code>MAX_ANSWER_TOKENS</code> 800→1200. Added explicit \"350–500 words, complete every definition fully\" instruction to system prompt. This addresses observed truncation mid-definition, a symptom of chunk-boundary splits in the corpus — the permanent fix is a protocol lexicon injected into the system prompt (deferred, tracked as TODO)."
+          "html": "<strong>Token and word limits:</strong> Raised <code>MAX_ANSWER_TOKENS</code> 800\u21921200. Added explicit \"350\u2013500 words, complete every definition fully\" instruction to system prompt. This addresses observed truncation mid-definition, a symptom of chunk-boundary splits in the corpus \u2014 the permanent fix is a protocol lexicon injected into the system prompt (deferred, tracked as TODO)."
         }
       ]
     },
@@ -253,7 +253,7 @@
       "label": "Session 7",
       "title": "/chats Page Debugging and vgr_zirp Planning",
       "date": "2026-05-16",
-      "time_pt": "22:13–23:02 PT",
+      "time_pt": "22:13\u201323:02 PT",
       "tracks": [
         "worker-api",
         "operations"
@@ -267,15 +267,15 @@
       "items": [
         {
           "title": "/chats page partial fixes",
-          "html": "<strong>/chats page partial fixes:</strong> Three confirmed bugs fixed and deployed: (1) <code>handleApiChats</code> was returning full conversation objects (27KB+ for admin view) — now returns slim objects with <code>firstQ</code> and <code>turnCount</code> only; (2) <code>GET /chats/</code> (trailing slash) now redirects 302 to <code>/chats</code>; (3) “&larr; All conversations” link in the individual chat page was using <code>href=\"/chats/\"</code> (trailing slash, 404) — fixed to <code>/chats</code>; (4) <code>cardHTML</code> updated to read new slim field names. Deployed. Root bug — <code>getElementById('chats-list-container')</code> returning null on laptop — persists and is unresolved."
+          "html": "<strong>/chats page partial fixes:</strong> Three confirmed bugs fixed and deployed: (1) <code>handleApiChats</code> was returning full conversation objects (27KB+ for admin view) \u2014 now returns slim objects with <code>firstQ</code> and <code>turnCount</code> only; (2) <code>GET /chats/</code> (trailing slash) now redirects 302 to <code>/chats</code>; (3) \u201c&larr; All conversations\u201d link in the individual chat page was using <code>href=\"/chats/\"</code> (trailing slash, 404) \u2014 fixed to <code>/chats</code>; (4) <code>cardHTML</code> updated to read new slim field names. Deployed. Root bug \u2014 <code>getElementById('chats-list-container')</code> returning null on laptop \u2014 persists and is unresolved."
         },
         {
           "title": "Issues tracking initialized",
-          "html": "<strong>Issues tracking initialized:</strong> Created <code>issues/</code> directory. First entry: <code>issues/chats-page-load-failure.md</code> documents the <code>getElementById</code> null mystery — element is in the DOM, IDs match, script is at end of body, yet the call returns null. Ruling out ID mismatch, wrong page served, and renderChats mutations. Open hypotheses: browser extension interference, or stale Cloudflare edge cache. Next steps: test in incognito, hard reload, check Network tab for <code>/api/chats</code> response shape."
+          "html": "<strong>Issues tracking initialized:</strong> Created <code>issues/</code> directory. First entry: <code>issues/chats-page-load-failure.md</code> documents the <code>getElementById</code> null mystery \u2014 element is in the DOM, IDs match, script is at end of body, yet the call returns null. Ruling out ID mismatch, wrong page served, and renderChats mutations. Open hypotheses: browser extension interference, or stale Cloudflare edge cache. Next steps: test in incognito, hard reload, check Network tab for <code>/api/chats</code> response shape."
         },
         {
           "title": "vgr_zirp deep dive plan",
-          "html": "<strong>vgr_zirp deep dive plan:</strong> <code>plans/vgrzirp-reuse.md</code> completed from a full code + devlog audit of the ribbonfarm_site worker stack. Key findings: 7 features to copy directly (title-anchored embeddings, tier weighting, D1, AES-256-GCM encryption, strike/ban, self-notes, per-query logging); 4 to adapt (CORPUS_MAP, lexicon, MCP, search); 5 to skip (multiple indexes, A/B testing, site hooks, session compression, KBA probe). Primary architectural divergence: C3PO needs structural retrieval (numbered frameworks in academic PDFs) that vgr_zirp has no equivalent for — tracked separately in <code>plans/structural-navigation.md</code>. Build order: tier weighting → CORPUS_MAP → D1 → encryption → strike/ban → self-notes → per-query logging → title-anchored embeddings → lexicon → MCP → structural navigation."
+          "html": "<strong>vgr_zirp deep dive plan:</strong> <code>plans/vgrzirp-reuse.md</code> completed from a full code + devlog audit of the ribbonfarm_site worker stack. Key findings: 7 features to copy directly (title-anchored embeddings, tier weighting, D1, AES-256-GCM encryption, strike/ban, self-notes, per-query logging); 4 to adapt (CORPUS_MAP, lexicon, MCP, search); 5 to skip (multiple indexes, A/B testing, site hooks, session compression, KBA probe). Primary architectural divergence: C3PO needs structural retrieval (numbered frameworks in academic PDFs) that vgr_zirp has no equivalent for \u2014 tracked separately in <code>plans/structural-navigation.md</code>. Build order: tier weighting \u2192 CORPUS_MAP \u2192 D1 \u2192 encryption \u2192 strike/ban \u2192 self-notes \u2192 per-query logging \u2192 title-anchored embeddings \u2192 lexicon \u2192 MCP \u2192 structural navigation."
         }
       ]
     },
@@ -285,7 +285,7 @@
       "label": "Session 7",
       "title": "Curly-Quote Root-Cause Fix, Shared Subnav, New Pages",
       "date": "2026-05-17",
-      "time_pt": "14:55–15:45 PT",
+      "time_pt": "14:55\u201315:45 PT",
       "tracks": [
         "worker-api",
         "ux"
@@ -300,7 +300,7 @@
       "items": [
         {
           "title": "Root cause: curly quotes",
-          "html": "<strong>Root cause: curly quotes.</strong> The <code>/chats</code> page had been broken for two sessions — <code>getElementById('chats-list-container')</code> returning null, CSS selectors not matching, the page stuck on 'Loading conversations…'. The root cause turned out to be 314 curly/smart quotes (U+201C <code>“</code> and U+201D <code>”</code>) throughout <code>worker.js</code> — introduced during initial AI-assisted code generation — instead of straight ASCII double-quotes (U+0022). The browser's HTML parser does not recognize curly quotes as attribute delimiters, so every <code>id=</code>, <code>class=</code>, and <code>href=</code> attribute silently failed to parse. The smoking-gun clue was the broken navigation URL: clicking 'Conversations' navigated to <code>https://c3po.vgr-702.workers.dev/%E2%80%9D/%E2%80%9D</code> — the URL-encoded form of the curly-quote characters being parsed as the href value itself. Fixed via Python: <code>text.replace('\\u201c', '\"').replace('\\u201d', '\"')</code>, 0 remaining after replacement."
+          "html": "<strong>Root cause: curly quotes.</strong> The <code>/chats</code> page had been broken for two sessions \u2014 <code>getElementById('chats-list-container')</code> returning null, CSS selectors not matching, the page stuck on 'Loading conversations\u2026'. The root cause turned out to be 314 curly/smart quotes (U+201C <code>\u201c</code> and U+201D <code>\u201d</code>) throughout <code>worker.js</code> \u2014 introduced during initial AI-assisted code generation \u2014 instead of straight ASCII double-quotes (U+0022). The browser's HTML parser does not recognize curly quotes as attribute delimiters, so every <code>id=</code>, <code>class=</code>, and <code>href=</code> attribute silently failed to parse. The smoking-gun clue was the broken navigation URL: clicking 'Conversations' navigated to <code>https://c3po.vgr-702.workers.dev/%E2%80%9D/%E2%80%9D</code> \u2014 the URL-encoded form of the curly-quote characters being parsed as the href value itself. Fixed via Python: <code>text.replace('\\u201c', '\"').replace('\\u201d', '\"')</code>, 0 remaining after replacement."
         },
         {
           "title": "Shared subnav",
@@ -308,7 +308,7 @@
         },
         {
           "title": "New pages: How It Works + Terms",
-          "html": "<strong>New pages: How It Works + Terms.</strong> Two new static routes added: <code>GET /how-it-works</code> and <code>GET /terms</code>. Both adapted from vgr_zirp equivalents with C3PO/PI branding — teal palette, Lora body font, C3PO droid avatar, PI name and corpus description. How It Works covers the RAG pipeline at a conceptual level for non-technical visitors. Terms covers appropriate use, limitations, and data handling."
+          "html": "<strong>New pages: How It Works + Terms.</strong> Two new static routes added: <code>GET /how-it-works</code> and <code>GET /terms</code>. Both adapted from vgr_zirp equivalents with C3PO/PI branding \u2014 teal palette, Lora body font, C3PO droid avatar, PI name and corpus description. How It Works covers the RAG pipeline at a conceptual level for non-technical visitors. Terms covers appropriate use, limitations, and data handling."
         }
       ]
     },
@@ -318,7 +318,7 @@
       "label": "Session 8",
       "title": "YouTube Transcript Ingest and Bibliography Mining (Explicit Pass)",
       "date": "2026-05-17",
-      "time_pt": "15:45–17:44 PT",
+      "time_pt": "15:45\u201317:44 PT",
       "tracks": [
         "corpus-ingestion",
         "vector-architecture"
@@ -341,19 +341,19 @@
         },
         {
           "title": "Caption pipeline",
-          "html": "<strong>Caption pipeline.</strong> <code>fetch_youtube_meta.py</code> uses <code>yt-dlp --flat-playlist</code> to enumerate all playlists, deduplicates by video ID (videos appear in multiple playlists), and downloads English auto-captions as <code>.vtt</code> files. A custom VTT parser strips timestamp lines, cue numbers, inline timing tags (<code>&lt;00:01:23&gt;</code>), and deduplicated partial lines (VTT streams emit rolling partials then the completed sentence — the parser detects when a new line starts with the previous line and replaces it). Result: clean plain text per video. 91/91 succeeded, ranging from 6,200 to 15,700 words per video."
+          "html": "<strong>Caption pipeline.</strong> <code>fetch_youtube_meta.py</code> uses <code>yt-dlp --flat-playlist</code> to enumerate all playlists, deduplicates by video ID (videos appear in multiple playlists), and downloads English auto-captions as <code>.vtt</code> files. A custom VTT parser strips timestamp lines, cue numbers, inline timing tags (<code>&lt;00:01:23&gt;</code>), and deduplicated partial lines (VTT streams emit rolling partials then the completed sentence \u2014 the parser detects when a new line starts with the previous line and replaces it). Result: clean plain text per video. 91/91 succeeded, ranging from 6,200 to 15,700 words per video."
         },
         {
           "title": "Haiku enrichment for videos",
-          "html": "<strong>Haiku enrichment (~$0.02).</strong> <code>enrich_youtube.py</code> sends the first 3,000 characters of each transcript plus the video title to Haiku. Output: a 2–3 sentence summary naming the speaker and specific argument, 2–4 categories from the shared vocabulary, a list of speakers, and 3–5 key protocol concepts. 91/91 succeeded, 0 errors. The enrichment is notably richer than PDF enrichment because transcript openings typically include speaker introductions and explicit framing statements."
+          "html": "<strong>Haiku enrichment (~$0.02).</strong> <code>enrich_youtube.py</code> sends the first 3,000 characters of each transcript plus the video title to Haiku. Output: a 2\u20133 sentence summary naming the speaker and specific argument, 2\u20134 categories from the shared vocabulary, a list of speakers, and 3\u20135 key protocol concepts. 91/91 succeeded, 0 errors. The enrichment is notably richer than PDF enrichment because transcript openings typically include speaker introductions and explicit framing statements."
         },
         {
           "title": "Ingest: 2,940 new vectors",
-          "html": "<strong>Ingest: 2,940 new vectors.</strong> <code>ingest_youtube.py</code> follows the same two-vector-type pattern as PDF ingest: <strong>body chunks</strong> (512-token windows, 64-token overlap, title/speakers/summary prefix for embedding but not stored) and <strong>video_summary</strong> (one per video, full enrichment text). 2,849 body chunks + 91 summary vectors → Pinecone namespace <code>videos</code>. The <code>videos</code> namespace is now the largest single corpus source, adding roughly 900,000 words of protocol-focused spoken content. Pinecone total: 4,750 vectors across four namespaces."
+          "html": "<strong>Ingest: 2,940 new vectors.</strong> <code>ingest_youtube.py</code> follows the same two-vector-type pattern as PDF ingest: <strong>body chunks</strong> (512-token windows, 64-token overlap, title/speakers/summary prefix for embedding but not stored) and <strong>video_summary</strong> (one per video, full enrichment text). 2,849 body chunks + 91 summary vectors \u2192 Pinecone namespace <code>videos</code>. The <code>videos</code> namespace is now the largest single corpus source, adding roughly 900,000 words of protocol-focused spoken content. Pinecone total: 4,750 vectors across four namespaces."
         },
         {
           "title": "Bibliography mining: explicit pass",
-          "html": "<strong>Bibliography mining: explicit pass.</strong> <code>mine_bibliography.py --mode explicit</code> scanned all 82 PDFs for formal reference/bibliography sections (last standalone 'References', 'Bibliography', 'Notes', etc. header in the second half of the document). Six PDFs had parseable sections: Austin (architecture essay), Kei Kreutler (artificial memory), Saffron Huang (time and consciousness), two versions of Dispatches from Cascadia (URL footnotes), and Timber Schroff's Safe New World (coal mining safety). Haiku extracted 106 unique references after deduplication. A second Haiku pass scored every reference 0–3 for protocol relevance — nothing dropped, score stored as metadata for retrieval weighting. Distribution: core (3): 7 including <em>Extrastatecraft</em>, <em>A Pattern Language</em>, <em>Normal Accidents</em>; relevant (2): 24 including Safety-I/II, Technics and Civilization; adjacent (1): 30; incidental (0): 45 including White Noise, Proust. <code>fetch_refs.py</code> (Semantic Scholar abstract fetch + OA PDF download) written but not yet run — paused to end session."
+          "html": "<strong>Bibliography mining: explicit pass.</strong> <code>mine_bibliography.py --mode explicit</code> scanned all 82 PDFs for formal reference/bibliography sections (last standalone 'References', 'Bibliography', 'Notes', etc. header in the second half of the document). Six PDFs had parseable sections: Austin (architecture essay), Kei Kreutler (artificial memory), Saffron Huang (time and consciousness), two versions of Dispatches from Cascadia (URL footnotes), and Timber Schroff's Safe New World (coal mining safety). Haiku extracted 106 unique references after deduplication. A second Haiku pass scored every reference 0\u20133 for protocol relevance \u2014 nothing dropped, score stored as metadata for retrieval weighting. Distribution: core (3): 7 including <em>Extrastatecraft</em>, <em>A Pattern Language</em>, <em>Normal Accidents</em>; relevant (2): 24 including Safety-I/II, Technics and Civilization; adjacent (1): 30; incidental (0): 45 including White Noise, Proust. <code>fetch_refs.py</code> (Semantic Scholar abstract fetch + OA PDF download) written but not yet run \u2014 paused to end session."
         }
       ]
     },
@@ -363,7 +363,7 @@
       "label": "Session 8",
       "title": "Namespace Wiring, System Prompt Enrichment, and Full-Corpus Lexicon Extraction",
       "date": "2026-05-18",
-      "time_pt": "14:55–16:10 PT",
+      "time_pt": "14:55\u201316:10 PT",
       "tracks": [
         "worker-api",
         "corpus-ingestion",
@@ -384,27 +384,27 @@
       "items": [
         {
           "title": "Videos + bibliography wired into live worker",
-          "html": "<strong>Videos + bibliography wired into live worker.</strong> Both <code>GET /search</code> and <code>POST /query</code> now query all four Pinecone namespaces in parallel: <code>pdfs</code>, <code>substack</code>, <code>videos</code>, <code>bibliography</code>. Added <code>normalizeVideo()</code> and <code>normalizeBibliography()</code> normalizers. <code>mergeResults()</code> updated to four-array signature with tier weighting: pdfs/substack at 1.0×, videos at 0.9×, bibliography at 0.85× scaled by per-entry relevance_score (0–3). POST /query secondary retrieval extended to handle <code>video_summary</code> hits: when a summary vector matches, a follow-up query fetches the actual body chunks from the same video. Fixed a latent operator-precedence bug in <code>normalizeBibliography</code> where <code>m.url || m.doi ? ... : null</code> was binding as <code>(m.url || m.doi) ? ...</code> rather than the intended <code>m.url || (m.doi ? ...)</code>. Added Talk (orange) and Reference (grey) badge CSS classes and <code>badgeForSource()</code> cases. Total corpus now queryable: 5,028 vectors across five namespaces."
+          "html": "<strong>Videos + bibliography wired into live worker.</strong> Both <code>GET /search</code> and <code>POST /query</code> now query all four Pinecone namespaces in parallel: <code>pdfs</code>, <code>substack</code>, <code>videos</code>, <code>bibliography</code>. Added <code>normalizeVideo()</code> and <code>normalizeBibliography()</code> normalizers. <code>mergeResults()</code> updated to four-array signature with tier weighting: pdfs/substack at 1.0\u00d7, videos at 0.9\u00d7, bibliography at 0.85\u00d7 scaled by per-entry relevance_score (0\u20133). POST /query secondary retrieval extended to handle <code>video_summary</code> hits: when a summary vector matches, a follow-up query fetches the actual body chunks from the same video. Fixed a latent operator-precedence bug in <code>normalizeBibliography</code> where <code>m.url || m.doi ? ... : null</code> was binding as <code>(m.url || m.doi) ? ...</code> rather than the intended <code>m.url || (m.doi ? ...)</code>. Added Talk (orange) and Reference (grey) badge CSS classes and <code>badgeForSource()</code> cases. Total corpus now queryable: 5,028 vectors across five namespaces."
         },
         {
           "title": "System prompt: institute context + corpus map + lexicon",
-          "html": "<strong>System prompt enriched with three new blocks.</strong> (1) <strong>ABOUT THE PROTOCOL INSTITUTE:</strong> PI history, SoP provenance (EF-funded, 80+ researchers, 270+ works, 2023–2024), current programs (Protocolized magazine, Protocol School 2025, Bridge Atlas, Researcher Salons, Protocol Symposium), leadership (Rao as founder/director, Stinson-Schroff and Beiko as key figures), independence. (2) <strong>INDEXED CORPUS:</strong> Named listing of landmark papers by title/author, YouTube series with speaker names, Substack top contributors — preventing false denials on materials that are actually indexed. (3) <strong>PROTOCOL LEXICON:</strong> 40-term compact block with PI-specific one-line definitions for protocolization, hardness, Kafka/Bartleby/Whitehead protocols, ETTO, dynamic non-event, protocol archetypes, addressable space, and 32 other coined or redefined terms. The lexicon uses the PI meaning, not generic definitions — preventing Claude from defining 'hardness' as a material property or 'tension' as physical force."
+          "html": "<strong>System prompt enriched with three new blocks.</strong> (1) <strong>ABOUT THE PROTOCOL INSTITUTE:</strong> PI history, SoP provenance (EF-funded, 80+ researchers, 270+ works, 2023\u20132024), current programs (Protocolized magazine, Protocol School 2025, Bridge Atlas, Researcher Salons, Protocol Symposium), leadership (Rao as founder/director, Stinson-Schroff and Beiko as key figures), independence. (2) <strong>INDEXED CORPUS:</strong> Named listing of landmark papers by title/author, YouTube series with speaker names, Substack top contributors \u2014 preventing false denials on materials that are actually indexed. (3) <strong>PROTOCOL LEXICON:</strong> 40-term compact block with PI-specific one-line definitions for protocolization, hardness, Kafka/Bartleby/Whitehead protocols, ETTO, dynamic non-event, protocol archetypes, addressable space, and 32 other coined or redefined terms. The lexicon uses the PI meaning, not generic definitions \u2014 preventing Claude from defining 'hardness' as a material property or 'tension' as physical force."
         },
         {
           "title": "Full-corpus lexicon extraction: 914 terms from 66 PDFs",
-          "html": "<strong>Full-corpus lexicon extraction via Haiku.</strong> <code>ingest/extract_lexicon.py</code> sends each PDF's full text to Haiku with a structured prompt asking for defined terms, technical vocabulary, and coined concepts. Initial pass covered 12 key theoretical papers (245 terms). Extended with <code>--all</code> flag to process all 82 PDFs, yielding <strong>914 terms from 66 papers</strong> (16 papers had insufficient text — mostly image-only or very short supplementary materials; one failure: Virtual Structures by Sinisterra, image-based PDF). Notable new contributions beyond the initial 12: Fangting's <em>Composable Life</em> (composable life, OALife, digital hardness, algorithmic traceology), Kreutler's <em>Artificial Memory</em> (living/latent memory, lore, memory images, associative arrangement), Huang's <em>Control and Consciousness of Time</em> (horological politics, device consciousness, device-mediated social protocol), Van Epps' <em>Capital Enclosure</em> (commons, anti-rival, commons-based peer production, extraction vs. apportionment), Lang's standards paper (de facto/consortium/disruptive standards-making, failure to launch, commercial diplomacy), Rajamohan's <em>Dispatches from Cascadia</em> (bioregional protocol, downward merge, flywheel economy). All 914 entries carry <code>term</code>, <code>definition</code>, <code>source</code> (paper title), <code>source_slug</code>, and <code>context</code> (verbatim excerpt). Saved to <code>sources/lexicon_draft.json</code>."
+          "html": "<strong>Full-corpus lexicon extraction via Haiku.</strong> <code>ingest/extract_lexicon.py</code> sends each PDF's full text to Haiku with a structured prompt asking for defined terms, technical vocabulary, and coined concepts. Initial pass covered 12 key theoretical papers (245 terms). Extended with <code>--all</code> flag to process all 82 PDFs, yielding <strong>914 terms from 66 papers</strong> (16 papers had insufficient text \u2014 mostly image-only or very short supplementary materials; one failure: Virtual Structures by Sinisterra, image-based PDF). Notable new contributions beyond the initial 12: Fangting's <em>Composable Life</em> (composable life, OALife, digital hardness, algorithmic traceology), Kreutler's <em>Artificial Memory</em> (living/latent memory, lore, memory images, associative arrangement), Huang's <em>Control and Consciousness of Time</em> (horological politics, device consciousness, device-mediated social protocol), Van Epps' <em>Capital Enclosure</em> (commons, anti-rival, commons-based peer production, extraction vs. apportionment), Lang's standards paper (de facto/consortium/disruptive standards-making, failure to launch, commercial diplomacy), Rajamohan's <em>Dispatches from Cascadia</em> (bioregional protocol, downward merge, flywheel economy). All 914 entries carry <code>term</code>, <code>definition</code>, <code>source</code> (paper title), <code>source_slug</code>, and <code>context</code> (verbatim excerpt). Saved to <code>sources/lexicon_draft.json</code>."
         },
         {
           "title": "Protocol Lexicon as hosted resource on protocolized.io",
-          "html": "<strong>Protocol Lexicon published to protocolized-website.</strong> <code>src/content/resources/protocol-lexicon.md</code> — a <code>framework</code>-type resource, marked <code>featured: true</code>. 41 entries organized into thematic sections: Core Protocol Theory, Archetypes and Failure Modes, Protocolization as Phenomenon, Protocol Lifecycle, Participants and Roles, Hardness Sources, Addressability, Knowledge and Epistemics. Each entry has a full 2–4 sentence definition and source attribution. Considerably richer than the compact system-prompt block. Definitions derived from Haiku extraction with editorial refinement. Will be updated as lexicon curation proceeds."
+          "html": "<strong>Protocol Lexicon published to protocolized-website.</strong> <code>src/content/resources/protocol-lexicon.md</code> \u2014 a <code>framework</code>-type resource, marked <code>featured: true</code>. 41 entries organized into thematic sections: Core Protocol Theory, Archetypes and Failure Modes, Protocolization as Phenomenon, Protocol Lifecycle, Participants and Roles, Hardness Sources, Addressability, Knowledge and Epistemics. Each entry has a full 2\u20134 sentence definition and source attribution. Considerably richer than the compact system-prompt block. Definitions derived from Haiku extraction with editorial refinement. Will be updated as lexicon curation proceeds."
         },
         {
           "title": "Architecture decision: lexicon as retrieval, not injection",
-          "html": "<strong>Architecture decision: full lexicon → Pinecone, not system prompt.</strong> 914 terms × ~47 tokens/entry ≈ 43,000 tokens — far too large for static injection (would add ~$0.04/query at Sonnet pricing and likely degrade response quality). Decision: ingest <code>lexicon_draft.json</code> as vectors into a new <code>definitions</code> namespace, retrieved on demand like any other corpus material. The system prompt retains a 40-term <em>anchor block</em> for the most critical PI-specific terms (the ones most likely to trigger wrong generic definitions). Everything else — the remaining 874 terms including Fangting's composable life vocabulary, Huang's horological politics, Kreutler's memory framework — surfaces through semantic retrieval when relevant. Planned as next ingest step."
+          "html": "<strong>Architecture decision: full lexicon \u2192 Pinecone, not system prompt.</strong> 914 terms \u00d7 ~47 tokens/entry \u2248 43,000 tokens \u2014 far too large for static injection (would add ~$0.04/query at Sonnet pricing and likely degrade response quality). Decision: ingest <code>lexicon_draft.json</code> as vectors into a new <code>definitions</code> namespace, retrieved on demand like any other corpus material. The system prompt retains a 40-term <em>anchor block</em> for the most critical PI-specific terms (the ones most likely to trigger wrong generic definitions). Everything else \u2014 the remaining 874 terms including Fangting's composable life vocabulary, Huang's horological politics, Kreutler's memory framework \u2014 surfaces through semantic retrieval when relevant. Planned as next ingest step."
         },
         {
           "title": "Magazine lexicon plan",
-          "html": "<strong>Magazine lexicon plan written, not executed.</strong> <code>plans/magazine-lexicon.md</code> covers a two-pass extraction over the Protocolized archive (116 posts): a fiction pass (72 posts) tuned to capture fictional protocols, memetically resonant concepts, and design fictions — all clearly tagged <code>fictional: true</code> to prevent C3PO from treating speculative protocols as real coordination mechanisms — and a nonfiction pass (theory/editorial/protocol-watching) tuned for coined terms and protocol-watching observations. Full post HTML available locally at <code>data/substack/posts/</code>. Estimated cost: ~$0.70. Not yet executed — will follow lexicon ingest and definitions namespace work."
+          "html": "<strong>Magazine lexicon plan written, not executed.</strong> <code>plans/magazine-lexicon.md</code> covers a two-pass extraction over the Protocolized archive (116 posts): a fiction pass (72 posts) tuned to capture fictional protocols, memetically resonant concepts, and design fictions \u2014 all clearly tagged <code>fictional: true</code> to prevent C3PO from treating speculative protocols as real coordination mechanisms \u2014 and a nonfiction pass (theory/editorial/protocol-watching) tuned for coined terms and protocol-watching observations. Full post HTML available locally at <code>data/substack/posts/</code>. Estimated cost: ~$0.70. Not yet executed \u2014 will follow lexicon ingest and definitions namespace work."
         }
       ]
     },
@@ -432,20 +432,20 @@
       "deployed": false,
       "items": [
         {
-          "title": "sync_discord.py — REST-only batch harvester",
-          "html": "<strong>sync_discord.py — REST-only batch harvester:</strong> No Discord gateway, no persistent process, no privileged intents — pure REST. Polls the single general channel (<code>#🤔-idle-protocol-musings</code>) with cursor-based pagination. Filter: original messages ≥20 characters, replies ≥150 characters, thread starters always included. Thread starters fetch and bundle the entire thread as one conversation chunk. Pagination fix: backfill uses <code>before</code> (descending), incremental sync uses <code>after</code> (ascending) — the two directions require opposite cursor logic. State persisted in <code>data/discord_state.json</code>."
+          "title": "sync_discord.py \u2014 REST-only batch harvester",
+          "html": "<strong>sync_discord.py \u2014 REST-only batch harvester:</strong> No Discord gateway, no persistent process, no privileged intents \u2014 pure REST. Polls the single general channel (<code>#\ud83e\udd14-idle-protocol-musings</code>) with cursor-based pagination. Filter: original messages \u226520 characters, replies \u2265150 characters, thread starters always included. Thread starters fetch and bundle the entire thread as one conversation chunk. Pagination fix: backfill uses <code>before</code> (descending), incremental sync uses <code>after</code> (ascending) \u2014 the two directions require opposite cursor logic. State persisted in <code>data/discord_state.json</code>."
         },
         {
           "title": "Full historical ingest of #idle-protocol-musings",
-          "html": "<strong>Full historical ingest of #🤔-idle-protocol-musings (4 years):</strong> 2,877 messages fetched → 2,390 ingested (1,795 originals, 465 replies, 130 bundled thread chunks). 119 unique authors, 441 URLs mentioned, 104 starred messages. Pinecone namespace <code>discord</code>: 2,390 vectors. Metadata includes <code>guild_id</code>, <code>channel_id</code>, <code>message_id</code>, <code>author</code>, <code>star_count</code>, <code>url_count</code>, chunk_type (<code>message</code>, <code>reply</code>, <code>thread</code>)."
+          "html": "<strong>Full historical ingest of #\ud83e\udd14-idle-protocol-musings (4 years):</strong> 2,877 messages fetched \u2192 2,390 ingested (1,795 originals, 465 replies, 130 bundled thread chunks). 119 unique authors, 441 URLs mentioned, 104 starred messages. Pinecone namespace <code>discord</code>: 2,390 vectors. Metadata includes <code>guild_id</code>, <code>channel_id</code>, <code>message_id</code>, <code>author</code>, <code>star_count</code>, <code>url_count</code>, chunk_type (<code>message</code>, <code>reply</code>, <code>thread</code>)."
         },
         {
           "title": "Claude Haiku corpus analysis",
-          "html": "<strong>Claude Haiku corpus analysis via ingest/analyze_discord.py:</strong> Stratified sample of 200 messages passed to Haiku for qualitative analysis. Finding: ~85–90% signal — unusually high for a Discord channel. 10 topic clusters identified: protocol archetypes, hardness/softness, institutional memory, protocol failure modes, AI coordination, biological/evolutionary analogues, standards bodies, urban protocols, military/security protocols, protocol fiction. Analysis saved to <code>sources/discord_analysis.md</code>."
+          "html": "<strong>Claude Haiku corpus analysis via ingest/analyze_discord.py:</strong> Stratified sample of 200 messages passed to Haiku for qualitative analysis. Finding: ~85\u201390% signal \u2014 unusually high for a Discord channel. 10 topic clusters identified: protocol archetypes, hardness/softness, institutional memory, protocol failure modes, AI coordination, biological/evolutionary analogues, standards bodies, urban protocols, military/security protocols, protocol fiction. Analysis saved to <code>sources/discord_analysis.md</code>."
         },
         {
           "title": "Guild ID metadata patch",
-          "html": "<strong>Guild ID metadata patch:</strong> After ingest, realized guild_id was missing from all 2,390 already-upserted vectors (needed for constructing Discord message URLs). Patched via <code>index.update()</code> loop — Pinecone supports metadata-only updates without re-embedding. All 2,390 vectors updated."
+          "html": "<strong>Guild ID metadata patch:</strong> After ingest, realized guild_id was missing from all 2,390 already-upserted vectors (needed for constructing Discord message URLs). Patched via <code>index.update()</code> loop \u2014 Pinecone supports metadata-only updates without re-embedding. All 2,390 vectors updated."
         }
       ]
     },
@@ -475,12 +475,12 @@
       "deployed": false,
       "items": [
         {
-          "title": "sync_sig.py — two-level meeting ingest",
-          "html": "<strong>sync_sig.py — two-level meeting ingest:</strong> All 4 SIG channels ingested: SIGFPT (Future Protocol Thinking), MRG (Memory Research Group), SIGPfB (Protocols for Business), ProtFiSIG (Protocol Fiction SIG). Meeting threads detected via per-channel regex patterns — each SIG has different naming conventions. Meeting threads: Claude Haiku generates a meeting summary vector (<code>sig_meeting_summary</code>) plus chunked meeting body vectors (<code>sig_meeting_body</code>). Non-meeting threads bundled as <code>sig_discussion</code>. Main channel messages filtered same as sync_discord.py."
+          "title": "sync_sig.py \u2014 two-level meeting ingest",
+          "html": "<strong>sync_sig.py \u2014 two-level meeting ingest:</strong> All 4 SIG channels ingested: SIGFPT (Future Protocol Thinking), MRG (Memory Research Group), SIGPfB (Protocols for Business), ProtFiSIG (Protocol Fiction SIG). Meeting threads detected via per-channel regex patterns \u2014 each SIG has different naming conventions. Meeting threads: Claude Haiku generates a meeting summary vector (<code>sig_meeting_summary</code>) plus chunked meeting body vectors (<code>sig_meeting_body</code>). Non-meeting threads bundled as <code>sig_discussion</code>. Main channel messages filtered same as sync_discord.py."
         },
         {
           "title": "Per-channel results",
-          "html": "<strong>Per-channel ingest results:</strong> SIGFPT: 29 meetings, 38 discussions, 564 main msgs → 757 vectors. MRG: 16 meetings, 9 discussions, 378 msgs → 433 vectors. SIGPfB: 22 meetings, 77 discussions, 2,001 msgs → 2,214 vectors. ProtFiSIG: 11 meetings, 43 discussions, 1,072 msgs → 1,179 vectors. Total <code>sig</code> namespace: 4,583 vectors. MRG pattern required special handling: one thread was named <code>202500807</code> (9-digit date typo) — extended digit pattern to <code>\\d{6,9}</code> to capture it."
+          "html": "<strong>Per-channel ingest results:</strong> SIGFPT: 29 meetings, 38 discussions, 564 main msgs \u2192 757 vectors. MRG: 16 meetings, 9 discussions, 378 msgs \u2192 433 vectors. SIGPfB: 22 meetings, 77 discussions, 2,001 msgs \u2192 2,214 vectors. ProtFiSIG: 11 meetings, 43 discussions, 1,072 msgs \u2192 1,179 vectors. Total <code>sig</code> namespace: 4,583 vectors. MRG pattern required special handling: one thread was named <code>202500807</code> (9-digit date typo) \u2014 extended digit pattern to <code>\\d{6,9}</code> to capture it."
         }
       ]
     },
@@ -510,15 +510,15 @@
       "items": [
         {
           "title": "IP strike/ban system and expanded moderation",
-          "html": "<strong>IP strike/ban system and expanded KBA/moderation filters:</strong> Ported strike/ban tracking from vgr_zirp: 3 strikes within 1 hour triggers a 24-hour IP ban stored in KV. KBA (Known Bad Actor) filter expanded to include Timber Stinson-Schroff, Tim Beiko, and PI infrastructure alongside VGR — prevents the oracle from being used as a social engineering or impersonation vector. Two new regex filters: DARKBECOME_RE (requests to roleplay as an unrestricted AI) and WIELD_RE (requests to weaponize protocols against people or groups). SYSTEM_PROMPT SAFETY CONSTRAINTS block updated to cover all protected individuals and assets. MCP search rate limited to 100 queries/day."
+          "html": "<strong>IP strike/ban system and expanded KBA/moderation filters:</strong> Ported strike/ban tracking from vgr_zirp: 3 strikes within 1 hour triggers a 24-hour IP ban stored in KV. KBA (Known Bad Actor) filter expanded to include Timber Stinson-Schroff, Tim Beiko, and PI infrastructure alongside VGR \u2014 prevents the oracle from being used as a social engineering or impersonation vector. Two new regex filters: DARKBECOME_RE (requests to roleplay as an unrestricted AI) and WIELD_RE (requests to weaponize protocols against people or groups). SYSTEM_PROMPT SAFETY CONSTRAINTS block updated to cover all protected individuals and assets. MCP search rate limited to 100 queries/day."
         },
         {
-          "title": "Worker header restyle — minimal brand bar",
-          "html": "<strong>Worker header restyle — minimal brand bar:</strong> Replaced the subnav nav menu approach with a minimal brand bar: C3PO robot icon + wordmark + coral Beta badge + ← protocolized.io link. Cleaner; positions C3PO as a tool within the PI ecosystem rather than a standalone product."
+          "title": "Worker header restyle \u2014 minimal brand bar",
+          "html": "<strong>Worker header restyle \u2014 minimal brand bar:</strong> Replaced the subnav nav menu approach with a minimal brand bar: C3PO robot icon + wordmark + coral Beta badge + \u2190 protocolized.io link. Cleaner; positions C3PO as a tool within the PI ecosystem rather than a standalone product."
         },
         {
           "title": "PI website update",
-          "html": "<strong>PI website update (protocol-institute.org):</strong> <code>projects.html</code>: C3PO status badge updated to \"Live · Beta\"; description rewritten to name the actual technology (RAG, 12k vectors, MCP, Claude Sonnet); direct \"Open C3PO →\" link added. <code>c3po.html</code>: Status and Technical sections rewritten present-tense; adds live URL, corpus size (12k+ vectors), MCP server paragraph, and direct \"Try it →\" CTA link."
+          "html": "<strong>PI website update (protocol-institute.org):</strong> <code>projects.html</code>: C3PO status badge updated to \"Live \u00b7 Beta\"; description rewritten to name the actual technology (RAG, 12k vectors, MCP, Claude Sonnet); direct \"Open C3PO \u2192\" link added. <code>c3po.html</code>: Status and Technical sections rewritten present-tense; adds live URL, corpus size (12k+ vectors), MCP server paragraph, and direct \"Try it \u2192\" CTA link."
         }
       ]
     },
@@ -583,16 +583,16 @@
       "deployed": true,
       "items": [
         {
-          "title": "fetch_discord_links.py — link harvesting and web ingest",
-          "html": "<strong>fetch_discord_links.py — link harvesting and web ingest:</strong> Scanned all discord + sig Pinecone vectors for URLs in message text. Harvested 3,091 unique URLs. Fetched 1,412 (222 OK in first pass, 1,929 total vectors written to <code>discord_links</code> namespace); 942 failed (connection error/timeout/410); 373 skipped (already in registry); 355 deferred (161 YouTube, 194 Twitter/X — require separate pipelines). 9 rejected by prompt injection filter (11 regex patterns + invisible-character density guard >1%). Registry stored in <code>data/discord_links_registry.json</code>. Each fetched URL gets a <code>discord_link</code> chunk vector with the page title, description, and main text content (truncated at 2,500 chars)."
+          "title": "fetch_discord_links.py \u2014 link harvesting and web ingest",
+          "html": "<strong>fetch_discord_links.py \u2014 link harvesting and web ingest:</strong> Scanned all discord + sig Pinecone vectors for URLs in message text. Harvested 3,091 unique URLs. Fetched 1,412 (222 OK in first pass, 1,929 total vectors written to <code>discord_links</code> namespace); 942 failed (connection error/timeout/410); 373 skipped (already in registry); 355 deferred (161 YouTube, 194 Twitter/X \u2014 require separate pipelines). 9 rejected by prompt injection filter (11 regex patterns + invisible-character density guard >1%). Registry stored in <code>data/discord_links_registry.json</code>. Each fetched URL gets a <code>discord_link</code> chunk vector with the page title, description, and main text content (truncated at 2,500 chars)."
         },
         {
-          "title": "enrich_discord_links.py — relevance scoring and pruning",
-          "html": "<strong>enrich_discord_links.py — relevance scoring and pruning:</strong> Scores each fetched URL 0–3 for protocol relevance via Claude Haiku. Score 0 = no connection; 1 = tangential; 2 = relevant; 3 = core. Score-0 vectors deleted from Pinecone — reduces index noise. Results: 1,412 scored; 485 deleted (score 0); 899 kept. Score distribution: 0→485, 1→480, 2→276, 3→143. Final <code>discord_links</code> namespace: <strong>6,722 vectors</strong>. Bug fixed mid-run: SCORE_PROMPT JSON example had unescaped curly braces (Python f-string), caught in dry-run before full execution."
+          "title": "enrich_discord_links.py \u2014 relevance scoring and pruning",
+          "html": "<strong>enrich_discord_links.py \u2014 relevance scoring and pruning:</strong> Scores each fetched URL 0\u20133 for protocol relevance via Claude Haiku. Score 0 = no connection; 1 = tangential; 2 = relevant; 3 = core. Score-0 vectors deleted from Pinecone \u2014 reduces index noise. Results: 1,412 scored; 485 deleted (score 0); 899 kept. Score distribution: 0\u2192485, 1\u2192480, 2\u2192276, 3\u2192143. Final <code>discord_links</code> namespace: <strong>6,722 vectors</strong>. Bug fixed mid-run: SCORE_PROMPT JSON example had unescaped curly braces (Python f-string), caught in dry-run before full execution."
         },
         {
-          "title": "Worker integration — relevance-score weighting",
-          "html": "<strong>Worker integration — relevance-score weighting:</strong> <code>normalizeWebLink()</code> added; <code>discord_links</code> namespace queried in all 4 callsites. Retrieval weight uses base score by relevance tier (0.55/0.65/0.75) plus a small popularity bonus (url_count from the source messages). New <code>c3po-badge-web</code> badge. Total Pinecone: 19,634 vectors."
+          "title": "Worker integration \u2014 relevance-score weighting",
+          "html": "<strong>Worker integration \u2014 relevance-score weighting:</strong> <code>normalizeWebLink()</code> added; <code>discord_links</code> namespace queried in all 4 callsites. Retrieval weight uses base score by relevance tier (0.55/0.65/0.75) plus a small popularity bonus (url_count from the source messages). New <code>c3po-badge-web</code> badge. Total Pinecone: 19,634 vectors."
         }
       ]
     },
@@ -622,11 +622,11 @@
       "items": [
         {
           "title": "Structural navigation plan revised",
-          "html": "<strong>Structural navigation plan revised (plans/structural-navigation.md):</strong> Reframed from section summaries + list extracts to four exhibit types: <code>section_summary</code>, <code>list_exhibit</code>, <code>figure_exhibit</code>, <code>table_exhibit</code>. Sampled 5 PDFs: SoP papers embed 20–30 full-page background images (design artifacts, filter by >80% page size); pdfplumber table extraction is unreliable (picks up typographic grids as tables). Strategy: two-pass — Haiku text pass for sections + lists; PyMuPDF render + Haiku Vision for figures + tables. Core essays (>12 text pages) get section summaries; all documents get list pass; visual pages (<50 words) get Vision pass. Estimated: ~450–550 new vectors, ~$1.30, new dep: pymupdf. Not yet built."
+          "html": "<strong>Structural navigation plan revised (plans/structural-navigation.md):</strong> Reframed from section summaries + list extracts to four exhibit types: <code>section_summary</code>, <code>list_exhibit</code>, <code>figure_exhibit</code>, <code>table_exhibit</code>. Sampled 5 PDFs: SoP papers embed 20\u201330 full-page background images (design artifacts, filter by >80% page size); pdfplumber table extraction is unreliable (picks up typographic grids as tables). Strategy: two-pass \u2014 Haiku text pass for sections + lists; PyMuPDF render + Haiku Vision for figures + tables. Core essays (>12 text pages) get section summaries; all documents get list pass; visual pages (<50 words) get Vision pass. Estimated: ~450\u2013550 new vectors, ~$1.30, new dep: pymupdf. Not yet built."
         },
         {
           "title": "Discord bot architecture documented",
-          "html": "<strong>Discord bot architecture documented (DISCORD_BOT_DESIGN.md):</strong> Two-bot architecture: <code>c3po_listener</code> (headless launchd batch scripts — no gateway, no persistent process) and <code>c3po_oracle</code> (interactive slash-command bot via Discord Interactions webhook → Cloudflare Worker deferred response). Listener: 3 launchd plists planned — daily Discord sync, biweekly SIG sync + website pipeline, weekly link enrichment. Oracle: /ask, /search, /help commands. Key constraints documented: Discord CDN attachment URLs expire in 24h (must download at sync time); SIG thread auto-archive cadences (SIGFPT/ProtFiSIG 3 days, SIGPfB 7 days) mean sync must run at minimum every 2–3 days or active threads will be missed. Phase 3A–3F roadmap."
+          "html": "<strong>Discord bot architecture documented (DISCORD_BOT_DESIGN.md):</strong> Two-bot architecture: <code>c3po_listener</code> (headless launchd batch scripts \u2014 no gateway, no persistent process) and <code>c3po_oracle</code> (interactive slash-command bot via Discord Interactions webhook \u2192 Cloudflare Worker deferred response). Listener: 3 launchd plists planned \u2014 daily Discord sync, biweekly SIG sync + website pipeline, weekly link enrichment. Oracle: /ask, /search, /help commands. Key constraints documented: Discord CDN attachment URLs expire in 24h (must download at sync time); SIG thread auto-archive cadences (SIGFPT/ProtFiSIG 3 days, SIGPfB 7 days) mean sync must run at minimum every 2\u20133 days or active threads will be missed. Phase 3A\u20133F roadmap."
         }
       ]
     },
@@ -658,7 +658,7 @@
       "items": [
         {
           "title": "Root cause: active threads invisible to sync",
-          "html": "<strong>Root cause fix — active threads invisible to sync:</strong> The channel-level <code>/threads/active</code> endpoint returns 404 for forum-style SIG channels — deprecated. Replaced with the guild-level <code>/guilds/{id}/threads/active</code> endpoint filtered by <code>parent_id</code>, which works for all channel types. SIGFPT and ProtFiSIG threads auto-archive after 3 days; SIGPfB after 7 days. Any meeting thread still active at sync time (e.g., a very recent meeting) was silently missed by the old code. Added <code>is_meeting_override</code> field to per-thread state in <code>data/sig_state.json</code> — allows manual classification without code changes."
+          "html": "<strong>Root cause fix \u2014 active threads invisible to sync:</strong> The channel-level <code>/threads/active</code> endpoint returns 404 for forum-style SIG channels \u2014 deprecated. Replaced with the guild-level <code>/guilds/{id}/threads/active</code> endpoint filtered by <code>parent_id</code>, which works for all channel types. SIGFPT and ProtFiSIG threads auto-archive after 3 days; SIGPfB after 7 days. Any meeting thread still active at sync time (e.g., a very recent meeting) was silently missed by the old code. Added <code>is_meeting_override</code> field to per-thread state in <code>data/sig_state.json</code> \u2014 allows manual classification without code changes."
         },
         {
           "title": "SIGPfB pattern extensions",
@@ -666,7 +666,7 @@
         },
         {
           "title": "10 missed meetings recovered",
-          "html": "<strong>10 missed meetings recovered:</strong> SIGFPT: 01May26 Stigmergy (38 msgs), 15May26 Stigmergy Part II (52 msgs). SIGPfB: 20Apr26 API Design, 04May26 Technology, 18May26 Manufacturing, 03Nov25 FDEs, 08Dec25 LLM Adoption, 12Jan26 AI Infrastructure. ProtFiSIG: 12Mar26 Protocol Fairy Tales, 23Apr26 Wile E. Coyote. sig namespace: 4,583 → 4,795 vectors. Website SIG pages updated: 80 → 88 meetings across 4 SIGs."
+          "html": "<strong>10 missed meetings recovered:</strong> SIGFPT: 01May26 Stigmergy (38 msgs), 15May26 Stigmergy Part II (52 msgs). SIGPfB: 20Apr26 API Design, 04May26 Technology, 18May26 Manufacturing, 03Nov25 FDEs, 08Dec25 LLM Adoption, 12Jan26 AI Infrastructure. ProtFiSIG: 12Mar26 Protocol Fairy Tales, 23Apr26 Wile E. Coyote. sig namespace: 4,583 \u2192 4,795 vectors. Website SIG pages updated: 80 \u2192 88 meetings across 4 SIGs."
         }
       ]
     },
@@ -694,16 +694,16 @@
       "deployed": false,
       "items": [
         {
-          "title": "data/channel_manifest.json — unified channel registry",
-          "html": "<strong>data/channel_manifest.json — unified channel registry:</strong> Single JSON file tracks all monitored channels with schema: type (general|sig|forum), namespace, status (active|archived), meeting_patterns, thresholds, onboarding_notes, added date. Tracked in git via <code>!data/channel_manifest.json</code> exception in .gitignore. <code>sync_discord.py</code> and <code>sync_sig.py</code> both read from manifest via <code>load_general_channels()</code> and <code>load_sig_channels()</code> respectively, with fallback to env vars / hardcoded dict if manifest is absent. Eliminates the need to edit script source to add or remove channels."
+          "title": "data/channel_manifest.json \u2014 unified channel registry",
+          "html": "<strong>data/channel_manifest.json \u2014 unified channel registry:</strong> Single JSON file tracks all monitored channels with schema: type (general|sig|forum), namespace, status (active|archived), meeting_patterns, thresholds, onboarding_notes, added date. Tracked in git via <code>!data/channel_manifest.json</code> exception in .gitignore. <code>sync_discord.py</code> and <code>sync_sig.py</code> both read from manifest via <code>load_general_channels()</code> and <code>load_sig_channels()</code> respectively, with fallback to env vars / hardcoded dict if manifest is absent. Eliminates the need to edit script source to add or remove channels."
         },
         {
-          "title": "ingest/onboard_channel.py — semi-automated onboarding",
-          "html": "<strong>ingest/onboard_channel.py — semi-automated channel onboarding:</strong> Given <code>--channel &lt;id&gt;</code>, fetches a sample of recent messages and threads via REST, passes them to Claude Sonnet with an analysis prompt asking for channel classification (type, theme, meeting patterns, relevance). Prints proposed manifest config for human approval. Supports <code>y/N/edit</code> interactive prompt plus <code>--yes</code> flag for scripted use. If approved, appends entry to manifest and optionally triggers <code>sync_discord.py --channel &lt;id&gt;</code> backfill via subprocess. Reduces time to onboard a new channel from ~30 minutes of manual config to ~2 minutes."
+          "title": "ingest/onboard_channel.py \u2014 semi-automated onboarding",
+          "html": "<strong>ingest/onboard_channel.py \u2014 semi-automated channel onboarding:</strong> Given <code>--channel &lt;id&gt;</code>, fetches a sample of recent messages and threads via REST, passes them to Claude Sonnet with an analysis prompt asking for channel classification (type, theme, meeting patterns, relevance). Prints proposed manifest config for human approval. Supports <code>y/N/edit</code> interactive prompt plus <code>--yes</code> flag for scripted use. If approved, appends entry to manifest and optionally triggers <code>sync_discord.py --channel &lt;id&gt;</code> backfill via subprocess. Reduces time to onboard a new channel from ~30 minutes of manual config to ~2 minutes."
         },
         {
           "title": "bin/daily_sync.sh and launchd plist",
-          "html": "<strong>bin/daily_sync.sh and launchd plist installed:</strong> Shell coordinator runs: sync_discord.py → sync_sig.py → rebuild_sig_summaries.py → generate_sig_pages.py → conditional website push (only if git status shows changes to sigs/ or sigs.html). Website push commits and pushes <code>sigs/</code> and <code>sigs.html</code> with a datestamped auto-commit message. Installed as <code>~/Library/LaunchAgents/org.protocol-institute.c3po.daily.plist</code>; <code>StartInterval: 86400</code> (fires 24h after last successful run, compatible with sleep — fires on next wake). Logs to <code>~/Library/Logs/c3po/daily.{log,err}</code>. Manual run tested successfully."
+          "html": "<strong>bin/daily_sync.sh and launchd plist installed:</strong> Shell coordinator runs: sync_discord.py \u2192 sync_sig.py \u2192 rebuild_sig_summaries.py \u2192 generate_sig_pages.py \u2192 conditional website push (only if git status shows changes to sigs/ or sigs.html). Website push commits and pushes <code>sigs/</code> and <code>sigs.html</code> with a datestamped auto-commit message. Installed as <code>~/Library/LaunchAgents/org.protocol-institute.c3po.daily.plist</code>; <code>StartInterval: 86400</code> (fires 24h after last successful run, compatible with sleep \u2014 fires on next wake). Logs to <code>~/Library/Logs/c3po/daily.{log,err}</code>. Manual run tested successfully."
         }
       ]
     },
@@ -733,15 +733,15 @@
       "items": [
         {
           "title": "7 archived general channels onboarded",
-          "html": "<strong>7 archived general channels onboarded via onboard_channel.py:</strong> #credit-protocols, #death-memory, #unconscious-protocols, #tech-standards, #built-environment, #organizational-protocols, #field-reports (all archived general text channels). Plus #affiliate-chat (archived SIG channel). All backfilled and ingested. URL registry grew from ~1,800 to 3,824 URLs across all channels. discord namespace grew from ~3,301 → 5,518 vectors."
+          "html": "<strong>7 archived general channels onboarded via onboard_channel.py:</strong> #credit-protocols, #death-memory, #unconscious-protocols, #tech-standards, #built-environment, #organizational-protocols, #field-reports (all archived general text channels). Plus #affiliate-chat (archived SIG channel). All backfilled and ingested. URL registry grew from ~1,800 to 3,824 URLs across all channels. discord namespace grew from ~3,301 \u2192 5,518 vectors."
         },
         {
-          "title": "Forum channel support (Discord type=15) — #reading-room",
-          "html": "<strong>Forum channel support (Discord type=15):</strong> Forum channels have no main channel messages — all content lives in threads (forum posts). New <code>fetch_forum_threads()</code> queries guild-level active + archived public thread endpoints filtered by parent_id, then fetches each thread's messages. New <code>format_forum_post_chunk()</code> bundles a thread opener + all replies into one chunk with <code>chunk_type=forum_post</code>. State tracked in <code>last_thread_ids</code> dict (separate key from <code>last_message_ids</code> for text channels). #reading-room: Discord type=15, 81 posts ingested. <code>onboard_channel.py</code> updated to detect type=15 channels, propose <code>type=forum</code> config, and store <code>discord_type: 15</code> in the manifest entry."
+          "title": "Forum channel support (Discord type=15) \u2014 #reading-room",
+          "html": "<strong>Forum channel support (Discord type=15):</strong> Forum channels have no main channel messages \u2014 all content lives in threads (forum posts). New <code>fetch_forum_threads()</code> queries guild-level active + archived public thread endpoints filtered by parent_id, then fetches each thread's messages. New <code>format_forum_post_chunk()</code> bundles a thread opener + all replies into one chunk with <code>chunk_type=forum_post</code>. State tracked in <code>last_thread_ids</code> dict (separate key from <code>last_message_ids</code> for text channels). #reading-room: Discord type=15, 81 posts ingested. <code>onboard_channel.py</code> updated to detect type=15 channels, propose <code>type=forum</code> config, and store <code>discord_type: 15</code> in the manifest entry."
         },
         {
-          "title": "Monitoring Dashboard design — silent listener pattern",
-          "html": "<strong>Monitoring Dashboard design — silent listener pattern:</strong> Rejected Discord heartbeat posting (listener bot should be invisible). Instead: all sync scripts write structured JSON entries to <code>data/sync_log.json</code> (90-day rolling). New <code>ingest/generate_monitoring_page.py</code> reads log + manifest + links registry and produces a static HTML page pushed to the PI website at <code>monitoring.html</code>. Wired into <code>bin/daily_sync.sh</code>. Produces a channel table (type, status, vector count, last sync), a 14-day run history (per-script stats), and a link registry status table."
+          "title": "Monitoring Dashboard design \u2014 silent listener pattern",
+          "html": "<strong>Monitoring Dashboard design \u2014 silent listener pattern:</strong> Rejected Discord heartbeat posting (listener bot should be invisible). Instead: all sync scripts write structured JSON entries to <code>data/sync_log.json</code> (90-day rolling). New <code>ingest/generate_monitoring_page.py</code> reads log + manifest + links registry and produces a static HTML page pushed to the PI website at <code>monitoring.html</code>. Wired into <code>bin/daily_sync.sh</code>. Produces a channel table (type, status, vector count, last sync), a 14-day run history (per-script stats), and a link registry status table."
         }
       ]
     },
@@ -773,19 +773,19 @@
       "items": [
         {
           "title": "Lexicon schema migration: multi-definition support",
-          "html": "<strong>Lexicon schema migration: flat dict → list-of-dicts.</strong> <code>sources/lexicon_draft.json</code> migrated from <code>{term: entry_object}</code> to <code>{term: [entry_object, ...]}</code>. Motivation: terms like <em>protocol</em> have multiple competing definitions across 67 source documents — the flat schema silently dropped duplicates during extraction. The new schema supports multiple entries per term. All 914 existing entries wrapped in single-item lists (all currently variant_count=1). Future: a second extraction pass or editorial curation can append additional entries to any term's list."
+          "html": "<strong>Lexicon schema migration: flat dict \u2192 list-of-dicts.</strong> <code>sources/lexicon_draft.json</code> migrated from <code>{term: entry_object}</code> to <code>{term: [entry_object, ...]}</code>. Motivation: terms like <em>protocol</em> have multiple competing definitions across 67 source documents \u2014 the flat schema silently dropped duplicates during extraction. The new schema supports multiple entries per term. All 914 existing entries wrapped in single-item lists (all currently variant_count=1). Future: a second extraction pass or editorial curation can append additional entries to any term's list."
         },
         {
-          "title": "ingest/sync_lexicon.py — definitions namespace ingest",
-          "html": "<strong>ingest/sync_lexicon.py — definitions namespace ingest:</strong> Ingests triage a+b entries only (239 + 321 = 560 entries; triage c excluded as standard terms without PI-specific usage). Vector ID scheme: <code>lexicon__{term_slug}__{source_slug}</code> — ensures uniqueness across both terms and sources, supports multiple definitions per term as distinct vectors. Metadata: <code>term</code>, <code>definition_index</code>, <code>variant_count</code>, <code>source</code>, <code>source_slug</code>, <code>triage</code>, <code>triage_reason</code>, <code>chunk_type=lexicon_definition</code>. Text format: bold term → Definition → Context → Source (markdown-structured for Claude synthesis). Non-ASCII slugify bug fixed: some term names contained Unicode characters (e.g., <em>poché</em>) — ASCII-stripped before slugification. 560 vectors upserted to <code>definitions</code> namespace."
+          "title": "ingest/sync_lexicon.py \u2014 definitions namespace ingest",
+          "html": "<strong>ingest/sync_lexicon.py \u2014 definitions namespace ingest:</strong> Ingests triage a+b entries only (239 + 321 = 560 entries; triage c excluded as standard terms without PI-specific usage). Vector ID scheme: <code>lexicon__{term_slug}__{source_slug}</code> \u2014 ensures uniqueness across both terms and sources, supports multiple definitions per term as distinct vectors. Metadata: <code>term</code>, <code>definition_index</code>, <code>variant_count</code>, <code>source</code>, <code>source_slug</code>, <code>triage</code>, <code>triage_reason</code>, <code>chunk_type=lexicon_definition</code>. Text format: bold term \u2192 Definition \u2192 Context \u2192 Source (markdown-structured for Claude synthesis). Non-ASCII slugify bug fixed: some term names contained Unicode characters (e.g., <em>poch\u00e9</em>) \u2014 ASCII-stripped before slugification. 560 vectors upserted to <code>definitions</code> namespace."
         },
         {
           "title": "Attachment capture in sync scripts",
-          "html": "<strong>Attachment capture in sync scripts:</strong> New <code>ingest/attachments.py</code> downloads Discord CDN attachments at ingest time, before the 24-hour CDN URL expiry. Storage: <code>data/attachments/{channel_id}/{msg_id}/{filename}</code> (gitignored, local only; Dropbox-ignored via xattr). PDF attachments extracted via pdfplumber and embedded as separate <code>discord_attachment</code> / <code>sig_attachment</code> vectors. Plain-text and markdown attachments embedded directly. No backfill of historical attachments (deferred indefinitely — CDN URLs for past messages have long expired). Both <code>sync_discord.py</code> and <code>sync_sig.py</code> updated to call <code>process_attachments()</code> during ingest."
+          "html": "<strong>Attachment capture in sync scripts:</strong> New <code>ingest/attachments.py</code> downloads Discord CDN attachments at ingest time, before the 24-hour CDN URL expiry. Storage: <code>data/attachments/{channel_id}/{msg_id}/{filename}</code> (gitignored, local only; Dropbox-ignored via xattr). PDF attachments extracted via pdfplumber and embedded as separate <code>discord_attachment</code> / <code>sig_attachment</code> vectors. Plain-text and markdown attachments embedded directly. No backfill of historical attachments (deferred indefinitely \u2014 CDN URLs for past messages have long expired). Both <code>sync_discord.py</code> and <code>sync_sig.py</code> updated to call <code>process_attachments()</code> during ingest."
         },
         {
           "title": "YouTube transcript pass",
-          "html": "<strong>YouTube transcript pass (via youtube-transcript-api):</strong> 195 deferred YouTube URLs in the discord_links registry. First attempt failed: 0/195 succeeded due to API version mismatch — newer <code>youtube-transcript-api</code> uses instance API <code>YouTubeTranscriptApi().fetch(video_id)</code> not the class method <code>get_transcript()</code>. Fixed, reset all 195 from <code>failed</code> back to <code>deferred</code>, re-ran. Second pass: 18/185 succeeded (170 remaining — mostly restricted/age-gated videos or videos with captions disabled). Successful transcripts embedded as <code>discord_link</code> vectors in the <code>discord_links</code> namespace."
+          "html": "<strong>YouTube transcript pass (via youtube-transcript-api):</strong> 195 deferred YouTube URLs in the discord_links registry. First attempt failed: 0/195 succeeded due to API version mismatch \u2014 newer <code>youtube-transcript-api</code> uses instance API <code>YouTubeTranscriptApi().fetch(video_id)</code> not the class method <code>get_transcript()</code>. Fixed, reset all 195 from <code>failed</code> back to <code>deferred</code>, re-ran. Second pass: 18/185 succeeded (170 remaining \u2014 mostly restricted/age-gated videos or videos with captions disabled). Successful transcripts embedded as <code>discord_link</code> vectors in the <code>discord_links</code> namespace."
         }
       ]
     },
@@ -793,7 +793,7 @@
       "id": 19,
       "sort_key": 19.0,
       "label": "Session 19",
-      "title": "c3po_oracle Discord Bot — Code Complete",
+      "title": "c3po_oracle Discord Bot \u2014 Code Complete",
       "date": "2026-05-26",
       "time_pt": "",
       "tracks": [
@@ -815,20 +815,60 @@
       "deployed": false,
       "items": [
         {
-          "title": "POST /interactions — Discord webhook endpoint",
-          "html": "<strong>POST /interactions — Discord Interactions webhook endpoint:</strong> Implements the full Discord slash-command webhook flow in <code>api/worker.js</code>. Verifies the Ed25519 request signature using <code>crypto.subtle</code> (SubtleCrypto native, no dependencies). Handles the Discord PING/PONG handshake required during webhook registration. Routes APPLICATION_COMMAND interactions to /ask, /search, and /help handlers. Channel gating via <code>ORACLE_ALLOWED_CHANNEL_IDS</code> env var (comma-separated; empty = all channels). Security filters (injection, system prompt extraction, credential fishing, KBA, etc.) applied to query text before queuing. Per-user rate limit: 5 queries/hour tracked by Discord user ID in KV. /ask and /search return <code>{type:5}</code> (DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE), showing a \"thinking...\" state in Discord while the queue processes the RAG job."
+          "title": "POST /interactions \u2014 Discord webhook endpoint",
+          "html": "<strong>POST /interactions \u2014 Discord Interactions webhook endpoint:</strong> Implements the full Discord slash-command webhook flow in <code>api/worker.js</code>. Verifies the Ed25519 request signature using <code>crypto.subtle</code> (SubtleCrypto native, no dependencies). Handles the Discord PING/PONG handshake required during webhook registration. Routes APPLICATION_COMMAND interactions to /ask, /search, and /help handlers. Channel gating via <code>ORACLE_ALLOWED_CHANNEL_IDS</code> env var (comma-separated; empty = all channels). Security filters (injection, system prompt extraction, credential fishing, KBA, etc.) applied to query text before queuing. Per-user rate limit: 5 queries/hour tracked by Discord user ID in KV. /ask and /search return <code>{type:5}</code> (DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE), showing a \"thinking...\" state in Discord while the queue processes the RAG job."
         },
         {
-          "title": "runRagQuery() — shared RAG core extracted from POST /query",
-          "html": "<strong>runRagQuery() — shared RAG core extracted from POST /query:</strong> The embed → 7-namespace Pinecone query → secondary retrieval (doc_summary / post_summary / video_summary expansion) → normalize → merge → Claude call pipeline is now a standalone <code>async function runRagQuery(query, env, ctx, opts)</code>. Options: <code>includeAnswer</code> (skip Claude for search-only mode), <code>history</code> (conversation turns, preserved for the HTTP endpoint), <code>maxTokens</code> (Discord uses 800 to fit within 2000-char message limit; HTTP endpoint uses env.MAX_ANSWER_TOKENS). POST /query handler is now a thin wrapper: parse + validate + rate-limit + security check → call runRagQuery → logQuery + return. No behavioral change to existing routes."
+          "title": "runRagQuery() \u2014 shared RAG core extracted from POST /query",
+          "html": "<strong>runRagQuery() \u2014 shared RAG core extracted from POST /query:</strong> The embed \u2192 7-namespace Pinecone query \u2192 secondary retrieval (doc_summary / post_summary / video_summary expansion) \u2192 normalize \u2192 merge \u2192 Claude call pipeline is now a standalone <code>async function runRagQuery(query, env, ctx, opts)</code>. Options: <code>includeAnswer</code> (skip Claude for search-only mode), <code>history</code> (conversation turns, preserved for the HTTP endpoint), <code>maxTokens</code> (Discord uses 800 to fit within 2000-char message limit; HTTP endpoint uses env.MAX_ANSWER_TOKENS). POST /query handler is now a thin wrapper: parse + validate + rate-limit + security check \u2192 call runRagQuery \u2192 logQuery + return. No behavioral change to existing routes."
         },
         {
-          "title": "Cloudflare Queue consumer — async queue() handler",
-          "html": "<strong>Cloudflare Queue consumer — <code>async queue(batch, env, ctx)</code>:</strong> Added to <code>export default</code> alongside <code>fetch</code> and <code>scheduled</code>. Processes one message at a time (<code>max_batch_size=1</code>). Each message carries <code>{commandName, query, applicationId, interactionToken}</code>. Consumer calls <code>runRagQuery</code>, formats the result, and POSTs to Discord's followup webhook: <code>DISCORD_API/webhooks/{applicationId}/{interactionToken}</code>. On error, posts a generic error message so the \"thinking...\" state doesn't hang. Queue name: <code>c3po-oracle</code> (needs <code>wrangler queues create</code> before first deploy)."
+          "title": "Cloudflare Queue consumer \u2014 async queue() handler",
+          "html": "<strong>Cloudflare Queue consumer \u2014 <code>async queue(batch, env, ctx)</code>:</strong> Added to <code>export default</code> alongside <code>fetch</code> and <code>scheduled</code>. Processes one message at a time (<code>max_batch_size=1</code>). Each message carries <code>{commandName, query, applicationId, interactionToken}</code>. Consumer calls <code>runRagQuery</code>, formats the result, and POSTs to Discord's followup webhook: <code>DISCORD_API/webhooks/{applicationId}/{interactionToken}</code>. On error, posts a generic error message so the \"thinking...\" state doesn't hang. Queue name: <code>c3po-oracle</code> (needs <code>wrangler queues create</code> before first deploy)."
         },
         {
-          "title": "scripts/register_discord_commands.py — slash command registration",
+          "title": "scripts/register_discord_commands.py \u2014 slash command registration",
           "html": "<strong>scripts/register_discord_commands.py:</strong> One-time setup script that bulk-registers the three Oracle slash commands with Discord via the REST API. Commands: <code>/ask &lt;question&gt;</code> (RAG with synthesis), <code>/search &lt;query&gt;</code> (semantic search, no LLM), <code>/help</code> (ephemeral info). Supports <code>--guild-id</code> for instant guild-scoped registration (testing) and <code>--global</code> for production. Full 8-step deploy guide in <code>plans/oracle-bot-setup.md</code>."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "sort_key": 20.0,
+      "label": "Session 20",
+      "title": "Definitions Namespace Live; Substack Sync",
+      "date": "2026-05-27",
+      "time_pt": "",
+      "tracks": [
+        "worker-api",
+        "corpus-ingestion"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "substack": 1057,
+        "definitions": 560,
+        "discord": 5533,
+        "discord_links": 9064,
+        "sig": 4905,
+        "videos": 2940,
+        "pdfs": 766,
+        "bibliography": 278,
+        "transcripts": 4,
+        "total": 25184
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "Definitions namespace wired into query pipeline:",
+          "html": "<strong>Definitions namespace wired into query pipeline:</strong> Added <code>normalizeDefinition()</code> normalize function and extended all four query paths \u2014 <code>runRagQuery()</code>, <code>runMcpSearch()</code>, <code>runMcpAsk()</code>, and the <code>POST /search_corpus</code> handler \u2014 to query the <code>definitions</code> namespace in parallel with the other 7. Results weighted at 1.0\u00d7 (same as PDFs and Substack), labeled as <code>[LEXICON \u2014 \term\\ \u2014 PI-coined | PI-specific]</code> in the context block. The MCP <code>search_corpus</code> tool now also accepts <code>\"definitions\"</code> as a filterable namespace value. Smoke test confirmed lexicon hits (\"hard protocol\", \"hardness\", \"institution hardness\") surfacing in top sources for relevant queries."
+        },
+        {
+          "title": "Substack sync \u2014 two posts ingested:",
+          "html": "<strong>Substack sync \u2014 two posts ingested:</strong> Ran <code>sync_substack.py</code> to pick up a new post (<em>the-overloaded-train</em>) and re-upsert an edited post (<em>introducing-the-protocol-institute</em>). 31 vectors upserted; substack namespace grew from 1,040 to 1,057."
+        },
+        {
+          "title": "Cloudflare Queue created (oracle bot prerequisite):",
+          "html": "<strong>Cloudflare Queue created (oracle bot prerequisite):</strong> The <code>c3po-oracle</code> queue was blocking worker deployment (wrangler.toml references it as producer + consumer). Created it via <code>wrangler queues create c3po-oracle</code> \u2014 Step 2 of the oracle bot setup plan. Discord app creation and the remaining oracle bot steps (Steps 1, 3\u20138) are still pending."
         }
       ]
     }

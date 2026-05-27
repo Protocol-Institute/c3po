@@ -24,6 +24,13 @@
     "null": "Protocolized"
   },
   "last_sync": {
+    "the-overloaded-train": {
+      "updated_at": "2026-05-22T22:58:44.744Z",
+      "wordcount": 5185,
+      "postTags": [
+        "uet"
+      ]
+    },
     "inventing-new-nature": {
       "updated_at": "2026-05-12T16:15:57.737Z",
       "wordcount": 4276,
@@ -47,7 +54,7 @@
       ]
     },
     "introducing-the-protocol-institute": {
-      "updated_at": "2026-04-27T20:53:17.142Z",
+      "updated_at": "2026-05-22T21:31:38.441Z",
       "wordcount": 4529,
       "postTags": [
         "design",
@@ -1249,5 +1256,5 @@
       ]
     }
   },
-  "last_sync_timestamp": "2026-05-14T00:00:00Z"
+  "last_sync_timestamp": "2026-05-27T19:41:06Z"
 }
