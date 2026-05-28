@@ -23,15 +23,27 @@ Update PID here after each restart.
 - `ingest/sources/` — 8 source stubs (subprocess wrappers over existing scripts): substack, discord, sig, youtube, pdfs, bibliography, definitions, discord_links
 - All imports verified clean; `REGISTRY` dict maps source_id → class
 
-**Pinecone state: 25,276 vectors (+92 from last session — ongoing humboldt/sig/discord growth)**
-- definitions: 560 | discord_links: 9,108 | discord: 5,537 | sig: 4,932 | videos: 2,940 | substack: 1,057 | pdfs: 766 | bibliography: 278 | transcripts: 4 | humboldt: 94 (aware)
+**Durable AI Adoption guide ingested — COMPLETE**
+- Downloaded `durable-ai-adoption.pdf` (14MB, 53 pages) from `https://ai.protocolized.dev/`
+- Added enriched_meta entry with full summary, categories, URL, authors, tags
+- Patched `ingest_pdfs.py` to prefer enriched_meta fields (title/date/doc_type/tags/url) when no protocolized-website markdown exists — works for external web resources going forward
+- Ingested 34 vectors (33 body + 1 doc_summary) → pdfs: 766 → 800
+
+**protocol-institute.org website — COMPLETE**
+- Added new "Resources" section to `sigs/sigpfb/index.html` (new section, distinct from meeting archive)
+- First entry: *Durable AI Adoption* with description, topic tags, C3PO chat link
+- Committed via parallel agent in website repo
+
+**Pinecone state: 25,311 vectors**
+- definitions: 560 | discord_links: 9,108 | discord: 5,538 | sig: 4,932 | videos: 2,940 | substack: 1,057 | **pdfs: 800** | bibliography: 278 | transcripts: 4 | humboldt: 94 (aware)
 
 **Open TODOs (priority order):**
 1. Phase 2: FastAPI orchestrator app (`orchestrator/app.py`) — ingest endpoints + APScheduler
 2. Phase 2: Inbox watcher (`orchestrator/inbox_watcher.py`) — watchdog on `data/inbox/`
 3. Phase 3: CF integration — D1 for ingest state, Cron Trigger → Worker → orchestrator endpoint
-4. YouTube transcript pass — 161 deferred URLs (pre-existing TODO)
-5. GitHub Actions cron for `sync_substack.py` (pre-existing TODO)
+4. YouTube transcript pass — 161 deferred URLs
+5. GitHub Actions cron for `sync_substack.py`
+6. `ai.protocolized.dev` is periodically updated — add to scheduled re-ingest once orchestrator is running
 
 ## 2026-05-27 — c3po_bot: thread continuation + introductions monitoring (session 21)
 

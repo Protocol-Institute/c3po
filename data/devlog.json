@@ -961,6 +961,14 @@
         {
           "title": "ingest/sources/ — source module stubs",
           "html": "<strong>ingest/sources/ — source module stubs.</strong> 8 concrete source classes, each implementing BaseSource: SubstackSource, DiscordSource, SIGSource, YouTubeSource, PDFSource, BibliographySource, DefinitionsSource, DiscordLinksSource. Phase 1 implementations are subprocess wrappers that call the existing ingest scripts with the correct cwd and flags. No existing script modified. A <code>REGISTRY</code> dict in <code>__init__.py</code> maps source_id strings to classes — the entry point for the future orchestrator."
+        },
+        {
+          "title": "First new source ingested: Durable AI Adoption (ai.protocolized.dev)",
+          "html": "<strong>First new source ingested: Durable AI Adoption (ai.protocolized.dev).</strong> SIGP4B's practical AI adoption guide (v0.5, May 2026) ingested as the first test of the new pipeline. PDF had full text layers (53 pages, 14MB); pdfplumber extracted cleanly. Added enriched_meta entry by hand with title, summary, categories, URL, authors, and tags. Patched <code>ingest_pdfs.py</code> to prefer enriched_meta fields (title, date, doc_type, tags, url) over protocolized-website markdown when present — enables ingesting external web resources without a resource markdown stub. 34 vectors upserted (33 body + 1 doc_summary); pdfs namespace: 766 → 800. URL in Pinecone metadata: <code>https://ai.protocolized.dev/</code>."
+        },
+        {
+          "title": "protocol-institute.org: Resources section added to SIGPfB page",
+          "html": "<strong>protocol-institute.org: Resources section added to SIGPfB page.</strong> New \"Resources\" section added above the meeting archive on <code>sigs/sigpfb/index.html</code> — distinguishes published output artifacts from meeting transcripts. First entry: <em>Durable AI Adoption</em>, with a description, five topic tags (AI Adoption Maturity, Governed &amp; Cultivated Tracks, Organizational Protocols, Case Studies, Assessment Tool), and a C3PO chat link inviting visitors to explore the guide alongside the broader PI corpus."
         }
       ]
     }
