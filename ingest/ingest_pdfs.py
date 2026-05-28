@@ -91,11 +91,11 @@ def extract_pdf_text(pdf_path: Path) -> str:
 def ingest_body_chunks(pdf_path: Path, meta: dict, enrich: dict, vc, index) -> int:
     """Ingest body chunks for one PDF. Returns number of vectors upserted."""
     basename = pdf_path.name
-    title = meta.get("title", basename.replace(".pdf", "").replace("-", " "))
+    title = meta.get("title") or enrich.get("title") or basename.replace(".pdf", "").replace("-", " ")
     authors = enrich.get("all_authors", meta.get("authors", []))
     primary_author = enrich.get("primary_author", authors[0] if authors else "Protocol Institute")
-    doc_type = meta.get("type", "paper")
-    tags = meta.get("tags", [])
+    doc_type = meta.get("type") or enrich.get("doc_type", "paper")
+    tags = meta.get("tags") or enrich.get("tags", [])
     summary = enrich.get("summary", "")
     categories = enrich.get("categories", [])
 
@@ -134,10 +134,10 @@ def ingest_body_chunks(pdf_path: Path, meta: dict, enrich: dict, vc, index) -> i
         "title": title,
         "authors": authors,
         "primary_author": primary_author,
-        "date": meta.get("date", ""),
+        "date": meta.get("date") or enrich.get("date", ""),
         "type": doc_type,
         "tags": tags,
-        "url": meta.get("url", f"/resources/{basename}"),
+        "url": enrich.get("url") or meta.get("url", f"/resources/{basename}"),
         "summary": summary[:500] if summary else "",
         "enriched_categories": categories,
         "access_level": "public",
@@ -160,12 +160,12 @@ def ingest_doc_summaries(pdf_paths: list, metadata_map: dict, enriched: dict, vc
             print(f"  [skip — no enrichment] {basename}")
             continue
 
-        title = meta.get("title", basename.replace(".pdf", "").replace("-", " "))
+        title = meta.get("title") or enrich.get("title") or basename.replace(".pdf", "").replace("-", " ")
         authors = enrich.get("all_authors", meta.get("authors", []))
         primary_author = enrich.get("primary_author", authors[0] if authors else "Protocol Institute")
-        date = meta.get("date", "")
-        doc_type = meta.get("type", "paper")
-        tags = meta.get("tags", [])
+        date = meta.get("date") or enrich.get("date", "")
+        doc_type = meta.get("type") or enrich.get("doc_type", "paper")
+        tags = meta.get("tags") or enrich.get("tags", [])
         categories = enrich.get("categories", [])
         summary = enrich.get("summary", "")
 
@@ -194,7 +194,7 @@ def ingest_doc_summaries(pdf_paths: list, metadata_map: dict, enriched: dict, vc
                 "date": date,
                 "type": doc_type,
                 "tags": tags,
-                "url": meta.get("url", f"/resources/{basename}"),
+                "url": enrich.get("url") or meta.get("url", f"/resources/{basename}"),
                 "enriched_categories": categories,
                 "summary": summary[:500],
                 "access_level": "public",
