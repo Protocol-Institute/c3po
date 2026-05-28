@@ -7,6 +7,32 @@ Log: `/tmp/c3po_bot.log`
 To restart: `kill <pid> && cd /Users/Venkat/Dropbox/Code/protocol-institute/c3po && source .venv/bin/activate && python3 -u bin/c3po_bot.py &>/tmp/c3po_bot.log & echo $!`
 Update PID here after each restart.
 
+## 2026-05-28 — Pubsub refactor Phase 1: registry layer + BaseSource ABC (session 22)
+
+**Architecture pivot — COMPLETE**
+- c3po reframed as a pubsub-style knowledge broker for all PI archival corpus needs
+- Three ownership tiers: `owned` (c3po creates+maintains), `subscribed` (another PI project owns), `aware` (external/federated, no pipeline)
+
+**Registry layer — COMPLETE**
+- `config/source_registry.json` — 11 sources (10 owned, 1 aware: humboldt)
+- `config/sink_registry.json` — 7 sinks (3 active: web_ui, discord_bot, mcp; 4 planned)
+- `config/corpus_map.json` — 10 namespaces with ownership tags, vector counts, query weights
+
+**BaseSource ABC — COMPLETE**
+- `ingest/base.py` — abstract interface: `run()`, `status()`, `supports_incremental()`
+- `ingest/sources/` — 8 source stubs (subprocess wrappers over existing scripts): substack, discord, sig, youtube, pdfs, bibliography, definitions, discord_links
+- All imports verified clean; `REGISTRY` dict maps source_id → class
+
+**Pinecone state: 25,276 vectors (+92 from last session — ongoing humboldt/sig/discord growth)**
+- definitions: 560 | discord_links: 9,108 | discord: 5,537 | sig: 4,932 | videos: 2,940 | substack: 1,057 | pdfs: 766 | bibliography: 278 | transcripts: 4 | humboldt: 94 (aware)
+
+**Open TODOs (priority order):**
+1. Phase 2: FastAPI orchestrator app (`orchestrator/app.py`) — ingest endpoints + APScheduler
+2. Phase 2: Inbox watcher (`orchestrator/inbox_watcher.py`) — watchdog on `data/inbox/`
+3. Phase 3: CF integration — D1 for ingest state, Cron Trigger → Worker → orchestrator endpoint
+4. YouTube transcript pass — 161 deferred URLs (pre-existing TODO)
+5. GitHub Actions cron for `sync_substack.py` (pre-existing TODO)
+
 ## 2026-05-27 — c3po_bot: thread continuation + introductions monitoring (session 21)
 
 **Thread continuation — COMPLETE**

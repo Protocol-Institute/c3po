@@ -911,5 +911,58 @@
         }
       ]
     }
+    ,{
+      "id": 22,
+      "sort_key": 22.0,
+      "label": "Session 22",
+      "title": "Pubsub Refactor Phase 1: Registry Layer + BaseSource ABC",
+      "date": "2026-05-28",
+      "time_pt": "",
+      "tracks": [
+        "operations",
+        "corpus-ingestion"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "substack": 1057,
+        "definitions": 560,
+        "discord": 5537,
+        "discord_links": 9108,
+        "sig": 4932,
+        "videos": 2940,
+        "pdfs": 766,
+        "bibliography": 278,
+        "transcripts": 4,
+        "humboldt": 94,
+        "total": 25276
+      },
+      "deployed": false,
+      "items": [
+        {
+          "title": "Architecture pivot: c3po as knowledge broker",
+          "html": "<strong>Architecture pivot: c3po as knowledge broker.</strong> Decided to refactor c3po from a tightly-coupled RAG endpoint into a general-purpose pubsub-style orchestrator for all Protocol Institute archival corpus needs. Key concepts: sources (publishers) feed a shared Pinecone index; sinks (consumers) query it. Three ownership tiers for all corpus resources: <em>owned</em> (c3po creates and maintains), <em>subscribed</em> (another PI project owns; c3po syncs read-only), and <em>aware</em> (external/federated; c3po knows it exists but has no pipeline). The existing ingest scripts and Worker API continue to function unchanged throughout the refactor."
+        },
+        {
+          "title": "config/source_registry.json — unified source manifest",
+          "html": "<strong>config/source_registry.json — unified source manifest.</strong> Machine-readable registry of all 11 corpus sources (10 owned, 1 aware). Fields per source: <code>source_id</code>, <code>ownership</code>, <code>namespace</code>, <code>source_type</code>, <code>schedule</code> (cadence + cron expression), <code>ingest_module</code>, <code>ingest_script</code> (legacy path), <code>state_file</code>, <code>access_level</code>, <code>status</code>. Supersedes the earlier <code>sources/REGISTRY.md</code> and per-source <code>registry.json</code> files as the authoritative manifest. The <code>humboldt</code> source is tagged <code>aware</code> with a note that it may be reclassified to <code>subscribed</code> when the Humboldt–c3po interface is formalized."
+        },
+        {
+          "title": "config/sink_registry.json — consumer manifest",
+          "html": "<strong>config/sink_registry.json — consumer manifest.</strong> Registry of all 7 sinks (3 active, 4 planned). Each sink declares its allowed namespaces, ownership_filter, access_level, and sink_type. Active sinks: web_ui (public HTTP query), discord_bot (bin/c3po_bot.py), mcp (SSE tool server). Planned: oracle_bot (slash commands), listener_bot (Discord filter), sig_publisher (website publication), humboldt (agent direct-access)."
+        },
+        {
+          "title": "config/corpus_map.json — namespace inventory with ownership",
+          "html": "<strong>config/corpus_map.json — namespace inventory with ownership.</strong> Single-file inventory of all 10 Pinecone namespaces: ownership tier, source_id backlink, vector count, default_query_include flag, query weight. The <code>humboldt</code> namespace is explicitly tagged <code>aware</code> and <code>default_query_include: false</code>. The historical naming quirk (YouTube source uses namespace <code>videos</code>, not <code>youtube</code>) is documented. This file is the authoritative corpus snapshot; vector counts should be updated after each ingest session."
+        },
+        {
+          "title": "ingest/base.py — BaseSource ABC",
+          "html": "<strong>ingest/base.py — BaseSource ABC.</strong> Defines the contract for all source modules: <code>source_id</code>, <code>namespace</code>, <code>ownership</code> class attributes; abstract <code>run(dry_run, **kwargs) → IngestResult</code>; optional <code>status() → dict</code> and <code>supports_incremental() → bool</code>. <code>IngestResult</code> is a dataclass with fields for vectors_upserted, vectors_deleted, items_processed, errors, and metadata."
+        },
+        {
+          "title": "ingest/sources/ — source module stubs",
+          "html": "<strong>ingest/sources/ — source module stubs.</strong> 8 concrete source classes, each implementing BaseSource: SubstackSource, DiscordSource, SIGSource, YouTubeSource, PDFSource, BibliographySource, DefinitionsSource, DiscordLinksSource. Phase 1 implementations are subprocess wrappers that call the existing ingest scripts with the correct cwd and flags. No existing script modified. A <code>REGISTRY</code> dict in <code>__init__.py</code> maps source_id strings to classes — the entry point for the future orchestrator."
+        }
+      ]
+    }
   ]
 }

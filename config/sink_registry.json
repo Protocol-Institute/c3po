@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "description": "All corpus consumers. allowed_namespaces: empty list means all owned+subscribed namespaces. ownership_filter controls which tiers are included in queries.",
+  "sinks": {
+    "web_ui": {
+      "sink_id": "web_ui",
+      "display_name": "C3PO Web Interface",
+      "sink_type": "http_query",
+      "endpoint": "https://c3po.vgr-702.workers.dev",
+      "allowed_namespaces": [],
+      "ownership_filter": ["owned", "subscribed"],
+      "access_level": "public",
+      "status": "active",
+      "notes": "Public web query interface. No auth required. Default namespace routing (all owned). Rate-limited by Cloudflare."
+    },
+    "discord_bot": {
+      "sink_id": "discord_bot",
+      "display_name": "C3PO Discord Bot",
+      "sink_type": "discord_bot",
+      "worker_route": "POST /query",
+      "allowed_namespaces": [],
+      "ownership_filter": ["owned", "subscribed"],
+      "access_level": "member",
+      "status": "active",
+      "bot_script": "bin/c3po_bot.py",
+      "notes": "Responds to @c3po mentions in Discord. Thread continuation up to 5 turns. Monitors #introductions for new member greetings. Runs as a persistent daemon (bin/c3po_bot.py)."
+    },
+    "oracle_bot": {
+      "sink_id": "oracle_bot",
+      "display_name": "C3PO Oracle Discord Bot",
+      "sink_type": "discord_slash_commands",
+      "worker_route": "POST /interactions",
+      "allowed_namespaces": [],
+      "ownership_filter": ["owned", "subscribed"],
+      "access_level": "member",
+      "status": "planned",
+      "notes": "Slash commands /ask, /search, /help. Async via Cloudflare Queue (c3po-oracle). Discord app creation and deploy still pending. See plans/oracle-bot-setup.md."
+    },
+    "mcp": {
+      "sink_id": "mcp",
+      "display_name": "MCP Server",
+      "sink_type": "mcp_sse",
+      "worker_route": "GET /mcp",
+      "tools": ["search_corpus", "ask_corpus", "get_resource", "list_resources"],
+      "allowed_namespaces": [],
+      "ownership_filter": ["owned", "subscribed"],
+      "access_level": "public",
+      "status": "active",
+      "notes": "SSE-based MCP server for AI tool integrations (Claude, Cursor, etc.). Exposes corpus search and retrieval as MCP tools. Accepts 'definitions' as explicit namespace filter."
+    },
+    "listener_bot": {
+      "sink_id": "listener_bot",
+      "display_name": "Discord Listener / Filter Bot",
+      "sink_type": "discord_listener",
+      "allowed_namespaces": ["discord", "sig", "definitions"],
+      "ownership_filter": ["owned"],
+      "access_level": "internal",
+      "status": "planned",
+      "notes": "Monitors Discord channels and uses corpus to make real-time filtering/routing decisions. May produce transcripts that feed back into the 'transcripts' source namespace."
+    },
+    "sig_publisher": {
+      "sink_id": "sig_publisher",
+      "display_name": "SIG Page Publisher",
+      "sink_type": "website_publisher",
+      "target": "protocol-institute.org/sig/",
+      "allowed_namespaces": ["sig"],
+      "ownership_filter": ["owned"],
+      "access_level": "internal",
+      "status": "planned",
+      "scripts": ["ingest/generate_sig_pages.py"],
+      "notes": "Distills SIG meeting transcripts from the 'sig' namespace and publishes formatted summaries to the protocol-institute.org website. generate_sig_pages.py is the current prototype."
+    },
+    "humboldt": {
+      "sink_id": "humboldt",
+      "display_name": "Humboldt Research Agent",
+      "sink_type": "agent_direct",
+      "allowed_namespaces": ["pdfs", "substack", "bibliography", "definitions", "youtube", "discord", "sig"],
+      "ownership_filter": ["owned"],
+      "access_level": "internal",
+      "status": "active",
+      "notes": "Humboldt agent accesses the corpus directly via Pinecone (not via c3po Worker). It maintains its own private namespace ('humboldt') which c3po is 'aware' of but does not query. Relationship to be formalized when Humboldt-c3po interface is designed."
+    }
+  }
+}

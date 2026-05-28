@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "description": "All corpus ingest sources. ownership: owned=c3po creates+maintains, subscribed=another PI project owns (read-only sync), aware=external/federated (no ingest pipeline).",
+  "sources": {
+    "substack": {
+      "source_id": "substack",
+      "display_name": "Protocolized Substack",
+      "ownership": "owned",
+      "namespace": "substack",
+      "source_type": "substack_api",
+      "schedule": {
+        "cadence": "daily",
+        "cron_expr": "0 6 * * *"
+      },
+      "ingest_module": "ingest.sources.substack",
+      "ingest_script": "ingest/sync_substack.py",
+      "state_file": "sources/substack/registry.json",
+      "access_level": "public",
+      "status": "active",
+      "notes": "Protocolized Substack newsletter. Incremental sync via API (updated_at comparison). 4 vector types: body, post_summary, collection_card, author_profile."
+    },
+    "pdfs": {
+      "source_id": "pdfs",
+      "display_name": "Research PDF Archive",
+      "ownership": "owned",
+      "namespace": "pdfs",
+      "source_type": "local_pdf",
+      "schedule": {
+        "cadence": "on_change",
+        "cron_expr": null
+      },
+      "ingest_module": "ingest.sources.pdfs",
+      "ingest_script": "ingest/ingest_pdfs.py",
+      "state_file": "sources/pdfs/registry.json",
+      "access_level": "public",
+      "status": "active",
+      "notes": "PDFs from data/pdfs/ — Summer of Protocols research archive + Protocolized resources. Run enrich_pdfs.py before ingest. 2 vector types: body, doc_summary."
+    },
+    "youtube": {
+      "source_id": "youtube",
+      "display_name": "Protocol Institute YouTube Channel",
+      "ownership": "owned",
+      "namespace": "videos",
+      "source_type": "youtube_yt_dlp",
+      "schedule": {
+        "cadence": "daily",
+        "cron_expr": "0 7 * * *"
+      },
+      "ingest_module": "ingest.sources.youtube",
+      "ingest_script": "ingest/ingest_youtube.py",
+      "fetch_script": "ingest/fetch_youtube_meta.py",
+      "enrich_script": "ingest/enrich_youtube.py",
+      "state_file": "sources/youtube/registry.json",
+      "access_level": "public",
+      "status": "active",
+      "notes": "PI YouTube channel transcripts + summaries. Pipeline: fetch_youtube_meta.py → enrich_youtube.py → ingest_youtube.py. Namespace is 'videos' (not 'youtube') for historical reasons. 2 vector types: body, video_summary. 161 URLs pending transcript fetch."
+    },
+    "discord": {
+      "source_id": "discord",
+      "display_name": "Discord — General & Forum Channels",
+      "ownership": "owned",
+      "namespace": "discord",
+      "source_type": "discord_rest",
+      "schedule": {
+        "cadence": "daily",
+        "cron_expr": "0 5 * * *"
+      },
+      "ingest_module": "ingest.sources.discord",
+      "ingest_script": "ingest/sync_discord.py",
+      "state_file": "data/discord_state.json",
+      "channel_manifest": "data/channel_manifest.json",
+      "access_level": "member",
+      "status": "active",
+      "notes": "4 active channels (2 general, 2 forum) + 11 archived. REST API only, no gateway. Starred messages get 1.0x weight, unstarred 0.7x."
+    },
+    "sig": {
+      "source_id": "sig",
+      "display_name": "Discord — SIG Channels",
+      "ownership": "owned",
+      "namespace": "sig",
+      "source_type": "discord_rest",
+      "schedule": {
+        "cadence": "daily",
+        "cron_expr": "0 5 * * *"
+      },
+      "ingest_module": "ingest.sources.sig",
+      "ingest_script": "ingest/sync_sig.py",
+      "state_file": "data/sig_state.json",
+      "channel_manifest": "data/channel_manifest.json",
+      "access_level": "member",
+      "status": "active",
+      "notes": "4 active SIG channels: SIGFPT, MRG, SIGPfB, ProtFiSIG. Includes meeting summaries (Claude-enriched), discussion threads, and main messages. 5 chunk types: sig_message, sig_reply, sig_discussion, sig_meeting_body, sig_meeting_summary."
+    },
+    "bibliography": {
+      "source_id": "bibliography",
+      "display_name": "Reference Bibliography",
+      "ownership": "owned",
+      "namespace": "bibliography",
+      "source_type": "bibliography_s2",
+      "schedule": {
+        "cadence": "on_change",
+        "cron_expr": null
+      },
+      "ingest_module": "ingest.sources.bibliography",
+      "ingest_script": "ingest/ingest_bibliography.py",
+      "fetch_script": "ingest/fetch_refs.py",
+      "state_file": "sources/bibliography/sourced_refs.json",
+      "access_level": "public",
+      "status": "active",
+      "notes": "Curated reference list from Protocolized content. Enriched via Semantic Scholar API. Relevance scores 0-3 stored as metadata. 2 vector types: ref_summary, body (for downloaded PDFs)."
+    },
+    "definitions": {
+      "source_id": "definitions",
+      "display_name": "PI Lexicon & Definitions",
+      "ownership": "owned",
+      "namespace": "definitions",
+      "source_type": "lexicon_json",
+      "schedule": {
+        "cadence": "on_change",
+        "cron_expr": null
+      },
+      "ingest_module": "ingest.sources.definitions",
+      "ingest_script": "ingest/sync_lexicon.py",
+      "state_file": "sources/lexicon_draft.json",
+      "access_level": "public",
+      "status": "active",
+      "notes": "PI-coined and PI-specific terminology. Source: sources/lexicon_draft.json. Only triage a+b entries (~560 vectors). Injected into system prompt as authoritative PI vocabulary. Weight: 1.0x."
+    },
+    "discord_links": {
+      "source_id": "discord_links",
+      "display_name": "Discord Link Farm",
+      "ownership": "owned",
+      "namespace": "discord_links",
+      "source_type": "discord_links",
+      "schedule": {
+        "cadence": "daily",
+        "cron_expr": "0 8 * * *"
+      },
+      "ingest_module": "ingest.sources.discord_links",
+      "fetch_script": "ingest/fetch_discord_links.py",
+      "enrich_script": "ingest/enrich_discord_links.py",
+      "ingest_script": null,
+      "state_file": "data/discord_links_registry.json",
+      "access_level": "public",
+      "status": "active",
+      "notes": "URLs shared in Discord channels, fetched and embedded as link summaries. 3-step pipeline: extract from discord → fetch_discord_links.py → enrich_discord_links.py (score/prune). 3,824 URLs in registry."
+    },
+    "transcripts": {
+      "source_id": "transcripts",
+      "display_name": "Audio Transcripts",
+      "ownership": "owned",
+      "namespace": "transcripts",
+      "source_type": "audio_transcript",
+      "schedule": {
+        "cadence": "event_driven",
+        "cron_expr": null
+      },
+      "ingest_module": "ingest.sources.transcripts",
+      "ingest_script": null,
+      "state_file": null,
+      "access_level": "member",
+      "status": "active",
+      "notes": "Real-time transcripts from voice channels, produced by listener bot. Grows with usage. Currently 4 vectors. Ingest pipeline TBD — will be a sink output that feeds back as a source."
+    },
+    "inbox": {
+      "source_id": "inbox",
+      "display_name": "Submission Inbox",
+      "ownership": "owned",
+      "namespace": "inbox",
+      "source_type": "watched_directory",
+      "schedule": {
+        "cadence": "event_driven",
+        "watch_path": "data/inbox"
+      },
+      "ingest_module": "ingest.sources.inbox",
+      "ingest_script": null,
+      "state_file": null,
+      "access_level": "public",
+      "status": "planned",
+      "notes": "One-off submitted content (PDFs, URLs, text files) dropped into data/inbox/. Processed on file creation event by orchestrator watcher. data/inbox/ is gitignored."
+    },
+    "humboldt": {
+      "source_id": "humboldt",
+      "display_name": "Humboldt Agent Embeddings",
+      "ownership": "aware",
+      "owner_project": "protocol-institute/humboldt",
+      "namespace": "humboldt",
+      "source_type": null,
+      "schedule": null,
+      "ingest_module": null,
+      "ingest_script": null,
+      "state_file": null,
+      "access_level": "private",
+      "status": "active",
+      "notes": "Humboldt's private research embeddings in the shared Pinecone index. C3PO does not create, maintain, or query this namespace by default. Candidate for reclassification to 'subscribed' when the humboldt-c3po interface is formalized. Never include in default query routing."
+    }
+  }
+}

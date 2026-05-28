@@ -52,7 +52,7 @@ Planned migration: `Protocol-Institute/c3po` when handing off to org (Phase 6)
 ## Pinecone Index (live)
 
 Host: `https://c3po-bwo39z7.svc.aped-4627-b74a.pinecone.io`
-Namespaces: `substack` (1,057 · 2026-05-27), `pdfs` (766 · 2026-05-15), `videos` (2,940 · 2026-05-17), `bibliography` (278 · 2026-05-18), `transcripts` (4 · grows with use), `discord` (5,533 · 2026-05-27), `sig` (4,905 · 2026-05-27), `discord_links` (9,064 · 2026-05-27), `definitions` (560 · 2026-05-20 · **now wired into query pipeline**) — **Total: 25,184** (excl. humboldt: 77)
+Namespaces: `substack` (1,057 · 2026-05-27), `pdfs` (766 · 2026-05-15), `videos` (2,940 · 2026-05-17), `bibliography` (278 · 2026-05-18), `transcripts` (4 · grows with use), `discord` (5,537 · 2026-05-28), `sig` (4,932 · 2026-05-28), `discord_links` (9,108 · 2026-05-28), `definitions` (560 · 2026-05-20 · **now wired into query pipeline**) — **Total: 25,276** (excl. humboldt: 94 · ownership: `aware`)
 
 Discord ingest: `ingest/sync_discord.py` — REST-only batch poll, no gateway, no privileged intents.
 Channel types supported: `general` (text channel messages), `forum` (Discord type=15, fetches threads as posts).

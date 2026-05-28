@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "description": "Inventory of all Pinecone namespaces in the c3po index. ownership: owned=c3po creates+maintains, subscribed=another PI project owns, aware=external/no pipeline. Update vector_count + last_updated after each ingest session.",
+  "index": {
+    "name": "c3po",
+    "host": "https://c3po-bwo39z7.svc.aped-4627-b74a.pinecone.io",
+    "dimensions": 1024,
+    "metric": "cosine",
+    "cloud": "aws",
+    "region": "us-east-1",
+    "embedding_model": "voyage-3"
+  },
+  "last_updated": "2026-05-28",
+  "total_vectors": 25276,
+  "namespaces": {
+    "substack": {
+      "namespace": "substack",
+      "display_name": "Protocolized Substack",
+      "ownership": "owned",
+      "source_id": "substack",
+      "vector_count": 1057,
+      "last_updated": "2026-05-27",
+      "default_query_include": true,
+      "query_weight": 1.0,
+      "vector_types": ["body", "post_summary", "collection_card", "author_profile"],
+      "notes": "114 newsletter posts."
+    },
+    "pdfs": {
+      "namespace": "pdfs",
+      "display_name": "Research PDF Archive",
+      "ownership": "owned",
+      "source_id": "pdfs",
+      "vector_count": 766,
+      "last_updated": "2026-05-15",
+      "default_query_include": true,
+      "query_weight": 1.0,
+      "vector_types": ["body", "doc_summary"],
+      "notes": "Summer of Protocols + Protocolized PDF research archive."
+    },
+    "videos": {
+      "namespace": "videos",
+      "display_name": "PI YouTube Videos",
+      "ownership": "owned",
+      "source_id": "youtube",
+      "vector_count": 2940,
+      "last_updated": "2026-05-17",
+      "default_query_include": true,
+      "query_weight": 1.0,
+      "vector_types": ["body", "video_summary"],
+      "notes": "Namespace named 'videos' (not 'youtube') for historical reasons. Protocol School 2025 + salon talks."
+    },
+    "discord": {
+      "namespace": "discord",
+      "display_name": "Discord General Channels",
+      "ownership": "owned",
+      "source_id": "discord",
+      "vector_count": 5537,
+      "last_updated": "2026-05-28",
+      "default_query_include": true,
+      "query_weight_starred": 1.0,
+      "query_weight_unstarred": 0.7,
+      "vector_types": ["message", "thread"],
+      "notes": "4 active channels (2 general, 2 forum) + 11 archived. Star weighting applied at retrieval merge."
+    },
+    "sig": {
+      "namespace": "sig",
+      "display_name": "SIG Channels",
+      "ownership": "owned",
+      "source_id": "sig",
+      "vector_count": 4932,
+      "last_updated": "2026-05-28",
+      "default_query_include": true,
+      "query_weight": 1.0,
+      "vector_types": ["sig_message", "sig_reply", "sig_discussion", "sig_meeting_body", "sig_meeting_summary"],
+      "notes": "4 active SIG channels: SIGFPT, MRG, SIGPfB, ProtFiSIG."
+    },
+    "bibliography": {
+      "namespace": "bibliography",
+      "display_name": "Reference Bibliography",
+      "ownership": "owned",
+      "source_id": "bibliography",
+      "vector_count": 278,
+      "last_updated": "2026-05-18",
+      "default_query_include": true,
+      "query_weight": 1.0,
+      "vector_types": ["ref_summary", "body"],
+      "notes": "Curated references from Protocolized content. Relevance scores 0-3 in metadata."
+    },
+    "definitions": {
+      "namespace": "definitions",
+      "display_name": "PI Lexicon & Definitions",
+      "ownership": "owned",
+      "source_id": "definitions",
+      "vector_count": 560,
+      "last_updated": "2026-05-20",
+      "default_query_include": true,
+      "query_weight": 1.0,
+      "vector_types": ["definition"],
+      "notes": "PI-coined terminology. Injected into system prompt. Only triage a+b entries."
+    },
+    "discord_links": {
+      "namespace": "discord_links",
+      "display_name": "Discord Link Farm",
+      "ownership": "owned",
+      "source_id": "discord_links",
+      "vector_count": 9108,
+      "last_updated": "2026-05-28",
+      "default_query_include": true,
+      "query_weight": 1.0,
+      "vector_types": ["link_summary"],
+      "notes": "URLs shared in Discord, fetched and embedded as enriched link summaries. 3,824 URLs in registry."
+    },
+    "transcripts": {
+      "namespace": "transcripts",
+      "display_name": "Audio Transcripts",
+      "ownership": "owned",
+      "source_id": "transcripts",
+      "vector_count": 4,
+      "last_updated": null,
+      "default_query_include": true,
+      "query_weight": 1.0,
+      "vector_types": ["transcript_chunk"],
+      "notes": "Real-time voice transcripts from listener bot. Very small currently, grows with usage."
+    },
+    "humboldt": {
+      "namespace": "humboldt",
+      "display_name": "Humboldt Agent Embeddings",
+      "ownership": "aware",
+      "owner_project": "protocol-institute/humboldt",
+      "source_id": "humboldt",
+      "vector_count": 94,
+      "last_updated": "2026-05-28",
+      "default_query_include": false,
+      "query_weight": null,
+      "vector_types": ["research_chunk"],
+      "notes": "Humboldt's private research embeddings. C3PO does not own, maintain, or query this namespace. Tracked here for corpus inventory completeness. Candidate for 'subscribed' tier when Humboldt-c3po interface is designed."
+    }
+  }
+}
