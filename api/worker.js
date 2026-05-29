@@ -32,6 +32,8 @@ const BOT_VERSION     = "v0.1.0";
 const LAUNCH_DATE     = "2026-05-15";
 const TOP_K_EACH      = 15;    // per namespace before merge
 const MAX_SOURCES     = 8;
+const CHAT_PUBLIC_BASE           = "https://protocolized.io/chats";  // update after domain migration
+const TRANSCRIPT_CACHE_THRESHOLD = 0.52;  // Voyage-3 Q+A pairs top out ~0.62 for near-duplicates; 0.52 catches close matches
 const RATE_LIMIT_MAX  = 20;    // requests per IP per hour
 const RATE_LIMIT_TTL  = 3600;
 const STRIKE_THRESHOLD = 3;    // probe events before 24h IP ban
@@ -531,8 +533,12 @@ function normalizeTranscript(match) {
                   : chunkType === "discord_conversation" ? "C3PO-BOT"
                   : "C3PO";
   const question  = (m.question || "").slice(0, 80);
+  const chatId    = m.chat_id || null;
+  const url       = chunkType === "web_conversation" && chatId
+                  ? `${CHAT_PUBLIC_BASE}/${chatId}`
+                  : null;
   return {
-    docId:          `${m.thread_id || match.id}:${m.turn || 0}`,
+    docId:          chunkType === "web_conversation" ? (chatId || match.id) : `${m.thread_id || match.id}:${m.turn || 0}`,
     source:         "transcript",
     score:          match.score,
     type:           chunkType,
@@ -541,9 +547,10 @@ function normalizeTranscript(match) {
     authors:        [],
     primary_author: "C3PO",
     date:           (m.ts || "").slice(0, 10),
-    url:            null,
+    url,
     excerpt:        m.text || "",
     bot_id:         botId,
+    chat_id:        chatId,
     turn:           m.turn || 1,
   };
 }
@@ -577,7 +584,11 @@ function mergeResults(pdfItems, substackItems, videoItems, bibItems, discordItem
       return { ...m, weightedScore: m.score * (relBase + 0.10 * popularity) };
     }),
     ...defItems.map(m => ({ ...m, weightedScore: m.score * 1.0 })),
-    ...transcriptItems.map(m => ({ ...m, weightedScore: m.score * 0.85 })),
+    ...transcriptItems.map(m => {
+      // Warm-cache boost: high-similarity prior conversations surface above most corpus material
+      const w = m.score >= 0.60 ? 1.10 : m.score >= TRANSCRIPT_CACHE_THRESHOLD ? 0.92 : 0.80;
+      return { ...m, weightedScore: m.score * w };
+    }),
   ];
   const byId = new Map();
   for (const m of allItems) {
@@ -2986,11 +2997,16 @@ async function runMcpAsk(args, env, ctx) {
   const _sigPageIds2 = new Set(sigRaw.map(m => m.id));
   const sigAug = [...sigRaw, ...sigPageRaw.filter(m => !_sigPageIds2.has(m.id))];
 
-  const topItems     = mergeResults(pdfRaw.map(normalizePdf), subRaw.map(normalizeSubstack), vidRaw.map(normalizeVideo), bibRaw.map(normalizeBibliography), discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig), webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition), transcriptRaw2.map(normalizeTranscript), MAX_SOURCES);
+  const transcriptItems2 = transcriptRaw2.map(normalizeTranscript);
+  const cacheHits2       = transcriptItems2.filter(m => m.score >= TRANSCRIPT_CACHE_THRESHOLD && m.url);
+
+  const topItems     = mergeResults(pdfRaw.map(normalizePdf), subRaw.map(normalizeSubstack), vidRaw.map(normalizeVideo), bibRaw.map(normalizeBibliography), discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig), webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition), transcriptItems2, MAX_SOURCES);
   const contextBlock = buildContextBlock(topItems);
-  const sources      = topItems.map(({ source, type, label, title, authors, primary_author, date, url, summary,
-                                       channel_name, sig_display, sig_name, isMeetingSummary, isMeetingBody, isDiscussion,
-                                       domain, source_count }) => ({
+  const sources      = topItems
+    .filter(m => m.source !== "transcript")
+    .map(({ source, type, label, title, authors, primary_author, date, url, summary,
+            channel_name, sig_display, sig_name, isMeetingSummary, isMeetingBody, isDiscussion,
+            domain, source_count }) => ({
     source, type, label, title, authors, primary_author, date, url, summary,
     ...(source === "discord" ? { channel_name } : {}),
     ...(source === "sig"     ? { sig_display, sig_name, isMeetingSummary, isMeetingBody, isDiscussion } : {}),
@@ -3028,7 +3044,11 @@ async function runMcpAsk(args, env, ctx) {
 
   ctx.waitUntil(trackMcpRequest(env, claudeBody.usage).catch(() => {}));
 
-  return mcpToolContent(JSON.stringify({ question, answer, sources, exchange: exchangeNum, version: BOT_VERSION }, null, 2));
+  const cacheHitPayload2 = cacheHits2.length ? cacheHits2.map(({ score, ...r }) => r) : undefined;
+  return mcpToolContent(JSON.stringify({
+    question, answer, sources, exchange: exchangeNum, version: BOT_VERSION,
+    ...(cacheHitPayload2 ? { cache_hits: cacheHitPayload2 } : {}),
+  }, null, 2));
 }
 
 async function handleMcp(request, env, ctx) {
@@ -3234,16 +3254,25 @@ async function runRagQuery(query, env, ctx, opts = {}) {
     vidAug = [...vidRaw.filter(m => !vidSumIds.has(m.id)), ...flat.filter(m => m.metadata?.source === "youtube")];
   }
 
+  const transcriptItems = transcriptRaw.map(normalizeTranscript);
+  const cacheHits = transcriptItems.filter(m => m.score >= TRANSCRIPT_CACHE_THRESHOLD && m.url);
+
   const topItems = mergeResults(
     pdfAug.map(normalizePdf), subAug.map(normalizeSubstack),
     vidAug.map(normalizeVideo), bibRaw.map(normalizeBibliography),
     discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig),
     webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition),
-    transcriptRaw.map(normalizeTranscript), MAX_SOURCES
+    transcriptItems, MAX_SOURCES
   );
-  const sources = topItems.map(({ weightedScore, ...rest }) => rest);
+  const sources = topItems
+    .filter(m => m.source !== "transcript")  // transcript cache hits surfaced separately
+    .map(({ weightedScore, ...rest }) => rest);
 
-  if (!includeAnswer) return { answer: null, sources };
+  const cacheHitPayload = cacheHits.length
+    ? cacheHits.map(({ score, ...rest }) => rest)
+    : undefined;
+
+  if (!includeAnswer) return { answer: null, sources, cache_hits: cacheHitPayload };
 
   const contextBlock = buildContextBlock(topItems);
   const claudeRes = await fetch(CLAUDE_URL, {
@@ -3266,7 +3295,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   const claudeBody = await claudeRes.json();
   const answer = claudeBody.content?.[0]?.text || "";
   if (ctx) ctx.waitUntil(trackRequest(env, claudeBody.usage));
-  return { answer, sources };
+  return { answer, sources, ...(cacheHitPayload ? { cache_hits: cacheHitPayload } : {}) };
 }
 
 function formatDiscordAsk(query, answer, sources) {
@@ -3591,14 +3620,17 @@ export default {
     }
 
     try {
-      const { answer, sources } = await runRagQuery(query, env, ctx, {
+      const { answer, sources, cache_hits } = await runRagQuery(query, env, ctx, {
         includeAnswer: mode !== "sources",
         history,
         maxTokens: reqMaxTokens,
       });
       if (mode === "sources") return json({ sources, query }, 200, corsHeaders);
       ctx.waitUntil(logQuery(env, query, answer, sources, sessionId, turnNumber));
-      return json({ answer, sources, query }, 200, corsHeaders);
+      return json({
+        answer, sources, query,
+        ...(cache_hits ? { cache_hits } : {}),
+      }, 200, corsHeaders);
     } catch (err) {
       console.error("Unhandled error:", err);
       return json({ error: "Internal server error" }, 500, corsHeaders);

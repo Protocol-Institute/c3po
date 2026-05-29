@@ -153,8 +153,20 @@ async def call_worker(query: str, history: list | None = None, max_tokens: int =
 
 
 async def send_answer(target, data: dict) -> None:
+    cache_hits = data.get("cache_hits") or []
+    web_hits   = [h for h in cache_hits if h.get("url")]
+
     answer  = (data.get("answer") or "").strip()
-    sources = data.get("sources") or []
+    sources = [s for s in (data.get("sources") or []) if s.get("source") != "transcript"]
+
+    if web_hits:
+        hit = web_hits[0]
+        url = hit.get("url")
+        await target.send(
+            f"**Similar conversation:** <{url}>\n"
+            f"*(A similar question was answered before — my response below)*"
+        )
+
     if not answer:
         await target.send("No answer returned — the corpus may not cover this topic.")
         return
