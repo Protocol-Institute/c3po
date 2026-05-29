@@ -142,8 +142,8 @@ def save_registry(reg: dict) -> None:
     REGISTRY_PATH.write_text(json.dumps(reg, indent=2, ensure_ascii=False))
 
 
-def content_hash(path: str, topic: str, description: str) -> str:
-    s = f"{path}|{topic}|{description}"
+def content_hash(path: str, topic: str, description: str, cadence: str = "") -> str:
+    s = f"{path}|{topic}|{description}|{cadence}"
     return hashlib.sha256(s.encode()).hexdigest()[:16]
 
 
@@ -218,10 +218,13 @@ def describe_channel(channel: dict, category: str, path: str, messages: list[dic
 def embed_channel(entry: dict, vc, index) -> None:
     """Embed a single channel entry into the discord_guide namespace."""
     path = entry.get("path", entry["display"])
+    cadence_line = (f"Meets: {entry['cadence']}\n" if entry.get("cadence") else "")
+    lead_line    = (f"Lead: {entry['lead']}\n"    if entry.get("lead")    else "")
     text = (
         f"Discord location: {path}\n"
         f"Channel: {entry['display']}  |  Section: {entry.get('category', '')}\n"
         f"Type: {entry.get('type_label', '')}\n"
+        f"{cadence_line}{lead_line}"
         f"Topic: {entry.get('topic') or '(none)'}\n\n"
         f"{entry.get('description', '')}"
     )
@@ -335,7 +338,8 @@ def main() -> None:
             "status":                 "active",
             "recommend_to_newcomers": should_recommend(name, category, existing),
             "source":                 "auto",
-            "content_hash":           content_hash(path, topic, description),
+            "content_hash":           content_hash(path, topic, description,
+                                                    (existing or {}).get("cadence", "")),
             "first_seen":             (existing or {}).get("first_seen", now),
             "last_seen":              now,
         }

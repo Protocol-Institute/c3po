@@ -20,12 +20,16 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+import asyncio
+
 import aiohttp
 import discord
 import hashlib
 import json
 import time
+import voyageai
 from dotenv import load_dotenv
+from pinecone import Pinecone
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
@@ -45,14 +49,75 @@ MAX_THREAD_TURNS = 5
 ORACLE_ROLE_ID           = int(os.environ.get("ORACLE_ROLE_ID", "1509298797040107543"))
 INTRODUCTIONS_CHANNEL_ID = int(os.environ.get("INTRODUCTIONS_CHANNEL_ID", "0"))
 
-# SIG channels — used in introductions recommendations
-# Channel mention format in Discord: <#CHANNEL_ID>
-SIG_CHANNELS = {
-    "SIGFPT":    {"id": 1327337414175490160, "desc": "Formal Protocol Theory — mathematical/logical foundations"},
-    "MRG":       {"id": 1379992696114122832, "desc": "Memory Research Group — protocols of memory and archiving"},
-    "SIGPfB":    {"id": 1333851496416153702, "desc": "Protocols for Business — organizational and business protocols"},
-    "ProtFiSIG": {"id": 1106572787042238504, "desc": "Protocol Fiction — speculative and imaginative narratives"},
-}
+DISCORD_CHANNELS_PATH = C3PO_DIR / "config" / "discord_channels.json"
+VOYAGE_MODEL          = "voyage-3"
+
+# Fallback channels when guide query returns no SIG match
+FALLBACK_CHANNEL_IDS = [
+    "1084135714830164100",   # #🤔-idle-protocol-musings  (PLAZA)
+    "1095846506382250075",   # #🔍-protocol-watch         (PLAZA)
+]
+
+# SIG meta-channels to skip when recommending to newcomers
+_SIG_META_NAMES = {"sig-talk", "sig-hosts-best-practices"}
+
+# ── Discord guide query (direct Pinecone) ─────────────────────────────────────
+
+_voyage_client:   voyageai.Client | None = None
+_pinecone_index = None
+
+
+def _guide_clients():
+    global _voyage_client, _pinecone_index
+    if _voyage_client is None:
+        _voyage_client = voyageai.Client(api_key=os.environ["VOYAGE_API_KEY"])
+    if _pinecone_index is None:
+        pc = Pinecone(api_key=os.environ["PINECONE_API_KEY"])
+        _pinecone_index = pc.Index(host=os.environ["PINECONE_C3PO_HOST"])
+    return _voyage_client, _pinecone_index
+
+
+def _sync_query_guide(text: str, top_k: int = 8) -> list[dict]:
+    vc, idx = _guide_clients()
+    result = vc.embed([text], model=VOYAGE_MODEL, input_type="query")
+    vector = result.embeddings[0]
+    resp = idx.query(
+        vector=vector,
+        top_k=top_k,
+        namespace="discord_guide",
+        filter={"recommend_to_newcomers": True, "status": "active"},
+        include_metadata=True,
+    )
+    return [m.metadata for m in resp.matches]
+
+
+async def query_discord_guide(text: str) -> list[dict]:
+    """Embed text and query discord_guide; runs sync SDK in thread executor."""
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(None, _sync_query_guide, text)
+
+
+def _pick_channel(hits: list[dict]) -> dict | None:
+    """Return best channel rec: prefer a content SIG, then any recommended channel."""
+    sigs = [h for h in hits
+            if h.get("category") == "SPECIAL INTEREST GROUPS"
+            and h.get("name") not in _SIG_META_NAMES]
+    if sigs:
+        return sigs[0]
+    # Fall back to first non-SIG hit, or hard-coded fallbacks
+    for h in hits:
+        if h.get("name") not in _SIG_META_NAMES:
+            return h
+    return None
+
+
+def _load_fallback_channel(channel_id: str) -> dict | None:
+    """Load a channel entry from the registry by ID."""
+    try:
+        reg = json.loads(DISCORD_CHANNELS_PATH.read_text())
+        return reg["channels"].get(channel_id)
+    except Exception:
+        return None
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 
@@ -282,12 +347,6 @@ async def handle_thread_reply(message: discord.Message) -> None:
 
 # ── Introductions monitoring ──────────────────────────────────────────────────
 
-_SIG_PROMPT_LINES = "\n".join(
-    f"- {name} (<#{info['id']}>) — {info['desc']}"
-    for name, info in SIG_CHANNELS.items()
-)
-
-
 async def handle_introduction(message: discord.Message) -> None:
     # Only respond to top-level posts, not replies within #introductions
     if message.reference is not None:
@@ -296,59 +355,90 @@ async def handle_introduction(message: discord.Message) -> None:
     intro_text = message.content[:400]
     log.info(f"Introduction from [{message.author}]: {intro_text[:80]}")
 
-    prompt = (
-        f"A new member just posted their introduction in the Protocol Institute Discord:\n\n"
-        f"---\n{intro_text}\n---\n\n"
-        f"Based on their stated interests, do two things:\n"
-        f"1. Recommend ONE specific article, essay, or resource from our corpus that would be "
-        f"most relevant to them. Give a 1–2 sentence explanation of why.\n"
-        f"2. Recommend the ONE most relevant SIG (special interest group) from this list, "
-        f"mentioning it by its Discord channel mention exactly as shown:\n"
-        f"{_SIG_PROMPT_LINES}\n\n"
-        f"Explain in one sentence why that SIG fits their interests. "
-        f"Keep the total response to 3–5 sentences. Be warm but concise. "
-        f"Do not repeat back the introduction text."
+    # Corpus query: frame intro as a resource-recommendation request
+    corpus_query = (
+        f"New member introduction: {intro_text}\n\n"
+        f"Recommend 1-2 specific resources from the corpus most relevant to their "
+        f"stated interests. Briefly explain why each is relevant. 3-5 sentences total."
     )
 
     t0 = time.monotonic()
     async with message.channel.typing():
-        data = await call_worker(prompt, max_tokens=400)
+        # Parallel: corpus recs via Worker + channel guide via direct Pinecone
+        corpus_task = asyncio.create_task(call_worker(corpus_query, max_tokens=250))
+        guide_task  = asyncio.create_task(query_discord_guide(intro_text))
+        corpus_data, guide_hits = await asyncio.gather(corpus_task, guide_task,
+                                                       return_exceptions=True)
     latency_ms = int((time.monotonic() - t0) * 1000)
 
-    if data is None:
-        return
+    if isinstance(corpus_data, Exception):
+        log.error(f"Corpus task failed: {corpus_data}")
+        corpus_data = None
+    if isinstance(guide_hits, Exception):
+        log.error(f"Guide task failed: {guide_hits}")
+        guide_hits = []
 
-    answer  = (data.get("answer") or "").strip()
-    sources = data.get("sources") or []
-    if not answer:
-        return
+    answer  = ((corpus_data or {}).get("answer") or "").strip()
+    sources = [s for s in ((corpus_data or {}).get("sources") or [])
+               if s.get("source") != "transcript"]
 
-    reply = f"Welcome, {message.author.mention}!\n\n{answer}"
+    # Pick channel recommendation
+    channel = _pick_channel(guide_hits or [])
+    if channel is None:
+        # Hard fallback: load #idle-protocol-musings from registry
+        channel = _load_fallback_channel(FALLBACK_CHANNEL_IDS[0])
 
-    if sources:
-        src      = sources[0]
-        label    = src.get("label") or src.get("source", "").upper()
-        title    = src.get("title") or src.get("url") or "(untitled)"
-        url      = src.get("url")
-        date     = (src.get("date") or "")[:7]
-        date_str = f" ({date})" if date else ""
-        link_str = f" — <{url}>" if url else ""
-        reply += f"\n\n**Suggested reading:** [{label}] {title}{date_str}{link_str}"
+    # ── Format reply ──────────────────────────────────────────────────────────
+    reply = f"Welcome, {message.author.mention}!\n\n"
+
+    if answer:
+        reply += answer + "\n"
+
+    # Reading recommendations from sources (up to 2)
+    rec_sources = sources[:2]
+    if rec_sources:
+        reply += "\n**Suggested reading:**\n"
+        for src in rec_sources:
+            label    = src.get("label") or src.get("source", "").upper()
+            title    = src.get("title") or src.get("url") or "(untitled)"
+            url      = src.get("url")
+            date     = (src.get("date") or "")[:7]
+            date_str = f" ({date})" if date else ""
+            link_str = f" — <{url}>" if url else ""
+            reply   += f"**[{label}]** {title}{date_str}{link_str}\n"
+
+    # Channel recommendation
+    if channel:
+        cid      = channel.get("channel_id", "")
+        blurb    = channel.get("guide_blurb", "")
+        cadence  = channel.get("cadence", "")
+        sig      = channel.get("sig_display", "")
+        mention  = f"<#{cid}>" if cid else channel.get("display", "")
+
+        reply += f"\n**Good first channel:** {mention}"
+        if sig and cadence:
+            reply += f" ({sig} — meets {cadence})"
+        elif cadence:
+            reply += f" (meets {cadence})"
+        if blurb:
+            reply += f"\n{blurb}"
 
     try:
-        await message.reply(reply, mention_author=False)
+        for chunk in split_message(reply.strip()):
+            await message.reply(chunk, mention_author=False)
     except discord.HTTPException as exc:
         log.error(f"Failed to send intro reply: {exc}")
 
     log_session({
-        "event":      "introduction",
-        "ts":         _ts(),
-        "type":       "introduction",
-        "user_hash":  _hash_user(message.author.id),
-        "intro_len":  len(intro_text),
-        "answer_len": len(answer),
-        "sources":    len(sources),
-        "latency_ms": latency_ms,
+        "event":       "introduction",
+        "ts":          _ts(),
+        "type":        "introduction",
+        "user_hash":   _hash_user(message.author.id),
+        "intro_len":   len(intro_text),
+        "answer_len":  len(answer),
+        "sources":     len(sources),
+        "channel_rec": channel.get("name") if channel else None,
+        "latency_ms":  latency_ms,
     })
 
 
