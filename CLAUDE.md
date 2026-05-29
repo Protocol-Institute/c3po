@@ -52,7 +52,9 @@ Planned migration: `Protocol-Institute/c3po` when handing off to org (Phase 6)
 ## Pinecone Index (live)
 
 Host: `https://c3po-bwo39z7.svc.aped-4627-b74a.pinecone.io`
-Namespaces: `substack` (1,057 · 2026-05-27), `pdfs` (800 · 2026-05-28), `videos` (2,940 · 2026-05-17), `bibliography` (278 · 2026-05-18), `transcripts` (4 · grows with use), `discord` (5,538 · 2026-05-28), `sig` (4,932 · 2026-05-28), `discord_links` (9,108 · 2026-05-28), `definitions` (560 · 2026-05-20 · **now wired into query pipeline**) — **Total: 25,311** (excl. humboldt: 94 · ownership: `aware`)
+Namespaces: `substack` (1,057 · 2026-05-27), `pdfs` (800 · 2026-05-28), `videos` (2,940 · 2026-05-17), `bibliography` (278 · 2026-05-18), `transcripts` (4 · grows with use), `discord` (5,538 · 2026-05-28), `sig` (5,027 · 2026-05-28 · **+91 meeting pages from protocol-institute.org/sigs/**), `discord_links` (9,108 · 2026-05-28), `definitions` (560 · 2026-05-20 · **now wired into query pipeline**) — **Total: 25,406** (excl. humboldt: 94 · ownership: `aware`)
+
+SIG meeting pages: `ingest/sync_sig_pages.py` — crawls 91 meeting pages from protocol-institute.org/sigs/ (SIGFPT: 33, SIGPfB: 28, MRG: 16, ProtFiSIG: 14). chunk_type=`sig_meeting_page`, weight 0.90×. State: `data/sig_pages_state.json`. Run when new meetings are published.
 
 Discord ingest: `ingest/sync_discord.py` — REST-only batch poll, no gateway, no privileged intents.
 Channel types supported: `general` (text channel messages), `forum` (Discord type=15, fetches threads as posts).

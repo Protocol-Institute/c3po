@@ -7,6 +7,36 @@ Log: `/tmp/c3po_bot.log`
 To restart: `kill <pid> && cd /Users/Venkat/Dropbox/Code/protocol-institute/c3po && source .venv/bin/activate && python3 -u bin/c3po_bot.py &>/tmp/c3po_bot.log & echo $!`
 Update PID here after each restart.
 
+## 2026-05-28 — PDF URL fix, answer length fix, SIG meeting page ingest (session 23)
+
+**PDF URL bug — FIXED**
+- `normalizePdf()` was prepending `https://protocolized.io` to any `m.url`, including already-absolute URLs (e.g., `https://ai.protocolized.dev/`). Added `startsWith("http")` check. Bug was visible in chat `bxi03c`.
+
+**Answer length cutoff — FIXED**
+- `max_tokens` raised 1200 → 2000 on main query path and MCP ask path
+- Added system prompt instruction: complete current paragraph rather than truncate mid-sentence
+- Previous answer in `bxi03c` cut off mid-word; now produces complete 4400-char responses
+
+**SIG meeting page ingest — COMPLETE**
+- New script: `ingest/sync_sig_pages.py`
+- Crawls all 91 meeting pages from `protocol-institute.org/sigs/` (SIGFPT: 33, SIGPfB: 28, MRG: 16, ProtFiSIG: 14)
+- Embeds as `chunk_type=sig_meeting_page` in `sig` namespace; metadata: `meeting_title`, `meeting_date`, `participants`, `url` (absolute .org URL), `sig_display`
+- State file: `data/sig_pages_state.json` (gitignored); incremental via content hash
+- Worker: `normalizeSig()` handles new type; tier weight 0.90×; parallel filtered Pinecone query ensures meeting pages surface even when ranked below TOP_K_EACH in general sig query
+- Deployed: Version `41fd2d1f`; verified: 3 of 5 sig sources now have `.org` meeting page URLs for AI adoption query
+
+**Pinecone state: 25,406 vectors**
+- sig: **5,027** (+95: 91 meeting pages + 4 sig) | discord_links: 9,108 | discord: 5,538 | definitions: 560 | videos: 2,940 | substack: 1,057 | pdfs: 800 | bibliography: 278 | transcripts: 4 | humboldt: 94 (aware)
+
+**Open TODOs (priority order):**
+1. Phase 2: FastAPI orchestrator app (`orchestrator/app.py`) — ingest endpoints + APScheduler
+2. Phase 2: Inbox watcher (`orchestrator/inbox_watcher.py`) — watchdog on `data/inbox/`
+3. Phase 3: CF integration — D1 for ingest state, Cron Trigger → Worker → orchestrator endpoint
+4. YouTube transcript pass — 161 deferred URLs
+5. GitHub Actions cron for `sync_substack.py`
+6. `ai.protocolized.dev` re-ingest — schedule once orchestrator is running
+7. `sync_sig_pages.py` — add to GitHub Actions cron once page format stabilizes
+
 ## 2026-05-28 — Pubsub refactor Phase 1: registry layer + BaseSource ABC (session 22)
 
 **Architecture pivot — COMPLETE**
