@@ -3586,7 +3586,7 @@ export default {
     }
 
     if (!query)              return json({ error: "Missing 'query'" }, 400, corsHeaders);
-    if (query.length > 500)  return json({ error: "Query too long (max 500 chars)" }, 400, corsHeaders);
+    if (query.length > 2000) return json({ error: "Query too long (max 2000 chars)" }, 400, corsHeaders);
     if (!["answer", "sources"].includes(mode)) return json({ error: "mode must be 'answer' or 'sources'" }, 400, corsHeaders);
 
     const ip = request.headers.get("CF-Connecting-IP") || "unknown";

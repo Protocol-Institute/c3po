@@ -293,7 +293,7 @@ async def handle_introduction(message: discord.Message) -> None:
     if message.reference is not None:
         return
 
-    intro_text = message.content[:800]
+    intro_text = message.content[:400]
     log.info(f"Introduction from [{message.author}]: {intro_text[:80]}")
 
     prompt = (
