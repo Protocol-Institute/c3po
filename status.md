@@ -15,6 +15,27 @@ launchctl unload ~/Library/LaunchAgents/org.protocol-institute.c3po-bot.plist
 launchctl load   ~/Library/LaunchAgents/org.protocol-institute.c3po-bot.plist
 ```
 
+## 2026-05-29 — Discord guide Phase 3: intro handler + scheduled events (session 25, cont.)
+
+**Discord events sync — COMPLETE**
+- `ingest/sync_discord_events.py`: fetches guild scheduled events, decodes recurrence_rule into human-readable cadence, matches events to channels via sig_display/event_keywords/keyword overlap
+- Dual-event fix: when multiple events match same channel (SIGPfB main + optional), keeps highest user_count as primary; secondary events stored in `secondary_events` field
+- 6 events fetched, 5 unique channels matched (MRG, SIGFPT, SIGPfB, ProtFiSIG, SIGPSY); 0 unmatched
+- `daemon.py` step 2: sync_discord_events runs after channels, before discord
+- `sync_discord_channels.py`: preserves `next_event_*` fields across rebuild cycles; includes `next_event_time` in embed text and Pinecone metadata
+- `c3po_bot.py` intro handler: shows "next meeting: Fri 29 May 17:00 UTC" instead of just cadence string
+- Worker deployed: Version `c755bd9b` (also fixes query limit 500→2000 chars from session 25 intro)
+
+**Pinecone state: ~25,411 vectors** (5 SIG channels re-embedded in discord_guide)
+
+**Open TODOs (priority order):**
+1. YouTube community links pass — `python3 ingest/fetch_discord_links.py --youtube-only` then `enrich_discord_links.py`
+2. Phase D: `config/bot_registry.json` + shared session-log helper + monitoring page bot statuses
+3. Phase 4: General Discord nav queries (using discord_guide for "where should I post about X?")
+4. GitHub Actions cron for `sync_substack.py`
+
+---
+
 ## 2026-05-28 — Warm-cache hits + Phases B+C wrap-up (session 24, cont.)
 
 **Transcript warm-cache — COMPLETE**

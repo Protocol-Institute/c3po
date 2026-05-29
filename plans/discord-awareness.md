@@ -155,7 +155,8 @@ This can be wired into the existing mention-based RAG path — c3po can answer D
 |-------|--------|
 | Phase 1: Channel registry | ✅ Complete — `ingest/sync_discord_channels.py` auto-discovers from Discord API; 78 channels found; wired into daemon as step 1 |
 | Phase 2: Pinecone embed | ✅ Complete — `discord_guide` namespace; Haiku auto-describes each channel; re-embeds on content_hash change |
-| Phase 3: Intro handler rework | ⬜ Ready to build — query limit fix applied 2026-05-29; retrieval rework pending |
-| Phase 4: General navigation | ⬜ Not started — depends on Phase 2 ✅ |
+| Phase 3: Intro handler rework | ✅ Complete — RAG-driven channel recs + corpus resources; next_event_time shown in reply |
+| Phase 3.5: Scheduled events sync | ✅ Complete — `ingest/sync_discord_events.py`; cadence + next_event_time in registry + Pinecone |
+| Phase 4: General navigation | ⬜ Not started — discord_guide namespace ready; needs "where should I post?" routing in bot |
 
-**Immediate next step:** Phase 3 — rework `handle_introduction()` to use `discord_guide` RAG for channel recommendations instead of hardcoded SIG list. Then consider exposing `discord_guide` queries for general navigation questions.
+**Immediate next step:** Phase 4 — handle direct navigation questions ("where should I post about X?", "what SIGs exist?") by querying discord_guide directly from the bot's mention handler.

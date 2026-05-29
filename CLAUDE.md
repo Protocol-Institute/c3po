@@ -46,9 +46,10 @@ Host: `https://c3po-bwo39z7.svc.aped-4627-b74a.pinecone.io`
 | `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
 | `pdfs` | 800 | 82+ papers/essays including external resources |
 | `bibliography` | 278 | External works cited by PI corpus |
+| `discord_guide` | 78 | All active guild channels; Haiku-described; SIG channels include cadence + next_event_time |
 | `transcripts` | 8 | Bot conversation self-memory: 4 web_conversation (Phase C); grows with Discord spool (Phase B) |
 | `humboldt` | 94 | Owned by humboldt project (`aware` only — do not ingest) |
-| **Total** | **25,411** | |
+| **Total** | **~25,489** | |
 
 ## Key Ingest Scripts
 
@@ -61,6 +62,8 @@ Host: `https://c3po-bwo39z7.svc.aped-4627-b74a.pinecone.io`
 | `ingest/fetch_discord_links.py` | Fetch pending shared URLs | `data/discord_links_registry.json` |
 | `ingest/enrich_discord_links.py` | Score/prune links with Haiku | same |
 | `ingest/ingest_pdfs.py` | PDFs from local or web resources | `data/enriched_meta.json` |
+| `ingest/sync_discord_channels.py` | Guild channel map → `discord_guide` namespace | `config/discord_channels.json` |
+| `ingest/sync_discord_events.py` | Scheduled events → cadence + next_event_time in registry | `config/discord_channels.json` |
 | `ingest/sync_bot_conversations.py` | Discord bot spool → `transcripts` | `data/spool/bot_conversations/` |
 | `ingest/sync_web_chats.py` | Public web chats → `transcripts` | `data/web_chats_state.json` |
 

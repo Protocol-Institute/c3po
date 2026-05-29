@@ -1017,8 +1017,7 @@
           "text": "Both bots now under launchd management with KeepAlive and RunAtLoad. c3po_bot previously ran as a manually-started process that would die on shutdown; it now has its own plist (org.protocol-institute.c3po-bot) using the .venv python (needed for discord.py). Both write JSONL audit logs per conversation/cycle to ~/Library/Logs/c3po/: bot_sessions.jsonl (one line per Q&A with user_hash, latency, source counts) and daemon_sessions.jsonl (one line per sync cycle with per-step outcomes and website push status)."
         }
       ]
-    }
-    ,
+    },
     {
       "id": 24,
       "sort_key": 24.0,
@@ -1056,6 +1055,42 @@
         {
           "track": "worker-api",
           "text": "Transcript warm-cache: prior conversations now surface as cache hits when a new query is semantically close. CHAT_PUBLIC_BASE constant (https://protocolized.io/chats) makes URL easy to update at domain migration. TRANSCRIPT_CACHE_THRESHOLD=0.52 calibrated against live Voyage-3 scores — near-duplicate Q+A pairs score ~0.62, unrelated score ~0.25. mergeResults now uses tiered transcript weights: score >= 0.60 → 1.10x boost (floats above most corpus), >= 0.52 → 0.92x, else 0.80x. runRagQuery extracts high-score transcript hits with URLs into a cache_hits array, strips transcripts from the regular sources list, and includes cache_hits in the response. The POST /query handler was also fixed to destructure and forward cache_hits (it had been discarding the field). Discord bot send_answer shows a 'Similar conversation: <url>' notice before the answer when cache_hits are present. Tested live: AI adoption query correctly surfaces chat bxi03c."
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "sort_key": 25.0,
+      "label": "Session 25",
+      "title": "Discord Awareness System: channel registry, guide embeddings, intro handler, event sync",
+      "date": "2026-05-29",
+      "time_pt": "",
+      "tracks": [
+        "operations",
+        "vector-architecture",
+        "worker-api"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "discord_guide": 78,
+        "total": 25411
+      },
+      "items": [
+        {
+          "track": "vector-architecture",
+          "text": "Built the Discord awareness system so c3po can act as a live Discord guide. The core artifact is config/discord_channels.json: a registry of all 78 guild text/announcement/forum channels, auto-discovered from the Discord REST API. Each entry carries name, display, path (e.g. \"SPECIAL INTEREST GROUPS > #🎩-formal-protocol-theory\"), category, topic, Haiku-generated description and guide_blurb, cadence, lead, sig_display, and recommend_to_newcomers. 25 channels recommended, 53 not."
+        },
+        {
+          "track": "operations",
+          "text": "ingest/sync_discord_channels.py: fetches guild channels each daemon cycle, builds category hierarchy, auto-generates description + guide_blurb via Claude Haiku for new/changed channels, embeds each active channel into the discord_guide Pinecone namespace. Content-hash-driven incremental re-embedding. PRESERVED_FIELDS pattern keeps human-editable fields (cadence, lead, sig_display, description, guide_blurb) across cycles. NO_RECOMMEND_CATEGORIES and NO_RECOMMEND_NAMES rules automate the recommend_to_newcomers flag. Wired as step 1 in daemon.py."
+        },
+        {
+          "track": "operations",
+          "text": "ingest/sync_discord_events.py: fetches Discord scheduled events, decodes recurrence_rule dicts into human-readable cadence strings (e.g. \"Every 2 weeks on Friday at 17:00 UTC\"), matches events to registry channels via sig_display substring → event_keywords list → keyword token overlap (≥2). Dual-event fix: when multiple events match the same channel (SIGPfB has both a main working session and an optional call), the highest user_count becomes primary; secondary events are stored in secondary_events[]. 6 events fetched, 5 channels updated (MRG, SIGFPT, SIGPfB, ProtFiSIG, SIGPSY). Wired as step 2 in daemon.py."
+        },
+        {
+          "track": "worker-api",
+          "text": "c3po_bot.py: reworked handle_introduction() to use RAG instead of hardcoded SIG list. Intro text is sent concurrently to two sources: the Worker (corpus query → Claude synthesis) and a direct Pinecone query against discord_guide (recommend_to_newcomers=True filter). _pick_channel() prefers channels in SPECIAL INTEREST GROUPS category, falls back to general hits. Reply: welcome mention + corpus resources + channel recommendation with \"next meeting: {date}\" from next_event_time metadata. Worker query limit raised 500→2000 chars; intro text capped at 400 chars."
         }
       ]
     }
