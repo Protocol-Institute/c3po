@@ -34,6 +34,7 @@ load_dotenv(C3PO_DIR / ".env")
 
 BOT_ID       = "c3po_bot"
 SESSION_LOG  = Path.home() / "Library" / "Logs" / "c3po" / "bot_sessions.jsonl"
+SPOOL_DIR    = C3PO_DIR / "data" / "spool" / "bot_conversations"
 
 WORKER_URL    = "https://c3po.vgr-702.workers.dev/query"
 BOT_TOKEN     = os.environ["ORACLE_BOT_TOKEN"]
@@ -80,6 +81,17 @@ def log_session(record: dict) -> None:
             f.write(json.dumps({**record, "bot_id": BOT_ID}) + "\n")
     except Exception as exc:
         log.warning(f"session log write failed: {exc}")
+
+
+def spool_conversation(record: dict) -> None:
+    """Write a completed Q&A exchange to the spool for ingestion by daemon."""
+    try:
+        SPOOL_DIR.mkdir(parents=True, exist_ok=True)
+        fname = SPOOL_DIR / f"{record['thread_id']}_{record['turn']}.json"
+        with fname.open("w") as f:
+            json.dump(record, f, ensure_ascii=False)
+    except Exception as exc:
+        log.warning(f"spool write failed: {exc}")
 
 # ── Discord client ────────────────────────────────────────────────────────────
 
@@ -241,6 +253,18 @@ async def handle_thread_reply(message: discord.Message) -> None:
         "answer_len": len((data.get("answer") or "")),
         "sources":    len(data.get("sources") or []),
         "latency_ms": latency_ms,
+    })
+    spool_conversation({
+        "bot_id":        BOT_ID,
+        "ts":            _ts(),
+        "user_id_hash":  _hash_user(message.author.id),
+        "channel_id":    str(thread.parent_id or thread.id),
+        "thread_id":     str(thread.id),
+        "question":      query,
+        "answer":        (data.get("answer") or ""),
+        "sources":       data.get("sources") or [],
+        "turn":          bot_turns + 1,
+        "latency_ms":    latency_ms,
     })
 
 
@@ -410,6 +434,18 @@ async def on_message(message: discord.Message):
         "answer_len":  len((data.get("answer") or "")),
         "sources":     len(data.get("sources") or []),
         "latency_ms":  latency_ms,
+    })
+    spool_conversation({
+        "bot_id":        BOT_ID,
+        "ts":            _ts(),
+        "user_id_hash":  _hash_user(message.author.id),
+        "channel_id":    str(message.channel.id),
+        "thread_id":     str(thread.id),
+        "question":      query,
+        "answer":        (data.get("answer") or ""),
+        "sources":       data.get("sources") or [],
+        "turn":          1,
+        "latency_ms":    latency_ms,
     })
 
 

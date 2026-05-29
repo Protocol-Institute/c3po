@@ -1018,5 +1018,38 @@
         }
       ]
     }
+    ,
+    {
+      "id": 24,
+      "sort_key": 24.0,
+      "label": "Session 24",
+      "title": "Bot ecology Phase B: Discord conversation self-memory",
+      "date": "2026-05-28",
+      "time_pt": "",
+      "tracks": [
+        "operations",
+        "worker-api",
+        "vector-architecture"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "transcripts": 4,
+        "total": 25407
+      },
+      "items": [
+        {
+          "track": "operations",
+          "text": "c3po_bot.py now spools every completed Q&A exchange to data/spool/bot_conversations/{thread_id}_{turn}.json. The file contains bot_id, ts, user_id_hash, channel_id, thread_id, question, answer, sources, turn, and latency_ms. Both the initial mention handler and the thread-continuation handler call spool_conversation() after each successful response. The spool directory is created on first write. File names encode thread + turn so they are stable and naturally deduplicate on retry."
+        },
+        {
+          "track": "operations",
+          "text": "ingest/sync_bot_conversations.py: new script that reads all JSON files in the spool, embeds the Q+A text (\"Q: {question}\\nA: {answer}\"), upserts to the Pinecone transcripts namespace as chunk_type=discord_conversation with metadata (bot_id, ts, user_id_hash, channel_id, thread_id, question, turn, latency_ms, sources_count), then deletes the processed file. Vector ID: discord_conv:{thread_id}:{turn}. Added as step 9 in daemon.py so it runs each 30-minute cycle. --dry-run flag supported."
+        },
+        {
+          "track": "worker-api",
+          "text": "Worker: added normalizeTranscript() handling both discord_conversation (label: C3PO-BOT) and web_conversation (label: C3PO-WEB, Phase C). The transcripts namespace is now queried in parallel (top 3) on every RAG request — both the main web query path and the MCP ask path. Tier weight 0.85x. The MCP search and standalone /search endpoint pass [] since they are sources-only tools. Worker deployed: Version 40e37f1b."
+        }
+      ]
+    }
   ]
 }

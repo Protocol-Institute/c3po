@@ -1,6 +1,6 @@
 # C3PO Bot Ecology — Architecture & Roadmap
 
-> Last updated: 2026-05-28 (session 23)
+> Last updated: 2026-05-28 (session 24)
 
 C3PO is evolving from a single RAG endpoint into a multi-node system — a small swarm of listening, ingesting, and conversing agents that share a corpus, coordinate through a spool pattern, and collectively build institutional memory. This document describes the architecture and the roadmap for getting there.
 
@@ -44,7 +44,7 @@ Runs a full sync cycle every 30 minutes via `bin/daemon.py`. Each cycle:
 6. `generate_sig_pages.py` — regenerate SIG HTML pages
 7. `generate_monitoring_page.py` — rebuild monitoring dashboard
 8. `website push` — git commit+push if pages changed
-9. *(Phase B)* `ingest/sync_bot_conversations.py` — spool → transcripts
+9. `ingest/sync_bot_conversations.py` — spool → transcripts
 10. *(Phase C)* `ingest/sync_web_chats.py` — web KV → transcripts
 
 **Session log:** `~/Library/Logs/c3po/daemon_sessions.jsonl` — one JSON line per cycle with step outcomes and vector deltas.
@@ -76,13 +76,14 @@ Cloudflare Worker serving the web chat UI. Stateless HTTP. Conversations stored 
 - [x] `daemon.py` writes per-cycle JSON summary to `daemon_sessions.jsonl`
 - [x] Both bots logging to `~/Library/Logs/c3po/` consistently
 
-### Phase B — Discord conversation self-memory
+### Phase B — Discord conversation self-memory ✅ (session 24)
 
-- [ ] `c3po_bot.py`: write completed Q&A to `data/spool/bot_conversations/{uuid}.json`
-  - Fields: `bot_id`, `ts`, `user_id_hash`, `channel_id`, `thread_id`, `question`, `answer`, `sources`, `turn_count`, `latency_ms`
-- [ ] `ingest/sync_bot_conversations.py`: read spool, embed, upsert to `transcripts` namespace as `chunk_type=discord_conversation`, delete spool file
-- [ ] Add as step 9 in `daemon.py` cycle
-- [ ] `normalizeSig`/`normalizeTranscript` in Worker: surface `discord_conversation` type in query results with c3po_bot label
+- [x] `c3po_bot.py`: write completed Q&A to `data/spool/bot_conversations/{thread_id}_{turn}.json`
+  - Fields: `bot_id`, `ts`, `user_id_hash`, `channel_id`, `thread_id`, `question`, `answer`, `sources`, `turn`, `latency_ms`
+- [x] `ingest/sync_bot_conversations.py`: read spool, embed, upsert to `transcripts` namespace as `chunk_type=discord_conversation`, delete spool file
+- [x] Added as step 9 in `daemon.py` cycle
+- [x] `normalizeTranscript` in Worker: surfaces `discord_conversation` type with C3PO-BOT label; weight 0.85×
+- [x] Worker deployed (Version `40e37f1b`); MCP ask path also queries `transcripts`
 
 ### Phase C — Web chat self-memory
 

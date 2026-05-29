@@ -15,6 +15,7 @@ Steps each cycle:
   6. generate_sig_pages.py  — regenerate SIG HTML pages
   7. generate_monitoring_page.py — rebuild monitoring dashboard
   8. website push           — git commit+push if pages changed
+  9. sync_bot_conversations.py — spool → transcripts namespace
 
 Usage (manual):
     /opt/homebrew/bin/python3 bin/daemon.py
@@ -127,9 +128,10 @@ def run_sync(cycle: int) -> None:
         ("fetch_discord_links",   [VENV_PY, "ingest/fetch_discord_links.py", "--limit", str(LINK_FETCH_LIMIT)]),
         ("enrich_discord_links",  [VENV_PY, "ingest/enrich_discord_links.py"]),
         ("sync_sig",              [VENV_PY, "ingest/sync_sig.py"]),
-        ("rebuild_sig_summaries", [VENV_PY, "ingest/rebuild_sig_summaries.py"]),
-        ("generate_sig_pages",    [VENV_PY, "ingest/generate_sig_pages.py"]),
-        ("generate_monitoring",   [VENV_PY, "ingest/generate_monitoring_page.py"]),
+        ("rebuild_sig_summaries",    [VENV_PY, "ingest/rebuild_sig_summaries.py"]),
+        ("generate_sig_pages",       [VENV_PY, "ingest/generate_sig_pages.py"]),
+        ("generate_monitoring",      [VENV_PY, "ingest/generate_monitoring_page.py"]),
+        ("sync_bot_conversations",   [VENV_PY, "ingest/sync_bot_conversations.py"]),
     ]
 
     step_results = {}

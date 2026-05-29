@@ -1,6 +1,6 @@
 # C3PO — Status Log
 
-## Bot processes — launchd-managed (Phase A complete 2026-05-28)
+## Bot processes — launchd-managed (Phase A complete 2026-05-28; Phase B complete 2026-05-28)
 
 Both bots managed by launchd (`KeepAlive`, `RunAtLoad`). Auto-restart on crash or reboot.
 
@@ -14,6 +14,26 @@ launchctl list | grep protocol-institute          # check status
 launchctl unload ~/Library/LaunchAgents/org.protocol-institute.c3po-bot.plist
 launchctl load   ~/Library/LaunchAgents/org.protocol-institute.c3po-bot.plist
 ```
+
+## 2026-05-28 — Bot ecology Phase B: Discord conversation self-memory (session 24)
+
+**Discord conversation spool — COMPLETE**
+- `c3po_bot.py`: `spool_conversation()` writes `data/spool/bot_conversations/{thread_id}_{turn}.json` after each Q&A exchange (both initial mention and thread replies)
+- `ingest/sync_bot_conversations.py`: reads spool, embeds Q+A as `chunk_type=discord_conversation`, upserts to `transcripts` namespace, deletes file
+- `daemon.py`: step 9 added — runs `sync_bot_conversations.py` each cycle
+- Worker: `normalizeTranscript()` normalizes both `discord_conversation` (C3PO-BOT) and `web_conversation` (C3PO-WEB); weight 0.85×; added to all three RAG paths (`runRagQuery`, `runMcpAsk`, and the standalone `/search` endpoint uses `[]` since it's sources-only)
+- Worker deployed: Version `40e37f1b`
+
+**Pinecone state: 25,407 vectors** (transcripts will grow as bot conversations are ingested)
+
+**Open TODOs (priority order):**
+1. Phase C: `ingest/sync_web_chats.py` — web chat self-memory
+2. Phase D: `config/bot_registry.json` + shared session-log helper + monitoring page bot statuses
+3. YouTube transcript pass — 161 deferred URLs
+4. GitHub Actions cron for `sync_substack.py`
+5. `sync_sig_pages.py` — add to GitHub Actions cron once page format stabilizes
+
+---
 
 ## 2026-05-28 — PDF URL fix, answer length fix, SIG meeting page ingest, bot ecology Phase A (session 23)
 
