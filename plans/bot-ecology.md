@@ -45,7 +45,7 @@ Runs a full sync cycle every 30 minutes via `bin/daemon.py`. Each cycle:
 7. `generate_monitoring_page.py` — rebuild monitoring dashboard
 8. `website push` — git commit+push if pages changed
 9. `ingest/sync_bot_conversations.py` — spool → transcripts
-10. *(Phase C)* `ingest/sync_web_chats.py` — web KV → transcripts
+10. `ingest/sync_web_chats.py` — web KV → transcripts
 
 **Session log:** `~/Library/Logs/c3po/daemon_sessions.jsonl` — one JSON line per cycle with step outcomes and vector deltas.
 
@@ -85,13 +85,14 @@ Cloudflare Worker serving the web chat UI. Stateless HTTP. Conversations stored 
 - [x] `normalizeTranscript` in Worker: surfaces `discord_conversation` type with C3PO-BOT label; weight 0.85×
 - [x] Worker deployed (Version `40e37f1b`); MCP ask path also queries `transcripts`
 
-### Phase C — Web chat self-memory
+### Phase C — Web chat self-memory ✅ (session 24)
 
-- [ ] `ingest/sync_web_chats.py`: poll `/api/chats`, embed public/reviewed conversations, upsert to `transcripts` as `chunk_type=web_conversation`
-  - State: `data/web_chats_state.json` (last-seen chat IDs)
-  - Only embed conversations with `rating >= 4` or `status: "public"` (quality gate)
-- [ ] Add as step 10 in `daemon.py` cycle
-- [ ] Worker: new `normalizeTranscript()` function handles both `discord_conversation` and `web_conversation`; tier weight 0.85× (high-quality, self-referential)
+- [x] `ingest/sync_web_chats.py`: polls `/api/chat/{chatId}` per public chat, embeds full Q+A, upserts to `transcripts` as `chunk_type=web_conversation`
+  - State: `data/web_chats_state.json` — chatId → {ts, ingested_at, turn_count}
+  - Quality gate: `status === "public"` (auto-moderated or admin-approved)
+  - 4 existing public conversations ingested on first run; transcripts: 4 → 8
+- [x] Added as step 10 in `daemon.py` cycle
+- [x] Worker: `normalizeTranscript()` from Phase B already handles `web_conversation` (C3PO-WEB label; weight 0.85×)
 
 ### Phase D — Bot registry + swarm scaffolding
 

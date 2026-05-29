@@ -16,6 +16,7 @@ Steps each cycle:
   7. generate_monitoring_page.py — rebuild monitoring dashboard
   8. website push           — git commit+push if pages changed
   9. sync_bot_conversations.py — spool → transcripts namespace
+ 10. sync_web_chats.py         — web KV → transcripts namespace
 
 Usage (manual):
     /opt/homebrew/bin/python3 bin/daemon.py
@@ -132,6 +133,7 @@ def run_sync(cycle: int) -> None:
         ("generate_sig_pages",       [VENV_PY, "ingest/generate_sig_pages.py"]),
         ("generate_monitoring",      [VENV_PY, "ingest/generate_monitoring_page.py"]),
         ("sync_bot_conversations",   [VENV_PY, "ingest/sync_bot_conversations.py"]),
+        ("sync_web_chats",           [VENV_PY, "ingest/sync_web_chats.py"]),
     ]
 
     step_results = {}

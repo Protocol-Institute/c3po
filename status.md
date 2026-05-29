@@ -15,7 +15,7 @@ launchctl unload ~/Library/LaunchAgents/org.protocol-institute.c3po-bot.plist
 launchctl load   ~/Library/LaunchAgents/org.protocol-institute.c3po-bot.plist
 ```
 
-## 2026-05-28 — Bot ecology Phase B: Discord conversation self-memory (session 24)
+## 2026-05-28 — Bot ecology Phases B+C: Discord + web conversation self-memory (session 24)
 
 **Discord conversation spool — COMPLETE**
 - `c3po_bot.py`: `spool_conversation()` writes `data/spool/bot_conversations/{thread_id}_{turn}.json` after each Q&A exchange (both initial mention and thread replies)
@@ -24,14 +24,20 @@ launchctl load   ~/Library/LaunchAgents/org.protocol-institute.c3po-bot.plist
 - Worker: `normalizeTranscript()` normalizes both `discord_conversation` (C3PO-BOT) and `web_conversation` (C3PO-WEB); weight 0.85×; added to all three RAG paths (`runRagQuery`, `runMcpAsk`, and the standalone `/search` endpoint uses `[]` since it's sources-only)
 - Worker deployed: Version `40e37f1b`
 
-**Pinecone state: 25,407 vectors** (transcripts will grow as bot conversations are ingested)
+**Web chat ingest — COMPLETE (Phase C)**
+- `ingest/sync_web_chats.py`: polls `/api/chats` (admin), fetches each public chat from `/api/chat/{id}`, embeds full Q+A, upserts as `chunk_type=web_conversation`; state in `data/web_chats_state.json`
+- 4 existing public conversations ingested on first run
+- Step 10 added to daemon.py cycle
+- Worker already handled `web_conversation` via `normalizeTranscript()` from Phase B
+
+**Pinecone state: 25,411 vectors**
+- transcripts: **8** (+4 web_conversation) | discord_links: 9,108 | discord: 5,538 | sig: 5,028 | videos: 2,940 | substack: 1,057 | pdfs: 800 | definitions: 560 | bibliography: 278 | humboldt: 94 (aware)
 
 **Open TODOs (priority order):**
-1. Phase C: `ingest/sync_web_chats.py` — web chat self-memory
-2. Phase D: `config/bot_registry.json` + shared session-log helper + monitoring page bot statuses
-3. YouTube transcript pass — 161 deferred URLs
-4. GitHub Actions cron for `sync_substack.py`
-5. `sync_sig_pages.py` — add to GitHub Actions cron once page format stabilizes
+1. Phase D: `config/bot_registry.json` + shared session-log helper + monitoring page bot statuses
+2. YouTube transcript pass — 161 deferred URLs
+3. GitHub Actions cron for `sync_substack.py`
+4. `sync_sig_pages.py` — add to GitHub Actions cron once page format stabilizes
 
 ---
 

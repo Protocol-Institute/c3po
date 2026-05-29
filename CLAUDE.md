@@ -40,15 +40,15 @@ Host: `https://c3po-bwo39z7.svc.aped-4627-b74a.pinecone.io`
 |-----------|---------|-------|
 | `discord_links` | 9,108 | Community-shared URLs, scored by Haiku |
 | `discord` | 5,538 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
-| `sig` | 5,027 | SIG Discord messages/summaries + 91 .org meeting pages (`sig_meeting_page`) |
+| `sig` | 5,028 | SIG Discord messages/summaries + 91 .org meeting pages (`sig_meeting_page`) |
 | `videos` | 2,940 | YouTube talks (91 videos) |
 | `substack` | 1,057 | Protocolized magazine (116+ posts) |
 | `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
 | `pdfs` | 800 | 82+ papers/essays including external resources |
 | `bibliography` | 278 | External works cited by PI corpus |
-| `transcripts` | 4 | Bot conversation self-memory (grows with Phase B/C) |
+| `transcripts` | 8 | Bot conversation self-memory: 4 web_conversation (Phase C); grows with Discord spool (Phase B) |
 | `humboldt` | 94 | Owned by humboldt project (`aware` only — do not ingest) |
-| **Total** | **25,406** | |
+| **Total** | **25,411** | |
 
 ## Key Ingest Scripts
 
@@ -61,6 +61,8 @@ Host: `https://c3po-bwo39z7.svc.aped-4627-b74a.pinecone.io`
 | `ingest/fetch_discord_links.py` | Fetch pending shared URLs | `data/discord_links_registry.json` |
 | `ingest/enrich_discord_links.py` | Score/prune links with Haiku | same |
 | `ingest/ingest_pdfs.py` | PDFs from local or web resources | `data/enriched_meta.json` |
+| `ingest/sync_bot_conversations.py` | Discord bot spool → `transcripts` | `data/spool/bot_conversations/` |
+| `ingest/sync_web_chats.py` | Public web chats → `transcripts` | `data/web_chats_state.json` |
 
 All run automatically via `bin/daemon.py` (c3po_listener). Run manually with `--dry-run` to preview.
 
