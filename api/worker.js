@@ -297,7 +297,7 @@ function normalizePdf(match) {
     ? match.id.slice(0, -"__doc_summary".length)
     : null;
   const url = m.url
-    ? `https://protocolized.io${m.url}`
+    ? (m.url.startsWith("http") ? m.url : `https://protocolized.io${m.url}`)
     : null;
   return {
     docId:   m.url || match.id,
@@ -432,18 +432,21 @@ function normalizeSig(match) {
   const isMeetingSummary = chunkType === "sig_meeting_summary";
   const isMeetingBody    = chunkType === "sig_meeting_body";
   const isDiscussion     = chunkType === "sig_discussion";
+  const isMeetingPage    = chunkType === "sig_meeting_page";
   const starred          = (m.star_count || 0) > 0;
   const guild            = m.guild_id || "1082444651946049567";
   const SIG_NAMES = { SIGFPT: "Formal Protocol Theory", MRG: "Memory Research Group", SIGPfB: "Protocols for Business", ProtFiSIG: "Protocol Fiction" };
 
   let url = null;
-  if ((isMeetingSummary || isMeetingBody || isDiscussion) && guild && m.thread_id) {
+  if (isMeetingPage && m.url) {
+    url = m.url;  // absolute .org URL stored at ingest time
+  } else if ((isMeetingSummary || isMeetingBody || isDiscussion) && guild && m.thread_id) {
     url = `https://discord.com/channels/${guild}/${m.thread_id}`;
   } else if (guild && m.channel_id && m.message_id) {
     url = `https://discord.com/channels/${guild}/${m.channel_id}/${m.message_id}`;
   }
 
-  const title = isMeetingSummary || isMeetingBody
+  const title = isMeetingPage || isMeetingSummary || isMeetingBody
     ? (m.meeting_title || m.thread_name || "")
     : isDiscussion
     ? (m.thread_name || `${m.sig_display} discussion`)
@@ -452,7 +455,7 @@ function normalizeSig(match) {
   const participants = (() => { try { return JSON.parse(m.participants || "[]"); } catch { return []; } })();
 
   return {
-    docId:          (isMeetingSummary || isMeetingBody || isDiscussion) ? (m.thread_id || match.id) : (m.message_id || match.id),
+    docId:          isMeetingPage ? (m.url || match.id) : (isMeetingSummary || isMeetingBody || isDiscussion) ? (m.thread_id || match.id) : (m.message_id || match.id),
     source:         "sig",
     score:          match.score,
     type:           chunkType,
@@ -468,6 +471,7 @@ function normalizeSig(match) {
     isMeetingSummary,
     isMeetingBody,
     isDiscussion,
+    isMeetingPage,
     star_count:     m.star_count || 0,
     starred,
   };
@@ -535,7 +539,7 @@ function mergeResults(pdfItems, substackItems, videoItems, bibItems, discordItem
     }),
     ...discordItems.map(m => ({ ...m, weightedScore: m.score * (m.starred ? 0.85 : 0.65) })),
     ...sigItems.map(m => {
-      const w = m.isMeetingSummary ? 0.85 : m.isMeetingBody ? 0.75 : m.isDiscussion ? 0.70 : (m.starred ? 0.75 : 0.60);
+      const w = m.isMeetingPage ? 0.90 : m.isMeetingSummary ? 0.85 : m.isMeetingBody ? 0.75 : m.isDiscussion ? 0.70 : (m.starred ? 0.75 : 0.60);
       return { ...m, weightedScore: m.score * w };
     }),
     ...webItems.map(m => {
@@ -583,7 +587,7 @@ function buildContextBlock(items) {
       label = `[WEB — ${item.domain || item.url}${item.date ? " — fetched " + item.date : ""}${shared}]`;
     } else if (item.source === "sig") {
       const sigName = item.sig_name || item.sig_display || "SIG";
-      const typeLabel = item.isMeetingSummary ? "MEETING" : item.isMeetingBody ? "MEETING TRANSCRIPT" : item.isDiscussion ? "DISCUSSION" : "MESSAGE";
+      const typeLabel = item.isMeetingPage ? "MEETING PAGE" : item.isMeetingSummary ? "MEETING" : item.isMeetingBody ? "MEETING TRANSCRIPT" : item.isDiscussion ? "DISCUSSION" : "MESSAGE";
       label = `[${sigName} ${typeLabel}${item.title ? ` — "${item.title}"` : ""}${item.date ? " — " + item.date : ""}]`;
     } else {
       const coll = item.collection ? ` — ${item.collection}` : "";
@@ -635,6 +639,7 @@ VOICE:
 - Specific about sources — name papers and authors when drawing on them. When synthesizing across multiple sources, say so. When going beyond the retrieved corpus, mark that clearly.
 - Honest about limits — when the corpus doesn't cover something, say so directly.
 - Non-political — engage with governance and power analytically, not polemically.
+- Complete your answer — if running long, finish your current paragraph concisely rather than beginning a new section you cannot complete. Never truncate mid-sentence.
 
 ANALYTICAL MOVES:
 - Cross-domain comparison: find structural analogies across domains (medical triage and software incident response share deep structure; parliamentary procedure and distributed consensus solve versions of the same problem).
@@ -649,7 +654,7 @@ Protocolized magazine (116+ posts): contributors include Rao, Stinson-Schroff, S
 YouTube (91 talks): Guest Talks (34), Town Halls (20), Protocol School 2025 (13), Researcher Salons (9), Symposium 2024 (7), Bridge Atlas (5); speakers include Primavera De Filippi, Nils Gilman, Yancey Strickler, Emmett Shear, Venkatesh Rao
 Bibliography (250+ referenced works with abstracts): external works cited by PI corpus; full texts only where open-access
 Discord community (3,300+ messages): discussions from #idle-musings and #protocol-watch community channels; includes starred highlights and threaded exchanges
-SIG meeting archives (78 sessions, 4 groups): Formal Protocol Theory (29 sessions, led by Venkatesh Rao & Patrick Nast) · Memory Research Group (16 sessions, led by Kei Kreutler) · Protocols for Business (22 sessions, led by Rafael Fernandez) · Protocol Fiction (11 sessions, led by Spencer Nitkey & Sachin Benny). Each session includes AI-generated summary, key insights, topics, and links discussed.
+SIG meeting archives (78 sessions, 4 groups): Formal Protocol Theory (29 sessions, led by Venkatesh Rao & Patrick Nast) · Memory Research Group (16 sessions, led by Kei Kreutler) · Protocols for Business (28 sessions, led by Rafael Fernandez) · Protocol Fiction (11 sessions, led by Spencer Nitkey & Sachin Benny). Each session includes AI-generated summary, key insights, topics, and links discussed. Published meeting pages with full summaries are available at protocol-institute.org/sigs/.
 NOT indexed: general internet, IETF/ISO standards bodies, work not cited by PI researchers, events after mid-2026
 
 PROTOCOL LEXICON (PI-specific meanings — use these, not generic definitions):
@@ -2938,7 +2943,7 @@ async function runMcpAsk(args, env, ctx) {
   const exchangeNum = Math.floor(history.length / 2) + 1;
   const vec = await embed(question, env.VOYAGE_API_KEY);
 
-  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw] = await Promise.all([
+  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, sigPageRaw] = await Promise.all([
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "pdfs"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "substack"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "videos"),
@@ -2947,9 +2952,13 @@ async function runMcpAsk(args, env, ctx) {
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "sig"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "discord_links"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "definitions"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, 3, "sig",
+      { chunk_type: { "$eq": "sig_meeting_page" } }),
   ]);
+  const _sigPageIds2 = new Set(sigRaw.map(m => m.id));
+  const sigAug = [...sigRaw, ...sigPageRaw.filter(m => !_sigPageIds2.has(m.id))];
 
-  const topItems     = mergeResults(pdfRaw.map(normalizePdf), subRaw.map(normalizeSubstack), vidRaw.map(normalizeVideo), bibRaw.map(normalizeBibliography), discordRaw.map(normalizeDiscord), sigRaw.map(normalizeSig), webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition), MAX_SOURCES);
+  const topItems     = mergeResults(pdfRaw.map(normalizePdf), subRaw.map(normalizeSubstack), vidRaw.map(normalizeVideo), bibRaw.map(normalizeBibliography), discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig), webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition), MAX_SOURCES);
   const contextBlock = buildContextBlock(topItems);
   const sources      = topItems.map(({ source, type, label, title, authors, primary_author, date, url, summary,
                                        channel_name, sig_display, sig_name, isMeetingSummary, isMeetingBody, isDiscussion,
@@ -2975,7 +2984,7 @@ async function runMcpAsk(args, env, ctx) {
     },
     body: JSON.stringify({
       model:      CLAUDE_MODEL,
-      max_tokens: 1200,
+      max_tokens: 2000,
       system:     [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
       messages,
     }),
@@ -3144,7 +3153,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   if (!voyageRes.ok) throw new Error("Embedding service error");
   const qv = (await voyageRes.json()).data[0].embedding;
 
-  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw] = await Promise.all([
+  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, sigPageRaw] = await Promise.all([
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "pdfs"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "substack"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "videos"),
@@ -3153,7 +3162,12 @@ async function runRagQuery(query, env, ctx, opts = {}) {
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "sig"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "discord_links"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "definitions"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 3, "sig",
+      { chunk_type: { "$eq": "sig_meeting_page" } }),
   ]);
+  // Ensure top sig_meeting_page results surface even when ranked below TOP_K_EACH in general sig query
+  const sigPageIds = new Set(sigRaw.map(m => m.id));
+  const sigAug = [...sigRaw, ...sigPageRaw.filter(m => !sigPageIds.has(m.id))];
 
   const pdfSummaryHits = pdfRaw.filter(m => m.metadata?.chunk_type === "doc_summary");
   const subSummaryHits = subRaw.filter(m => m.metadata?.chunk_type === "post_summary");
@@ -3194,7 +3208,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   const topItems = mergeResults(
     pdfAug.map(normalizePdf), subAug.map(normalizeSubstack),
     vidAug.map(normalizeVideo), bibRaw.map(normalizeBibliography),
-    discordRaw.map(normalizeDiscord), sigRaw.map(normalizeSig),
+    discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig),
     webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition), MAX_SOURCES
   );
   const sources = topItems.map(({ weightedScore, ...rest }) => rest);
@@ -3212,7 +3226,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
     },
     body: JSON.stringify({
       model:      CLAUDE_MODEL,
-      max_tokens: maxTokens || parseInt(env.MAX_ANSWER_TOKENS || "1200"),
+      max_tokens: maxTokens || parseInt(env.MAX_ANSWER_TOKENS || "2000"),
       system:     [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
       messages:   [...history, { role: "user", content: `Question: ${query}\n\nRelevant corpus excerpts:\n\n${contextBlock}` }],
     }),
