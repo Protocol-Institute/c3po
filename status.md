@@ -26,6 +26,10 @@ launchctl load   ~/Library/LaunchAgents/org.protocol-institute.c3po-bot.plist
 - `c3po_bot.py` intro handler: shows "next meeting: Fri 29 May 17:00 UTC" instead of just cadence string
 - Worker deployed: Version `c755bd9b` (also fixes query limit 500→2000 chars from session 25 intro)
 
+**Also this session:**
+- `humboldt-notebook.html` was 404ing on protocol-institute.org — website migrated to clean URLs but humboldt still published to the flat path. Fixed: (1) added JS redirect at `humboldt-notebook.html` preserving hash fragments; (2) `publish.py` now writes to `humboldt-notebook/index.html`; (3) `notebook_index.py` URL base updated to `/humboldt-notebook/`
+- Humboldt person notebook entries (`notebook/people/`) were being posted to Discord as if they were date entries — they're private mental models of collaborators. Deleted 3 mistaken posts (4umd, _vgr, boredgargoyle); stripped from `index.yaml`; `notebook_watcher.py` now guards on YYYY-MM-DD stem format + excludes `people/` subdir
+
 **Pinecone state: ~25,411 vectors** (5 SIG channels re-embedded in discord_guide)
 
 **Open TODOs (priority order):**
@@ -33,6 +37,7 @@ launchctl load   ~/Library/LaunchAgents/org.protocol-institute.c3po-bot.plist
 2. Phase D: `config/bot_registry.json` + shared session-log helper + monitoring page bot statuses
 3. Phase 4: General Discord nav queries (using discord_guide for "where should I post about X?")
 4. GitHub Actions cron for `sync_substack.py`
+5. Snezana's intro (12:11 today) got no reply — Worker 400 at time of post. Consider a manual welcome.
 
 ---
 
