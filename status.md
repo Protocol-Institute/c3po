@@ -1,6 +1,6 @@
 # C3PO — Status Log
 
-## Bot processes — launchd-managed (Phase A complete 2026-05-28; Phase B complete 2026-05-28)
+## Bot processes — launchd-managed (Phases A+B+C complete 2026-05-28)
 
 Both bots managed by launchd (`KeepAlive`, `RunAtLoad`). Auto-restart on crash or reboot.
 
@@ -14,6 +14,31 @@ launchctl list | grep protocol-institute          # check status
 launchctl unload ~/Library/LaunchAgents/org.protocol-institute.c3po-bot.plist
 launchctl load   ~/Library/LaunchAgents/org.protocol-institute.c3po-bot.plist
 ```
+
+## 2026-05-28 — Warm-cache hits + Phases B+C wrap-up (session 24, cont.)
+
+**Transcript warm-cache — COMPLETE**
+- Worker: `CHAT_PUBLIC_BASE = "https://protocolized.io/chats"` (one constant to update at migration)
+- `TRANSCRIPT_CACHE_THRESHOLD = 0.52` — calibrated against actual Voyage-3 Q+A pair scores (near-duplicate ~0.62, unrelated ~0.25)
+- `mergeResults`: tiered weight boost for transcript hits (score ≥ 0.60 → 1.10×, ≥ 0.52 → 0.92×, else 0.80×)
+- `runRagQuery` + `runMcpAsk`: extract `cache_hits` (high-score transcript items with URL); strip transcripts from regular `sources`; include `cache_hits` in response
+- POST `/query` handler: destructures and forwards `cache_hits` to client
+- Discord bot `send_answer`: shows "**Similar conversation:** `<url>`" before answer when cache hit present; suppresses transcript from Sources block
+- Worker deployed: Version `6b7029a9`; tested live — AI adoption query surfaces `bxi03c`
+
+**YouTube community links — READY TO RUN**
+- 175 deferred YouTube URLs in `discord_links_registry.json` (community-shared external videos)
+- `fetch_discord_links.py --youtube-only` already handles this; `youtube-transcript-api` needs install check
+- PI's own 91 videos are fully ingested (2,940 vectors in `videos` namespace) — these are external
+- Interrupted before running; next session: install check + run + enrich pass
+
+**Open TODOs (priority order):**
+1. YouTube community links pass — `python3 ingest/fetch_discord_links.py --youtube-only` then `enrich_discord_links.py`
+2. Phase D: `config/bot_registry.json` + shared session-log helper + monitoring page bot statuses
+3. GitHub Actions cron for `sync_substack.py`
+4. `sync_sig_pages.py` — add to GitHub Actions cron once page format stabilizes
+
+---
 
 ## 2026-05-28 — Bot ecology Phases B+C: Discord + web conversation self-memory (session 24)
 

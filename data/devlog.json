@@ -1052,6 +1052,10 @@
         {
           "track": "corpus-ingestion",
           "text": "Phase C: ingest/sync_web_chats.py polls GET /api/chats (admin key) for public conversations, then fetches each full conversation from /api/chat/{chatId}. Embeds all Q+A turns (concatenated, truncated to 3000 chars) as a single vector per chat. Quality gate: status == 'public' (auto-moderated or admin-approved). State file data/web_chats_state.json tracks ingested chatIds. 4 existing public web conversations ingested on first run (transcripts: 4 → 8). Note: Cloudflare WAF blocks urllib's default User-Agent with Error 1010; required a browser-like User-Agent header. Added as step 10 in daemon.py."
+        },
+        {
+          "track": "worker-api",
+          "text": "Transcript warm-cache: prior conversations now surface as cache hits when a new query is semantically close. CHAT_PUBLIC_BASE constant (https://protocolized.io/chats) makes URL easy to update at domain migration. TRANSCRIPT_CACHE_THRESHOLD=0.52 calibrated against live Voyage-3 scores — near-duplicate Q+A pairs score ~0.62, unrelated score ~0.25. mergeResults now uses tiered transcript weights: score >= 0.60 → 1.10x boost (floats above most corpus), >= 0.52 → 0.92x, else 0.80x. runRagQuery extracts high-score transcript hits with URLs into a cache_hits array, strips transcripts from the regular sources list, and includes cache_hits in the response. The POST /query handler was also fixed to destructure and forward cache_hits (it had been discarding the field). Discord bot send_answer shows a 'Similar conversation: <url>' notice before the answer when cache_hits are present. Tested live: AI adoption query correctly surfaces chat bxi03c."
         }
       ]
     }
