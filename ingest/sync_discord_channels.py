@@ -217,14 +217,15 @@ def describe_channel(channel: dict, category: str, path: str, messages: list[dic
 
 def embed_channel(entry: dict, vc, index) -> None:
     """Embed a single channel entry into the discord_guide namespace."""
-    path = entry.get("path", entry["display"])
-    cadence_line = (f"Meets: {entry['cadence']}\n" if entry.get("cadence") else "")
-    lead_line    = (f"Lead: {entry['lead']}\n"    if entry.get("lead")    else "")
+    path       = entry.get("path", entry["display"])
+    cadence_line   = (f"Meets: {entry['cadence']}\n"           if entry.get("cadence")         else "")
+    next_line      = (f"Next session: {entry['next_event_time']}\n" if entry.get("next_event_time") else "")
+    lead_line      = (f"Lead: {entry['lead']}\n"               if entry.get("lead")            else "")
     text = (
         f"Discord location: {path}\n"
         f"Channel: {entry['display']}  |  Section: {entry.get('category', '')}\n"
         f"Type: {entry.get('type_label', '')}\n"
-        f"{cadence_line}{lead_line}"
+        f"{cadence_line}{next_line}{lead_line}"
         f"Topic: {entry.get('topic') or '(none)'}\n\n"
         f"{entry.get('description', '')}"
     )
@@ -240,6 +241,8 @@ def embed_channel(entry: dict, vc, index) -> None:
         "guide_blurb":             entry.get("guide_blurb", ""),
         "sig_display":             entry.get("sig_display", ""),
         "cadence":                 entry.get("cadence", ""),
+        "next_event_time":         entry.get("next_event_time", ""),
+        "next_event_iso":          entry.get("next_event_iso", ""),
         "lead":                    entry.get("lead", ""),
         "recommend_to_newcomers":  entry.get("recommend_to_newcomers", True),
         "status":                  entry.get("status", "active"),
@@ -343,9 +346,12 @@ def main() -> None:
             "first_seen":             (existing or {}).get("first_seen", now),
             "last_seen":              now,
         }
-        # Preserve human-edited fields from existing entry
+        # Preserve human-edited fields and event-sync fields from existing entry
         if existing:
             for field in PRESERVED_FIELDS:
+                if field in existing:
+                    entry[field] = existing[field]
+            for field in ("next_event_name", "next_event_iso", "next_event_time", "secondary_events"):
                 if field in existing:
                     entry[field] = existing[field]
 

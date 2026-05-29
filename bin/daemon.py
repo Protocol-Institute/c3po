@@ -8,16 +8,17 @@ If the machine sleeps mid-sleep, the cycle resumes on wake — no missed runs.
 
 Steps each cycle:
   1. sync_discord_channels.py — discover guild structure, auto-describe new channels, embed discord_guide
-  2. sync_discord.py        — general channels (REST poll, no gateway)
-  3. fetch_discord_links.py — fetch up to LINK_FETCH_LIMIT pending URLs
-  4. enrich_discord_links.py — score/prune with Claude
-  5. sync_sig.py            — SIG channels
-  6. rebuild_sig_summaries.py — build any new meeting summaries
-  7. generate_sig_pages.py  — regenerate SIG HTML pages
-  8. generate_monitoring_page.py — rebuild monitoring dashboard
-  9. website push           — git commit+push if pages changed
- 10. sync_bot_conversations.py — spool → transcripts namespace
- 11. sync_web_chats.py         — web KV → transcripts namespace
+  2. sync_discord_events.py  — fetch scheduled events, update cadence/next_event_time in registry
+  3. sync_discord.py        — general channels (REST poll, no gateway)
+  4. fetch_discord_links.py — fetch up to LINK_FETCH_LIMIT pending URLs
+  5. enrich_discord_links.py — score/prune with Claude
+  6. sync_sig.py            — SIG channels
+  7. rebuild_sig_summaries.py — build any new meeting summaries
+  8. generate_sig_pages.py  — regenerate SIG HTML pages
+  9. generate_monitoring_page.py — rebuild monitoring dashboard
+ 10. website push           — git commit+push if pages changed
+ 11. sync_bot_conversations.py — spool → transcripts namespace
+ 12. sync_web_chats.py         — web KV → transcripts namespace
 
 Usage (manual):
     /opt/homebrew/bin/python3 bin/daemon.py
@@ -127,6 +128,7 @@ def run_sync(cycle: int) -> None:
 
     steps = [
         ("sync_discord_channels",    [VENV_PY, "ingest/sync_discord_channels.py"]),
+        ("sync_discord_events",      [VENV_PY, "ingest/sync_discord_events.py"]),
         ("sync_discord",             [VENV_PY, "ingest/sync_discord.py"]),
         ("fetch_discord_links",      [VENV_PY, "ingest/fetch_discord_links.py", "--limit", str(LINK_FETCH_LIMIT)]),
         ("enrich_discord_links",     [VENV_PY, "ingest/enrich_discord_links.py"]),

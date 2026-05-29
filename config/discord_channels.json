@@ -629,11 +629,14 @@
       "content_hash": "7262b951ae7ea381",
       "first_seen": "2026-05-29T19:43:22Z",
       "last_seen": "2026-05-29T20:13:12Z",
-      "cadence": "Monthly",
+      "cadence": "Every 2 weeks on Thursday at 15:00 UTC",
       "sig_display": "ProtFiSIG",
       "lead": "see #sig-hosts-best-practices",
       "last_embedded_hash": "7262b951ae7ea381",
-      "last_embedded": "2026-05-29T20:13:12Z"
+      "last_embedded": "2026-05-29T20:13:12Z",
+      "next_event_name": "Protocol Fiction SIG Call",
+      "next_event_iso": "2026-06-11T15:00:00+00:00",
+      "next_event_time": "Thu 11 Jun 2026 15:00 UTC"
     },
     "1107727857595203644": {
       "id": "1107727857595203644",
@@ -1031,11 +1034,14 @@
       "content_hash": "3cef3836bdf8f6b9",
       "first_seen": "2026-05-29T19:43:22Z",
       "last_seen": "2026-05-29T20:13:12Z",
-      "cadence": "Biweekly Fridays 10am PT",
+      "cadence": "Every 2 weeks on Friday at 17:00 UTC",
       "sig_display": "SIGFPT",
       "lead": "Venkatesh Rao and Patrick Nast",
       "last_embedded_hash": "3cef3836bdf8f6b9",
-      "last_embedded": "2026-05-29T20:13:12Z"
+      "last_embedded": "2026-05-29T20:13:12Z",
+      "next_event_name": "SIG-FPT (Formal Protocol Theory)",
+      "next_event_iso": "2026-05-29T17:00:00+00:00",
+      "next_event_time": "Fri 29 May 2026 17:00 UTC"
     },
     "1327679519510888582": {
       "id": "1327679519510888582",
@@ -1097,11 +1103,24 @@
       "content_hash": "26abda954af19c2b",
       "first_seen": "2026-05-29T19:43:22Z",
       "last_seen": "2026-05-29T20:13:12Z",
-      "cadence": "Biweekly Mondays 8am PT",
+      "cadence": "Every 2 weeks on Monday at 15:30 UTC",
       "sig_display": "SIGPfB",
       "lead": "Rafael Fernandez",
       "last_embedded_hash": "26abda954af19c2b",
-      "last_embedded": "2026-05-29T20:13:12Z"
+      "last_embedded": "2026-05-29T20:13:12Z",
+      "event_keywords": [
+        "sigp4b"
+      ],
+      "next_event_name": "Protocols for Business: Working Session",
+      "next_event_iso": "2026-06-01T15:30:00+00:00",
+      "next_event_time": "Mon 1 Jun 2026 15:30 UTC",
+      "secondary_events": [
+        {
+          "name": "SIGP4B Optional Working Call",
+          "next_event_iso": "2026-06-08T16:00:00+00:00",
+          "user_count": 3
+        }
+      ]
     },
     "1337534941176795217": {
       "id": "1337534941176795217",
@@ -1226,11 +1245,14 @@
       "content_hash": "4f63e1352f41fbae",
       "first_seen": "2026-05-29T19:43:22Z",
       "last_seen": "2026-05-29T20:13:12Z",
-      "cadence": "Biweekly Thursdays 7:30am PT",
+      "cadence": "Monthly — 3rd Thursday at 16:00 UTC",
       "sig_display": "MRG",
       "lead": "Kei Kreutler",
       "last_embedded_hash": "4f63e1352f41fbae",
-      "last_embedded": "2026-05-29T20:13:12Z"
+      "last_embedded": "2026-05-29T20:13:12Z",
+      "next_event_name": "SIG-Memory Research Group",
+      "next_event_iso": "2026-06-18T16:00:00+00:00",
+      "next_event_time": "Thu 18 Jun 2026 16:00 UTC"
     },
     "1388223455404625951": {
       "id": "1388223455404625951",
@@ -1650,10 +1672,17 @@
       "content_hash": "7c84b4d49bbd68ad",
       "first_seen": "2026-05-29T19:43:22Z",
       "last_seen": "2026-05-29T20:13:12Z",
-      "cadence": "Fortnightly video calls",
+      "cadence": "Every 2 weeks on Thursday at 16:00 UTC",
       "last_embedded_hash": "7c84b4d49bbd68ad",
-      "last_embedded": "2026-05-29T20:13:12Z"
+      "last_embedded": "2026-05-29T20:13:12Z",
+      "event_keywords": [
+        "sigpsy",
+        "psychohistory"
+      ],
+      "next_event_name": "SIGPSY - Psychohistory",
+      "next_event_iso": "2026-06-04T16:00:00+00:00",
+      "next_event_time": "Thu 4 Jun 2026 16:00 UTC"
     }
   },
-  "updated_at": "2026-05-29T20:13:40Z"
+  "updated_at": "2026-05-29T20:30:14Z"
 }

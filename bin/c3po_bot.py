@@ -409,15 +409,20 @@ async def handle_introduction(message: discord.Message) -> None:
 
     # Channel recommendation
     if channel:
-        cid      = channel.get("channel_id", "")
-        blurb    = channel.get("guide_blurb", "")
-        cadence  = channel.get("cadence", "")
-        sig      = channel.get("sig_display", "")
-        mention  = f"<#{cid}>" if cid else channel.get("display", "")
+        cid        = channel.get("channel_id", "")
+        blurb      = channel.get("guide_blurb", "")
+        cadence    = channel.get("cadence", "")
+        next_time  = channel.get("next_event_time", "")
+        sig        = channel.get("sig_display", "")
+        mention    = f"<#{cid}>" if cid else channel.get("display", "")
 
         reply += f"\n**Good first channel:** {mention}"
-        if sig and cadence:
-            reply += f" ({sig} — meets {cadence})"
+        if sig:
+            sched = next_time or cadence
+            if sched:
+                reply += f" ({sig} — next meeting: {sched})" if next_time else f" ({sig} — meets {cadence})"
+            else:
+                reply += f" ({sig})"
         elif cadence:
             reply += f" (meets {cadence})"
         if blurb:
