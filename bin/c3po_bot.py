@@ -17,16 +17,23 @@ Usage:
 import logging
 import os
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 import aiohttp
 import discord
+import hashlib
+import json
+import time
 from dotenv import load_dotenv
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
 C3PO_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(C3PO_DIR / ".env")
+
+BOT_ID       = "c3po_bot"
+SESSION_LOG  = Path.home() / "Library" / "Logs" / "c3po" / "bot_sessions.jsonl"
 
 WORKER_URL    = "https://c3po.vgr-702.workers.dev/query"
 BOT_TOKEN     = os.environ["ORACLE_BOT_TOKEN"]
@@ -55,6 +62,24 @@ logging.basicConfig(
     handlers=[logging.StreamHandler(sys.stdout)],
 )
 log = logging.getLogger("c3po.bot")
+
+
+def _ts() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _hash_user(user_id: int) -> str:
+    return hashlib.sha256(str(user_id).encode()).hexdigest()[:12]
+
+
+def log_session(record: dict) -> None:
+    """Append one JSON record to the session audit log."""
+    try:
+        SESSION_LOG.parent.mkdir(parents=True, exist_ok=True)
+        with SESSION_LOG.open("a") as f:
+            f.write(json.dumps({**record, "bot_id": BOT_ID}) + "\n")
+    except Exception as exc:
+        log.warning(f"session log write failed: {exc}")
 
 # ── Discord client ────────────────────────────────────────────────────────────
 
@@ -191,8 +216,10 @@ async def handle_thread_reply(message: discord.Message) -> None:
         elif not msg.author.bot:
             history.append({"role": "user", "content": msg.content})
 
+    t0 = time.monotonic()
     async with thread.typing():
         data = await call_worker(query, history=history)
+    latency_ms = int((time.monotonic() - t0) * 1000)
 
     if data is None:
         await thread.send("The oracle is unavailable right now — try again in a moment.")
@@ -202,6 +229,19 @@ async def handle_thread_reply(message: discord.Message) -> None:
         await send_answer(thread, data)
     except discord.HTTPException as exc:
         log.error(f"Failed to send thread reply: {exc}")
+
+    log_session({
+        "event":      "thread_reply",
+        "ts":         _ts(),
+        "type":       "thread",
+        "user_hash":  _hash_user(message.author.id),
+        "thread_id":  str(thread.id),
+        "turn":       bot_turns + 1,
+        "query_len":  len(query),
+        "answer_len": len((data.get("answer") or "")),
+        "sources":    len(data.get("sources") or []),
+        "latency_ms": latency_ms,
+    })
 
 
 # ── Introductions monitoring ──────────────────────────────────────────────────
@@ -234,8 +274,10 @@ async def handle_introduction(message: discord.Message) -> None:
         f"Do not repeat back the introduction text."
     )
 
+    t0 = time.monotonic()
     async with message.channel.typing():
         data = await call_worker(prompt, max_tokens=400)
+    latency_ms = int((time.monotonic() - t0) * 1000)
 
     if data is None:
         return
@@ -262,6 +304,17 @@ async def handle_introduction(message: discord.Message) -> None:
     except discord.HTTPException as exc:
         log.error(f"Failed to send intro reply: {exc}")
 
+    log_session({
+        "event":      "introduction",
+        "ts":         _ts(),
+        "type":       "introduction",
+        "user_hash":  _hash_user(message.author.id),
+        "intro_len":  len(intro_text),
+        "answer_len": len(answer),
+        "sources":    len(sources),
+        "latency_ms": latency_ms,
+    })
+
 
 # ── Events ────────────────────────────────────────────────────────────────────
 
@@ -271,6 +324,7 @@ GREETINGS = {"", "hey", "hi", "hello", "yo", "sup", "hiya", "howdy", "greetings"
 @client.event
 async def on_ready():
     log.info(f"C3PO bot ready — {client.user} (id={client.user.id})")
+    log_session({"event": "startup", "ts": _ts(), "user": str(client.user), "user_id": client.user.id})
 
 
 @client.event
@@ -331,8 +385,10 @@ async def on_message(message: discord.Message):
         await message.reply("Couldn't open a thread here.", mention_author=False)
         return
 
+    t0 = time.monotonic()
     async with thread.typing():
         data = await call_worker(query)
+    latency_ms = int((time.monotonic() - t0) * 1000)
 
     if data is None:
         await thread.send("The oracle is unavailable right now — try again in a moment.")
@@ -342,6 +398,19 @@ async def on_message(message: discord.Message):
         await send_answer(thread, data)
     except discord.HTTPException as exc:
         log.error(f"Failed to send to thread: {exc}")
+
+    log_session({
+        "event":       "conversation",
+        "ts":          _ts(),
+        "type":        "mention",
+        "user_hash":   _hash_user(message.author.id),
+        "channel":     getattr(message.channel, "name", str(message.channel.id)),
+        "thread_id":   str(thread.id),
+        "query_len":   len(query),
+        "answer_len":  len((data.get("answer") or "")),
+        "sources":     len(data.get("sources") or []),
+        "latency_ms":  latency_ms,
+    })
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────

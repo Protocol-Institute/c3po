@@ -1007,6 +1007,14 @@
         {
           "track": "vector-architecture",
           "text": "Worker now handles sig_meeting_page chunk type: .org URLs surface as the canonical meeting reference instead of Discord deep links. Tier weight 0.90x (above Discord-mined summaries at 0.85x). A parallel Pinecone query with chunk_type filter ensures meeting pages are always retrieved regardless of their rank in the general sig namespace query — the initial discovery showed meeting pages at rank 37+ due to shorter text vs rich Discord transcripts, so the filtered secondary query guarantees they surface for relevant SIG queries."
+        },
+        {
+          "track": "operations",
+          "text": "Bot ecology Phase A: designed and documented the multi-node pubsub swarm architecture in plans/bot-ecology.md. Key principles: one ingest owner (c3po_listener writes to Pinecone; gateways only read), stateless gateways (c3po_bot and c3po_web hold no persistent state), spool-as-inbox (data/spool/ is the coordination layer for future self-memory), bot_id on every transcript vector. Phases A–E roadmap with checkbox items covers launchd unification through full swarm scaffolding."
+        },
+        {
+          "track": "operations",
+          "text": "Both bots now under launchd management with KeepAlive and RunAtLoad. c3po_bot previously ran as a manually-started process that would die on shutdown; it now has its own plist (org.protocol-institute.c3po-bot) using the .venv python (needed for discord.py). Both write JSONL audit logs per conversation/cycle to ~/Library/Logs/c3po/: bot_sessions.jsonl (one line per Q&A with user_hash, latency, source counts) and daemon_sessions.jsonl (one line per sync cycle with per-step outcomes and website push status)."
         }
       ]
     }

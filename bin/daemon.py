@@ -22,6 +22,7 @@ Usage (manual):
 Launchd keeps it alive automatically. Logs to stdout (captured by launchd).
 """
 
+import json
 import logging
 import os
 import subprocess
@@ -36,9 +37,10 @@ INTERVAL = 30 * 60          # seconds between sync cycles
 LINK_FETCH_LIMIT = 200      # URLs per cycle (cap API cost)
 STEP_TIMEOUT = 10 * 60      # max seconds per subprocess step
 
-C3PO_DIR = Path(__file__).resolve().parent.parent
+C3PO_DIR    = Path(__file__).resolve().parent.parent
 WEBSITE_DIR = C3PO_DIR.parent / "website"
-VENV_PY = str(C3PO_DIR / ".venv" / "bin" / "python3")
+VENV_PY     = str(C3PO_DIR / ".venv" / "bin" / "python3")
+SESSION_LOG = Path.home() / "Library" / "Logs" / "c3po" / "daemon_sessions.jsonl"
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 
@@ -51,6 +53,16 @@ logging.basicConfig(
 log = logging.getLogger("c3po.daemon")
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
+def log_cycle(record: dict) -> None:
+    """Append one JSON record to the daemon session audit log."""
+    try:
+        SESSION_LOG.parent.mkdir(parents=True, exist_ok=True)
+        with SESSION_LOG.open("a") as f:
+            f.write(json.dumps(record) + "\n")
+    except Exception as exc:
+        log.warning(f"session log write failed: {exc}")
+
 
 def run_step(label: str, args: list[str]) -> bool:
     """Run one subprocess step. Returns True on success, False on failure."""
@@ -85,7 +97,7 @@ def push_website_if_changed() -> None:
     )
     if not check.stdout.strip():
         log.info("  Website unchanged — skipping push")
-        return
+        return False
 
     date_str = datetime.now().strftime("%Y-%m-%d")
     msg = f"Auto: SIG pages + monitoring dashboard updated {date_str}"
@@ -97,16 +109,18 @@ def push_website_if_changed() -> None:
         subprocess.run(["git", "push"],
                        cwd=str(WEBSITE_DIR), check=True, capture_output=True)
         log.info("  Website push done")
+        return True
     except subprocess.CalledProcessError as exc:
         log.error(f"  Website push failed: {exc.stderr.decode()[:200]}")
+        return False
 
 
 # ── Sync cycle ────────────────────────────────────────────────────────────────
 
-def run_sync() -> None:
-    start = time.monotonic()
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    log.info(f"=== Sync cycle starting [{now}] ===")
+def run_sync(cycle: int) -> None:
+    ts_start = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    wall_start = time.monotonic()
+    log.info(f"=== Sync cycle {cycle} starting [{ts_start}] ===")
 
     steps = [
         ("sync_discord",          [VENV_PY, "ingest/sync_discord.py"]),
@@ -118,15 +132,32 @@ def run_sync() -> None:
         ("generate_monitoring",   [VENV_PY, "ingest/generate_monitoring_page.py"]),
     ]
 
+    step_results = {}
     ok = 0
     for label, args in steps:
-        if run_step(label, args):
+        success = run_step(label, args)
+        step_results[label] = success
+        if success:
             ok += 1
 
-    push_website_if_changed()
+    website_pushed = push_website_if_changed()
 
-    elapsed = time.monotonic() - start
-    log.info(f"=== Sync cycle complete — {ok}/{len(steps)} steps OK ({elapsed:.0f}s) ===")
+    elapsed = time.monotonic() - wall_start
+    ts_end  = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    log.info(f"=== Sync cycle {cycle} complete — {ok}/{len(steps)} steps OK ({elapsed:.0f}s) ===")
+
+    log_cycle({
+        "event":          "cycle",
+        "bot_id":         "c3po_listener",
+        "cycle":          cycle,
+        "ts_start":       ts_start,
+        "ts_end":         ts_end,
+        "duration_s":     int(elapsed),
+        "steps":          step_results,
+        "website_pushed": website_pushed,
+        "ok":             ok,
+        "errors":         len(steps) - ok,
+    })
 
 
 # ── Main loop ─────────────────────────────────────────────────────────────────
@@ -146,7 +177,7 @@ def main() -> None:
         cycle += 1
         log.info(f"--- Cycle {cycle} ---")
         try:
-            run_sync()
+            run_sync(cycle)
         except Exception as exc:
             log.error(f"Sync cycle {cycle} crashed: {exc}", exc_info=True)
 

@@ -1,13 +1,21 @@
 # C3PO — Status Log
 
-## c3po_bot.py — running process
+## Bot processes — launchd-managed (Phase A complete 2026-05-28)
 
-**PID: 37015** (started 2026-05-27 14:54 PT)
-Log: `/tmp/c3po_bot.log`
-To restart: `kill <pid> && cd /Users/Venkat/Dropbox/Code/protocol-institute/c3po && source .venv/bin/activate && python3 -u bin/c3po_bot.py &>/tmp/c3po_bot.log & echo $!`
-Update PID here after each restart.
+Both bots managed by launchd (`KeepAlive`, `RunAtLoad`). Auto-restart on crash or reboot.
 
-## 2026-05-28 — PDF URL fix, answer length fix, SIG meeting page ingest (session 23)
+| Bot | Label | Log |
+|-----|-------|-----|
+| `c3po_listener` | `org.protocol-institute.c3po.daily` | `~/Library/Logs/c3po/daemon.log` |
+| `c3po_bot` | `org.protocol-institute.c3po-bot` | `~/Library/Logs/c3po/c3po_bot.log` |
+
+```bash
+launchctl list | grep protocol-institute          # check status
+launchctl unload ~/Library/LaunchAgents/org.protocol-institute.c3po-bot.plist
+launchctl load   ~/Library/LaunchAgents/org.protocol-institute.c3po-bot.plist
+```
+
+## 2026-05-28 — PDF URL fix, answer length fix, SIG meeting page ingest, bot ecology Phase A (session 23)
 
 **PDF URL bug — FIXED**
 - `normalizePdf()` was prepending `https://protocolized.io` to any `m.url`, including already-absolute URLs (e.g., `https://ai.protocolized.dev/`). Added `startsWith("http")` check. Bug was visible in chat `bxi03c`.
@@ -28,14 +36,20 @@ Update PID here after each restart.
 **Pinecone state: 25,406 vectors**
 - sig: **5,027** (+95: 91 meeting pages + 4 sig) | discord_links: 9,108 | discord: 5,538 | definitions: 560 | videos: 2,940 | substack: 1,057 | pdfs: 800 | bibliography: 278 | transcripts: 4 | humboldt: 94 (aware)
 
+**Bot ecology Phase A — COMPLETE**
+- Architecture documented in `plans/bot-ecology.md`: multi-node pubsub swarm with spool pattern, Phases A–E roadmap
+- `c3po_bot.py`: per-conversation session logging to `~/Library/Logs/c3po/bot_sessions.jsonl`
+- `daemon.py`: per-cycle session logging to `~/Library/Logs/c3po/daemon_sessions.jsonl`
+- `org.protocol-institute.c3po-bot.plist`: c3po_bot now launchd-managed (KeepAlive, RunAtLoad, .venv python)
+- Both bots verified running: `launchctl list | grep protocol-institute`
+
 **Open TODOs (priority order):**
-1. Phase 2: FastAPI orchestrator app (`orchestrator/app.py`) — ingest endpoints + APScheduler
-2. Phase 2: Inbox watcher (`orchestrator/inbox_watcher.py`) — watchdog on `data/inbox/`
-3. Phase 3: CF integration — D1 for ingest state, Cron Trigger → Worker → orchestrator endpoint
+1. Phase B: `c3po_bot.py` spool output + `ingest/sync_bot_conversations.py` — Discord conversation self-memory
+2. Phase C: `ingest/sync_web_chats.py` — web chat self-memory
+3. Phase D: `config/bot_registry.json` + shared session-log helper + monitoring page bot statuses
 4. YouTube transcript pass — 161 deferred URLs
 5. GitHub Actions cron for `sync_substack.py`
-6. `ai.protocolized.dev` re-ingest — schedule once orchestrator is running
-7. `sync_sig_pages.py` — add to GitHub Actions cron once page format stabilizes
+6. `sync_sig_pages.py` — add to GitHub Actions cron once page format stabilizes
 
 ## 2026-05-28 — Pubsub refactor Phase 1: registry layer + BaseSource ABC (session 22)
 
