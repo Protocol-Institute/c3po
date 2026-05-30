@@ -1093,6 +1093,52 @@
           "text": "c3po_bot.py: reworked handle_introduction() to use RAG instead of hardcoded SIG list. Intro text is sent concurrently to two sources: the Worker (corpus query → Claude synthesis) and a direct Pinecone query against discord_guide (recommend_to_newcomers=True filter). _pick_channel() prefers channels in SPECIAL INTEREST GROUPS category, falls back to general hits. Reply: welcome mention + corpus resources + channel recommendation with \"next meeting: {date}\" from next_event_time metadata. Worker query limit raised 500→2000 chars; intro text capped at 400 chars."
         }
       ]
+    },
+    {
+      "id": 26,
+      "sort_key": 26.0,
+      "label": "Session 26",
+      "title": "Phase D bot registry + Phase 4 nav queries + GitHub Actions cron",
+      "date": "2026-05-30",
+      "time_pt": "08:30-09:45",
+      "tracks": [
+        "operations",
+        "vector-architecture",
+        "worker-api"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "discord_links": 9160,
+        "discord": 5548,
+        "sig": 5062,
+        "videos": 2940,
+        "substack": 1057,
+        "definitions": 560,
+        "pdfs": 800,
+        "bibliography": 278,
+        "discord_guide": 78,
+        "transcripts": 9,
+        "humboldt": 468,
+        "total": 25960
+      },
+      "items": [
+        {
+          "track": "operations",
+          "text": "Phase D complete: config/bot_registry.json formalizes all 3 bot nodes (c3po_listener, c3po_bot, c3po_web). bin/session_log.py is a shared helper that DRYs up the identical append-JSON-line functions previously duplicated in daemon.py and c3po_bot.py. Monitoring page now has a Bot Nodes section showing last-seen timestamp, status (running/stale/managed), and today's cycle/conversation counts."
+        },
+        {
+          "track": "worker-api",
+          "text": "Phase 4 nav queries: NAV_RE regex detects navigation intent (where should I post about X, which channel for Y). handle_nav_query() queries discord_guide without the newcomer filter to surface SIG channels, and formats top 3 matches with section, cadence, and blurb. Routes nav-intent @mentions away from corpus RAG into the guide path."
+        },
+        {
+          "track": "operations",
+          "text": "GitHub Actions cron: .github/workflows/sync-substack.yml runs sync_substack.py daily at 08:00 UTC. All 4 secrets (VOYAGE, PINECONE, PINECONE_C3PO_HOST, ANTHROPIC) set on the repo. First manual run verified end-to-end including state file commit-back (needed contents:write permission)."
+        },
+        {
+          "track": "vector-architecture",
+          "text": "YouTube community links pass was already completed by the daemon between sessions: 17 URLs fetched via transcript API, 156 failed (no available transcripts), 24 filtered irrelevant. Remaining 260 deferred are all Twitter/X, pending paid API access."
+        }
+      ]
     }
   ]
 }

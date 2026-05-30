@@ -1,5 +1,40 @@
 # C3PO — Status Log
 
+## 2026-05-30 — Phase D + Phase 4 nav queries + GitHub Actions cron (session 26)
+
+**YouTube pass — already done by daemon**
+- Status check: 17 YouTube URLs successfully fetched via transcript API; 156 failed (no transcripts); 24 filtered irrelevant
+- 260 deferred URLs remaining are all Twitter/X (184 x.com + 76 twitter.com) — needs paid API
+
+**Phase D — Bot registry + swarm scaffolding — COMPLETE**
+- `config/bot_registry.json`: formal node registry (c3po_listener, c3po_bot, c3po_web)
+- `bin/session_log.py`: shared append helper — DRY across all bots
+- `bin/daemon.py` + `c3po_bot.py`: import shared session_log, replaced local log functions
+- `ingest/generate_monitoring_page.py`: Bot Nodes section reads session logs, shows status/last-active/today
+
+**Phase 4 — General Discord nav queries — COMPLETE**
+- `NAV_RE` regex: detects "where should I post about X?" intent in @mentions
+- `handle_nav_query()`: queries discord_guide without newcomer filter, formats top 3 channels with section, SIG cadence, blurb
+- `query_discord_guide_nav()`: nav-mode query (active channels only, no newcomer filter)
+- `on_message`: routes nav-intent queries to handle_nav_query before corpus RAG path
+- Bot restarted with new code (PID via launchd, log confirmed clean)
+
+**GitHub Actions cron for sync_substack.py — COMPLETE**
+- `.github/workflows/sync-substack.yml`: daily at 08:00 UTC, manual trigger enabled
+- Secrets set: VOYAGE_API_KEY, PINECONE_API_KEY, PINECONE_C3PO_HOST, ANTHROPIC_API_KEY
+- Verified: manual run succeeded end-to-end (all steps ✓, state files committed back)
+- Node.js 20 deprecation warning: no action needed until Sep 2026
+
+**Pinecone state: ~25,960 vectors** (humboldt +362 from humboldt project activity; discord_links +12 from daemon)
+
+**Open TODOs (priority order):**
+1. Snezana's intro (2026-05-29 12:11 PT) — Worker was 400; consider manual welcome in #introductions (now 28h+ old)
+2. Exhibit extraction — `ingest/extract_structure.py` for PDF section summaries + list exhibits (plan in `plans/structural-navigation.md`)
+3. Phase E: multi-node swarm planning
+4. `sync_sig_pages.py` — add to GitHub Actions cron once page format stabilizes
+
+---
+
 ## Bot processes — launchd-managed (Phases A+B+C complete 2026-05-28)
 
 Both bots managed by launchd (`KeepAlive`, `RunAtLoad`). Auto-restart on crash or reboot.

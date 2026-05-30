@@ -47,9 +47,9 @@ Host: `https://c3po-bwo39z7.svc.aped-4627-b74a.pinecone.io`
 | `pdfs` | 800 | 82+ papers/essays including external resources |
 | `bibliography` | 278 | External works cited by PI corpus |
 | `discord_guide` | 78 | All active guild channels; Haiku-described; SIG channels include cadence + next_event_time |
-| `transcripts` | 8 | Bot conversation self-memory: 4 web_conversation (Phase C); grows with Discord spool (Phase B) |
-| `humboldt` | 94 | Owned by humboldt project (`aware` only — do not ingest) |
-| **Total** | **~25,489** | |
+| `transcripts` | 9 | Bot conversation self-memory: 4 web_conversation (Phase C); grows with Discord spool (Phase B) |
+| `humboldt` | 468 | Owned by humboldt project (`aware` only — do not ingest) |
+| **Total** | **~25,960** | |
 
 ## Key Ingest Scripts
 
