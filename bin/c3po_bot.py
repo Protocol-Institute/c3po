@@ -23,6 +23,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import session_log as slog
+import welcome_queue as wq
 
 import asyncio
 
@@ -445,10 +446,11 @@ async def handle_nav_query(message: discord.Message, query: str) -> None:
 
 # ── Introductions monitoring ──────────────────────────────────────────────────
 
-async def handle_introduction(message: discord.Message) -> None:
+async def handle_introduction(message: discord.Message) -> bool:
+    """Welcome a new member. Returns True if the reply was sent successfully."""
     # Only respond to top-level posts, not replies within #introductions
     if message.reference is not None:
-        return
+        return False
 
     intro_text = message.content[:400]
     log.info(f"Introduction from [{message.author}]: {intro_text[:80]}")
@@ -526,9 +528,11 @@ async def handle_introduction(message: discord.Message) -> None:
         if blurb:
             reply += f"\n{blurb}"
 
+    sent = False
     try:
         for chunk in split_message(reply.strip()):
             await message.reply(chunk, mention_author=False)
+        sent = True
     except discord.HTTPException as exc:
         log.error(f"Failed to send intro reply: {exc}")
 
@@ -542,7 +546,42 @@ async def handle_introduction(message: discord.Message) -> None:
         "sources":     len(sources),
         "channel_rec": channel.get("name") if channel else None,
         "latency_ms":  latency_ms,
+        "sent":        sent,
     })
+    return sent
+
+
+# ── Welcome queue drain ───────────────────────────────────────────────────────
+
+async def drain_welcome_queue() -> None:
+    """Process all queued welcome messages. Called at the start of each bot epoch."""
+    items = wq.pop_all()
+    if not items:
+        return
+    log.info(f"Welcome queue: draining {len(items)} pending")
+    try:
+        channel = client.get_channel(INTRODUCTIONS_CHANNEL_ID) \
+                  or await client.fetch_channel(INTRODUCTIONS_CHANNEL_ID)
+    except Exception as exc:
+        log.error(f"Cannot fetch introductions channel for drain: {exc}")
+        for item in items:
+            wq.push(item)
+        return
+
+    for item in items:
+        if item.get("attempts", 0) >= wq.MAX_ATTEMPTS:
+            log.warning(f"Dropping welcome for {item['user_name']} — exceeded {wq.MAX_ATTEMPTS} attempts")
+            continue
+        try:
+            msg = await channel.fetch_message(int(item["message_id"]))
+            success = await handle_introduction(msg)
+            if not success:
+                wq.push({**item, "attempts": item.get("attempts", 0) + 1})
+        except discord.NotFound:
+            log.warning(f"Intro message {item['message_id']} ({item['user_name']}) deleted — skipping")
+        except Exception as exc:
+            log.error(f"Welcome drain failed for {item['user_name']}: {exc}")
+            wq.push({**item, "attempts": item.get("attempts", 0) + 1})
 
 
 # ── Events ────────────────────────────────────────────────────────────────────
@@ -554,6 +593,7 @@ GREETINGS = {"", "hey", "hi", "hello", "yo", "sup", "hiya", "howdy", "greetings"
 async def on_ready():
     log.info(f"C3PO bot ready — {client.user} (id={client.user.id})")
     log_session({"event": "startup", "ts": _ts(), "user": str(client.user), "user_id": client.user.id})
+    asyncio.create_task(drain_welcome_queue())
 
 
 @client.event
@@ -569,7 +609,19 @@ async def on_message(message: discord.Message):
 
     # Introductions monitoring (set INTRODUCTIONS_CHANNEL_ID in .env to enable)
     if INTRODUCTIONS_CHANNEL_ID and message.channel.id == INTRODUCTIONS_CHANNEL_ID:
-        await handle_introduction(message)
+        if message.reference is None:  # top-level intro post
+            wq.push({
+                "message_id": str(message.id),
+                "channel_id": str(message.channel.id),
+                "user_id":    str(message.author.id),
+                "user_name":  message.author.display_name,
+                "intro_text": message.content[:400],
+                "queued_at":  _ts(),
+                "attempts":   0,
+            })
+        success = await handle_introduction(message)
+        if success and message.reference is None:
+            wq.remove(str(message.id))
         return
 
     # Mention-based query (main channels)
