@@ -35,6 +35,9 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import session_log as slog
+
 # ── Config ────────────────────────────────────────────────────────────────────
 
 INTERVAL = 30 * 60          # seconds between sync cycles
@@ -59,13 +62,7 @@ log = logging.getLogger("c3po.daemon")
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 def log_cycle(record: dict) -> None:
-    """Append one JSON record to the daemon session audit log."""
-    try:
-        SESSION_LOG.parent.mkdir(parents=True, exist_ok=True)
-        with SESSION_LOG.open("a") as f:
-            f.write(json.dumps(record) + "\n")
-    except Exception as exc:
-        log.warning(f"session log write failed: {exc}")
+    slog.append(SESSION_LOG, record)
 
 
 def run_step(label: str, args: list[str]) -> bool:

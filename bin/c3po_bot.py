@@ -20,6 +20,9 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import session_log as slog
+
 import asyncio
 
 import aiohttp
@@ -139,13 +142,7 @@ def _hash_user(user_id: int) -> str:
 
 
 def log_session(record: dict) -> None:
-    """Append one JSON record to the session audit log."""
-    try:
-        SESSION_LOG.parent.mkdir(parents=True, exist_ok=True)
-        with SESSION_LOG.open("a") as f:
-            f.write(json.dumps({**record, "bot_id": BOT_ID}) + "\n")
-    except Exception as exc:
-        log.warning(f"session log write failed: {exc}")
+    slog.append(SESSION_LOG, {**record, "bot_id": BOT_ID})
 
 
 def spool_conversation(record: dict) -> None:

@@ -1,0 +1,37 @@
+{
+  "nodes": {
+    "c3po_listener": {
+      "id": "c3po_listener",
+      "display": "C3PO Listener",
+      "type": "ingest",
+      "script": "bin/daemon.py",
+      "plist": "org.protocol-institute.c3po.daily",
+      "log": "~/Library/Logs/c3po/daemon.log",
+      "session_log": "~/Library/Logs/c3po/daemon_sessions.jsonl",
+      "spool_dir": null,
+      "produces_transcripts": false
+    },
+    "c3po_bot": {
+      "id": "c3po_bot",
+      "display": "C3PO Discord Bot",
+      "type": "gateway",
+      "script": "bin/c3po_bot.py",
+      "plist": "org.protocol-institute.c3po-bot",
+      "log": "~/Library/Logs/c3po/c3po_bot.log",
+      "session_log": "~/Library/Logs/c3po/bot_sessions.jsonl",
+      "spool_dir": "data/spool/bot_conversations",
+      "produces_transcripts": true
+    },
+    "c3po_web": {
+      "id": "c3po_web",
+      "display": "C3PO Web",
+      "type": "gateway",
+      "script": "api/worker.js",
+      "plist": null,
+      "log": null,
+      "session_log": null,
+      "spool_dir": null,
+      "produces_transcripts": true
+    }
+  }
+}

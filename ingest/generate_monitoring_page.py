@@ -15,14 +15,16 @@ Usage:
 
 import json
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 DATA_DIR     = Path(__file__).parent.parent / "data"
+CONFIG_DIR   = Path(__file__).parent.parent / "config"
 WEBSITE_DIR  = Path(__file__).parent.parent.parent / "website"
 LOG_PATH     = DATA_DIR / "sync_log.json"
 MANIFEST_PATH = DATA_DIR / "channel_manifest.json"
 REGISTRY_PATH = DATA_DIR / "discord_links_registry.json"
+BOT_REGISTRY_PATH = CONFIG_DIR / "bot_registry.json"
 OUT_PATH     = WEBSITE_DIR / "monitoring.html"
 
 SCRIPT_LABELS = {
@@ -200,6 +202,113 @@ def run_history(log: dict, days: int = 14) -> str:
     return "\n".join(blocks)
 
 
+def _read_jsonl(path: Path) -> list[dict]:
+    if not path.exists():
+        return []
+    records = []
+    try:
+        for line in path.read_text().splitlines():
+            line = line.strip()
+            if line:
+                try:
+                    records.append(json.loads(line))
+                except Exception:
+                    pass
+    except Exception:
+        pass
+    return records
+
+
+def bot_node_status(bot_registry: dict) -> str:
+    """Build a bot node status table from session logs."""
+    nodes = bot_registry.get("nodes", {})
+    if not nodes:
+        return "    <p class='muted'>No bot registry found.</p>"
+
+    now = datetime.now(timezone.utc)
+    today_str = now.strftime("%Y-%m-%d")
+    rows = []
+
+    for node in nodes.values():
+        nid      = node["id"]
+        display  = he(node["display"])
+        ntype    = he(node["type"])
+        slog_raw = node.get("session_log")
+
+        if slog_raw is None:
+            # c3po_web — managed by Cloudflare, no local session log
+            rows.append(
+                f'<tr><td>{display}</td><td>{ntype}</td>'
+                f'<td><span class="status-active">managed</span></td>'
+                f'<td class="muted">Cloudflare Workers</td>'
+                f'<td class="center muted">—</td>'
+                f'<td class="center muted">—</td></tr>'
+            )
+            continue
+
+        slog_path = Path(slog_raw.replace("~", str(Path.home())))
+        records   = _read_jsonl(slog_path)
+
+        if not records:
+            rows.append(
+                f'<tr><td>{display}</td><td>{ntype}</td>'
+                f'<td><span class="status-archived">no data</span></td>'
+                f'<td class="muted">—</td>'
+                f'<td class="center muted">—</td>'
+                f'<td class="center muted">—</td></tr>'
+            )
+            continue
+
+        # Last active timestamp
+        ts_field = "ts_start" if nid == "c3po_listener" else "ts"
+        last_ts = max((r.get(ts_field, "") for r in records), default="")
+        last_label = fmt_ts(last_ts) if last_ts else "—"
+
+        # Is it fresh? (within last 2 hours = listener cycle, within 24h = bot)
+        try:
+            last_dt = datetime.fromisoformat(last_ts.replace("Z", "+00:00"))
+            age_h   = (now - last_dt).total_seconds() / 3600
+            if nid == "c3po_listener":
+                fresh = age_h < 2
+            else:
+                fresh = age_h < 24
+        except Exception:
+            fresh = False
+        status_html = '<span class="status-active">running</span>' if fresh else '<span class="status-archived">stale</span>'
+
+        # Counts today
+        if nid == "c3po_listener":
+            today_cycles = sum(1 for r in records if r.get("event") == "cycle" and r.get("ts_start", "")[:10] == today_str)
+            today_label  = f"{today_cycles} cycle{'s' if today_cycles != 1 else ''}"
+            vectors_today = sum(
+                sum(s.get("vectors_added", 0) for s in r.get("steps_detail", {}).values() if isinstance(s, dict))
+                for r in records if r.get("event") == "cycle" and r.get("ts_start", "")[:10] == today_str
+            )
+            detail = f"+{vectors_today}v" if vectors_today else "—"
+        else:
+            today_convs = sum(1 for r in records if r.get("event") == "conversation" and r.get("ts", "")[:10] == today_str)
+            today_label = f"{today_convs} conv{'s' if today_convs != 1 else ''}"
+            detail = "—"
+
+        rows.append(
+            f'<tr><td>{display}</td><td>{ntype}</td>'
+            f'<td>{status_html}</td>'
+            f'<td>{he(last_label)}</td>'
+            f'<td class="center">{he(today_label)}</td>'
+            f'<td class="center">{he(detail)}</td></tr>'
+        )
+
+    rows_html = "\n".join(f"      {r}" for r in rows)
+    return f"""    <table class="monitor-table">
+      <thead><tr>
+        <th>Node</th><th>Type</th><th>Status</th><th>Last active</th><th>Today</th><th>Vectors added</th>
+      </tr></thead>
+      <tbody>
+{rows_html}
+      </tbody>
+    </table>"""
+
+
 def link_stats(registry: dict) -> str:
     stats = registry_stats(registry)
     total = sum(stats.values())
@@ -225,7 +334,7 @@ def link_stats(registry: dict) -> str:
 
 # ── Page assembly ──────────────────────────────────────────────────────────────
 
-def build_page(log: dict, manifest: dict, registry: dict) -> str:
+def build_page(log: dict, manifest: dict, registry: dict, bot_registry: dict) -> str:
     runs = log.get("runs", [])
     last_run_ts = runs[-1].get("ts", "") if runs else ""
     generated   = datetime.now(timezone.utc).strftime("%-d %b %Y %H:%M UTC")
@@ -271,6 +380,12 @@ def build_page(log: dict, manifest: dict, registry: dict) -> str:
     </p>
 
     <section class="monitor-section">
+      <h2>Bot Nodes</h2>
+      <p>All C3PO bot processes — listener daemon, Discord gateway, and web interface.</p>
+{bot_node_status(bot_registry)}
+    </section>
+
+    <section class="monitor-section">
       <h2>Channel Registry</h2>
       <p>All channels in the ingestion manifest. Active channels are polled daily; archived channels were swept once.</p>
 {channel_table(manifest)}
@@ -294,11 +409,12 @@ def build_page(log: dict, manifest: dict, registry: dict) -> str:
 
 
 def main():
-    log      = load_json(LOG_PATH, {"runs": []})
-    manifest = load_json(MANIFEST_PATH, {"channels": {}})
-    registry = load_json(REGISTRY_PATH, {})
+    log          = load_json(LOG_PATH, {"runs": []})
+    manifest     = load_json(MANIFEST_PATH, {"channels": {}})
+    registry     = load_json(REGISTRY_PATH, {})
+    bot_registry = load_json(BOT_REGISTRY_PATH, {})
 
-    html = build_page(log, manifest, registry)
+    html = build_page(log, manifest, registry, bot_registry)
     WEBSITE_DIR.mkdir(parents=True, exist_ok=True)
     OUT_PATH.write_text(html, encoding="utf-8")
     runs = len(log.get("runs", []))
