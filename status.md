@@ -1,5 +1,21 @@
 # C3PO — Status Log
 
+## 2026-05-30 — Phase D + welcome queue + intro recs overhaul (session 26, 08:30–11:02 PT)
+
+**Welcome queue — COMPLETE**
+- `bin/welcome_queue.py`: persistent FIFO queue (message_id-keyed, idempotent push, max 3 attempts)
+- `bin/seed_welcome_queue.py`: fetches #introductions REST API, finds posts with no bot reply, seeds queue
+- `c3po_bot.py`: `on_ready` drains queue at each epoch; live intros push→process→pop on success
+- First run: 5 queued (twee-i-double-g, nobo, bubbly_lemur_55426, Snezana/Nonsnens, Malicєnt); all 5 welcomed successfully
+- `data/welcome_queue.json` is gitignored (runtime state); seeder re-populates from Discord API as needed
+
+**Intro recs overhaul — COMPLETE**
+- `_is_vgr_authored()`: filters sources by primary_author/authors for "venkatesh"; draws from top 8 sources
+- `_INTRO_FALLBACK_SRC`: Summer of Protocols Reader as last-resort when all corpus hits are VGR-authored
+- `_update_intro_tally()`: running tally of recommended resources + channels in `data/intro_recs_tally.json`
+- Session log now records `sources_seen`, `recs_shown`, `used_fallback` per welcome
+- Future: tally → curated starter page (head) + intro handler uses starter page + 1 long-tail pick
+
 ## 2026-05-30 — Phase D + Phase 4 nav queries + GitHub Actions cron (session 26)
 
 **YouTube pass — already done by daemon**
@@ -28,10 +44,10 @@
 **Pinecone state: ~25,960 vectors** (humboldt +362 from humboldt project activity; discord_links +12 from daemon)
 
 **Open TODOs (priority order):**
-1. Snezana's intro (2026-05-29 12:11 PT) — Worker was 400; consider manual welcome in #introductions (now 28h+ old)
+1. Starter page — once tally has ~20 welcome events, compile `data/intro_recs_tally.json` into a curated "good first reads" page; update intro handler to use starter page + 1 long-tail pick
 2. Exhibit extraction — `ingest/extract_structure.py` for PDF section summaries + list exhibits (plan in `plans/structural-navigation.md`)
-3. Phase E: multi-node swarm planning
-4. `sync_sig_pages.py` — add to GitHub Actions cron once page format stabilizes
+3. `sync_sig_pages.py` — add to GitHub Actions cron once page format stabilizes
+4. Phase E: multi-node swarm planning
 
 ---
 

@@ -1098,9 +1098,9 @@
       "id": 26,
       "sort_key": 26.0,
       "label": "Session 26",
-      "title": "Phase D bot registry + Phase 4 nav queries + GitHub Actions cron",
+      "title": "Phase D + welcome queue + intro recs overhaul + nav queries + GHA cron",
       "date": "2026-05-30",
-      "time_pt": "08:30-09:45",
+      "time_pt": "08:30-11:02",
       "tracks": [
         "operations",
         "vector-architecture",
@@ -1137,6 +1137,14 @@
         {
           "track": "vector-architecture",
           "text": "YouTube community links pass was already completed by the daemon between sessions: 17 URLs fetched via transcript API, 156 failed (no available transcripts), 24 filtered irrelevant. Remaining 260 deferred are all Twitter/X, pending paid API access."
+        },
+        {
+          "track": "operations",
+          "text": "Welcome queue: bin/welcome_queue.py is a persistent FIFO (message_id-keyed, max 3 attempts). bin/seed_welcome_queue.py fetches #introductions via Discord REST, finds posts with no bot reply, queues the oldest N. on_ready drains the queue at each epoch. First run seeded 5 unwelcomed intros (twee-i-double-g, nobo, bubbly_lemur_55426, Snezana, Malicent) and welcomed all 5 successfully."
+        },
+        {
+          "track": "worker-api",
+          "text": "Intro recs overhaul: _is_vgr_authored() filters by primary_author/authors for Venkatesh Rao; handler draws from top 8 sources and takes first 2 non-VGR. Summer of Protocols Reader is the fallback when all corpus hits are VGR-authored. _update_intro_tally() maintains data/intro_recs_tally.json — a running count of every resource and channel recommended in intro welcomes. Future: tally head becomes a curated starter page; intro handler shifts to starter page + 1 long-tail pick."
         }
       ]
     }
