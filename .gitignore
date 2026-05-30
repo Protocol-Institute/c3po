@@ -2,6 +2,7 @@
 data/*
 !data/devlog.json
 !data/channel_manifest.json
+!data/intro_recs_tally.json
 data/attachments/
 data/inbox/
 sources/youtube/captions_raw/

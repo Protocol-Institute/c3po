@@ -444,6 +444,80 @@ async def handle_nav_query(message: discord.Message, query: str) -> None:
     })
 
 
+# ── Intro rec helpers ────────────────────────────────────────────────────────
+
+# Fallback resource when corpus returns only VGR-authored results
+_INTRO_FALLBACK_SRC = {
+    "label":          "READER",
+    "title":          "The Summer of Protocols Reader",
+    "url":            "https://summerofprotocols.com/research/reader",
+    "source":         "pdf",
+    "primary_author": "Summer of Protocols",
+    "authors":        ["Summer of Protocols"],
+    "date":           "2023",
+    "is_fallback":    True,
+}
+
+_VGR_MARKERS = ("venkatesh rao", "venkatesh", "vgr")
+
+def _is_vgr_authored(src: dict) -> bool:
+    pa = (src.get("primary_author") or "").lower()
+    if any(m in pa for m in _VGR_MARKERS):
+        return True
+    for a in (src.get("authors") or []):
+        if any(m in (a or "").lower() for m in _VGR_MARKERS):
+            return True
+    return False
+
+
+TALLY_PATH = C3PO_DIR / "data" / "intro_recs_tally.json"
+
+def _update_intro_tally(rec_sources: list[dict], channel: dict | None) -> None:
+    """Append to the running tally of what the intro handler recommends."""
+    try:
+        tally = json.loads(TALLY_PATH.read_text()) if TALLY_PATH.exists() else \
+                {"resources": {}, "channels": {}}
+    except Exception:
+        tally = {"resources": {}, "channels": {}}
+
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+    for src in rec_sources:
+        key = src.get("url") or src.get("title") or "(unknown)"
+        if key not in tally["resources"]:
+            tally["resources"][key] = {
+                "title":   src.get("title") or key,
+                "url":     src.get("url"),
+                "source":  src.get("source"),
+                "author":  src.get("primary_author") or (src.get("authors") or [None])[0],
+                "label":   src.get("label"),
+                "count":   0,
+                "last_seen": today,
+                "is_fallback": src.get("is_fallback", False),
+            }
+        tally["resources"][key]["count"] += 1
+        tally["resources"][key]["last_seen"] = today
+
+    if channel:
+        cid = channel.get("channel_id", "")
+        if cid:
+            if cid not in tally["channels"]:
+                tally["channels"][cid] = {
+                    "name":        channel.get("name"),
+                    "display":     channel.get("display"),
+                    "sig_display": channel.get("sig_display"),
+                    "count":       0,
+                    "last_seen":   today,
+                }
+            tally["channels"][cid]["count"] += 1
+            tally["channels"][cid]["last_seen"] = today
+
+    try:
+        TALLY_PATH.write_text(json.dumps(tally, indent=2, ensure_ascii=False))
+    except Exception as exc:
+        log.warning(f"Tally write failed: {exc}")
+
+
 # ── Introductions monitoring ──────────────────────────────────────────────────
 
 async def handle_introduction(message: discord.Message) -> bool:
@@ -478,9 +552,14 @@ async def handle_introduction(message: discord.Message) -> bool:
         log.error(f"Guide task failed: {guide_hits}")
         guide_hits = []
 
-    answer  = ((corpus_data or {}).get("answer") or "").strip()
-    sources = [s for s in ((corpus_data or {}).get("sources") or [])
-               if s.get("source") != "transcript"]
+    answer      = ((corpus_data or {}).get("answer") or "").strip()
+    all_sources = [s for s in ((corpus_data or {}).get("sources") or [])
+                   if s.get("source") != "transcript"]
+
+    # Filter VGR-authored results; draw from top 8 to give filter room to work
+    rec_sources = [s for s in all_sources[:8] if not _is_vgr_authored(s)][:2]
+    if not rec_sources:
+        rec_sources = [_INTRO_FALLBACK_SRC]
 
     # Pick channel recommendation
     channel = _pick_channel(guide_hits or [])
@@ -494,8 +573,6 @@ async def handle_introduction(message: discord.Message) -> bool:
     if answer:
         reply += answer + "\n"
 
-    # Reading recommendations from sources (up to 2)
-    rec_sources = sources[:2]
     if rec_sources:
         reply += "\n**Suggested reading:**\n"
         for src in rec_sources:
@@ -536,17 +613,22 @@ async def handle_introduction(message: discord.Message) -> bool:
     except discord.HTTPException as exc:
         log.error(f"Failed to send intro reply: {exc}")
 
+    if sent:
+        _update_intro_tally(rec_sources, channel)
+
     log_session({
-        "event":       "introduction",
-        "ts":          _ts(),
-        "type":        "introduction",
-        "user_hash":   _hash_user(message.author.id),
-        "intro_len":   len(intro_text),
-        "answer_len":  len(answer),
-        "sources":     len(sources),
-        "channel_rec": channel.get("name") if channel else None,
-        "latency_ms":  latency_ms,
-        "sent":        sent,
+        "event":        "introduction",
+        "ts":           _ts(),
+        "type":         "introduction",
+        "user_hash":    _hash_user(message.author.id),
+        "intro_len":    len(intro_text),
+        "answer_len":   len(answer),
+        "sources_seen": len(all_sources),
+        "recs_shown":   len(rec_sources),
+        "used_fallback": any(s.get("is_fallback") for s in rec_sources),
+        "channel_rec":  channel.get("name") if channel else None,
+        "latency_ms":   latency_ms,
+        "sent":         sent,
     })
     return sent
 
