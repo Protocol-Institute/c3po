@@ -16,6 +16,7 @@ Usage:
 
 import logging
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -64,6 +65,19 @@ FALLBACK_CHANNEL_IDS = [
 # SIG meta-channels to skip when recommending to newcomers
 _SIG_META_NAMES = {"sig-talk", "sig-hosts-best-practices"}
 
+# Nav-intent queries: "where should I post about X", "which channel for Y", etc.
+_NAV_RE = re.compile(
+    r"\b("
+    r"where\s+(should|can|do|would)\s+(i|we)\s+(post|ask|discuss|share|talk)"
+    r"|which\s+channel\s+(for|to|about|covers?)"
+    r"|what\s+channel\s+(for|to|is|about|covers?)"
+    r"|where\s+to\s+(post|ask|discuss|share|talk)"
+    r"|where\s+is\s+(the\s+)?(best|right|good)\s+channel"
+    r"|any\s+channel\s+(for|about)"
+    r")\b",
+    re.IGNORECASE,
+)
+
 # ── Discord guide query (direct Pinecone) ─────────────────────────────────────
 
 _voyage_client:   voyageai.Client | None = None
@@ -98,6 +112,26 @@ async def query_discord_guide(text: str) -> list[dict]:
     """Embed text and query discord_guide; runs sync SDK in thread executor."""
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(None, _sync_query_guide, text)
+
+
+def _sync_query_guide_nav(text: str, top_k: int = 5) -> list[dict]:
+    """Nav-mode guide query — no newcomer filter, returns active channels only."""
+    vc, idx = _guide_clients()
+    result = vc.embed([text], model=VOYAGE_MODEL, input_type="query")
+    vector = result.embeddings[0]
+    resp = idx.query(
+        vector=vector,
+        top_k=top_k,
+        namespace="discord_guide",
+        filter={"status": "active"},
+        include_metadata=True,
+    )
+    return [(m.score, m.metadata) for m in resp.matches]
+
+
+async def query_discord_guide_nav(text: str) -> list[tuple[float, dict]]:
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(None, _sync_query_guide_nav, text)
 
 
 def _pick_channel(hits: list[dict]) -> dict | None:
@@ -342,6 +376,73 @@ async def handle_thread_reply(message: discord.Message) -> None:
     })
 
 
+# ── Nav queries — "where should I post about X?" ─────────────────────────────
+
+# Channels that should never be recommended in nav responses
+_NAV_SKIP_NAMES = _SIG_META_NAMES | {"📣-announcements", "accepted-links", "⭐-popular-posts"}
+
+
+async def handle_nav_query(message: discord.Message, query: str) -> None:
+    """Handle navigation queries — reply with channel recommendations from discord_guide."""
+    t0 = time.monotonic()
+    async with message.channel.typing():
+        hits = await query_discord_guide_nav(query)
+    latency_ms = int((time.monotonic() - t0) * 1000)
+
+    # Filter archived and meta-noise channels; keep up to 3 ranked by score
+    candidates = [
+        (score, meta) for score, meta in hits
+        if meta.get("status") == "active"
+        and meta.get("category") not in ("archived read only", "BACKGROUND")
+        and meta.get("name") not in _NAV_SKIP_NAMES
+    ][:3]
+
+    if not candidates:
+        await message.reply(
+            "I couldn't find a specific channel for that — try **#🌞-general** for broad discussions, "
+            "or browse the SIG channels to find the closest fit.",
+            mention_author=False,
+        )
+        return
+
+    reply = f"Here are the channels that best fit your question, {message.author.mention}:\n"
+    for _score, meta in candidates:
+        cid     = meta.get("channel_id", "")
+        section = meta.get("category", "")
+        blurb   = meta.get("guide_blurb", "")
+        sig     = meta.get("sig_display", "")
+        cadence = meta.get("cadence", "")
+        next_t  = meta.get("next_event_time", "")
+        mention = f"<#{cid}>" if cid else meta.get("display", "?")
+
+        line = f"\n**{mention}**"
+        if section:
+            line += f"  ·  {section}"
+        if sig:
+            sched = next_t or cadence
+            if sched:
+                line += f"  ·  {sig} — {'next meeting: ' + sched if next_t else 'meets ' + cadence}"
+        if blurb:
+            line += f"\n{blurb}"
+        reply += line
+
+    try:
+        for chunk in split_message(reply.strip()):
+            await message.reply(chunk, mention_author=False)
+    except discord.HTTPException as exc:
+        log.error(f"Failed to send nav reply: {exc}")
+
+    log_session({
+        "event":       "nav_query",
+        "ts":          _ts(),
+        "user_hash":   _hash_user(message.author.id),
+        "channel":     getattr(message.channel, "name", str(message.channel.id)),
+        "query_len":   len(query),
+        "hits":        len(candidates),
+        "latency_ms":  latency_ms,
+    })
+
+
 # ── Introductions monitoring ──────────────────────────────────────────────────
 
 async def handle_introduction(message: discord.Message) -> None:
@@ -494,6 +595,12 @@ async def on_message(message: discord.Message):
             "https://protocolized.io/resources",
             mention_author=False,
         )
+        return
+
+    # Nav-intent queries: route to channel guide instead of corpus RAG
+    if _NAV_RE.search(query):
+        log.info(f"Nav query detected from [{message.author}]: {query[:80]}")
+        await handle_nav_query(message, query)
         return
 
     if len(query) > MAX_QUERY_LEN:
