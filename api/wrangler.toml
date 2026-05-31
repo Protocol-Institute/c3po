@@ -22,7 +22,7 @@ compatibility_date = "2025-01-01"
 
 [[kv_namespaces]]
 binding = "RATE_LIMIT"
-id = "54276a388ae9492ca414762e456223f4"  # C3PO_KV — created 2026-05-16, dedicated to this worker; document in MIGRATION.md when migrating to PI org account
+id = "3ddfe6cc538348beb1b1df4219f426b8"  # C3PO_KV — created 2026-05-31 on PI org CF account (7e8c7969b2464d23795c555bc6a32af8)
 
 [[queues.producers]]
 binding = "ORACLE_QUEUE"

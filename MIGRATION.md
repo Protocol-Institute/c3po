@@ -118,20 +118,20 @@ If the Slack app was installed to a PI Slack workspace, migration is usually a r
 
 ## Migration Checklist
 
-Run through this when migrating to the PI org account:
-
-- [ ] Repo transferred to `Protocol-Institute/c3po`
-- [ ] CF Worker deployed to PI account; personal-account Worker deleted
-- [ ] All Worker secrets re-added to PI account
-- [ ] KV namespace created in PI account; `wrangler.toml` updated
-- [ ] D1 databases migrated (if any exist by migration time)
-- [ ] R2 buckets copied to PI account; personal-account buckets deleted
-- [ ] Pinecone index re-ingested under PI org API key; personal-account index deleted
-- [ ] Voyage AI key rotated to PI org key
-- [ ] Anthropic key rotated to PI org key
-- [ ] Discord bot token updated (if bot was registered under personal account)
-- [ ] Slack app reinstalled (if needed)
-- [ ] `Code/.env.keys` updated with all new PI keys
-- [ ] `protocolized-website/wrangler.toml` service binding points to PI Worker
-- [ ] DNS / custom domain re-pointed to PI CF Worker
-- [ ] All personal-account resources deleted after verification
+- [x] CF Worker deployed to PI account (`team-7e8`) — **2026-05-31**
+- [x] All 10 Worker secrets set on PI account — **2026-05-31**
+- [x] KV namespace `C3PO_KV` created in PI account; `wrangler.toml` updated — **2026-05-31**
+- [x] Queue `c3po-oracle` created in PI account — **2026-05-31**
+- [x] Custom domain `c3po.protocolized.io` provisioned on protocolized.io zone — **2026-05-31**
+- [x] All `c3po.vgr-702.workers.dev` references replaced with `c3po.protocolized.io` in worker.js — **2026-05-31**
+- [x] `protocolized-website` resources page URL updated — **2026-05-31**
+- [x] `admin/keys.md` updated with c3po Worker secrets — **2026-05-31**
+- [ ] Repo transferred to `Protocol-Institute/c3po` (GitHub UI step — deferred)
+- [ ] Personal-account Worker deleted (after 1-week verification period)
+- [ ] D1 databases migrated (none yet)
+- [ ] R2 buckets copied (none yet)
+- [ ] Pinecone index re-ingested under PI org API key (deferred — to PI billing setup)
+- [ ] Voyage AI key rotated to PI org key (deferred)
+- [ ] Anthropic key rotated to PI org key (deferred)
+- [ ] Discord bot token updated (registered under personal account; deferred)
+- [ ] `Code/.env.keys` PI section updated when keys rotate

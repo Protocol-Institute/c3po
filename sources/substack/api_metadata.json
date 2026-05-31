@@ -1,5 +1,58 @@
 [
   {
+    "id": 199381132,
+    "slug": "irrigation-by-protocol-when-vineyards",
+    "title": "Irrigation by Protocol: When Vineyards Delegate Decisions to Networks",
+    "subtitle": "When vineyards can speak through data, the question isn’t whether to listen but whether we still know how to read what the vines themselves are saying",
+    "post_date": "2026-05-30T18:13:35.975Z",
+    "updated_at": "2026-05-30T18:14:26.490Z",
+    "type": "newsletter",
+    "wordcount": 2231,
+    "section_id": 333110,
+    "section_name": "Articles",
+    "postTags": [
+      {
+        "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
+        "name": "Design",
+        "slug": "design"
+      },
+      {
+        "id": "4f2fa9f4-2de3-4c1f-91c8-9fb7d89c6257",
+        "name": "Studies",
+        "slug": "studies"
+      },
+      {
+        "id": "6a1a9fd6-d0da-4e6b-935e-b5fff27a0ba7",
+        "name": "Technology",
+        "slug": "technology"
+      },
+      {
+        "id": "ffa59462-ae80-4348-b3f0-605d0814bae5",
+        "name": "Business",
+        "slug": "business"
+      }
+    ],
+    "publishedBylines": [
+      {
+        "id": 39931612,
+        "name": "Jason Collins",
+        "handle": "jasoncollins462592",
+        "bio": "Jason Collins is a freelance writer and editor with a background in magazine writing. His work spans science fiction, essays, blogs, and features, bringing curiosity, sharp editing, and a storyteller's mind to every piece."
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 2,
+    "restacks": 0,
+    "comment_count": 2,
+    "previous_post_slug": "a-government-guide-to-open-protocols",
+    "next_post_slug": null
+  },
+  {
     "id": 198855777,
     "slug": "the-overloaded-train",
     "title": "The Overloaded Train",
@@ -22,7 +75,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "writing Summer Lightning "
+        "bio": "Infrastructure ethnography"
       },
       {
         "id": 309790256,
@@ -31,7 +84,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 6,
+    "reaction_count": 7,
     "restacks": 1,
     "comment_count": 0,
     "previous_post_slug": "all-you-can-do-here-is-leave",
@@ -156,7 +209,7 @@
         "bio": "intellectual knuckledragger"
       }
     ],
-    "reaction_count": 26,
+    "reaction_count": 27,
     "restacks": 6,
     "comment_count": 1,
     "previous_post_slug": "strangeness-illegibility-hardness",
@@ -209,7 +262,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 103,
+    "reaction_count": 104,
     "restacks": 24,
     "comment_count": 15,
     "previous_post_slug": "a-primordial-computing-soup",
@@ -243,7 +296,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "writing Summer Lightning "
+        "bio": "Infrastructure ethnography"
       },
       {
         "id": 309790256,
@@ -292,7 +345,7 @@
     ],
     "reaction_count": 8,
     "restacks": 4,
-    "comment_count": 1,
+    "comment_count": 0,
     "previous_post_slug": "the-fabric-and-the-brain",
     "next_post_slug": "introducing-the-protocol-institute"
   },
@@ -319,7 +372,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "writing Summer Lightning "
+        "bio": "Infrastructure ethnography"
       },
       {
         "id": 309790256,
@@ -456,7 +509,7 @@
     "restacks": 6,
     "comment_count": 2,
     "previous_post_slug": "theorizing-protocolization-ii-atomic",
-    "next_post_slug": null
+    "next_post_slug": "irrigation-by-protocol-when-vineyards"
   },
   {
     "id": 190822675,
@@ -481,7 +534,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "writing Summer Lightning "
+        "bio": "Infrastructure ethnography"
       },
       {
         "id": 309790256,
@@ -784,7 +837,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "writing Summer Lightning "
+        "bio": "Infrastructure ethnography"
       },
       {
         "id": 309790256,
@@ -1143,7 +1196,7 @@
         "bio": "better not to begin. once begun,"
       }
     ],
-    "reaction_count": 27,
+    "reaction_count": 28,
     "restacks": 10,
     "comment_count": 0,
     "previous_post_slug": "how-to-protocol-watch",
@@ -1419,7 +1472,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "writing Summer Lightning "
+        "bio": "Infrastructure ethnography"
       },
       {
         "id": 309790256,
@@ -2409,7 +2462,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "writing Summer Lightning "
+        "bio": "Infrastructure ethnography"
       },
       {
         "id": 309790256,
@@ -3388,7 +3441,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "writing Summer Lightning "
+        "bio": "Infrastructure ethnography"
       },
       {
         "id": 309790256,
@@ -3516,7 +3569,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "writing Summer Lightning "
+        "bio": "Infrastructure ethnography"
       },
       {
         "id": 309790256,
@@ -3632,7 +3685,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "writing Summer Lightning "
+        "bio": "Infrastructure ethnography"
       },
       {
         "id": 309790256,
@@ -3743,7 +3796,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "writing Summer Lightning "
+        "bio": "Infrastructure ethnography"
       },
       {
         "id": 309790256,
@@ -3888,7 +3941,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "writing Summer Lightning "
+        "bio": "Infrastructure ethnography"
       },
       {
         "id": 309790256,
@@ -4073,7 +4126,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "writing Summer Lightning "
+        "bio": "Infrastructure ethnography"
       },
       {
         "id": 309790256,
@@ -5505,7 +5558,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "writing Summer Lightning "
+        "bio": "Infrastructure ethnography"
       },
       {
         "id": 309790256,
@@ -6343,7 +6396,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "writing Summer Lightning "
+        "bio": "Infrastructure ethnography"
       },
       {
         "id": 309790256,
@@ -6518,7 +6571,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 94,
+    "reaction_count": 95,
     "restacks": 34,
     "comment_count": 6,
     "previous_post_slug": null,

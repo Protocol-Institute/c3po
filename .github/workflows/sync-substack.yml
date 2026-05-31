@@ -19,7 +19,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install voyageai pinecone anthropic python-dotenv
+        run: pip install voyageai pinecone anthropic python-dotenv beautifulsoup4
 
       - name: Sync Substack
         env:

@@ -1,1 +1,33 @@
-{"resources": {}, "channels": {}}
+{
+  "resources": {
+    "feral scholars": {
+      "title": "feral scholars",
+      "url": null,
+      "source": "definition",
+      "author": "Protocol Institute",
+      "label": "LEXICON",
+      "count": 1,
+      "last_seen": "2026-05-30",
+      "is_fallback": false
+    },
+    "DYOResearchers": {
+      "title": "DYOResearchers",
+      "url": null,
+      "source": "definition",
+      "author": "Protocol Institute",
+      "label": "LEXICON",
+      "count": 1,
+      "last_seen": "2026-05-30",
+      "is_fallback": false
+    }
+  },
+  "channels": {
+    "1088124124968259584": {
+      "name": "🙋-channel-proposals",
+      "display": "#🙋-channel-proposals",
+      "sig_display": "",
+      "count": 1,
+      "last_seen": "2026-05-30"
+    }
+  }
+}

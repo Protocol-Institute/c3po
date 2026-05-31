@@ -32,7 +32,7 @@ const BOT_VERSION     = "v0.1.0";
 const LAUNCH_DATE     = "2026-05-15";
 const TOP_K_EACH      = 15;    // per namespace before merge
 const MAX_SOURCES     = 8;
-const CHAT_PUBLIC_BASE           = "https://protocolized.io/chats";  // update after domain migration
+const CHAT_PUBLIC_BASE           = "https://protocolized.io/chats";
 const TRANSCRIPT_CACHE_THRESHOLD = 0.52;  // Voyage-3 Q+A pairs top out ~0.62 for near-duplicates; 0.52 catches close matches
 const RATE_LIMIT_MAX  = 20;    // requests per IP per hour
 const RATE_LIMIT_TTL  = 3600;
@@ -1862,12 +1862,12 @@ ${subnav('/')}
     <p>Add C3PO to your AI client. <strong>search_corpus</strong> is open &mdash; no key needed. <strong>ask_c3po</strong> requires a Bearer key: <a href="mailto:team@protocol-institute.org">request access</a>.</p>
     <p class="c3po-mcp-label">Claude Code</p>
     <div class="c3po-mcp-code">
-      <code id="mcp-code-cc">claude mcp add c3po --transport http https://c3po.vgr-702.workers.dev/mcp --header "Authorization: Bearer &lt;your-key&gt;"</code>
+      <code id="mcp-code-cc">claude mcp add c3po --transport http https://c3po.protocolized.io/mcp --header "Authorization: Bearer &lt;your-key&gt;"</code>
       <button class="c3po-mcp-copy" onclick="copyMcp('mcp-code-cc', this)">Copy</button>
     </div>
     <p class="c3po-mcp-label">Claude Desktop / other MCP clients</p>
     <div class="c3po-mcp-code">
-      <code id="mcp-code-cd">{"mcpServers":{"c3po":{"type":"http","url":"https://c3po.vgr-702.workers.dev/mcp","headers":{"Authorization":"Bearer &lt;your-key&gt;"}}}}</code>
+      <code id="mcp-code-cd">{"mcpServers":{"c3po":{"type":"http","url":"https://c3po.protocolized.io/mcp","headers":{"Authorization":"Bearer &lt;your-key&gt;"}}}}</code>
       <button class="c3po-mcp-copy" onclick="copyMcp('mcp-code-cd', this)">Copy</button>
     </div>
   </div>
@@ -2743,7 +2743,7 @@ ${subnav('/how-it-works')}
 
 <div class="hiw-section" id="mcp">
 <h2>MCP access</h2>
-<p>C3PO is available as a <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener">Model Context Protocol</a> server (JSON-RPC 2.0) at <code>https://c3po.vgr-702.workers.dev/mcp</code>. Connect it to Claude Code or Claude Desktop to query the corpus directly inside your AI client &mdash; no turn limit, no browser required.</p>
+<p>C3PO is available as a <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener">Model Context Protocol</a> server (JSON-RPC 2.0) at <code>https://c3po.protocolized.io/mcp</code>. Connect it to Claude Code or Claude Desktop to query the corpus directly inside your AI client &mdash; no turn limit, no browser required.</p>
 
 <table class="hiw-table">
 <thead><tr><th>Tool</th><th>What it does</th><th>Auth</th><th>Limit</th></tr></thead>
@@ -2758,22 +2758,22 @@ ${subnav('/how-it-works')}
 
 <h3>Claude Code</h3>
 <p>Search only (no key needed) &mdash; run once in your terminal:</p>
-<pre><code>claude mcp add c3po --transport http https://c3po.vgr-702.workers.dev/mcp</code></pre>
+<pre><code>claude mcp add c3po --transport http https://c3po.protocolized.io/mcp</code></pre>
 <p>Full access with Bearer token:</p>
-<pre><code>claude mcp add c3po --transport http https://c3po.vgr-702.workers.dev/mcp \
+<pre><code>claude mcp add c3po --transport http https://c3po.protocolized.io/mcp \
   --header "Authorization: Bearer &lt;your-key&gt;"</code></pre>
 
 <h3>Claude Desktop</h3>
 <p>Add to <code>claude_desktop_config.json</code> (on Mac: <code>~/Library/Application Support/Claude/</code>):</p>
 <pre><code>{"mcpServers": {"c3po": {
   "type": "http",
-  "url": "https://c3po.vgr-702.workers.dev/mcp",
+  "url": "https://c3po.protocolized.io/mcp",
   "headers": {"Authorization": "Bearer &lt;your-key&gt;"}
 }}}</code></pre>
 <p>For search-only without auth, omit the <code>headers</code> key.</p>
 
 <h3>Other MCP clients</h3>
-<p>Any client that supports Streamable HTTP MCP transport can connect. Point it at <code>https://c3po.vgr-702.workers.dev/mcp</code> and supply the <code>Authorization: Bearer &lt;your-key&gt;</code> header if you want <code>ask_c3po</code>.</p>
+<p>Any client that supports Streamable HTTP MCP transport can connect. Point it at <code>https://c3po.protocolized.io/mcp</code> and supply the <code>Authorization: Bearer &lt;your-key&gt;</code> header if you want <code>ask_c3po</code>.</p>
 
 <div class="hiw-note"><strong>Multi-turn conversations via MCP:</strong> <code>ask_c3po</code> accepts a <code>history</code> array of <code>{"role": "user"|"assistant", "content": "..."}</code> objects alongside your question. Pass prior turns to maintain context across a session. The same hourly and daily circuit breakers that govern the web UI apply &mdash; if the budget is exhausted, calls return an error and auto-reset at the next hour or midnight PT.</div>
 </div>
@@ -2908,7 +2908,7 @@ const MCP_TOOLS = [
       "relevant excerpts from the full PI archive and synthesizes a substantive response. " +
       "Supply history for multi-turn conversations. Requires Bearer authentication — " +
       "contact team@protocol-institute.org for access. " +
-      "Usage subject to https://c3po.vgr-702.workers.dev/terms",
+      "Usage subject to https://c3po.protocolized.io/terms",
     inputSchema: {
       type: "object",
       properties: {
@@ -3357,7 +3357,7 @@ async function handleDiscordInteraction(request, env, ctx) {
             "`/search <query>` — semantic search; returns sources without synthesis",
             "`/help` — this message",
             "",
-            "Web interface: https://c3po.vgr-702.workers.dev",
+            "Web interface: https://c3po.protocolized.io",
           ].join("\n"),
           flags: 64,
         },

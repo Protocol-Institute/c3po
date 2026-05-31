@@ -25,11 +25,22 @@ PI keys stored in `../.env.keys`; copy to `.env` (gitignored) before running. Ke
 
 ## Cloudflare Worker
 
-Deploy from `api/` using wrangler. Secrets: `VOYAGE_API_KEY`, `PINECONE_API_KEY`, `PINECONE_C3PO_HOST`, `ANTHROPIC_API_KEY`, `ADMIN_KEY`.
+Deploy from `api/` using wrangler against the **PI org CF account** (`7e8c7969b2464d23795c555bc6a32af8`).
+
+```bash
+CLOUDFLARE_API_TOKEN=$(grep CLOUDFLARE_API_TOKEN ../.env.keys | cut -d= -f2) \
+CLOUDFLARE_ACCOUNT_ID=7e8c7969b2464d23795c555bc6a32af8 \
+npx wrangler deploy
+```
+
+Live URL: **`https://c3po.protocolized.io`** (custom domain on protocolized.io zone, migrated 2026-05-31).
+Workers subdomain: `c3po.team-7e8.workers.dev`.
+
+Secrets on PI worker: `VOYAGE_API_KEY`, `PINECONE_API_KEY`, `PINECONE_C3PO_HOST`, `ANTHROPIC_API_KEY`, `ADMIN_KEY`, `MCP_API_KEY`, `DISCORD_BOT_TOKEN`, `ORACLE_BOT_TOKEN`, `ORACLE_APPLICATION_ID`, `ORACLE_PUBLIC_KEY`.
 
 ## Repo Ownership
 
-Currently: `vgururao/c3po` (personal account). Planned migration: `Protocol-Institute/c3po` at Phase 6.
+Currently: `vgururao/c3po` (personal account). Planned migration: `Protocol-Institute/c3po` (deferred — GitHub transfer is a manual UI step).
 
 ## Pinecone Index (live)
 
