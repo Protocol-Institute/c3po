@@ -45,7 +45,7 @@ Repo: `Protocol-Institute/c3po` (transferred from `vgururao/c3po` 2026-05-31).
 ## Pinecone Index (live)
 
 Index: `c3po` · 1024 dims (voyage-3) · cosine · aws/us-east-1
-Host: `https://c3po-bwo39z7.svc.aped-4627-b74a.pinecone.io`
+Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, migrated 2026-05-31)
 
 | Namespace | Vectors | Notes |
 |-----------|---------|-------|

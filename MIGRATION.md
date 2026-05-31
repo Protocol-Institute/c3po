@@ -130,7 +130,7 @@ If the Slack app was installed to a PI Slack workspace, migration is usually a r
 - [ ] Personal-account Worker deleted (after 1-week verification period)
 - [ ] D1 databases migrated (none yet)
 - [ ] R2 buckets copied (none yet)
-- [ ] Pinecone index re-ingested under PI org API key (deferred — to PI billing setup)
+- [x] Pinecone index migrated to PI org account via vector export/import (25,547 vectors) — **2026-05-31**
 - [ ] Voyage AI key rotated to PI org key (deferred)
 - [ ] Anthropic key rotated to PI org key (deferred)
 - [ ] Discord bot token updated (registered under personal account; deferred)
