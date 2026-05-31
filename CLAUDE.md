@@ -60,7 +60,7 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 | `discord_guide` | 78 | All active guild channels; Haiku-described; SIG channels include cadence + next_event_time |
 | `transcripts` | 9 | Bot conversation self-memory: 4 web_conversation (Phase C); grows with Discord spool (Phase B) |
 | `humboldt` | 468 | Owned by humboldt project (`aware` only — do not ingest) |
-| **Total** | **~26,015** | |
+| **Total** | **~25,965** | |
 
 ## Key Ingest Scripts
 
