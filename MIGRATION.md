@@ -126,7 +126,7 @@ If the Slack app was installed to a PI Slack workspace, migration is usually a r
 - [x] All `c3po.vgr-702.workers.dev` references replaced with `c3po.protocolized.io` in worker.js — **2026-05-31**
 - [x] `protocolized-website` resources page URL updated — **2026-05-31**
 - [x] `admin/keys.md` updated with c3po Worker secrets — **2026-05-31**
-- [ ] Repo transferred to `Protocol-Institute/c3po` (GitHub UI step — deferred)
+- [x] Repo transferred to `Protocol-Institute/c3po` — **2026-05-31**
 - [ ] Personal-account Worker deleted (after 1-week verification period)
 - [ ] D1 databases migrated (none yet)
 - [ ] R2 buckets copied (none yet)

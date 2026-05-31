@@ -40,7 +40,7 @@ Secrets on PI worker: `VOYAGE_API_KEY`, `PINECONE_API_KEY`, `PINECONE_C3PO_HOST`
 
 ## Repo Ownership
 
-Currently: `vgururao/c3po` (personal account). Planned migration: `Protocol-Institute/c3po` (deferred — GitHub transfer is a manual UI step).
+Repo: `Protocol-Institute/c3po` (transferred from `vgururao/c3po` 2026-05-31).
 
 ## Pinecone Index (live)
 
