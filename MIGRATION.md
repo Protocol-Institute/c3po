@@ -131,7 +131,7 @@ If the Slack app was installed to a PI Slack workspace, migration is usually a r
 - [ ] D1 databases migrated (none yet)
 - [ ] R2 buckets copied (none yet)
 - [x] Pinecone index migrated to PI org account via vector export/import (25,547 vectors) — **2026-05-31**
-- [ ] Voyage AI key rotated to PI org key (deferred)
+- [x] Voyage AI key rotated to PI org key (c3po key) — **2026-05-31**
 - [ ] Anthropic key rotated to PI org key (deferred)
 - [ ] Discord bot token updated (registered under personal account; deferred)
 - [ ] `Code/.env.keys` PI section updated when keys rotate
