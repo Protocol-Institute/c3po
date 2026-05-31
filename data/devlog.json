@@ -1095,6 +1095,59 @@
       ]
     },
     {
+      "id": 27,
+      "sort_key": 27.0,
+      "label": "Session 27",
+      "title": "Full infrastructure migration to PI org — CF Worker, GitHub, Pinecone, Voyage AI",
+      "date": "2026-05-31",
+      "time_pt": "09:00-11:00",
+      "tracks": [
+        "operations",
+        "worker-api"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "discord_links": 9188,
+        "discord": 5552,
+        "sig": 5077,
+        "videos": 2940,
+        "substack": 1065,
+        "definitions": 560,
+        "pdfs": 800,
+        "bibliography": 278,
+        "discord_guide": 78,
+        "transcripts": 9,
+        "humboldt": 468,
+        "total": 26015
+      },
+      "items": [
+        {
+          "track": "operations",
+          "text": "GitHub Actions sync-substack workflow was failing daily in 21 seconds: new posts trigger HTML parsing via BeautifulSoup, which wasn't in the pip install step. The script printed 'Install beautifulsoup4' and exited 1. Fixed by adding beautifulsoup4 to the workflow. Also ingested the pending post irrigation-by-protocol-when-vineyards (8 vectors)."
+        },
+        {
+          "track": "worker-api",
+          "text": "Cloudflare Worker migrated from personal account (vgr-702) to PI org account (team-7e8). KV namespace C3PO_KV and queue c3po-oracle created in PI account; wrangler.toml KV ID updated. Worker deployed with all 10 secrets. Custom domain c3po.protocolized.io provisioned on the protocolized.io zone — chosen over a /c3po path route because c3po is a full multi-route web app with independent deploy cycle, already linked externally from protocolized.io. All 9 hardcoded personal worker URL references in worker.js replaced."
+        },
+        {
+          "track": "operations",
+          "text": "GitHub repo transferred from vgururao/c3po to Protocol-Institute/c3po via GitHub UI. Local git remote updated. All references to the old repo URL in website and CLAUDE.md updated."
+        },
+        {
+          "track": "vector-architecture",
+          "text": "Pinecone index migrated to PI org account via a new ingest/migrate_pinecone.py script. Approach: list all IDs per namespace, fetch vectors in batches of 50 (200 caused 414 URI Too Large), upsert to destination — no re-embedding, exact values and metadata preserved. Two bugs caught in testing: list() returns ListItem objects not strings, requiring .id extraction; batch size had to be reduced from 200 to 50. Migrated 25,547 vectors across 10 namespaces in a single run; humboldt namespace excluded (owned by that project). Final count verified: source 25,547 = destination 25,547. PINECONE_API_KEY and PINECONE_C3PO_HOST updated everywhere: .env, CF Worker secrets, GitHub Actions secrets."
+        },
+        {
+          "track": "operations",
+          "text": "Voyage AI migrated to PI org account. Adopted per-app key strategy (one key per project, not one org key) for clean revocation and per-app usage tracking. c3po key created and wired in; humboldt key deferred to humboldt project session. VOYAGE_API_KEY updated in .env, CF Worker secrets, and GitHub Actions secrets. Personal key deprecated."
+        },
+        {
+          "track": "operations",
+          "text": "Reference sweep across all PI web properties: protocolized-website resources page, protocol-institute.org programs page, c3po project page (URL, vector count 12k→25k+, namespace count 5→10, GitHub repo link), sigpfb page. admin/keys.md updated with all new Worker secrets and ownership changes for Pinecone and Voyage. MIGRATION.md checklist reflects completed items."
+        }
+      ]
+    },
+    {
       "id": 26,
       "sort_key": 26.0,
       "label": "Session 26",

@@ -1,5 +1,55 @@
 # C3PO — Status Log
 
+## 2026-05-31 — Full infrastructure migration to PI org accounts (session 27, ~09:00–11:00 PT)
+
+**Substack sync workflow bug — FIXED**
+- `sync-substack.yml` was failing in 21s daily: script hit `from bs4 import BeautifulSoup` on new posts, printed "Install beautifulsoup4", exited 1
+- Fix: added `beautifulsoup4` to the pip install step
+- New post `irrigation-by-protocol-when-vineyards` ingested locally (8 vectors) — GHA will catch it tonight
+
+**Cloudflare Worker migration — COMPLETE**
+- KV namespace `C3PO_KV` and queue `c3po-oracle` created in PI CF account (`team-7e8`)
+- All 9 `c3po.vgr-702.workers.dev` URL references in `worker.js` replaced with `c3po.protocolized.io`
+- Worker deployed to PI account; custom domain `c3po.protocolized.io` provisioned on protocolized.io zone (CF auto-SSL)
+- All 10 secrets set on PI worker: VOYAGE, PINECONE, PINECONE_HOST, ANTHROPIC, ADMIN, MCP, DISCORD_BOT, ORACLE_BOT, ORACLE_APP_ID, ORACLE_PUBLIC_KEY
+- `wrangler.toml` KV namespace ID updated to PI namespace
+- Routing decision: subdomain (`c3po.protocolized.io`) preferred over path (`protocolized.io/c3po`) — c3po is a full multi-route web app, already linked externally, clean infrastructure separation
+
+**GitHub repo transfer — COMPLETE**
+- `vgururao/c3po` → `Protocol-Institute/c3po` (manual GitHub UI transfer)
+- Local git remote updated; verified push to new origin
+
+**Pinecone migration — COMPLETE**
+- New `ingest/migrate_pinecone.py`: list+fetch+upsert without re-embedding; idempotent
+- Migrated 25,547 vectors across 10 namespaces (humboldt excluded — owned by humboldt project)
+- Two bugs fixed during migration: `list()` returns `ListItem` objects not strings; FETCH_BATCH reduced 200→50 to avoid 414 URI Too Large
+- `PINECONE_API_KEY` and `PINECONE_C3PO_HOST` updated in `.env`, CF Worker secrets, GitHub Actions secrets
+- Live worker verified against PI index
+
+**Voyage AI migration — COMPLETE**
+- PI Voyage AI account created; per-app key strategy adopted (`c3po` key; `humboldt` key pending, separate task)
+- `VOYAGE_API_KEY` updated in `.env`, CF Worker secrets, GitHub Actions secrets
+- Personal key deprecated in `.env.keys`
+
+**Reference updates — COMPLETE**
+- `protocolized-website`: resources page link updated
+- `protocol-institute.org`: programs page, c3po project page (URL, vector count 12k→25k+, namespace count 5→10, GitHub link), sigpfb page
+- `admin/keys.md`: all new keys and Worker secrets documented; Pinecone + Voyage marked as org-owned
+
+**Pinecone state: ~26,015 vectors** (PI org index; +8 substack from irrigation-by-protocol-when-vineyards)
+
+**Open TODOs (priority order):**
+1. Delete personal Cloudflare Worker (`c3po` on `vgr-702`) — after 1-week verification window
+2. Delete personal Pinecone index — after confirming humboldt project updated to its own key path
+3. Anthropic key rotation to PI org account — deferred
+4. Voyage humboldt key — create in PI Voyage account, wire into humboldt project
+5. Starter page — tally needs ~20 welcome events before building
+6. Exhibit extraction — `ingest/extract_structure.py` (plan in `plans/structural-navigation.md`)
+7. `sync_sig_pages.py` — add to GitHub Actions cron
+8. Phase E: multi-node swarm planning
+
+---
+
 ## 2026-05-30 — Phase D + welcome queue + intro recs overhaul (session 26, 08:30–11:02 PT)
 
 **Welcome queue — COMPLETE**
