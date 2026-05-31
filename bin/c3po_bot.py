@@ -569,8 +569,9 @@ async def handle_introduction(message: discord.Message) -> bool:
     all_sources = [s for s in ((corpus_data or {}).get("sources") or [])
                    if s.get("source") != "transcript"]
 
-    # Filter VGR-authored results; draw from top 8 to give filter room to work
-    rec_sources = [s for s in all_sources[:8] if not _is_vgr_authored(s)][:2]
+    # Filter VGR-authored and cover-letter results; draw from top 8 for headroom
+    rec_sources = [s for s in all_sources[:8]
+                   if not _is_vgr_authored(s) and not s.get("is_cover_letter")][:2]
     if not rec_sources:
         rec_sources = [_INTRO_FALLBACK_SRC]
 

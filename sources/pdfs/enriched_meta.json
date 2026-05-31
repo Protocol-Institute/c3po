@@ -8,7 +8,8 @@
     "primary_author": "Protocol Institute",
     "all_authors": [
       "Protocol Institute"
-    ]
+    ],
+    "deprecated": true
   },
   "00-COVER-LETTER-4.pdf": {
     "summary": "This cover letter introduces the fourth mailer of the Summer of Protocols program, themed on the social science of protocols, featuring anchor essays on how protocols become living social entities and exploring emerging protocol domains from the 2023 cohort. The kit emphasizes the unfinished nature of protocol study through a 3-ring binder format and includes essays, speculative fiction, workshop materials, and a tabletop game.",
@@ -19,7 +20,8 @@
     "primary_author": "Protocol Institute",
     "all_authors": [
       "Protocol Institute"
-    ]
+    ],
+    "deprecated": true
   },
   "00.1-TITLE-PAGE-2023-12-13.pdf": {
     "summary": "This is the title page for the Summer of Protocols 2023 Retrospectus Newsletter, a publication by the Ethereum Foundation documenting contributions from summer 2023 with editorial leadership from Venkatesh Rao, Tim Beiko, and Josh Davis. The document establishes licensing terms under CC BY-NC 4.0 through 2026, transitioning to CC BY 4.0 thereafter.",
@@ -30,7 +32,8 @@
     "primary_author": "Protocol Institute",
     "all_authors": [
       "Protocol Institute"
-    ]
+    ],
+    "deprecated": true
   },
   "00.2-COVER-LETTER-1-2023-12-13.pdf": {
     "summary": "This is an introductory cover letter for the Protocol Kit, a six-part educational package developed by the Summer of Protocols cohort that provides comprehensive materials for studying protocols across technical and social domains. The kit includes reading materials, artworks, exercises, tools, and games designed to guide learners from novices to advanced practitioners through structured exploration of protocols.",
@@ -41,7 +44,8 @@
     "primary_author": "Protocol Institute",
     "all_authors": [
       "Protocol Institute"
-    ]
+    ],
+    "deprecated": true
   },
   "01-RETROSPECTUS-2023-12-13.pdf": {
     "summary": "The 2023 Retrospectus is a collection of essays from the Summer of Protocols initiative examining how protocols function across social, economic, and technological domains, featuring contributions on topics ranging from killswitch mechanisms and protocolized economics to memory-making and emergency response systems. The volume presents a multidisciplinary exploration of protocols as generative frameworks for organizing collective behavior, coordination, and cultural production in both digital and physical contexts.",
@@ -521,7 +525,8 @@
     "primary_author": "Chenoe Hart",
     "all_authors": [
       "Protocol Institute"
-    ]
+    ],
+    "deprecated": true
   },
   "Addressable-Space-Chenoe-Hart.pdf": {
     "summary": "Hart examines how buildings are constructed through both physical materials and informational systems, analyzing how addressable space—the conceptual organization of physical environments—shapes infrastructure and accessibility. Using One Burrard Place as a case study, the paper explores how hidden floors and zoning regulations demonstrate that buildings are fundamentally protocols for organizing and controlling access to space.",
@@ -625,7 +630,8 @@
     "primary_author": "Rithikha Rajamohan",
     "all_authors": [
       "Protocol Institute"
-    ]
+    ],
+    "deprecated": true
   },
   "Dispatches-from-Cascadia-Rithikha-Rajamohan.pdf": {
     "summary": "This paper uses Cascadia as a speculative case study to explore how bioregional governance frameworks might organize communities around ecological rather than political boundaries, with bears and watershed patterns replacing state/provincial lines. Rajamohan examines how protocol-based systems could coordinate resource management and social infrastructure across overlapping ecoregions facing polycrisis challenges like climate instability and housing crises.",
@@ -718,7 +724,8 @@
     "primary_author": "Nadia Asparouhova",
     "all_authors": [
       "Protocol Institute"
-    ]
+    ],
+    "deprecated": true
   },
   "Kafka-Index-Nadia-Asparouhova.pdf": {
     "summary": "Asparouhova develops an evaluative framework called the Kafka Index to identify structurally bad protocols through specific design failures: broken feedback loops, invisible outcomes, wrong metrics, and excessive complexity that trap participants. She identifies three archetypes of protocol failure—Kafka (participant trapped in incomprehensible maze), Bartleby (participant forced into costly participation with no alternatives), and a third unnamed type—each representing different ways protocols distribute power asymmetrically between system and user.",
@@ -751,7 +758,8 @@
     "primary_author": "Protocol Institute",
     "all_authors": [
       "Protocol Institute"
-    ]
+    ],
+    "deprecated": true
   },
   "Module-5-COVER-LETTER-.pdf": {
     "summary": "This cover letter introduces the final mailer of the Protocol Kit, exploring themes of infinite games and continuity through Sarah Friend's essay on death protocols across physical and virtual contexts and her accompanying design fictions about a monastic order stewarding the death of digital worlds. The materials examine how death and resurrection function as liminal passages in both human cultures and increasingly complex artificial intelligence systems, proposing that the end of digital entities requires creative protocolization.",
@@ -763,7 +771,8 @@
     "primary_author": "Protocol Institute",
     "all_authors": [
       "Protocol Institute"
-    ]
+    ],
+    "deprecated": true
   },
   "New-Time-Machine-Rangers-Starproject-Cover.pdf": {
     "summary": "The New Time Machines Working Group designs memory protocols and practices that help individuals and communities access and curate personal and collective memories, drawing on ancient memorial traditions and combining low-tech objects with contemporary devices. The document frames memory work as essential for temporal orientation and community cohesion in an era of digital mediation, challenging assumptions about time itself by drawing on perspectives from physics, Buddhist philosophy, and astronomical observation.",
@@ -774,7 +783,8 @@
     "primary_author": "Protocol Institute",
     "all_authors": [
       "Protocol Institute"
-    ]
+    ],
+    "deprecated": true
   },
   "Plurality-in-Practice-Case-File.pdf": {
     "summary": "This case file examines plural voting mechanisms that weight voter preferences based on identity and expertise relationships to reward diverse group consensus, questioning whether such systems reduce powerful voting blocs or merely shift the nature of power concentration. The authors identify a central tension: while plural mechanisms aim to increase plurality, their successful implementation requires substantial top-down calibration that can introduce new biases and remain vulnerable to capture without careful design.",
@@ -821,7 +831,8 @@
     "primary_author": "Protocol Institute",
     "all_authors": [
       "Protocol Institute"
-    ]
+    ],
+    "deprecated": true
   },
   "SCHROFF-Protocol-Watching-HANDOUT.pdf": {
     "summary": "This handout provides a structured template for workshop participants to conduct protocol watching—a systematic practice of observing and analyzing how protocols function in real-world contexts. The material offers concrete methodological guidance for identifying, documenting, and interpreting protocol behaviors and effects.",

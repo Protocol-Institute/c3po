@@ -299,7 +299,7 @@ function normalizePdf(match) {
     ? match.id.slice(0, -"__doc_summary".length)
     : null;
   const url = m.url
-    ? (m.url.startsWith("http") ? m.url : `https://protocolized.io${m.url}`)
+    ? (m.url.startsWith("http") ? m.url : `https://files.protocolized.io/${m.url.split("/").pop()}`)
     : null;
   return {
     docId:   m.url || match.id,
@@ -316,6 +316,7 @@ function normalizePdf(match) {
     tags:    Array.isArray(m.tags) ? m.tags : [],
     excerpt: m.text || m.summary || "",
     isSummary: isPdfSummary,
+    is_cover_letter: m.is_cover_letter === true,
     stem,   // non-null only for doc_summary hits — used for secondary retrieval
   };
 }
@@ -3224,10 +3225,14 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   const secondaryFetches = [
     ...pdfSummaryHits.map(hit => {
       const stem   = hit.id.replace("__doc_summary", "");
-      const pdfUrl = hit.metadata?.url || `/resources/${stem}.pdf`;
+      const rawUrl = hit.metadata?.url || "";
+      // Normalise to canonical files.protocolized.io URL regardless of what's stored
+      const pdfUrl = rawUrl.startsWith("http")
+        ? rawUrl
+        : `https://files.protocolized.io/${stem}.pdf`;
       return queryNamespace(
         env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 4, "pdfs",
-        { url: { "$eq": pdfUrl.startsWith("/resources/") ? pdfUrl : `/resources/${stem}.pdf` }, chunk_type: { "$eq": "body" } }
+        { url: { "$eq": pdfUrl }, chunk_type: { "$eq": "body" } }
       );
     }),
     ...subSummaryHits.map(hit =>

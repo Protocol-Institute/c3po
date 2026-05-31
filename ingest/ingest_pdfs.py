@@ -55,10 +55,18 @@ def load_resource_metadata() -> dict[str, dict]:
         if not match:
             continue
         fm = match.group(1)
-        file_match = re.search(r'^file:\s*["\']?/resources/([^"\']+)["\']?', fm, re.MULTILINE)
+        # Match either https://files.protocolized.io/{file} (canonical) or /resources/{file} (legacy)
+        file_match = re.search(
+            r'^file:\s*["\']?(https://files\.protocolized\.io/([^"\']+)|/resources/([^"\']+))["\']?',
+            fm, re.MULTILINE
+        )
         if not file_match:
             continue
-        basename = file_match.group(1).strip()
+        full_url = file_match.group(1).strip()
+        basename = (file_match.group(2) or file_match.group(3)).strip()
+        # Normalise to absolute URL
+        if full_url.startswith("/resources/"):
+            full_url = f"https://files.protocolized.io/{basename}"
         title_match = re.search(r'^title:\s*["\']?(.+?)["\']?\s*$', fm, re.MULTILINE)
         date_match = re.search(r'^date:\s*(\S+)', fm, re.MULTILINE)
         type_match = re.search(r'^type:\s*(\S+)', fm, re.MULTILINE)
@@ -70,7 +78,7 @@ def load_resource_metadata() -> dict[str, dict]:
             "date": date_match.group(1) if date_match else "",
             "type": type_match.group(1) if type_match else "paper",
             "tags": tags,
-            "url": f"/resources/{basename}",
+            "url": full_url,
         }
 
     print(f"Loaded metadata for {len(metadata)} PDF resources")
@@ -137,7 +145,7 @@ def ingest_body_chunks(pdf_path: Path, meta: dict, enrich: dict, vc, index) -> i
         "date": meta.get("date") or enrich.get("date", ""),
         "type": doc_type,
         "tags": tags,
-        "url": enrich.get("url") or meta.get("url", f"/resources/{basename}"),
+        "url": enrich.get("url") or meta.get("url") or f"https://files.protocolized.io/{basename}",
         "summary": summary[:500] if summary else "",
         "enriched_categories": categories,
         "access_level": "public",
@@ -194,7 +202,7 @@ def ingest_doc_summaries(pdf_paths: list, metadata_map: dict, enriched: dict, vc
                 "date": date,
                 "type": doc_type,
                 "tags": tags,
-                "url": enrich.get("url") or meta.get("url", f"/resources/{basename}"),
+                "url": enrich.get("url") or meta.get("url") or f"https://files.protocolized.io/{basename}",
                 "enriched_categories": categories,
                 "summary": summary[:500],
                 "access_level": "public",
@@ -248,6 +256,12 @@ def main():
 
     total = 0
 
+    # Exclude deprecated PDFs (cover letters, title pages, duplicates)
+    pdf_paths = [p for p in pdf_paths if not enriched.get(p.name, {}).get("deprecated")]
+    deprecated_count = len(enriched) - len([p for p in pdf_paths])
+    if deprecated_count:
+        print(f"Skipping {deprecated_count} deprecated PDF(s)")
+
     if args.type in ("body", "all"):
         print("\n=== Body chunks ===")
         for pdf_path in pdf_paths:
@@ -255,7 +269,7 @@ def main():
             meta = metadata_map.get(pdf_path.name, {
                 "title": pdf_path.stem.replace("-", " "),
                 "authors": [], "date": "", "type": "paper", "tags": [],
-                "url": f"/resources/{pdf_path.name}",
+                "url": f"https://files.protocolized.io/{pdf_path.name}",
             })
             enrich = enriched.get(pdf_path.name, {})
             total += ingest_body_chunks(pdf_path, meta, enrich, vc, index)

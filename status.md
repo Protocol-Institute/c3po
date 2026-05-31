@@ -1,5 +1,38 @@
 # C3PO — Status Log
 
+## 2026-05-31 — PDF URL fix + cover-letter filter (session 28, ~12:00 PT)
+
+**PDF URL bug — FIXED (systemic)**
+- Root cause: `ingest_pdfs.py` `load_resource_metadata()` regex matched `/resources/{file}` but all website resource files now use `file: "https://files.protocolized.io/..."` — regex never matched, all PDFs got `/resources/` fallback URL which expanded to `https://protocolized.io/resources/` (404s everywhere)
+- Fix: updated regex to match `files.protocolized.io` URLs; fallback also changed to `files.protocolized.io`
+- Ran `ingest/fix_pdf_urls.py`: updated 487 vectors in Pinecone `pdfs` namespace to canonical `https://files.protocolized.io/` URLs (263 already correct, 1 external URL left alone)
+- Worker `normalizePdf()` URL expansion also fixed (was building `protocolized.io/resources/` from relative URLs)
+- Worker secondary PDF body-chunk filter was hardcoded to `/resources/` format — now constructs from `files.protocolized.io`
+
+**Cover-letter PDF filter — FIXED**
+- 11 PDFs marked `deprecated: true` in `sources/pdfs/enriched_meta.json` (5 PI cover letters, title page, 2 appendix/starproject covers, blank handout, 2 duplicate `-1` versions)
+- These vectors were absent from the PI Pinecone index already (migration gap)
+- `ingest_pdfs.py` now skips deprecated PDFs on future runs
+- `handle_introduction()` now filters `is_cover_letter` sources from rec_sources (alongside VGR filter)
+- Cover letters remain retrievable for general meta queries — only excluded from new-member recs
+
+**Intro handler hotfix (post-session 27, direct commit d6f7218) — DOCUMENTED**
+- Forward-only watermark, new-member filter (>30 day join check), mention passthrough — were in code but missing from devlog; now recorded as session 27.5
+
+**Pinecone state: ~25,965 vectors** (pdfs namespace corrected: 800 → 750 after audit; 50 cover-letter vectors absent from PI migration)
+
+**Open TODOs (priority order):**
+1. Delete personal Cloudflare Worker (`c3po` on `vgr-702`) — after 1-week verification window
+2. Delete personal Pinecone index — after confirming humboldt project updated to its own key path
+3. Anthropic key rotation to PI org account — deferred
+4. Voyage humboldt key — create in PI Voyage account, wire into humboldt project
+5. Starter page — tally needs ~20 welcome events before building
+6. Exhibit extraction — `ingest/extract_structure.py` (plan in `plans/structural-navigation.md`)
+7. `sync_sig_pages.py` — add to GitHub Actions cron
+8. Phase E: multi-node swarm planning
+
+---
+
 ## 2026-05-31 — Full infrastructure migration to PI org accounts (session 27, ~09:00–11:00 PT)
 
 **Substack sync workflow bug — FIXED**

@@ -1200,6 +1200,67 @@
           "text": "Intro recs overhaul: _is_vgr_authored() filters by primary_author/authors for Venkatesh Rao; handler draws from top 8 sources and takes first 2 non-VGR. Summer of Protocols Reader is the fallback when all corpus hits are VGR-authored. _update_intro_tally() maintains data/intro_recs_tally.json — a running count of every resource and channel recommended in intro welcomes. Future: tally head becomes a curated starter page; intro handler shifts to starter page + 1 long-tail pick."
         }
       ]
+    },
+    {
+      "id": 27.5,
+      "sort_key": 27.5,
+      "label": "Hotfix",
+      "title": "Intro handler — forward-only watermark, new-member filter, mention passthrough",
+      "date": "2026-05-31",
+      "time_pt": "11:38",
+      "tracks": [
+        "operations"
+      ],
+      "costs_usd": {},
+      "vector_counts": {},
+      "items": [
+        {
+          "track": "operations",
+          "text": "Three bugs fixed in the introduction welcome flow (direct commit d6f7218 post-session 27). (1) Forward-only watermark: welcome_queue.json now stores the Discord timestamp of the latest drained batch; seed_queue() only considers messages newer than this, preventing the bot from re-processing old intro posts on every restart. (2) New-member filter: both seed_queue() and the live on_message handler now check the poster's server join date via the guild members API; messages posted more than 30 days after joining skip the welcome flow. (3) Mention passthrough: existing member messages in #introductions that explicitly @mention c3po now fall through to the normal mention path rather than being silently dropped."
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "sort_key": 28.0,
+      "label": "Session 28",
+      "title": "PDF URL fix (files.protocolized.io) + cover-letter filter in intro recs",
+      "date": "2026-05-31",
+      "time_pt": "12:00",
+      "tracks": [
+        "vector-architecture",
+        "worker-api",
+        "operations"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "discord_links": 9188,
+        "discord": 5552,
+        "sig": 5077,
+        "videos": 2940,
+        "substack": 1065,
+        "definitions": 560,
+        "pdfs": 750,
+        "bibliography": 278,
+        "discord_guide": 78,
+        "transcripts": 9,
+        "humboldt": 468,
+        "total": 25965
+      },
+      "items": [
+        {
+          "track": "vector-architecture",
+          "text": "Fixed a systemic PDF URL bug: ingest_pdfs.py load_resource_metadata() was matching /resources/{file} patterns that no longer exist in the website (all resource files now use file: 'https://files.protocolized.io/...'). The regex was never matching, so all 487 PDF body/summary vectors in Pinecone had /resources/ URLs that 404'd. Fixed the regex to match files.protocolized.io URLs and updated the fallback. Ran fix_pdf_urls.py to update all 487 affected vectors in Pinecone to use the canonical https://files.protocolized.io/ base. 263 vectors were already correct (from a prior ingest that used the right URL), and 1 (durable-ai-adoption) had an intentional external URL that was left untouched."
+        },
+        {
+          "track": "worker-api",
+          "text": "Two worker.js fixes: (1) normalizePdf() URL expansion updated — was converting /resources/x.pdf to https://protocolized.io/resources/x.pdf (404); now correctly expands to https://files.protocolized.io/{basename}. Also adds is_cover_letter field from Pinecone metadata, which flows through to API responses. (2) Secondary PDF body-chunk retrieval filter was hardcoded to use /resources/ URL format for the Pinecone filter predicate; updated to use the canonical files.protocolized.io URL (or construct from stem if not stored). Worker redeployed (Version 14be7250)."
+        },
+        {
+          "track": "operations",
+          "text": "Cover-letter PDFs deprecated: 11 entries in sources/pdfs/enriched_meta.json marked deprecated:true (5 PI cover letters, title page, 2 appendix/starproject covers, blank handout, 2 duplicate -1 versions). These vectors were absent from the PI Pinecone index (migration gap) so no Pinecone changes were needed. ingest_pdfs.py now skips deprecated PDFs on future runs. Bot's handle_introduction() now filters is_cover_letter sources from rec_sources alongside VGR-authored filtering — cover letters remain retrievable for meta queries but won't appear as new-member reading recommendations."
+        }
+      ]
     }
   ]
 }

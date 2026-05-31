@@ -55,7 +55,7 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 | `videos` | 2,940 | YouTube talks (91 videos) |
 | `substack` | 1,065 | Protocolized magazine (117+ posts) |
 | `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
-| `pdfs` | 800 | 82+ papers/essays including external resources |
+| `pdfs` | 750 | 72 papers/essays (11 cover letters/title pages absent from PI migration) |
 | `bibliography` | 278 | External works cited by PI corpus |
 | `discord_guide` | 78 | All active guild channels; Haiku-described; SIG channels include cadence + next_event_time |
 | `transcripts` | 9 | Bot conversation self-memory: 4 web_conversation (Phase C); grows with Discord spool (Phase B) |
