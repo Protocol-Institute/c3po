@@ -19,6 +19,86 @@
       "count": 1,
       "last_seen": "2026-05-30",
       "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/the-entropic-gate-part-i": {
+      "title": "The Entropic Gate - Part I",
+      "url": "https://protocolized.summerofprotocols.com/p/the-entropic-gate-part-i",
+      "source": "substack",
+      "author": "TΞRM1NΞX",
+      "label": "FICTION",
+      "count": 1,
+      "last_seen": "2026-05-31",
+      "is_fallback": false
+    },
+    "https://www.youtube.com/watch?v=UAtt1F7fMLE": {
+      "title": "Guest Talk with Kyle Mathews | Designing for Soft Protocols: A Discord Bot Workshop",
+      "url": "https://www.youtube.com/watch?v=UAtt1F7fMLE",
+      "source": "youtube",
+      "author": "Kyle Mathews",
+      "label": "TALK",
+      "count": 1,
+      "last_seen": "2026-05-31",
+      "is_fallback": false
+    },
+    "https://protocolized.io/resources/00.2-COVER-LETTER-1-2023-12-13.pdf": {
+      "title": "00.2 COVER LETTER 1 2023 12 13",
+      "url": "https://protocolized.io/resources/00.2-COVER-LETTER-1-2023-12-13.pdf",
+      "source": "pdf",
+      "author": "Protocol Institute",
+      "label": "PAPER",
+      "count": 3,
+      "last_seen": "2026-05-31",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/operationalizing": {
+      "title": "Operationalizing",
+      "url": "https://protocolized.summerofprotocols.com/p/operationalizing",
+      "source": "substack",
+      "author": "Protocolized",
+      "label": "ESSAY",
+      "count": 1,
+      "last_seen": "2026-05-31",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/woods": {
+      "title": "The Curse of Wolves",
+      "url": "https://protocolized.summerofprotocols.com/p/woods",
+      "source": "substack",
+      "author": "Sachin Benny",
+      "label": "FICTION",
+      "count": 1,
+      "last_seen": "2026-05-31",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/the-air-gap": {
+      "title": "The Air Gap",
+      "url": "https://protocolized.summerofprotocols.com/p/the-air-gap",
+      "source": "substack",
+      "author": "Jack Lord",
+      "label": "FICTION",
+      "count": 1,
+      "last_seen": "2026-05-31",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/a-very-short-introduction-to-memory": {
+      "title": "A Very Short Introduction to Memory and Technology",
+      "url": "https://protocolized.summerofprotocols.com/p/a-very-short-introduction-to-memory",
+      "source": "substack",
+      "author": "Kei Kreutler",
+      "label": "ESSAY",
+      "count": 1,
+      "last_seen": "2026-05-31",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/introducing-the-protocol-institute": {
+      "title": "Introducing the Protocol Institute",
+      "url": "https://protocolized.summerofprotocols.com/p/introducing-the-protocol-institute",
+      "source": "substack",
+      "author": "Timber Stinson-Schroff",
+      "label": "ESSAY",
+      "count": 1,
+      "last_seen": "2026-05-31",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -28,6 +108,27 @@
       "sig_display": "",
       "count": 1,
       "last_seen": "2026-05-30"
+    },
+    "1508205168661893180": {
+      "name": "⏳-psychohistory",
+      "display": "#⏳-psychohistory",
+      "sig_display": "",
+      "count": 1,
+      "last_seen": "2026-05-31"
+    },
+    "1095846506382250075": {
+      "name": "🔍-protocol-watch",
+      "display": "#🔍-protocol-watch",
+      "sig_display": "",
+      "count": 1,
+      "last_seen": "2026-05-31"
+    },
+    "1106572787042238504": {
+      "name": "👾-protocol-fiction",
+      "display": "#👾-protocol-fiction",
+      "sig_display": "ProtFiSIG",
+      "count": 1,
+      "last_seen": "2026-05-31"
     }
   }
 }

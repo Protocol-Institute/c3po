@@ -24,6 +24,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import session_log as slog
 import welcome_queue as wq
+import seed_welcome_queue as swq
 
 import asyncio
 
@@ -53,6 +54,7 @@ MAX_THREAD_TURNS = 5
 
 ORACLE_ROLE_ID           = int(os.environ.get("ORACLE_ROLE_ID", "1509298797040107543"))
 INTRODUCTIONS_CHANNEL_ID = int(os.environ.get("INTRODUCTIONS_CHANNEL_ID", "0"))
+DISCORD_GUILD_ID         = os.environ.get("DISCORD_GUILD_ID", "1082444651946049567")
 
 DISCORD_CHANNELS_PATH = C3PO_DIR / "config" / "discord_channels.json"
 VOYAGE_MODEL          = "voyage-3"
@@ -446,6 +448,17 @@ async def handle_nav_query(message: discord.Message, query: str) -> None:
 
 # ── Intro rec helpers ────────────────────────────────────────────────────────
 
+NEW_MEMBER_DAYS = 30  # posts within this many days of joining count as intros
+
+
+def _is_new_member(member) -> bool:
+    """True if the member joined the server within NEW_MEMBER_DAYS days ago."""
+    joined_at = getattr(member, "joined_at", None)
+    if joined_at is None:
+        return True  # can't verify; fail open
+    from datetime import datetime, timezone
+    return (datetime.now(timezone.utc) - joined_at).days <= NEW_MEMBER_DAYS
+
 # Fallback resource when corpus returns only VGR-authored results
 _INTRO_FALLBACK_SRC = {
     "label":          "READER",
@@ -640,6 +653,8 @@ async def drain_welcome_queue() -> None:
     items = wq.pop_all()
     if not items:
         return
+    # Advance watermark before processing — future seeds only look at newer messages
+    wq.advance_watermark(items)
     log.info(f"Welcome queue: draining {len(items)} pending")
     try:
         channel = client.get_channel(INTRODUCTIONS_CHANNEL_ID) \
@@ -675,6 +690,20 @@ GREETINGS = {"", "hey", "hi", "hello", "yo", "sup", "hiya", "howdy", "greetings"
 async def on_ready():
     log.info(f"C3PO bot ready — {client.user} (id={client.user.id})")
     log_session({"event": "startup", "ts": _ts(), "user": str(client.user), "user_id": client.user.id})
+    if INTRODUCTIONS_CHANNEL_ID:
+        try:
+            n = await swq.seed_queue(
+                token=BOT_TOKEN,
+                channel_id=str(INTRODUCTIONS_CHANNEL_ID),
+                bot_user_id=str(client.user.id),
+                guild_id=DISCORD_GUILD_ID,
+                limit=5,
+                log=log,
+            )
+            if n:
+                log.info(f"Startup seed: {n} missed intro(s) queued")
+        except Exception as exc:
+            log.warning(f"Startup seed failed: {exc}")
     asyncio.create_task(drain_welcome_queue())
 
 
@@ -691,20 +720,27 @@ async def on_message(message: discord.Message):
 
     # Introductions monitoring (set INTRODUCTIONS_CHANNEL_ID in .env to enable)
     if INTRODUCTIONS_CHANNEL_ID and message.channel.id == INTRODUCTIONS_CHANNEL_ID:
-        if message.reference is None:  # top-level intro post
+        is_mention = (client.user in message.mentions or
+                      any(r.id == ORACLE_ROLE_ID for r in message.role_mentions))
+        is_new_intro = message.reference is None and _is_new_member(message.author)
+
+        if is_new_intro:
             wq.push({
                 "message_id": str(message.id),
                 "channel_id": str(message.channel.id),
                 "user_id":    str(message.author.id),
                 "user_name":  message.author.display_name,
                 "intro_text": message.content[:400],
+                "message_ts": message.created_at.isoformat(),
                 "queued_at":  _ts(),
                 "attempts":   0,
             })
-        success = await handle_introduction(message)
-        if success and message.reference is None:
-            wq.remove(str(message.id))
-        return
+            success = await handle_introduction(message)
+            if success:
+                wq.remove(str(message.id))
+            return
+        elif not is_mention:
+            return  # existing member posting in #introductions — ignore unless mentioned
 
     # Mention-based query (main channels)
     is_user_mention = client.user in message.mentions

@@ -1,4 +1,12 @@
-"""FIFO welcome queue — persists pending introductions across bot restarts."""
+"""FIFO welcome queue — persists pending introductions across bot restarts.
+
+Queue file schema:
+  {"queue": [...], "watermark": "<ISO timestamp or null>"}
+
+The watermark is the Discord message timestamp of the latest item successfully
+drained. The seed only adds messages newer than the watermark, preventing the
+system from regressing into arbitrarily old history on each restart.
+"""
 import json
 import logging
 from pathlib import Path
@@ -9,44 +17,68 @@ QUEUE_PATH = Path(__file__).resolve().parent.parent / "data" / "welcome_queue.js
 MAX_ATTEMPTS = 3
 
 
-def _load() -> list[dict]:
+def _load() -> dict:
     try:
         if QUEUE_PATH.exists():
-            return json.loads(QUEUE_PATH.read_text()).get("queue", [])
+            data = json.loads(QUEUE_PATH.read_text())
+            return {"queue": data.get("queue", []), "watermark": data.get("watermark")}
     except Exception as exc:
         _log.warning(f"Queue load failed: {exc}")
-    return []
+    return {"queue": [], "watermark": None}
 
 
-def _save(items: list[dict]) -> None:
+def _save(data: dict) -> None:
     try:
-        QUEUE_PATH.write_text(json.dumps({"queue": items}, indent=2))
+        QUEUE_PATH.write_text(json.dumps(data, indent=2))
     except Exception as exc:
         _log.warning(f"Queue save failed: {exc}")
 
 
+def get_watermark() -> str | None:
+    """Return the current watermark ISO timestamp, or None if unset."""
+    return _load().get("watermark")
+
+
+def set_watermark(ts: str) -> None:
+    """Set the watermark if ts is later than the current one."""
+    data = _load()
+    if not data.get("watermark") or ts > data["watermark"]:
+        data["watermark"] = ts
+        _save(data)
+
+
+def advance_watermark(items: list[dict]) -> None:
+    """Advance watermark to the latest message_ts among the given items."""
+    timestamps = [i.get("message_ts") for i in items if i.get("message_ts")]
+    if timestamps:
+        set_watermark(max(timestamps))
+
+
 def push(entry: dict) -> None:
     """Add entry to queue. Idempotent — skips if message_id already present."""
-    items = _load()
-    if any(i["message_id"] == entry["message_id"] for i in items):
+    data = _load()
+    if any(i["message_id"] == entry["message_id"] for i in data["queue"]):
         return
-    items.append(entry)
-    _save(items)
+    data["queue"].append(entry)
+    _save(data)
     _log.info(f"Welcome queued: {entry.get('user_name')} ({entry['message_id']})")
 
 
 def remove(message_id: str) -> None:
     """Remove a processed entry from the queue."""
-    items = [i for i in _load() if i["message_id"] != message_id]
-    _save(items)
+    data = _load()
+    data["queue"] = [i for i in data["queue"] if i["message_id"] != message_id]
+    _save(data)
 
 
 def pop_all() -> list[dict]:
-    """Return all items and clear the queue atomically."""
-    items = _load()
-    _save([])
+    """Return all items and clear the queue atomically. Watermark is preserved."""
+    data = _load()
+    items = data["queue"]
+    data["queue"] = []
+    _save(data)
     return items
 
 
 def size() -> int:
-    return len(_load())
+    return len(_load()["queue"])
