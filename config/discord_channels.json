@@ -19,9 +19,9 @@
       "source": "auto",
       "content_hash": "2e27944936c4f109",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z",
+      "last_seen": "2026-06-01T15:42:45Z",
       "last_embedded_hash": "2e27944936c4f109",
-      "last_embedded": "2026-05-31T18:06:59Z"
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1082446020480352256": {
       "id": "1082446020480352256",
@@ -40,9 +40,9 @@
       "source": "auto",
       "content_hash": "0f94c77ad039bd9d",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z",
+      "last_seen": "2026-06-01T15:42:45Z",
       "last_embedded_hash": "0f94c77ad039bd9d",
-      "last_embedded": "2026-05-31T18:06:59Z"
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1082461541951078440": {
       "id": "1082461541951078440",
@@ -61,9 +61,9 @@
       "source": "auto",
       "content_hash": "6650fdceff5b98c2",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z",
+      "last_seen": "2026-06-01T15:42:45Z",
       "last_embedded_hash": "6650fdceff5b98c2",
-      "last_embedded": "2026-05-31T18:06:59Z"
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1082461579150381116": {
       "id": "1082461579150381116",
@@ -82,7 +82,9 @@
       "source": "auto",
       "content_hash": "30dfeb3d6bea9bf7",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "30dfeb3d6bea9bf7",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1082461870578995212": {
       "id": "1082461870578995212",
@@ -101,7 +103,9 @@
       "source": "auto",
       "content_hash": "4a2719ccf7028b87",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "4a2719ccf7028b87",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1082489747777261608": {
       "id": "1082489747777261608",
@@ -120,7 +124,9 @@
       "source": "auto",
       "content_hash": "b5b0320114489242",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "b5b0320114489242",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1082500625478201405": {
       "id": "1082500625478201405",
@@ -139,7 +145,9 @@
       "source": "auto",
       "content_hash": "769929c05a90dd92",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "769929c05a90dd92",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1082500625478201407": {
       "id": "1082500625478201407",
@@ -158,7 +166,9 @@
       "source": "auto",
       "content_hash": "4b58d3a9a3a44e80",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "4b58d3a9a3a44e80",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1082504762433490975": {
       "id": "1082504762433490975",
@@ -177,7 +187,9 @@
       "source": "auto",
       "content_hash": "e7417f30ee242132",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "e7417f30ee242132",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1083785358363336846": {
       "id": "1083785358363336846",
@@ -196,7 +208,9 @@
       "source": "auto",
       "content_hash": "a0b08912ecd86cc0",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "a0b08912ecd86cc0",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1083808989961261076": {
       "id": "1083808989961261076",
@@ -215,7 +229,9 @@
       "source": "auto",
       "content_hash": "8595c26134266918",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "8595c26134266918",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1084135714830164100": {
       "id": "1084135714830164100",
@@ -234,7 +250,9 @@
       "source": "auto",
       "content_hash": "26db63bdc1bc39e6",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "26db63bdc1bc39e6",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1084876704918536233": {
       "id": "1084876704918536233",
@@ -253,7 +271,9 @@
       "source": "auto",
       "content_hash": "a0f63439362c0cc9",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "a0f63439362c0cc9",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1088124124968259584": {
       "id": "1088124124968259584",
@@ -272,7 +292,9 @@
       "source": "auto",
       "content_hash": "f7bf4cb5fd8aa21f",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "f7bf4cb5fd8aa21f",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1089036778507341874": {
       "id": "1089036778507341874",
@@ -291,7 +313,9 @@
       "source": "auto",
       "content_hash": "5deec67419a3ae78",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "5deec67419a3ae78",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1090292237423870122": {
       "id": "1090292237423870122",
@@ -310,7 +334,9 @@
       "source": "auto",
       "content_hash": "b16dd910abf8c55f",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "b16dd910abf8c55f",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1090752622031536189": {
       "id": "1090752622031536189",
@@ -329,7 +355,9 @@
       "source": "auto",
       "content_hash": "6b16389dd4b2df83",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "6b16389dd4b2df83",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1093581722538496122": {
       "id": "1093581722538496122",
@@ -348,7 +376,9 @@
       "source": "auto",
       "content_hash": "b96f7d0d05da069b",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "b96f7d0d05da069b",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1093581771460845628": {
       "id": "1093581771460845628",
@@ -367,7 +397,9 @@
       "source": "auto",
       "content_hash": "f78409effaee5f91",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "f78409effaee5f91",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1095024498249580597": {
       "id": "1095024498249580597",
@@ -386,7 +418,9 @@
       "source": "auto",
       "content_hash": "76b3b1592aab1e5f",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "76b3b1592aab1e5f",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1095846506382250075": {
       "id": "1095846506382250075",
@@ -405,7 +439,9 @@
       "source": "auto",
       "content_hash": "8043714a580197c3",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "8043714a580197c3",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1097633612955914340": {
       "id": "1097633612955914340",
@@ -424,7 +460,9 @@
       "source": "auto",
       "content_hash": "d73506512a32aac9",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "d73506512a32aac9",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1100181437841416293": {
       "id": "1100181437841416293",
@@ -443,7 +481,9 @@
       "source": "auto",
       "content_hash": "68e96fc749b730e0",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "68e96fc749b730e0",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1101266241932492830": {
       "id": "1101266241932492830",
@@ -462,7 +502,9 @@
       "source": "auto",
       "content_hash": "cadf5af4f3f89f61",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "cadf5af4f3f89f61",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1102973331071828119": {
       "id": "1102973331071828119",
@@ -481,7 +523,9 @@
       "source": "auto",
       "content_hash": "7c83db77864d3b04",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "7c83db77864d3b04",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1103065140942872587": {
       "id": "1103065140942872587",
@@ -500,7 +544,9 @@
       "source": "auto",
       "content_hash": "fff16e4ea3df99d1",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "fff16e4ea3df99d1",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1103347728957833359": {
       "id": "1103347728957833359",
@@ -519,7 +565,9 @@
       "source": "auto",
       "content_hash": "e5383813518392fd",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "e5383813518392fd",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1103521090606743603": {
       "id": "1103521090606743603",
@@ -538,7 +586,9 @@
       "source": "auto",
       "content_hash": "47e4f0e9b97aea82",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "47e4f0e9b97aea82",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1105208006414716978": {
       "id": "1105208006414716978",
@@ -557,7 +607,9 @@
       "source": "auto",
       "content_hash": "3ae120634d2b9466",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "3ae120634d2b9466",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1106572787042238504": {
       "id": "1106572787042238504",
@@ -576,13 +628,15 @@
       "source": "auto",
       "content_hash": "b238734403f7747e",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z",
-      "cadence": "Every 2 weeks on Thursday at 15:00 UTC",
+      "last_seen": "2026-06-01T15:42:45Z",
       "sig_display": "ProtFiSIG",
+      "cadence": "Every 2 weeks on Thursday at 15:00 UTC",
       "lead": "see #sig-hosts-best-practices",
       "next_event_name": "Protocol Fiction SIG Call",
       "next_event_iso": "2026-06-11T15:00:00+00:00",
-      "next_event_time": "Thu 11 Jun 2026 15:00 UTC"
+      "next_event_time": "Thu 11 Jun 2026 15:00 UTC",
+      "last_embedded_hash": "b238734403f7747e",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1107727857595203644": {
       "id": "1107727857595203644",
@@ -601,7 +655,9 @@
       "source": "auto",
       "content_hash": "72fe53cbdd518a0b",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "72fe53cbdd518a0b",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1107728702378365008": {
       "id": "1107728702378365008",
@@ -620,7 +676,9 @@
       "source": "auto",
       "content_hash": "42bd480e9f75fc2a",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "42bd480e9f75fc2a",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1107728758628159570": {
       "id": "1107728758628159570",
@@ -639,7 +697,9 @@
       "source": "auto",
       "content_hash": "296a3f85bf932273",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "296a3f85bf932273",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1107728832548589669": {
       "id": "1107728832548589669",
@@ -658,7 +718,9 @@
       "source": "auto",
       "content_hash": "2312f4c3b9da9c8b",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "2312f4c3b9da9c8b",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1107728906116665374": {
       "id": "1107728906116665374",
@@ -677,7 +739,9 @@
       "source": "auto",
       "content_hash": "8d1d7c54b72f1d00",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "8d1d7c54b72f1d00",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1110602202822750359": {
       "id": "1110602202822750359",
@@ -696,7 +760,9 @@
       "source": "auto",
       "content_hash": "0974817d46c09f81",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "0974817d46c09f81",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1121118894795526164": {
       "id": "1121118894795526164",
@@ -715,7 +781,9 @@
       "source": "auto",
       "content_hash": "bbc80ba136e80427",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "bbc80ba136e80427",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1123770733819068577": {
       "id": "1123770733819068577",
@@ -734,7 +802,9 @@
       "source": "auto",
       "content_hash": "b27d02a4fed2119e",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "b27d02a4fed2119e",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1124384276633362613": {
       "id": "1124384276633362613",
@@ -753,7 +823,9 @@
       "source": "auto",
       "content_hash": "5b4b2ad9e40589e4",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "5b4b2ad9e40589e4",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1125481632393072790": {
       "id": "1125481632393072790",
@@ -772,7 +844,9 @@
       "source": "auto",
       "content_hash": "910ead2d6b76b07f",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "910ead2d6b76b07f",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1130156252870230057": {
       "id": "1130156252870230057",
@@ -791,7 +865,9 @@
       "source": "auto",
       "content_hash": "c5c50a7cfc82f60e",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "c5c50a7cfc82f60e",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1133209585289793536": {
       "id": "1133209585289793536",
@@ -810,7 +886,9 @@
       "source": "auto",
       "content_hash": "5ad8c6dd526bcfa1",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "5ad8c6dd526bcfa1",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1133212468437581866": {
       "id": "1133212468437581866",
@@ -829,7 +907,9 @@
       "source": "auto",
       "content_hash": "2c8eafd31b618e91",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "2c8eafd31b618e91",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1133625932029120572": {
       "id": "1133625932029120572",
@@ -848,7 +928,9 @@
       "source": "auto",
       "content_hash": "91cc1b6a9eae6c2b",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "91cc1b6a9eae6c2b",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1135604249376591952": {
       "id": "1135604249376591952",
@@ -867,7 +949,9 @@
       "source": "auto",
       "content_hash": "21e8dfce187c5798",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "21e8dfce187c5798",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1136367092573159575": {
       "id": "1136367092573159575",
@@ -886,7 +970,9 @@
       "source": "auto",
       "content_hash": "4f6b3ba5408a9814",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "4f6b3ba5408a9814",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1139397985122390058": {
       "id": "1139397985122390058",
@@ -905,7 +991,9 @@
       "source": "auto",
       "content_hash": "0bcdbd79cb581075",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "0bcdbd79cb581075",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1327292074415882271": {
       "id": "1327292074415882271",
@@ -924,7 +1012,9 @@
       "source": "auto",
       "content_hash": "93426e77fa50fa94",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "93426e77fa50fa94",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1327337414175490160": {
       "id": "1327337414175490160",
@@ -943,13 +1033,15 @@
       "source": "auto",
       "content_hash": "073672b65bccae31",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z",
-      "cadence": "Every 2 weeks on Friday at 17:00 UTC",
+      "last_seen": "2026-06-01T15:42:45Z",
       "sig_display": "SIGFPT",
+      "cadence": "Every 2 weeks on Friday at 17:00 UTC",
       "lead": "Venkatesh Rao and Patrick Nast",
       "next_event_name": "SIG-FPT (Formal Protocol Theory)",
       "next_event_iso": "2026-06-12T17:00:00+00:00",
-      "next_event_time": "Fri 12 Jun 2026 17:00 UTC"
+      "next_event_time": "Fri 12 Jun 2026 17:00 UTC",
+      "last_embedded_hash": "073672b65bccae31",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1327679519510888582": {
       "id": "1327679519510888582",
@@ -968,7 +1060,9 @@
       "source": "auto",
       "content_hash": "5453553a9489f071",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "5453553a9489f071",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1333163344282124432": {
       "id": "1333163344282124432",
@@ -987,7 +1081,9 @@
       "source": "auto",
       "content_hash": "e20ccb99d1ad2fbc",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "e20ccb99d1ad2fbc",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1333851496416153702": {
       "id": "1333851496416153702",
@@ -1006,9 +1102,9 @@
       "source": "auto",
       "content_hash": "a3e76aeb5c7ad3b9",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z",
-      "cadence": "Every 2 weeks on Monday at 15:30 UTC",
+      "last_seen": "2026-06-01T15:42:45Z",
       "sig_display": "SIGPfB",
+      "cadence": "Every 2 weeks on Monday at 15:30 UTC",
       "lead": "Rafael Fernandez",
       "next_event_name": "Protocols for Business: Working Session",
       "next_event_iso": "2026-06-01T15:30:00+00:00",
@@ -1019,7 +1115,9 @@
           "next_event_iso": "2026-06-08T16:00:00+00:00",
           "user_count": 3
         }
-      ]
+      ],
+      "last_embedded_hash": "a3e76aeb5c7ad3b9",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1337534941176795217": {
       "id": "1337534941176795217",
@@ -1038,7 +1136,9 @@
       "source": "auto",
       "content_hash": "bde617ab3e3ad22d",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "bde617ab3e3ad22d",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1349790740418662531": {
       "id": "1349790740418662531",
@@ -1057,7 +1157,9 @@
       "source": "auto",
       "content_hash": "6b93344a28ad9661",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "6b93344a28ad9661",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1361744073488203897": {
       "id": "1361744073488203897",
@@ -1076,7 +1178,9 @@
       "source": "auto",
       "content_hash": "da0ccbf0883976ad",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "da0ccbf0883976ad",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1366863858886774894": {
       "id": "1366863858886774894",
@@ -1095,7 +1199,9 @@
       "source": "auto",
       "content_hash": "86d751c67ead9871",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "86d751c67ead9871",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1377504224421871616": {
       "id": "1377504224421871616",
@@ -1114,7 +1220,9 @@
       "source": "auto",
       "content_hash": "4bd6d99c74a7bfbf",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "4bd6d99c74a7bfbf",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1379992696114122832": {
       "id": "1379992696114122832",
@@ -1133,13 +1241,15 @@
       "source": "auto",
       "content_hash": "a75114acc2ca2d2d",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z",
-      "cadence": "Monthly — 3rd Thursday at 16:00 UTC",
+      "last_seen": "2026-06-01T15:42:45Z",
       "sig_display": "MRG",
+      "cadence": "Monthly — 3rd Thursday at 16:00 UTC",
       "lead": "Kei Kreutler",
       "next_event_name": "SIG-Memory Research Group",
       "next_event_iso": "2026-06-18T16:00:00+00:00",
-      "next_event_time": "Thu 18 Jun 2026 16:00 UTC"
+      "next_event_time": "Thu 18 Jun 2026 16:00 UTC",
+      "last_embedded_hash": "a75114acc2ca2d2d",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1388223455404625951": {
       "id": "1388223455404625951",
@@ -1158,7 +1268,9 @@
       "source": "auto",
       "content_hash": "1c70b4e53893458d",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "1c70b4e53893458d",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1395102280692535629": {
       "id": "1395102280692535629",
@@ -1177,7 +1289,9 @@
       "source": "auto",
       "content_hash": "a9d0b7e659defc6e",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "a9d0b7e659defc6e",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1395426750212604045": {
       "id": "1395426750212604045",
@@ -1196,7 +1310,9 @@
       "source": "auto",
       "content_hash": "56188bd95fa05dcd",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "56188bd95fa05dcd",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1402683646439194735": {
       "id": "1402683646439194735",
@@ -1215,7 +1331,9 @@
       "source": "auto",
       "content_hash": "c67b5d1ac939f028",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "c67b5d1ac939f028",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1405534343656636446": {
       "id": "1405534343656636446",
@@ -1234,7 +1352,9 @@
       "source": "auto",
       "content_hash": "1f4fc47c1caf2cc9",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "1f4fc47c1caf2cc9",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1405534344348700793": {
       "id": "1405534344348700793",
@@ -1253,7 +1373,9 @@
       "source": "auto",
       "content_hash": "2d5cae37e28e4ac2",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "2d5cae37e28e4ac2",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1410328207294726195": {
       "id": "1410328207294726195",
@@ -1272,7 +1394,9 @@
       "source": "auto",
       "content_hash": "aada2621a0661b7f",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "aada2621a0661b7f",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1410351738518503495": {
       "id": "1410351738518503495",
@@ -1291,7 +1415,9 @@
       "source": "auto",
       "content_hash": "05536e6fdc01e1cc",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "05536e6fdc01e1cc",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1410702664089468979": {
       "id": "1410702664089468979",
@@ -1310,7 +1436,9 @@
       "source": "auto",
       "content_hash": "b1adb20f679c2b8f",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "b1adb20f679c2b8f",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1422685166614085835": {
       "id": "1422685166614085835",
@@ -1329,7 +1457,9 @@
       "source": "auto",
       "content_hash": "fdc948eb76bb1793",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "fdc948eb76bb1793",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1475653240837111808": {
       "id": "1475653240837111808",
@@ -1348,7 +1478,9 @@
       "source": "auto",
       "content_hash": "d8070dd935441196",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "d8070dd935441196",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1477032718238744586": {
       "id": "1477032718238744586",
@@ -1367,7 +1499,9 @@
       "source": "auto",
       "content_hash": "c6be110fe2fc251b",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "c6be110fe2fc251b",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1500589875617861897": {
       "id": "1500589875617861897",
@@ -1386,7 +1520,9 @@
       "source": "auto",
       "content_hash": "fca6cb5adaa21b0e",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "fca6cb5adaa21b0e",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1501309278131064872": {
       "id": "1501309278131064872",
@@ -1405,7 +1541,9 @@
       "source": "auto",
       "content_hash": "601f93ae2531efbf",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "601f93ae2531efbf",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1501310312014549193": {
       "id": "1501310312014549193",
@@ -1424,7 +1562,9 @@
       "source": "auto",
       "content_hash": "96a2dc6f4db36e5c",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "96a2dc6f4db36e5c",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1506119475517325424": {
       "id": "1506119475517325424",
@@ -1443,7 +1583,9 @@
       "source": "auto",
       "content_hash": "95d94e0cea121e11",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "95d94e0cea121e11",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1506400836807561356": {
       "id": "1506400836807561356",
@@ -1462,7 +1604,9 @@
       "source": "auto",
       "content_hash": "6a56e5d8f24bf23f",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "6a56e5d8f24bf23f",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1507118289233514709": {
       "id": "1507118289233514709",
@@ -1481,7 +1625,9 @@
       "source": "auto",
       "content_hash": "398cacf0f2887132",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "last_embedded_hash": "398cacf0f2887132",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1508175637020676259": {
       "id": "1508175637020676259",
@@ -1500,8 +1646,10 @@
       "source": "auto",
       "content_hash": "2bacf5696325c351",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z",
-      "cadence": "Biweekly (check channel for schedule)"
+      "last_seen": "2026-06-01T15:42:45Z",
+      "cadence": "Biweekly (check channel for schedule)",
+      "last_embedded_hash": "2bacf5696325c351",
+      "last_embedded": "2026-06-01T15:42:45Z"
     },
     "1508205168661893180": {
       "id": "1508205168661893180",
@@ -1520,12 +1668,14 @@
       "source": "auto",
       "content_hash": "eaecd14382c4de75",
       "first_seen": "2026-05-29T19:43:22Z",
-      "last_seen": "2026-05-31T18:06:59Z",
+      "last_seen": "2026-06-01T15:42:45Z",
       "cadence": "Every 2 weeks on Thursday at 16:00 UTC",
       "next_event_name": "SIGPSY - Psychohistory",
       "next_event_iso": "2026-06-04T16:00:00+00:00",
-      "next_event_time": "Thu 4 Jun 2026 16:00 UTC"
+      "next_event_time": "Thu 4 Jun 2026 16:00 UTC",
+      "last_embedded_hash": "eaecd14382c4de75",
+      "last_embedded": "2026-06-01T15:42:45Z"
     }
   },
-  "updated_at": "2026-05-31T18:07:05Z"
+  "updated_at": "2026-06-01T15:43:20Z"
 }

@@ -46,7 +46,7 @@ BOT_ID       = "c3po_bot"
 SESSION_LOG  = Path.home() / "Library" / "Logs" / "c3po" / "bot_sessions.jsonl"
 SPOOL_DIR    = C3PO_DIR / "data" / "spool" / "bot_conversations"
 
-WORKER_URL    = "https://c3po.vgr-702.workers.dev/query"
+WORKER_URL    = "https://c3po.protocolized.io/query"
 BOT_TOKEN     = os.environ["ORACLE_BOT_TOKEN"]
 MAX_QUERY_LEN = 500
 MAX_MSG_LEN   = 2000
@@ -296,7 +296,7 @@ async def handle_thread_reply(message: discord.Message) -> None:
     if bot_turns >= MAX_THREAD_TURNS:
         await thread.send(
             f"We've reached the {MAX_THREAD_TURNS}-turn limit for this thread. "
-            "For a longer conversation, use the web interface: https://protocolized.io/resources"
+            "For a longer conversation, use the web interface: https://c3po.protocolized.io"
         )
         return
 
@@ -763,7 +763,7 @@ async def on_message(message: discord.Message):
         await message.reply(
             "Hi, I'm c3po, the Protocol Institute oracle. Ask me about anything in our archives. "
             "We can have short exchanges here, but for extended chat use the web interface: "
-            "https://protocolized.io/resources",
+            "https://c3po.protocolized.io",
             mention_author=False,
         )
         return

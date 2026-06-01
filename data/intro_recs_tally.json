@@ -46,7 +46,7 @@
       "source": "pdf",
       "author": "Protocol Institute",
       "label": "PAPER",
-      "count": 3,
+      "count": 4,
       "last_seen": "2026-05-31",
       "is_fallback": false
     },
@@ -96,7 +96,7 @@
       "source": "substack",
       "author": "Timber Stinson-Schroff",
       "label": "ESSAY",
-      "count": 1,
+      "count": 2,
       "last_seen": "2026-05-31",
       "is_fallback": false
     }
@@ -127,6 +127,13 @@
       "name": "👾-protocol-fiction",
       "display": "#👾-protocol-fiction",
       "sig_display": "ProtFiSIG",
+      "count": 1,
+      "last_seen": "2026-05-31"
+    },
+    "1327337414175490160": {
+      "name": "🎩-formal-protocol-theory",
+      "display": "#🎩-formal-protocol-theory",
+      "sig_display": "SIGFPT",
       "count": 1,
       "last_seen": "2026-05-31"
     }
