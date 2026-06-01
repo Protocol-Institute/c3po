@@ -232,7 +232,7 @@ def split_message(text: str) -> list[str]:
 
 
 async def call_worker(query: str, history: list | None = None, max_tokens: int = 300) -> dict | None:
-    payload: dict = {"query": query, "max_tokens": max_tokens}
+    payload: dict = {"query": query, "max_tokens": max_tokens, "context": "discord"}
     if history:
         payload["history"] = history
     try:
@@ -545,8 +545,8 @@ async def handle_introduction(message: discord.Message) -> bool:
     # Corpus query: frame intro as a resource-recommendation request
     corpus_query = (
         f"New member introduction: {intro_text}\n\n"
-        f"Recommend 1-2 specific resources from the corpus most relevant to their "
-        f"stated interests. Briefly explain why each is relevant. 3-5 sentences total."
+        f"Recommend the single most relevant resource from the corpus for their interests. "
+        f"One sentence on why it fits. Be brief."
     )
 
     t0 = time.monotonic()
@@ -571,7 +571,7 @@ async def handle_introduction(message: discord.Message) -> bool:
 
     # Filter VGR-authored and cover-letter results; draw from top 8 for headroom
     rec_sources = [s for s in all_sources[:8]
-                   if not _is_vgr_authored(s) and not s.get("is_cover_letter")][:2]
+                   if not _is_vgr_authored(s) and not s.get("is_cover_letter")][:1]
     if not rec_sources:
         rec_sources = [_INTRO_FALLBACK_SRC]
 

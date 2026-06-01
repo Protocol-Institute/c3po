@@ -5,6 +5,21 @@
 
 RAG research assistant for the Protocol Institute corpus. Named for the Star Wars protocol droid.
 
+## Project scope and factorization
+
+**C3PO is the AI backend.** Work here covers: Pinecone ingest pipelines, embedding, RAG query logic, the Cloudflare Worker API (`c3po.protocolized.io`), the Discord bot, and the ingest daemon.
+
+**Front-end website work belongs elsewhere:**
+- `protocol-institute/protocolized-website/` — protocolized.io (Hono + HTMX, D1, R2). Magazine posts, resource library, public-facing pages.
+- `protocol-institute/website/` — protocol-institute.org (static HTML). Org pages, project listings.
+
+When a request touches both layers — e.g. "mirror Substack images" — the right factorization is usually:
+- **Ingest/pipeline logic** (fetch, embed, upsert to Pinecone) → c3po
+- **Storage and serving** (R2, D1, rendered HTML routes) → protocolized-website
+- **Static content updates** (project descriptions, links) → website
+
+If a request seems to belong in a front-end project, flag it and suggest the correct folder before starting work. Don't implement front-end features here unless they are purely API surface (e.g. a new Worker endpoint that the front-end calls).
+
 ## Architecture
 
 **→ See [`plans/bot-ecology.md`](plans/bot-ecology.md)** for the full pubsub-swarm architecture, bot node inventory, and roadmap (Phases A–E).
