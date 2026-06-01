@@ -64,18 +64,19 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 
 | Namespace | Vectors | Notes |
 |-----------|---------|-------|
-| `discord_links` | 9,188 | Community-shared URLs, scored by Haiku |
+| `discord_links` | 9,257 | Community-shared URLs, scored by Haiku |
 | `discord` | 5,552 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
-| `sig` | 5,077 | SIG Discord messages/summaries + 91 .org meeting pages (`sig_meeting_page`) |
+| `sig` | 5,093 | SIG Discord messages/summaries + 91 .org meeting pages (`sig_meeting_page`) |
 | `videos` | 2,940 | YouTube talks (91 videos) |
 | `substack` | 1,065 | Protocolized magazine (117+ posts) |
 | `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
 | `pdfs` | 750 | 72 papers/essays (11 cover letters/title pages absent from PI migration) |
 | `bibliography` | 278 | External works cited by PI corpus |
 | `discord_guide` | 78 | All active guild channels; Haiku-described; SIG channels include cadence + next_event_time |
-| `transcripts` | 9 | Bot conversation self-memory: 4 web_conversation (Phase C); grows with Discord spool (Phase B) |
-| `humboldt` | 468 | Owned by humboldt project (`aware` only — do not ingest) |
-| **Total** | **~25,965** | |
+| `meta` | 29 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
+| `transcripts` | 12 | Bot conversation self-memory: 4 web_conversation (Phase C); grows with Discord spool (Phase B) |
+| `humboldt` | — | Owned by humboldt project (`aware` only — do not ingest); not in PI org index |
+| **Total** | **~25,614** | |
 
 ## Key Ingest Scripts
 
@@ -92,8 +93,12 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 | `ingest/sync_discord_events.py` | Scheduled events → cadence + next_event_time in registry | `config/discord_channels.json` |
 | `ingest/sync_bot_conversations.py` | Discord bot spool → `transcripts` | `data/spool/bot_conversations/` |
 | `ingest/sync_web_chats.py` | Public web chats → `transcripts` | `data/web_chats_state.json` |
+| `ingest/sync_devlog.py` | Devlog sessions → `meta` namespace | `data/devlog_state.json` |
+| `ingest/generate_devlog_page.py` | Render devlog → D1 slug `c3po-devlog` | `data/devlog_page_state.json` |
 
 All run automatically via `bin/daemon.py` (c3po_listener). Run manually with `--dry-run` to preview.
+
+After editing `data/devlog.json`, run `python3 ingest/sync_devlog.py` then `python3 ingest/generate_devlog_page.py` to republish.
 
 ## At Session Start
 

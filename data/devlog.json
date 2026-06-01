@@ -1261,6 +1261,52 @@
           "text": "Cover-letter PDFs deprecated: 11 entries in sources/pdfs/enriched_meta.json marked deprecated:true (5 PI cover letters, title page, 2 appendix/starproject covers, blank handout, 2 duplicate -1 versions). These vectors were absent from the PI Pinecone index (migration gap) so no Pinecone changes were needed. ingest_pdfs.py now skips deprecated PDFs on future runs. Bot's handle_introduction() now filters is_cover_letter sources from rec_sources alongside VGR-authored filtering — cover letters remain retrievable for meta queries but won't appear as new-member reading recommendations."
         }
       ]
+    },
+    {
+      "id": 29,
+      "sort_key": 29.0,
+      "label": "Session 29",
+      "title": "Devlog Ingest Pipeline, Personality Split, and Architecture Doc",
+      "date": "2026-06-01",
+      "time_pt": "14:00–17:30 PT",
+      "tracks": [
+        "worker-api",
+        "corpus-ingestion",
+        "vector-architecture",
+        "operations"
+      ],
+      "costs_usd": {
+        "voyage_embedding": 0.02
+      },
+      "vector_counts": {
+        "meta": 29
+      },
+      "items": [
+        {
+          "html": "<strong>Discord/web personality split</strong> — Added <code>DISCORD_SYSTEM_PROMPT</code>: appends a DISCORD VOICE OVERRIDE block to the base system prompt, capping responses at 2–3 sentences with an office-manager tone and one named citation. The <code>context=&quot;discord&quot;</code> field in the request body selects the variant; the queue handler hardcodes it for slash commands. Both variants exceed the 1024-token prompt-cache threshold and cache independently."
+        },
+        {
+          "html": "<strong>Devlog ingest — Pinecone</strong> — New <code>ingest/sync_devlog.py</code>: embeds one vector per devlog session into the new <code>meta</code> Pinecone namespace. Idempotent via SHA-256 content-hash state file. Anchor URLs point to <code>protocolized.io/resources/c3po-devlog#session-{id}</code> for deep-linking. 29 sessions upserted on first run."
+        },
+        {
+          "html": "<strong>Devlog ingest — D1 page</strong> — New <code>ingest/generate_devlog_page.py</code>: renders <code>data/devlog.json</code> to markdown with <code>&lt;a id=&quot;session-{id}&quot;&gt;</code> anchors before each heading (marked.js does not support Pandoc-style IDs; raw HTML passthrough works). Upserts to D1 table <code>resources</code> as slug <code>c3po-devlog</code> via <code>npx wrangler d1 execute --remote --file</code>. Idempotent. 65,609-char body published to protocolized.io/resources/c3po-devlog."
+        },
+        {
+          "html": "<strong>Worker: meta namespace wired</strong> — <code>normalizeDevlog()</code> normalizer added. <code>mergeResults</code> signature extended to 11 params (metaItems added as 9th). All 3 RAG paths (<code>runMcpSearch</code>, <code>runMcpAsk</code>, <code>runRagQuery</code>) now query the <code>meta</code> namespace (top 3 results). <code>buildContextBlock</code> gains a <code>devlog</code> case. Worker deployed: version <code>5a7fc01f</code>."
+        },
+        {
+          "html": "<strong>Daemon: 2 new steps</strong> — <code>bin/daemon.py</code> updated with step 13 (<code>sync_devlog</code>) and step 14 (<code>generate_devlog_page</code>), keeping devlog vectors and the published page automatically current on every 30-minute cycle."
+        },
+        {
+          "html": "<strong>Bug fixes</strong> — (1) <code>generate_devlog_page.py</code> CF token fallback path was <code>Code/.env.keys</code>; fixed to <code>protocol-institute/.env.keys</code>. (2) Wrangler 4.x defaults to <code>--local</code>; script now explicitly passes <code>--remote</code> for production D1 writes."
+        },
+        {
+          "html": "<strong>Architecture doc</strong> — New <code>ARCHITECTURE.md</code> at c3po root: consolidated from stale <code>ARCHITECTURE.md</code> and <code>plans/bot-ecology.md</code>. Covers current 3-node topology, all 12 daemon steps, all namespaces with vector counts and weights, personality split, infrastructure table, design principles, session history table (sessions 1–29), and planned work queue."
+        },
+        {
+          "html": "<strong>.org website C3PO page</strong> — Updated <code>website/c3po/index.html</code>: corpus count corrected (~26,000 across 10 namespaces), added Discord bot and MCP server sections, added lexicon use-case bullet, updated copyright year."
+        }
+      ]
     }
   ]
 }

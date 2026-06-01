@@ -1,5 +1,46 @@
 # C3PO — Status Log
 
+## 2026-06-01 — Devlog ingest pipeline + personality split + architecture doc (session 29, ~14:00–17:30 PT)
+
+**Discord/web personality split — SHIPPED**
+- `DISCORD_SYSTEM_PROMPT`: appends `DISCORD VOICE OVERRIDE` block to base prompt — 2–3 sentence max, office-manager tone, one named resource
+- `runRagQuery` reads `context` opt; `/query` handler passes `context="discord"` from request body; queue handler hardcodes `"discord"` for slash commands
+- Both prompts exceed 1024-token cache threshold — cache independently
+
+**Devlog ingest pipeline — SHIPPED**
+- `ingest/sync_devlog.py`: 29 session vectors → Pinecone `meta` namespace; idempotent, content-hash state; `--dry-run`/`--force`
+- `ingest/generate_devlog_page.py`: renders devlog JSON → markdown with `<a id="session-{id}">` anchors; upserts to D1 slug `c3po-devlog` (protocolized.io/resources/c3po-devlog); idempotent; `--dry-run`/`--local`/`--force`
+- `worker.js`: `normalizeDevlog()` added; `meta` namespace queried (top 3) in all 3 RAG paths; `mergeResults` extended to 11 params; `devlog` case in `buildContextBlock`
+- `bin/daemon.py`: steps 13 (`sync_devlog`) + 14 (`generate_devlog_page`) added
+- Both scripts ran successfully: 29 vectors live in Pinecone `meta`; 65,609-char page live at protocolized.io/resources/c3po-devlog
+- Worker deployed: version `5a7fc01f`
+
+**Architecture doc — COMPLETE (prior sub-session)**
+- `ARCHITECTURE.md` (c3po root): consolidated from stale `ARCHITECTURE.md` + `plans/bot-ecology.md`; covers current state + vision; includes full devlog history table, namespace table, personality split section, design principles, priority queue
+
+**.org website C3PO page — UPDATED (prior sub-session)**
+- `website/c3po/index.html`: updated corpus counts, added Discord/MCP sections, fixed copyright year
+
+**Bug fix: generate_devlog_page.py CF token path**
+- Fallback path was `Code/.env.keys` — PI tokens are in `protocol-institute/.env.keys`; fixed to `Path(__file__).parent.parent.parent / ".env.keys"`
+
+**Bug fix: generate_devlog_page.py --remote flag**
+- Wrangler 4.x defaults to `--local`; script now passes `--remote` unless `--local` flag set
+
+**Pinecone state: ~25,614 vectors** (meta namespace added: 29; other namespaces grew normally)
+
+**Open TODOs (priority order):**
+1. Delete personal Cloudflare Worker (`c3po` on `vgr-702`) — 1-week window passed 2026-06-07
+2. Delete personal Pinecone index — after confirming humboldt updated to its own key path
+3. Anthropic key rotation to PI org account — deferred
+4. Voyage humboldt key — create in PI Voyage account, wire into humboldt project
+5. Starter page — tally needs ~20 welcome events before building
+6. Exhibit extraction — `ingest/extract_structure.py` (plan in `plans/structural-navigation.md`)
+7. `sync_sig_pages.py` — add to GitHub Actions cron
+8. Phase E: multi-node swarm planning
+
+---
+
 ## 2026-05-31 — PDF URL fix + cover-letter filter (session 28, ~12:00 PT)
 
 **PDF URL bug — FIXED (systemic)**
