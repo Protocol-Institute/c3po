@@ -526,6 +526,25 @@ function normalizeDefinition(match) {
   };
 }
 
+function normalizeDevlog(match) {
+  const m = match.metadata;
+  return {
+    docId:         match.id,
+    source:        "devlog",
+    score:         match.score,
+    type:          "devlog_session",
+    label:         "C3PO DEVLOG",
+    title:         m.title || "C3PO Build Log",
+    authors:       [],
+    primary_author: "Protocol Institute",
+    date:          m.date || "",
+    url:           m.url || "https://protocolized.io/resources/c3po-devlog",
+    excerpt:       m.text || "",
+    tracks:        m.tracks || "",
+    session_label: m.session_label || "",
+  };
+}
+
 function normalizeTranscript(match) {
   const m         = match.metadata;
   const botId     = m.bot_id || "c3po_bot";
@@ -558,10 +577,11 @@ function normalizeTranscript(match) {
 
 // ── Merge ──────────────────────────────────────────────────────────────────────
 
-function mergeResults(pdfItems, substackItems, videoItems, bibItems, discordItems, sigItems, webItems, defItems, transcriptItems, maxSources) {
+function mergeResults(pdfItems, substackItems, videoItems, bibItems, discordItems, sigItems, webItems, defItems, metaItems, transcriptItems, maxSources) {
   // Tier weights: PI primary sources at full value; community content (discord/sig) at lower weight.
   // discord starred: 0.85×; unstarred: 0.65×.
   // sig meeting summaries: 0.85×; body chunks: 0.75×; discussions/messages: 0.70×/0.60×.
+  // meta (devlog): 1.0× — authoritative self-knowledge.
   const allItems = [
     ...pdfItems.map(m => ({ ...m, weightedScore: m.score * 1.0 })),
     ...substackItems.map(m => ({ ...m, weightedScore: m.score * 1.0 })),
@@ -585,6 +605,7 @@ function mergeResults(pdfItems, substackItems, videoItems, bibItems, discordItem
       return { ...m, weightedScore: m.score * (relBase + 0.10 * popularity) };
     }),
     ...defItems.map(m => ({ ...m, weightedScore: m.score * 1.0 })),
+    ...metaItems.map(m => ({ ...m, weightedScore: m.score * 1.0 })),
     ...transcriptItems.map(m => {
       // Warm-cache boost: high-similarity prior conversations surface above most corpus material
       const w = m.score >= 0.60 ? 1.10 : m.score >= TRANSCRIPT_CACHE_THRESHOLD ? 0.92 : 0.80;
@@ -627,6 +648,9 @@ function buildContextBlock(items) {
       const sigName = item.sig_name || item.sig_display || "SIG";
       const typeLabel = item.isMeetingPage ? "MEETING PAGE" : item.isMeetingSummary ? "MEETING" : item.isMeetingBody ? "MEETING TRANSCRIPT" : item.isDiscussion ? "DISCUSSION" : "MESSAGE";
       label = `[${sigName} ${typeLabel}${item.title ? ` — "${item.title}"` : ""}${item.date ? " — " + item.date : ""}]`;
+    } else if (item.source === "devlog") {
+      const sessionLabel = item.session_label ? ` — ${item.session_label}` : "";
+      label = `[C3PO DEVLOG${sessionLabel}${item.date ? " — " + item.date : ""}]`;
     } else {
       const coll = item.collection ? ` — ${item.collection}` : "";
       label = `[${item.label} — "${item.title}" — ${authors}${item.date ? " — " + item.date : ""}${coll}]`;
@@ -2953,7 +2977,7 @@ async function runMcpSearch(args, env) {
 
   const vec = await embed(query, env.VOYAGE_API_KEY);
 
-  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw] = await Promise.all([
+  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw] = await Promise.all([
     ["pdfs",           "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "pdfs")          : Promise.resolve([]),
     ["substack",       "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "substack")      : Promise.resolve([]),
     ["videos",         "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "videos")        : Promise.resolve([]),
@@ -2962,6 +2986,7 @@ async function runMcpSearch(args, env) {
     ["sig",            "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "sig")           : Promise.resolve([]),
     ["discord_links",  "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "discord_links") : Promise.resolve([]),
     ["definitions",    "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "definitions")   : Promise.resolve([]),
+    ["meta",           "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, 3, "meta")                   : Promise.resolve([]),
   ]);
 
   const items = mergeResults(
@@ -2973,6 +2998,7 @@ async function runMcpSearch(args, env) {
     sigRaw.map(normalizeSig),
     webRaw.map(normalizeWebLink),
     defRaw.map(normalizeDefinition),
+    metaRaw.map(normalizeDevlog),
     [],
     limit,
   ).map(({ source, type, label, title, authors, primary_author, date, url, summary, excerpt,
@@ -2995,7 +3021,7 @@ async function runMcpAsk(args, env, ctx) {
   const exchangeNum = Math.floor(history.length / 2) + 1;
   const vec = await embed(question, env.VOYAGE_API_KEY);
 
-  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, sigPageRaw, transcriptRaw2] = await Promise.all([
+  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2] = await Promise.all([
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "pdfs"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "substack"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "videos"),
@@ -3004,6 +3030,7 @@ async function runMcpAsk(args, env, ctx) {
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "sig"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "discord_links"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "definitions"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, 3, "meta"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, 3, "sig",
       { chunk_type: { "$eq": "sig_meeting_page" } }),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, 3, "transcripts"),
@@ -3014,7 +3041,7 @@ async function runMcpAsk(args, env, ctx) {
   const transcriptItems2 = transcriptRaw2.map(normalizeTranscript);
   const cacheHits2       = transcriptItems2.filter(m => m.score >= TRANSCRIPT_CACHE_THRESHOLD && m.url);
 
-  const topItems     = mergeResults(pdfRaw.map(normalizePdf), subRaw.map(normalizeSubstack), vidRaw.map(normalizeVideo), bibRaw.map(normalizeBibliography), discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig), webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition), transcriptItems2, MAX_SOURCES);
+  const topItems     = mergeResults(pdfRaw.map(normalizePdf), subRaw.map(normalizeSubstack), vidRaw.map(normalizeVideo), bibRaw.map(normalizeBibliography), discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig), webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition), metaRaw2.map(normalizeDevlog), transcriptItems2, MAX_SOURCES);
   const contextBlock = buildContextBlock(topItems);
   const sources      = topItems
     .filter(m => m.source !== "transcript")
@@ -3216,7 +3243,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   if (!voyageRes.ok) throw new Error("Embedding service error");
   const qv = (await voyageRes.json()).data[0].embedding;
 
-  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, sigPageRaw, transcriptRaw] = await Promise.all([
+  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw] = await Promise.all([
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "pdfs"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "substack"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "videos"),
@@ -3225,6 +3252,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "sig"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "discord_links"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "definitions"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 3, "meta"),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 3, "sig",
       { chunk_type: { "$eq": "sig_meeting_page" } }),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 3, "transcripts"),
@@ -3281,7 +3309,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
     vidAug.map(normalizeVideo), bibRaw.map(normalizeBibliography),
     discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig),
     webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition),
-    transcriptItems, MAX_SOURCES
+    metaRaw3.map(normalizeDevlog), transcriptItems, MAX_SOURCES
   );
   const sources = topItems
     .filter(m => m.source !== "transcript")  // transcript cache hits surfaced separately
