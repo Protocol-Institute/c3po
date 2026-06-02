@@ -1,5 +1,48 @@
 [
   {
+    "id": 200161670,
+    "slug": "2026-protocol-symposium-new-nature",
+    "title": "2026 Protocol Symposium: New Nature",
+    "subtitle": "Call for abstracts open, due June 14, 2026",
+    "post_date": "2026-06-01T21:51:09.731Z",
+    "updated_at": "2026-06-01T21:51:40.954Z",
+    "type": "newsletter",
+    "wordcount": 794,
+    "section_id": 333103,
+    "section_name": "Obliquities",
+    "postTags": [
+      {
+        "id": "b3c889d5-9fcb-4636-a11c-7f84d7531af8",
+        "name": "New Nature",
+        "slug": "new-nature"
+      },
+      {
+        "id": "ef288b40-b5e4-4d44-9b8e-437375f78efd",
+        "name": "Protocol Symposium",
+        "slug": "protocol-symposium"
+      }
+    ],
+    "publishedBylines": [
+      {
+        "id": 2264734,
+        "name": "Venkatesh Rao",
+        "handle": "contraptions",
+        "bio": "Delving. Writing the Contraptions newsletter. "
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 6,
+    "restacks": 1,
+    "comment_count": 0,
+    "previous_post_slug": "inventing-new-nature",
+    "next_post_slug": null
+  },
+  {
     "id": 199381132,
     "slug": "irrigation-by-protocol-when-vineyards",
     "title": "Irrigation by Protocol: When Vineyards Delegate Decisions to Networks",
@@ -46,7 +89,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 2,
+    "reaction_count": 5,
     "restacks": 0,
     "comment_count": 2,
     "previous_post_slug": "a-government-guide-to-open-protocols",
@@ -84,7 +127,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 7,
+    "reaction_count": 8,
     "restacks": 1,
     "comment_count": 0,
     "previous_post_slug": "all-you-can-do-here-is-leave",
@@ -122,11 +165,11 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 44,
+    "reaction_count": 45,
     "restacks": 12,
     "comment_count": 5,
     "previous_post_slug": "introducing-the-protocol-institute",
-    "next_post_slug": null
+    "next_post_slug": "2026-protocol-symposium-new-nature"
   },
   {
     "id": 196920381,
