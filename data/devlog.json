@@ -1263,6 +1263,33 @@
       ]
     },
     {
+      "id": 30,
+      "sort_key": 30.0,
+      "label": "Session 30",
+      "title": "VPS Migration Plan",
+      "date": "2026-06-03",
+      "time_pt": "18:00–19:30 PT",
+      "tracks": [
+        "operations"
+      ],
+      "costs_usd": {},
+      "vector_counts": {},
+      "items": [
+        {
+          "html": "<strong>Gateway hosting assessment</strong> — Evaluated options for moving the Discord bot off the laptop. Cloudflare Workers can't hold a persistent gateway connection (short-lived, no WebSocket keepalive for Discord's protocol). Railway and VPS are the viable options. Slash commands via the existing oracle bot already run on Cloudflare; @mention-based conversations require a real gateway process."
+        },
+        {
+          "html": "<strong>PI org process survey</strong> — Surveyed all four Protocol Institute projects for persistent backend needs. Result: only c3po (daemon + gateway bot) and humboldt (research daemon + Discord bot) have always-on process requirements. The protocolized-website and protocol-institute.org are fully static/edge with no backend."
+        },
+        {
+          "html": "<strong>Hetzner VPS chosen over Railway</strong> — A Hetzner CX22 (€3.29/mo, 2 vCPU, 4GB RAM) runs all 4 processes under systemd. Key reasons to prefer it over Railway: the bot conversation spool files are written by <code>c3po_bot.py</code> and read by <code>sync_bot_conversations.py</code> — colocating both on the same host means no transport redesign. Cross-repo git pushes for the website also work naturally on a VPS with a persistent filesystem. Railway would need separate services per process and is messier for git operations."
+        },
+        {
+          "html": "<strong>Migration plan written</strong> — <code>plans/vps-migration.md</code>: 6 phases covering server setup (pyenv Python 3.14, deploy keys for 3 repos), c3po migration (2 systemd units, absorb GHA substack workflow into daemon step 0), humboldt migration (1 systemd unit), GHA retirement, and decommission of the remaining personal Cloudflare Worker and Pinecone index. Three open questions flagged: git identity for automated commits, humboldt notebook publish deploy key, and humboldt budget circuit breaker under systemd."
+        }
+      ]
+    },
+    {
       "id": 29,
       "sort_key": 29.0,
       "label": "Session 29",

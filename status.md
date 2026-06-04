@@ -1,5 +1,28 @@
 # C3PO — Status Log
 
+## 2026-06-03 — VPS migration plan (session 30, ~18:00–19:30 PT)
+
+**Infrastructure planning — COMPLETE**
+- Assessed options for moving Discord bot gateway off laptop: Cloudflare Workers can't hold a persistent gateway connection; Railway and VPS are the viable options
+- Surveyed all PI org projects: only c3po and humboldt have persistent process needs; protocolized-website and website are fully static/edge
+- Decided Hetzner CX22 VPS (€3.29/mo) over Railway: colocation of bot + daemon means spool files remain local (no transport redesign), cross-repo git pushes work naturally, cheaper for 4 always-on processes
+- Removed Humboldt dependency items from c3po TODO list — those are humboldt's responsibility
+- Wrote `plans/vps-migration.md`: 6-phase plan covering server setup, deploy keys, c3po migration (absorbing GHA substack workflow into daemon), humboldt migration, GHA retirement, and personal infra decommission
+
+**Pinecone state: ~25,772 vectors** (unchanged this session)
+
+**Open TODOs (priority order):**
+1. Delete personal Cloudflare Worker (`c3po` on `vgr-702`) — window passed 2026-06-07
+2. Delete personal Pinecone index
+3. Execute VPS migration — see `plans/vps-migration.md`
+4. Anthropic key rotation to PI org account — deferred
+5. Starter page — tally needs ~20 welcome events before building
+6. Exhibit extraction — `ingest/extract_structure.py` (plan in `plans/structural-navigation.md`)
+7. `sync_sig_pages.py` — add to GitHub Actions cron (or VPS daemon step once migrated)
+8. Phase E: multi-node swarm planning
+
+---
+
 ## 2026-06-01 — Devlog ingest pipeline + personality split + architecture doc (session 29, ~14:00–17:30 PT)
 
 **Discord/web personality split — SHIPPED**
@@ -31,13 +54,12 @@
 
 **Open TODOs (priority order):**
 1. Delete personal Cloudflare Worker (`c3po` on `vgr-702`) — 1-week window passed 2026-06-07
-2. Delete personal Pinecone index — after confirming humboldt updated to its own key path
+2. Delete personal Pinecone index
 3. Anthropic key rotation to PI org account — deferred
-4. Voyage humboldt key — create in PI Voyage account, wire into humboldt project
-5. Starter page — tally needs ~20 welcome events before building
-6. Exhibit extraction — `ingest/extract_structure.py` (plan in `plans/structural-navigation.md`)
-7. `sync_sig_pages.py` — add to GitHub Actions cron
-8. Phase E: multi-node swarm planning
+4. Starter page — tally needs ~20 welcome events before building
+5. Exhibit extraction — `ingest/extract_structure.py` (plan in `plans/structural-navigation.md`)
+6. `sync_sig_pages.py` — add to GitHub Actions cron
+7. Phase E: multi-node swarm planning
 
 ---
 
