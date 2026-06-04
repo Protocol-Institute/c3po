@@ -1476,5 +1476,16 @@
     "all_authors": [
       "Venkatesh Rao"
     ]
+  },
+  "maintaining-everything-that-matters": {
+    "summary": "Matthew McDowell-Sweet and Mike Travers discuss Stewart Brand's book 'Maintenance: Of Everything,' exploring how systems are kept going and evolve over time. The conversation connects Brand's legacy of systems thinking from the Whole Earth Catalog to contemporary questions about maintaining complex systems at scale.",
+    "categories": [
+      "interview",
+      "protocol-theory"
+    ],
+    "primary_author": "Matthew McDowell-Sweet",
+    "all_authors": [
+      "Matthew McDowell-Sweet"
+    ]
   }
 }

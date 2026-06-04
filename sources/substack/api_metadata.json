@@ -1,5 +1,53 @@
 [
   {
+    "id": 199590632,
+    "slug": "maintaining-everything-that-matters",
+    "title": "Maintaining Everything That Matters",
+    "subtitle": "Matthew McDowell-Sweet and Mike Travers discuss Stewart Brand’s recently-published book ‘Maintenance: Of Everything’  ",
+    "post_date": "2026-06-03T19:41:16.454Z",
+    "updated_at": "2026-06-03T19:43:33.461Z",
+    "type": "newsletter",
+    "wordcount": 3443,
+    "section_id": 333110,
+    "section_name": "Articles",
+    "postTags": [
+      {
+        "id": "6a1a9fd6-d0da-4e6b-935e-b5fff27a0ba7",
+        "name": "Technology",
+        "slug": "technology"
+      },
+      {
+        "id": "d2125772-34f3-4070-8816-5c272bc1d616",
+        "name": "Protocols for the Long Now",
+        "slug": "protocols-for-the-long-now"
+      },
+      {
+        "id": "e5cc4bc2-6d24-4073-8e6a-9214c483fd1b",
+        "name": "Culture",
+        "slug": "culture"
+      }
+    ],
+    "publishedBylines": [
+      {
+        "id": 3503832,
+        "name": "Matthew McDowell-Sweet",
+        "handle": "mmsweet",
+        "bio": "in motion - building subset.network | hq: msweet.net"
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 5,
+    "restacks": 2,
+    "comment_count": 0,
+    "previous_post_slug": "irrigation-by-protocol-when-vineyards",
+    "next_post_slug": null
+  },
+  {
     "id": 200161670,
     "slug": "2026-protocol-symposium-new-nature",
     "title": "2026 Protocol Symposium: New Nature",
@@ -36,8 +84,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 6,
-    "restacks": 1,
+    "reaction_count": 12,
+    "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "inventing-new-nature",
     "next_post_slug": null
@@ -89,11 +137,11 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 5,
+    "reaction_count": 6,
     "restacks": 0,
     "comment_count": 2,
     "previous_post_slug": "a-government-guide-to-open-protocols",
-    "next_post_slug": null
+    "next_post_slug": "maintaining-everything-that-matters"
   },
   {
     "id": 198855777,
@@ -127,8 +175,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 8,
-    "restacks": 1,
+    "reaction_count": 9,
+    "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "all-you-can-do-here-is-leave",
     "next_post_slug": null
@@ -5689,7 +5737,7 @@
         "id": 11967908,
         "name": "Sarah Friend",
         "handle": "isthisanart",
-        "bio": null
+        "bio": "Sarah Friend is an artist, researcher, and software developer based in Berlin, Germany. Her work explores games, economics, and the self via engagement with emerging technology"
       },
       {
         "id": 309790256,
@@ -6614,7 +6662,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 95,
+    "reaction_count": 96,
     "restacks": 34,
     "comment_count": 6,
     "previous_post_slug": null,
