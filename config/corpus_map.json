@@ -3,7 +3,7 @@
   "description": "Inventory of all Pinecone namespaces in the c3po index. ownership: owned=c3po creates+maintains, subscribed=another PI project owns, aware=external/no pipeline. Update vector_count + last_updated after each ingest session.",
   "index": {
     "name": "c3po",
-    "host": "https://c3po-bwo39z7.svc.aped-4627-b74a.pinecone.io",
+    "host": "https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io",
     "dimensions": 1024,
     "metric": "cosine",
     "cloud": "aws",

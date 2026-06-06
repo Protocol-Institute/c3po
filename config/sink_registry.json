@@ -6,7 +6,7 @@
       "sink_id": "web_ui",
       "display_name": "C3PO Web Interface",
       "sink_type": "http_query",
-      "endpoint": "https://c3po.vgr-702.workers.dev",
+      "endpoint": "https://c3po.protocolized.io",
       "allowed_namespaces": [],
       "ownership_filter": ["owned", "subscribed"],
       "access_level": "public",
