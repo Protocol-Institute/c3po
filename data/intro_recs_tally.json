@@ -96,8 +96,38 @@
       "source": "substack",
       "author": "Timber Stinson-Schroff",
       "label": "ESSAY",
-      "count": 2,
-      "last_seen": "2026-05-31",
+      "count": 3,
+      "last_seen": "2026-06-05",
+      "is_fallback": false
+    },
+    "https://files.protocolized.io/FERNANDEZ-Flow-speculative-brochure.pdf": {
+      "title": "Flow: A Speculative Brochure",
+      "url": "https://files.protocolized.io/FERNANDEZ-Flow-speculative-brochure.pdf",
+      "source": "pdf",
+      "author": "Rafael Fernández",
+      "label": "PAPER",
+      "count": 1,
+      "last_seen": "2026-06-02",
+      "is_fallback": false
+    },
+    "summer of protocols": {
+      "title": "summer of protocols",
+      "url": null,
+      "source": "definition",
+      "author": "Protocol Institute",
+      "label": "LEXICON",
+      "count": 1,
+      "last_seen": "2026-06-02",
+      "is_fallback": false
+    },
+    "https://protocolized.io/resources/c3po-devlog#session-21": {
+      "title": "Session 21: Discord Bot: Thread Continuation + Introductions Monitoring",
+      "url": "https://protocolized.io/resources/c3po-devlog#session-21",
+      "source": "devlog",
+      "author": "Protocol Institute",
+      "label": "C3PO DEVLOG",
+      "count": 1,
+      "last_seen": "2026-06-03",
       "is_fallback": false
     }
   },
@@ -136,6 +166,20 @@
       "sig_display": "SIGFPT",
       "count": 1,
       "last_seen": "2026-05-31"
+    },
+    "1333851496416153702": {
+      "name": "🚜-protocols-for-business",
+      "display": "#🚜-protocols-for-business",
+      "sig_display": "SIGPfB",
+      "count": 2,
+      "last_seen": "2026-06-05"
+    },
+    "1508175637020676259": {
+      "name": "🦾-distributed-robotics",
+      "display": "#🦾-distributed-robotics",
+      "sig_display": "",
+      "count": 1,
+      "last_seen": "2026-06-02"
     }
   }
 }

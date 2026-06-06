@@ -45,9 +45,10 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
-REGISTRY_PATH = Path(__file__).parent.parent / "config" / "discord_channels.json"
-NAMESPACE     = "discord_guide"
-DISCORD_API   = "https://discord.com/api/v10"
+REGISTRY_PATH  = Path(__file__).parent.parent / "config" / "discord_channels.json"
+MANIFEST_PATH  = Path(__file__).parent.parent / "data" / "channel_manifest.json"
+NAMESPACE      = "discord_guide"
+DISCORD_API    = "https://discord.com/api/v10"
 
 GUILD_ID = os.environ.get("DISCORD_GUILD_ID", "1082444651946049567")
 
@@ -135,6 +136,19 @@ def load_registry() -> dict:
     if REGISTRY_PATH.exists():
         return json.loads(REGISTRY_PATH.read_text())
     return {"version": 1, "guild_id": GUILD_ID, "channels": {}}
+
+
+def load_manifest_sig_displays() -> dict[str, str]:
+    """Return {channel_id: sig_display} for all sig-type channels in channel_manifest.json."""
+    try:
+        m = json.loads(MANIFEST_PATH.read_text())
+        return {
+            cid: ch["sig_display"]
+            for cid, ch in m.get("channels", {}).items()
+            if ch.get("type") == "sig" and ch.get("sig_display")
+        }
+    except Exception:
+        return {}
 
 
 def save_registry(reg: dict) -> None:
@@ -277,6 +291,7 @@ def main() -> None:
 
     registry = load_registry()
     known = registry.setdefault("channels", {})
+    manifest_sig_displays = load_manifest_sig_displays()
 
     new_count = changed_count = archived_count = embed_count = 0
 
@@ -346,6 +361,11 @@ def main() -> None:
             "first_seen":             (existing or {}).get("first_seen", now),
             "last_seen":              now,
         }
+        # Seed sig_display from channel_manifest.json for sig-type channels
+        # (if not already set on the existing entry — PRESERVED_FIELDS will carry it forward after that)
+        if cid in manifest_sig_displays and not (existing or {}).get("sig_display"):
+            entry["sig_display"] = manifest_sig_displays[cid]
+
         # Preserve human-edited fields and event-sync fields from existing entry
         if existing:
             for field in PRESERVED_FIELDS:

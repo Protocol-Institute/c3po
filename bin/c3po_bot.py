@@ -278,6 +278,9 @@ async def send_answer(target, data: dict) -> None:
 
 # ── Thread continuation ───────────────────────────────────────────────────────
 
+_TURN_LIMIT_MARKER = "turn limit for this thread"
+
+
 async def handle_thread_reply(message: discord.Message) -> None:
     thread = message.channel
 
@@ -287,20 +290,48 @@ async def handle_thread_reply(message: discord.Message) -> None:
         if msg.id != message.id:
             prior.append(msg)
 
-    # Count completed bot turns (skip sources-only messages)
+    # Count completed bot turns (skip sources-only messages and the cap notice itself)
     bot_turns = sum(
         1 for m in prior
-        if m.author.id == client.user.id and not m.content.startswith("**Sources**")
+        if m.author.id == client.user.id
+        and not m.content.startswith("**Sources**")
+        and _TURN_LIMIT_MARKER not in m.content
     )
 
     if bot_turns >= MAX_THREAD_TURNS:
-        await thread.send(
-            f"We've reached the {MAX_THREAD_TURNS}-turn limit for this thread. "
-            "For a longer conversation, use the web interface: https://c3po.protocolized.io"
+        # Only send the cap notice once — if it's already in history, stay silent
+        already_capped = any(
+            m.author.id == client.user.id and _TURN_LIMIT_MARKER in m.content
+            for m in prior
         )
+        if not already_capped:
+            await thread.send(
+                f"We've reached the {MAX_THREAD_TURNS}-turn limit for this thread. "
+                "For a longer conversation, use the web interface: https://c3po.protocolized.io"
+            )
         return
 
-    query = message.content.strip()
+    # If the message is a reply to another human (not the bot), it's likely a side
+    # conversation — skip unless the bot is explicitly @mentioned.
+    is_bot_mentioned = (
+        client.user in message.mentions
+        or any(r.id == ORACLE_ROLE_ID for r in message.role_mentions)
+    )
+    if not is_bot_mentioned and message.reference is not None:
+        try:
+            ref_msg = await thread.fetch_message(message.reference.message_id)
+            if ref_msg.author.id != client.user.id:
+                return  # reply is to another human — ignore
+        except Exception:
+            pass  # can't verify reference; proceed
+
+    # Strip bot/role mentions from query text (relevant when explicitly @mentioned in thread)
+    query = message.content
+    for u in message.mentions:
+        query = query.replace(f"<@{u.id}>", "").replace(f"<@!{u.id}>", "")
+    for r in message.role_mentions:
+        query = query.replace(f"<@&{r.id}>", "")
+    query = "".join(c for c in query if c.isprintable()).strip()
     if not query:
         return
 
@@ -569,9 +600,23 @@ async def handle_introduction(message: discord.Message) -> bool:
     all_sources = [s for s in ((corpus_data or {}).get("sources") or [])
                    if s.get("source") != "transcript"]
 
-    # Filter VGR-authored and cover-letter results; draw from top 8 for headroom
-    rec_sources = [s for s in all_sources[:8]
-                   if not _is_vgr_authored(s) and not s.get("is_cover_letter")][:1]
+    # Prefer the source Claude actually named in its answer (title substring match),
+    # so the "Suggested reading" link is coherent with the answer text.
+    # Strip parenthetical suffixes like "(Revised)" before matching.
+    answer_lower = answer.lower()
+    rec_sources = []
+    for src in all_sources[:8]:
+        if _is_vgr_authored(src) or src.get("is_cover_letter"):
+            continue
+        title_core = re.sub(r'\s*\(.*?\)', '', src.get("title") or "").strip().lower()
+        if title_core and len(title_core) > 6 and title_core in answer_lower:
+            rec_sources = [src]
+            break
+
+    # Fall back to highest-ranked non-VGR source if no title match found
+    if not rec_sources:
+        rec_sources = [s for s in all_sources[:8]
+                       if not _is_vgr_authored(s) and not s.get("is_cover_letter")][:1]
     if not rec_sources:
         rec_sources = [_INTRO_FALLBACK_SRC]
 

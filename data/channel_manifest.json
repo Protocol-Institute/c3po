@@ -230,6 +230,45 @@
       "min_chars_reply": 50,
       "onboarding_notes": "This is a curated reading-list forum where members post links to articles, papers, and essays relevant to protocol studies, governance, and related topics, with emoji upvotes indicating community interest. Each forum post represents a distinct reading recommendation; the original post typically contains a link and brief description, while replies (when present) contain discussion or commentary worth capturing. Filtering thresholds are set low for original posts (to capture link-only or short-description posts) but slightly higher for replies to avoid trivial reactions or one-word responses.",
       "discord_type": 15
+    },
+    "1508205168661893180": {
+      "channel_id": "1508205168661893180",
+      "name": "⏳-psychohistory",
+      "display": "SIGPSY",
+      "type": "sig",
+      "namespace": "sig",
+      "status": "active",
+      "added": "2026-06-06",
+      "backfill_complete": true,
+      "min_chars_orig": 80,
+      "min_chars_reply": 60,
+      "onboarding_notes": "This channel serves as the home base for SIGPSY, the Protocol Institute's Psychohistory special interest group, combining a fortnightly recurring meeting series with an active World Machines book club and free-ranging discussion of psychohistory, macrohistorical cycles, and adjacent intellectual topics. Meeting threads (e.g. 'SIGPSY 4Jun26: Kickoff') are the primary structured artifact and should be prioritized for ingestion; book club threads (e.g. 'Revolt of the Masses', 'Business of Enlightenment') and side-quest threads carry substantial substantive discussion worth capturing. Logistical coordination messages, short reactions, and link-drops without commentary should be filtered out via the char thresholds.",
+      "sig_display": "SIGPSY",
+      "meeting_patterns": [
+        "SIGPSY\\s+\\d{1,2}[A-Za-z]{3}\\d{2,4}",
+        "SIGPSY.*[Kk]ickoff",
+        "SIGPSY.*[Mm]eeting"
+      ]
+    },
+    "1508175637020676259": {
+      "channel_id": "1508175637020676259",
+      "name": "🦾-distributed-robotics",
+      "display": "DRG",
+      "type": "sig",
+      "namespace": "sig",
+      "status": "active",
+      "added": "2026-06-06",
+      "backfill_complete": true,
+      "min_chars_orig": 60,
+      "min_chars_reply": 40,
+      "onboarding_notes": "This channel serves as the hub for the Protocol Institute's Distributed Robotics Group (DRG), covering Physical AI, distributed robotics, ocean robotics, space robotics, and related research coordination. Content includes link sharing, reading queue suggestions, scheduling discussions, and project threads (e.g. GD&T, NASA challenge, robot integrations). Ingestion should filter out short scheduling exchanges and bare URL drops, retaining substantive messages and thread content; threads are the primary source of denser, citable content.",
+      "sig_display": "DRG",
+      "meeting_patterns": [
+        "DRG\\s+\\d{1,2}[A-Za-z]{3}\\d{2,4}",
+        "DRG\\s+[Mm]eeting",
+        "DRG:\\s+",
+        "Distributed Robotics.*[Mm]eeting"
+      ]
     }
   }
 }

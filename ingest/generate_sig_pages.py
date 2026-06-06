@@ -57,6 +57,22 @@ SIG_INFO = {
         "schedule":    "Biweekly Thursdays, 8am Pacific",
         "channel_id":  "1106572787042238504",
     },
+    "SIGPSY": {
+        "slug":        "sigpsy",
+        "name":        "SIGPSY — Special Interest Group in Psychohistory",
+        "description": "Studying long-range historical modeling and prediction — drawing on quantitative history, complexity science, and protocol theory to develop frameworks for understanding civilizational-scale dynamics. The group maintains worldmachines.org, a collaborative platform for psychohistorical modeling.",
+        "lead":        "Venkatesh Rao and Aneesh Sathe",
+        "schedule":    "Biweekly Thursdays, 4pm UTC",
+        "channel_id":  "1508205168661893180",
+    },
+    "DRG": {
+        "slug":        "drg",
+        "name":        "Distributed Robotics Group",
+        "description": "Studying and developing protocols for onchain robotics — examining how decentralized coordination, blockchain infrastructure, and physical automation intersect to create new classes of protocol design challenges and opportunities.",
+        "lead":        "Anuraj R. and Rafael Fernandez",
+        "schedule":    "Biweekly Thursdays, 3:30pm UTC",
+        "channel_id":  "1508175637020676259",
+    },
 }
 
 SKIP_LINK_DOMAINS = {
@@ -329,17 +345,32 @@ def main():
 
     for sig_key, info in SIG_INFO.items():
         meetings = by_sig.get(sig_key, [])
-        print(f"  Generating {info['slug']}.html — {len(meetings)} meetings")
+        slug = info["slug"]
+        print(f"  Generating {slug} — {len(meetings)} meetings")
         html = generate_sig_page(sig_key, meetings)
-        out = SIGS_OUT_DIR / f"{info['slug']}.html"
-        out.write_text(html)
-        print(f"    → {out}")
+        # Write {slug}.html (relative-path format, legacy)
+        out_html = SIGS_OUT_DIR / f"{slug}.html"
+        out_html.write_text(html)
+        print(f"    → {out_html}")
+        # Also write {slug}/index.html (absolute-path format, clean URL)
+        index_html = html.replace('href="../assets/', 'href="/assets/') \
+                         .replace('href="../css/', 'href="/css/') \
+                         .replace('href="../js/', 'href="/js/') \
+                         .replace('href="../sigs.html"', 'href="/sigs"') \
+                         .replace('href="../', 'href="/')
+        out_index = SIGS_OUT_DIR / slug / "index.html"
+        out_index.parent.mkdir(parents=True, exist_ok=True)
+        out_index.write_text(index_html)
+        print(f"    → {out_index}")
 
-    if not args.no_index:
+    sigs_html_path = WEBSITE_DIR / "sigs.html"
+    if not args.no_index and sigs_html_path.exists():
         print("\nUpdating sigs.html...")
         updated = generate_index_page(by_sig)
-        (WEBSITE_DIR / "sigs.html").write_text(updated)
-        print(f"  → {WEBSITE_DIR / 'sigs.html'}")
+        sigs_html_path.write_text(updated)
+        print(f"  → {sigs_html_path}")
+    elif not args.no_index:
+        print("\nSkipping sigs.html (not found — website uses sigs/index.html)")
 
     print("\nDone.")
 

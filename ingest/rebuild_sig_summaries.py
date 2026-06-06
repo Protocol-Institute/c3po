@@ -43,6 +43,8 @@ SIG_DISPLAY_NAMES = {
     "MRG":       "Memory Research Group",
     "SIGPfB":    "Protocols for Business",
     "ProtFiSIG": "Protocol Fiction SIG",
+    "SIGPSY":    "Special Interest Group in Psychohistory",
+    "DRG":       "Distributed Robotics Group",
 }
 
 
