@@ -1,5 +1,42 @@
 # C3PO — Status Log
 
+## 2026-06-06 — Discord bot fixes, SIGPSY+DRG onboarded, pre-deletion cleanup (session 31, ~10:00–13:30 PT)
+
+**Discord bot fixes — COMPLETE**
+- 5-turn thread cap: cap notice now sent exactly once; subsequent messages silently ignored (was re-sending the cap message on every new message)
+- Side-conversation filtering: messages that are replies to another human (not the bot) are now ignored unless bot is explicitly @mentioned — prevents bot from responding to conversations between members in its own threads
+- Intro suggested-reading coherence: `rec_sources` now uses title-match scan against Claude's answer text to find the source Claude actually recommended, rather than picking independently from rank order. Fallback to rank order if no title match found. (Root cause: answer and suggested-reading link were independently derived — Claude would say "Unprotocolized Knowledge" but the link would show a different resource)
+
+**SIGPSY + DRG onboarded — COMPLETE**
+- SIGPSY (#⏳-psychohistory, 1508205168661893180): 65 vectors (1 meeting "Kickoff 4 Jun 2026" + 13 discussions including World Machines book club + main channel); biweekly Thursdays 16:00 UTC
+- DRG (#🦾-distributed-robotics, 1508175637020676259): 43 vectors (5 threads + main channel, 0 meetings yet); biweekly Thursdays 15:30 UTC; first meeting next week
+- Both added to `channel_manifest.json`, `generate_sig_pages.py`, `rebuild_sig_summaries.py`, `sync_sig_pages.py`
+- `sync_discord_channels.py` fixed to auto-seed `sig_display` from manifest for sig-type channels (was causing SIGPSY event to be unmatched in calendar sync)
+- `generate_sig_pages.py` now writes both `sigs/{slug}.html` and `sigs/{slug}/index.html` (absolute-path clean-URL format); fixes all existing SIG pages to stay in sync
+- Website pages published for both; SIGPSY shows kickoff meeting card; DRG shows "no meetings yet"
+
+**Personal account pre-deletion cleanup — COMPLETE**
+- `config/sink_registry.json`, `ingest/sync_web_chats.py`: updated from `c3po.vgr-702.workers.dev` → `c3po.protocolized.io`
+- `config/corpus_map.json`: updated index host from personal (`c3po-bwo39z7`) to PI org (`c3po-1os2tli`)
+- Confirmed: personal CF Worker safe to delete (all code + secrets + KV + queue fully on PI org)
+- Confirmed: personal Pinecone index safe to delete from c3po's perspective (all data on PI org index); humboldt's dependency noted but treated as out of scope for this project
+- ARCHITECTURE.md, CLAUDE.md updated for session 31
+
+**Pinecone state: ~26,268 vectors** (sig: 5,311 +218; discord_links: 9,640 +383 from daemon; transcripts: 22 +10; meta: 31 +2)
+
+**Open TODOs (priority order):**
+1. Delete personal CF Worker (`c3po` on `vgr-702`) — overdue
+2. Delete personal Pinecone index — c3po confirmed safe
+3. Execute VPS migration — `plans/vps-migration.md`
+4. Build c3po tracking dashboard — what SIGs, channels, namespaces, sources are being tracked; vector counts; daemon health; last-sync timestamps
+5. Starter page — tally at 18 events, needs ~20
+6. Exhibit extraction — `ingest/extract_structure.py`
+7. `sync_sig_pages.py` — add to daemon
+8. Anthropic key rotation to PI org account
+9. Phase E: multi-node swarm planning
+
+---
+
 ## 2026-06-03 — VPS migration plan (session 30, ~18:00–19:30 PT)
 
 **Infrastructure planning — COMPLETE**

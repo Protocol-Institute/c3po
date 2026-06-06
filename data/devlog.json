@@ -1334,6 +1334,56 @@
           "html": "<strong>.org website C3PO page</strong> — Updated <code>website/c3po/index.html</code>: corpus count corrected (~26,000 across 10 namespaces), added Discord bot and MCP server sections, added lexicon use-case bullet, updated copyright year."
         }
       ]
+    },
+    {
+      "id": 31,
+      "sort_key": 31.0,
+      "label": "Session 31",
+      "title": "Discord Bot Fixes, SIGPSY + DRG Onboarded, Personal Account Cleanup",
+      "date": "2026-06-06",
+      "time_pt": "10:00–13:30",
+      "tracks": [
+        "discord-bot",
+        "corpus-ingestion",
+        "operations"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "sig": 5311,
+        "discord_links": 9640,
+        "discord": 5578,
+        "substack": 1080,
+        "transcripts": 22,
+        "meta": 31,
+        "total": 26268
+      },
+      "deployed": false,
+      "items": [
+        {
+          "html": "<strong>Thread 5-turn cap: once-only</strong> &mdash; The cap notice (“We’ve reached the 5-turn limit”) was being re-sent on every subsequent message in a capped thread because the cap message itself was being counted as a bot turn, keeping <code>bot_turns &ge; MAX_THREAD_TURNS</code> indefinitely. Fix: exclude the cap notice from the turn count via <code>_TURN_LIMIT_MARKER</code>, and check whether the cap notice already exists in thread history before sending it again. Subsequent messages are now silently ignored."
+        },
+        {
+          "html": "<strong>Side-conversation filtering in threads</strong> &mdash; The bot was responding to every non-bot message in its own threads, including conversations between members that weren’t addressed to it. Fix: if the incoming message is a Discord reply (<code>message.reference is not None</code>) and the referenced message is from a human (not the bot), skip it — unless the bot is explicitly @mentioned. Standalone messages with no reply reference still trigger the bot normally. Also added mention-stripping from thread reply text, which was previously being passed verbatim to the Worker."
+        },
+        {
+          "html": "<strong>Intro suggested-reading coherence</strong> &mdash; Root cause of a report where C3PO’s answer named “Unprotocolized Knowledge” as the best starting point but the Suggested reading link pointed somewhere else: the answer text and the <code>rec_sources</code> link were independently derived. Claude synthesized its answer from the full retrieved context and could name any source in the context block; <code>rec_sources</code> was just the highest-ranked non-VGR entry from the Pinecone merge results, which might be a Discord message or Substack post ranked above the PDF. Fix: scan <code>all_sources[:8]</code> for any source whose title (parenthetical suffixes stripped) appears in the answer text, and prefer that as the suggested reading link. Fall back to rank order only if no title match is found."
+        },
+        {
+          "html": "<strong>SIGPSY onboarded</strong> &mdash; Added #⏳-psychohistory (ID 1508205168661893180) as a <code>sig</code>-type channel. Backfill: 65 vectors — 1 meeting (SIGPSY Kickoff, 4 Jun 2026, 6 topics, 4 insights), 13 discussion threads (World Machines book club: <em>Revolt of the Masses</em>, <em>Business of Enlightenment</em>; side quests; authentication flow brainstorm; book club list), and main channel messages. Calendar event matched: biweekly Thursdays 16:00 UTC, next 18 Jun."
+        },
+        {
+          "html": "<strong>DRG onboarded</strong> &mdash; Added #🦸-distributed-robotics (ID 1508175637020676259) as a <code>sig</code>-type channel (onboard script initially classified it as <code>general</code> since no meeting threads existed yet; manually upgraded). Backfill: 43 vectors — 5 threads (NASA Space Roboticist Challenge, PI-DRG Network, GD&amp;T as tolerance protocol, reading queue, robot integrations) and main channel messages. First meeting next week. Calendar event matched: biweekly Thursdays 15:30 UTC."
+        },
+        {
+          "html": "<strong>sig_display auto-seeding fix</strong> &mdash; New SIG channels were not matching their Discord calendar events because <code>sync_discord_channels.py</code> builds guide entries from live Discord API data, which has no <code>sig_display</code> field. The matcher’s first rule is a <code>sig_display</code> substring check, so SIGPSY’s event (“SIGPSY - Psychohistory”) went unmatched despite being an obvious hit. Fix: <code>sync_discord_channels.py</code> now loads <code>channel_manifest.json</code> at startup and seeds <code>sig_display</code> from there for any <code>type: sig</code> channel that doesn’t already have one set. The field then survives future sync cycles via <code>PRESERVED_FIELDS</code>."
+        },
+        {
+          "html": "<strong>generate_sig_pages.py dual-output format</strong> &mdash; The script was writing only <code>sigs/{slug}.html</code> (relative-path format, served at <code>/sigs/sigfpt.html</code>). The website serves SIG archive pages at clean URLs (<code>/sigs/sigfpt/</code>) via <code>sigs/{slug}/index.html</code>. New SIG stubs (SIGPSY, DRG) existed only at the index path. Fix: the script now writes both formats on each run, converting relative to absolute asset paths (<code>../assets/</code> → <code>/assets/</code>) for the index version. All six SIG <code>index.html</code> files are now regenerated and kept in sync on every daemon cycle."
+        },
+        {
+          "html": "<strong>Personal account pre-deletion cleanup</strong> &mdash; Two live code files still referenced the old personal CF Worker URL (<code>c3po.vgr-702.workers.dev</code>): <code>config/sink_registry.json</code> (endpoint field) and <code>ingest/sync_web_chats.py</code> (<code>WORKER_BASE</code>). Both updated to <code>c3po.protocolized.io</code>. <code>config/corpus_map.json</code> still had the old personal Pinecone index host (<code>c3po-bwo39z7</code>); updated to the PI org host (<code>c3po-1os2tli</code>). Full audit confirmed: CF Worker, Pinecone index, Voyage AI, and GitHub repo are all fully on PI org accounts. Personal CF Worker and personal Pinecone index are now safe to delete from c3po’s perspective."
+        }
+      ]
     }
   ]
 }
