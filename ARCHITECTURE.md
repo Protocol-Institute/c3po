@@ -1,6 +1,6 @@
 # C3PO — Architecture
 
-> Last updated: 2026-06-01 (session 29)
+> Last updated: 2026-06-06 (session 31)
 
 C3PO is the Protocol Institute's knowledge infrastructure: a multi-source corpus, a retrieval-augmented query engine, and a set of delivery interfaces. It is not a general chatbot; it is a research assistant that answers questions strictly within the PI corpus and cites its sources.
 
@@ -102,7 +102,7 @@ Runs a full sync cycle every 30 minutes via `bin/daemon.py`. Each cycle in order
 5. `enrich_discord_links.py` — score each URL 0–3 for protocol relevance via Haiku; delete score-0
 6. `sync_sig.py` — SIG channels (incremental + full thread rescan) → `sig` namespace
 7. `rebuild_sig_summaries.py` — generate structured meeting summaries for new SIG meetings
-8. `generate_sig_pages.py` — write SIG archive HTML to `../website/sigs/`
+8. `generate_sig_pages.py` — write SIG archive HTML; outputs both `sigs/{slug}.html` (relative paths) and `sigs/{slug}/index.html` (absolute paths, clean-URL format served at `/sigs/{slug}/`)
 9. `generate_monitoring_page.py` — rebuild monitoring dashboard at `../website/monitoring.html`
 10. Website push — `git commit + push` if any HTML files changed
 11. `sync_bot_conversations.py` — drain `data/spool/bot_conversations/` → `transcripts` namespace
@@ -118,7 +118,7 @@ Discord gateway bot (discord.py, WebSocket). Launchd-managed with KeepAlive — 
 
 **Interaction modes:**
 - `@c3po` mention in any channel — opens a thread, responds with answer + sources
-- Thread follow-up — continues for up to 5 turns without re-mention; passes full history to Worker
+- Thread follow-up — continues for up to 5 turns without re-mention; passes full history to Worker. Cap notice sent exactly once (subsequent messages silently ignored). Messages that are replies to another human (not the bot) are skipped unless the bot is @mentioned — prevents responding to side conversations.
 - `#introductions` monitoring — welcomes new members with 1 corpus resource + channel recommendation
 - Nav-intent detection — "where should I post about X?" routes to `discord_guide` query instead of corpus RAG
 - `/ask <question>` — Discord slash command (deferred via CF Queue, then followup webhook)
@@ -133,6 +133,7 @@ Discord gateway bot (discord.py, WebSocket). Launchd-managed with KeepAlive — 
 - Corpus query: asks for single most relevant resource in 1 sentence
 - VGR-authored results filtered out (ensures diverse recommendations)
 - Cover-letter PDFs filtered out
+- Suggested reading link: prefers the source whose title appears in Claude's answer (title-match scan of `all_sources[:8]`), so the link is coherent with what Claude recommended rather than being independently rank-ordered
 - Fallback: Summer of Protocols Reader if all sources are filtered
 - Running tally: `data/intro_recs_tally.json`
 
@@ -169,18 +170,20 @@ Cloudflare Worker at `c3po.protocolized.io` (PI org account `7e8c7969b2464d23795
 
 | Namespace | Vectors | Source | Weight | Notes |
 |-----------|---------|--------|--------|-------|
-| `discord_links` | 9,188 | Community-shared URLs, fetched + Haiku-scored | 0.55–0.75× | Score 0 deleted; score bonus applied |
-| `discord` | 5,552 | General + forum channels; starred msgs weighted | 0.85× | Starred: 1.0×, unstarred: 0.70× |
-| `sig` | 5,077 | SIG channels + 91 .org meeting pages | 0.90× | `sig_meeting_page` type gets parallel filtered query |
+| `discord_links` | 9,640 | Community-shared URLs, fetched + Haiku-scored | 0.55–0.75× | Score 0 deleted; score bonus applied |
+| `discord` | 5,578 | General + forum channels; starred msgs weighted | 0.85× | Starred: 1.0×, unstarred: 0.70× |
+| `sig` | 5,311 | 6 SIG channels + 91 .org meeting pages | 0.90× | `sig_meeting_page` type gets parallel filtered query |
 | `videos` | 2,940 | 91 PI YouTube talks | 0.90× | |
-| `substack` | 1,065 | Protocolized magazine (117+ posts) | 1.0× | GitHub Actions daily sync |
+| `substack` | 1,080 | Protocolized magazine (118+ posts) | 1.0× | GitHub Actions daily sync |
 | `definitions` | 560 | PI lexicon (914 terms, triage a/b) | 1.0× | |
 | `pdfs` | 750 | 82 papers/essays | 1.0× | 11 cover letters/title pages absent from PI migration |
 | `bibliography` | 278 | External works cited by PI corpus | 0.85× | Relevance-scored 0–3 |
 | `discord_guide` | 78 | All active guild channels with blurbs + SIG cadence | — | Used only for nav/intro queries, not corpus RAG |
-| `transcripts` | 9 | Bot self-memory: web + Discord conversations | 0.85× | Cache-hit threshold 0.52; tiered boost above 0.60 |
-| `humboldt` | 468 | Owned by humboldt project | — | `aware` only — c3po does not ingest or query |
-| **Total** | **~26,000** | | | |
+| `meta` | 31 | C3PO devlog sessions | — | Queried at top 3 alongside all other namespaces |
+| `transcripts` | 22 | Bot self-memory: web + Discord conversations | 0.85× | Cache-hit threshold 0.52; tiered boost above 0.60 |
+| **Total** | **~26,268** | | | |
+
+Note: `humboldt` namespace is owned by the humboldt project and lives in its own Pinecone index — not present in the c3po PI org index.
 
 **Secondary retrieval:** when a `doc_summary` or `post_summary` vector ranks in the top results, the worker fires a follow-up filtered query to fetch real body chunks from the same document. Summary hits are then replaced in the result set by their body-chunk siblings — giving Claude actual prose rather than an abstract.
 
@@ -248,7 +251,7 @@ Used for Substack: one vector per named collection (SIGFPT, Ghosts in Machines, 
 ### Discord
 Two namespaces:
 - **`discord`**: general channels + forum channels (#idle-protocol-musings, #protocol-watch, #credit-protocols, #death-memory, #unconscious-protocols, #tech-standards, #built-environment, #organizational-protocols, #field-reports, #affiliate-chat, #reading-room, others). Incremental by message-ID watermark. Starred messages weighted 1.0× (vs. 0.85× for unstarred). Forum posts (Discord type=15) bundled as thread chunks.
-- **`sig`**: four SIG channels (SIGFPT, MRG, SIGPfB, ProtFiSIG). Meeting threads detected by per-channel name patterns. AI-generated meeting summaries via Claude. Also includes 91 published `.org` meeting pages as `sig_meeting_page` chunks (absolute URLs for deep-link citations).
+- **`sig`**: six SIG channels (SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG). Meeting threads detected by per-channel name patterns. AI-generated meeting summaries via Claude. Also includes 91 published `.org` meeting pages as `sig_meeting_page` chunks (absolute URLs for deep-link citations). `sync_discord_channels.py` auto-seeds `sig_display` from `channel_manifest.json` for SIG-type channels, enabling calendar event matching for new SIGs.
 
 Attachment CDN URLs expire after 24h — downloads happen at ingest time.
 
@@ -373,6 +376,8 @@ Adding a new source: create the ingest script, add an entry to `source_registry.
 | 27 | 2026-05-31 | Full PI org migration: CF Worker → PI account + custom domain; Pinecone → PI org; Voyage → PI org; GitHub repo transfer `vgururao` → `Protocol-Institute` |
 | 28 | 2026-05-31 | Systemic PDF URL fix (487 vectors updated via `fix_pdf_urls.py`); cover-letter filter in intro recs; forward-only watermark + new-member filter in intro handler |
 | 29 | 2026-06-01 | Discord/web personality split: `DISCORD_SYSTEM_PROMPT` (office manager, 2–3 sentences) vs `SYSTEM_PROMPT` (research librarian, 3–5 paragraphs); CLAUDE.md scope boundaries |
+| 30 | 2026-06-03 | VPS migration plan (`plans/vps-migration.md`): Hetzner CX22, 6-phase plan to move bot + daemon off laptop; personal infra cleanup plan |
+| 31 | 2026-06-06 | SIGPSY + DRG onboarded (108 vectors); `generate_sig_pages.py` now writes clean-URL index format; `sync_discord_channels.py` auto-seeds `sig_display` from manifest; bot fixes: 5-turn cap once-only, side-conversation filtering, intro suggested-reading coherence |
 
 ---
 
@@ -382,12 +387,12 @@ Adding a new source: create the ingest script, add an entry to `source_registry.
 
 | Item | Notes |
 |------|-------|
-| **Starter page** | Compile `data/intro_recs_tally.json` once ~20 welcome events accumulated; curated "good first reads" page; update intro handler to use starter page + 1 long-tail pick |
-| **Exhibit extraction** | `ingest/extract_structure.py`: section summaries + list/figure/table exhibits from PDFs (plan: `plans/structural-navigation.md`). ~450–550 new vectors, ~$1.30 |
-| **`sync_sig_pages.py` in GHA cron** | Add to GitHub Actions once page format stabilizes |
-| **Delete personal CF Worker** | `c3po` on `vgr-702` — 1-week verification window has passed |
+| **Delete personal CF Worker** | `c3po` on `vgr-702` — verification window passed 2026-06-07, overdue |
 | **Delete personal Pinecone index** | After confirming humboldt updated to its own key path |
-| **Voyage humboldt key** | Create in PI Voyage account, wire into humboldt project |
+| **VPS migration** | Full plan at `plans/vps-migration.md`. 6 phases: provision Hetzner CX22, deploy keys, c3po systemd units (absorbing GHA Substack cron), humboldt migration, retire GHA, decommission personal infra |
+| **Starter page** | Compile `data/intro_recs_tally.json` once ~20 welcome events accumulated (~18 as of session 31); curated "good first reads" page; update intro handler to use starter page + 1 long-tail pick |
+| **Exhibit extraction** | `ingest/extract_structure.py`: section summaries + list/figure/table exhibits from PDFs (plan: `plans/structural-navigation.md`). ~450–550 new vectors, ~$1.30 |
+| **`sync_sig_pages.py` in daemon** | Add as daemon step (alongside or after VPS migration); SIGPSY and DRG already in `SIG_CONFIG` |
 
 ### Medium priority
 
@@ -395,6 +400,7 @@ Adding a new source: create the ingest script, add an entry to `source_registry.
 |------|-------|
 | **Twitter/X URL pass** | 194 deferred URLs in `discord_links_registry.json`; needs paid Twitter API v2 |
 | **Anthropic key rotation** | Rotate to PI org Anthropic account |
+| **Voyage humboldt key** | Create in PI Voyage account, wire into humboldt project |
 | **Phase E — swarm planning** | Multi-node architecture for parallel ingest and multiple gateway channels |
 
 ### Longer-term (planned, not scoped)
