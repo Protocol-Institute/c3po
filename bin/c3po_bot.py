@@ -479,7 +479,8 @@ async def handle_nav_query(message: discord.Message, query: str) -> None:
 
 # ── Intro rec helpers ────────────────────────────────────────────────────────
 
-NEW_MEMBER_DAYS = 30  # posts within this many days of joining count as intros
+NEW_MEMBER_DAYS = 60       # posts within this many days of joining count as new-member intros
+RETURNING_INTRO_MIN_LEN = 80  # min chars for an old-member post in #introductions to get a welcome-back
 
 
 def _is_new_member(member) -> bool:
@@ -564,18 +565,19 @@ def _update_intro_tally(rec_sources: list[dict], channel: dict | None) -> None:
 
 # ── Introductions monitoring ──────────────────────────────────────────────────
 
-async def handle_introduction(message: discord.Message) -> bool:
-    """Welcome a new member. Returns True if the reply was sent successfully."""
+async def handle_introduction(message: discord.Message, returning: bool = False) -> bool:
+    """Welcome a new (or returning) member. Returns True if the reply was sent successfully."""
     # Only respond to top-level posts, not replies within #introductions
     if message.reference is not None:
         return False
 
     intro_text = message.content[:400]
-    log.info(f"Introduction from [{message.author}]: {intro_text[:80]}")
+    log.info(f"Introduction from [{message.author}] (returning={returning}): {intro_text[:80]}")
 
     # Corpus query: frame intro as a resource-recommendation request
+    member_type = "Returning" if returning else "New"
     corpus_query = (
-        f"New member introduction: {intro_text}\n\n"
+        f"{member_type} member introduction: {intro_text}\n\n"
         f"Recommend the single most relevant resource from the corpus for their interests. "
         f"One sentence on why it fits. Be brief."
     )
@@ -627,7 +629,13 @@ async def handle_introduction(message: discord.Message) -> bool:
         channel = _load_fallback_channel(FALLBACK_CHANNEL_IDS[0])
 
     # ── Format reply ──────────────────────────────────────────────────────────
-    reply = f"Welcome, {message.author.mention}!\n\n"
+    if returning:
+        reply = (
+            f"Hi {message.author.mention} — looks like you joined a while back and are getting more active. "
+            f"Welcome back!\n\n"
+        )
+    else:
+        reply = f"Welcome, {message.author.mention}!\n\n"
 
     if answer:
         reply += answer + "\n"
@@ -679,6 +687,7 @@ async def handle_introduction(message: discord.Message) -> bool:
         "event":        "introduction",
         "ts":           _ts(),
         "type":         "introduction",
+        "returning":    returning,
         "user_hash":    _hash_user(message.author.id),
         "intro_len":    len(intro_text),
         "answer_len":   len(answer),
@@ -769,6 +778,9 @@ async def on_message(message: discord.Message):
         is_mention = (client.user in message.mentions or
                       any(r.id == ORACLE_ROLE_ID for r in message.role_mentions))
         is_new_intro = message.reference is None and _is_new_member(message.author)
+        is_returning_intro = (message.reference is None
+                              and not _is_new_member(message.author)
+                              and len(message.content) >= RETURNING_INTRO_MIN_LEN)
 
         if is_new_intro:
             wq.push({
@@ -784,6 +796,9 @@ async def on_message(message: discord.Message):
             success = await handle_introduction(message)
             if success:
                 wq.remove(str(message.id))
+            return
+        elif is_returning_intro:
+            await handle_introduction(message, returning=True)
             return
         elif not is_mention:
             return  # existing member posting in #introductions — ignore unless mentioned
