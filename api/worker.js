@@ -2721,78 +2721,158 @@ ${SUBNAV_CSS}
 ${subnav('/how-it-works')}
 
 <h1 style="font-family:Lora,serif;font-size:1.45em;font-weight:600;margin:0 0 0.3em;line-height:1.3;">How C3PO Works</h1>
-<p style="color:#666;font-size:0.9em;margin-bottom:2em;">Protocol Institute Oracle &mdash; technical overview</p>
+<p style="color:#666;font-size:0.9em;margin-bottom:2em;">Protocol Institute Oracle &mdash; technical reference</p>
 
+<!-- ── WHAT IS C3PO ───────────────────────────────────────────────────────── -->
 <div class="hiw-section">
 <h2>What is C3PO?</h2>
-<p>C3PO is the Protocol Institute&rsquo;s oracle &mdash; a broad-based knowledge resource for exploring protocols and their extended intellectual world. It answers questions grounded in the PI corpus: theory, fiction, history, technology, governance, memory, culture, and the science of coordination are all in scope. Protocols are the organizing thread, but the aperture is wide.</p>
-<p>Technically, C3PO is a retrieval-augmented generation (RAG) system. It retrieves relevant passages from the corpus and synthesizes answers using those passages as grounding. It is not a fine-tuned model &mdash; the underlying language model is Claude Sonnet, with PI corpus material injected as retrieval context at query time.</p>
+<p>C3PO is the Protocol Institute&rsquo;s knowledge infrastructure &mdash; a retrieval-augmented generation (RAG) system that answers questions grounded in the PI corpus. It is not a fine-tuned model. The underlying language model is Claude Sonnet; what makes it PI-specific is the corpus material injected as retrieval context at query time and a system prompt encoding PI&rsquo;s intellectual commitments, scope, and vocabulary.</p>
+<p>The name is a deliberate reference to C-3PO, the Star Wars protocol droid described as &ldquo;fluent in over six million forms of communication&rdquo; and devoted to the smooth operation of protocols between parties.</p>
+<p><strong>Two voices, one corpus.</strong> C3PO serves two audiences with distinct response styles selected by a <code>context</code> field in the request body:</p>
+<ul style="margin:0.3em 0 0.8em 1.2em;color:#444;font-size:0.95em;line-height:1.7;">
+  <li><strong>Web / MCP</strong> (<code>context</code> absent): research-librarian voice &mdash; dense, source-specific, 3&ndash;5 paragraphs. For researchers and extended sessions.</li>
+  <li><strong>Discord</strong> (<code>context: "discord"</code>): office-manager voice &mdash; 2&ndash;3 sentences, one named resource, plain prose. A <code>DISCORD VOICE OVERRIDE</code> block appended to the base system prompt supersedes all length and format instructions.</li>
+</ul>
 </div>
 
+<!-- ── CORPUS ─────────────────────────────────────────────────────────────── -->
 <div class="hiw-section">
 <h2>The corpus</h2>
 <table class="hiw-table">
 <thead><tr><th>Source</th><th>Scale</th><th>Coverage</th></tr></thead>
 <tbody>
-<tr><td>Summer of Protocols PDFs</td><td>82 papers &middot; 766 vectors</td><td>Research papers, theoretical essays, protocol fiction, game materials (2023&ndash;2024)</td></tr>
-<tr><td>Protocolized Substack</td><td>116+ posts &middot; 1,040 vectors</td><td>Fictions (58), Articles (47), Obliquities (5); 38 author profiles; 13 collection cards</td></tr>
-<tr><td>Protocol Institute YouTube</td><td>91 talks &middot; 2,940 vectors</td><td>Researcher salons, symposia, public lectures, guest talks (2023&ndash;2025)</td></tr>
-<tr><td>Bibliography</td><td>252 refs &middot; 278 vectors</td><td>External works cited by PI corpus; scored 0&ndash;3 for protocol relevance; abstracts + OA PDFs where available</td></tr>
-<tr><td>Discord community</td><td>3,300+ messages &middot; 3,301 vectors</td><td>#idle-musings and #protocol-watch channels; threaded exchanges and starred highlights</td></tr>
-<tr><td>SIG meeting archives</td><td>78 sessions &middot; 4,583 vectors</td><td>Four active research groups: Formal Protocol Theory, Memory Research Group, Protocols for Business, Protocol Fiction; AI-generated summaries + transcript chunks</td></tr>
-<tr><td>Shared transcripts</td><td>~4 vectors (growing)</td><td>Published conversations with C3PO</td></tr>
+<tr><td>Summer of Protocols PDFs</td><td>82 docs &middot; 750 vectors</td><td>Research papers, theoretical essays, protocol fiction, game materials (2023&ndash;2024). 11 cover letters / title pages deprecated from retrieval.</td></tr>
+<tr><td>Protocolized Substack</td><td>118+ posts &middot; 1,080 vectors</td><td>Fictions (58), Articles (47), Obliquities (5+); 38 author profiles; 13 collection cards. Synced daily via GitHub Actions.</td></tr>
+<tr><td>Protocol Institute YouTube</td><td>91 talks &middot; 2,940 vectors</td><td>Guest Talks (34), Town Halls (20), Protocol School 2025 (13), Researcher Salons (9), Symposium 2024 (7), Bridge Atlas (5). English captions via yt-dlp.</td></tr>
+<tr><td>Bibliography</td><td>270+ refs &middot; 278 vectors</td><td>External works cited by PI corpus; scored 0&ndash;3 for protocol relevance; abstracts + OA PDFs where available.</td></tr>
+<tr><td>Discord community</td><td>5,580 vectors</td><td>12 general + forum channels including #idle-protocol-musings, #protocol-watch, #field-reports, #reading-room; threaded exchanges; starred highlights weighted 1.0&times;.</td></tr>
+<tr><td>SIG meeting archives</td><td>5,346 vectors</td><td>Six Special Interest Groups: Formal Protocol Theory (SIGFPT), Memory Research Group (MRG), Protocols for Business (SIGPfB), Protocol Fiction (ProtFiSIG), Psychohistory (SIGPSY), Distributed Robotics (DRG). Includes AI-generated meeting summaries, discussion threads, and 91 published meeting pages from protocol-institute.org.</td></tr>
+<tr><td>Community-shared links</td><td>9,674 vectors</td><td>External URLs linked in Discord/SIG messages; fetched server-side, chunked, scored 0&ndash;3 for protocol relevance by Claude Haiku; score-0 entries deleted. source_count tracks how many Discord messages referenced each URL.</td></tr>
+<tr><td>PI lexicon</td><td>560 vectors</td><td>914 terms extracted from the PI corpus via Claude Haiku; triage a+b ingested. PI-coined vocabulary: &ldquo;hardness&rdquo;, &ldquo;Whitehead advance&rdquo;, &ldquo;protocol tai chi&rdquo;, and 40+ others also injected directly into the system prompt.</td></tr>
+<tr><td>Discord channel guide</td><td>78 vectors</td><td>All active guild channels with Haiku-generated blurbs, SIG meeting cadence, and next scheduled event time. Used only for introductions and navigation queries &mdash; not corpus RAG.</td></tr>
+<tr><td>Devlog</td><td>32 vectors</td><td>C3PO&rsquo;s own development log (one vector per session). Queried at top-3 alongside all other namespaces so C3PO can answer questions about its own architecture and history.</td></tr>
+<tr><td>Conversation memory</td><td>23 vectors (growing)</td><td>Spooled Discord bot conversations and submitted public web chats, re-ingested as <code>discord_conversation</code> and <code>web_conversation</code> chunk types. High-scoring matches surface as &ldquo;Similar conversation&rdquo; links rather than regular sources.</td></tr>
 </tbody>
 </table>
-<p>The PDFs span the Summer of Protocols program &mdash; a research initiative that defined the field. The Substack corpus covers the full run of Protocolized, including protocol fiction, theory, and editorial. Discord and SIG archives bring in the live community: ongoing discussions, meeting transcripts, working knowledge that never makes it into formal publications. The web links layer adds external content the community has found worth sharing &mdash; screened for scope and scored for relevance.</p>
+<p>Total: ~26,300 vectors across 11 Pinecone namespaces. The corpus is live: Discord and SIG channels sync incrementally every 30 minutes via a local daemon; Substack syncs daily via GitHub Actions; the lexicon and PDFs are updated manually when the source set changes.</p>
 </div>
 
+<!-- ── INGEST PIPELINE ────────────────────────────────────────────────────── -->
 <div class="hiw-section">
-<h2>Embedding and retrieval</h2>
-<p><strong>Embedding model:</strong> Voyage AI <code>voyage-3</code> &mdash; 1,024-dimensional dense vectors, cosine similarity. The same model encodes both documents (at index time) and queries (at query time).</p>
-<p><strong>Chunking:</strong> Documents are split into 512-token chunks with 64-token overlap. Each chunk is stored with metadata: source, document title, author, date, and content type.</p>
-<p><strong>Title-anchored embeddings:</strong> The text sent to Voyage for each body chunk is prefixed with <code>"Title: {title}\nSummary: {summary}\n\n"</code> before the chunk body. This ensures that title and topic keywords are always present in the vector even when they don&rsquo;t appear in the chunk itself. The stored display text is unchanged; only the embedding receives the prefix.</p>
-<p><strong>Summary vectors:</strong> Each document also generates a dedicated summary vector (<code>chunk_type: "doc_summary"</code> or <code>"post_summary"</code>) that embeds only the title, summary, and tags. When a summary vector matches, a follow-up retrieval query surfaces the corresponding body chunks.</p>
+<h2>Ingest pipeline pattern</h2>
+<p>Every corpus source follows a three-layer pattern. Deviating requires explicit justification. This pattern is what makes retrieval work well &mdash; it is worth reproducing exactly when adding new sources.</p>
+
+<h3>Layer 1 &mdash; Haiku enrichment</h3>
+<p>One Claude Haiku call per document. Input: title + authors + type/tags + first ~1,500 chars of text. Output saved to <code>sources/&lt;type&gt;/enriched_meta.json</code> keyed by document ID:</p>
+<pre><code>{
+  "summary":        "Two concrete sentences about the specific argument or contribution.",
+  "categories":     ["protocol-theory", "governance"],
+  "primary_author": "Author Name",
+  "all_authors":    ["Author Name"]
+}</code></pre>
+<p>Shared category vocabulary (used across all sources for cross-corpus query consistency): <code>protocol-fiction</code> &middot; <code>protocol-theory</code> &middot; <code>protocol-watching</code> &middot; <code>editorial</code> &middot; <code>research-report</code> &middot; <code>technology-ai</code> &middot; <code>governance</code> &middot; <code>announcement</code> &middot; <code>interview</code> &middot; <code>memory-archival</code> &middot; <code>organizations</code>. Idempotent; skips existing entries unless <code>--force</code> is passed.</p>
+
+<h3>Layer 2 &mdash; Body chunks</h3>
+<p>Text chunked at 512-token windows with 64-token overlap. The text sent to Voyage for embedding is prefixed with title and summary information &mdash; anchoring the chunk to its topic even when topic keywords don&rsquo;t appear in the chunk itself. The stored display text is clean (no prefix). Vector IDs are SHA-256 hashes of raw chunk text, so duplicate passages across documents are automatically deduplicated.</p>
+<pre><code># Embedding input (not stored):
+"Title: {title}\nAuthors: {authors}\nType: {type}\nSummary: {summary}\n\n{chunk_text}"
+
+# Stored in Pinecone metadata:
+{ text: "{chunk_text}", title, authors, date, url, chunk_type, source, ... }</code></pre>
+
+<h3>Layer 3 &mdash; Document summary vector</h3>
+<p>One additional vector per document for &ldquo;what is this document about&rdquo; queries. Vector ID: <code>{id}__doc_summary</code> (or <code>{slug}__post_summary</code> for Substack). When a summary vector ranks in the top results, the worker fires a follow-up filtered query to fetch real body chunks from the same document &mdash; giving Claude actual prose rather than an abstract. Summary hits are replaced in the result set by their body-chunk siblings before the LLM sees them.</p>
+
+<h3>Checklist for adding a new source</h3>
+<p>To reproduce this pattern for a new corpus source: (1) write an enrichment script that calls Claude Haiku and saves to <code>sources/&lt;type&gt;/enriched_meta.json</code>; (2) write an ingest script that chunks, prefixes, embeds via Voyage, and upserts to a named Pinecone namespace; (3) create an incremental state file keyed by document ID or timestamp watermark; (4) add a <code>normalize&lt;Type&gt;()</code> function in <code>api/worker.js</code> that maps raw Pinecone metadata to the standard source object shape; (5) add the namespace to <code>mergeResults()</code> with an appropriate tier weight; (6) register the source in <code>config/source_registry.json</code> and <code>config/corpus_map.json</code>; (7) add a daemon step in <code>bin/daemon.py</code>.</p>
 </div>
 
+<!-- ── PINECONE INDEX ─────────────────────────────────────────────────────── -->
 <div class="hiw-section">
 <h2>The Pinecone index</h2>
+<p>Single index <code>c3po</code> &mdash; 1,024 dimensions, cosine metric, serverless (AWS us-east-1), Protocol Institute org account. All corpus namespaces queried in parallel on every request; results merged and tier-weighted before passing to Claude.</p>
 <table class="hiw-table">
-<thead><tr><th>Namespace</th><th>Vectors</th><th>Contents</th></tr></thead>
+<thead><tr><th>Namespace</th><th>Vectors</th><th>Retrieval weight</th><th>Notes</th></tr></thead>
 <tbody>
-<tr><td><code>pdfs</code></td><td>766</td><td>Body chunks + doc_summary vectors for 82 PDFs</td></tr>
-<tr><td><code>substack</code></td><td>1,040</td><td>Body chunks, post_summary, collection_card, author_profile vectors</td></tr>
-<tr><td><code>videos</code></td><td>2,940</td><td>Body chunks + video_summary vectors for 91 YouTube talks</td></tr>
-<tr><td><code>bibliography</code></td><td>278</td><td>ref_summary + body chunks for externally cited works</td></tr>
-<tr><td><code>discord</code></td><td>3,301</td><td>Thread and message chunks from community channels; includes star_count for quality weighting</td></tr>
-<tr><td><code>sig</code></td><td>4,583</td><td>sig_meeting_summary, sig_meeting_body, sig_discussion, sig_message, sig_reply chunk types across 4 SIG channels</td></tr>
-<tr><td><code>discord_links</code></td><td>6,722</td><td>Web content linked from Discord/SIG messages; fetched, chunked, and scored 1&ndash;3 for scope relevance; source_count tracks how many messages shared each URL</td></tr>
-<tr><td><code>transcripts</code></td><td>~4</td><td>Published conversations (grows with use)</td></tr>
+<tr><td><code>pdfs</code></td><td>750</td><td>1.0&times;</td><td>Body chunks + doc_summary; 82 documents; 11 deprecated cover letters excluded from intro recs</td></tr>
+<tr><td><code>substack</code></td><td>1,080</td><td>1.0&times;</td><td>Body chunks, post_summary, collection_card, author_profile</td></tr>
+<tr><td><code>definitions</code></td><td>560</td><td>1.0&times;</td><td>PI lexicon terms; vector IDs: <code>lexicon__{term_slug}__{source_slug}</code></td></tr>
+<tr><td><code>videos</code></td><td>2,940</td><td>0.90&times;</td><td>Body chunks + video_summary; 91 YouTube talks</td></tr>
+<tr><td><code>sig</code></td><td>5,346</td><td>0.90&times;</td><td>chunk_types: sig_meeting_summary, sig_meeting_body, sig_discussion, sig_message, sig_reply, sig_meeting_page; 6 SIG channels; sig_meeting_page chunks fire a parallel filtered query to ensure meeting pages surface even below TOP_K_EACH</td></tr>
+<tr><td><code>bibliography</code></td><td>278</td><td>0.85&times;</td><td>ref_summary + body chunks; relevance score (0&ndash;3) stored in metadata</td></tr>
+<tr><td><code>discord</code></td><td>5,580</td><td>starred 1.0&times; &middot; unstarred 0.70&times;</td><td>message, thread, forum_post chunk types; star_count in metadata drives weight split</td></tr>
+<tr><td><code>transcripts</code></td><td>23</td><td>0.85&times; base; tiered boost</td><td>discord_conversation + web_conversation; scores &ge;0.60 &rarr; 1.10&times; boost and surfaced as &ldquo;Similar conversation&rdquo; link rather than source</td></tr>
+<tr><td><code>discord_links</code></td><td>9,674</td><td>0.55&ndash;0.75&times;</td><td>Haiku relevance score (1&ndash;3) &times; source popularity bonus; score-0 entries deleted from index</td></tr>
+<tr><td><code>discord_guide</code></td><td>78</td><td>nav/intro only</td><td>Channel blurbs, SIG cadence, next event time; not included in corpus RAG; used only for &ldquo;where should I post about X?&rdquo; nav queries and #introductions channel recommendations</td></tr>
+<tr><td><code>meta</code></td><td>32</td><td>top-3 always</td><td>C3PO devlog sessions; always retrieved at top-3 alongside all other namespaces so C3PO can answer questions about its own build history</td></tr>
 </tbody>
 </table>
-<p>All namespaces are queried in parallel on each request. Results are merged and tier-weighted before being passed to the language model: PDFs and Substack at 1.0&times;; talks at 0.9&times;; bibliography scaled by relevance score (0.6&ndash;1.0&times;); Discord at 0.65&times; (starred: 0.85&times;); SIG meeting summaries at 0.85&times;, body chunks at 0.75&times;, discussions at 0.70&times;; web links weighted by relevance score and source popularity (0.55&ndash;0.85&times;).</p>
+<div class="hiw-note"><strong>Secondary retrieval:</strong> when a <code>doc_summary</code>, <code>post_summary</code>, or <code>video_summary</code> vector ranks in the top results, the worker fires a follow-up filtered query (<code>chunk_type &ne; *_summary AND title = {matched_title}</code>) to fetch the actual body chunks from that document. Summary hits are replaced in the result set by their body-chunk siblings before Claude sees them &mdash; so Claude always reads prose, not abstracts.</div>
 </div>
 
+<!-- ── QUERY PIPELINE ─────────────────────────────────────────────────────── -->
 <div class="hiw-section">
-<h2>The language model</h2>
-<p>Claude Sonnet is used throughout &mdash; both for answering queries and for background tasks like document enrichment. Protocol Institute research is dense and cross-disciplinary; the material benefits from strong synthesis rather than simple extraction.</p>
-<p>The system prompt is derived from the Protocol Institute&rsquo;s SOUL.md &mdash; a document describing C3PO&rsquo;s intellectual orientation, scope, voice, analytical commitments, and protocol lexicon. It includes a corpus map (what is and isn&rsquo;t indexed) and an explicit scope declaration (what topic areas are in and out of range), preventing false denials and scope mismatches.</p>
+<h2>Query pipeline (step by step)</h2>
+<p>Every <code>POST /query</code>, <code>ask_c3po</code> MCP call, and Discord @mention follows the same pipeline:</p>
+<ol style="margin:0.3em 0 0.8em 1.2em;color:#444;font-size:0.95em;line-height:1.9;">
+  <li><strong>Embed the query</strong> &mdash; Voyage AI <code>voyage-3</code> encodes the question into a 1,024-dim vector (<code>input_type: "query"</code>).</li>
+  <li><strong>Parallel namespace query</strong> &mdash; all 9 corpus namespaces queried simultaneously at <code>top_k = TOP_K_EACH</code> (typically 8); <code>meta</code> queried at top-3; <code>transcripts</code> queried at top-3; <code>sig_meeting_page</code> sub-query fired in parallel for the <code>sig</code> namespace.</li>
+  <li><strong>Normalize</strong> &mdash; each namespace has a <code>normalize*()</code> function mapping raw Pinecone metadata to a standard shape: <code>{ source, type, label, title, authors, date, url, summary, excerpt, score, ... }</code>. Namespace-specific fields (e.g. <code>sig_display</code>, <code>channel_name</code>, <code>domain</code>) are preserved alongside.</li>
+  <li><strong>Merge and tier-weight</strong> &mdash; <code>mergeResults()</code> applies the tier weights above, deduplicates by URL, extracts transcript cache hits (score &ge; 0.52), and returns the top <code>MAX_SOURCES</code> items.</li>
+  <li><strong>Secondary retrieval</strong> &mdash; summary-type vectors in the top results trigger follow-up body-chunk queries for their documents. Results merged back in.</li>
+  <li><strong>Build context block</strong> &mdash; <code>buildContextBlock()</code> formats each source as a labeled excerpt block for the Claude prompt: <code>[PDF — "Title" — Author(s) — YYYY]\n{excerpt}</code>, with namespace-appropriate prefixes.</li>
+  <li><strong>Claude Sonnet</strong> &mdash; system prompt cached with <code>cache_control: ephemeral</code>; user message is <code>"Question: {q}\n\nRelevant archive excerpts:\n\n{context}"</code>. Discord requests use the <code>DISCORD_SYSTEM_PROMPT</code> variant. History array passed for multi-turn sessions.</li>
+  <li><strong>Return</strong> &mdash; response includes <code>answer</code>, <code>sources</code> (with metadata for badge/link rendering), and <code>cache_hits</code> (high-scoring transcript matches surfaced separately).</li>
+</ol>
+</div>
+
+<!-- ── LANGUAGE MODEL ─────────────────────────────────────────────────────── -->
+<div class="hiw-section">
+<h2>The language model and system prompt</h2>
+<p>Claude Sonnet is used throughout &mdash; query answering, document enrichment, meeting summarization, link relevance scoring (Haiku for the latter two). The research material is dense and cross-disciplinary; strong synthesis matters more than fast extraction.</p>
+<p><strong>System prompt structure.</strong> The system prompt is an inline document (~1,100 tokens) in <code>api/worker.js</code>, maintained alongside the retrieval code. It is not loaded from a file at runtime. It was originally inspired by <code>SOUL.md</code> (the conceptual identity document in the repo root), but has since evolved independently and is now substantially more detailed. An agent reproducing this pattern should treat the inline prompt as the source of truth. It contains seven sections:</p>
+<ol style="margin:0.3em 0 0.8em 1.2em;color:#444;font-size:0.95em;line-height:1.9;">
+  <li><strong>Role and mission</strong> &mdash; who C3PO is; corpus-grounded research assistant, not a general chatbot.</li>
+  <li><strong>About the Protocol Institute</strong> &mdash; SoP provenance, current programs, leadership, independence. Prevents hallucinated org facts.</li>
+  <li><strong>Scope declaration</strong> &mdash; 11 topic areas explicitly in scope; 4 categories explicitly out of scope. Prevents false denials (&ldquo;I don&rsquo;t know about that&rdquo;) for topics that are in the corpus.</li>
+  <li><strong>Intellectual commitments</strong> &mdash; 9 substantive PI analytical stances (e.g. &ldquo;hardness is a design variable&rdquo;, &ldquo;context tank not think tank&rdquo;). Shapes how Claude frames answers.</li>
+  <li><strong>Voice, analytical moves, format</strong> &mdash; scholarly but accessible; specific about sources; 5 characteristic analytical moves (cross-domain comparison, hardness analysis, historical situating, formalization ladder, stakeholder analysis).</li>
+  <li><strong>Indexed corpus map</strong> &mdash; lists the key named papers, magazine, YouTube series, and SIG groups by name so Claude never falsely denies having them.</li>
+  <li><strong>Protocol lexicon</strong> &mdash; 40+ PI-coined or PI-specific terms with compact definitions injected inline. Prevents chunk-boundary definition splits and ensures PI vocabulary is used correctly even when a term doesn&rsquo;t appear verbatim in retrieved chunks.</li>
+</ol>
+<p>The Discord variant appends a <code>DISCORD VOICE OVERRIDE</code> block that supersedes the voice and length instructions. Both variants exceed the 1,024-token Anthropic prompt-cache threshold and cache independently (<code>cache_control: ephemeral</code>).</p>
 <p><strong>Rate limits:</strong> 20 queries per IP per hour via the web UI. After 8 turns, the conversation can be downloaded as Markdown and continued in Claude, or accessed without a turn limit via MCP.</p>
 </div>
 
-<div class="hiw-section" id="mcp">
-<h2>MCP access</h2>
-<p>C3PO is available as a <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener">Model Context Protocol</a> server (JSON-RPC 2.0) at <code>https://c3po.protocolized.io/mcp</code>. Connect it to Claude Code or Claude Desktop to query the corpus directly inside your AI client &mdash; no turn limit, no browser required.</p>
+<!-- ── DELIVERY INTERFACES ────────────────────────────────────────────────── -->
+<div class="hiw-section">
+<h2>Delivery interfaces</h2>
+<p>Three interfaces share the same corpus, query engine, and Cloudflare Worker. They differ in voice, turn model, and how they reach users.</p>
 
+<h3>Web UI &mdash; c3po.protocolized.io</h3>
+<p>Browser-based chat at the root URL. Full research-librarian voice. 8-turn session limit (download as Markdown to continue). Submitted conversations can be shared publicly or kept private; public submissions are indexed into the <code>transcripts</code> namespace for self-memory. The <code>/chats</code> route is a public transcript browser.</p>
+
+<h3>Discord bot &mdash; c3po#8369</h3>
+<p>Gateway bot (discord.py, WebSocket) running on the host machine under launchd (<code>org.protocol-institute.c3po-bot</code>). All bot requests pass <code>context: "discord"</code> to the Worker, selecting the 2&ndash;3 sentence office-manager response style.</p>
+<ul style="margin:0.3em 0 0.8em 1.2em;color:#444;font-size:0.95em;line-height:1.7;">
+  <li><strong>@mention in any channel</strong> &mdash; opens a thread, responds with answer + sources. Thread replies continue for up to 5 turns without re-mention; full history passed to the Worker. Side-conversation filtering: replies to another human (not the bot) are silently skipped unless the bot is @mentioned. The 5-turn cap notice is sent exactly once; subsequent messages are silently ignored.</li>
+  <li><strong>Navigation queries</strong> &mdash; &ldquo;where should I post about X?&rdquo; intent is detected by regex and routed to a <code>discord_guide</code> query instead of corpus RAG, returning the top 3 relevant channels with blurbs and meeting schedules.</li>
+  <li><strong>#introductions monitoring</strong> &mdash; new members (joined &le;60 days ago) receive a corpus resource recommendation + channel suggestion. Members who joined &gt;60 days ago and post &ge;80 characters receive a &ldquo;welcome back&rdquo; variant. Both paths use the same underlying corpus query; VGR-authored sources are filtered from intro recs to ensure diversity. New-member welcomes are queued with up to 3 retry attempts so a bot restart can recover missed welcomes.</li>
+  <li><strong>/ask, /search, /help slash commands</strong> &mdash; Discord Interactions webhook received at <code>POST /interactions</code> (Ed25519 verified); command enqueued to Cloudflare Queue; Worker queue consumer runs the RAG pipeline and posts back via Discord followup webhook.</li>
+</ul>
+<p>Completed bot conversations are spooled to <code>data/spool/bot_conversations/</code>; the listener daemon picks them up each cycle and ingests them into the <code>transcripts</code> namespace.</p>
+
+<h3 id="mcp">MCP server &mdash; /mcp</h3>
+<p>C3PO is available as a <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener">Model Context Protocol</a> server (JSON-RPC 2.0 + Streamable HTTP) at <code>https://c3po.protocolized.io/mcp</code>. Connect it to Claude Code or Claude Desktop to query the corpus directly inside your AI client &mdash; no turn limit, no browser required.</p>
 <table class="hiw-table">
 <thead><tr><th>Tool</th><th>What it does</th><th>Auth</th><th>Limit</th></tr></thead>
 <tbody>
-<tr><td><code>search_corpus</code></td><td>Semantic search across the PI archive &mdash; returns ranked excerpts with metadata and URLs; no LLM call</td><td>None</td><td>100 calls/IP/day</td></tr>
-<tr><td><code>ask_c3po</code></td><td>Full RAG: embed &rarr; retrieve &rarr; Claude Sonnet synthesis; supports multi-turn <code>history</code> for long conversations</td><td>Bearer token</td><td>Circuit-breaker shared with web UI</td></tr>
+<tr><td><code>search_corpus</code></td><td>Semantic search &mdash; returns ranked excerpts with metadata and URLs; no LLM call. Filter by namespace: <code>pdfs</code>, <code>substack</code>, <code>videos</code>, <code>bibliography</code>, <code>discord</code>, <code>sig</code>, <code>discord_links</code>, <code>definitions</code>, or <code>all</code>. Result limit 1&ndash;20 (default 10).</td><td>None</td><td>100 calls/IP/day</td></tr>
+<tr><td><code>ask_c3po</code></td><td>Full RAG: embed &rarr; retrieve &rarr; Claude Sonnet synthesis. Accepts <code>history</code> array for multi-turn sessions. Web voice (not Discord office-manager).</td><td>Bearer token</td><td>Circuit-breaker shared with web UI</td></tr>
 </tbody>
 </table>
-
-<p><strong><code>search_corpus</code></strong> is open &mdash; no key required. You can filter by namespace (<code>pdfs</code>, <code>substack</code>, <code>videos</code>, <code>bibliography</code>, <code>discord</code>, <code>sig</code>, <code>discord_links</code>, or <code>all</code>) and set a result limit (1&ndash;20, default 10). Good for agentic workflows that need raw retrieval without LLM cost.</p>
-<p><strong><code>ask_c3po</code></strong> requires a Bearer token because each call invokes Claude Sonnet and Voyage AI at real cost. To request access email <a href="mailto:team@protocol-institute.org">team@protocol-institute.org</a>.</p>
+<p><strong><code>search_corpus</code></strong> is open &mdash; no key required. Good for agentic workflows that need raw retrieval without LLM cost or turn limits.</p>
+<p><strong><code>ask_c3po</code></strong> requires a Bearer token (each call invokes Claude Sonnet and Voyage AI at real cost). To request access email <a href="mailto:team@protocol-institute.org">team@protocol-institute.org</a>.</p>
 
 <h3>Claude Code</h3>
 <p>Search only (no key needed) &mdash; run once in your terminal:</p>
@@ -2810,27 +2890,28 @@ ${subnav('/how-it-works')}
 }}}</code></pre>
 <p>For search-only without auth, omit the <code>headers</code> key.</p>
 
-<h3>Other MCP clients</h3>
-<p>Any client that supports Streamable HTTP MCP transport can connect. Point it at <code>https://c3po.protocolized.io/mcp</code> and supply the <code>Authorization: Bearer &lt;your-key&gt;</code> header if you want <code>ask_c3po</code>.</p>
-
-<div class="hiw-note"><strong>Multi-turn conversations via MCP:</strong> <code>ask_c3po</code> accepts a <code>history</code> array of <code>{"role": "user"|"assistant", "content": "..."}</code> objects alongside your question. Pass prior turns to maintain context across a session. The same hourly and daily circuit breakers that govern the web UI apply &mdash; if the budget is exhausted, calls return an error and auto-reset at the next hour or midnight PT.</div>
+<div class="hiw-note"><strong>Multi-turn conversations via MCP:</strong> <code>ask_c3po</code> accepts a <code>history</code> array of <code>{"role": "user"|"assistant", "content": "..."}</code> objects alongside your question. Pass prior turns to maintain context. The same hourly and daily circuit breakers that govern the web UI apply &mdash; calls return an error if the budget is exhausted and auto-reset at the next hour or midnight PT.</div>
 </div>
 
+<!-- ── INFRASTRUCTURE ─────────────────────────────────────────────────────── -->
 <div class="hiw-section">
 <h2>Infrastructure</h2>
-<p>The API, web UI, and MCP server are all served from a single Cloudflare Worker. Rate limiting, stats, and transcript storage use Cloudflare KV. The Worker is deployed from the <a href="https://github.com/vgururao/c3po">vgururao/c3po</a> repository (migrating to Protocol-Institute org at Phase 6).</p>
 <table class="hiw-table">
 <thead><tr><th>Component</th><th>Technology</th></tr></thead>
 <tbody>
-<tr><td>Worker</td><td>Cloudflare Workers (V8 isolates) &mdash; single worker serving web UI, RAG API, and MCP server</td></tr>
-<tr><td>Rate limiting</td><td>Cloudflare KV &mdash; 20 web queries/IP/hour; 100 <code>search_corpus</code> MCP calls/IP/day</td></tr>
-<tr><td>Circuit breaker</td><td>KV flag + hourly cron; sleeps when hourly spend exceeds $4, or all day when daily spend exceeds $30</td></tr>
-<tr><td>Usage stats</td><td>KV accumulators (hourly/daily/lifetime) for web and MCP separately; visible in stats box on the main page</td></tr>
-<tr><td>Transcript storage</td><td>Cloudflare KV &mdash; 90-day TTL; submitted conversations indexed into Pinecone <code>transcripts</code> namespace</td></tr>
-<tr><td>Alerts</td><td>Telegram bot (optional) &mdash; circuit trips and daily spend summary</td></tr>
+<tr><td>Cloudflare Worker</td><td>Single V8 isolate at <code>c3po.protocolized.io</code> serving web UI, RAG API, MCP server, and Discord Interactions endpoint. PI org account (<code>7e8c7969b2464d23795c555bc6a32af8</code>).</td></tr>
+<tr><td>Pinecone</td><td>Index <code>c3po</code> &mdash; 1,024d cosine, serverless aws/us-east-1, PI org account. 11 namespaces, ~26,300 vectors.</td></tr>
+<tr><td>Voyage AI</td><td>Model <code>voyage-3</code> (1,024d). PI org account. Same model for ingest and query.</td></tr>
+<tr><td>Cloudflare KV</td><td>Rate limiting (20 web queries/IP/hour; 100 MCP search calls/IP/day); circuit breaker flag; transcript storage (90-day TTL); usage accumulators.</td></tr>
+<tr><td>Cloudflare Queue</td><td><code>c3po-oracle</code> queue for Discord slash command deferred responses.</td></tr>
+<tr><td>Circuit breaker</td><td>KV flag + hourly cron; sleeps when hourly spend exceeds $4 or daily spend exceeds $30. Auto-resets at next hour / midnight PT.</td></tr>
+<tr><td>Ingest daemon</td><td><code>bin/daemon.py</code> &mdash; 14-step sync cycle every 30 minutes, launchd-managed (<code>org.protocol-institute.c3po.daily</code>). Logs to <code>~/Library/Logs/c3po/daemon.log</code>.</td></tr>
+<tr><td>Discord bot process</td><td><code>bin/c3po_bot.py</code> &mdash; discord.py WebSocket gateway, launchd-managed with KeepAlive (<code>org.protocol-institute.c3po-bot</code>). Logs to <code>~/Library/Logs/c3po/c3po_bot.log</code>.</td></tr>
+<tr><td>Substack sync</td><td>GitHub Actions workflow (<code>.github/workflows/sync-substack.yml</code>) &mdash; daily at 08:00 UTC; commits state files back to repo.</td></tr>
+<tr><td>Source code</td><td><a href="https://github.com/Protocol-Institute/c3po">Protocol-Institute/c3po</a> (transferred from vgururao/c3po on 2026-05-31).</td></tr>
 </tbody>
 </table>
-<div class="hiw-note">C3PO is in active development. Corpus coverage, retrieval quality, and features will expand over time. Current version: Phase 2C (Discord + SIG community archives live).</div>
+<div class="hiw-note">C3PO is in active development. The corpus, weights, system prompt, and delivery interfaces expand continuously. Development is logged publicly at <a href="https://protocolized.io/resources/c3po-devlog">protocolized.io/resources/c3po-devlog</a> and tracked in <code>ARCHITECTURE.md</code> in the repository.</div>
 </div>
 
 </div>
