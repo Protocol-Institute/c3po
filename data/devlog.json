@@ -1384,6 +1384,42 @@
           "html": "<strong>Personal account pre-deletion cleanup</strong> &mdash; Two live code files still referenced the old personal CF Worker URL (<code>c3po.vgr-702.workers.dev</code>): <code>config/sink_registry.json</code> (endpoint field) and <code>ingest/sync_web_chats.py</code> (<code>WORKER_BASE</code>). Both updated to <code>c3po.protocolized.io</code>. <code>config/corpus_map.json</code> still had the old personal Pinecone index host (<code>c3po-bwo39z7</code>); updated to the PI org host (<code>c3po-1os2tli</code>). Full audit confirmed: CF Worker, Pinecone index, Voyage AI, and GitHub repo are all fully on PI org accounts. Personal CF Worker and personal Pinecone index are now safe to delete from c3po’s perspective."
         }
       ]
+    },
+    {
+      "id": 32,
+      "sort_key": 32.0,
+      "label": "Session 32",
+      "title": "Returning-Member Welcome, How-It-Works Rewrite",
+      "date": "2026-06-08",
+      "time_pt": "10:47–13:17",
+      "tracks": [
+        "discord-bot",
+        "worker-api"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "discord_links": 9674,
+        "discord": 5580,
+        "sig": 5346,
+        "videos": 2940,
+        "substack": 1080,
+        "definitions": 560,
+        "pdfs": 750,
+        "bibliography": 278,
+        "discord_guide": 78,
+        "meta": 32,
+        "transcripts": 23,
+        "total": 26341
+      },
+      "deployed": true,
+      "items": [
+        {
+          "html": "<strong>Returning-member welcome path</strong> &mdash; <code>NEW_MEMBER_DAYS</code> raised from 30 to 60 in both <code>bin/c3po_bot.py</code> and <code>bin/seed_welcome_queue.py</code>. Diagnosed via two missed intros: Shreeram (39 days old, slipped past old threshold) and Rob Knight (801 days, old member reintroducing). <code>handle_introduction(returning=True)</code> now handles members who joined &gt;60 days ago and post &ge;80 chars in #introductions: greeting is &ldquo;Hi @user &mdash; looks like you joined a while back and are getting more active. Welcome back!&rdquo; followed by the same corpus rec + channel suggestion. The returning-member path is <em>not</em> queued (welcome queue is for critical first-time new-member welcomes). Session log gains a <code>returning: bool</code> field."
+        },
+        {
+          "html": "<strong>/how-it-works full rewrite</strong> &mdash; The live page at <code>c3po.protocolized.io/how-it-works</code> was substantially stale: all corpus counts from before session 22, SIG list missing SIGPSY and DRG, 8 namespaces instead of 11, wrong tier weights, stale SOUL.md description, old <code>vgururao/c3po</code> repo link, and &ldquo;Phase 2C&rdquo; dev status. Rewrote from 5 sections to 8. New sections: <strong>Ingest pipeline pattern</strong> (3-layer approach with JSON examples and a new-source checklist an agent can follow exactly); <strong>Query pipeline step-by-step</strong> (8 steps from embed to return); <strong>Delivery interfaces</strong> (web UI, Discord bot, MCP split into dedicated subsections). Discord bot section documents @mention/thread, nav queries, #introductions handler (both new-member and returning paths), slash commands, and the spool pattern. System prompt accurately described as a 7-section inline document in <code>worker.js</code> &mdash; not loaded from SOUL.md at runtime. All 11 namespaces with current vector counts and correct tier weights. Deployed: version <code>fb576704</code>."
+        }
+      ]
     }
   ]
 }

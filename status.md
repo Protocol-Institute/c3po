@@ -1,5 +1,43 @@
 # C3PO — Status Log
 
+## 2026-06-08 — Returning-member welcome, /how-it-works rewrite (session 32, ~10:47–13:17 PT)
+
+**Returning-member welcome path — COMPLETE**
+- `NEW_MEMBER_DAYS` raised 30→60 in `bin/c3po_bot.py` and `bin/seed_welcome_queue.py`. Diagnosed via two missed intros: Shreeram (39 days, slipped past old threshold) and Rob Knight (801 days, old member reintroducing). Maxwell's intro from Jun 7 was confirmed sent via session log (`sent: true`, 5.7s latency).
+- New `handle_introduction(returning=True)` path: members who joined >60 days ago and post ≥80 chars in #introductions get "Hi @user — looks like you joined a while back and are getting more active. Welcome back!" followed by the same corpus rec + channel rec.
+- Returning-member path not queued (welcome queue is for critical first-time welcomes only).
+- Restarted bot; seeder queued and successfully sent Shreeram's welcome (DRG rec, latency 7s).
+- Rob Knight's already-posted intro left for manual follow-up.
+
+**ARCHITECTURE.md updated — COMPLETE**
+- Fixed inverted/stale threshold description in introductions section (30→60 days, new returning path documented)
+- Added missing daemon steps 13 (sync_devlog) + 14 (generate_devlog_page)
+- Updated Pinecone counts to current (26,341)
+- Added session 32 to build history
+
+**/how-it-works page — FULL REWRITE — COMPLETE**
+- Rewrote from 5 sections to 8: added ingest pipeline pattern (3-layer + new-source checklist), query pipeline step-by-step (8 steps), delivery interfaces (web/Discord/MCP split out)
+- All corpus counts current; all 11 namespaces documented with correct weights
+- Discord bot section added: @mention, nav queries, introductions handler (both paths), slash commands, spool pattern
+- System prompt accurately described as inline 7-section document; SOUL.md stale-reference removed
+- Repo link fixed (vgururao → Protocol-Institute); dev status links to public devlog
+- Deployed: version `fb576704`
+
+**Pinecone state: ~26,341 vectors** (daemon activity: +73 since session 31; no manual ingest this session)
+
+**Open TODOs (priority order):**
+1. Delete personal CF Worker (`c3po` on `vgr-702`) — overdue
+2. Delete personal Pinecone index — c3po confirmed safe
+3. Execute VPS migration — `plans/vps-migration.md`
+4. Build c3po tracking dashboard
+5. Starter page — ~18 welcome events logged; needs ~20
+6. Exhibit extraction — `ingest/extract_structure.py`
+7. `sync_sig_pages.py` — add to daemon
+8. Anthropic key rotation to PI org account
+9. Phase E: multi-node swarm planning
+
+---
+
 ## 2026-06-06 — Discord bot fixes, SIGPSY+DRG onboarded, pre-deletion cleanup (session 31, ~10:00–13:30 PT)
 
 **Discord bot fixes — COMPLETE**
