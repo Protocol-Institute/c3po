@@ -1,5 +1,53 @@
 [
   {
+    "id": 201186141,
+    "slug": "challenges-trivial-grand-and-whitehead",
+    "title": "Challenges: Trivial, Grand, and Whitehead",
+    "subtitle": "Introducing the Protocol Institute Challenges program",
+    "post_date": "2026-06-09T12:18:19.756Z",
+    "updated_at": "2026-06-09T13:14:46.193Z",
+    "type": "newsletter",
+    "wordcount": 2228,
+    "section_id": 333103,
+    "section_name": "Obliquities",
+    "postTags": [
+      {
+        "id": "34e7c098-1ee2-4eee-9216-0213be2877de",
+        "name": "Challenges",
+        "slug": "challenges"
+      },
+      {
+        "id": "e5cc4bc2-6d24-4073-8e6a-9214c483fd1b",
+        "name": "Culture",
+        "slug": "culture"
+      },
+      {
+        "id": "ef288b40-b5e4-4d44-9b8e-437375f78efd",
+        "name": "Protocol Symposium",
+        "slug": "protocol-symposium"
+      }
+    ],
+    "publishedBylines": [
+      {
+        "id": 2264734,
+        "name": "Venkatesh Rao",
+        "handle": "contraptions",
+        "bio": "Delving. Writing the Contraptions newsletter. "
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 7,
+    "restacks": 3,
+    "comment_count": 0,
+    "previous_post_slug": "2026-protocol-symposium-new-nature",
+    "next_post_slug": null
+  },
+  {
     "id": 199590632,
     "slug": "maintaining-everything-that-matters",
     "title": "Maintaining Everything That Matters",
@@ -41,8 +89,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 5,
-    "restacks": 2,
+    "reaction_count": 7,
+    "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "irrigation-by-protocol-when-vineyards",
     "next_post_slug": null
@@ -84,11 +132,11 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 12,
-    "restacks": 4,
+    "reaction_count": 14,
+    "restacks": 5,
     "comment_count": 0,
     "previous_post_slug": "inventing-new-nature",
-    "next_post_slug": null
+    "next_post_slug": "challenges-trivial-grand-and-whitehead"
   },
   {
     "id": 199381132,
@@ -213,7 +261,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 45,
+    "reaction_count": 46,
     "restacks": 12,
     "comment_count": 5,
     "previous_post_slug": "introducing-the-protocol-institute",
@@ -256,8 +304,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 7,
-    "restacks": 2,
+    "reaction_count": 8,
+    "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "the-headless-empire",
     "next_post_slug": "the-overloaded-train"
@@ -353,7 +401,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 104,
+    "reaction_count": 105,
     "restacks": 24,
     "comment_count": 15,
     "previous_post_slug": "a-primordial-computing-soup",
@@ -3669,7 +3717,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 4,
+    "reaction_count": 5,
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "necrophoresis",

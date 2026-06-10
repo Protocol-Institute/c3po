@@ -1487,5 +1487,17 @@
     "all_authors": [
       "Matthew McDowell-Sweet"
     ]
+  },
+  "challenges-trivial-grand-and-whitehead": {
+    "summary": "Venkatesh Rao introduces the Protocol Institute Challenges program, designed to catalyze fresh research efforts around protocol science problems by moving beyond repackaged thinking and cosmetic applications. The program aims to develop practitioners who think natively in protocols rather than superficially applying protocol concepts to existing problems.",
+    "categories": [
+      "protocol-theory",
+      "announcement",
+      "organizations"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ]
   }
 }
