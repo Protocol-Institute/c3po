@@ -24,6 +24,8 @@ If a request seems to belong in a front-end project, flag it and suggest the cor
 
 **→ See [`plans/bot-ecology.md`](plans/bot-ecology.md)** for the full pubsub-swarm architecture, bot node inventory, and roadmap (Phases A–E).
 
+**→ See [`plans/website-interface.md`](plans/website-interface.md)** for the approved design for how c3po supplies content (meeting summaries, etc.) to the website. **Key rule: c3po writes JSON only; it never writes HTML or page structure.** The website owns all rendering. Implementation is pending — `generate_sig_pages.py` still does HTML generation and needs to be refactored per that plan.
+
 Three nodes: `c3po_listener` (ingest daemon), `c3po_bot` (Discord gateway), `c3po_web` (Cloudflare Worker). Both local bots managed by launchd; logs at `~/Library/Logs/c3po/`.
 
 ## Python
