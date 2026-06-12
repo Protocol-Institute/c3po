@@ -68,7 +68,8 @@ SIG_INFO = {
     "DRG": {
         "slug":        "drg",
         "name":        "Distributed Robotics Group",
-        "description": "Studying and developing protocols for onchain robotics — examining how decentralized coordination, blockchain infrastructure, and physical automation intersect to create new classes of protocol design challenges and opportunities.",
+        "description": "The Distributed Robotics Group studies and develops protocols for onchain robotics — examining how decentralized coordination, blockchain infrastructure, and robots and physical AI intersect to create new classes of protocol design challenges. Building one robot is an engineering challenge; getting two or more to coordinate is a protocol problem.",
+        "description_extra": "DRG is an applied research group: half its focus is on the protocols themselves, the other half on building the robots to test them. Protocols are engineered arguments, so DRG engineers and tests robot protocols on real robots.",
         "lead":        "Anuraj R. and Rafael Fernandez",
         "schedule":    "Biweekly Thursdays, 3:30pm UTC",
         "channel_id":  "1508175637020676259",
@@ -200,6 +201,7 @@ def generate_sig_page(sig_key: str, meetings: list[dict]) -> str:
     slug = info["slug"]
     name = info["name"]
     description = info["description"]
+    description_extra = info.get("description_extra", "")
     lead = info["lead"]
     schedule = info["schedule"]
 
@@ -245,6 +247,7 @@ def generate_sig_page(sig_key: str, meetings: list[dict]) -> str:
 
       <div class="about-body">
         <p>{html_escape(description)}</p>
+        {f'<p>{html_escape(description_extra)}</p>' if description_extra else ''}
         <p class="sig-meta">Led by {html_escape(lead)} &mdash; {html_escape(schedule)}</p>
         <p style="margin-top:1rem"><a href="../sigs.html" class="back-link">&#8592; All Special Interest Groups</a></p>
       </div>
@@ -325,11 +328,7 @@ def main():
         slug = info["slug"]
         print(f"  Generating {slug} — {len(meetings)} meetings")
         html = generate_sig_page(sig_key, meetings)
-        # Write {slug}.html (relative-path format, legacy)
-        out_html = SIGS_OUT_DIR / f"{slug}.html"
-        out_html.write_text(html)
-        print(f"    → {out_html}")
-        # Also write {slug}/index.html (absolute-path format, clean URL)
+        # Write {slug}/index.html (clean URL, absolute paths)
         index_html = html.replace('href="../assets/', 'href="/assets/') \
                          .replace('href="../css/', 'href="/css/') \
                          .replace('href="../js/', 'href="/js/') \
