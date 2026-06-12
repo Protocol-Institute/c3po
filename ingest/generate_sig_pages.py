@@ -107,34 +107,11 @@ def html_escape(s: str) -> str:
 
 
 def nav_html(depth: int = 1) -> str:
-    prefix = "../" * depth
-    return f"""  <header>
-    <nav class="site-nav" aria-label="Site navigation">
-      <a href="{prefix}index.html" class="nav-brand"><img src="{prefix}assets/logo-static.png" alt="" class="nav-logo">The Protocol Institute</a>
-      <button class="nav-toggle" id="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Toggle navigation">&#8801;</button>
-      <ul class="nav-links" id="nav-links" role="list">
-        <li><a href="{prefix}projects.html">Initiatives</a></li>
-        <li><a href="https://protocolized.io" target="_blank" rel="noopener noreferrer">Magazine</a></li>
-        <li><a href="{prefix}about.html">About</a></li>
-        <li><a href="{prefix}support.html">Support Us</a></li>
-        <li><a href="{prefix}contact.html">Contact</a></li>
-      </ul>
-    </nav>
-  </header>"""
+    return "  <header id=\"site-header\"></header>"
 
 
 def footer_html(depth: int = 1) -> str:
-    prefix = "../" * depth
-    return f"""  <footer class="site-footer">
-    <nav class="footer-nav" aria-label="Footer navigation">
-      <a href="{prefix}team.html">Team</a>
-      <a href="{prefix}network.html">Network</a>
-      <a href="{prefix}consulting.html">Consulting</a>
-      <a href="{prefix}symposium-2026.html">Symposium</a>
-      <a href="{prefix}contact.html">Contact</a>
-    </nav>
-    <p>&copy; 2025 The Protocol Institute</p>
-  </footer>"""
+    return "  <footer class=\"site-footer\"></footer>"
 
 
 MEETING_EXTRA_CSS = """  <style>
@@ -287,7 +264,7 @@ def generate_sig_page(sig_key: str, meetings: list[dict]) -> str:
 
 </div>
 
-<script src="../js/main.js"></script>
+<script src="/js/main.js"></script>
 </body>
 </html>
 """
