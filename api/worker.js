@@ -1069,6 +1069,7 @@ function subnav(current) {
     + navLink('/how-it-works', 'How It Works')
     + navLink('/roadmap', 'Roadmap')
     + navLink('/chats', 'Conversations')
+    + navLink('/status', 'Corpus Status')
     + '</div>'
     + '<span class="c3po-subnav-spacer"></span>'
     + '<a href="https://protocolized.io" class="c3po-back-link">← protocolized.io</a>'
@@ -3587,6 +3588,23 @@ export default {
       });
     }
 
+    // ── GET /status → corpus status dashboard ────────────────────────────────
+    if (request.method === "GET" && url.pathname === "/status") {
+      const stats = await env.RATE_LIMIT.get("dashboard:stats", "json");
+      return new Response(renderStatusPage(stats), {
+        headers: { "Content-Type": "text/html; charset=UTF-8", "Cache-Control": "no-cache" },
+      });
+    }
+
+    // ── PUT /api/admin/dashboard → store dashboard stats blob in KV ──────────
+    if (request.method === "PUT" && url.pathname === "/api/admin/dashboard") {
+      const key = request.headers.get("X-Admin-Key") || "";
+      if (!env.ADMIN_KEY || key !== env.ADMIN_KEY) return json({ error: "Unauthorized" }, 401, corsHeaders);
+      const blob = await request.json();
+      await env.RATE_LIMIT.put("dashboard:stats", JSON.stringify(blob));
+      return json({ ok: true }, 200, corsHeaders);
+    }
+
     // ── GET /api/chats — public/admin chat listing ───────────────────────────
     if (request.method === "GET" && url.pathname === "/api/chats") {
       return handleApiChats(request, env, corsHeaders);
@@ -3830,6 +3848,127 @@ export default {
     }
   },
 };
+
+// ── Status page renderer ───────────────────────────────────────────────────────
+
+function renderStatusPage(stats) {
+  const STATUS_CSS = `
+    .st-section{margin:2.5rem 0}
+    .st-section h2{font-family:"Instrument Serif",serif;font-size:1.4rem;font-weight:500;margin:0 0 0.5rem;color:var(--text,#1a1a1a)}
+    .st-section p{font-size:0.9rem;color:var(--muted,#666);margin:0 0 1rem}
+    .st-table{width:100%;border-collapse:collapse;font-size:0.875rem;margin:0.75rem 0}
+    .st-table th{text-align:left;padding:0.4rem 0.75rem;border-bottom:2px solid var(--border,#e0dbd3);font-size:0.75rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--muted,#888)}
+    .st-table td{padding:0.45rem 0.75rem;border-bottom:1px solid var(--border,#e0dbd3);vertical-align:top}
+    .st-table tr:last-child td{border-bottom:none}
+    .st-table .num{text-align:right;font-variant-numeric:tabular-nums;font-family:monospace}
+    .st-table .dim{color:var(--muted,#888);font-size:0.82rem}
+    .st-total td{border-top:2px solid var(--border,#e0dbd3)!important;font-weight:600}
+    .st-badge{display:inline-block;font-size:0.7rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;padding:0.1em 0.5em;border-radius:3px}
+    .st-active{background:#e6f4ee;color:#1a6b40}
+    .st-static{background:#f0f0f0;color:#666}
+    .st-meta{font-size:0.82rem;color:var(--muted,#888);margin:0 0 2rem}
+    code{font-size:0.82em;background:var(--bg2,#f3f0ea);padding:0.1em 0.35em;border-radius:3px}`;
+
+  function he(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function fmtTs(iso) {
+    if (!iso) return '—';
+    try {
+      var d = new Date(iso);
+      return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'})
+        + ' ' + d.toISOString().slice(11,16) + ' UTC';
+    } catch(e) { return iso; }
+  }
+  function fmtDate(ymd) {
+    if (!ymd) return '—';
+    try {
+      var d = new Date(ymd + 'T00:00:00Z');
+      return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});
+    } catch(e) { return ymd; }
+  }
+
+  if (!stats) {
+    return '<!DOCTYPE html><html><body>' + subnav('/status')
+      + '<div style="padding:3rem 2rem;font-family:system-ui"><p>Dashboard not yet published. Run <code>python3 ingest/publish_dashboard.py</code> to generate.</p></div></body></html>';
+  }
+
+  var generated = fmtTs(stats.generated);
+  var corpus    = stats.corpus || {};
+  var total     = (corpus.total_vectors || 0).toLocaleString();
+  var nsList    = corpus.namespaces || [];
+  var sigs      = stats.sigs || [];
+  var patrol    = stats.patrol || [];
+
+  // Namespace table
+  var nsRows = nsList.map(function(ns) {
+    return '<tr><td><code>' + he(ns.name) + '</code></td>'
+      + '<td class="num">' + (ns.vectors||0).toLocaleString() + '</td>'
+      + '<td class="dim">' + he(ns.description) + '</td></tr>';
+  }).join('\n');
+  nsRows += '\n<tr class="st-total"><td>Total</td><td class="num">' + total + '</td><td></td></tr>';
+
+  // SIG table
+  var sigRows = sigs.map(function(s) {
+    return '<tr><td>' + he(s.name) + '</td>'
+      + '<td class="num">' + (s.meetings||0) + '</td>'
+      + '<td>' + fmtDate(s.last_meeting) + '</td>'
+      + '<td class="dim">' + fmtTs(s.last_synced) + '</td></tr>';
+  }).join('\n');
+
+  // Patrol table
+  var patrolRows = patrol.map(function(p) {
+    var badge = p.status === 'active'
+      ? '<span class="st-badge st-active">active</span>'
+      : '<span class="st-badge st-static">static</span>';
+    return '<tr><td>' + he(p.source) + '</td>'
+      + '<td><code>' + he(p.namespace) + '</code></td>'
+      + '<td class="dim">' + he(p.targets) + '</td>'
+      + '<td class="dim">' + he(p.cadence) + '</td>'
+      + '<td class="dim">' + fmtTs(p.last_run) + '</td>'
+      + '<td>' + badge + '</td></tr>';
+  }).join('\n');
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Corpus Status — C3PO</title>
+<style>${SUBNAV_CSS}${STATUS_CSS}</style>
+</head>
+<body style="margin:0;padding:0 1.5rem 4rem;font-family:Outfit,system-ui,sans-serif;background:var(--bg,#fafaf8);color:var(--text,#1a1a1a);max-width:900px;margin:0 auto">
+${subnav('/status')}
+<h1 style="font-family:'Instrument Serif',serif;font-size:2rem;font-weight:500;margin:2rem 0 0.25rem">Corpus Status</h1>
+<p class="st-meta">Updated ${he(generated)} &nbsp;·&nbsp; ${total} vectors indexed</p>
+
+<section class="st-section">
+<h2>Indexed Namespaces</h2>
+<p>Live vector counts across all namespaces in the c3po Pinecone index.</p>
+<table class="st-table">
+<thead><tr><th>Namespace</th><th class="num">Vectors</th><th>Contents</th></tr></thead>
+<tbody>${nsRows}</tbody>
+</table>
+</section>
+
+<section class="st-section">
+<h2>SIG Meeting Archive</h2>
+<p>Meeting records ingested from Discord. Each SIG maintains a public archive on protocol-institute.org.</p>
+<table class="st-table">
+<thead><tr><th>SIG</th><th class="num">Meetings</th><th>Last meeting</th><th>Last synced</th></tr></thead>
+<tbody>${sigRows}</tbody>
+</table>
+</section>
+
+<section class="st-section">
+<h2>Patrol Manifest</h2>
+<p>Sources routinely trawled for new content by the c3po ingest daemon.</p>
+<table class="st-table">
+<thead><tr><th>Source</th><th>Namespace</th><th>Targets</th><th>Cadence</th><th>Last run</th><th>Status</th></tr></thead>
+<tbody>${patrolRows}</tbody>
+</table>
+</section>
+</body>
+</html>`;
+}
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 

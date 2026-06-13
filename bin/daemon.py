@@ -21,6 +21,7 @@ Steps each cycle:
  12. sync_web_chats.py         — web KV → transcripts namespace
  13. sync_devlog.py            — devlog sessions → meta namespace
  14. generate_devlog_page.py   — publish devlog to protocolized.io D1
+ 15. publish_dashboard.py      — push corpus stats to c3po.protocolized.io/status
 
 Usage (manual):
     /opt/homebrew/bin/python3 bin/daemon.py
@@ -139,6 +140,7 @@ def run_sync(cycle: int) -> None:
         ("sync_web_chats",           [VENV_PY, "ingest/sync_web_chats.py"]),
         ("sync_devlog",              [VENV_PY, "ingest/sync_devlog.py"]),
         ("generate_devlog_page",     [VENV_PY, "ingest/generate_devlog_page.py"]),
+        ("publish_dashboard",        [VENV_PY, "ingest/publish_dashboard.py"]),
     ]
 
     step_results = {}
