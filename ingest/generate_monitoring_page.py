@@ -5,6 +5,8 @@ Reads:
   - data/sync_log.json        — run history from all sync scripts
   - data/channel_manifest.json — channel inventory
   - data/discord_links_registry.json — link farming stats
+  - data/sigs/meetings/*.json — SIG meeting records
+  - Pinecone live stats       — namespace vector counts
 
 Writes:
   - ../website/monitoring.html
@@ -14,9 +16,15 @@ Usage:
 """
 
 import json
+import os
+import sys
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+from dotenv import load_dotenv
+load_dotenv(Path(__file__).parent.parent / ".env")
 
 DATA_DIR     = Path(__file__).parent.parent / "data"
 CONFIG_DIR   = Path(__file__).parent.parent / "config"
@@ -25,7 +33,32 @@ LOG_PATH     = DATA_DIR / "sync_log.json"
 MANIFEST_PATH = DATA_DIR / "channel_manifest.json"
 REGISTRY_PATH = DATA_DIR / "discord_links_registry.json"
 BOT_REGISTRY_PATH = CONFIG_DIR / "bot_registry.json"
-OUT_PATH     = WEBSITE_DIR / "monitoring.html"
+OUT_PATH     = Path(__file__).parent.parent / "monitoring.html"
+
+MEETINGS_DIR = DATA_DIR / "sigs" / "meetings"
+
+NAMESPACE_DESCRIPTIONS = {
+    "discord_links": "External URLs shared across Discord, harvested & scored",
+    "discord":       "General + forum channels; starred msgs weighted 1.0×, unstarred 0.70×",
+    "sig":           "SIG Discord messages/summaries + .org meeting pages",
+    "videos":        "YouTube talks (PI corpus)",
+    "substack":      "Protocolized magazine posts",
+    "definitions":   "PI lexicon (914 terms, triage a/b/c)",
+    "pdfs":          "Papers/essays from PI corpus",
+    "bibliography":  "External works cited by PI corpus",
+    "discord_guide": "All active guild channels; Haiku-described; SIG cadence",
+    "meta":          "C3PO self-knowledge: devlog sessions",
+    "transcripts":   "Bot conversation self-memory: web + Discord Q&A",
+}
+
+SIG_DISPLAY = {
+    "SIGFPT":    "Formal Protocol Theory",
+    "MRG":       "Memory Research Group",
+    "SIGPfB":    "Protocols for Business",
+    "ProtFiSIG": "Protocol Fiction",
+    "SIGPSY":    "Psychohistory (SIGPSY)",
+    "DRG":       "Distributed Robotics Group",
+}
 
 SCRIPT_LABELS = {
     "sync_discord":       "Discord harvest",
@@ -332,6 +365,125 @@ def link_stats(registry: dict) -> str:
     </table>"""
 
 
+def pinecone_section() -> tuple[str, int]:
+    """Query live Pinecone stats. Returns (html, total_vectors)."""
+    try:
+        from pinecone import Pinecone
+        pc  = Pinecone(api_key=os.environ["PINECONE_API_KEY"])
+        idx = pc.Index(host=os.environ["PINECONE_C3PO_HOST"])
+        stats = idx.describe_index_stats()
+        total = stats.total_vector_count
+        ns_map = {ns: info.vector_count for ns, info in stats.namespaces.items()}
+    except Exception as e:
+        return f"    <p class='muted'>Could not fetch Pinecone stats: {he(str(e))}</p>", 0
+
+    rows = []
+    for ns in sorted(ns_map, key=lambda n: -ns_map[n]):
+        desc = he(NAMESPACE_DESCRIPTIONS.get(ns, ""))
+        rows.append(
+            f'      <tr><td><code>{he(ns)}</code></td>'
+            f'<td class="number">{ns_map[ns]:,}</td>'
+            f'<td class="muted-desc">{desc}</td></tr>'
+        )
+    rows.append(
+        f'      <tr class="total-row"><td><strong>Total</strong></td>'
+        f'<td class="number"><strong>{total:,}</strong></td><td></td></tr>'
+    )
+    table = (
+        '    <table class="monitor-table">\n'
+        '      <thead><tr><th>Namespace</th><th class="number">Vectors</th><th>Description</th></tr></thead>\n'
+        '      <tbody>\n'
+        + "\n".join(rows)
+        + '\n      </tbody>\n    </table>'
+    )
+    return table, total
+
+
+def sig_meetings_section(log: dict) -> str:
+    """Per-SIG meeting counts, last meeting date, last sync from log."""
+    if not MEETINGS_DIR.exists():
+        return "    <p class='muted'>No meeting records found.</p>"
+
+    # Count meetings and find last date per SIG
+    counts: dict[str, int]  = defaultdict(int)
+    last_date: dict[str, str] = {}
+    for f in MEETINGS_DIR.glob("*.json"):
+        try:
+            r   = json.loads(f.read_text())
+            sig = r.get("sig", "")
+            if sig not in SIG_DISPLAY:
+                continue
+            counts[sig] += 1
+            d = r.get("date", "") or ""
+            if d and d != "unknown":
+                if d > last_date.get(sig, ""):
+                    last_date[sig] = d
+        except Exception:
+            pass
+
+    # Last SIG sync timestamp from log
+    last_sync: dict[str, str] = {}
+    for r in log.get("runs", []):
+        if r.get("script") == "sync_sig":
+            for ch in r.get("channels", []):
+                sig = ch.get("sig", "")
+                ts  = r.get("ts", "")
+                if sig and ts > last_sync.get(sig, ""):
+                    last_sync[sig] = ts
+
+    rows = []
+    for sig, name in SIG_DISPLAY.items():
+        n       = counts.get(sig, 0)
+        ld      = last_date.get(sig, "")
+        ld_fmt  = fmt_ts(ld + "T00:00:00Z") if ld else '<span class="muted">—</span>'
+        ls      = last_sync.get(sig, "")
+        ls_fmt  = fmt_ts(ls) if ls else '<span class="muted">—</span>'
+        rows.append(
+            f'      <tr><td>{he(name)}</td>'
+            f'<td class="number">{n}</td>'
+            f'<td>{ld_fmt}</td>'
+            f'<td>{ls_fmt}</td></tr>'
+        )
+
+    return (
+        '    <table class="monitor-table">\n'
+        '      <thead><tr>'
+        '<th>SIG</th><th class="number">Meetings</th>'
+        '<th>Last meeting</th><th>Last synced</th>'
+        '</tr></thead>\n'
+        '      <tbody>\n'
+        + "\n".join(rows)
+        + '\n      </tbody>\n    </table>'
+    )
+
+
+def last_sync_summary(log: dict) -> str:
+    """Most recent run per script — compact status table."""
+    runs = log.get("runs", [])
+    latest: dict[str, dict] = {}
+    for r in runs:
+        s = r.get("script", "?")
+        if r.get("ts", "") > latest.get(s, {}).get("ts", ""):
+            latest[s] = r
+
+    if not latest:
+        return "    <p class='muted'>No sync history yet.</p>"
+
+    rows = []
+    for script, r in sorted(latest.items(), key=lambda x: -ord(x[0][0])):
+        label  = he(SCRIPT_LABELS.get(script, script))
+        ts     = fmt_ts(r.get("ts", ""))
+        rows.append(f'      <tr><td>{label}</td><td>{he(ts)}</td></tr>')
+
+    return (
+        '    <table class="monitor-table narrow">\n'
+        '      <thead><tr><th>Script</th><th>Last run</th></tr></thead>\n'
+        '      <tbody>\n'
+        + "\n".join(rows)
+        + '\n      </tbody>\n    </table>'
+    )
+
+
 # ── Page assembly ──────────────────────────────────────────────────────────────
 
 def build_page(log: dict, manifest: dict, registry: dict, bot_registry: dict) -> str:
@@ -340,6 +492,10 @@ def build_page(log: dict, manifest: dict, registry: dict, bot_registry: dict) ->
     generated   = datetime.now(timezone.utc).strftime("%-d %b %Y %H:%M UTC")
     n_channels  = len(manifest.get("channels", {}))
     n_active    = sum(1 for c in manifest.get("channels", {}).values() if c.get("status") == "active")
+
+    pinecone_html, total_vectors = pinecone_section()
+    sig_html     = sig_meetings_section(log)
+    last_sync_html = last_sync_summary(log)
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -367,6 +523,8 @@ def build_page(log: dict, manifest: dict, registry: dict, bot_registry: dict) ->
     .run-ts {{ color: #999; font-size: 0.8rem; margin-left: 0.5rem; }}
     .muted {{ color: #888; font-style: italic; }}
     .meta-bar {{ font-size: 0.85rem; color: #666; margin: 0.5rem 0 2rem; }}
+    .muted-desc {{ color: #888; font-size: 0.82rem; }}
+    .total-row td {{ border-top: 2px solid #ccc; padding-top: 0.6rem; }}
   </style>
 </head>
 <body>
@@ -377,7 +535,20 @@ def build_page(log: dict, manifest: dict, registry: dict, bot_registry: dict) ->
       Generated {generated}
       {('&nbsp;·&nbsp; Last run: ' + he(fmt_ts(last_run_ts))) if last_run_ts else ''}
       &nbsp;·&nbsp; {n_active} active channels / {n_channels} total
+      {('&nbsp;·&nbsp; ' + f'{total_vectors:,} vectors') if total_vectors else ''}
     </p>
+
+    <section class="monitor-section">
+      <h2>Corpus — Pinecone Namespaces</h2>
+      <p>Live vector counts across all namespaces in the <code>c3po</code> Pinecone index (PI org account).</p>
+{pinecone_html}
+    </section>
+
+    <section class="monitor-section">
+      <h2>SIG Meetings</h2>
+      <p>Meeting records ingested from Discord into <code>data/sigs/meetings/</code>.</p>
+{sig_html}
+    </section>
 
     <section class="monitor-section">
       <h2>Bot Nodes</h2>
@@ -389,6 +560,11 @@ def build_page(log: dict, manifest: dict, registry: dict, bot_registry: dict) ->
       <h2>Channel Registry</h2>
       <p>All channels in the ingestion manifest. Active channels are polled daily; archived channels were swept once.</p>
 {channel_table(manifest)}
+    </section>
+
+    <section class="monitor-section">
+      <h2>Last Sync per Script</h2>
+{last_sync_html}
     </section>
 
     <section class="monitor-section">
