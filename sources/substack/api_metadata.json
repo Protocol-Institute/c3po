@@ -1,5 +1,37 @@
 [
   {
+    "id": 201556635,
+    "slug": "the-big-man",
+    "title": "The Big Man",
+    "subtitle": "Elizabeth Maher's world-building series continues, reimagining American folklore from a protocolized perspective",
+    "post_date": "2026-06-12T17:13:45.198Z",
+    "updated_at": "2026-06-12T17:16:17.360Z",
+    "type": "newsletter",
+    "wordcount": 3979,
+    "section_id": 333105,
+    "section_name": "Fictions",
+    "postTags": [],
+    "publishedBylines": [
+      {
+        "id": 2011373,
+        "name": "Thing Party",
+        "handle": "thingparty",
+        "bio": null
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 3,
+    "restacks": 2,
+    "comment_count": 0,
+    "previous_post_slug": "the-overloaded-train",
+    "next_post_slug": null
+  },
+  {
     "id": 201186141,
     "slug": "challenges-trivial-grand-and-whitehead",
     "title": "Challenges: Trivial, Grand, and Whitehead",
@@ -41,7 +73,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 7,
+    "reaction_count": 10,
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "2026-protocol-symposium-new-nature",
@@ -227,7 +259,7 @@
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "all-you-can-do-here-is-leave",
-    "next_post_slug": null
+    "next_post_slug": "the-big-man"
   },
   {
     "id": 197280065,
