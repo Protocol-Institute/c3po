@@ -12,16 +12,15 @@
 - Deleted `c3po` index from personal Pinecone account using `PINECONE_PERSONAL_API_KEY`
 - Remaining indexes on personal account: `contraptions`, `ribbonfarm`, `vgr-books`, `vgr-twitter` (untouched)
 
-**Pinecone state: ~26,739 vectors** (daemon activity since session 32: +398)
+**Pinecone state: ~26,748 vectors** (daemon + 6 new SIG meeting pages this session)
 
 **Open TODOs (priority order):**
-1. Execute VPS migration — `plans/vps-migration.md`
-2. Build c3po tracking dashboard
-3. Starter page — tally at 25 recs, threshold reached (~20)
-4. Exhibit extraction — `ingest/extract_structure.py`
-5. `sync_sig_pages.py` — add to daemon
-6. Anthropic key rotation to PI org account
-7. Phase E: multi-node swarm planning
+1. Execute VPS migration — `plans/vps-migration.md` (blocks daemon→website push + `update_sig_pages.py` + `sync_sig_pages.py` daemon wiring)
+2. Starter page — tally at 25 recs, threshold reached (~20)
+3. Exhibit extraction — `ingest/extract_structure.py`
+4. `sync_sig_pages.py` + `update_sig_pages.py` — add to daemon (needs VPS first)
+5. Anthropic key rotation to PI org account
+6. Phase E: multi-node swarm planning
 
 ---
 
