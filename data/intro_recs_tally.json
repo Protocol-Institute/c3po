@@ -129,6 +129,66 @@
       "count": 1,
       "last_seen": "2026-06-03",
       "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/dirt-simple": {
+      "title": "Dirt Simple",
+      "url": "https://protocolized.summerofprotocols.com/p/dirt-simple",
+      "source": "substack",
+      "author": "PAtwater",
+      "label": "ESSAY",
+      "count": 1,
+      "last_seen": "2026-06-08",
+      "is_fallback": false
+    },
+    "https://protocolized.io/resources/c3po-devlog#session-31": {
+      "title": "Session 31: Discord Bot Fixes, SIGPSY + DRG Onboarded, Personal Account Cleanup",
+      "url": "https://protocolized.io/resources/c3po-devlog#session-31",
+      "source": "devlog",
+      "author": "Protocol Institute",
+      "label": "C3PO DEVLOG",
+      "count": 1,
+      "last_seen": "2026-06-08",
+      "is_fallback": false
+    },
+    "https://www.youtube.com/watch?v=RVFoRVBvW7E": {
+      "title": "Towards a Formal Theory of Protocols",
+      "url": "https://www.youtube.com/watch?v=RVFoRVBvW7E",
+      "source": "youtube",
+      "author": "Benitesh Raalo",
+      "label": "TALK",
+      "count": 1,
+      "last_seen": "2026-06-09",
+      "is_fallback": false
+    },
+    "https://files.protocolized.io/01-RETROSPECTUS-2023-12-13.pdf": {
+      "title": "2023 Retrospectus",
+      "url": "https://files.protocolized.io/01-RETROSPECTUS-2023-12-13.pdf",
+      "source": "pdf",
+      "author": "Summer of Protocols",
+      "label": "PAPER",
+      "count": 2,
+      "last_seen": "2026-06-13",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/what-is-protocol-fiction": {
+      "title": "What is Protocol Fiction?",
+      "url": "https://protocolized.summerofprotocols.com/p/what-is-protocol-fiction",
+      "source": "substack",
+      "author": "Spencer Nitkey",
+      "label": "PROTOCOLIZED",
+      "count": 1,
+      "last_seen": "2026-06-11",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/fault-tolerance": {
+      "title": "Fault Tolerance",
+      "url": "https://protocolized.summerofprotocols.com/p/fault-tolerance",
+      "source": "substack",
+      "author": "Josh Davis",
+      "label": "FICTION",
+      "count": 1,
+      "last_seen": "2026-06-12",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -157,29 +217,29 @@
       "name": "👾-protocol-fiction",
       "display": "#👾-protocol-fiction",
       "sig_display": "ProtFiSIG",
-      "count": 1,
-      "last_seen": "2026-05-31"
+      "count": 3,
+      "last_seen": "2026-06-12"
     },
     "1327337414175490160": {
       "name": "🎩-formal-protocol-theory",
       "display": "#🎩-formal-protocol-theory",
       "sig_display": "SIGFPT",
-      "count": 1,
-      "last_seen": "2026-05-31"
+      "count": 2,
+      "last_seen": "2026-06-09"
     },
     "1333851496416153702": {
       "name": "🚜-protocols-for-business",
       "display": "#🚜-protocols-for-business",
       "sig_display": "SIGPfB",
-      "count": 2,
-      "last_seen": "2026-06-05"
+      "count": 5,
+      "last_seen": "2026-06-13"
     },
     "1508175637020676259": {
       "name": "🦾-distributed-robotics",
       "display": "#🦾-distributed-robotics",
       "sig_display": "",
-      "count": 1,
-      "last_seen": "2026-06-02"
+      "count": 2,
+      "last_seen": "2026-06-08"
     }
   }
 }

@@ -1,5 +1,30 @@
 # C3PO — Status Log
 
+## 2026-06-13 — Personal infra decommission (session 33, PT)
+
+**Personal CF Worker deleted — COMPLETE**
+- Removed `c3po` worker from personal CF account (`Vgr@ribbonfarm.com`, ID `7026b5d7c1ad16cb808987576bb07ab2`)
+- Had to first remove the queue consumer binding on `c3po-oracle` queue via API (wrangler delete blocked otherwise)
+- Also deleted the orphaned `c3po-oracle` queue on personal account
+- Used wrangler OAuth token at `~/Library/Preferences/.wrangler/config/default.toml` with `CLOUDFLARE_ACCOUNT_ID=7026b5d7c1ad16cb808987576bb07ab2`
+
+**Personal Pinecone `c3po` index deleted — COMPLETE**
+- Deleted `c3po` index from personal Pinecone account using `PINECONE_PERSONAL_API_KEY`
+- Remaining indexes on personal account: `contraptions`, `ribbonfarm`, `vgr-books`, `vgr-twitter` (untouched)
+
+**Pinecone state: ~26,739 vectors** (daemon activity since session 32: +398)
+
+**Open TODOs (priority order):**
+1. Execute VPS migration — `plans/vps-migration.md`
+2. Build c3po tracking dashboard
+3. Starter page — tally at 25 recs, threshold reached (~20)
+4. Exhibit extraction — `ingest/extract_structure.py`
+5. `sync_sig_pages.py` — add to daemon
+6. Anthropic key rotation to PI org account
+7. Phase E: multi-node swarm planning
+
+---
+
 ## 2026-06-08 — Returning-member welcome, /how-it-works rewrite (session 32, ~10:47–13:17 PT)
 
 **Returning-member welcome path — COMPLETE**
