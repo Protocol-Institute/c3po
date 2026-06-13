@@ -71,7 +71,7 @@ SIG_INFO = {
         "description": "The Distributed Robotics Group studies and develops protocols for onchain robotics — examining how decentralized coordination, blockchain infrastructure, and robots and physical AI intersect to create new classes of protocol design challenges. Building one robot is an engineering challenge; getting two or more to coordinate is a protocol problem.",
         "description_extra": "DRG is an applied research group: half its focus is on the protocols themselves, the other half on building the robots to test them. Protocols are engineered arguments, so DRG engineers and tests robot protocols on real robots.",
         "lead":        "Anuraj R. and Rafael Fernandez",
-        "schedule":    "Biweekly Thursdays, 3:30pm UTC",
+        "schedule":    "Biweekly Thursdays, 4:30pm UTC",
         "channel_id":  "1508175637020676259",
     },
 }
