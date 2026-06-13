@@ -265,6 +265,7 @@
       "sig_display": "DRG",
       "meeting_patterns": [
         "DRG\\s+\\d{1,2}[A-Za-z]{3}\\d{2,4}",
+        "DRG#\\d+",
         "DRG\\s+[Mm]eeting",
         "DRG:\\s+",
         "Distributed Robotics.*[Mm]eeting"
