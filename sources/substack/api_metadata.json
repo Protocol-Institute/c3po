@@ -25,7 +25,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 3,
+    "reaction_count": 7,
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "the-overloaded-train",
@@ -122,7 +122,7 @@
       }
     ],
     "reaction_count": 7,
-    "restacks": 3,
+    "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "irrigation-by-protocol-when-vineyards",
     "next_post_slug": null
@@ -895,6 +895,11 @@
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
+      {
+        "id": "35b99fe6-b9db-48f8-8c94-232b7932b8f0",
+        "name": "Building and Burning Bridges",
+        "slug": "building-and-burning-bridges"
+      },
       {
         "id": "95ca5b95-2296-4242-aec0-bb2aed087b4b",
         "name": "Stories",
