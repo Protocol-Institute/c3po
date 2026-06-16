@@ -1,5 +1,36 @@
 # C3PO — Status Log
 
+## 2026-06-16 — GHA fix, 6 missing YouTube videos, PR #4 D1 migration (session 35, PT)
+
+**GHA Substack sync fix — COMPLETE**
+- `sync-substack-resources.py` line 261: backslash-escaped quote inside f-string expression — valid Python 3.12+ but breaks on 3.11 (CI runner). Fixed: `'\"A post...\"'` → `yaml_str('A post...')`, equivalent output.
+- Triggered manual run; `jamverse-jam` ingested. substack: 1,101 → 1,106 (+5 vectors incl. american-skyway tag change).
+
+**6 missing YouTube videos ingested — COMPLETE**
+- Root cause: `fetch_youtube_meta.py` discovers videos only by walking the 10 tracked playlists; these 6 were either pre-playlist SoP-era standalones or guest talks never assigned to a playlist on YouTube. protocolized-website had them as manually-created resource stubs but c3po had never ingested them.
+- Fixed `--video` flag to bootstrap a stub entry for playlist-orphaned videos, then fetched captions, Haiku-enriched, upserted.
+- Videos: Atoms/Institutions/Blockchains, Punk/Folk/Myth/Protocols, Scaling Bitcoin (Lightning), Seeing SCP as Narrative Protocol, SoP Office Hours 0, SoP Town Hall.
+- videos: 2,940 → 3,127 (+187; 91 → 97 videos)
+- Synced enriched Markdown to protocolized-website; R2 thumbnails uploaded; D1 re-migrated (311 resources).
+
+**PR #4 merged + D1 migration — COMPLETE**
+- Merged `enriched_categories` column drop from protocolized-website D1 schema.
+- Ran live migration: `ALTER TABLE posts DROP COLUMN enriched_categories;` — success.
+
+**Pinecone state: ~27,089 vectors** (session start: 26,883; +206)
+
+**Open TODOs (priority order):**
+1. Starter page — 28 recs across 20 resources in tally (threshold reached); build "good first reads" page + wire into intro handler
+2. SIG call transcript ingestion — plan ingest pipeline for meeting transcripts
+3. Execute VPS migration — `plans/vps-migration.md`
+4. Exhibit extraction — `ingest/extract_structure.py`
+5. `sync_sig_pages.py` + `update_sig_pages.py` — add to daemon (needs VPS first)
+6. Anthropic key rotation to PI org account
+7. Rotate `GH_PAT` to fine-grained PAT scoped to protocolized-website only
+8. Phase E: multi-node swarm planning
+
+---
+
 ## 2026-06-15 — protocolized-website resource pipeline (session 34, PT)
 
 **Resource pipeline — COMPLETE**

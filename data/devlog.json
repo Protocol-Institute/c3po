@@ -1510,6 +1510,46 @@
           "html": "Cross-repo push from c3po's workflow to protocolized-website requires a token with write access. Deploy keys are disabled at the Protocol-Institute org level; fine-grained PAT creation requires browser MFA and has no CLI path. Used the existing gh CLI OAuth token as a short-term solution, registered in <code>admin/keys.md</code> with a flag to rotate to a scoped fine-grained PAT. <code>CLOUDFLARE_API_TOKEN</code> (PI org CF token) also added to c3po GH Actions secrets for the D1 fallback query in <code>sync-substack-resources.py</code>."
         }
       ]
+    },
+    {
+      "id": 35,
+      "sort_key": 35.0,
+      "label": "Session 35",
+      "title": "GHA Fix, 6 Missing YouTube Videos, PR #4 D1 Migration",
+      "date": "2026-06-16",
+      "time_pt": "",
+      "tracks": [
+        "corpus-ingestion",
+        "operations"
+      ],
+      "costs_usd": {
+        "haiku_enrichment": 0.03,
+        "voyage_embedding": 0.02
+      },
+      "vector_counts": {
+        "videos": 3127,
+        "substack": 1106,
+        "total": 27089
+      },
+      "deployed": false,
+      "items": [
+        {
+          "title": "GHA Substack sync failure — fixed:",
+          "html": "<strong>GHA Substack sync failure — fixed:</strong> <code>sync-substack-resources.py</code> used a backslash-escaped quote inside an f-string expression (<code>'\\\"A post...\\\"'</code>). Python 3.12+ allows backslashes in f-string expressions; the CI runner (3.11) does not. Fix: replaced the literal with <code>yaml_str('A post from the Protocolized magazine.')</code> — identical output, no backslash in the expression. Manual run confirmed clean; <code>jamverse-jam</code> ingested."
+        },
+        {
+          "title": "Why 6 YouTube videos were missing:",
+          "html": "<strong>Why 6 YouTube videos were missing:</strong> <code>fetch_youtube_meta.py</code> discovers videos solely by walking the 10 hardcoded playlist IDs in <code>PLAYLISTS</code>. Videos not assigned to any of those playlists on YouTube are invisible to the ingest pipeline — regardless of how visible they are on the channel. The 6 missing videos were either pre-playlist SoP-era standalones (2023 office hours and town hall) or guest talks published to YouTube but never added to a tracked playlist. <code>protocolized-website</code> had them as manually-created resource stubs; c3po had never seen them."
+        },
+        {
+          "title": "6 missing videos ingested:",
+          "html": "<strong>6 missing videos ingested:</strong> Fixed the <code>--video</code> flag to bootstrap a stub entry for playlist-orphaned videos, then fetched captions via yt-dlp, Haiku-enriched (summary, categories, speakers, key concepts), and upserted to the <code>videos</code> Pinecone namespace. Videos: <em>Atoms, Institutions, Blockchains</em> (Josh Stark); <em>Punk, Folk, Myth, Protocols</em> (Sam Chua); <em>Scaling Bitcoin: The Rise of the Lightning Network</em> (Lisa Nifut); <em>Seeing SCP as a Narrative Protocol</em> (Simon Dea Rir); <em>Summer of Protocols Office Hours 0</em>; <em>Summer of Protocols Town Hall</em>. videos: 2,940 → 3,127 (+187; 91 → 97 videos). Enriched Markdown synced to protocolized-website; R2 thumbnails uploaded; D1 re-migrated."
+        },
+        {
+          "title": "PR #4 merged + D1 column drop:",
+          "html": "<strong>PR #4 merged + D1 column drop:</strong> Merged the <code>enriched_categories</code> column removal from protocolized-website's D1 schema (was always written as <code>[]</code>, never read). Ran the live one-time migration: <code>ALTER TABLE posts DROP COLUMN enriched_categories;</code> against the remote <code>protocolized-resources</code> database. Clean — 0 errors."
+        }
+      ]
     }
   ]
 }
