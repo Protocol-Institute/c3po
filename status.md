@@ -1,5 +1,45 @@
 # C3PO — Status Log
 
+## 2026-06-15 — protocolized-website resource pipeline (session 34, PT)
+
+**Resource pipeline — COMPLETE**
+- Implemented c3po → protocolized-website enrichment pipeline across all three content types
+- PDF + YouTube: daemon-driven, mtime-gated; detects when `enriched_meta.json` changes and runs sync scripts in protocolized-website, then pushes; GH Actions `sync-resources-d1.yml` handles D1 migration on push
+- Substack: GH Actions-driven; c3po's `sync-substack.yml` now chains to protocolized-website after daily Substack sync, runs `sync-substack-resources.py`, pushes enriched resource Markdown
+- Sync scripts (`sync-pdf-resources.py`, `sync-youtube-resources.py`, `sync-substack-resources.py`) updated to accept `C3PO_ROOT` env var override for use in GH Actions
+- `sync-resources-d1.yml` (new GH Actions workflow in protocolized-website): auto-migrates D1 on any push to `src/content/resources/`
+- `draft_resource.py` (new): intake helper that writes resource Markdown stubs for new PDFs not yet in protocolized-website
+- `enrichment_sync_state.json` (new, gitignored): tracks mtime of enriched_meta files for daemon gating
+
+**Race condition fixed — COMPLETE**
+- protocolized-website's `sync-substack.py` was creating unenriched RSS-based resource stubs that conflicted with c3po's enriched stubs; both ran at 08:00 UTC with no coordination
+- Fix: stripped all Markdown creation from `sync-substack.py`; it now only handles D1 posts table + R2 (its actual job); state tracked in `.substack-sync-state.json` keyed by slug, independent of Markdown file existence
+- 135 existing slugs bootstrapped into state file on first run
+
+**enriched_categories PR — OPEN**
+- PR #4 in protocolized-website: removes vestigial `enriched_categories` column from D1 posts table (always `[]`, never read); includes one-time migration command
+
+**Keys**
+- `CLOUDFLARE_API_TOKEN` added to c3po GH Actions secrets
+- `GH_PAT` added to c3po GH Actions secrets (currently using CLI OAuth token — flag for rotation to fine-grained PAT scoped to protocolized-website)
+- `GH_PAT` registered in `admin/keys.md`
+- `.env.keys` Dropbox ignore attribute was lost — re-applied
+
+**Pinecone state: ~26,881 vectors** (daemon activity since session 33; no manual ingest this session)
+
+**Open TODOs (priority order):**
+1. **SIG call transcript ingestion** — plan ingest pipeline for meeting transcripts from SIG calls (next session)
+2. Execute VPS migration — `plans/vps-migration.md`
+3. Starter page — tally at 25 recs, threshold reached (~20)
+4. Exhibit extraction — `ingest/extract_structure.py`
+5. `sync_sig_pages.py` + `update_sig_pages.py` — add to daemon (needs VPS first)
+6. Anthropic key rotation to PI org account
+7. Rotate `GH_PAT` to fine-grained PAT scoped to protocolized-website only
+8. Merge PR #4 (enriched_categories drop) + run D1 migration
+9. Phase E: multi-node swarm planning
+
+---
+
 ## 2026-06-13 — Personal infra decommission (session 33, PT)
 
 **Personal CF Worker deleted — COMPLETE**
