@@ -1090,5 +1090,125 @@
     ],
     "series": "town-hall-new-nature",
     "has_captions": true
+  },
+  "F2eTIVl3p48": {
+    "video_id": "F2eTIVl3p48",
+    "title": "NA",
+    "url": "https://www.youtube.com/watch?v=F2eTIVl3p48",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm"
+    ],
+    "series": "guest-talks",
+    "has_captions": false
+  },
+  "oiCPBpz1wbs": {
+    "video_id": "oiCPBpz1wbs",
+    "title": "S04E04 - Electric Agents",
+    "url": "https://www.youtube.com/watch?v=oiCPBpz1wbs",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlvAnw12zyLw_Jp73ojcnKUj"
+    ],
+    "series": "town-hall-new-nature",
+    "has_captions": false
+  },
+  "G2ih4r_rmAU": {
+    "video_id": "G2ih4r_rmAU",
+    "title": "S0E05 - Verifiable Camouflage",
+    "url": "https://www.youtube.com/watch?v=G2ih4r_rmAU",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlvAnw12zyLw_Jp73ojcnKUj"
+    ],
+    "series": "town-hall-new-nature",
+    "has_captions": false
+  },
+  "bN7bIIsGJGM": {
+    "video_id": "bN7bIIsGJGM",
+    "title": "S04E03 - Swarm Corp.",
+    "url": "https://www.youtube.com/watch?v=bN7bIIsGJGM",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlvAnw12zyLw_Jp73ojcnKUj"
+    ],
+    "series": "town-hall-new-nature",
+    "has_captions": false
+  },
+  "ePcOaB4IVtQ": {
+    "video_id": "ePcOaB4IVtQ",
+    "title": "S04E02 - Laboratories in Deep Time",
+    "url": "https://www.youtube.com/watch?v=ePcOaB4IVtQ",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLIk0EtKZjVlvAnw12zyLw_Jp73ojcnKUj"
+    ],
+    "series": "town-hall-new-nature",
+    "has_captions": false
+  },
+  "c-HKt0XhxSE": {
+    "video_id": "c-HKt0XhxSE",
+    "title": "Atoms, Institutions, Blockchains",
+    "url": "https://www.youtube.com/watch?v=c-HKt0XhxSE",
+    "duration_sec": 0,
+    "upload_date": "20240417",
+    "playlist_ids": [],
+    "series": "guest-talks",
+    "has_captions": true
+  },
+  "2IyKlJR56Ww": {
+    "video_id": "2IyKlJR56Ww",
+    "title": "Punk, Folk, Myth, Protocols: Sketching The Socioimaginational",
+    "url": "https://www.youtube.com/watch?v=2IyKlJR56Ww",
+    "duration_sec": 0,
+    "upload_date": "20240710",
+    "playlist_ids": [],
+    "series": "guest-talks",
+    "has_captions": true
+  },
+  "Te-q8oxW35I": {
+    "video_id": "Te-q8oxW35I",
+    "title": "Scaling Bitcoin: The Rise of the Lightning Network",
+    "url": "https://www.youtube.com/watch?v=Te-q8oxW35I",
+    "duration_sec": 0,
+    "upload_date": "20240410",
+    "playlist_ids": [],
+    "series": "guest-talks",
+    "has_captions": true
+  },
+  "Ejuwkc51gR4": {
+    "video_id": "Ejuwkc51gR4",
+    "title": "Seeing SCP as a Narrative Protocol",
+    "url": "https://www.youtube.com/watch?v=Ejuwkc51gR4",
+    "duration_sec": 0,
+    "upload_date": "20231108",
+    "playlist_ids": [],
+    "series": "guest-talks",
+    "has_captions": true
+  },
+  "OjYRYH3oRJk": {
+    "video_id": "OjYRYH3oRJk",
+    "title": "Summer of Protocols Office Hours 0",
+    "url": "https://www.youtube.com/watch?v=OjYRYH3oRJk",
+    "duration_sec": 0,
+    "upload_date": "20230320",
+    "playlist_ids": [],
+    "series": "town-hall",
+    "has_captions": true
+  },
+  "vCG1N3Ww6T0": {
+    "video_id": "vCG1N3Ww6T0",
+    "title": "Summer of Protocols Town Hall",
+    "url": "https://www.youtube.com/watch?v=vCG1N3Ww6T0",
+    "duration_sec": 0,
+    "upload_date": "20230313",
+    "playlist_ids": [],
+    "series": "town-hall",
+    "has_captions": true
   }
 }

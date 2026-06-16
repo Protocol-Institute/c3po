@@ -207,6 +207,20 @@ def main():
     # Filter to single video if requested
     target_ids = [args.video] if args.video else list(meta.keys())
 
+    # Bootstrap stub for --video IDs not found in any playlist
+    if args.video and args.video not in meta:
+        print(f"  Note: {args.video} not found in any tracked playlist — bootstrapping stub entry")
+        meta[args.video] = {
+            "video_id": args.video,
+            "title": args.video,
+            "url": f"https://www.youtube.com/watch?v={args.video}",
+            "duration_sec": 0,
+            "upload_date": "",
+            "playlist_ids": [],
+            "series": "other",
+            "has_captions": False,
+        }
+
     if args.dry_run:
         print("\nDry run — listing videos:")
         for vid in target_ids:

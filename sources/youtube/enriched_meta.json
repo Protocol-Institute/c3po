@@ -2581,5 +2581,160 @@
       "high reliability organizations",
       "evolutionary dynamics"
     ]
+  },
+  "c-HKt0XhxSE": {
+    "video_id": "c-HKt0XhxSE",
+    "title": "Atoms, Institutions, Blockchains",
+    "url": "https://www.youtube.com/watch?v=c-HKt0XhxSE",
+    "duration_sec": 0,
+    "upload_date": "20240417",
+    "playlist_ids": [],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Josh Stark from the Ethereum Foundation discusses the concept of 'hardness' and how blockchains create unique properties compared to other systems. He explores the relationship between atoms, institutions, and blockchains, examining what makes blockchain protocols special and how this framing applies to protocol research more broadly.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "governance"
+    ],
+    "speakers": [
+      "Josh Stark"
+    ],
+    "key_concepts": [
+      "hardness",
+      "blockchains",
+      "institutions",
+      "protocol properties",
+      "ethereum governance"
+    ]
+  },
+  "2IyKlJR56Ww": {
+    "video_id": "2IyKlJR56Ww",
+    "title": "Punk, Folk, Myth, Protocols: Sketching The Socioimaginational",
+    "url": "https://www.youtube.com/watch?v=2IyKlJR56Ww",
+    "duration_sec": 0,
+    "upload_date": "20240710",
+    "playlist_ids": [],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Sam Chua, a protocol-curious cultural entrepreneur from Southeast Asia, explores the intersection of punk, folk, and mythological narratives with protocol design. He argues that understanding how societies learn and change—particularly through the concept of 'working imagination' as a cultural-technical capacity—is essential to grasping how new concepts become embedded in everyday practice and protocol design.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "research-report"
+    ],
+    "speakers": [
+      "Sam Chua"
+    ],
+    "key_concepts": [
+      "working imagination",
+      "socioimaginational",
+      "protocol-culture",
+      "soft-hard technical-social intersection",
+      "futures thinking"
+    ]
+  },
+  "Te-q8oxW35I": {
+    "video_id": "Te-q8oxW35I",
+    "title": "Scaling Bitcoin: The Rise of the Lightning Network",
+    "url": "https://www.youtube.com/watch?v=Te-q8oxW35I",
+    "duration_sec": 0,
+    "upload_date": "20240410",
+    "playlist_ids": [],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Lisa Nifut discusses Bitcoin scaling through the Lightning Network, a layer-2 protocol solution analogous to Ethereum L2s. The talk covers the history and development of Lightning Network technology, Nifut's personal journey in protocol improvement work, and the entrepreneurial process of identifying and implementing protocol upgrades.",
+    "categories": [
+      "protocol-theory",
+      "interview",
+      "research-report",
+      "technology-ai"
+    ],
+    "speakers": [
+      "Lisa Nifut"
+    ],
+    "key_concepts": [
+      "Lightning Network",
+      "layer-2 scaling",
+      "protocol improvement",
+      "Bitcoin",
+      "payment channels"
+    ]
+  },
+  "Ejuwkc51gR4": {
+    "video_id": "Ejuwkc51gR4",
+    "title": "Seeing SCP as a Narrative Protocol",
+    "url": "https://www.youtube.com/watch?v=Ejuwkc51gR4",
+    "duration_sec": 0,
+    "upload_date": "20231108",
+    "playlist_ids": [],
+    "series": "guest-talks",
+    "has_captions": true,
+    "summary": "Simon Dea Rir discusses the SCP (Secure Contain Protect) collaborative fiction project, analyzing it as a narrative protocol that combines creative storytelling with structured governance frameworks. He explores parallels between SCP's collaborative mechanisms and protocols from crypto and web technologies, examining how protocol-like elements enable large-scale distributed fiction writing.",
+    "categories": [
+      "protocol-theory",
+      "protocol-fiction",
+      "interview"
+    ],
+    "speakers": [
+      "Simon Dea Rir"
+    ],
+    "key_concepts": [
+      "narrative protocol",
+      "SCP (Secure Contain Protect)",
+      "collaborative fiction",
+      "protocol elements",
+      "distributed authorship"
+    ]
+  },
+  "OjYRYH3oRJk": {
+    "video_id": "OjYRYH3oRJk",
+    "title": "Summer of Protocols Office Hours 0",
+    "url": "https://www.youtube.com/watch?v=OjYRYH3oRJk",
+    "duration_sec": 0,
+    "upload_date": "20230320",
+    "playlist_ids": [],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "This is an open office hours session for the Summer of Protocols program where organizers answer applicant questions about the application process, submission requirements, and the program's working definition of protocols. Key topics include clarification that writing samples need not be protocol-related, deadline specifics (Tuesday the 21st at midnight Pacific time), and discussion of the evolving definition of protocols as 'a stratum of codified behavior that allows for the construction or emergence of complex coordinated behaviors at adjacent loci.'",
+    "categories": [
+      "announcement",
+      "editorial"
+    ],
+    "speakers": [],
+    "key_concepts": [
+      "protocol definition",
+      "codified behavior",
+      "coordinated behaviors",
+      "Summer of Protocols program",
+      "application process"
+    ]
+  },
+  "vCG1N3Ww6T0": {
+    "video_id": "vCG1N3Ww6T0",
+    "title": "Summer of Protocols Town Hall",
+    "url": "https://www.youtube.com/watch?v=vCG1N3Ww6T0",
+    "duration_sec": 0,
+    "upload_date": "20230313",
+    "playlist_ids": [],
+    "series": "town-hall",
+    "has_captions": true,
+    "summary": "The speaker outlines the genesis of Summer of Protocols, explaining how initial questions about Ethereum's governance and evolution revealed a broader gap in understanding protocols across disciplines. The initiative brings together researchers from diverse backgrounds to collaboratively develop a theory of protocols and increase protocol literacy through an intensive summer program.",
+    "categories": [
+      "announcement",
+      "protocol-theory",
+      "governance"
+    ],
+    "speakers": [
+      "Speaker 1",
+      "Venet"
+    ],
+    "key_concepts": [
+      "protocol theory",
+      "protocol evolution",
+      "protocol governance",
+      "protocol literacy",
+      "cross-disciplinary analysis"
+    ]
   }
 }
