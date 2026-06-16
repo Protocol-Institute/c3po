@@ -126,8 +126,8 @@
       "source": "devlog",
       "author": "Protocol Institute",
       "label": "C3PO DEVLOG",
-      "count": 1,
-      "last_seen": "2026-06-03",
+      "count": 3,
+      "last_seen": "2026-06-15",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/dirt-simple": {
@@ -189,6 +189,16 @@
       "count": 1,
       "last_seen": "2026-06-12",
       "is_fallback": false
+    },
+    "https://files.protocolized.io/17-e43-FERNANDEZ.pdf": {
+      "title": "Welcome to the Swarm",
+      "url": "https://files.protocolized.io/17-e43-FERNANDEZ.pdf",
+      "source": "pdf",
+      "author": "Rafael Fernández",
+      "label": "PAPER",
+      "count": 1,
+      "last_seen": "2026-06-14",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -240,6 +250,13 @@
       "sig_display": "",
       "count": 2,
       "last_seen": "2026-06-08"
+    },
+    "1084135714830164100": {
+      "name": "🤔-idle-protocol-musings",
+      "display": "#🤔-idle-protocol-musings",
+      "sig_display": "",
+      "count": 1,
+      "last_seen": "2026-06-14"
     }
   }
 }
