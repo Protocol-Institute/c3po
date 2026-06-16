@@ -40,3 +40,34 @@ jobs:
             git commit -m "chore: substack sync $(date -u +%Y-%m-%d)"
             git push
           fi
+
+      - name: Checkout protocolized-website
+        uses: actions/checkout@v4
+        with:
+          repository: Protocol-Institute/protocolized-website
+          path: protocolized-website
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Install worker dependencies (wrangler for D1 fallback query)
+        run: npm ci
+        working-directory: protocolized-website/worker
+
+      - name: Sync Substack resources to protocolized-website
+        run: python3 protocolized-website/scripts/sync-substack-resources.py
+        env:
+          C3PO_ROOT: ${{ github.workspace }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Push protocolized-website if resources changed
+        run: |
+          cd protocolized-website
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/content/resources/
+          if git diff --cached --quiet; then
+            echo "No resource changes to push"
+          else
+            COUNT=$(git diff --cached --name-only | wc -l | tr -d ' ')
+            git commit -m "chore: sync $COUNT Substack resource(s) from c3po $(date -u +%Y-%m-%d)"
+            git push
+          fi
