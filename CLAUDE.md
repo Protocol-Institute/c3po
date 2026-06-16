@@ -14,9 +14,11 @@ RAG research assistant for the Protocol Institute corpus. Named for the Star War
 - `protocol-institute/website/` — protocol-institute.org (static HTML). Org pages, project listings.
 
 When a request touches both layers — e.g. "mirror Substack images" — the right factorization is usually:
-- **Ingest/pipeline logic** (fetch, embed, upsert to Pinecone) → c3po
+- **Ingest/pipeline logic** (fetch, enrich, embed, upsert to Pinecone) → c3po
 - **Storage and serving** (R2, D1, rendered HTML routes) → protocolized-website
 - **Static content updates** (project descriptions, links) → website
+
+**Resource library ownership:** c3po is the enrichment source for all PI research content (PDFs, YouTube, etc.). protocolized-website is a downstream client — its `scripts/sync-*-resources.py` scripts pull from c3po's `sources/*/enriched_meta.json`. New content should be ingested through c3po first, not added manually to protocolized-website. See [`plans/resource-pipeline.md`](plans/resource-pipeline.md).
 
 If a request seems to belong in a front-end project, flag it and suggest the correct folder before starting work. Don't implement front-end features here unless they are purely API surface (e.g. a new Worker endpoint that the front-end calls).
 
@@ -25,6 +27,8 @@ If a request seems to belong in a front-end project, flag it and suggest the cor
 **→ See [`plans/bot-ecology.md`](plans/bot-ecology.md)** for the full pubsub-swarm architecture, bot node inventory, and roadmap (Phases A–E).
 
 **→ See [`plans/website-interface.md`](plans/website-interface.md)** for the approved design for how c3po supplies content (meeting summaries, etc.) to the website. **Key rule: c3po writes JSON only; it never writes HTML or page structure.** The website owns all rendering. Implementation is pending — `generate_sig_pages.py` still does HTML generation and needs to be refactored per that plan.
+
+**→ See [`plans/resource-pipeline.md`](plans/resource-pipeline.md)** for the resource library pipeline. **c3po is the enrichment source; protocolized-website is a client.** New resources enter via c3po's ingest pipeline (`enrich_pdfs.py`, `enrich_youtube.py`) and are synced to the website via its `sync-*-resources.py` scripts. Do not manually create resource Markdown files in protocolized-website for content that c3po can enrich — run the ingest pipeline first.
 
 Three nodes: `c3po_listener` (ingest daemon), `c3po_bot` (Discord gateway), `c3po_web` (Cloudflare Worker). Both local bots managed by launchd; logs at `~/Library/Logs/c3po/`.
 
