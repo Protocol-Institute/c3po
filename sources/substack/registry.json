@@ -24,6 +24,13 @@
     "null": "Protocolized"
   },
   "last_sync": {
+    "jamverse-jam": {
+      "updated_at": "2026-06-16T16:19:15.364Z",
+      "wordcount": 1197,
+      "postTags": [
+        "jamverse-jam"
+      ]
+    },
     "the-big-man": {
       "updated_at": "2026-06-12T17:16:17.360Z",
       "wordcount": 3979,
@@ -1298,5 +1305,5 @@
       ]
     }
   },
-  "last_sync_timestamp": "2026-06-16T12:56:05Z"
+  "last_sync_timestamp": "2026-06-16T16:53:34Z"
 }

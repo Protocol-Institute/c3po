@@ -1,5 +1,61 @@
 [
   {
+    "id": 202196193,
+    "slug": "jamverse-jam",
+    "title": "Jamverse Jam",
+    "subtitle": "Announcing Protocolized’s fourth contest: we’re looking for artists and writers to extend and connect interoperable worlds",
+    "post_date": "2026-06-16T16:18:40.271Z",
+    "updated_at": "2026-06-16T16:19:15.364Z",
+    "type": "newsletter",
+    "wordcount": 1197,
+    "section_id": null,
+    "section_name": "Protocolized",
+    "postTags": [
+      {
+        "id": "a578056b-4746-42ec-a9f9-7ae48771b5a5",
+        "name": "Jamverse Jam",
+        "slug": "jamverse-jam"
+      }
+    ],
+    "publishedBylines": [
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      },
+      {
+        "id": 933715,
+        "name": "Sachin",
+        "handle": "summerlightning",
+        "bio": "Infrastructure ethnography"
+      },
+      {
+        "id": 309697450,
+        "name": "Spencer Nitkey - Writer",
+        "handle": "spencernitkeywriting",
+        "bio": "Stories in Apex, Asimov Press, Nature, Lightspeed, The Adroit Journal, and many others."
+      },
+      {
+        "id": 2011373,
+        "name": "Thing Party",
+        "handle": "thingparty",
+        "bio": null
+      },
+      {
+        "id": 1244472,
+        "name": "Randy Lubin",
+        "handle": "randylubin",
+        "bio": "Startups & Game Design: http://leveragedplay.com (foresight games) – http://diegeticgames.com (consumer games) – http://storysynth.org (online games platform)"
+      }
+    ],
+    "reaction_count": 5,
+    "restacks": 2,
+    "comment_count": 0,
+    "previous_post_slug": "protocols-for-the-long-now",
+    "next_post_slug": null
+  },
+  {
     "id": 201556635,
     "slug": "the-big-man",
     "title": "The Big Man",
@@ -384,7 +440,7 @@
     "restacks": 6,
     "comment_count": 1,
     "previous_post_slug": "strangeness-illegibility-hardness",
-    "next_post_slug": null
+    "next_post_slug": "jamverse-jam"
   },
   {
     "id": 195635948,
