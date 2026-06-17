@@ -1550,6 +1550,46 @@
           "html": "<strong>PR #4 merged + D1 column drop:</strong> Merged the <code>enriched_categories</code> column removal from protocolized-website's D1 schema (was always written as <code>[]</code>, never read). Ran the live one-time migration: <code>ALTER TABLE posts DROP COLUMN enriched_categories;</code> against the remote <code>protocolized-resources</code> database. Clean — 0 errors."
         }
       ]
+    },
+    {
+      "id": 36,
+      "sort_key": 36.0,
+      "label": "Session 36",
+      "title": "Intro Quality System + SIG Meeting Capture Design",
+      "date": "2026-06-17",
+      "time_pt": "11:00–14:56",
+      "tracks": [
+        "ux",
+        "operations",
+        "corpus-ingestion"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "total": 27089
+      },
+      "deployed": false,
+      "items": [
+        {
+          "title": "Root cause of intro response mismatches",
+          "html": "<strong>Root cause of intro response mismatches:</strong> The intro handler's title-matching loop excluded VGR-authored sources before checking whether Claude had mentioned them. So when Claude's answer named a VGR paper (USoP was the most common case), the exclusion fired, the title match failed silently, and the fallback picked a random high-ranked source unrelated to what Claude actually said. Additionally, the Retrospectus — a yearly index document with no <code>is_cover_letter</code> flag — was appearing as a fallback source despite being unsuitable as a recommendation."
+        },
+        {
+          "title": "Intro handler rewrite",
+          "html": "<strong>Intro handler rewrite:</strong> Added <code>_is_excluded_from_intro()</code> — a single function that filters VGR-authored papers, cover letters, devlog sources, the Retrospectus by title, and definition entries without URLs. Added <code>_find_mentioned_source()</code> — scans all retrieved sources for the one whose title best matches the answer text, using exact substring then fuzzy word-overlap (≥60% of 4-char+ words). The corpus query now explicitly asks Claude to prefer non-VGR resources. The suggested reading list allows up to 3 links: the title-matched source first (always mentioned in the response text), plus up to 2 bonus sources from the valid pool."
+        },
+        {
+          "title": "Per-response quality monitoring",
+          "html": "<strong>Per-response quality monitoring:</strong> Added <code>bin/intro_quality.py</code>: called by the intro handler after every response, before posting. Runs 6 checks — <em>title_mismatch</em> (primary link not found in answer text), <em>no_title_match</em> (source chosen by rank, not title), <em>usp_in_answer</em> (USoP over-referenced), <em>vgr_paper_mentioned</em> (VGR paper named in answer), <em>short_answer</em> (under 80 chars), <em>no_url_removed</em> (auto-fix: drops no-URL sources). Simple problems auto-fix before posting; others are logged. Log at <code>data/intro_quality_log.jsonl</code>, one entry per notable response. Added <code>bin/review_intro_quality.py</code> for session-start review. Updated <code>CLAUDE.md</code> startup ritual to include this step."
+        },
+        {
+          "title": "SIGFPT Roam graph inspection and ingest plan",
+          "html": "<strong>SIGFPT Roam graph inspection and ingest plan:</strong> Inspected a 165-page Roam graph export of the SIGFPT working graph (1.7MB). Classified content: 14 rich meeting topic pages (AI summaries, vocabulary, participant discussions, reading lists), 3 raw transcripts (too noisy to ingest directly), 52 empty daily stubs, ~8 Protocol Foundations Workshop pages, ~6 standalone concept pages. The SIG master page maps each meeting date to a Roam page title and, for earlier sessions, a Discord thread ID. Plan written to <code>plans/roam-ingest.md</code>: ~56 vectors to the <code>sig</code> namespace via a new <code>ingest/sync_roam.py</code> script, plus <code>data/roam_enrichments.json</code> for website enrichment (reading lists, vocabulary, participants per meeting page)."
+        },
+        {
+          "title": "Designed-for-ingestion SIG meeting capture protocol",
+          "html": "<strong>Designed-for-ingestion SIG meeting capture protocol:</strong> Decided to deprecate Roam as the SIGFPT capture format. The new design separates capture (human-provided, minimal) from enrichment (c3po-provided, AI-driven). Facilitators commit a YAML-frontmatter Markdown file per meeting to a <code>Protocol-Institute/sig-notes</code> repo — required fields: sig, date, topic; optional but valuable: participants, reading list, transcript file. A new <code>ingest/process_sig_meeting.py</code> pipeline takes the notes file plus raw transcript, queries Pinecone for related corpus context, and feeds everything to Claude to produce a structured enrichment record (summary, vocabulary, corpus links). The enriched version — not the raw transcript — goes to Pinecone. The same template and pipeline work for all six PI SIGs, with per-SIG namespace query weights as the only configuration difference. Plan at <code>plans/sig-meeting-capture.md</code>; pending discussion with SIG hosts."
+        }
+      ]
     }
   ]
 }

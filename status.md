@@ -1,5 +1,39 @@
 # C3PO — Status Log
 
+## 2026-06-17 — Intro quality system + SIG meeting capture design (session 36, PT 11:00–14:56)
+
+**Intro response quality fixes — COMPLETE**
+- Root cause: VGR-authored papers (especially USoP) were being mentioned in Claude's answer but excluded from title-matching, so the fallback picked an unrelated source. Also: Retrospectus was appearing as a fallback (no metadata flag to exclude it).
+- Fixed `c3po_bot.py`: added `_is_excluded_from_intro()` (excludes VGR-authored, cover letters, devlog, retrospectus, no-url definitions), `_find_mentioned_source()` (fuzzy word-overlap ≥0.6 threshold), updated corpus query to prefer non-VGR resources, up to 3 suggested reading links.
+- Added `bin/intro_quality.py`: per-response quality checker — 6 check types (title_mismatch, no_title_match, usp_in_answer, vgr_paper_mentioned, short_answer, no_url_removed); auto-fixes no-URL sources; logs to `data/intro_quality_log.jsonl`.
+- Added `bin/review_intro_quality.py`: session-start review tool — shows unreviewed issues with severity summary, `--mark-reviewed` to clear.
+- Updated `CLAUDE.md` startup ritual to include quality review as step 4.
+
+**Roam ingest plan — COMPLETE (plan only)**
+- Inspected `c3po_inbox/ProtocolTheory-2026-06-17-14-32-07.json` (165 pages, 1.7MB SIGFPT Roam graph export).
+- 14 rich meeting topic pages, 3 raw transcripts (skip), 52 empty daily stubs (skip), ~8 workshop pages, ~6 concept pages.
+- Plan: `plans/roam-ingest.md` — ~56 vectors to `sig` namespace, new `ingest/sync_roam.py`, `data/roam_enrichments.json` for website enrichment.
+
+**SIG meeting capture protocol — COMPLETE (design only)**
+- Decided to deprecate Roam as capture format.
+- Designed `plans/sig-meeting-capture.md`: YAML frontmatter + markdown per meeting in `Protocol-Institute/sig-notes` repo; c3po transcript processing pipeline (raw transcript + corpus context → Claude → enriched JSON → Pinecone); generalizes to all 6 SIGs.
+- Pending: discussion with SIG hosts before implementation.
+
+**Pinecone state: ~27,089 vectors** (no index changes this session)
+
+**Open TODOs (priority order):**
+1. Implement `ingest/sync_roam.py` (plan: `plans/roam-ingest.md`)
+2. Create `Protocol-Institute/sig-notes` repo + `_template.md`; discuss with SIG hosts
+3. Starter page — 28 recs across 20 resources in tally (threshold reached); build "good first reads" page + wire into intro handler
+4. Execute VPS migration — `plans/vps-migration.md`
+5. Exhibit extraction — `ingest/extract_structure.py`
+6. `sync_sig_pages.py` + `update_sig_pages.py` — add to daemon (needs VPS first)
+7. Anthropic key rotation to PI org account
+8. Rotate `GH_PAT` to fine-grained PAT scoped to protocolized-website only
+9. Phase E: multi-node swarm planning
+
+---
+
 ## 2026-06-16 — GHA fix, 6 missing YouTube videos, PR #4 D1 migration (session 35, PT)
 
 **GHA Substack sync fix — COMPLETE**
