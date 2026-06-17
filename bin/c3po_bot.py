@@ -515,6 +515,46 @@ def _is_vgr_authored(src: dict) -> bool:
     return False
 
 
+def _is_excluded_from_intro(src: dict) -> bool:
+    """True if this source should never appear in intro suggested readings."""
+    if _is_vgr_authored(src):
+        return True
+    if src.get("is_cover_letter"):
+        return True
+    if src.get("source") == "devlog":
+        return True
+    if "retrospectus" in (src.get("title") or "").lower():
+        return True
+    # Lexicon entries without URLs can't be linked
+    if src.get("source") == "definition" and not src.get("url"):
+        return True
+    return False
+
+
+def _find_mentioned_source(sources: list[dict], answer_lower: str) -> dict | None:
+    """Find the source Claude actually named in its answer, using title matching with fuzzy fallback."""
+    best_src = None
+    best_score = 0.0
+    for src in sources:
+        if _is_excluded_from_intro(src) or not src.get("url"):
+            continue
+        title = src.get("title") or ""
+        title_core = re.sub(r'\s*\(.*?\)', '', title).strip().lower()
+        if not title_core or len(title_core) <= 6:
+            continue
+        # Exact substring match
+        if title_core in answer_lower:
+            return src
+        # Fuzzy: fraction of significant words (4+ chars) present in answer
+        words = re.findall(r'\b\w{4,}\b', title_core)
+        if words:
+            score = sum(1 for w in words if w in answer_lower) / len(words)
+            if score > best_score:
+                best_score = score
+                best_src = src
+    return best_src if best_score >= 0.6 else None
+
+
 TALLY_PATH = C3PO_DIR / "data" / "intro_recs_tally.json"
 
 def _update_intro_tally(rec_sources: list[dict], channel: dict | None) -> None:
@@ -578,7 +618,8 @@ async def handle_introduction(message: discord.Message, returning: bool = False)
     member_type = "Returning" if returning else "New"
     corpus_query = (
         f"{member_type} member introduction: {intro_text}\n\n"
-        f"Recommend the single most relevant resource from the corpus for their interests. "
+        f"Recommend the single most relevant resource from the corpus for their interests, "
+        f"preferring non-VGR-authored resources when equally relevant. "
         f"One sentence on why it fits. Be brief."
     )
 
@@ -602,25 +643,19 @@ async def handle_introduction(message: discord.Message, returning: bool = False)
     all_sources = [s for s in ((corpus_data or {}).get("sources") or [])
                    if s.get("source") != "transcript"]
 
-    # Prefer the source Claude actually named in its answer (title substring match),
-    # so the "Suggested reading" link is coherent with the answer text.
-    # Strip parenthetical suffixes like "(Revised)" before matching.
     answer_lower = answer.lower()
-    rec_sources = []
-    for src in all_sources[:8]:
-        if _is_vgr_authored(src) or src.get("is_cover_letter"):
-            continue
-        title_core = re.sub(r'\s*\(.*?\)', '', src.get("title") or "").strip().lower()
-        if title_core and len(title_core) > 6 and title_core in answer_lower:
-            rec_sources = [src]
-            break
+    # Valid sources: excluded items removed, must have a URL to be linkable
+    valid_sources = [s for s in all_sources[:8] if not _is_excluded_from_intro(s) and s.get("url")]
 
-    # Fall back to highest-ranked non-VGR source if no title match found
-    if not rec_sources:
-        rec_sources = [s for s in all_sources[:8]
-                       if not _is_vgr_authored(s) and not s.get("is_cover_letter")][:1]
-    if not rec_sources:
-        rec_sources = [_INTRO_FALLBACK_SRC]
+    # Primary: the source Claude actually named (fuzzy title match against answer text)
+    primary = _find_mentioned_source(all_sources[:8], answer_lower)
+    if primary is None:
+        primary = valid_sources[0] if valid_sources else _INTRO_FALLBACK_SRC
+
+    # Bonus: up to 2 more linkable sources, different from primary
+    primary_key = primary.get("url") or primary.get("title")
+    bonus = [s for s in valid_sources if (s.get("url") or s.get("title")) != primary_key][:2]
+    rec_sources = [primary] + bonus
 
     # Pick channel recommendation
     channel = _pick_channel(guide_hits or [])
