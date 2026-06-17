@@ -25,6 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import session_log as slog
 import welcome_queue as wq
 import seed_welcome_queue as swq
+import intro_quality
 
 import asyncio
 
@@ -648,14 +649,19 @@ async def handle_introduction(message: discord.Message, returning: bool = False)
     valid_sources = [s for s in all_sources[:8] if not _is_excluded_from_intro(s) and s.get("url")]
 
     # Primary: the source Claude actually named (fuzzy title match against answer text)
-    primary = _find_mentioned_source(all_sources[:8], answer_lower)
-    if primary is None:
-        primary = valid_sources[0] if valid_sources else _INTRO_FALLBACK_SRC
+    primary_match  = _find_mentioned_source(all_sources[:8], answer_lower)
+    title_matched  = primary_match is not None
+    primary        = primary_match if title_matched else (valid_sources[0] if valid_sources else _INTRO_FALLBACK_SRC)
 
     # Bonus: up to 2 more linkable sources, different from primary
     primary_key = primary.get("url") or primary.get("title")
     bonus = [s for s in valid_sources if (s.get("url") or s.get("title")) != primary_key][:2]
     rec_sources = [primary] + bonus
+
+    # Quality check — auto-fix simple issues, log anything notable
+    rec_sources, q_issues = intro_quality.check_and_fix(
+        answer, all_sources, rec_sources, intro_text, title_matched
+    )
 
     # Pick channel recommendation
     channel = _pick_channel(guide_hits or [])
@@ -717,6 +723,14 @@ async def handle_introduction(message: discord.Message, returning: bool = False)
 
     if sent:
         _update_intro_tally(rec_sources, channel)
+        intro_quality.log_quality(
+            user_hash=_hash_user(message.author.id),
+            intro_snippet=intro_text[:60],
+            primary_title=(rec_sources[0].get("title") or "") if rec_sources else "",
+            title_matched=title_matched,
+            rec_count=len(rec_sources),
+            issues=q_issues,
+        )
 
     log_session({
         "event":        "introduction",

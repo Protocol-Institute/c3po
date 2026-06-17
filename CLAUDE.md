@@ -123,7 +123,14 @@ After editing `data/devlog.json`, run `python3 ingest/sync_devlog.py` then `pyth
    "
    ```
 3. Run Substack dry-run: `python3 ingest/sync_substack.py --dry-run`
-4. Summarize: vector counts vs. last session, pending Substack posts, open TODOs from `status.md`.
+4. Review intro quality issues since last session:
+   ```bash
+   source .venv/bin/activate
+   python3 bin/review_intro_quality.py
+   ```
+   Present any unreviewed issues to the user and discuss fixes before starting other work.
+   After reviewing, run `python3 bin/review_intro_quality.py --mark-reviewed` to clear them.
+5. Summarize: vector counts vs. last session, pending Substack posts, open TODOs from `status.md`, and any intro quality findings.
 
 ---
 
