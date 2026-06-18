@@ -312,6 +312,47 @@ def generate_index_page(by_sig: dict[str, list[dict]]) -> str:
     return sigs_html
 
 
+def _patch_meeting_archive(index_path: Path, sig_key: str, meetings: list[dict]) -> None:
+    """
+    Replace only the Meeting Archive h2 + meeting list in an existing index.html.
+    Everything outside that block (sig-projects, about-body, etc.) is untouched.
+    """
+    import re as _re
+
+    existing = index_path.read_text()
+
+    def sort_key(r):
+        d = r.get("date", "")
+        return ("0" if not d or d == "unknown" else "1") + d
+
+    meetings_sorted = sorted(meetings, key=sort_key, reverse=True)
+    total  = len(meetings_sorted)
+    dated  = sum(1 for m in meetings_sorted if m.get("date") and m["date"] != "unknown")
+
+    cards = "\n\n".join(render_meeting_card(r) for r in meetings_sorted)
+    if not cards:
+        cards_html = '<p class="no-meetings">No meeting records yet.</p>'
+    else:
+        cards_html = f'<ul class="meeting-list" role="list">\n{cards}\n</ul>'
+
+    dated_suffix = f", {dated} dated" if dated < total else ""
+    new_h2 = f'<h2 class="section-label">Meeting Archive &mdash; {total} sessions{dated_suffix}</h2>'
+    new_block = f'{new_h2}\n\n      {cards_html}'
+
+    # Replace from the Meeting Archive h2 through the end of the list/no-meetings block,
+    # stopping just before the sig-cta div (which we do not touch).
+    pattern = _re.compile(
+        r'<h2 class="section-label">Meeting Archive.*?'
+        r'(?=\s*<div class="sig-cta">)',
+        _re.DOTALL,
+    )
+    updated, n = pattern.subn(new_block + '\n\n      ', existing)
+    if n == 0:
+        print(f"    WARNING: could not find Meeting Archive section in {index_path} — skipping patch")
+        return
+    index_path.write_text(updated)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--no-index", action="store_true", help="Skip updating sigs.html")
@@ -326,17 +367,23 @@ def main():
     for sig_key, info in SIG_INFO.items():
         meetings = by_sig.get(sig_key, [])
         slug = info["slug"]
-        print(f"  Generating {slug} — {len(meetings)} meetings")
-        html = generate_sig_page(sig_key, meetings)
-        # Write {slug}/index.html (clean URL, absolute paths)
-        index_html = html.replace('href="../assets/', 'href="/assets/') \
-                         .replace('href="../css/', 'href="/css/') \
-                         .replace('href="../js/', 'href="/js/') \
-                         .replace('href="../sigs.html"', 'href="/sigs"') \
-                         .replace('href="../', 'href="/')
         out_index = SIGS_OUT_DIR / slug / "index.html"
         out_index.parent.mkdir(parents=True, exist_ok=True)
-        out_index.write_text(index_html)
+
+        if out_index.exists():
+            # Surgical update: replace only the Meeting Archive section.
+            # Everything else on the page (sig-projects, custom content, etc.) is preserved.
+            print(f"  Updating  {slug} — {len(meetings)} meetings (surgical)")
+            _patch_meeting_archive(out_index, sig_key, meetings)
+        else:
+            print(f"  Creating  {slug} — {len(meetings)} meetings (new file)")
+            html = generate_sig_page(sig_key, meetings)
+            index_html = html.replace('href="../assets/', 'href="/assets/') \
+                             .replace('href="../css/', 'href="/css/') \
+                             .replace('href="../js/', 'href="/js/') \
+                             .replace('href="../sigs.html"', 'href="/sigs"') \
+                             .replace('href="../', 'href="/')
+            out_index.write_text(index_html)
         print(f"    → {out_index}")
 
     sigs_html_path = WEBSITE_DIR / "sigs.html"
