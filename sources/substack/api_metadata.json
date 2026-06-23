@@ -1,5 +1,58 @@
 [
   {
+    "id": 203101190,
+    "slug": "the-character-of-public-transit-systems",
+    "title": "The Character of Public Transit Systems",
+    "subtitle": "Kannen leads a tour of the world's public transit systems, revealing what they tell us about the cultures and trust dynamics of the cities they serve",
+    "post_date": "2026-06-22T20:53:35.993Z",
+    "updated_at": "2026-06-22T20:55:16.916Z",
+    "type": "newsletter",
+    "wordcount": 2629,
+    "section_id": 333110,
+    "section_name": "Articles",
+    "postTags": [
+      {
+        "id": "05d90f5c-5350-46ca-b48c-d7d7799d6269",
+        "name": "Design",
+        "slug": "design"
+      },
+      {
+        "id": "687d2b48-dc08-46c9-befb-d691e660c1eb",
+        "name": "International",
+        "slug": "international"
+      },
+      {
+        "id": "6a1a9fd6-d0da-4e6b-935e-b5fff27a0ba7",
+        "name": "Technology",
+        "slug": "technology"
+      },
+      {
+        "id": "e5cc4bc2-6d24-4073-8e6a-9214c483fd1b",
+        "name": "Culture",
+        "slug": "culture"
+      }
+    ],
+    "publishedBylines": [
+      {
+        "id": 361794398,
+        "name": "Strata",
+        "handle": "strata12",
+        "bio": "-"
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 4,
+    "restacks": 2,
+    "comment_count": 0,
+    "previous_post_slug": "maintaining-everything-that-matters",
+    "next_post_slug": null
+  },
+  {
     "id": 202196193,
     "slug": "jamverse-jam",
     "title": "Jamverse Jam",
@@ -49,8 +102,8 @@
         "bio": "Startups & Game Design: http://leveragedplay.com (foresight games) – http://diegeticgames.com (consumer games) – http://storysynth.org (online games platform)"
       }
     ],
-    "reaction_count": 5,
-    "restacks": 2,
+    "reaction_count": 18,
+    "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "protocols-for-the-long-now",
     "next_post_slug": null
@@ -181,7 +234,7 @@
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "irrigation-by-protocol-when-vineyards",
-    "next_post_slug": null
+    "next_post_slug": "the-character-of-public-transit-systems"
   },
   {
     "id": 200161670,
@@ -1546,7 +1599,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 21,
+    "reaction_count": 22,
     "restacks": 6,
     "comment_count": 1,
     "previous_post_slug": "curate-your-own-pipeline",
@@ -3432,7 +3485,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 48,
+    "reaction_count": 49,
     "restacks": 18,
     "comment_count": 3,
     "previous_post_slug": "3-protocols-for-articulating-civilizational",
