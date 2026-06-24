@@ -1,5 +1,36 @@
 # C3PO — Status Log
 
+## 2026-06-24 — Cost tracking + New Nature ingest (session 37)
+
+**Anthropic API cost tracking — COMPLETE**
+- Created `ingest/cost_logger.py`: shared utility that appends one JSON line per Claude API call to `data/cost_log.jsonl` (pricing table: Haiku 4.5, Sonnet 4.6, Opus 4.8).
+- Instrumented 4 daemon scripts: `enrich_discord_links`, `rebuild_sig_summaries`, `sync_discord_channels`, `sync_sig`.
+- Created `bin/cost_report.py`: reports last-7-days + all-time spend with per-script breakdown.
+- Added cost report as step 5 in `CLAUDE.md` startup ritual.
+- Note: `data/cost_log.jsonl` doesn't exist yet — tracking starts on next daemon cycle.
+
+**New Nature special feature ingest — COMPLETE**
+- Ingested essay HTML + slides PDF from `protocolized-website/inbox/.processed/new-nature/`.
+- Created `ingest/ingest_new_nature.py` — extracts text from HTML (BeautifulSoup) and PDF (pdfplumber), chunks, embeds into `pdfs` namespace.
+- 15 vectors total: essay (9 body + 1 summary), slides (4 body + 1 summary).
+- Enrichment records added to `sources/pdfs/enriched_meta.json`.
+- pdfs: 750 → 765; total: ~27,089 → ~27,389.
+
+**Pinecone state: ~27,389 vectors** (pdfs: +15)
+
+**Open TODOs (priority order):**
+1. Implement `ingest/sync_roam.py` (plan: `plans/roam-ingest.md`)
+2. Create `Protocol-Institute/sig-notes` repo + `_template.md`; discuss with SIG hosts
+3. Starter page — 28 recs across 20 resources in tally (threshold reached); build "good first reads" page + wire into intro handler
+4. Execute VPS migration — `plans/vps-migration.md`
+5. Exhibit extraction — `ingest/extract_structure.py`
+6. `sync_sig_pages.py` + `update_sig_pages.py` — add to daemon (needs VPS first)
+7. Anthropic key rotation to PI org account
+8. Rotate `GH_PAT` to fine-grained PAT scoped to protocolized-website only
+9. Phase E: multi-node swarm planning
+
+---
+
 ## 2026-06-17 — Intro quality system + SIG meeting capture design (session 36, PT 11:00–14:56)
 
 **Intro response quality fixes — COMPLETE**

@@ -11,6 +11,34 @@
   },
   "sessions": [
     {
+      "id": 37,
+      "sort_key": 37.0,
+      "label": "Session 37",
+      "title": "Cost Tracking + New Nature Ingest",
+      "date": "2026-06-24",
+      "time_pt": "",
+      "tracks": [
+        "operations",
+        "corpus-ingestion"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "pdfs": 765,
+        "total": 27389
+      },
+      "deployed": false,
+      "items": [
+        {
+          "title": "Anthropic API cost tracking",
+          "html": "<strong>Anthropic API cost tracking:</strong> Added <code>ingest/cost_logger.py</code> — a shared utility that appends one JSON record per Claude API call to <code>data/cost_log.jsonl</code>. Each record captures timestamp, script name, model, input/output tokens, and computed cost in USD. Pricing table covers Haiku 4.5 ($1.00/$5.00 per MTok), Sonnet 4.6 ($3.00/$15.00), and Opus 4.8 ($5.00/$25.00). Instrumented the four daemon scripts that call Claude: <code>enrich_discord_links</code> (dominant recurring cost — up to 200 Haiku calls per cycle), <code>rebuild_sig_summaries</code>, <code>sync_discord_channels</code>, and <code>sync_sig</code>. Added <code>bin/cost_report.py</code> which reads the log and prints last-N-days and all-time totals with per-script breakdown. Added the report as step 5 of the <code>CLAUDE.md</code> startup ritual. The log file will begin accumulating on the next daemon cycle."
+        },
+        {
+          "title": "New Nature special feature ingest",
+          "html": "<strong>New Nature special feature ingest:</strong> Ingested two items from the June 17, 2026 New Nature talk into the <code>pdfs</code> Pinecone namespace. Source files were in <code>protocolized-website/inbox/.processed/new-nature/</code>: an HTML essay (<code>index.html</code>, 19KB of clean text) and a 28-page PDF slide deck (<code>slides.pdf</code>). Created <code>ingest/ingest_new_nature.py</code> — reads HTML via BeautifulSoup, reads PDF via pdfplumber, chunks both using the existing <code>chunk_text</code> utility, embeds via Voyage AI, and upserts body chunks + a doc_summary vector for each item. Enrichment records with hand-written summaries and categories added to <code>sources/pdfs/enriched_meta.json</code>. 15 vectors total: essay (9 body + 1 summary), slides (4 body + 1 summary). pdfs: 750 → 765."
+        }
+      ]
+    },
+    {
       "id": 1,
       "sort_key": 1.0,
       "label": "Sessions 1–2",

@@ -76,12 +76,12 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 | `videos` | 3,127 | YouTube talks (97 videos) |
 | `substack` | 1,106 | Protocolized magazine (121+ posts) |
 | `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
-| `pdfs` | 750 | 72 papers/essays (11 cover letters/title pages absent from PI migration) |
+| `pdfs` | 765 | 74 papers/essays + 2 special-feature items (New Nature essay + slides) |
 | `bibliography` | 278 | External works cited by PI corpus |
 | `discord_guide` | 79 | All active guild channels; Haiku-described; SIG channels include cadence + next_event_time |
 | `meta` | 35 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
 | `transcripts` | 25 | Bot conversation self-memory: web + Discord Q&A |
-| **Total** | **~27,089** | |
+| **Total** | **~27,389** | |
 
 ## Key Ingest Scripts
 
