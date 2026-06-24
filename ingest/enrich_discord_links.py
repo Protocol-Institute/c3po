@@ -31,6 +31,7 @@ from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).parent))
 from utils import chunk_id, get_pinecone_index, append_run_log
+import cost_logger
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
@@ -117,6 +118,7 @@ def score_relevance(client: anthropic.Anthropic, url: str, domain: str, text: st
         max_tokens=80,
         messages=[{"role": "user", "content": prompt}],
     )
+    cost_logger.log_api_call("enrich_discord_links", HAIKU_MODEL, msg.usage)
     raw = msg.content[0].text.strip()
     # Strip markdown code fences if present
     if raw.startswith("```"):

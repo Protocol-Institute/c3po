@@ -130,7 +130,13 @@ After editing `data/devlog.json`, run `python3 ingest/sync_devlog.py` then `pyth
    ```
    Present any unreviewed issues to the user and discuss fixes before starting other work.
    After reviewing, run `python3 bin/review_intro_quality.py --mark-reviewed` to clear them.
-5. Summarize: vector counts vs. last session, pending Substack posts, open TODOs from `status.md`, and any intro quality findings.
+5. Check Anthropic API cost since last session:
+   ```bash
+   source .venv/bin/activate
+   python3 bin/cost_report.py
+   ```
+   Report last-7-days spend and all-time total. If `data/cost_log.jsonl` does not yet exist, note that tracking starts from this session onward.
+6. Summarize: vector counts vs. last session, pending Substack posts, open TODOs from `status.md`, intro quality findings, and API spend.
 
 ---
 

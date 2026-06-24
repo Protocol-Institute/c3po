@@ -40,6 +40,7 @@ from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).parent))
 from utils import embed_chunks, get_voyage_client, get_pinecone_index, PINECONE_BATCH, append_run_log
+import cost_logger
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
@@ -218,6 +219,7 @@ def describe_channel(channel: dict, category: str, path: str, messages: list[dic
         max_tokens=256,
         messages=[{"role": "user", "content": prompt}],
     )
+    cost_logger.log_api_call("sync_discord_channels", "claude-haiku-4-5-20251001", resp.usage)
     raw = resp.content[0].text.strip()
     # Strip markdown fences if Haiku adds them
     if raw.startswith("```"):

@@ -34,6 +34,7 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 
 sys.path.insert(0, str(Path(__file__).parent))
 from utils import get_pinecone_index
+import cost_logger
 
 NAMESPACE = "sig"
 MEETINGS_DIR = Path(__file__).parent.parent / "data" / "sigs" / "meetings"
@@ -112,6 +113,7 @@ Respond with only the JSON object."""
             max_tokens=1500,
             messages=[{"role": "user", "content": prompt}],
         )
+        cost_logger.log_api_call("rebuild_sig_summaries", "claude-haiku-4-5-20251001", resp.usage)
         raw = resp.content[0].text.strip()
         m = re.search(r'\{.*\}', raw, re.DOTALL)
         return json.loads(m.group()) if m else {}
