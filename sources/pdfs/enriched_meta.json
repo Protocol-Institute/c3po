@@ -983,5 +983,56 @@
       "cultivation"
     ],
     "url": "https://ai.protocolized.dev/"
+  },
+  "new-nature-essay": {
+    "title": "New Nature",
+    "summary": "Venkatesh Rao unpacks the Protocol Institute's core research thesis: New Nature = AI and Protocols entangled at planetary scale. Develops the Humboldt analogy, the Evil Twins Thesis (AI as irresistible force vs. protocols as immovable objects), a three-circle Venn of AI/Protocols/Planetary, and PI's positioning as a Context Tank in the priceless-planetary quadrant.",
+    "categories": [
+      "protocol-theory",
+      "ai",
+      "planetary-scale",
+      "editorial",
+      "evil-twins"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ],
+    "doc_type": "special-feature",
+    "date": "2026-06-17",
+    "url": "https://protocolized.io/features/new-nature",
+    "tags": [
+      "new-nature",
+      "protocol-theory",
+      "ai",
+      "planetary-scale",
+      "evil-twins",
+      "editorial"
+    ]
+  },
+  "new-nature-slides.pdf": {
+    "title": "New Nature — Talk Slides (June 2026)",
+    "summary": "Slide deck from the June 17, 2026 New Nature talk. Covers the Humboldt parallel, the Evil Twins Thesis (AI vs Protocols), the three-circle Venn diagram of AI/Protocols/Planetary, PI's Context Tank positioning, and the Special Interest Group research model.",
+    "categories": [
+      "protocol-theory",
+      "ai",
+      "planetary-scale",
+      "evil-twins"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ],
+    "doc_type": "handout",
+    "date": "2026-06-17",
+    "url": "https://protocolized.io/features/new-nature",
+    "file": "https://files.protocolized.io/features/new-nature-slides.pdf",
+    "tags": [
+      "new-nature",
+      "protocol-theory",
+      "ai",
+      "planetary-scale",
+      "evil-twins"
+    ]
   }
 }
