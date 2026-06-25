@@ -74,11 +74,13 @@ const CF_MONTHLY_USD    = 5.00;
 function ptDateStr() {
   return new Date(Date.now() - 8 * 3600 * 1000).toISOString().slice(0, 10);
 }
-function hourKey()      { return "stats:hour:"        + new Date().toISOString().slice(0, 13); }
-function dayKey()       { return "stats:day:"         + ptDateStr(); }
-function lifetimeKey()  { return "stats:lifetime"; }
-function mcpDayKey()    { return "stats:mcp:day:"     + ptDateStr(); }
-function mcpLifeKey()   { return "stats:mcp:lifetime"; }
+function hourKey()         { return "stats:hour:"           + new Date().toISOString().slice(0, 13); }
+function dayKey()          { return "stats:day:"            + ptDateStr(); }
+function lifetimeKey()     { return "stats:lifetime"; }
+function mcpDayKey()       { return "stats:mcp:day:"        + ptDateStr(); }
+function mcpLifeKey()      { return "stats:mcp:lifetime"; }
+function discordDayKey()   { return "stats:discord:day:"    + ptDateStr(); }
+function discordLifeKey()  { return "stats:discord:lifetime"; }
 
 function calcClaudeCost(s) {
   return (s.in_tok            || 0) * PRICE_IN
@@ -204,19 +206,44 @@ async function trackMcpRequest(env, usage) {
   ]);
 }
 
+async function trackDiscordRequest(env, usage) {
+  if (!env.RATE_LIMIT) return;
+  const dk = discordDayKey(), lk = discordLifeKey();
+  const [ds, ls] = await Promise.all([
+    env.RATE_LIMIT.get(dk, "json"),
+    env.RATE_LIMIT.get(lk, "json"),
+  ]);
+  const zero = { reqs: 0, in_tok: 0, cache_create_tok: 0, cache_read_tok: 0, out_tok: 0 };
+  const d = { ...zero, ...(ds || {}) };
+  const l = { ...zero, ...(ls || {}) };
+  for (const s of [d, l]) {
+    s.reqs             += 1;
+    s.in_tok           += usage?.input_tokens                || 0;
+    s.cache_create_tok += usage?.cache_creation_input_tokens || 0;
+    s.cache_read_tok   += usage?.cache_read_input_tokens     || 0;
+    s.out_tok          += usage?.output_tokens               || 0;
+  }
+  await Promise.all([
+    env.RATE_LIMIT.put(dk, JSON.stringify(d), { expirationTtl: 30 * 24 * 3600 }),
+    env.RATE_LIMIT.put(lk, JSON.stringify(l)),
+  ]);
+}
+
 async function handleStats(env, corsHeaders) {
   if (!env.RATE_LIMIT) return json({ error: "stats unavailable" }, 503, corsHeaders);
   const sessDayKey  = "stats:sessions:day:"      + ptDateStr();
   const sessLifeKey = "stats:sessions:lifetime";
-  const [hs, ds, ls, circuit, sds, sls, mds, mls] = await Promise.all([
-    env.RATE_LIMIT.get(hourKey(),     "json"),
-    env.RATE_LIMIT.get(dayKey(),      "json"),
-    env.RATE_LIMIT.get(lifetimeKey(), "json"),
-    env.RATE_LIMIT.get("circuit",     "json"),
-    env.RATE_LIMIT.get(sessDayKey,    "json"),
-    env.RATE_LIMIT.get(sessLifeKey,   "json"),
-    env.RATE_LIMIT.get(mcpDayKey(),   "json"),
-    env.RATE_LIMIT.get(mcpLifeKey(),  "json"),
+  const [hs, ds, ls, circuit, sds, sls, mds, mls, dds, dls] = await Promise.all([
+    env.RATE_LIMIT.get(hourKey(),        "json"),
+    env.RATE_LIMIT.get(dayKey(),         "json"),
+    env.RATE_LIMIT.get(lifetimeKey(),    "json"),
+    env.RATE_LIMIT.get("circuit",        "json"),
+    env.RATE_LIMIT.get(sessDayKey,       "json"),
+    env.RATE_LIMIT.get(sessLifeKey,      "json"),
+    env.RATE_LIMIT.get(mcpDayKey(),      "json"),
+    env.RATE_LIMIT.get(mcpLifeKey(),     "json"),
+    env.RATE_LIMIT.get(discordDayKey(),  "json"),
+    env.RATE_LIMIT.get(discordLifeKey(), "json"),
   ]);
   const zero = { reqs: 0, in_tok: 0, cache_create_tok: 0, cache_read_tok: 0, out_tok: 0 };
   const h  = { ...zero, ...(hs  || {}) };
@@ -224,12 +251,16 @@ async function handleStats(env, corsHeaders) {
   const l  = { ...zero, ...(ls  || {}) };
   const md = { ...zero, ...(mds || {}) };
   const ml = { ...zero, ...(mls || {}) };
+  const dd = { ...zero, ...(dds || {}) };
+  const dl = { ...zero, ...(dls || {}) };
   return json({
-    hour:         { reqs: h.reqs,  cost_usd: +calcTotalCost(h).toFixed(4)  },
-    day:          { reqs: d.reqs,  cost_usd: +calcTotalCost(d).toFixed(4)  },
-    lifetime:     { reqs: l.reqs,  cost_usd: +calcTotalCost(l).toFixed(2)  },
-    mcp_day:      { reqs: md.reqs, cost_usd: +calcTotalCost(md).toFixed(4) },
-    mcp_lifetime: { reqs: ml.reqs, cost_usd: +calcTotalCost(ml).toFixed(2) },
+    hour:             { reqs: h.reqs,  cost_usd: +calcTotalCost(h).toFixed(4)  },
+    day:              { reqs: d.reqs,  cost_usd: +calcTotalCost(d).toFixed(4)  },
+    lifetime:         { reqs: l.reqs,  cost_usd: +calcTotalCost(l).toFixed(2)  },
+    mcp_day:          { reqs: md.reqs, cost_usd: +calcTotalCost(md).toFixed(4) },
+    mcp_lifetime:     { reqs: ml.reqs, cost_usd: +calcTotalCost(ml).toFixed(2) },
+    discord_day:      { reqs: dd.reqs, cost_usd: +calcTotalCost(dd).toFixed(4) },
+    discord_lifetime: { reqs: dl.reqs, cost_usd: +calcTotalCost(dl).toFixed(2) },
     sessions: { today: sds?.count ?? 0, lifetime: sls?.count ?? 0 },
     sleeping:       !!circuit?.sleeping,
     since:          circuit?.since || null,
@@ -3423,7 +3454,10 @@ async function runRagQuery(query, env, ctx, opts = {}) {
 
   const claudeBody = await claudeRes.json();
   const answer = claudeBody.content?.[0]?.text || "";
-  if (ctx) ctx.waitUntil(trackRequest(env, claudeBody.usage));
+  if (ctx) {
+    ctx.waitUntil(trackRequest(env, claudeBody.usage));
+    if (context === "discord") ctx.waitUntil(trackDiscordRequest(env, claudeBody.usage).catch(() => {}));
+  }
   return { answer, sources, ...(cacheHitPayload ? { cache_hits: cacheHitPayload } : {}) };
 }
 

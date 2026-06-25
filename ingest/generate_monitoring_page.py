@@ -18,6 +18,8 @@ Usage:
 import json
 import os
 import sys
+import urllib.request
+import urllib.error
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -33,7 +35,24 @@ LOG_PATH     = DATA_DIR / "sync_log.json"
 MANIFEST_PATH = DATA_DIR / "channel_manifest.json"
 REGISTRY_PATH = DATA_DIR / "discord_links_registry.json"
 BOT_REGISTRY_PATH = CONFIG_DIR / "bot_registry.json"
+COST_LOG_PATH    = DATA_DIR / "cost_log.jsonl"
+BOT_SESSION_LOG  = Path.home() / "Library" / "Logs" / "c3po" / "bot_sessions.jsonl"
 OUT_PATH     = Path(__file__).parent.parent / "monitoring.html"
+
+WORKER_STATS_URL    = "https://c3po.protocolized.io/stats"
+WORKER_LAUNCHED     = "2026-05-15"   # Worker first deployed
+DISCORD_BOT_STARTED = "2026-05-27"   # Bot went live (session 21)
+COST_TRACKING_DATE  = "2026-06-25"   # cost_log.jsonl started recording
+
+# Historical cost estimates (pre-instrumentation, ±40%)
+# Major one-time ingest runs that used Claude before cost_logger.py was wired:
+#   enrich_discord_links: ~1,400 URLs × $0.001/URL = $1.40
+#   rebuild_sig_summaries: ~5 full rebuilds × ~20 summaries × $0.004 = $0.40
+#   enrich_pdfs: 82 PDFs × $0.002/PDF = $0.16
+#   enrich_substack: 129 posts × $0.002/post = $0.26
+#   onboard_channel: ~19 channels × $0.010/channel (Sonnet) = $0.19
+#   misc sync_sig / sync_discord_channels pre-tracking: ~$0.10
+HISTORICAL_INGEST_ESTIMATE_USD = 2.51
 
 MEETINGS_DIR = DATA_DIR / "sigs" / "meetings"
 
@@ -457,6 +476,191 @@ def sig_meetings_section(log: dict) -> str:
     )
 
 
+def _fetch_worker_stats() -> dict | None:
+    try:
+        req = urllib.request.Request(WORKER_STATS_URL, headers={"User-Agent": "c3po-monitor/1.0"})
+        with urllib.request.urlopen(req, timeout=8) as resp:
+            return json.loads(resp.read().decode())
+    except Exception:
+        return None
+
+
+def _ingest_cost_summary() -> dict:
+    total = 0.0
+    calls = 0
+    by_script: dict[str, dict] = defaultdict(lambda: {"cost_usd": 0.0, "calls": 0})
+    for rec in _read_jsonl(COST_LOG_PATH):
+        c = rec.get("cost_usd", 0.0)
+        total += c
+        calls += 1
+        s = by_script[rec.get("script", "unknown")]
+        s["cost_usd"] += c
+        s["calls"]    += 1
+    return {"total": round(total, 4), "calls": calls, "by_script": dict(by_script)}
+
+
+def _bot_event_counts() -> dict[str, int]:
+    counts: dict[str, int] = defaultdict(int)
+    for rec in _read_jsonl(BOT_SESSION_LOG):
+        counts[rec.get("event", "unknown")] += 1
+    return dict(counts)
+
+
+def cost_section() -> str:
+    worker   = _fetch_worker_stats()
+    ingest   = _ingest_cost_summary()
+    bot_evts = _bot_event_counts()
+
+    worker_ok = worker is not None
+
+    # Worker lifetime totals
+    wl_cost = worker.get("lifetime",     {}).get("cost_usd", 0.0) if worker_ok else 0.0
+    wl_reqs = worker.get("lifetime",     {}).get("reqs",     0)   if worker_ok else 0
+    dl_cost = worker.get("discord_lifetime", {}).get("cost_usd", 0.0) if worker_ok else 0.0
+    dl_reqs = worker.get("discord_lifetime", {}).get("reqs",     0)   if worker_ok else 0
+    ml_cost = worker.get("mcp_lifetime", {}).get("cost_usd", 0.0) if worker_ok else 0.0
+    sess_lt = worker.get("sessions",     {}).get("lifetime",  0)  if worker_ok else 0
+
+    # Web cost = all Worker requests minus Discord minus MCP
+    web_cost = max(0.0, wl_cost - dl_cost - ml_cost)
+    web_reqs = max(0, wl_reqs - dl_reqs - worker.get("mcp_lifetime", {}).get("reqs", 0)) if worker_ok else 0
+
+    # Discord estimate for pre-tracking period
+    # Events logged in bot session log (before Worker discord tracking was added)
+    pre_discord_events = (bot_evts.get("conversation", 0) + bot_evts.get("introduction", 0))
+    # Rough cost per Discord event: ~$0.018 (short response, system prompt cached)
+    PRE_DISCORD_EST_PER_EVENT = 0.018
+    discord_pre_est = round(pre_discord_events * PRE_DISCORD_EST_PER_EVENT, 2)
+
+    # Cloudflare flat fee: $5/month; estimate months since launch
+    try:
+        launched = datetime.strptime(WORKER_LAUNCHED, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+        months_live = max(1, round((datetime.now(timezone.utc) - launched).days / 30))
+    except Exception:
+        months_live = 1
+    cf_total = months_live * 5.0
+
+    # Grand total: tracked + CF + historical estimates
+    grand_actual  = wl_cost + ingest["total"] + cf_total
+    grand_with_est = grand_actual + HISTORICAL_INGEST_ESTIMATE_USD
+    # discord pre-estimate is already partially inside wl_cost (pre-tracking discord went to lifetime bucket)
+    # so don't double-count
+
+    now_str = datetime.now(timezone.utc).strftime("%-d %b %Y %H:%M UTC")
+
+    def fmt_cost(c: float, bold: bool = False) -> str:
+        s = f"${c:.2f}"
+        return f"<strong>{s}</strong>" if bold else s
+
+    def fmt_reqs(n: int) -> str:
+        return f"{n:,} req{'s' if n != 1 else ''}"
+
+    rows = []
+
+    # Row 1: Web UI
+    web_detail = f"{fmt_reqs(web_reqs)}, {sess_lt:,} sessions" if worker_ok else "stats unavailable"
+    rows.append(
+        f'<tr>'
+        f'<td>Web UI serving</td>'
+        f'<td><code>c3po_web</code></td>'
+        f'<td>Cloudflare Worker — Claude Sonnet + Voyage AI</td>'
+        f'<td>Since {WORKER_LAUNCHED}</td>'
+        f'<td class="number cost-actual">{fmt_cost(web_cost)}</td>'
+        f'<td class="muted-desc">{web_detail}</td>'
+        f'</tr>'
+    )
+
+    # Row 2: Discord bot (Worker portion)
+    disc_detail = (
+        f"{fmt_reqs(dl_reqs)} tracked"
+        + (f"; est. {pre_discord_events} pre-tracking events ≈ {fmt_cost(discord_pre_est)}" if pre_discord_events else "")
+    )
+    rows.append(
+        f'<tr>'
+        f'<td>Discord bot serving</td>'
+        f'<td><code>c3po_bot</code></td>'
+        f'<td>via Worker — Claude Sonnet + Voyage AI</td>'
+        f'<td>Since {COST_TRACKING_DATE}<span class="muted-desc"> (tracking)</span></td>'
+        f'<td class="number cost-actual">{fmt_cost(dl_cost)}'
+        + (f'<br><span class="cost-est">+{fmt_cost(discord_pre_est)} est.</span>' if pre_discord_events else '')
+        + f'</td>'
+        f'<td class="muted-desc">{disc_detail}</td>'
+        f'</tr>'
+    )
+
+    # Row 3: MCP
+    if ml_cost > 0 or (worker_ok and worker.get("mcp_lifetime", {}).get("reqs", 0) > 0):
+        ml_reqs = worker.get("mcp_lifetime", {}).get("reqs", 0) if worker_ok else 0
+        rows.append(
+            f'<tr>'
+            f'<td>MCP server</td>'
+            f'<td><code>c3po_web</code></td>'
+            f'<td>via Worker — Claude Sonnet + Voyage AI</td>'
+            f'<td>Since {WORKER_LAUNCHED}</td>'
+            f'<td class="number cost-actual">{fmt_cost(ml_cost)}</td>'
+            f'<td class="muted-desc">{fmt_reqs(ml_reqs)}</td>'
+            f'</tr>'
+        )
+
+    # Row 4: Ingest pipeline
+    ingest_scripts = "; ".join(
+        f"{s}: {d['calls']} calls" for s, d in sorted(ingest["by_script"].items())
+    ) if ingest["by_script"] else "—"
+    rows.append(
+        f'<tr>'
+        f'<td>Ingest pipeline</td>'
+        f'<td><code>c3po_listener</code></td>'
+        f'<td>Local scripts — Claude Haiku (link scoring, SIG summaries)</td>'
+        f'<td>Since {COST_TRACKING_DATE}</td>'
+        f'<td class="number cost-actual">{fmt_cost(ingest["total"])}'
+        f'<br><span class="cost-est">+{fmt_cost(HISTORICAL_INGEST_ESTIMATE_USD)} hist. est.</span>'
+        f'</td>'
+        f'<td class="muted-desc">{ingest["calls"]:,} calls tracked · {he(ingest_scripts)}</td>'
+        f'</tr>'
+    )
+
+    # Row 5: Cloudflare flat fee
+    rows.append(
+        f'<tr>'
+        f'<td>Infrastructure</td>'
+        f'<td>Cloudflare Workers</td>'
+        f'<td>$5/mo Workers Paid plan</td>'
+        f'<td>Since {WORKER_LAUNCHED} ({months_live} mo)</td>'
+        f'<td class="number cost-actual">{fmt_cost(cf_total)}</td>'
+        f'<td class="muted-desc">flat fee, not per-request</td>'
+        f'</tr>'
+    )
+
+    # Total row
+    rows.append(
+        f'<tr class="total-row">'
+        f'<td colspan="3"><strong>Total (tracked)</strong></td>'
+        f'<td></td>'
+        f'<td class="number">{fmt_cost(grand_actual, bold=True)}</td>'
+        f'<td class="muted-desc">+ ~{fmt_cost(HISTORICAL_INGEST_ESTIMATE_USD + discord_pre_est)} estimated pre-tracking</td>'
+        f'</tr>'
+    )
+
+    rows_html = "\n".join(f"      {r}" for r in rows)
+    fetch_note = f'<p class="muted">Worker stats fetched live at {now_str}.</p>' if worker_ok \
+                 else '<p class="muted" style="color:#c00">⚠ Worker stats unavailable — showing cached/estimated values only.</p>'
+
+    return f"""    <table class="monitor-table cost-table">
+      <thead><tr>
+        <th>Component</th><th>Node</th><th>What</th><th>Period</th>
+        <th class="number">Cost</th><th>Notes</th>
+      </tr></thead>
+      <tbody>
+{rows_html}
+      </tbody>
+    </table>
+{fetch_note}
+    <p class="muted cost-legend">
+      <span class="cost-actual-dot"></span> Actual tracked &nbsp;
+      <span class="cost-est">+$X est.</span> estimated (pre-tracking, ±40%)
+    </p>"""
+
+
 def last_sync_summary(log: dict) -> str:
     """Most recent run per script — compact status table."""
     runs = log.get("runs", [])
@@ -494,8 +698,9 @@ def build_page(log: dict, manifest: dict, registry: dict, bot_registry: dict) ->
     n_active    = sum(1 for c in manifest.get("channels", {}).values() if c.get("status") == "active")
 
     pinecone_html, total_vectors = pinecone_section()
-    sig_html     = sig_meetings_section(log)
+    sig_html       = sig_meetings_section(log)
     last_sync_html = last_sync_summary(log)
+    cost_html      = cost_section()
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -525,6 +730,11 @@ def build_page(log: dict, manifest: dict, registry: dict, bot_registry: dict) ->
     .meta-bar {{ font-size: 0.85rem; color: #666; margin: 0.5rem 0 2rem; }}
     .muted-desc {{ color: #888; font-size: 0.82rem; }}
     .total-row td {{ border-top: 2px solid #ccc; padding-top: 0.6rem; }}
+    .cost-table th, .cost-table td {{ font-size: 0.85rem; }}
+    .cost-actual {{ color: #1a1a1a; }}
+    .cost-est {{ color: #888; font-size: 0.78rem; }}
+    .cost-actual-dot::before {{ content: "●"; color: #1a1a1a; margin-right: 0.25rem; }}
+    .cost-legend {{ font-size: 0.8rem; margin-top: 0.25rem; }}
   </style>
 </head>
 <body>
@@ -537,6 +747,12 @@ def build_page(log: dict, manifest: dict, registry: dict, bot_registry: dict) ->
       &nbsp;·&nbsp; {n_active} active channels / {n_channels} total
       {('&nbsp;·&nbsp; ' + f'{total_vectors:,} vectors') if total_vectors else ''}
     </p>
+
+    <section class="monitor-section">
+      <h2>API Costs</h2>
+      <p>Claude Sonnet (serving) and Claude Haiku (ingest) API spend, plus Cloudflare infrastructure. Discord tracking started {COST_TRACKING_DATE}; ingest tracking started {COST_TRACKING_DATE}. Pre-tracking amounts are estimates.</p>
+{cost_html}
+    </section>
 
     <section class="monitor-section">
       <h2>Corpus — Pinecone Namespaces</h2>
@@ -593,9 +809,11 @@ def main():
     html = build_page(log, manifest, registry, bot_registry)
     WEBSITE_DIR.mkdir(parents=True, exist_ok=True)
     OUT_PATH.write_text(html, encoding="utf-8")
+    website_out = WEBSITE_DIR / "monitoring.html"
+    website_out.write_text(html, encoding="utf-8")
     runs = len(log.get("runs", []))
     channels = len(manifest.get("channels", {}))
-    print(f"✓ monitoring.html written ({runs} log entries, {channels} channels, {len(registry)} links)")
+    print(f"✓ monitoring.html written to c3po/ and website/ ({runs} log entries, {channels} channels, {len(registry)} links)")
 
 
 if __name__ == "__main__":

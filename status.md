@@ -1,5 +1,33 @@
 # C3PO — Status Log
 
+## 2026-06-25 — Cost dashboard + Pinecone read-unit limit hit (session 38)
+
+**Cost monitoring dashboard — COMPLETE**
+- Worker (`api/worker.js`): Added `trackDiscordRequest()` — new `stats:discord:day:*` and `stats:discord:lifetime` KV keys accumulate Discord-specific usage (parallel to existing MCP tracking). `/stats` endpoint now returns `discord_day` and `discord_lifetime`. Deployed: version `40763a0f`.
+- Monitoring page (`ingest/generate_monitoring_page.py`): Added `cost_section()` — fetches `/stats` live, reads `data/cost_log.jsonl`, reads bot session log. Shows 4-row table: Web UI (c3po_web), Discord bot (c3po_bot via Worker), Ingest pipeline (c3po_listener), Cloudflare infrastructure. Includes tracked actuals + pre-tracking estimates. Now writes to both `c3po/monitoring.html` and `website/monitoring.html`.
+- Current totals: Web $3.61 (142 req), Discord $0.00 tracked + $0.76 est. (42 pre-tracking events), Ingest $0.02 tracked + $2.51 hist. est., CF $5.00. Grand tracked: $8.63 + ~$3.27 estimated pre-tracking.
+
+**Pinecone read unit limit hit — BLOCKER**
+- PI org Pinecone account hit 1M read units/month (free tier limit).
+- All Worker queries return empty sources silently — bot has been returning context-free answers.
+- Root cause: Pinecone free plan 1M RU/month exhausted; likely from high daemon query volume + dev testing.
+- Fix: upgrade Pinecone plan (user acknowledged). Limit resets monthly.
+
+**Pinecone state: 27,420 vectors** (daemon activity since session 37: sig +152, discord_links +119, discord +32, substack +9, meta +3, discord_guide +1)
+
+**Open TODOs (priority order):**
+1. Upgrade Pinecone plan to resolve read-unit limit — BLOCKER
+2. Implement `ingest/sync_roam.py` (plan: `plans/roam-ingest.md`)
+3. Create `Protocol-Institute/sig-notes` repo + `_template.md`; discuss with SIG hosts
+4. Starter page — 28 recs across 20 resources in tally (threshold reached); build "good first reads" page + wire into intro handler
+5. Execute VPS migration — `plans/vps-migration.md`
+6. Exhibit extraction — `ingest/extract_structure.py`
+7. `sync_sig_pages.py` + `update_sig_pages.py` — add to daemon (needs VPS first)
+8. Anthropic key rotation to PI org account
+9. Rotate `GH_PAT` to fine-grained PAT scoped to protocolized-website only
+
+---
+
 ## 2026-06-24 — Cost tracking + New Nature ingest (session 37)
 
 **Anthropic API cost tracking — COMPLETE**
