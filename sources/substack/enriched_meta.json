@@ -1535,5 +1535,18 @@
     "all_authors": [
       "Strata"
     ]
+  },
+  "durable-ai-adoption": {
+    "summary": "The Durable AI Adoption guide, developed by the Protocol Institute's Special Interest Group for Business, provides practical frameworks and case studies for organizations implementing AI across their operations. The guide draws a historical parallel to the early adoption of electric power in factories, where organizations initially failed to restructure their operations around the new technology until fundamental rethinking occurred.",
+    "categories": [
+      "research-report",
+      "technology-ai",
+      "organizations"
+    ],
+    "primary_author": "Sachin",
+    "all_authors": [
+      "Sachin Benny",
+      "rafa"
+    ]
   }
 }

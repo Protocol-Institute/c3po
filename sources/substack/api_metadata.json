@@ -1,5 +1,59 @@
 [
   {
+    "id": 203600288,
+    "slug": "durable-ai-adoption",
+    "title": "Durable AI Adoption",
+    "subtitle": "Introducing the Durable AI Adoption guide, developed in our Special Interest Group for Business",
+    "post_date": "2026-06-25T20:55:09.050Z",
+    "updated_at": "2026-06-25T20:55:51.246Z",
+    "type": "newsletter",
+    "wordcount": 1706,
+    "section_id": 333110,
+    "section_name": "Articles",
+    "postTags": [
+      {
+        "id": "25400645-d8a7-44f0-bf8a-f9a187bcf9a3",
+        "name": "SIGBIZ",
+        "slug": "sigbiz"
+      },
+      {
+        "id": "6a1a9fd6-d0da-4e6b-935e-b5fff27a0ba7",
+        "name": "Technology",
+        "slug": "technology"
+      },
+      {
+        "id": "ffa59462-ae80-4348-b3f0-605d0814bae5",
+        "name": "Business",
+        "slug": "business"
+      }
+    ],
+    "publishedBylines": [
+      {
+        "id": 933715,
+        "name": "Sachin",
+        "handle": "summerlightning",
+        "bio": "Infrastructure ethnography"
+      },
+      {
+        "id": 2227765,
+        "name": "rafa",
+        "handle": "rafathebuilder",
+        "bio": "CEO, NPC Inc. <> rafael.fyi"
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 6,
+    "restacks": 8,
+    "comment_count": 1,
+    "previous_post_slug": "the-character-of-public-transit-systems",
+    "next_post_slug": null
+  },
+  {
     "id": 203101190,
     "slug": "the-character-of-public-transit-systems",
     "title": "The Character of Public Transit Systems",
@@ -35,7 +89,7 @@
     "publishedBylines": [
       {
         "id": 361794398,
-        "name": "Strata",
+        "name": "Kannen",
         "handle": "strata12",
         "bio": "-"
       },
@@ -46,11 +100,11 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 4,
-    "restacks": 2,
+    "reaction_count": 8,
+    "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "maintaining-everything-that-matters",
-    "next_post_slug": null
+    "next_post_slug": "durable-ai-adoption"
   },
   {
     "id": 202196193,
@@ -230,7 +284,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 7,
+    "reaction_count": 8,
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "irrigation-by-protocol-when-vineyards",
@@ -364,8 +418,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 9,
-    "restacks": 2,
+    "reaction_count": 10,
+    "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "all-you-can-do-here-is-leave",
     "next_post_slug": "the-big-man"
@@ -2264,7 +2318,7 @@
     "publishedBylines": [
       {
         "id": 361794398,
-        "name": "Strata",
+        "name": "Kannen",
         "handle": "strata12",
         "bio": "-"
       },
