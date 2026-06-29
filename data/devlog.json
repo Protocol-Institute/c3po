@@ -11,6 +11,59 @@
   },
   "sessions": [
     {
+      "id": 39,
+      "sort_key": 39.0,
+      "label": "Session 39",
+      "title": "/status Page — Artifact Counts and Origin Breakdown",
+      "date": "2026-06-28",
+      "time_pt": "",
+      "tracks": [
+        "operations",
+        "worker-api"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "total": 27518
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "Artifact counts and origin breakdown on /status",
+          "html": "<strong>Artifact counts and origin breakdown on /status:</strong> The corpus status page at <code>/status</code> previously showed only vector counts per namespace. Extended <code>ingest/publish_dashboard.py</code> with three new building blocks: <code>artifact_counts()</code> reads local state files to derive the number of discrete artifacts per namespace (97 talks, 123 posts, 74 papers, 914 terms, 1,252 links, 252 references, 103 meetings, 10 channels, 80 channels described); <code>NAMESPACE_TIERS</code> classifies each namespace as Protocol Institute, Community, Third-party, or System; and <code>build_breakdown()</code> aggregates those into four summary buckets with total vectors and artifact item lists. The Worker's <code>renderStatusPage()</code> was updated to render a new \"By Origin\" card grid at the top of the page — four cards each showing total vectors, a label, and a bulleted artifact summary — and the namespace table gained Artifacts and Origin columns with color-coded tier badges. PI-published content (5,573 vectors) is green, Community (11,539 vectors) is blue, Third-party (10,341 vectors) is amber, and System metadata (65 vectors) is gray."
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "sort_key": 38.0,
+      "label": "Session 38",
+      "title": "Cost Monitoring Dashboard + Pinecone Read-Unit Limit",
+      "date": "2026-06-25",
+      "time_pt": "",
+      "tracks": [
+        "operations"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "total": 27420
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "Discord request cost tracking in Worker",
+          "html": "<strong>Discord request cost tracking in Worker:</strong> Added <code>trackDiscordRequest()</code> to <code>api/worker.js</code> — accumulates Discord bot usage in two new KV keys: <code>stats:discord:day:YYYY-MM-DD</code> (daily rolling count) and <code>stats:discord:lifetime</code>. The <code>/stats</code> endpoint now returns <code>discord_day</code> and <code>discord_lifetime</code> alongside the existing MCP tracking fields, giving a parallel view of Discord vs. web vs. MCP usage."
+        },
+        {
+          "title": "Cost section in monitoring page",
+          "html": "<strong>Cost section in monitoring page:</strong> Added <code>cost_section()</code> to <code>ingest/generate_monitoring_page.py</code>. Fetches live usage from <code>/stats</code>, reads <code>data/cost_log.jsonl</code> for instrumented Anthropic API calls, and reads the bot session log. Renders a four-row cost table: Web UI (c3po_web), Discord bot (c3po_bot via Worker), Ingest pipeline (c3po_listener), and Cloudflare infrastructure. Tracked actuals are shown alongside pre-tracking estimates for historical context. Now writes to both <code>c3po/monitoring.html</code> and <code>website/monitoring.html</code>."
+        },
+        {
+          "title": "Pinecone free-tier read-unit limit incident",
+          "html": "<strong>Pinecone free-tier read-unit limit incident:</strong> The PI org Pinecone account hit the 1M read-unit/month limit on the free tier. Symptoms: all Worker RAG queries silently returned empty sources, so the bot answered from system prompt only. Root cause was high daemon query volume (every 30-minute cycle across 11 namespaces) plus dev testing earlier in the month exhausting the budget. Fix: upgrade Pinecone plan. Limit resets monthly; the next cycle will restore normal retrieval."
+        }
+      ]
+    },
+    {
       "id": 37,
       "sort_key": 37.0,
       "label": "Session 37",

@@ -70,18 +70,18 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 
 | Namespace | Vectors | Notes |
 |-----------|---------|-------|
-| `discord_links` | 9,944 | Community-shared URLs, scored by Haiku |
-| `discord` | 5,597 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
-| `sig` | 5,588 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`); 6 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG |
+| `discord_links` | 10,063 | Community-shared URLs, scored by Haiku |
+| `discord` | 5,638 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
+| `sig` | 5,821 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`); 6 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG |
 | `videos` | 3,127 | YouTube talks (97 videos) |
-| `substack` | 1,106 | Protocolized magazine (121+ posts) |
+| `substack` | 1,121 | Protocolized magazine (123 posts) |
 | `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
 | `pdfs` | 765 | 74 papers/essays + 2 special-feature items (New Nature essay + slides) |
 | `bibliography` | 278 | External works cited by PI corpus |
-| `discord_guide` | 79 | All active guild channels; Haiku-described; SIG channels include cadence + next_event_time |
-| `meta` | 35 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
-| `transcripts` | 25 | Bot conversation self-memory: web + Discord Q&A |
-| **Total** | **~27,389** | |
+| `discord_guide` | 80 | All active guild channels; Haiku-described; SIG channels include cadence + next_event_time |
+| `meta` | 38 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
+| `transcripts` | 27 | Bot conversation self-memory: web + Discord Q&A |
+| **Total** | **~27,518** | |
 
 ## Key Ingest Scripts
 

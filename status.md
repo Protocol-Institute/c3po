@@ -1,5 +1,28 @@
 # C3PO — Status Log
 
+## 2026-06-28 — /status page artifact counts + origin breakdown (session 39)
+
+**/status page improvements — COMPLETE**
+- Extended `ingest/publish_dashboard.py`: added `artifact_counts()` (reads local state files to derive per-namespace artifact counts), `NAMESPACE_TIERS` (PI / Community / Third-party / System), `ARTIFACT_UNITS`, and `build_breakdown()` (aggregates into four summary buckets).
+- Updated `renderStatusPage()` in `api/worker.js`: new "By Origin" card grid at top of page; namespace table gains Artifacts and Origin (tier badge) columns.
+- Live at `c3po.protocolized.io/status`. Breakdown: PI 5,573 vectors (97 talks · 123 posts · 74 papers · 914 terms), Community 11,539 (103 meetings · 10 channels · 80 described), Third-party 10,341 (1,252 links · 252 refs), System 65 (38 sessions · 27 conversations).
+- Added devlog entries for sessions 38 and 39 (both were missing).
+
+**Pinecone state: 27,518 vectors** (daemon activity since session 38: sig +233, discord_links +119, discord +41, substack +15, meta +3, discord_guide +1, transcripts +2)
+
+**Open TODOs (priority order):**
+1. Upgrade Pinecone plan to resolve read-unit limit — BLOCKER (should be resolved with monthly reset)
+2. Implement `ingest/sync_roam.py` (plan: `plans/roam-ingest.md`)
+3. Create `Protocol-Institute/sig-notes` repo + `_template.md`; discuss with SIG hosts
+4. Starter page — 28 recs across 20 resources in tally (threshold reached); build "good first reads" page + wire into intro handler
+5. Execute VPS migration — `plans/vps-migration.md`
+6. Exhibit extraction — `ingest/extract_structure.py`
+7. `sync_sig_pages.py` + `update_sig_pages.py` — add to daemon (needs VPS first)
+8. Anthropic key rotation to PI org account
+9. Rotate `GH_PAT` to fine-grained PAT scoped to protocolized-website only
+
+---
+
 ## 2026-06-25 — Cost dashboard + Pinecone read-unit limit hit (session 38)
 
 **Cost monitoring dashboard — COMPLETE**
