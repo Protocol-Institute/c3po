@@ -32,14 +32,45 @@ NAMESPACE_DESCRIPTIONS = {
     "discord_links": "External URLs shared in Discord, fetched and relevance-scored",
     "discord":       "General + forum channel messages",
     "sig":           "SIG discussions, meeting summaries, and .org meeting pages",
-    "videos":        "YouTube talk transcripts (PI corpus, 91 videos)",
+    "videos":        "YouTube talk transcripts",
     "substack":      "Protocolized magazine posts",
-    "definitions":   "PI protocol lexicon (914 terms)",
-    "pdfs":          "Papers and essays from the PI PDF library",
+    "definitions":   "PI protocol lexicon",
+    "pdfs":          "Papers and essays from the PI library",
     "bibliography":  "External works cited by the PI corpus",
-    "discord_guide": "Guild channel map (used for navigation queries)",
-    "meta":          "C3PO self-knowledge: devlog sessions",
+    "discord_guide": "Guild channel descriptions (used for navigation queries)",
+    "meta":          "C3PO devlog sessions",
     "transcripts":   "Bot conversation memory: web + Discord Q&A",
+}
+
+# Which broad category each namespace belongs to.
+# Shown as a badge on the status page.
+NAMESPACE_TIERS = {
+    "substack":      "pi",
+    "pdfs":          "pi",
+    "videos":        "pi",
+    "definitions":   "pi",
+    "discord":       "community",
+    "sig":           "community",
+    "discord_guide": "community",
+    "discord_links": "third_party",
+    "bibliography":  "third_party",
+    "meta":          "system",
+    "transcripts":   "system",
+}
+
+# Human-readable unit for the artifact count (singular).
+ARTIFACT_UNITS = {
+    "substack":      "posts",
+    "pdfs":          "papers",
+    "videos":        "talks",
+    "definitions":   "terms",
+    "discord":       "channels",
+    "sig":           "meetings",
+    "discord_guide": "channels",
+    "discord_links": "links",
+    "bibliography":  "references",
+    "meta":          "sessions",
+    "transcripts":   "conversations",
 }
 
 SIG_DISPLAY = {
@@ -152,6 +183,11 @@ PATROL_MANIFEST = [
 ]
 
 
+BASE_DIR = Path(__file__).parent.parent
+SOURCES_DIR = BASE_DIR / "sources"
+CONFIG_DIR  = BASE_DIR / "config"
+
+
 def load_json(path, default):
     try:
         return json.loads(path.read_text())
@@ -159,17 +195,102 @@ def load_json(path, default):
         return default
 
 
-def pinecone_stats() -> tuple[int, list[dict]]:
+def artifact_counts() -> dict[str, int | None]:
+    """Return the number of discrete artifacts per namespace, derived from local files."""
+    counts: dict[str, int | None] = {}
+
+    # PI-published
+    try:
+        api_meta = json.loads((SOURCES_DIR / "substack/api_metadata.json").read_text())
+        counts["substack"] = len(api_meta)
+    except Exception:
+        counts["substack"] = None
+
+    try:
+        pdf_meta = json.loads((SOURCES_DIR / "pdfs/enriched_meta.json").read_text())
+        counts["pdfs"] = sum(1 for p in pdf_meta.values() if not p.get("deprecated"))
+    except Exception:
+        counts["pdfs"] = None
+
+    try:
+        yt_meta = json.loads((SOURCES_DIR / "youtube/enriched_meta.json").read_text())
+        counts["videos"] = len(yt_meta)
+    except Exception:
+        counts["videos"] = None
+
+    try:
+        lexicon = json.loads((SOURCES_DIR / "lexicon_draft.json").read_text())
+        counts["definitions"] = len(lexicon)
+    except Exception:
+        counts["definitions"] = None
+
+    # Third-party
+    try:
+        reg = json.loads((DATA_DIR / "discord_links_registry.json").read_text())
+        counts["discord_links"] = sum(
+            1 for e in reg.values() if e.get("relevance_score", -1) >= 1
+        )
+    except Exception:
+        counts["discord_links"] = None
+
+    try:
+        bib = json.loads((SOURCES_DIR / "bibliography/sourced_refs.json").read_text())
+        counts["bibliography"] = len(bib)
+    except Exception:
+        counts["bibliography"] = None
+
+    # Community — general Discord channels monitored
+    try:
+        mf = json.loads((DATA_DIR / "channel_manifest.json").read_text())
+        chs = mf.get("channels", {})
+        counts["discord"] = sum(
+            1 for ch in chs.values()
+            if isinstance(ch, dict) and ch.get("type") in ("general", "forum")
+        )
+    except Exception:
+        counts["discord"] = None
+
+    # Community — SIG meetings archived
+    try:
+        counts["sig"] = len(list(MEETINGS_DIR.glob("*.json"))) if MEETINGS_DIR.exists() else None
+    except Exception:
+        counts["sig"] = None
+
+    # Community — discord_guide channels described
+    try:
+        dc = json.loads((CONFIG_DIR / "discord_channels.json").read_text())
+        chs = dc.get("channels", {})
+        counts["discord_guide"] = len(chs) if isinstance(chs, dict) else None
+    except Exception:
+        counts["discord_guide"] = None
+
+    # System — meta and transcripts use Pinecone vector count (set later)
+    counts["meta"] = None
+    counts["transcripts"] = None
+
+    return counts
+
+
+def pinecone_stats(artifacts: dict[str, int | None]) -> tuple[int, list[dict]]:
     from pinecone import Pinecone
     pc    = Pinecone(api_key=os.environ["PINECONE_API_KEY"])
     idx   = pc.Index(host=os.environ["PINECONE_C3PO_HOST"])
     stats = idx.describe_index_stats()
     total = stats.total_vector_count
+
+    # For system namespaces (meta, transcripts) use vector count as artifact count
+    for ns, info in stats.namespaces.items():
+        if artifacts.get(ns) is None and NAMESPACE_TIERS.get(ns) == "system":
+            artifacts[ns] = info.vector_count
+
     namespaces = [
         {
-            "name":        ns,
-            "vectors":     info.vector_count,
-            "description": NAMESPACE_DESCRIPTIONS.get(ns, ""),
+            "name":          ns,
+            "vectors":       info.vector_count,
+            "description":   NAMESPACE_DESCRIPTIONS.get(ns, ""),
+            "tier":          NAMESPACE_TIERS.get(ns, ""),
+            "artifacts":     artifacts.get(ns),
+            "artifact_unit": ARTIFACT_UNITS.get(ns, "items"),
         }
         for ns, info in sorted(stats.namespaces.items(), key=lambda x: -x[1].vector_count)
     ]
@@ -224,16 +345,58 @@ def last_sync_per_script(log: dict) -> dict[str, str]:
     return latest
 
 
+def build_breakdown(namespaces: list[dict]) -> list[dict]:
+    """Aggregate artifact and vector counts by tier for the summary section."""
+    tier_order  = ["pi", "community", "third_party", "system"]
+    tier_labels = {
+        "pi":          "Protocol Institute",
+        "community":   "Community",
+        "third_party": "Third-party",
+        "system":      "System",
+    }
+    tier_descs = {
+        "pi":          "Content published or curated by the Protocol Institute",
+        "community":   "Contributions from PI Discord members",
+        "third_party": "External content linked or cited by the community",
+        "system":      "Internal metadata and conversation memory",
+    }
+
+    by_tier: dict[str, dict] = {t: {"vectors": 0, "items": []} for t in tier_order}
+    for ns in namespaces:
+        t = ns.get("tier", "")
+        if t not in by_tier:
+            continue
+        by_tier[t]["vectors"] += ns.get("vectors", 0)
+        if ns.get("artifacts") is not None:
+            by_tier[t]["items"].append({
+                "unit":  ns["artifact_unit"],
+                "count": ns["artifacts"],
+            })
+
+    return [
+        {
+            "tier":        t,
+            "label":       tier_labels[t],
+            "description": tier_descs[t],
+            "vectors":     by_tier[t]["vectors"],
+            "items":       by_tier[t]["items"],
+        }
+        for t in tier_order
+    ]
+
+
 def build_blob() -> dict:
-    log                 = load_json(LOG_PATH, {"runs": []})
-    total, namespaces   = pinecone_stats()
-    sigs                = sig_stats(log)
-    last_sync           = last_sync_per_script(log)
+    log                      = load_json(LOG_PATH, {"runs": []})
+    artifacts                = artifact_counts()
+    total, namespaces        = pinecone_stats(artifacts)
+    sigs                     = sig_stats(log)
+    last_sync                = last_sync_per_script(log)
+    breakdown                = build_breakdown(namespaces)
 
     # Attach last_run to each patrol entry
     patrol = []
     for entry in PATROL_MANIFEST:
-        e          = dict(entry)
+        e             = dict(entry)
         e["last_run"] = last_sync.get(entry["script"], "")
         patrol.append(e)
 
@@ -243,8 +406,9 @@ def build_blob() -> dict:
             "total_vectors": total,
             "namespaces":    namespaces,
         },
-        "sigs":    sigs,
-        "patrol":  patrol,
+        "breakdown": breakdown,
+        "sigs":      sigs,
+        "patrol":    patrol,
     }
 
 

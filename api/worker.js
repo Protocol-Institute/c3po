@@ -3901,10 +3901,21 @@ function renderStatusPage(stats) {
     .st-table .num{text-align:right;font-variant-numeric:tabular-nums;font-family:monospace}
     .st-table .dim{color:var(--muted,#888);font-size:0.82rem}
     .st-total td{border-top:2px solid var(--border,#e0dbd3)!important;font-weight:600}
-    .st-badge{display:inline-block;font-size:0.7rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;padding:0.1em 0.5em;border-radius:3px}
+    .st-badge{display:inline-block;font-size:0.7rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;padding:0.1em 0.5em;border-radius:3px;white-space:nowrap}
     .st-active{background:#e6f4ee;color:#1a6b40}
     .st-static{background:#f0f0f0;color:#666}
+    .st-tier-pi{background:#e6f4ee;color:#1a6b40}
+    .st-tier-community{background:#e8f0fb;color:#1a4fa0}
+    .st-tier-third_party{background:#fef3e2;color:#92580c}
+    .st-tier-system{background:#f0f0f0;color:#555}
     .st-meta{font-size:0.82rem;color:var(--muted,#888);margin:0 0 2rem}
+    .st-breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1rem 0}
+    .st-breakdown-card{border:1px solid var(--border,#e0dbd3);border-radius:6px;padding:1rem 1.1rem}
+    .st-breakdown-card h3{font-family:Outfit,system-ui,sans-serif;font-size:0.75rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;margin:0 0 0.5rem;color:var(--muted,#888)}
+    .st-breakdown-card .st-breakdown-vectors{font-size:1.5rem;font-weight:600;font-family:monospace;line-height:1.1;color:var(--text,#1a1a1a)}
+    .st-breakdown-card .st-breakdown-label{font-size:0.75rem;color:var(--muted,#888);margin-bottom:0.5rem}
+    .st-breakdown-card .st-breakdown-items{font-size:0.8rem;color:var(--muted,#666);line-height:1.6}
+    .st-artifact{font-size:0.82rem;color:var(--text,#333);white-space:nowrap}
     code{font-size:0.82em;background:var(--bg2,#f3f0ea);padding:0.1em 0.35em;border-radius:3px}`;
 
   function he(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -3935,14 +3946,40 @@ function renderStatusPage(stats) {
   var nsList    = corpus.namespaces || [];
   var sigs      = stats.sigs || [];
   var patrol    = stats.patrol || [];
+  var breakdown = stats.breakdown || [];
+
+  var TIER_LABELS = { pi: 'Protocol Institute', community: 'Community', third_party: 'Third-party', system: 'System' };
+
+  // Breakdown cards
+  var breakdownCards = breakdown.map(function(b) {
+    var itemsHtml = b.items.map(function(it) {
+      return '<strong>' + it.count.toLocaleString() + '</strong> ' + he(it.unit);
+    }).join(' &nbsp;·&nbsp; ');
+    return '<div class="st-breakdown-card">'
+      + '<h3>' + he(b.label) + '</h3>'
+      + '<div class="st-breakdown-vectors">' + (b.vectors||0).toLocaleString() + '</div>'
+      + '<div class="st-breakdown-label">vectors indexed</div>'
+      + (itemsHtml ? '<div class="st-breakdown-items">' + itemsHtml + '</div>' : '')
+      + '</div>';
+  }).join('\n');
 
   // Namespace table
   var nsRows = nsList.map(function(ns) {
+    var tierKey   = ns.tier || '';
+    var tierLabel = TIER_LABELS[tierKey] || tierKey;
+    var tierBadge = tierKey
+      ? '<span class="st-badge st-tier-' + he(tierKey) + '">' + he(tierLabel) + '</span>'
+      : '';
+    var artifactCell = (ns.artifacts != null)
+      ? '<span class="st-artifact">' + ns.artifacts.toLocaleString() + ' ' + he(ns.artifact_unit||'') + '</span>'
+      : '<span class="dim">—</span>';
     return '<tr><td><code>' + he(ns.name) + '</code></td>'
+      + '<td>' + artifactCell + '</td>'
       + '<td class="num">' + (ns.vectors||0).toLocaleString() + '</td>'
+      + '<td>' + tierBadge + '</td>'
       + '<td class="dim">' + he(ns.description) + '</td></tr>';
   }).join('\n');
-  nsRows += '\n<tr class="st-total"><td>Total</td><td class="num">' + total + '</td><td></td></tr>';
+  nsRows += '\n<tr class="st-total"><td>Total</td><td></td><td class="num">' + total + '</td><td></td><td></td></tr>';
 
   // SIG table
   var sigRows = sigs.map(function(s) {
@@ -3979,10 +4016,16 @@ ${subnav('/status')}
 <p class="st-meta">Updated ${he(generated)} &nbsp;·&nbsp; ${total} vectors indexed</p>
 
 <section class="st-section">
+<h2>By Origin</h2>
+<p>Content broken down by who created it — PI-published material, community contributions, third-party external content, and system metadata.</p>
+<div class="st-breakdown">${breakdownCards}</div>
+</section>
+
+<section class="st-section">
 <h2>Indexed Namespaces</h2>
-<p>Live vector counts across all namespaces in the c3po Pinecone index.</p>
+<p>Artifact and vector counts for each namespace in the Pinecone index.</p>
 <table class="st-table">
-<thead><tr><th>Namespace</th><th class="num">Vectors</th><th>Contents</th></tr></thead>
+<thead><tr><th>Namespace</th><th>Artifacts</th><th class="num">Vectors</th><th>Origin</th><th>Contents</th></tr></thead>
 <tbody>${nsRows}</tbody>
 </table>
 </section>
