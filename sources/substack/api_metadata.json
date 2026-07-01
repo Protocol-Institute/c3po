@@ -1,5 +1,43 @@
 [
   {
+    "id": 204263080,
+    "slug": "a-visitors-guide-to-the-disposition",
+    "title": "A Visitor’s Guide to the Disposition",
+    "subtitle": "Forty Years of Observation. Forty Years of Being Right. Forty Years of Being Lied About.",
+    "post_date": "2026-06-30T20:55:00.283Z",
+    "updated_at": "2026-06-30T20:56:40.891Z",
+    "type": "newsletter",
+    "wordcount": 4418,
+    "section_id": 333105,
+    "section_name": "Fictions",
+    "postTags": [
+      {
+        "id": "74abb978-216b-4664-b93a-255d199d7f9e",
+        "name": "Fiction",
+        "slug": "fiction"
+      }
+    ],
+    "publishedBylines": [
+      {
+        "id": 2011373,
+        "name": "Thing Party",
+        "handle": "thingparty",
+        "bio": null
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 2,
+    "restacks": 1,
+    "comment_count": 0,
+    "previous_post_slug": "the-big-man",
+    "next_post_slug": null
+  },
+  {
     "id": 203600288,
     "slug": "durable-ai-adoption",
     "title": "Durable AI Adoption",
@@ -47,8 +85,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 6,
-    "restacks": 8,
+    "reaction_count": 10,
+    "restacks": 9,
     "comment_count": 1,
     "previous_post_slug": "the-character-of-public-transit-systems",
     "next_post_slug": null
@@ -100,7 +138,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 8,
+    "reaction_count": 9,
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "maintaining-everything-that-matters",
@@ -188,11 +226,11 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 7,
+    "reaction_count": 8,
     "restacks": 2,
-    "comment_count": 0,
+    "comment_count": 1,
     "previous_post_slug": "the-overloaded-train",
-    "next_post_slug": null
+    "next_post_slug": "a-visitors-guide-to-the-disposition"
   },
   {
     "id": 201186141,
@@ -596,8 +634,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 105,
-    "restacks": 24,
+    "reaction_count": 106,
+    "restacks": 25,
     "comment_count": 15,
     "previous_post_slug": "a-primordial-computing-soup",
     "next_post_slug": "inventing-new-nature"
