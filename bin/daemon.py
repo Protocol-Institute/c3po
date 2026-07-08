@@ -18,7 +18,8 @@ Steps each cycle:
   9. update_sig_pages.py    — create/update individual meeting detail pages on .org
  10. generate_sig_pages.py  — regenerate SIG index pages
  11. generate_monitoring_page.py — rebuild monitoring dashboard
- 12. website PR             — open/update a PR against .org website if pages changed
+ 12. website PR             — open/update a PR against .org website if pages changed,
+                              checked at most once every WEBSITE_PUSH_INTERVAL_DAYS
                               (not a direct push — see push_website_if_changed())
  13. sync_bot_conversations.py — spool → transcripts namespace
  14. sync_web_chats.py         — web KV → transcripts namespace
@@ -41,7 +42,7 @@ import os
 import subprocess
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -52,13 +53,15 @@ import session_log as slog
 INTERVAL = 30 * 60          # seconds between sync cycles
 LINK_FETCH_LIMIT = 200      # URLs per cycle (cap API cost)
 STEP_TIMEOUT = 10 * 60      # max seconds per subprocess step
+WEBSITE_PUSH_INTERVAL_DAYS = 7   # batch website PR updates to weekly, not every cycle
 
-C3PO_DIR         = Path(__file__).resolve().parent.parent
-WEBSITE_DIR      = C3PO_DIR.parent / "website"
-PROTOCOLIZED_DIR = C3PO_DIR.parent / "protocolized-website"
-VENV_PY          = str(C3PO_DIR / ".venv" / "bin" / "python3")
-SESSION_LOG      = Path.home() / "Library" / "Logs" / "c3po" / "daemon_sessions.jsonl"
-ENRICHMENT_STATE = C3PO_DIR / "data" / "enrichment_sync_state.json"
+C3PO_DIR          = Path(__file__).resolve().parent.parent
+WEBSITE_DIR       = C3PO_DIR.parent / "website"
+PROTOCOLIZED_DIR  = C3PO_DIR.parent / "protocolized-website"
+VENV_PY           = str(C3PO_DIR / ".venv" / "bin" / "python3")
+SESSION_LOG       = Path.home() / "Library" / "Logs" / "c3po" / "daemon_sessions.jsonl"
+ENRICHMENT_STATE  = C3PO_DIR / "data" / "enrichment_sync_state.json"
+WEBSITE_PUSH_STATE = C3PO_DIR / "data" / "website_push_state.json"
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 
@@ -124,6 +127,32 @@ def enrichment_changed(source: str, state: dict) -> bool:
     return mtime is not None and state.get(source) != mtime
 
 
+def load_website_push_state() -> dict:
+    if WEBSITE_PUSH_STATE.exists():
+        try:
+            return json.loads(WEBSITE_PUSH_STATE.read_text())
+        except Exception:
+            return {}
+    return {}
+
+
+def save_website_push_state(state: dict) -> None:
+    WEBSITE_PUSH_STATE.write_text(json.dumps(state, indent=2))
+
+
+def website_push_due(state: dict) -> bool:
+    """True if it's been WEBSITE_PUSH_INTERVAL_DAYS since the last website
+    PR check (or there's no record of one yet)."""
+    last = state.get("last_push_check")
+    if not last:
+        return True
+    try:
+        last_dt = datetime.fromisoformat(last)
+    except ValueError:
+        return True
+    return datetime.now(timezone.utc) - last_dt >= timedelta(days=WEBSITE_PUSH_INTERVAL_DAYS)
+
+
 def push_protocolized_if_changed() -> bool:
     """Git commit + push protocolized-website if resource Markdown files changed."""
     if not PROTOCOLIZED_DIR.exists():
@@ -176,7 +205,9 @@ def push_website_if_changed() -> bool:
     stopgap — plans/website-interface.md describes the fuller fix (c3po writes
     only a JSON handoff; the website owns rendering).
 
-    The branch is fully rebuilt from origin/main every cycle and force-pushed,
+    Called at most once every WEBSITE_PUSH_INTERVAL_DAYS (see run_sync()) so
+    the website side isn't seeing a new/updated PR every 30 minutes. Each time
+    it does run, the branch is fully rebuilt from origin/main and force-pushed,
     so an unmerged PR always reflects the latest regeneration rather than
     accumulating drift.
     """
@@ -263,7 +294,16 @@ def run_sync(cycle: int) -> None:
         if success:
             ok += 1
 
-    website_pushed = push_website_if_changed()
+    website_push_state = load_website_push_state()
+    if website_push_due(website_push_state):
+        website_pushed = push_website_if_changed()
+        website_push_state["last_push_check"] = datetime.now(timezone.utc).isoformat()
+        save_website_push_state(website_push_state)
+    else:
+        last_check = website_push_state.get("last_push_check", "?")
+        log.info(f"  Website PR check skipped — last checked {last_check}, "
+                 f"next in ~{WEBSITE_PUSH_INTERVAL_DAYS}d window")
+        website_pushed = False
 
     # ── Protocolized-website enrichment sync (gated on enriched_meta changes) ──
     enrich_state = load_enrichment_state()
