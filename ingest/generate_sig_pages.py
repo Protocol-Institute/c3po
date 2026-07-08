@@ -107,6 +107,28 @@ def html_escape(s: str) -> str:
              .replace(">", "&gt;").replace('"', "&quot;"))
 
 
+def link_label(url: str, domain: str) -> str:
+    """Human-readable label for a links-discussed entry — special-cased for
+    YouTube since a bare domain ("www.youtube.com") tells the reader nothing
+    about what the link actually is."""
+    if "youtube.com" in domain or "youtu.be" in domain:
+        return "Session livestream (YouTube)"
+    return domain
+
+
+def find_detail_href(sig_dir: Path, slug: str, date: str) -> str | None:
+    """Return the /sigs/<slug>/<dir> href if update_sig_pages.py has already
+    built a detail page for this meeting (dir name starts with its date).
+
+    Without this, regenerating the archive list here would blow away the
+    per-meeting links that update_sig_pages.py just added.
+    """
+    if not date or date == "unknown" or not sig_dir.exists():
+        return None
+    match = next((d for d in sig_dir.iterdir() if d.is_dir() and d.name.startswith(date)), None)
+    return f"/sigs/{slug}/{match.name}" if match else None
+
+
 def nav_html(depth: int = 1) -> str:
     return "  <header id=\"site-header\"></header>"
 
@@ -142,7 +164,7 @@ MEETING_EXTRA_CSS = """  <style>
   </style>"""
 
 
-def render_meeting_card(r: dict) -> str:
+def render_meeting_card(r: dict, detail_href: str | None = None) -> str:
     date_fmt = format_date(r.get("date", ""))
     title = html_escape(r.get("title", ""))
     summary_paras = r.get("summary", "")
@@ -157,7 +179,8 @@ def render_meeting_card(r: dict) -> str:
     if date_fmt:
         parts.append(f'  <div class="meeting-date">{html_escape(date_fmt)}</div>')
 
-    parts.append(f'  <div class="meeting-title">{title}</div>')
+    title_html = f'<a href="{html_escape(detail_href)}">{title}</a>' if detail_href else title
+    parts.append(f'  <div class="meeting-title">{title_html}</div>')
 
     if topics:
         pills = "".join(f'<span class="meeting-topic">{html_escape(t)}</span>' for t in topics)
@@ -185,7 +208,8 @@ def render_meeting_card(r: dict) -> str:
         for link in links[:8]:
             escaped = html_escape(link)
             domain = link.split("/")[2] if "//" in link else link
-            parts.append(f'      <li><a href="{escaped}" target="_blank" rel="noopener noreferrer">{html_escape(domain)}</a></li>')
+            label = link_label(link, domain)
+            parts.append(f'      <li><a href="{escaped}" target="_blank" rel="noopener noreferrer">{html_escape(label)}</a></li>')
         parts.append('    </ul>')
         parts.append('  </div>')
 
@@ -212,7 +236,11 @@ def generate_sig_page(sig_key: str, meetings: list[dict]) -> str:
 
     meetings_sorted = sorted(meetings, key=sort_key, reverse=True)
 
-    cards = "\n\n".join(render_meeting_card(r) for r in meetings_sorted)
+    sig_dir = SIGS_OUT_DIR / slug
+    cards = "\n\n".join(
+        render_meeting_card(r, find_detail_href(sig_dir, slug, r.get("date", "")))
+        for r in meetings_sorted
+    )
     if not cards:
         cards = '<p class="no-meetings">No meeting records yet.</p>'
     else:
@@ -320,6 +348,8 @@ def _patch_meeting_archive(index_path: Path, sig_key: str, meetings: list[dict])
     import re as _re
 
     existing = index_path.read_text()
+    slug = SIG_INFO[sig_key]["slug"]
+    sig_dir = SIGS_OUT_DIR / slug
 
     def sort_key(r):
         d = r.get("date", "")
@@ -329,7 +359,10 @@ def _patch_meeting_archive(index_path: Path, sig_key: str, meetings: list[dict])
     total  = len(meetings_sorted)
     dated  = sum(1 for m in meetings_sorted if m.get("date") and m["date"] != "unknown")
 
-    cards = "\n\n".join(render_meeting_card(r) for r in meetings_sorted)
+    cards = "\n\n".join(
+        render_meeting_card(r, find_detail_href(sig_dir, slug, r.get("date", "")))
+        for r in meetings_sorted
+    )
     if not cards:
         cards_html = '<p class="no-meetings">No meeting records yet.</p>'
     else:

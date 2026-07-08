@@ -33,7 +33,7 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent.parent / ".env")
 
 sys.path.insert(0, str(Path(__file__).parent))
-from utils import get_pinecone_index
+from utils import get_pinecone_index, meeting_ready, MEETING_GRACE_DAYS
 import cost_logger
 
 NAMESPACE = "sig"
@@ -204,6 +204,10 @@ def main():
         out_path = MEETINGS_DIR / f"{thread_id}.json"
 
         print(f"[{i+1}/{len(to_process)}] {sig} | {date} | {title[:55]}")
+
+        if not meeting_ready(date):
+            print(f"  ⏸ not yet {MEETING_GRACE_DAYS}d past meeting date — skipping (will retry next run)")
+            continue
 
         transcript = reconstruct_transcript(idx, thread_id)
         if not transcript:

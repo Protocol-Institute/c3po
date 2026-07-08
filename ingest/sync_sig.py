@@ -38,7 +38,9 @@ from dotenv import load_dotenv
 import anthropic
 
 sys.path.insert(0, str(Path(__file__).parent))
-from utils import clean_text, chunk_text, embed_chunks, chunk_id, get_voyage_client, get_pinecone_index, PINECONE_BATCH, append_run_log
+from utils import (clean_text, chunk_text, embed_chunks, chunk_id, get_voyage_client,
+                    get_pinecone_index, PINECONE_BATCH, append_run_log,
+                    meeting_ready, MEETING_GRACE_DAYS)
 from attachments import process_attachments, attachment_meta_fields, extract_pdf_text
 import cost_logger
 
@@ -555,8 +557,11 @@ def process_channel(channel_id: str, config: dict, state: dict,
         else:
             meeting = is_meeting(thread_name, channel_id, all_channels)
 
-        # Skip if unchanged
-        if last_count == reported_count and thread_state.get("processed"):
+        # Skip if unchanged — unless it's a meeting still waiting out the
+        # date grace period, which needs rechecking every run even with no
+        # new messages (it may become ready with no further Discord activity).
+        if (last_count == reported_count and thread_state.get("processed")
+                and not thread_state.get("meeting_pending")):
             continue
 
         print(f"  {'[MEETING]' if meeting else '[thread] ':10} [{reported_count:>3} msgs] {thread_name[:60]}")
@@ -585,29 +590,47 @@ def process_channel(channel_id: str, config: dict, state: dict,
                 thread_att_infos.extend(atts)
 
         records = []
+        meeting_pending = False
 
         if meeting:
             transcript, authors, all_urls = build_transcript(thread, msgs, config)
             summary = generate_meeting_summary(transcript, thread_name, config, client)
+            meeting_date = summary.get("date", "unknown")
 
-            # Summary vector
-            sum_text, sum_meta = format_meeting_summary_vector(
-                thread, summary, authors, all_urls, len(non_bot_msgs), channel_id, config)
-            records.append({
-                "id": f"sig_meeting_summary__{thread_id}",
-                "text": sum_text, "meta": sum_meta,
-            })
-
-            # Body chunk vectors
-            for i, (body_text, body_meta) in enumerate(
-                    format_meeting_body_chunks(transcript, thread, summary, channel_id, config)):
+            if not meeting_ready(meeting_date):
+                # Thread was created ahead of the actual session (agenda/reading
+                # list) or the session just happened — hold off treating it as a
+                # completed meeting until MEETING_GRACE_DAYS have passed, so it
+                # doesn't get published (rebuild_sig_summaries/update_sig_pages
+                # only look at sig_meeting_summary__ vectors) before it's real.
+                print(f"    ⏸ meeting date {meeting_date} not yet {MEETING_GRACE_DAYS}d past — "
+                      f"deferring, storing as discussion for now")
+                disc_text, disc_meta = format_discussion_thread(thread, msgs, channel_id, config)
                 records.append({
-                    "id": f"sig_meeting_body__{thread_id}__{i}",
-                    "text": body_text, "meta": body_meta,
+                    "id": f"sig_discussion__{thread_id}",
+                    "text": disc_text, "meta": disc_meta,
+                })
+                discussion_count += 1
+                meeting_pending = True
+            else:
+                # Summary vector
+                sum_text, sum_meta = format_meeting_summary_vector(
+                    thread, summary, authors, all_urls, len(non_bot_msgs), channel_id, config)
+                records.append({
+                    "id": f"sig_meeting_summary__{thread_id}",
+                    "text": sum_text, "meta": sum_meta,
                 })
 
-            meeting_count += 1
-            print(f"    → summary + {len(records)-1} body chunks | {summary.get('date','?')} | {summary.get('title','')[:50]}")
+                # Body chunk vectors
+                for i, (body_text, body_meta) in enumerate(
+                        format_meeting_body_chunks(transcript, thread, summary, channel_id, config)):
+                    records.append({
+                        "id": f"sig_meeting_body__{thread_id}__{i}",
+                        "text": body_text, "meta": body_meta,
+                    })
+
+                meeting_count += 1
+                print(f"    → summary + {len(records)-1} body chunks | {summary.get('date','?')} | {summary.get('title','')[:50]}")
 
         else:
             disc_text, disc_meta = format_discussion_thread(thread, msgs, channel_id, config)
@@ -664,6 +687,7 @@ def process_channel(channel_id: str, config: dict, state: dict,
         ch_state["threads"][thread_id] = {
             "name": thread_name, "is_meeting": meeting,
             "last_message_count": reported_count, "processed": True,
+            "meeting_pending": meeting_pending,
         }
         save_state(state)
         save_links_registry(links_registry)

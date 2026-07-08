@@ -18,6 +18,24 @@ PINECONE_BATCH = 100     # upsert batch size
 CHUNK_TOKENS = 512
 OVERLAP_TOKENS = 64
 
+# SIG meeting threads are created ahead of the actual session (agenda, reading
+# list). Don't treat one as a completed meeting — for ingestion, summary
+# building, or website publishing — until this many days after its date have
+# passed. Shared by sync_sig.py, rebuild_sig_summaries.py, update_sig_pages.py,
+# and generate_sig_pages.py so all four stages agree on "ready".
+MEETING_GRACE_DAYS = 7
+
+
+def meeting_ready(date_str: str, grace_days: int = MEETING_GRACE_DAYS) -> bool:
+    """True once `date_str` (YYYY-MM-DD) is at least `grace_days` in the past."""
+    if not date_str or date_str == "unknown":
+        return False
+    try:
+        d = datetime.strptime(date_str, "%Y-%m-%d").date()
+    except ValueError:
+        return False
+    return (datetime.now(timezone.utc).date() - d).days >= grace_days
+
 
 def get_voyage_client() -> voyageai.Client:
     return voyageai.Client(api_key=os.environ["VOYAGE_API_KEY"])

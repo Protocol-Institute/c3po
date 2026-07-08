@@ -245,7 +245,7 @@
       "onboarding_notes": "This channel serves as the home base for SIGPSY, the Protocol Institute's Psychohistory special interest group, combining a fortnightly recurring meeting series with an active World Machines book club and free-ranging discussion of psychohistory, macrohistorical cycles, and adjacent intellectual topics. Meeting threads (e.g. 'SIGPSY 4Jun26: Kickoff') are the primary structured artifact and should be prioritized for ingestion; book club threads (e.g. 'Revolt of the Masses', 'Business of Enlightenment') and side-quest threads carry substantial substantive discussion worth capturing. Logistical coordination messages, short reactions, and link-drops without commentary should be filtered out via the char thresholds.",
       "sig_display": "SIGPSY",
       "meeting_patterns": [
-        "SIGPSY\\s+\\d{1,2}[A-Za-z]{3}\\d{2,4}",
+        "SIGPSY\\s+\\d{1,2}(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\\d{2,4}",
         "SIGPSY.*[Kk]ickoff",
         "SIGPSY.*[Mm]eeting"
       ]
@@ -264,7 +264,7 @@
       "onboarding_notes": "This channel serves as the hub for the Protocol Institute's Distributed Robotics Group (DRG), covering Physical AI, distributed robotics, ocean robotics, space robotics, and related research coordination. Content includes link sharing, reading queue suggestions, scheduling discussions, and project threads (e.g. GD&T, NASA challenge, robot integrations). Ingestion should filter out short scheduling exchanges and bare URL drops, retaining substantive messages and thread content; threads are the primary source of denser, citable content.",
       "sig_display": "DRG",
       "meeting_patterns": [
-        "DRG\\s+\\d{1,2}[A-Za-z]{3}\\d{2,4}",
+        "DRG\\s+\\d{1,2}(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\\d{2,4}",
         "DRG#\\d+",
         "DRG\\s+[Mm]eeting",
         "DRG:\\s+",

@@ -18,7 +18,8 @@ Steps each cycle:
   9. update_sig_pages.py    — create/update individual meeting detail pages on .org
  10. generate_sig_pages.py  — regenerate SIG index pages
  11. generate_monitoring_page.py — rebuild monitoring dashboard
- 12. website push           — git commit+push .org website if pages changed
+ 12. website PR             — open/update a PR against .org website if pages changed
+                              (not a direct push — see push_website_if_changed())
  13. sync_bot_conversations.py — spool → transcripts namespace
  14. sync_web_chats.py         — web KV → transcripts namespace
  15. sync_devlog.py            — devlog sessions → meta namespace
@@ -153,31 +154,78 @@ def push_protocolized_if_changed() -> bool:
         return False
 
 
-def push_website_if_changed() -> None:
-    """Git commit + push website if SIG/monitoring files changed."""
+WEBSITE_BRANCH = "c3po/auto-sig-pages"
+WEBSITE_PATHS  = ["sigs/", "sigs.html", "monitoring.html"]
+
+
+def _git(args: list[str], cwd: Path) -> subprocess.CompletedProcess:
+    return subprocess.run(["git", *args], cwd=str(cwd), check=True,
+                           capture_output=True, text=True)
+
+
+def push_website_if_changed() -> bool:
+    """Stage SIG/monitoring changes onto a dedicated branch and open (or
+    silently update) a PR against the website repo, instead of pushing
+    straight to main.
+
+    The website project sometimes makes its own presentation/formatting edits
+    directly in sigs/*/index.html. A direct push from here would lump those
+    in with an automated regeneration and could get them overwritten on the
+    next cycle with no chance for review. Opening a PR instead lets the
+    website side evaluate and merge each update on their own terms. This is a
+    stopgap — plans/website-interface.md describes the fuller fix (c3po writes
+    only a JSON handoff; the website owns rendering).
+
+    The branch is fully rebuilt from origin/main every cycle and force-pushed,
+    so an unmerged PR always reflects the latest regeneration rather than
+    accumulating drift.
+    """
     check = subprocess.run(
-        ["git", "status", "--porcelain", "sigs/", "sigs.html", "monitoring.html"],
-        cwd=str(WEBSITE_DIR),
-        capture_output=True,
-        text=True,
+        ["git", "status", "--porcelain", *WEBSITE_PATHS],
+        cwd=str(WEBSITE_DIR), capture_output=True, text=True,
     )
     if not check.stdout.strip():
-        log.info("  Website unchanged — skipping push")
+        log.info("  Website unchanged — skipping PR")
         return False
 
     date_str = datetime.now().strftime("%Y-%m-%d")
     msg = f"Auto: SIG pages + monitoring dashboard updated {date_str}"
+
     try:
-        subprocess.run(["git", "add", "sigs/", "sigs.html", "monitoring.html"],
-                       cwd=str(WEBSITE_DIR), check=True, capture_output=True)
-        subprocess.run(["git", "commit", "-m", msg],
-                       cwd=str(WEBSITE_DIR), check=True, capture_output=True)
-        subprocess.run(["git", "push"],
-                       cwd=str(WEBSITE_DIR), check=True, capture_output=True)
-        log.info("  Website push done")
+        _git(["stash", "push", "-u", "--", *WEBSITE_PATHS], WEBSITE_DIR)
+        _git(["checkout", "main"], WEBSITE_DIR)
+        _git(["fetch", "origin", "main"], WEBSITE_DIR)
+        _git(["reset", "--hard", "origin/main"], WEBSITE_DIR)
+        _git(["checkout", "-B", WEBSITE_BRANCH], WEBSITE_DIR)
+        _git(["stash", "pop"], WEBSITE_DIR)
+        _git(["add", *WEBSITE_PATHS], WEBSITE_DIR)
+        _git(["commit", "-m", msg], WEBSITE_DIR)
+        _git(["push", "--force-with-lease", "-u", "origin", WEBSITE_BRANCH], WEBSITE_DIR)
+
+        existing = subprocess.run(
+            ["gh", "pr", "list", "--head", WEBSITE_BRANCH, "--state", "open", "--json", "number"],
+            cwd=str(WEBSITE_DIR), capture_output=True, text=True,
+        )
+        if existing.returncode == 0 and existing.stdout.strip() not in ("", "[]"):
+            log.info(f"  Website PR updated ({WEBSITE_BRANCH})")
+        else:
+            body = ("Automated SIG meeting-page + monitoring-dashboard update from c3po.\n\n"
+                    "This branch is fully regenerated from current data each daemon cycle — "
+                    "review and merge (or leave it to keep updating) rather than editing it "
+                    "directly.")
+            subprocess.run(
+                ["gh", "pr", "create", "--title", msg, "--body", body,
+                 "--head", WEBSITE_BRANCH, "--base", "main"],
+                cwd=str(WEBSITE_DIR), capture_output=True, text=True,
+            )
+            log.info(f"  Website PR opened ({WEBSITE_BRANCH})")
+
+        _git(["checkout", "main"], WEBSITE_DIR)
         return True
     except subprocess.CalledProcessError as exc:
-        log.error(f"  Website push failed: {exc.stderr.decode()[:200]}")
+        log.error(f"  Website PR flow failed: {(exc.stderr or '')[:200]}")
+        # Best-effort recovery so the next cycle isn't stuck mid-stash/branch.
+        subprocess.run(["git", "checkout", "main"], cwd=str(WEBSITE_DIR), capture_output=True)
         return False
 
 

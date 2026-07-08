@@ -19,8 +19,12 @@ import argparse
 import html as htmlmod
 import json
 import re
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+from utils import meeting_ready, MEETING_GRACE_DAYS
 
 MEETINGS_DIR = Path(__file__).parent.parent / "data" / "sigs" / "meetings"
 WEBSITE_DIR  = Path(__file__).parent.parent.parent / "website"
@@ -116,6 +120,16 @@ def is_substantive_link(url: str) -> bool:
         return True
 
 
+def link_label(url: str) -> str:
+    """Human-readable label for a links-discussed entry — special-cased for
+    YouTube since a bare domain ("www.youtube.com") tells the reader nothing
+    about what the link actually is."""
+    domain = url.split('/')[2] if '//' in url else url
+    if 'youtube.com' in domain or 'youtu.be' in domain:
+        return 'Session livestream (YouTube)'
+    return domain
+
+
 def render_detail_page(r: dict, slug: str, sig_name: str, path_slug: str) -> str:
     title       = r.get('title', '')
     date        = r.get('date', '') or date_from_snowflake(r.get('thread_id', ''))
@@ -156,7 +170,7 @@ def render_detail_page(r: dict, slug: str, sig_name: str, path_slug: str) -> str
     if links and not is_future:
         items = ''.join(
             f'\n<li><a href="{esc(l)}" rel="noopener noreferrer" target="_blank">'
-            f'{esc(l.split("/")[2] if "//" in l else l)}</a></li>'
+            f'{esc(link_label(l))}</a></li>'
             for l in links[:8]
         )
         links_block = f'''
@@ -303,6 +317,11 @@ def main():
         date = r.get('date', '') or ''
         if not date or date == 'unknown':
             date = date_from_snowflake(r.get('thread_id', ''))
+
+        if not meeting_ready(date):
+            print(f"  SKIP (not yet {MEETING_GRACE_DAYS}d past meeting date) {sig} {date}: {r.get('title','')[:50]}")
+            skipped.append(f"{sig}-{date}")
+            continue
 
         ts       = title_slug(r.get('title', ''))
         path_slug = f'{date}-{ts}' if date and date != 'unknown' else ts
