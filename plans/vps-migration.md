@@ -1,5 +1,10 @@
 # VPS Migration Plan — PI Org Backend
 
+> **Superseded 2026-07-08** by [`plans/exe-dev-migration.md`](exe-dev-migration.md). exe.dev (existing
+> account/VM) replaced Hetzner as the chosen host — this doc's Phase 1–2 (provisioning, server hardening) no
+> longer apply, but its systemd unit templates and Discord/env inventory were carried forward. Kept for
+> reference; do not execute this plan.
+
 ## Goal
 
 Move all persistent PI org processes off the laptop onto a shared VPS. After migration, the laptop is no longer required for any PI infrastructure.

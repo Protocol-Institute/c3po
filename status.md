@@ -1,5 +1,35 @@
 # C3PO — Status Log
 
+## 2026-07-08 11:00–12:32 PT — SIG meeting-publishing bug fixes + website PR deconfliction + exe.dev migration plan (session 42)
+
+**Bug fixes — SIG meeting pipeline:**
+- Fixed SIGPSY/DRG meeting-detection regex in `data/channel_manifest.json`: it required an exact 3-letter month abbreviation immediately followed by digits, so full month spellings ("2July26") were silently misclassified as discussion, not meeting — this was why the SIGPSY "Three Temporalities" meeting was missing from the site.
+- Added shared `meeting_ready()` / `MEETING_GRACE_DAYS = 7` (`ingest/utils.py`), applied at three layers — `sync_sig.py` (ingestion), `rebuild_sig_summaries.py` (JSON building), `update_sig_pages.py` (detail-page/link creation) — so a meeting thread created ahead of the actual session (agenda/reading-list post only) isn't treated as complete and published until 7 days after its date. A thread flagged as a pending meeting gets rechecked every cycle regardless of message-count changes. Two already-premature meetings (SIGFPT "Summer Deep Dive" dated Jul 10, DRG "EIP-8126" dated Jul 9) had already been auto-summarized with fabricated past-tense text describing sessions that hadn't happened; cleaned up their Pinecone vectors and JSON records.
+- Fixed `generate_sig_pages.py`: it runs after `update_sig_pages.py` (which links each meeting title to its detail page) but had no awareness those links existed, so every full-page regeneration silently stripped them back to plain text — this had apparently been happening for a while, across nearly every meeting on all 6 SIG pages. Now checks for an existing detail-page directory and preserves the link.
+- Fixed a related regression: the same regeneration was reverting a manually-applied "Session livestream (YouTube)" link label back to a bare domain. Both `update_sig_pages.py` and `generate_sig_pages.py` now special-case YouTube links so this won't recur.
+
+**Website deconfliction protocol:**
+- `bin/daemon.py`'s `push_website_if_changed()` no longer pushes straight to `main` on the website repo — it rebuilds a dedicated branch (`c3po/auto-sig-pages`) from `main` and opens/updates a PR via `gh`, so the website project's own presentation/formatting edits aren't silently clobbered by an automated regeneration. Root cause this session: a daemon cycle's full-page regeneration collided with manual website-side formatting work. Filed [Protocol-Institute/website#5](https://github.com/Protocol-Institute/website/pull/5) as the one-off correction, with a full writeup for the website side.
+- Batched the PR check to run at most once every 7 days (`WEBSITE_PUSH_INTERVAL_DAYS`, new `data/website_push_state.json`) instead of every 30-minute daemon cycle, so an open PR isn't bumped every cycle.
+
+**exe.dev migration planning:**
+- Wrote `plans/exe-dev-migration.md` — moves `bin/daemon.py` + `bin/c3po_bot.py` to VGR's existing exe.dev VM (root SSH, persistent Debian/Ubuntu, systemd+apt), replacing the unexecuted Hetzner plan (`plans/vps-migration.md`, now marked superseded/do-not-execute). Scope: daemon + Discord bot only (humboldt deferred to later); Claude Code installed for interactive SSH maintenance sessions only, no scheduled/autonomous jobs. Five open questions logged (VM SSH access, root vs non-root user, GitHub auth strategy, Claude Code auth mode, directory layout) — pending VGR's input before execution.
+- Generated `requirements.txt` (didn't exist before — laptop `.venv` had grown ad hoc over many sessions) via `pip freeze`, needed before any clone-elsewhere step in the migration.
+
+**Pinecone:** sig: 5,991 → 5,998 (net of deleting the 2 premature meetings' 4 vectors, offset by ongoing Discord activity) · Total: 28,199 → 28,208
+
+**Open TODOs (priority order):**
+1. Execute exe.dev migration — `plans/exe-dev-migration.md`, pending VGR's answers to the 5 open questions
+2. Implement `ingest/sync_roam.py` (plan: `plans/roam-ingest.md`)
+3. Create `Protocol-Institute/sig-notes` repo + `_template.md`; discuss with SIG hosts
+4. Starter page — 28 recs across 20 resources in tally (threshold reached); build "good first reads" page + wire into intro handler
+5. Exhibit extraction — `ingest/extract_structure.py`
+6. Anthropic key rotation to PI org account
+7. Rotate `GH_PAT` to fine-grained PAT scoped to protocolized-website only (consider bundling with the exe.dev GitHub-auth setup — same underlying need)
+8. Fix discord guide eligibility: only embed active channels; currently 80 described channels which is too many
+
+---
+
 ## 2026-07-08 — #meeting-notes pipeline: corpus ingest + website detail pages (session 41)
 
 **`#meeting-notes` pipeline — COMPLETE**

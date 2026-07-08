@@ -1743,6 +1743,47 @@
           "html": "<strong>Designed-for-ingestion SIG meeting capture protocol:</strong> Decided to deprecate Roam as the SIGFPT capture format. The new design separates capture (human-provided, minimal) from enrichment (c3po-provided, AI-driven). Facilitators commit a YAML-frontmatter Markdown file per meeting to a <code>Protocol-Institute/sig-notes</code> repo — required fields: sig, date, topic; optional but valuable: participants, reading list, transcript file. A new <code>ingest/process_sig_meeting.py</code> pipeline takes the notes file plus raw transcript, queries Pinecone for related corpus context, and feeds everything to Claude to produce a structured enrichment record (summary, vocabulary, corpus links). The enriched version — not the raw transcript — goes to Pinecone. The same template and pipeline work for all six PI SIGs, with per-SIG namespace query weights as the only configuration difference. Plan at <code>plans/sig-meeting-capture.md</code>; pending discussion with SIG hosts."
         }
       ]
+    },
+    {
+      "id": 42,
+      "sort_key": 42.0,
+      "label": "Session 42",
+      "title": "SIG Meeting-Publishing Fixes + Website PR Deconfliction + exe.dev Plan",
+      "date": "2026-07-08",
+      "time_pt": "11:00–12:32",
+      "tracks": [
+        "corpus-ingestion",
+        "operations",
+        "worker-api"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "total": 28208,
+        "sig": 5998
+      },
+      "deployed": false,
+      "items": [
+        {
+          "title": "SIGPSY/DRG meeting regex bug — full month names misclassified",
+          "html": "<strong>Meeting-detection regex bug:</strong> <code>data/channel_manifest.json</code>'s SIGPSY and DRG <code>meeting_patterns</code> required an exact 3-letter month abbreviation immediately followed by digits (<code>\\d{1,2}[A-Za-z]{3}\\d{2,4}</code>), so a thread titled “SIGPSY 2July26: Three Temporalities” (full month spelling) silently fell through to discussion classification instead of meeting — the reason that meeting never appeared on the site. Fixed to accept the month stem plus any trailing letters."
+        },
+        {
+          "title": "Meeting grace period — premature future meetings were being published as complete",
+          "html": "<strong>Meetings created ahead of the session were being published as if already complete:</strong> <code>sync_sig.py</code> classified a thread as a finished meeting purely by name pattern, with no date awareness. A SIGFPT thread created for a July 10 session (still in the future) and a DRG thread for July 9 had already been auto-summarized with fabricated past-tense text describing sessions that hadn't happened yet. Added shared <code>meeting_ready()</code> / <code>MEETING_GRACE_DAYS = 7</code> (<code>ingest/utils.py</code>), applied at three layers — ingestion (<code>sync_sig.py</code>), JSON-building (<code>rebuild_sig_summaries.py</code>), and detail-page/link creation (<code>update_sig_pages.py</code>) — so a thread isn't treated as a completed meeting until 7 days past its date. A pending thread is rechecked every daemon cycle regardless of message-count changes, so it still promotes correctly even with no further Discord activity. Cleaned up the two premature records' Pinecone vectors and JSON files."
+        },
+        {
+          "title": "generate_sig_pages.py was silently stripping detail-page links on every regen",
+          "html": "<strong>Full-page regeneration was clobbering detail-page links:</strong> <code>update_sig_pages.py</code> adds a link from each meeting title to its detail page; <code>generate_sig_pages.py</code> runs immediately after (daemon step 10) to regenerate the whole SIG index page, but had no awareness those links existed and rebuilt every meeting title as plain text — undoing the previous step's work every single cycle. This had apparently been happening for a long time: nearly every meeting-title link across all 6 SIG pages was missing. Fixed by having the regenerator check for an existing detail-page directory and re-derive the link. Also fixed a related regression where the same regeneration reverted a manually-applied “Session livestream (YouTube)” link label back to a bare domain — both generator scripts now special-case YouTube links."
+        },
+        {
+          "title": "Website push-to-PR deconfliction protocol",
+          "html": "<strong>Website changes now go through a PR, not a direct push:</strong> A daemon cycle's automated SIG-page regeneration collided with manual presentation/formatting work happening in parallel on the website side, and a direct push would have overwritten it with no review step. <code>bin/daemon.py</code>'s <code>push_website_if_changed()</code> now rebuilds a dedicated <code>c3po/auto-sig-pages</code> branch from <code>main</code> and opens (or silently updates) a PR via <code>gh</code> instead of committing straight to <code>main</code>. Filed <a href=\"https://github.com/Protocol-Institute/website/pull/5\">Protocol-Institute/website#5</a> as the one-off correction PR, with a full writeup of what it fixes and why. Also batched the check to run at most once every 7 days (new <code>data/website_push_state.json</code>) instead of every 30-minute cycle, so an open PR doesn't get bumped constantly."
+        },
+        {
+          "title": "exe.dev migration plan",
+          "html": "<strong>Planned persistent-process migration to exe.dev:</strong> Wrote <code>plans/exe-dev-migration.md</code>, moving <code>bin/daemon.py</code> and <code>bin/c3po_bot.py</code> to an existing exe.dev VM (root SSH, persistent Debian/Ubuntu, systemd + apt), replacing the never-executed Hetzner plan (<code>plans/vps-migration.md</code>, now marked superseded). Scope is deliberately narrow: daemon + Discord bot only, humboldt deferred; Claude Code installed for interactive SSH maintenance sessions only, no scheduled/autonomous jobs. Five open questions logged for VGR before execution: VM SSH access, root vs. non-root user, GitHub auth strategy for the VM, Claude Code auth mode, and directory layout. Also generated the repo's first <code>requirements.txt</code> (never existed — the laptop <code>.venv</code> had grown ad hoc across many sessions) via <code>pip freeze</code>, a prerequisite for cloning anywhere new."
+        }
+      ]
     }
   ]
 }
