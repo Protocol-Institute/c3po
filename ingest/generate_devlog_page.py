@@ -52,6 +52,9 @@ def strip_html(html: str) -> str:
     return text.strip()
 
 
+MAX_BODY_CHARS = 90_000  # D1 statement size limit is ~100KB; leave headroom for SQL overhead
+
+
 def render_markdown(data: dict) -> str:
     lines = []
     lines.append(data["description"])
@@ -108,7 +111,16 @@ def render_markdown(data: dict) -> str:
         lines.append("---")
         lines.append("")
 
-    return "\n".join(lines)
+    body = "\n".join(lines)
+    if len(body) > MAX_BODY_CHARS:
+        # Keep the most recent sessions — truncate from the front
+        body = body[-MAX_BODY_CHARS:]
+        # Trim to next session boundary to avoid cutting mid-entry
+        cut = body.find("\n## ")
+        if cut > 0:
+            body = body[cut + 1:]
+        body = f"*(Earlier sessions omitted — {len(data['sessions'])} total sessions)*\n\n---\n\n" + body
+    return body
 
 
 def content_hash(text: str) -> str:

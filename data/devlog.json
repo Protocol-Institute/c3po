@@ -11,6 +11,47 @@
   },
   "sessions": [
     {
+      "id": 41,
+      "sort_key": 41.0,
+      "label": "Session 41",
+      "title": "Audio Meeting Notes Pipeline",
+      "date": "2026-07-08",
+      "time_pt": "",
+      "tracks": [
+        "corpus-ingestion",
+        "operations",
+        "worker-api"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "total": 28199,
+        "sig": 5991
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "New #meeting-notes channel: OpenRecapper-PI audio summaries",
+          "html": "<strong>New ingest source — #meeting-notes:</strong> OpenRecapper-PI is a bot that records audio from PI voice channels and posts structured transcription output to <code>#meeting-notes</code>. Each session produces a header message with permanent R2 storage URLs (not ephemeral Discord CDN) linking to <code>summary.md</code>, <code>transcript.txt</code>, and <code>transcript.srt</code>, followed by AI-structured section messages. Sessions cover SIG calls (identified by sig code in title, e.g., \"sigpsy 02July26\") and ad hoc working sessions. Channel entry added to <code>config/discord_channels.json</code> as a Bot Feed source."
+        },
+        {
+          "title": "sync_meeting_notes.py: audio summaries → Pinecone sig namespace",
+          "html": "<strong><code>ingest/sync_meeting_notes.py</code> (new):</strong> Scans <code>#meeting-notes</code> via Discord REST API, identifies header messages by the 📝 prefix and R2 URL format, fetches <code>summary.md</code> from R2 (permanent URLs only — not Discord CDN), and parses structured sections (Overview, Key Points, Questions, Action Items, Context, Tools, Reading). Chunks into two vector types per meeting: <code>audio_meeting_summary</code> (overview + key points combined) and one <code>audio_meeting_section</code> per section. Embeds via Voyage AI and upserts to the <code>sig</code> namespace. For SIG meetings, also creates or enriches the meeting JSON in <code>data/sigs/meetings/</code> with <code>audio_*</code> fields (summary, key_points, participants, reading, questions, duration, r2_summary_url). For ad hoc meetings, upserts to Pinecone only. Initial run ingested 16 vectors: Jul 01 ad hoc (6 vectors), Jul 02 SIGPSY (5), Jul 08 ad hoc (5). The Jul 02 SIGPSY meeting had no existing Discord thread, so the script created <code>data/sigs/meetings/audio_1522286708635340840.json</code> from the audio summary alone."
+        },
+        {
+          "title": "worker.js: audio chunk types in normalizeSig()",
+          "html": "<strong>Worker — <code>audio_meeting_summary</code> and <code>audio_meeting_section</code> support:</strong> Extended <code>normalizeSig()</code> to recognize both new chunk types. Added <code>isAudioSummary</code>, <code>isAudioSection</code>, and <code>isAudio</code> boolean flags to the normalized result. Merge weights: audio summaries 0.92× (highest of all sig content, reflecting richer signal from structured AI synthesis of the actual audio), audio sections 0.85×. Context block type labels: <code>AUDIO SUMMARY</code> / <code>AUDIO RECORDING</code>. URL resolution uses the R2 URL from metadata. Title resolution reads <code>m.meeting_title</code> for audio chunks (different metadata key than Discord thread chunks). Added SIGPSY and DRG to the <code>SIG_NAMES</code> constant (previously missing). Deployed: <code>62263606</code>."
+        },
+        {
+          "title": "Website: meeting detail pages with Session Recording Summary block",
+          "html": "<strong>Website — meeting detail pages with audio content:</strong> Extended <code>ingest/update_sig_pages.py</code>'s <code>render_detail_page()</code> to render a \"Session Recording Summary\" section when <code>audio_summary</code> or <code>audio_key_points</code> fields are present in the meeting JSON. The block shows the reading source, overview paragraphs, key points list, questions excerpt, participants, duration, and a link to the full R2 notes. This is additive alongside the existing Discord thread summary. Nine new meeting detail pages were created and pushed to the website repo: DRG (Jun 25), MRG (Jun 18, Jul 02), ProtFiSIG (Jun 25), SIGFPT (Jul 10), SIGPfB (Jun 15, Jun 22), SIGPSY (Jun 18, Jul 02 — the Jul 02 page includes the audio summary block). Six index pages updated with links to the new detail pages."
+        },
+        {
+          "title": "Daemon: sync_meeting_notes and update_sig_pages added to sync cycle",
+          "html": "<strong>Daemon integration:</strong> <code>bin/daemon.py</code> updated to include two new steps: <code>sync_meeting_notes</code> (after <code>sync_sig</code>, so audio summaries are ingested before summaries are rebuilt) and <code>update_sig_pages</code> (after <code>rebuild_sig_summaries</code>, before <code>generate_sig_pages</code>, so audio-enriched meetings get detail pages created before the index pages are regenerated and pushed). The daemon's website push step now picks up both new detail pages and enriched index pages."
+        }
+      ]
+    },
+    {
       "id": 40,
       "sort_key": 40.0,
       "label": "Session 40",

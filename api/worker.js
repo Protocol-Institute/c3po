@@ -465,17 +465,22 @@ function normalizeDiscord(match) {
 function normalizeSig(match) {
   const m = match.metadata;
   const chunkType        = m.chunk_type || "sig_message";
-  const isMeetingSummary = chunkType === "sig_meeting_summary";
-  const isMeetingBody    = chunkType === "sig_meeting_body";
-  const isDiscussion     = chunkType === "sig_discussion";
-  const isMeetingPage    = chunkType === "sig_meeting_page";
-  const starred          = (m.star_count || 0) > 0;
-  const guild            = m.guild_id || "1082444651946049567";
-  const SIG_NAMES = { SIGFPT: "Formal Protocol Theory", MRG: "Memory Research Group", SIGPfB: "Protocols for Business", ProtFiSIG: "Protocol Fiction" };
+  const isMeetingSummary  = chunkType === "sig_meeting_summary";
+  const isMeetingBody     = chunkType === "sig_meeting_body";
+  const isDiscussion      = chunkType === "sig_discussion";
+  const isMeetingPage     = chunkType === "sig_meeting_page";
+  const isAudioSummary    = chunkType === "audio_meeting_summary";
+  const isAudioSection    = chunkType === "audio_meeting_section";
+  const isAudio           = isAudioSummary || isAudioSection;
+  const starred           = (m.star_count || 0) > 0;
+  const guild             = m.guild_id || "1082444651946049567";
+  const SIG_NAMES = { SIGFPT: "Formal Protocol Theory", MRG: "Memory Research Group", SIGPfB: "Protocols for Business", ProtFiSIG: "Protocol Fiction", SIGPSY: "Special Interest Group in Psychohistory", DRG: "Distributed Robotics Group" };
 
   let url = null;
   if (isMeetingPage && m.url) {
     url = m.url;  // absolute .org URL stored at ingest time
+  } else if (isAudio && m.url) {
+    url = m.url;  // R2 permanent URL for audio summary
   } else if ((isMeetingSummary || isMeetingBody || isDiscussion) && guild && m.thread_id) {
     url = `https://discord.com/channels/${guild}/${m.thread_id}`;
   } else if (guild && m.channel_id && m.message_id) {
@@ -484,6 +489,8 @@ function normalizeSig(match) {
 
   const title = isMeetingPage || isMeetingSummary || isMeetingBody
     ? (m.meeting_title || m.thread_name || "")
+    : isAudio
+    ? (m.meeting_title || "")
     : isDiscussion
     ? (m.thread_name || `${m.sig_display} discussion`)
     : `${m.sig_display} — #${m.channel_name}`;
@@ -499,7 +506,7 @@ function normalizeSig(match) {
     title,
     authors:        participants.length ? participants : [m.author].filter(Boolean),
     primary_author: participants[0] || m.author || "",
-    date:           (m.meeting_date || m.timestamp || "").slice(0, 10),
+    date:           (m.date || m.meeting_date || m.timestamp || "").slice(0, 10),
     url,
     excerpt:        m.text || "",
     sig_display:    m.sig_display || "",
@@ -508,6 +515,9 @@ function normalizeSig(match) {
     isMeetingBody,
     isDiscussion,
     isMeetingPage,
+    isAudioSummary,
+    isAudioSection,
+    isAudio,
     star_count:     m.star_count || 0,
     starred,
   };
@@ -625,7 +635,7 @@ function mergeResults(pdfItems, substackItems, videoItems, bibItems, discordItem
     }),
     ...discordItems.map(m => ({ ...m, weightedScore: m.score * (m.starred ? 0.85 : 0.65) })),
     ...sigItems.map(m => {
-      const w = m.isMeetingPage ? 0.90 : m.isMeetingSummary ? 0.85 : m.isMeetingBody ? 0.75 : m.isDiscussion ? 0.70 : (m.starred ? 0.75 : 0.60);
+      const w = m.isAudioSummary ? 0.92 : m.isAudioSection ? 0.85 : m.isMeetingPage ? 0.90 : m.isMeetingSummary ? 0.85 : m.isMeetingBody ? 0.75 : m.isDiscussion ? 0.70 : (m.starred ? 0.75 : 0.60);
       return { ...m, weightedScore: m.score * w };
     }),
     ...webItems.map(m => {
@@ -679,7 +689,7 @@ function buildContextBlock(items) {
       label = `[WEB — ${item.domain || item.url}${item.date ? " — fetched " + item.date : ""}${shared}]`;
     } else if (item.source === "sig") {
       const sigName = item.sig_name || item.sig_display || "SIG";
-      const typeLabel = item.isMeetingPage ? "MEETING PAGE" : item.isMeetingSummary ? "MEETING" : item.isMeetingBody ? "MEETING TRANSCRIPT" : item.isDiscussion ? "DISCUSSION" : "MESSAGE";
+      const typeLabel = item.isAudioSummary ? "AUDIO SUMMARY" : item.isAudioSection ? "AUDIO RECORDING" : item.isMeetingPage ? "MEETING PAGE" : item.isMeetingSummary ? "MEETING" : item.isMeetingBody ? "MEETING TRANSCRIPT" : item.isDiscussion ? "DISCUSSION" : "MESSAGE";
       label = `[${sigName} ${typeLabel}${item.title ? ` — "${item.title}"` : ""}${item.date ? " — " + item.date : ""}]`;
     } else if (item.source === "devlog") {
       const sessionLabel = item.session_label ? ` — ${item.session_label}` : "";

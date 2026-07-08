@@ -170,6 +170,42 @@ def render_detail_page(r: dict, slug: str, sig_name: str, path_slug: str) -> str
     if discord_url:
         discord_block = f'\n        <a class="meeting-discord" href="{esc(discord_url)}" rel="noopener noreferrer" target="_blank">View discussion in Discord →</a>'
 
+    # Audio recording summary block (from OpenRecapper-PI)
+    audio_block = ''
+    audio_summary = r.get('audio_summary', '')
+    audio_key_points = r.get('audio_key_points', [])
+    audio_participants = r.get('audio_participants', [])
+    audio_reading = r.get('audio_reading', '')
+    audio_questions = r.get('audio_questions', '')
+    audio_duration = r.get('audio_duration', '')
+    audio_r2_url = r.get('audio_r2_summary_url', '')
+    if (audio_summary or audio_key_points) and not is_future:
+        audio_parts = []
+        if audio_reading:
+            audio_parts.append(f'<p class="meeting-abstract"><strong>Reading:</strong> {esc(audio_reading)}</p>')
+        if audio_summary:
+            for para in audio_summary.strip().split('\n\n'):
+                para = para.strip()
+                if para:
+                    audio_parts.append(f'<p class="meeting-summary">{esc(para)}</p>')
+        if audio_key_points:
+            items = ''.join(f'\n<li>{esc(pt)}</li>' for pt in audio_key_points[:8])
+            audio_parts.append(f'<ul class="meeting-insights">{items}\n</ul>')
+        if audio_questions:
+            audio_parts.append(f'<p class="meeting-abstract"><strong>Questions &amp; Disagreements:</strong> {esc(audio_questions[:400])}</p>')
+        if audio_participants:
+            audio_parts.append(f'<p class="meeting-participants">Participants: {esc(", ".join(audio_participants[:12]))}</p>')
+        meta_line = ''
+        if audio_duration:
+            meta_line += f' · {esc(audio_duration)}'
+        if audio_r2_url:
+            meta_line += f' · <a href="{esc(audio_r2_url)}" rel="noopener noreferrer" target="_blank">Full notes ↗</a>'
+        audio_block = f'''
+        <div class="meeting-audio-summary">
+          <p class="section-label">Session Recording Summary{meta_line}</p>
+          {''.join(audio_parts)}
+        </div>'''
+
     date_line = f'\n        <p class="meeting-date" style="margin-top:0.25rem;font-size:0.9rem">{esc(date_fmt)}</p>' if date_fmt else ''
 
     return f"""<!DOCTYPE html>
@@ -199,7 +235,7 @@ def render_detail_page(r: dict, slug: str, sig_name: str, path_slug: str) -> str
         <h1>{esc(title)}</h1>
       </div>
 
-      <div class="meeting-detail">{topics_block}{participants_block}{summary_block}{insights_block}{links_block}{discord_block}
+      <div class="meeting-detail">{topics_block}{participants_block}{summary_block}{insights_block}{links_block}{discord_block}{audio_block}
       </div>
 
     </div>

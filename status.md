@@ -1,5 +1,32 @@
 # C3PO — Status Log
 
+## 2026-07-08 — #meeting-notes pipeline: corpus ingest + website detail pages (session 41)
+
+**`#meeting-notes` pipeline — COMPLETE**
+- New channel: OpenRecapper-PI bot posts SIG audio call summaries + ad hoc sessions. R2 permanent URLs, not Discord CDN.
+- `ingest/sync_meeting_notes.py` (new): scans #meeting-notes for header messages, fetches `summary.md` from R2, chunks by section, embeds via Voyage, upserts to Pinecone `sig` namespace. Handles both SIG and ad hoc meetings. 16 vectors ingested: Jul 01 ad hoc (6), Jul 02 SIGPSY (5), Jul 08 ad hoc (5). State file: `data/meeting_notes_state.json`.
+- `ingest/update_sig_pages.py`: extended `render_detail_page()` to add "Session Recording Summary" block from `audio_*` fields in meeting JSON — overview, key points, questions excerpt, participants, duration, link to R2 notes.
+- `data/sigs/meetings/audio_1522286708635340840.json` (new): SIGPSY 2026-07-02 meeting; no Discord thread existed so created from audio summary alone. 10 participants.
+- `config/discord_channels.json`: added `#meeting-notes` entry (type: Bot Feed, source: manual).
+- `api/worker.js`: `normalizeSig()` extended to handle `audio_meeting_summary` and `audio_meeting_section` chunk types — `isAudioSummary` / `isAudioSection` booleans, merge weights 0.92× / 0.85×, context block type labels "AUDIO SUMMARY" / "AUDIO RECORDING", R2 URL from metadata, title from `meeting_title`. Added SIGPSY and DRG to SIG_NAMES. Deployed: `62263606`.
+- `plans/meeting-notes-ingest.md` (new): documents source format, both actions, implementation.
+- Website: 9 new SIG meeting detail pages created and pushed (DRG, MRG ×2, ProtFiSIG, SIGFPT, SIGPfB ×2, SIGPSY ×2 including the audio-enriched Jul 02 page).
+- `bin/daemon.py`: added `sync_meeting_notes` (after `sync_sig`) and `update_sig_pages` (after `rebuild_sig_summaries`) to the sync cycle.
+
+**Pinecone state: 28,199 vectors** (sig +170 since session 39: Discord SIG activity + 16 new audio vectors)
+
+**Open TODOs (priority order):**
+1. Implement `ingest/sync_roam.py` (plan: `plans/roam-ingest.md`)
+2. Create `Protocol-Institute/sig-notes` repo + `_template.md`; discuss with SIG hosts
+3. Starter page — 28 recs across 20 resources in tally (threshold reached); build "good first reads" page + wire into intro handler
+4. Execute VPS migration — `plans/vps-migration.md`
+5. Exhibit extraction — `ingest/extract_structure.py`
+6. Anthropic key rotation to PI org account
+7. Rotate `GH_PAT` to fine-grained PAT scoped to protocolized-website only
+8. Fix discord guide eligibility: only embed active channels (SIG channels + general + idle-protocol-musings + protocol-watch); currently 80 described channels which is too many
+
+---
+
 ## 2026-07-08 — Security audit + /share transcript bug fix (session 40)
 
 **Security audit: D1 input validation — COMPLETE (no issues found)**

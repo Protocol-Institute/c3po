@@ -13,18 +13,20 @@ Steps each cycle:
   4. fetch_discord_links.py — fetch up to LINK_FETCH_LIMIT pending URLs
   5. enrich_discord_links.py — score/prune with Claude
   6. sync_sig.py            — SIG channels
-  7. rebuild_sig_summaries.py — build any new meeting summaries
-  8. generate_sig_pages.py  — regenerate SIG HTML pages
-  9. generate_monitoring_page.py — rebuild monitoring dashboard
- 10. website push           — git commit+push .org website if pages changed
- 11. sync_bot_conversations.py — spool → transcripts namespace
- 12. sync_web_chats.py         — web KV → transcripts namespace
- 13. sync_devlog.py            — devlog sessions → meta namespace
- 14. generate_devlog_page.py   — publish devlog to protocolized.io D1
- 15. sync_pdf_resources        — sync PDF enrichment to protocolized-website (if enriched_meta changed)
- 16. sync_youtube_resources    — sync YouTube enrichment to protocolized-website (if enriched_meta changed)
- 17. protocolized-website push — git commit+push if resource Markdown changed (triggers D1 GHA)
- 18. publish_dashboard.py      — push corpus stats to c3po.protocolized.io/status
+  7. sync_meeting_notes.py  — audio summaries from #meeting-notes → Pinecone sig namespace
+  8. rebuild_sig_summaries.py — build any new meeting summaries
+  9. update_sig_pages.py    — create/update individual meeting detail pages on .org
+ 10. generate_sig_pages.py  — regenerate SIG index pages
+ 11. generate_monitoring_page.py — rebuild monitoring dashboard
+ 12. website push           — git commit+push .org website if pages changed
+ 13. sync_bot_conversations.py — spool → transcripts namespace
+ 14. sync_web_chats.py         — web KV → transcripts namespace
+ 15. sync_devlog.py            — devlog sessions → meta namespace
+ 16. generate_devlog_page.py   — publish devlog to protocolized.io D1
+ 17. sync_pdf_resources        — sync PDF enrichment to protocolized-website (if enriched_meta changed)
+ 18. sync_youtube_resources    — sync YouTube enrichment to protocolized-website (if enriched_meta changed)
+ 19. protocolized-website push — git commit+push if resource Markdown changed (triggers D1 GHA)
+ 20. publish_dashboard.py      — push corpus stats to c3po.protocolized.io/status
 
 Usage (manual):
     /opt/homebrew/bin/python3 bin/daemon.py
@@ -193,7 +195,9 @@ def run_sync(cycle: int) -> None:
         ("fetch_discord_links",      [VENV_PY, "ingest/fetch_discord_links.py", "--limit", str(LINK_FETCH_LIMIT)]),
         ("enrich_discord_links",     [VENV_PY, "ingest/enrich_discord_links.py"]),
         ("sync_sig",                 [VENV_PY, "ingest/sync_sig.py"]),
+        ("sync_meeting_notes",       [VENV_PY, "ingest/sync_meeting_notes.py"]),
         ("rebuild_sig_summaries",    [VENV_PY, "ingest/rebuild_sig_summaries.py"]),
+        ("update_sig_pages",         [VENV_PY, "ingest/update_sig_pages.py"]),
         ("generate_sig_pages",       [VENV_PY, "ingest/generate_sig_pages.py"]),
         ("generate_monitoring",      [VENV_PY, "ingest/generate_monitoring_page.py"]),
         ("sync_bot_conversations",   [VENV_PY, "ingest/sync_bot_conversations.py"]),

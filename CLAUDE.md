@@ -70,18 +70,18 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 
 | Namespace | Vectors | Notes |
 |-----------|---------|-------|
-| `discord_links` | 10,063 | Community-shared URLs, scored by Haiku |
-| `discord` | 5,638 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
-| `sig` | 5,821 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`); 6 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG |
+| `discord_links` | 10,526 | Community-shared URLs, scored by Haiku |
+| `discord` | 5,657 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
+| `sig` | 5,991 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 6 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG |
 | `videos` | 3,127 | YouTube talks (97 videos) |
-| `substack` | 1,121 | Protocolized magazine (123 posts) |
-| `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
+| `substack` | 1,135 | Protocolized magazine (123 posts) |
 | `pdfs` | 765 | 74 papers/essays + 2 special-feature items (New Nature essay + slides) |
+| `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
 | `bibliography` | 278 | External works cited by PI corpus |
 | `discord_guide` | 80 | All active guild channels; Haiku-described; SIG channels include cadence + next_event_time |
-| `meta` | 38 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
-| `transcripts` | 27 | Bot conversation self-memory: web + Discord Q&A |
-| **Total** | **~27,518** | |
+| `meta` | 41 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
+| `transcripts` | 39 | Bot conversation self-memory: web + Discord Q&A |
+| **Total** | **28,199** | |
 
 ## Key Ingest Scripts
 
@@ -96,6 +96,8 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 | `ingest/ingest_pdfs.py` | PDFs from local or web resources | `data/enriched_meta.json` |
 | `ingest/sync_discord_channels.py` | Guild channel map → `discord_guide` namespace | `config/discord_channels.json` |
 | `ingest/sync_discord_events.py` | Scheduled events → cadence + next_event_time in registry | `config/discord_channels.json` |
+| `ingest/sync_meeting_notes.py` | Audio summaries from #meeting-notes → `sig` namespace | `data/meeting_notes_state.json` |
+| `ingest/update_sig_pages.py` | Create/update individual meeting detail pages on .org | (reads `data/sigs/meetings/`) |
 | `ingest/sync_bot_conversations.py` | Discord bot spool → `transcripts` | `data/spool/bot_conversations/` |
 | `ingest/sync_web_chats.py` | Public web chats → `transcripts` | `data/web_chats_state.json` |
 | `ingest/sync_devlog.py` | Devlog sessions → `meta` namespace | `data/devlog_state.json` |
