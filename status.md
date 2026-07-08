@@ -1,5 +1,35 @@
 # C3PO — Status Log
 
+## 2026-07-08 — Security audit + /share transcript bug fix (session 40)
+
+**Security audit: D1 input validation — COMPLETE (no issues found)**
+- Audited `api/worker.js` for the beacon-endpoint pattern from vgr_zirp (probe strings accumulating in D1 due to missing categorical whitelists).
+- Finding: **no D1 binding** — `[[d1_databases]]` is commented out in `wrangler.toml`; all state uses KV only. The vgr_zirp SQL injection pattern doesn't apply here.
+- KV categorical fields are properly guarded: `shareMode` uses `Array.includes()` whitelist, `status` is computed internally or whitelist-validated on admin PATCH, `rating` is range-clamped. Clean.
+
+**Bug fix: `/share` Pinecone upsert — FIXED**
+- `handleShare()` at line 970 referenced `rand`, which is only in scope inside `logQuery()`. Every `/share` call was silently throwing `ReferenceError` and skipping the real-time Pinecone transcript upsert.
+- Fixed: replaced `rand` with `chatId` (already in scope, the correct unique identifier).
+- No submissions were lost — KV writes succeed before the failing code, and `sync_web_chats.py` picks them up on the next daemon cycle.
+- Deployed: `4ec05ced`.
+
+**Substack sync: 1 new post**
+- `a-visitors-guide-to-the-disposition` — 14 vectors; substack: 1,121 → 1,135.
+
+**Pinecone state: 28,193 vectors** (daemon activity since session 39: discord_links +463, sig +151, discord +19, substack +14 this session, transcripts +12, meta +2)
+
+**Open TODOs (priority order):**
+1. Implement `ingest/sync_roam.py` (plan: `plans/roam-ingest.md`)
+2. Create `Protocol-Institute/sig-notes` repo + `_template.md`; discuss with SIG hosts
+3. Starter page — 28 recs across 20 resources in tally (threshold reached); build "good first reads" page + wire into intro handler
+4. Execute VPS migration — `plans/vps-migration.md`
+5. Exhibit extraction — `ingest/extract_structure.py`
+6. `sync_sig_pages.py` + `update_sig_pages.py` — add to daemon (needs VPS first)
+7. Anthropic key rotation to PI org account
+8. Rotate `GH_PAT` to fine-grained PAT scoped to protocolized-website only
+
+---
+
 ## 2026-06-28 — /status page artifact counts + origin breakdown (session 39)
 
 **/status page improvements — COMPLETE**
@@ -12,6 +42,7 @@
 
 **Open TODOs (priority order):**
 1. Upgrade Pinecone plan to resolve read-unit limit — BLOCKER (should be resolved with monthly reset)
+1a. **Security audit: D1 input validation** — vgr_zirp (the parent project this is based on) was found to have SQL injection probe strings accumulating in `sponsor_events` due to missing input whitelisting on beacon endpoints. All D1 writes used parameterized queries so no execution risk, but garbage data polluted stats tables. Audit `api/worker.js` for any endpoints that accept user-supplied strings and write them to D1 without whitelisting (beacon-style endpoints, event tracking, telemetry fields). Pattern to fix: replace `.slice(0,N)` length caps with `Set.has()` whitelist checks for categorical fields. See ribbonfarm_site session 69 for the full fix.
 2. Implement `ingest/sync_roam.py` (plan: `plans/roam-ingest.md`)
 3. Create `Protocol-Institute/sig-notes` repo + `_template.md`; discuss with SIG hosts
 4. Starter page — 28 recs across 20 resources in tally (threshold reached); build "good first reads" page + wire into intro handler

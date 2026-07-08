@@ -11,6 +11,37 @@
   },
   "sessions": [
     {
+      "id": 40,
+      "sort_key": 40.0,
+      "label": "Session 40",
+      "title": "Security Audit + /share Transcript Bug Fix",
+      "date": "2026-07-08",
+      "time_pt": "",
+      "tracks": [
+        "operations",
+        "worker-api"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "total": 28193
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "Security audit: D1 input validation",
+          "html": "<strong>Security audit — D1 input validation:</strong> Audited <code>api/worker.js</code> for the beacon-endpoint SQL injection pattern found in the parent vgr_zirp project (probe strings accumulating in D1 tables due to missing categorical whitelists). Finding: c3po's Worker has no D1 binding at all — <code>[[d1_databases]]</code> is commented out in <code>wrangler.toml</code>; all state goes to KV. KV categorical fields are properly guarded: <code>shareMode</code> uses an <code>Array.includes()</code> whitelist, <code>status</code> is internally computed or whitelist-validated on admin PATCH, <code>rating</code> is range-clamped. No injection surface found."
+        },
+        {
+          "title": "Bug fix: /share Pinecone upsert used undefined rand variable",
+          "html": "<strong>Bug fix — <code>/share</code> Pinecone upsert:</strong> The real-time Pinecone transcript upsert in <code>handleShare()</code> referenced <code>rand</code> (line 970), which is only defined inside <code>logQuery()</code>'s closure. Every <code>POST /share</code> call was silently throwing <code>ReferenceError: rand is not defined</code> inside the <code>try/catch</code>, so web-UI submissions were never indexed to the <code>transcripts</code> namespace in real time. Fixed by replacing <code>rand</code> with <code>chatId</code>, which is already defined in <code>handleShare</code> and serves as the unique submission identifier. KV writes were unaffected (they happen before the failing code), so no submissions were lost — <code>sync_web_chats.py</code> was still picking them up on the next daemon cycle. Deployed: <code>4ec05ced</code>."
+        },
+        {
+          "title": "Substack sync: a-visitors-guide-to-the-disposition",
+          "html": "<strong>Substack sync:</strong> Ingested <em>A Visitor's Guide to the Disposition</em> — 14 vectors upserted to the <code>substack</code> namespace (1,135 total)."
+        }
+      ]
+    },
+    {
       "id": 39,
       "sort_key": 39.0,
       "label": "Session 39",

@@ -967,7 +967,7 @@ async function handleShare(request, env, corsHeaders) {
           headers: { "Api-Key": env.PINECONE_API_KEY, "Content-Type": "application/json" },
           body:    JSON.stringify({
             vectors: [{
-              id:       `transcript:${ts}:${rand}`,
+              id:       `transcript:${ts}:${chatId}`,
               values:   vector,
               metadata: {
                 source:         "transcript",
