@@ -31,8 +31,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 2,
-    "restacks": 1,
+    "reaction_count": 4,
+    "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "the-big-man",
     "next_post_slug": null
@@ -96,7 +96,7 @@
     "slug": "the-character-of-public-transit-systems",
     "title": "The Character of Public Transit Systems",
     "subtitle": "Kannen leads a tour of the world's public transit systems, revealing what they tell us about the cultures and trust dynamics of the cities they serve",
-    "post_date": "2026-06-22T20:53:35.993Z",
+    "post_date": "2026-06-22T20:53:35.992Z",
     "updated_at": "2026-06-22T20:55:16.916Z",
     "type": "newsletter",
     "wordcount": 2629,
@@ -149,8 +149,8 @@
     "slug": "jamverse-jam",
     "title": "Jamverse Jam",
     "subtitle": "Announcing Protocolized’s fourth contest: we’re looking for artists and writers to extend and connect interoperable worlds",
-    "post_date": "2026-06-16T16:18:40.271Z",
-    "updated_at": "2026-06-16T16:19:15.364Z",
+    "post_date": "2026-06-16T16:18:40.270Z",
+    "updated_at": "2026-06-16T16:19:15.363Z",
     "type": "newsletter",
     "wordcount": 1197,
     "section_id": null,
@@ -177,7 +177,7 @@
       },
       {
         "id": 309697450,
-        "name": "Spencer Nitkey - Writer",
+        "name": "Spencer Nitkey",
         "handle": "spencernitkeywriting",
         "bio": "Stories in Apex, Asimov Press, Nature, Lightspeed, The Adroit Journal, and many others."
       },
@@ -194,7 +194,7 @@
         "bio": "Startups & Game Design: http://leveragedplay.com (foresight games) – http://diegeticgames.com (consumer games) – http://storysynth.org (online games platform)"
       }
     ],
-    "reaction_count": 18,
+    "reaction_count": 19,
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "protocols-for-the-long-now",
@@ -205,7 +205,7 @@
     "slug": "the-big-man",
     "title": "The Big Man",
     "subtitle": "Elizabeth Maher's world-building series continues, reimagining American folklore from a protocolized perspective",
-    "post_date": "2026-06-12T17:13:45.198Z",
+    "post_date": "2026-06-12T17:13:45.197Z",
     "updated_at": "2026-06-12T17:16:17.360Z",
     "type": "newsletter",
     "wordcount": 3979,
@@ -238,7 +238,7 @@
     "title": "Challenges: Trivial, Grand, and Whitehead",
     "subtitle": "Introducing the Protocol Institute Challenges program",
     "post_date": "2026-06-09T12:18:19.756Z",
-    "updated_at": "2026-06-09T13:14:46.193Z",
+    "updated_at": "2026-06-09T13:14:46.192Z",
     "type": "newsletter",
     "wordcount": 2228,
     "section_id": 333103,
@@ -286,7 +286,7 @@
     "title": "Maintaining Everything That Matters",
     "subtitle": "Matthew McDowell-Sweet and Mike Travers discuss Stewart Brand’s recently-published book ‘Maintenance: Of Everything’  ",
     "post_date": "2026-06-03T19:41:16.454Z",
-    "updated_at": "2026-06-03T19:43:33.461Z",
+    "updated_at": "2026-06-03T19:43:33.460Z",
     "type": "newsletter",
     "wordcount": 3443,
     "section_id": 333110,
@@ -333,7 +333,7 @@
     "slug": "2026-protocol-symposium-new-nature",
     "title": "2026 Protocol Symposium: New Nature",
     "subtitle": "Call for abstracts open, due June 14, 2026",
-    "post_date": "2026-06-01T21:51:09.731Z",
+    "post_date": "2026-06-01T21:51:09.730Z",
     "updated_at": "2026-06-01T21:51:40.954Z",
     "type": "newsletter",
     "wordcount": 794,
@@ -376,7 +376,7 @@
     "slug": "irrigation-by-protocol-when-vineyards",
     "title": "Irrigation by Protocol: When Vineyards Delegate Decisions to Networks",
     "subtitle": "When vineyards can speak through data, the question isn’t whether to listen but whether we still know how to read what the vines themselves are saying",
-    "post_date": "2026-05-30T18:13:35.975Z",
+    "post_date": "2026-05-30T18:13:35.974Z",
     "updated_at": "2026-05-30T18:14:26.490Z",
     "type": "newsletter",
     "wordcount": 2231,
@@ -430,7 +430,7 @@
     "title": "The Overloaded Train",
     "subtitle": "In this, our first crossover between two protocol fiction universes, Sachin Benny's Unified Eurasian Train Line passes through Spencer Nitkey's Zoothesia",
     "post_date": "2026-05-22T22:53:31.359Z",
-    "updated_at": "2026-05-22T22:58:44.744Z",
+    "updated_at": "2026-05-22T22:58:44.743Z",
     "type": "newsletter",
     "wordcount": 5185,
     "section_id": 333105,
@@ -468,7 +468,7 @@
     "title": "Inventing New Nature",
     "subtitle": "Defining the Protocol Institute's research mission",
     "post_date": "2026-05-12T12:16:51.378Z",
-    "updated_at": "2026-05-12T16:15:57.737Z",
+    "updated_at": "2026-05-12T16:15:57.736Z",
     "type": "newsletter",
     "wordcount": 4276,
     "section_id": 333103,
@@ -505,7 +505,7 @@
     "slug": "all-you-can-do-here-is-leave",
     "title": "All You Can Do Here Is Leave",
     "subtitle": "The first in a rich new series by Elizabeth Maher seeds an extended universe around T.R.O.(L.L.), Maher’s story awarded in our Building and Burning Bridges protocol fiction contest",
-    "post_date": "2026-05-08T18:00:14.570Z",
+    "post_date": "2026-05-08T18:00:14.569Z",
     "updated_at": "2026-05-08T18:05:09.271Z",
     "type": "newsletter",
     "wordcount": 6567,
@@ -578,7 +578,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "intellectual knuckledragger"
+        "bio": null
       }
     ],
     "reaction_count": 27,
@@ -593,7 +593,7 @@
     "title": "Introducing the Protocol Institute",
     "subtitle": "Building a field and community to steward the planetary-scale process of protocolization",
     "post_date": "2026-04-27T20:51:20.751Z",
-    "updated_at": "2026-05-22T21:31:38.441Z",
+    "updated_at": "2026-05-22T21:31:38.440Z",
     "type": "newsletter",
     "wordcount": 4529,
     "section_id": 333103,
@@ -625,7 +625,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "intellectual knuckledragger"
+        "bio": null
       },
       {
         "id": 309790256,
@@ -646,7 +646,7 @@
     "title": "The Headless Empire",
     "subtitle": "A secretive corporation transcends jurisdictional boundaries in part three of Sachin Benny’s new world-building series, set on a single rail line connecting Lisbon to Laos",
     "post_date": "2026-04-23T21:03:54.971Z",
-    "updated_at": "2026-04-24T05:43:56.845Z",
+    "updated_at": "2026-04-24T05:43:56.844Z",
     "type": "newsletter",
     "wordcount": 5128,
     "section_id": 333105,
@@ -689,7 +689,7 @@
     "title": "A Primordial Computing Soup",
     "subtitle": "Fostering AI art scenius, creating an open planetary network of robots ",
     "post_date": "2026-04-14T12:24:10.249Z",
-    "updated_at": "2026-04-14T15:07:35.425Z",
+    "updated_at": "2026-04-14T15:07:35.424Z",
     "type": "newsletter",
     "wordcount": 1363,
     "section_id": 333103,
@@ -726,7 +726,7 @@
     "slug": "the-flesh-perfected-is-the-flesh",
     "title": "The Flesh Perfected Is the Flesh Possessed",
     "subtitle": "The longest single rail line, connecting Lisbon to Laos, is the setting for a bio-thriller in Sachin Benny’s new world-building series",
-    "post_date": "2026-04-03T17:02:04.853Z",
+    "post_date": "2026-04-03T17:02:04.852Z",
     "updated_at": "2026-04-03T17:05:52.402Z",
     "type": "newsletter",
     "wordcount": 5979,
@@ -808,7 +808,7 @@
     "title": "The Faithful Channel",
     "subtitle": "A translator maintaining a shadow bridge between superpowers discovers something she cannot unsee. Nishit Sanil's story was shortlisted in our Building and Burning Bridges contest.",
     "post_date": "2026-03-27T20:25:07.310Z",
-    "updated_at": "2026-03-27T20:28:04.115Z",
+    "updated_at": "2026-03-27T20:28:04.114Z",
     "type": "newsletter",
     "wordcount": 3480,
     "section_id": 333105,
@@ -889,7 +889,7 @@
     "title": "Strangeness, Legibility, Hardness",
     "subtitle": "An update from our Protocol Fiction Special Interest Group",
     "post_date": "2026-03-14T17:14:45.274Z",
-    "updated_at": "2026-03-14T18:10:02.451Z",
+    "updated_at": "2026-03-14T18:10:02.450Z",
     "type": "newsletter",
     "wordcount": 1395,
     "section_id": null,
@@ -927,7 +927,7 @@
     "title": "Last-Mile Optimism",
     "subtitle": "Reducing Waste. Eliminating Fraud. Promoting Civic Responsibility. At least that’s what the city bureaucrats said.",
     "post_date": "2026-03-10T19:06:36.004Z",
-    "updated_at": "2026-03-10T19:09:47.775Z",
+    "updated_at": "2026-03-10T19:09:47.774Z",
     "type": "newsletter",
     "wordcount": 1513,
     "section_id": 333105,
@@ -964,7 +964,7 @@
     "slug": "theorizing-protocolization-ii-atomic",
     "title": "Theorizing Protocolization II: Atomic Protocol Questions",
     "subtitle": "Solving real coordination problems to discover the formal laws of protocols.",
-    "post_date": "2026-03-04T22:41:11.318Z",
+    "post_date": "2026-03-04T22:41:11.317Z",
     "updated_at": "2026-03-04T22:42:10.878Z",
     "type": "newsletter",
     "wordcount": 3037,
@@ -1013,8 +1013,8 @@
     "slug": "have-your-factory-call-my-factory",
     "title": "Have Your Factory Call My Factory",
     "subtitle": "In this installment of our Obliquities editorial column, we argue that the social kernels circulating in intelligence media are the equivalent of industrial intermediates flowing between factories.",
-    "post_date": "2026-03-02T21:51:04.600Z",
-    "updated_at": "2026-03-02T21:54:39.243Z",
+    "post_date": "2026-03-02T21:51:04.599Z",
+    "updated_at": "2026-03-02T21:54:39.242Z",
     "type": "newsletter",
     "wordcount": 1582,
     "section_id": 333103,
@@ -1122,7 +1122,7 @@
       }
     ],
     "reaction_count": 13,
-    "restacks": 6,
+    "restacks": 7,
     "comment_count": 1,
     "previous_post_slug": "the-repossessed",
     "next_post_slug": "caduceus-city"
@@ -1159,7 +1159,7 @@
     "title": "The Repossessed",
     "subtitle": "Inside a memory labyrinth, inheritance turns out to be something far more dangerous than money.",
     "post_date": "2026-02-18T16:47:51.350Z",
-    "updated_at": "2026-02-19T22:39:57.335Z",
+    "updated_at": "2026-02-19T22:39:57.334Z",
     "type": "newsletter",
     "wordcount": 3157,
     "section_id": 333105,
@@ -1196,7 +1196,7 @@
     "slug": "desire-machines",
     "title": "Desire Machines",
     "subtitle": "The second place story in our Bridges contest holds a mirror to one of the world's favorite hobbies. A tale of gambling, fandom, and mechanical leviathans, whose bones litter the world...",
-    "post_date": "2026-02-15T10:03:51.095Z",
+    "post_date": "2026-02-15T10:03:51.094Z",
     "updated_at": "2026-02-15T10:07:44.195Z",
     "type": "newsletter",
     "wordcount": 4779,
@@ -1250,7 +1250,7 @@
     "publishedBylines": [
       {
         "id": 309697450,
-        "name": "Spencer Nitkey - Writer",
+        "name": "Spencer Nitkey",
         "handle": "spencernitkeywriting",
         "bio": "Stories in Apex, Asimov Press, Nature, Lightspeed, The Adroit Journal, and many others."
       },
@@ -1359,7 +1359,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "intellectual knuckledragger"
+        "bio": null
       },
       {
         "id": 309790256,
@@ -1368,8 +1368,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 22,
-    "restacks": 6,
+    "reaction_count": 26,
+    "restacks": 8,
     "comment_count": 4,
     "previous_post_slug": "the-color-of-safety",
     "next_post_slug": "theorizing-protocolization-ii-atomic"
@@ -1380,7 +1380,7 @@
     "title": "Minor Differences Repeating Forever",
     "subtitle": "The Zoothesia finale. In a world where recursive self-improvement spills over from social media feeds into meatspace, a fractal pattern reveals itself to Karina. ",
     "post_date": "2026-01-23T19:58:38.523Z",
-    "updated_at": "2026-02-03T10:27:09.908Z",
+    "updated_at": "2026-02-03T10:27:09.907Z",
     "type": "newsletter",
     "wordcount": 2514,
     "section_id": 333105,
@@ -1395,7 +1395,7 @@
     "publishedBylines": [
       {
         "id": 309697450,
-        "name": "Spencer Nitkey - Writer",
+        "name": "Spencer Nitkey",
         "handle": "spencernitkeywriting",
         "bio": "Stories in Apex, Asimov Press, Nature, Lightspeed, The Adroit Journal, and many others."
       },
@@ -1407,7 +1407,7 @@
       }
     ],
     "reaction_count": 10,
-    "restacks": 3,
+    "restacks": 4,
     "comment_count": 5,
     "previous_post_slug": "missing-not-at-random",
     "next_post_slug": "troll"
@@ -1418,7 +1418,7 @@
     "title": "The Color of Safety",
     "subtitle": "From Birren to OSHA, in reality and on-screen, how does pigment play a role in protecting workers from harm and making mistakes?",
     "post_date": "2026-01-19T19:40:14.750Z",
-    "updated_at": "2026-02-03T10:27:43.774Z",
+    "updated_at": "2026-02-03T10:27:43.773Z",
     "type": "newsletter",
     "wordcount": 3053,
     "section_id": 333110,
@@ -1456,7 +1456,7 @@
     "title": "Missing Not at Random",
     "subtitle": "Chapter 5 of the Zoothesia Series. What happens when you overload a protocol with information? Narratives begin converging in this strange, penultimate chapter.",
     "post_date": "2026-01-14T21:06:02.131Z",
-    "updated_at": "2026-02-03T10:29:18.039Z",
+    "updated_at": "2026-02-03T10:29:18.038Z",
     "type": "newsletter",
     "wordcount": 5454,
     "section_id": 333105,
@@ -1476,7 +1476,7 @@
     "publishedBylines": [
       {
         "id": 309697450,
-        "name": "Spencer Nitkey - Writer",
+        "name": "Spencer Nitkey",
         "handle": "spencernitkeywriting",
         "bio": "Stories in Apex, Asimov Press, Nature, Lightspeed, The Adroit Journal, and many others."
       },
@@ -1585,7 +1585,7 @@
     "title": "Day Traitor",
     "subtitle": "Chapter 4 of the Zoothesia Series. In this world, anticipating the market is like baring your soul.",
     "post_date": "2026-01-02T20:30:33.628Z",
-    "updated_at": "2026-02-03T10:31:28.616Z",
+    "updated_at": "2026-02-03T10:31:28.615Z",
     "type": "newsletter",
     "wordcount": 5261,
     "section_id": 333105,
@@ -1605,7 +1605,7 @@
     "publishedBylines": [
       {
         "id": 309697450,
-        "name": "Spencer Nitkey - Writer",
+        "name": "Spencer Nitkey",
         "handle": "spencernitkeywriting",
         "bio": "Stories in Apex, Asimov Press, Nature, Lightspeed, The Adroit Journal, and many others."
       },
@@ -1628,7 +1628,7 @@
     "title": "How to Protocol Watch",
     "subtitle": "Issue #84: A miniature hobby for the New Year, suitable for the aspiring intellectual adventurer and without the extravagant overhead of a seafaring voyage.",
     "post_date": "2025-12-31T11:01:36.276Z",
-    "updated_at": "2026-02-03T10:30:47.874Z",
+    "updated_at": "2026-02-03T10:30:47.873Z",
     "type": "newsletter",
     "wordcount": 1643,
     "section_id": 333110,
@@ -1639,7 +1639,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "intellectual knuckledragger"
+        "bio": null
       },
       {
         "id": 309790256,
@@ -1723,7 +1723,7 @@
     "publishedBylines": [
       {
         "id": 309697450,
-        "name": "Spencer Nitkey - Writer",
+        "name": "Spencer Nitkey",
         "handle": "spencernitkeywriting",
         "bio": "Stories in Apex, Asimov Press, Nature, Lightspeed, The Adroit Journal, and many others."
       },
@@ -1746,7 +1746,7 @@
     "title": "Planetary Tech Support",
     "subtitle": "Issue #81: Earth files its own ticket",
     "post_date": "2025-12-19T22:01:08.041Z",
-    "updated_at": "2026-02-03T10:34:49.512Z",
+    "updated_at": "2026-02-03T10:34:49.511Z",
     "type": "newsletter",
     "wordcount": 1232,
     "section_id": 333105,
@@ -1870,7 +1870,7 @@
     "title": "Disentangling the State of Climate Protocols",
     "subtitle": "Issue #78: A big little idea called durability",
     "post_date": "2025-12-06T18:54:22.505Z",
-    "updated_at": "2026-02-03T10:35:31.268Z",
+    "updated_at": "2026-02-03T10:35:31.267Z",
     "type": "newsletter",
     "wordcount": 1911,
     "section_id": 333110,
@@ -1908,7 +1908,7 @@
     "title": "Would You Stop Following Me if I Was a Worm?",
     "subtitle": "Chapter 2 of the Zoothesia Series. With appearances perpetually sanitized by overlays, our protagonist must resort to foulmaxing to escape the unwanted attention of a former lover. ",
     "post_date": "2025-12-03T19:08:16.332Z",
-    "updated_at": "2026-02-04T16:45:36.157Z",
+    "updated_at": "2026-02-04T16:45:36.156Z",
     "type": "newsletter",
     "wordcount": 4174,
     "section_id": 333105,
@@ -1928,7 +1928,7 @@
     "publishedBylines": [
       {
         "id": 309697450,
-        "name": "Spencer Nitkey - Writer",
+        "name": "Spencer Nitkey",
         "handle": "spencernitkeywriting",
         "bio": "Stories in Apex, Asimov Press, Nature, Lightspeed, The Adroit Journal, and many others."
       },
@@ -1951,7 +1951,7 @@
     "title": "Coffee, Diplomacy, Contest News",
     "subtitle": "Issue #76: A host of program updates from Summer of Protocols",
     "post_date": "2025-11-28T19:01:03.792Z",
-    "updated_at": "2026-02-03T10:35:44.533Z",
+    "updated_at": "2026-02-03T10:35:44.532Z",
     "type": "newsletter",
     "wordcount": 1120,
     "section_id": 333110,
@@ -1973,7 +1973,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "intellectual knuckledragger"
+        "bio": null
       },
       {
         "id": 309790256,
@@ -2014,7 +2014,7 @@
     "publishedBylines": [
       {
         "id": 309697450,
-        "name": "Spencer Nitkey - Writer",
+        "name": "Spencer Nitkey",
         "handle": "spencernitkeywriting",
         "bio": "Stories in Apex, Asimov Press, Nature, Lightspeed, The Adroit Journal, and many others."
       },
@@ -2069,7 +2069,7 @@
     "title": "Images of Memory",
     "subtitle": "Issue #73: A Memory Research Group update",
     "post_date": "2025-11-18T18:10:27.374Z",
-    "updated_at": "2026-02-03T10:46:12.923Z",
+    "updated_at": "2026-02-03T10:46:12.922Z",
     "type": "newsletter",
     "wordcount": 1417,
     "section_id": 333110,
@@ -2117,7 +2117,7 @@
     "title": "Bridge Atlas Episode 4: Alignment",
     "subtitle": "Issue #72: A conversation with Alex Stokes and Emmett Shear",
     "post_date": "2025-11-15T22:45:35.412Z",
-    "updated_at": "2026-02-03T10:47:58.223Z",
+    "updated_at": "2026-02-03T10:47:58.222Z",
     "type": "newsletter",
     "wordcount": 1176,
     "section_id": 333110,
@@ -2197,7 +2197,7 @@
     "title": "Bridge Atlas Episode 3: Commons",
     "subtitle": "Issue #70: A conversation with Yancey Strickler and Trent Van Epps",
     "post_date": "2025-11-10T21:42:15.715Z",
-    "updated_at": "2026-02-03T10:49:32.394Z",
+    "updated_at": "2026-02-03T10:49:32.393Z",
     "type": "newsletter",
     "wordcount": 1268,
     "section_id": 333110,
@@ -2267,7 +2267,7 @@
     "title": "Bridge Atlas Episode 2: Paradigms",
     "subtitle": "Issue #68: A conversation with Nils Gilman and Josh Stark ",
     "post_date": "2025-11-05T23:03:51.679Z",
-    "updated_at": "2026-02-03T10:49:30.330Z",
+    "updated_at": "2026-02-03T10:49:30.329Z",
     "type": "newsletter",
     "wordcount": 938,
     "section_id": 333110,
@@ -2427,7 +2427,7 @@
     "title": "The View From the Bridge",
     "subtitle": "Issue #64: Bridge atlases for planetary postmodernity",
     "post_date": "2025-10-22T22:33:03.942Z",
-    "updated_at": "2026-02-03T10:51:12.841Z",
+    "updated_at": "2026-02-03T10:51:12.840Z",
     "type": "newsletter",
     "wordcount": 4177,
     "section_id": 333110,
@@ -2485,7 +2485,7 @@
     "title": "Mismatch",
     "subtitle": "Issue #63: With some minor refinements, you could be the one",
     "post_date": "2025-10-18T21:37:50.707Z",
-    "updated_at": "2026-02-03T10:53:24.880Z",
+    "updated_at": "2026-02-03T10:53:24.879Z",
     "type": "newsletter",
     "wordcount": 1284,
     "section_id": 333105,
@@ -2533,7 +2533,7 @@
     "title": "Constructing the Evil Twin of AI",
     "subtitle": "Issue #62: The latest SIGFPT adventures",
     "post_date": "2025-10-15T22:08:57.275Z",
-    "updated_at": "2026-02-03T10:54:22.043Z",
+    "updated_at": "2026-02-03T10:54:22.042Z",
     "type": "newsletter",
     "wordcount": 3033,
     "section_id": 333110,
@@ -2576,7 +2576,7 @@
     "title": "Centaur Fiction",
     "subtitle": "An interview with Qiufan Chen, author of Waste Tide",
     "post_date": "2025-10-15T03:38:25.698Z",
-    "updated_at": "2026-02-03T10:54:00.306Z",
+    "updated_at": "2026-02-03T10:54:00.305Z",
     "type": "podcast",
     "wordcount": 1,
     "section_id": 333110,
@@ -2708,7 +2708,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "intellectual knuckledragger"
+        "bio": null
       },
       {
         "id": 309790256,
@@ -2729,7 +2729,7 @@
     "title": "Consensus Nightmares",
     "subtitle": "Issue #59: Three scary stories to tell onchain ",
     "post_date": "2025-10-08T21:58:39.315Z",
-    "updated_at": "2026-02-03T10:58:02.276Z",
+    "updated_at": "2026-02-03T10:58:02.275Z",
     "type": "newsletter",
     "wordcount": 4930,
     "section_id": 333105,
@@ -2784,7 +2784,7 @@
     "publishedBylines": [
       {
         "id": 309697450,
-        "name": "Spencer Nitkey - Writer",
+        "name": "Spencer Nitkey",
         "handle": "spencernitkeywriting",
         "bio": "Stories in Apex, Asimov Press, Nature, Lightspeed, The Adroit Journal, and many others."
       },
@@ -2807,7 +2807,7 @@
     "title": "Signals in the Margins",
     "subtitle": "Issue #58: Safely obscured in a fog of bureaucracy",
     "post_date": "2025-10-04T19:46:19.309Z",
-    "updated_at": "2026-02-03T10:58:12.355Z",
+    "updated_at": "2026-02-03T10:58:12.354Z",
     "type": "newsletter",
     "wordcount": 4277,
     "section_id": 333105,
@@ -3004,7 +3004,7 @@
     "title": "Genius in the Bottle",
     "subtitle": "Issue #54: A field-tested omega metafiction protocol",
     "post_date": "2025-09-20T17:53:26.194Z",
-    "updated_at": "2026-02-03T11:01:07.834Z",
+    "updated_at": "2026-02-03T11:01:07.833Z",
     "type": "newsletter",
     "wordcount": 3079,
     "section_id": 333105,
@@ -3105,7 +3105,7 @@
     "title": "We Shape Our Tools, and Thereafter Our Tools Shape Us",
     "subtitle": "Issue #52: How does it feel to be in a relationship that runs this smoothly?",
     "post_date": "2025-09-13T14:34:53.092Z",
-    "updated_at": "2026-02-03T11:01:31.131Z",
+    "updated_at": "2026-02-03T11:01:31.130Z",
     "type": "newsletter",
     "wordcount": 1762,
     "section_id": 333105,
@@ -3189,7 +3189,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "intellectual knuckledragger"
+        "bio": null
       },
       {
         "id": 309790256,
@@ -3258,7 +3258,7 @@
     "title": "SoP Fall Forecast",
     "subtitle": "Issue #49: a flurry of news, events, and opportunities from around the protocol studies ecosystem",
     "post_date": "2025-09-02T20:11:45.099Z",
-    "updated_at": "2026-02-03T11:04:14.966Z",
+    "updated_at": "2026-02-03T11:04:14.965Z",
     "type": "newsletter",
     "wordcount": 772,
     "section_id": 333110,
@@ -3310,7 +3310,7 @@
     "title": "Soda Sweet as Blood",
     "subtitle": "Issue #48: If our digital selves come to outlive us, how do they find peace? ",
     "post_date": "2025-08-30T14:43:29.733Z",
-    "updated_at": "2026-02-03T11:05:30.418Z",
+    "updated_at": "2026-02-03T11:05:30.417Z",
     "type": "newsletter",
     "wordcount": 3053,
     "section_id": 333105,
@@ -3335,7 +3335,7 @@
     "publishedBylines": [
       {
         "id": 309697450,
-        "name": "Spencer Nitkey - Writer",
+        "name": "Spencer Nitkey",
         "handle": "spencernitkeywriting",
         "bio": "Stories in Apex, Asimov Press, Nature, Lightspeed, The Adroit Journal, and many others."
       },
@@ -3358,7 +3358,7 @@
     "title": "In the Garden of Eden, Baby",
     "subtitle": "Issue #47: Life for the last sextillionaires left on Earth can be frightfully irksome",
     "post_date": "2025-08-27T17:18:36.780Z",
-    "updated_at": "2026-02-03T11:08:16.127Z",
+    "updated_at": "2026-02-03T11:08:16.126Z",
     "type": "newsletter",
     "wordcount": 6137,
     "section_id": 333105,
@@ -3416,7 +3416,7 @@
     "title": "Loyalty",
     "subtitle": "Issue #46: Extreme weather and personified memory technology meet in the first story to be published from Ghosts in Machines!",
     "post_date": "2025-08-23T15:30:54.849Z",
-    "updated_at": "2026-02-03T11:08:10.481Z",
+    "updated_at": "2026-02-03T11:08:10.480Z",
     "type": "newsletter",
     "wordcount": 3253,
     "section_id": 333105,
@@ -3526,7 +3526,7 @@
     "title": "A Very Short Introduction to Memory and Technology",
     "subtitle": "Issue #44: From the Memory Research Group",
     "post_date": "2025-08-16T20:27:38.417Z",
-    "updated_at": "2026-02-03T11:08:41.414Z",
+    "updated_at": "2026-02-03T11:08:41.413Z",
     "type": "newsletter",
     "wordcount": 1456,
     "section_id": 333110,
@@ -3653,7 +3653,7 @@
     "title": "Brackish Strategy",
     "subtitle": "Issue #41: Monthly Note on Protocols for Business",
     "post_date": "2025-08-06T21:33:44.169Z",
-    "updated_at": "2026-02-03T11:35:17.817Z",
+    "updated_at": "2026-02-03T11:35:17.816Z",
     "type": "newsletter",
     "wordcount": 1847,
     "section_id": 333110,
@@ -3680,7 +3680,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "intellectual knuckledragger"
+        "bio": null
       },
       {
         "id": 309790256,
@@ -3748,7 +3748,7 @@
     "title": "Lessons from The Librarians",
     "subtitle": "Six Principles for Protocol Futures",
     "post_date": "2025-07-30T16:05:14.446Z",
-    "updated_at": "2026-02-03T11:34:56.548Z",
+    "updated_at": "2026-02-03T11:34:56.547Z",
     "type": "newsletter",
     "wordcount": 2227,
     "section_id": 333110,
@@ -3786,7 +3786,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "intellectual knuckledragger"
+        "bio": null
       }
     ],
     "reaction_count": 9,
@@ -3801,7 +3801,7 @@
     "title": "The Last Archive",
     "subtitle": "Issue #38: The Librarians - Act Six",
     "post_date": "2025-07-26T19:27:29.410Z",
-    "updated_at": "2026-02-03T11:33:08.573Z",
+    "updated_at": "2026-02-03T11:33:08.572Z",
     "type": "newsletter",
     "wordcount": 1386,
     "section_id": 333105,
@@ -3967,7 +3967,7 @@
     "title": "Necrophoresis",
     "subtitle": "Issue #35: Live on Substack today at 10am PDT",
     "post_date": "2025-07-16T16:06:05.423Z",
-    "updated_at": "2026-02-03T11:29:02.197Z",
+    "updated_at": "2026-02-03T11:29:02.196Z",
     "type": "newsletter",
     "wordcount": 2701,
     "section_id": 333105,
@@ -3997,7 +3997,7 @@
     "publishedBylines": [
       {
         "id": 309697450,
-        "name": "Spencer Nitkey - Writer",
+        "name": "Spencer Nitkey",
         "handle": "spencernitkeywriting",
         "bio": "Stories in Apex, Asimov Press, Nature, Lightspeed, The Adroit Journal, and many others."
       },
@@ -4869,7 +4869,7 @@
     "title": "Tension Landscapes",
     "subtitle": "Issue #23: Spannungsfelds, Free Ticket to Edge City, SF Meetup",
     "post_date": "2025-05-23T23:49:45.087Z",
-    "updated_at": "2026-02-03T11:22:52.570Z",
+    "updated_at": "2026-02-03T11:22:52.569Z",
     "type": "newsletter",
     "wordcount": 1951,
     "section_id": 333110,
@@ -4936,7 +4936,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "intellectual knuckledragger"
+        "bio": null
       },
       {
         "id": 309790256,
@@ -4957,7 +4957,7 @@
     "title": "Time to Die",
     "subtitle": "Issue #22: SF Meetup Sunday, Tickets to Protocol Worlds",
     "post_date": "2025-05-22T00:51:30.618Z",
-    "updated_at": "2026-02-03T11:22:16.700Z",
+    "updated_at": "2026-02-03T11:22:16.699Z",
     "type": "newsletter",
     "wordcount": 2069,
     "section_id": 333105,
@@ -5125,7 +5125,7 @@
     "publishedBylines": [
       {
         "id": 309697450,
-        "name": "Spencer Nitkey - Writer",
+        "name": "Spencer Nitkey",
         "handle": "spencernitkeywriting",
         "bio": "Stories in Apex, Asimov Press, Nature, Lightspeed, The Adroit Journal, and many others."
       },
@@ -5261,7 +5261,7 @@
     "title": "DHCP",
     "subtitle": "Issue #19: Protocol Fiction Contest Winners",
     "post_date": "2025-05-09T23:44:57.584Z",
-    "updated_at": "2026-02-03T11:21:26.713Z",
+    "updated_at": "2026-02-03T11:21:26.712Z",
     "type": "newsletter",
     "wordcount": 2458,
     "section_id": 333105,
@@ -5446,7 +5446,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "intellectual knuckledragger"
+        "bio": null
       },
       {
         "id": 309790256,
@@ -5467,7 +5467,7 @@
     "title": "Dirt Simple",
     "subtitle": "Issue #17: Shovels & AI memos, hardened commons, and Discord highlights",
     "post_date": "2025-05-02T21:51:47.670Z",
-    "updated_at": "2026-02-03T11:19:14.903Z",
+    "updated_at": "2026-02-03T11:19:14.902Z",
     "type": "newsletter",
     "wordcount": 2151,
     "section_id": 333110,
@@ -5575,7 +5575,7 @@
     "title": "Human Enough?",
     "subtitle": "Issue #16: Alignment Protocols, Hard Tech, Biokeys",
     "post_date": "2025-04-30T15:31:15.512Z",
-    "updated_at": "2026-02-03T11:18:05.373Z",
+    "updated_at": "2026-02-03T11:18:05.372Z",
     "type": "newsletter",
     "wordcount": 2356,
     "section_id": 333105,
@@ -5775,7 +5775,7 @@
     "title": "A Chronicle of Lumina",
     "subtitle": "Issue #14: Glass boardgames and a talk on public intelligence",
     "post_date": "2025-04-22T19:24:04.709Z",
-    "updated_at": "2026-02-03T11:16:24.271Z",
+    "updated_at": "2026-02-03T11:16:24.270Z",
     "type": "newsletter",
     "wordcount": 2426,
     "section_id": 333105,
@@ -5842,7 +5842,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "intellectual knuckledragger"
+        "bio": null
       },
       {
         "id": 309790256,
@@ -5863,7 +5863,7 @@
     "title": "Zero Knowledge",
     "subtitle": "Issue #13: ZK flash fiction, SoP25 fellows, and public intelligence.",
     "post_date": "2025-04-18T19:02:18.408Z",
-    "updated_at": "2026-02-03T11:15:27.863Z",
+    "updated_at": "2026-02-03T11:15:27.862Z",
     "type": "newsletter",
     "wordcount": 1339,
     "section_id": 333105,
@@ -5956,7 +5956,7 @@
     "title": "Risky Autonomy vs. Walled Gardens",
     "subtitle": "Issue #12: A story about tensions, EigenLayer guest talk, and sci-fi contest extension ",
     "post_date": "2025-04-15T23:10:02.721Z",
-    "updated_at": "2026-02-03T11:13:33.907Z",
+    "updated_at": "2026-02-03T11:13:33.906Z",
     "type": "newsletter",
     "wordcount": 1919,
     "section_id": 333110,
@@ -6356,7 +6356,7 @@
     "title": "To Share, And Remember",
     "subtitle": "Issue #7: Ritual Data Transfer ",
     "post_date": "2025-03-21T18:24:33.963Z",
-    "updated_at": "2026-02-03T11:10:02.759Z",
+    "updated_at": "2026-02-03T11:10:02.758Z",
     "type": "newsletter",
     "wordcount": 2468,
     "section_id": 333105,
@@ -6429,7 +6429,7 @@
     "title": "SoP 2025: Accelerating Order",
     "subtitle": "Issue #6: The Summer of Protocols 2025 program",
     "post_date": "2025-03-14T19:16:32.392Z",
-    "updated_at": "2026-02-03T11:10:30.939Z",
+    "updated_at": "2026-02-03T11:10:30.938Z",
     "type": "newsletter",
     "wordcount": 4407,
     "section_id": 333110,
@@ -6534,7 +6534,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "intellectual knuckledragger"
+        "bio": null
       }
     ],
     "reaction_count": 25,
@@ -6716,7 +6716,7 @@
     "title": "Haven Tailors",
     "subtitle": "Issue #3: Are you the right fit for this virtuous city?",
     "post_date": "2025-02-21T21:21:39.882Z",
-    "updated_at": "2026-02-03T11:09:26.232Z",
+    "updated_at": "2026-02-03T11:09:26.231Z",
     "type": "newsletter",
     "wordcount": 2901,
     "section_id": 333105,
@@ -6846,7 +6846,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "intellectual knuckledragger"
+        "bio": null
       },
       {
         "id": 309790256,
@@ -6867,7 +6867,7 @@
     "title": "Strange New Rules",
     "subtitle": "Issue #1: A new magazine of stories, studies, and science",
     "post_date": "2025-02-07T23:48:26.123Z",
-    "updated_at": "2026-02-03T11:09:33.415Z",
+    "updated_at": "2026-02-03T11:09:33.414Z",
     "type": "newsletter",
     "wordcount": 3894,
     "section_id": 333110,
