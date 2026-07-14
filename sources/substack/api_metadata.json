@@ -1,5 +1,37 @@
 [
   {
+    "id": 206588931,
+    "slug": "thanatosis-on-the-central-mast-liveness",
+    "title": "Thanatosis on the Central Mast // Liveness Check ",
+    "subtitle": "We enter an intractable new world conjured by Spencer Nitkey and find a protagonist in search of perspective",
+    "post_date": "2026-07-13T18:00:23.831Z",
+    "updated_at": "2026-07-13T18:05:46.146Z",
+    "type": "newsletter",
+    "wordcount": 3942,
+    "section_id": 333105,
+    "section_name": "Fictions",
+    "postTags": [],
+    "publishedBylines": [
+      {
+        "id": 309697450,
+        "name": "Spencer Nitkey",
+        "handle": "spencernitkeywriting",
+        "bio": "Stories in Apex, Asimov Press, Nature, Lightspeed, The Adroit Journal, and many others."
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 4,
+    "restacks": 3,
+    "comment_count": 0,
+    "previous_post_slug": "a-visitors-guide-to-the-disposition",
+    "next_post_slug": null
+  },
+  {
     "id": 204263080,
     "slug": "a-visitors-guide-to-the-disposition",
     "title": "A Visitor’s Guide to the Disposition",
@@ -35,7 +67,7 @@
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "the-big-man",
-    "next_post_slug": null
+    "next_post_slug": "thanatosis-on-the-central-mast-liveness"
   },
   {
     "id": 203600288,
@@ -85,7 +117,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 10,
+    "reaction_count": 11,
     "restacks": 9,
     "comment_count": 1,
     "previous_post_slug": "the-character-of-public-transit-systems",
@@ -138,7 +170,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 9,
+    "reaction_count": 10,
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "maintaining-everything-that-matters",
@@ -194,7 +226,7 @@
         "bio": "Startups & Game Design: http://leveragedplay.com (foresight games) – http://diegeticgames.com (consumer games) – http://storysynth.org (online games platform)"
       }
     ],
-    "reaction_count": 19,
+    "reaction_count": 20,
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "protocols-for-the-long-now",
@@ -226,7 +258,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 8,
+    "reaction_count": 9,
     "restacks": 2,
     "comment_count": 1,
     "previous_post_slug": "the-overloaded-train",
@@ -274,7 +306,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 10,
+    "reaction_count": 11,
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "2026-protocol-symposium-new-nature",
@@ -322,7 +354,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 8,
+    "reaction_count": 9,
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "irrigation-by-protocol-when-vineyards",
@@ -365,7 +397,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 14,
+    "reaction_count": 15,
     "restacks": 5,
     "comment_count": 0,
     "previous_post_slug": "inventing-new-nature",
@@ -764,7 +796,7 @@
     "slug": "the-fabric-and-the-brain",
     "title": "The Fabric and the Brain",
     "subtitle": "Articulating agent ecologies with high-personality planetary computation",
-    "post_date": "2026-03-31T19:30:42.077Z",
+    "post_date": "2026-03-31T19:30:42.076Z",
     "updated_at": "2026-03-31T19:34:27.033Z",
     "type": "newsletter",
     "wordcount": 4899,
