@@ -1,5 +1,37 @@
 # C3PO — Status Log
 
+## 2026-07-23 11:00–11:45 PT — Repo made public; session-start audit; ingestion pipeline review (session 43)
+
+**Session-start checklist — no code changes.**
+- Pinecone: 28,208 → 28,982 (+774) since session 42, all from ongoing daemon activity: `discord_links` +423 (10,949), `sig` +283 (6,281), `discord` +54 (5,712), `substack` +13 (1,148), `meta` +1 (43).
+- Substack dry-run: 2 new posts pending (`the-crooked-timber-of-ai`, `thanatosis-on-the-central-mast-liveness`) plus 54 posts flagged "edited" — likely a bulk metadata change upstream rather than 54 real edits; not investigated this session, flagged for next sync.
+- Intro quality: 5 unreviewed issues (Jul 12–18), **not marked reviewed** — all 5 share the same pattern (`title_mismatch` + `no_title_match` together: the primary link falls back to rank-order because the answer never names its source verbatim), and 2 of the 5 land on the low-signal "durable ai adoption" resource. One (Paul Staples, Jul 16) also surfaced a VGR-authored paper (USoP) in the answer text. Worth a dedicated look at whether the answer generator or the fuzzy title-match (`_find_mentioned_source()`, ≥0.6 threshold) regressed — see `[[feedback_intro_handler]]`.
+- Cost: $1.37 last 7 days (339 calls, ~98% `sync_sig`), $6.61 all-time since 2026-06-25.
+
+**Repo visibility: Protocol-Institute/c3po flipped private → public** (user request). Checked full git history for committed secrets first (`.env`, `*_key`, `*secret*`, `*credential*`, `*token*` filenames) — clean, none ever committed. No code or config changes.
+
+**Discussed, no action taken:**
+- `c3po_inbox/ProtocolTheory-2026-06-17-14-32-07.json` (SIGFPT Roam export, triaged in session 39) is still the only pending inbox item — `ingest/sync_roam.py` from `plans/roam-ingest.md` still not built (TODO #2 since session 39). Possibly superseded by the session-39 decision to deprecate Roam as the SIG capture format going forward — flagged to confirm before building a one-off script for a format being phased out.
+- Recapped the routine ingestion pipeline (GitHub Actions vs. daemon vs. live-session-only work) for reference — no changes.
+
+**⚠️ Pinecone monthly write-unit quota exhausted.** `sync_devlog.py` failed with `429: You've reached your write unit limit for the current month (2000000)`. This is an account-level cap, not a bug — it likely means the daemon's ongoing upserts (`sync_sig`, `sync_discord`, `fetch_discord_links`, etc.) have been silently failing too since whenever the cap was hit this month, which would explain why the daemon-driven vector-count deltas logged above look plausible but haven't been cross-checked against what should have landed. Devlog page itself still published fine (`generate_devlog_page.py` writes to D1, independent of Pinecone) — only the `meta` namespace session vector is missing for session 43. **Needs Pinecone plan upgrade or quota reset before any further ingestion will land.**
+
+**Pinecone:** 28,982 vectors (unchanged by this session; see counts above — session-43 devlog vector NOT written, see quota note)
+
+**Open TODOs (priority order, unchanged from session 42):**
+1. Execute exe.dev migration — `plans/exe-dev-migration.md`, pending VGR's answers to the 5 open questions
+2. Implement `ingest/sync_roam.py` (plan: `plans/roam-ingest.md`) — **confirm still wanted given Roam deprecation decision**
+3. Create `Protocol-Institute/sig-notes` repo + `_template.md`; discuss with SIG hosts
+4. Starter page — 28 recs across 20 resources in tally (threshold reached); build "good first reads" page + wire into intro handler
+5. Exhibit extraction — `ingest/extract_structure.py`
+6. Anthropic key rotation to PI org account
+7. Rotate `GH_PAT` to fine-grained PAT scoped to protocolized-website only
+8. Fix discord guide eligibility: only embed active channels; currently 80 described channels which is too many
+9. **New:** investigate intro-quality title-match regression (5/5 recent flagged issues share the same failure pattern — see above)
+10. **New, urgent:** Pinecone monthly write-unit quota exhausted (2,000,000 cap hit) — upgrade plan or wait for reset; daemon ingestion may be silently failing until resolved
+
+---
+
 ## 2026-07-08 11:00–12:32 PT — SIG meeting-publishing bug fixes + website PR deconfliction + exe.dev migration plan (session 42)
 
 **Bug fixes — SIG meeting pipeline:**

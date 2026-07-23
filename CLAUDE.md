@@ -61,7 +61,7 @@ Secrets on PI worker: `VOYAGE_API_KEY`, `PINECONE_API_KEY`, `PINECONE_C3PO_HOST`
 
 ## Repo Ownership
 
-Repo: `Protocol-Institute/c3po` (transferred from `vgururao/c3po` 2026-05-31).
+Repo: `Protocol-Institute/c3po` (transferred from `vgururao/c3po` 2026-05-31). **Public** since 2026-07-23.
 
 ## Pinecone Index (live)
 
@@ -70,18 +70,18 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 
 | Namespace | Vectors | Notes |
 |-----------|---------|-------|
-| `discord_links` | 10,526 | Community-shared URLs, scored by Haiku |
-| `discord` | 5,658 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
-| `sig` | 5,998 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 6 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG |
+| `discord_links` | 10,949 | Community-shared URLs, scored by Haiku |
+| `discord` | 5,712 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
+| `sig` | 6,281 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 6 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG |
 | `videos` | 3,127 | YouTube talks (97 videos) |
-| `substack` | 1,135 | Protocolized magazine (123 posts) |
+| `substack` | 1,148 | Protocolized magazine (123 posts) |
 | `pdfs` | 765 | 74 papers/essays + 2 special-feature items (New Nature essay + slides) |
 | `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
 | `bibliography` | 278 | External works cited by PI corpus |
 | `discord_guide` | 80 | All active guild channels; Haiku-described; SIG channels include cadence + next_event_time |
-| `meta` | 42 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
+| `meta` | 43 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
 | `transcripts` | 39 | Bot conversation self-memory: web + Discord Q&A |
-| **Total** | **28,208** | |
+| **Total** | **28,982** | |
 
 ## Key Ingest Scripts
 

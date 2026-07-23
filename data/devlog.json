@@ -1784,6 +1784,33 @@
           "html": "<strong>Planned persistent-process migration to exe.dev:</strong> Wrote <code>plans/exe-dev-migration.md</code>, moving <code>bin/daemon.py</code> and <code>bin/c3po_bot.py</code> to an existing exe.dev VM (root SSH, persistent Debian/Ubuntu, systemd + apt), replacing the never-executed Hetzner plan (<code>plans/vps-migration.md</code>, now marked superseded). Scope is deliberately narrow: daemon + Discord bot only, humboldt deferred; Claude Code installed for interactive SSH maintenance sessions only, no scheduled/autonomous jobs. Five open questions logged for VGR before execution: VM SSH access, root vs. non-root user, GitHub auth strategy for the VM, Claude Code auth mode, and directory layout. Also generated the repo's first <code>requirements.txt</code> (never existed — the laptop <code>.venv</code> had grown ad hoc across many sessions) via <code>pip freeze</code>, a prerequisite for cloning anywhere new."
         }
       ]
+    },
+    {
+      "id": 43,
+      "sort_key": 43.0,
+      "label": "Session 43",
+      "title": "Repo Made Public + Session-Start Audit",
+      "date": "2026-07-23",
+      "time_pt": "11:00–11:45",
+      "tracks": [
+        "operations"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "total": 28982,
+        "sig": 6281
+      },
+      "deployed": false,
+      "items": [
+        {
+          "title": "Protocol-Institute/c3po repo made public",
+          "html": "<strong>Repo visibility flipped private → public:</strong> Checked the full git history for accidentally committed secrets (<code>.env</code>, key/secret/credential/token filenames) first — clean, nothing ever committed. No code changes."
+        },
+        {
+          "title": "Intro-quality regression pattern identified (not yet fixed)",
+          "html": "<strong>All 5 unreviewed intro-quality issues (Jul 12–18) share one failure mode:</strong> the primary recommended link falls back to rank-order selection because <code>_find_mentioned_source()</code> can't find the chosen source's title in the answer text. Two of the five land on a low-signal resource as a result. Flagged for a dedicated look next session — not yet fixed or marked reviewed."
+        }
+      ]
     }
   ]
 }
