@@ -24,7 +24,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).parent))
-from utils import clean_text, chunk_text, embed_chunks, chunk_id, get_voyage_client, get_pinecone_index, PINECONE_BATCH
+from utils import clean_text, chunk_text, embed_chunks, chunk_id, get_voyage_client, get_pinecone_index, PINECONE_BATCH, pause_status
 
 load_dotenv()
 
@@ -347,6 +347,15 @@ def main():
                             "postTags": [t["slug"] for t in p.get("postTags", [])]}
                     for slug, p in current.items()}
         save_last_sync(new_sync)
+        return
+
+    # Runs on its own GitHub Actions cron, not the local daemon — the daemon's
+    # pause skip in bin/daemon.py doesn't cover this script, so check directly.
+    # Deliberately skips before any Voyage/Anthropic cost, and before touching
+    # last_sync, so new/edited posts stay pending and are picked up on resume.
+    guard = pause_status()
+    if guard:
+        print(f"Ingestion paused ({guard['reason']}) until {guard['resume_at']} — skipping this run.")
         return
 
     vc = get_voyage_client()

@@ -48,6 +48,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import session_log as slog
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "ingest"))
+from utils import pause_status
+
 # ── Config ────────────────────────────────────────────────────────────────────
 
 INTERVAL = 30 * 60          # seconds between sync cycles
@@ -260,6 +263,23 @@ def push_website_if_changed() -> bool:
         return False
 
 
+# Steps that write to Pinecone — skipped (not even invoked, so no Discord/
+# Voyage/Anthropic API cost is spent on a call whose Pinecone write is
+# guaranteed to fail) while a write pause is active.
+PINECONE_WRITE_STEPS = {
+    "sync_discord_channels", "sync_discord_events", "sync_discord",
+    "fetch_discord_links", "enrich_discord_links", "sync_sig",
+    "sync_meeting_notes", "sync_bot_conversations", "sync_web_chats",
+    "sync_devlog",
+}
+
+# Steps that only read from Pinecone (idx.list()/fetch()) — skipped while a
+# read pause is active. Confirmed 2026-07-24 this is a real, separate outage
+# from the write-unit one: rebuild_sig_summaries.py's idx.list() 429'd on
+# "read unit limit" even while only a write pause was active.
+PINECONE_READ_STEPS = {"rebuild_sig_summaries"}
+
+
 # ── Sync cycle ────────────────────────────────────────────────────────────────
 
 def run_sync(cycle: int) -> None:
@@ -286,9 +306,24 @@ def run_sync(cycle: int) -> None:
         ("publish_dashboard",        [VENV_PY, "ingest/publish_dashboard.py"]),
     ]
 
+    write_pause = pause_status("write")
+    read_pause  = pause_status("read")
+    if write_pause:
+        log.info(f"⏸ Write-pause ({write_pause['reason']}) until {write_pause['resume_at']} — "
+                 f"skipping Pinecone-write steps this cycle")
+    if read_pause:
+        log.info(f"⏸ Read-pause ({read_pause['reason']}) until {read_pause['resume_at']} — "
+                 f"skipping Pinecone-read steps this cycle")
+
     step_results = {}
     ok = 0
+    paused_n = 0
     for label, args in steps:
+        if (write_pause and label in PINECONE_WRITE_STEPS) or (read_pause and label in PINECONE_READ_STEPS):
+            log.info(f"  ⏸ {label} skipped (paused)")
+            step_results[label] = "paused"
+            paused_n += 1
+            continue
         success = run_step(label, args)
         step_results[label] = success
         if success:
@@ -335,7 +370,8 @@ def run_sync(cycle: int) -> None:
 
     elapsed = time.monotonic() - wall_start
     ts_end  = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    log.info(f"=== Sync cycle {cycle} complete — {ok}/{len(steps)} steps OK ({elapsed:.0f}s) ===")
+    paused_note = f", {paused_n} paused" if paused_n else ""
+    log.info(f"=== Sync cycle {cycle} complete — {ok}/{len(steps) - paused_n} steps OK{paused_note} ({elapsed:.0f}s) ===")
 
     log_cycle({
         "event":               "cycle",
@@ -348,7 +384,8 @@ def run_sync(cycle: int) -> None:
         "website_pushed":      website_pushed,
         "protocolized_pushed": protocolized_pushed,
         "ok":                  ok,
-        "errors":              len(steps) - ok,
+        "paused":              paused_n,
+        "errors":              len(steps) - ok - paused_n,
     })
 
 

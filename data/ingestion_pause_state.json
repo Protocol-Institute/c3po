@@ -1,0 +1,16 @@
+{
+  "write": {
+    "paused": true,
+    "kind": "write",
+    "reason": "Pinecone monthly write-unit quota exhausted 2026-07-21 (root cause: humboldt's non-incremental ingest_all(), fixed in humboldt#1, merged); VGR chose to wait for the natural monthly reset rather than upgrade the plan",
+    "paused_at": "2026-07-24T17:07:41Z",
+    "resume_at": "2026-08-01T00:00:00Z"
+  },
+  "read": {
+    "paused": true,
+    "kind": "read",
+    "reason": "Pinecone monthly read-unit quota (1,000,000) exhausted \u2014 confirmed via rebuild_sig_summaries.py idx.list() 429, same shared account as humboldt's earlier read-unit exhaustion 2026-07-22",
+    "paused_at": "2026-07-24T17:36:24Z",
+    "resume_at": "2026-08-01T00:00:00Z"
+  }
+}
