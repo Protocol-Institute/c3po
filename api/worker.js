@@ -317,9 +317,27 @@ async function queryNamespace(host, apiKey, vector, topK, namespace, filter) {
     headers: { "Api-Key": apiKey, "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-  if (!res.ok) { console.error(`Pinecone [${namespace}]:`, await res.text()); return []; }
+  if (!res.ok) {
+    console.error(`Pinecone [${namespace}]:`, await res.text());
+    // Tag the failure on the array itself (arrays are objects in JS) rather
+    // than threading a separate stats param through every call site — every
+    // caller already holds this array and can check `._pineconeFailed`.
+    // Confirmed 2026-07-24: this used to just return [], indistinguishable
+    // from "no matches", so a fully-failed retrieval produced a confident
+    // answer with sources:[] and no indication anything was wrong.
+    const failed = [];
+    failed._pineconeFailed = true;
+    return failed;
+  }
   return (await res.json()).matches || [];
 }
+
+function anyPineconeFailed(...resultArrays) {
+  return resultArrays.some(r => r && r._pineconeFailed);
+}
+
+const RETRIEVAL_DEGRADED_NOTICE =
+  "_Note: the search index is temporarily unavailable (quota/rate limit), so this answer isn't grounded in the corpus — treat it as general knowledge only, not a sourced answer._\n\n";
 
 // ── Normalization ──────────────────────────────────────────────────────────────
 
@@ -3113,6 +3131,7 @@ async function runMcpSearch(args, env) {
     ["definitions",    "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH,  "definitions")   : Promise.resolve([]),
     ["meta",           "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, 3,           "meta")          : Promise.resolve([]),
   ]);
+  const retrievalDegraded = anyPineconeFailed(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw);
 
   const items = mergeResults(
     pdfRaw.map(normalizePdf),
@@ -3135,7 +3154,10 @@ async function runMcpSearch(args, env) {
     ...(source === "web"           ? { domain, source_count } : {}),
   }));
 
-  return mcpToolContent(JSON.stringify({ query, namespace: ns, count: items.length, results: items }, null, 2));
+  return mcpToolContent(JSON.stringify({
+    query, namespace: ns, count: items.length, results: items,
+    ...(retrievalDegraded ? { degraded: true, note: "Pinecone is temporarily unavailable (quota/rate limit) — results may be incomplete or empty." } : {}),
+  }, null, 2));
 }
 
 async function runMcpAsk(args, env, ctx) {
@@ -3160,6 +3182,9 @@ async function runMcpAsk(args, env, ctx) {
       { chunk_type: { "$eq": "sig_meeting_page" } }),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, 3, "transcripts"),
   ]);
+  const retrievalDegraded = anyPineconeFailed(
+    pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2
+  );
   const _sigPageIds2 = new Set(sigRaw.map(m => m.id));
   const sigAug = [...sigRaw, ...sigPageRaw.filter(m => !_sigPageIds2.has(m.id))];
 
@@ -3206,13 +3231,14 @@ async function runMcpAsk(args, env, ctx) {
   }
 
   const claudeBody = await claudeRes.json();
-  const answer     = claudeBody.content?.[0]?.text || "";
+  const rawAnswer  = claudeBody.content?.[0]?.text || "";
+  const answer     = retrievalDegraded ? RETRIEVAL_DEGRADED_NOTICE + rawAnswer : rawAnswer;
 
   ctx.waitUntil(trackMcpRequest(env, claudeBody.usage).catch(() => {}));
 
   const cacheHitPayload2 = cacheHits2.length ? cacheHits2.map(({ score, ...r }) => r) : undefined;
   return mcpToolContent(JSON.stringify({
-    question, answer, sources, exchange: exchangeNum, version: BOT_VERSION,
+    question, answer, sources, exchange: exchangeNum, version: BOT_VERSION, degraded: retrievalDegraded,
     ...(cacheHitPayload2 ? { cache_hits: cacheHitPayload2 } : {}),
   }, null, 2));
 }
@@ -3389,6 +3415,9 @@ async function runRagQuery(query, env, ctx, opts = {}) {
       { chunk_type: { "$eq": "sig_meeting_page" } }),
     queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 3, "transcripts"),
   ]);
+  const retrievalDegraded = anyPineconeFailed(
+    pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw
+  );
   // Ensure top sig_meeting_page results surface even when ranked below TOP_K_EACH in general sig query
   const sigPageIds = new Set(sigRaw.map(m => m.id));
   const sigAug = [...sigRaw, ...sigPageRaw.filter(m => !sigPageIds.has(m.id))];
@@ -3451,7 +3480,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
     ? cacheHits.map(({ score, ...rest }) => rest)
     : undefined;
 
-  if (!includeAnswer) return { answer: null, sources, cache_hits: cacheHitPayload };
+  if (!includeAnswer) return { answer: null, sources, degraded: retrievalDegraded, cache_hits: cacheHitPayload };
 
   const contextBlock = buildContextBlock(topItems);
   const claudeRes = await fetch(CLAUDE_URL, {
@@ -3472,12 +3501,16 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   if (!claudeRes.ok) throw new Error("Oracle service error");
 
   const claudeBody = await claudeRes.json();
-  const answer = claudeBody.content?.[0]?.text || "";
+  const rawAnswer = claudeBody.content?.[0]?.text || "";
+  const answer = retrievalDegraded ? RETRIEVAL_DEGRADED_NOTICE + rawAnswer : rawAnswer;
   if (ctx) {
     ctx.waitUntil(trackRequest(env, claudeBody.usage));
     if (context === "discord") ctx.waitUntil(trackDiscordRequest(env, claudeBody.usage).catch(() => {}));
   }
-  return { answer, sources, ...(cacheHitPayload ? { cache_hits: cacheHitPayload } : {}) };
+  return {
+    answer, sources, degraded: retrievalDegraded,
+    ...(cacheHitPayload ? { cache_hits: cacheHitPayload } : {}),
+  };
 }
 
 function formatDiscordAsk(query, answer, sources) {
@@ -3734,6 +3767,7 @@ export default {
           queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_LINKS, "discord_links"),
           queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH,  "definitions"),
         ]);
+        const retrievalDegraded = anyPineconeFailed(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw);
         const sources = mergeResults(
           pdfRaw.map(normalizePdf),
           subRaw.map(normalizeSubstack),
@@ -3743,11 +3777,15 @@ export default {
           sigRaw.map(normalizeSig),
           webRaw.map(normalizeWebLink),
           defRaw.map(normalizeDefinition),
-          [],
+          [],  // metaItems — /search doesn't query the meta namespace
+          [],  // transcriptItems — sources-only endpoint, no transcript cache lookup
           MAX_SOURCES
         ).map(({ weightedScore, ...rest }) => rest);
 
-        return json({ sources, query }, 200, corsHeaders);
+        return json({
+          sources, query,
+          ...(retrievalDegraded ? { degraded: true, note: "Pinecone is temporarily unavailable (quota/rate limit) — results may be incomplete or empty." } : {}),
+        }, 200, corsHeaders);
       } catch (err) {
         console.error("Search error:", err);
         return json({ error: "Internal error" }, 500, corsHeaders);
@@ -3820,16 +3858,17 @@ export default {
     }
 
     try {
-      const { answer, sources, cache_hits } = await runRagQuery(query, env, ctx, {
+      const { answer, sources, degraded, cache_hits } = await runRagQuery(query, env, ctx, {
         includeAnswer: mode !== "sources",
         history,
         maxTokens: reqMaxTokens,
         context,
       });
-      if (mode === "sources") return json({ sources, query }, 200, corsHeaders);
+      if (mode === "sources") return json({ sources, query, ...(degraded ? { degraded } : {}) }, 200, corsHeaders);
       ctx.waitUntil(logQuery(env, query, answer, sources, sessionId, turnNumber));
       return json({
         answer, sources, query,
+        ...(degraded ? { degraded } : {}),
         ...(cache_hits ? { cache_hits } : {}),
       }, 200, corsHeaders);
     } catch (err) {
