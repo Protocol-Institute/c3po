@@ -12,10 +12,10 @@
 
 **Two reusable lessons promoted to `Code/` level** (see `Code/warnings-keys.md` "Shared Keys = Shared Quotas" and `Code/warnings.md` "Git: Don't Operate Directly on a Live Autonomous Agent's Working Directory").
 
-**Pinecone:** 28,982 vectors — unchanged (write-unit quota still exhausted; no ingestion has landed since session 43. Will not recover until Pinecone plan upgrade/reset **and** the humboldt PR above merges — otherwise the same burn recurs next cycle.)
+**Pinecone:** 28,982 vectors — unchanged. **Update, same session:** [Protocol-Institute/humboldt#1](https://github.com/Protocol-Institute/humboldt/pull/1) merged (2026-07-24, confirmed via `gh pr view`). VGR's decision: no plan upgrade — ingestion is deliberately paused until the monthly quota resets 2026-08-01, rather than paying to lift the cap early. Daemon cycles will keep running and hitting 429 on write steps until then (harmless — Pinecone rejects before charging); this is expected, not a new fault. Both prerequisites from the earlier TODO are now resolved: the humboldt-side leak is fixed, and the plan is to let the cap reset naturally.
 
 **Open TODOs (priority order):**
-1. **New, urgent:** confirm Pinecone quota reset/upgrade, and confirm [Protocol-Institute/humboldt#1](https://github.com/Protocol-Institute/humboldt/pull/1) merges — both needed before ingestion is trustworthy again
+1. **2026-08-01:** confirm Pinecone write-unit quota actually reset and a full daemon cycle completes 16/16 (currently 9/16, 7 write-dependent steps failing on 429) — with humboldt#1 merged, a fresh reset should not immediately re-exhaust
 2. Identify the owner of the MCP SSE reconnect-loop client (107.201.136.15, AT&T, La Cañada Flintridge CA) — currently silent post-fix, but posted to Discord unidentified
 3. Execute exe.dev migration — `plans/exe-dev-migration.md`, pending VGR's answers to the 5 open questions
 4. Implement `ingest/sync_roam.py` (plan: `plans/roam-ingest.md`) — confirm still wanted given Roam deprecation decision
