@@ -184,7 +184,7 @@ def push_protocolized_if_changed() -> bool:
 
 
 WEBSITE_BRANCH = "c3po/auto-sig-pages"
-WEBSITE_PATHS  = ["sigs/", "sigs.html", "monitoring.html"]
+WEBSITE_PATHS  = ["sigs/", "monitoring.html"]
 
 
 def _git(args: list[str], cwd: Path) -> subprocess.CompletedProcess:
