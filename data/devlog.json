@@ -1846,6 +1846,41 @@
           "html": "c3po's own ingest scripts were confirmed already incremental and not the driver. The actual cause: humboldt's <code>ingest_all()</code> re-embeds and re-upserts its <strong>entire</strong> corpus (5,142 chunks) on every new notebook entry — roughly daily — with no content-hash check. <code>PINECONE_API_KEY</code> is shared account-wide between c3po and humboldt, so humboldt's write volume exhausted the shared monthly cap and blocked c3po's own (much smaller) writes too. Opened <a href=https://github.com/Protocol-Institute/humboldt/pull/1 target=_blank rel=noopener>humboldt#1</a> with an incremental fix, verified locally against the live corpus, left for that project to merge."
         }
       ]
+    },
+    {
+      "id": 45,
+      "sort_key": 45.0,
+      "label": "Session 45",
+      "title": "Ingestion Pause/Resume + Live Retrieval-Failure Fix",
+      "date": "2026-07-24",
+      "time_pt": "10:00–10:50",
+      "tracks": [
+        "operations",
+        "worker-api"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "total": 28982
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "Built pause/resume for the ingest pipeline",
+          "html": "Every write-touching ingest script already gets its Pinecone client from one shared helper (<code>utils.get_pinecone_index()</code>) — wrapped it in a guard that blocks writes/reads while paused and auto-pauses itself the moment Pinecone returns a write- or read-unit 429, so one script hitting the cap stops every other script from independently rediscovering (and paying Voyage/Anthropic cost for) the same doomed call. <code>bin/daemon.py</code> now skips invoking paused steps entirely — verified with a monkeypatched dry-run before restarting the live daemon. Resume needs no special backfill logic: every script's state file only updates on success, so nothing gets marked processed while paused — the next successful run just picks up everything deferred."
+        },
+        {
+          "title": "Found c3po's own read-unit quota was also exhausted",
+          "html": "While testing, <code>rebuild_sig_summaries.py</code> 429'd on a plain read — c3po's read-unit quota (1,000,000/month, same shared account as the write-unit issue) was independently exhausted too. Activated both a write and a read pause via the new <code>ingest/ingestion_control.py</code> CLI, until 2026-08-01."
+        },
+        {
+          "title": "Live RAG endpoint was silently answering ungrounded questions",
+          "html": "Confirmed via <code>wrangler tail</code> that every Pinecone query in the live <code>/query</code> pipeline was 429'ing — and the Worker was catching each failure, returning empty matches, and still generating a fluent, confident answer with <code>sources: []</code> and no indication anything was wrong. Fixed: all 4 query paths (<code>/query</code>, <code>/search</code>, MCP <code>search_corpus</code>, MCP <code>ask_c3po</code>) now detect a fully-failed retrieval and either prepend an honest degraded notice to the answer or return a <code>degraded</code> flag. Verified live on all 4 paths post-deploy."
+        },
+        {
+          "title": "Fixed a second, unrelated live bug found along the way",
+          "html": "<code>GET /search</code> was throwing a 500 on every call — its <code>mergeResults()</code> call was missing one argument (10 passed, 11-param signature), silently shifting <code>MAX_SOURCES</code> into the transcript-items slot. This is humboldt's fallback retrieval path (<code>query_c3po_worker()</code>), so it had been silently broken there too. Fixed and verified."
+        }
+      ]
     }
   ]
 }

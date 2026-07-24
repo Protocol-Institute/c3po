@@ -1,5 +1,33 @@
 # C3PO — Status Log
 
+## 2026-07-24 10:00–10:50 PT — Ingestion pause/resume + live retrieval-failure fix (session 45)
+
+**Built a pause/resume mechanism for the ingest pipeline** (`ingest/utils.py`, `bin/daemon.py`, new `ingest/ingestion_control.py`). Every write-touching ingest script already gets its Pinecone client from `get_pinecone_index()` — the single choke point — so it's wrapped in a `_GuardedIndex` that blocks `upsert`/`update`/`delete` while a write pause is active and `query`/`fetch`/`list` while a read pause is active (independent channels — Pinecone tracks write-unit and read-unit as separate monthly quotas), and auto-pauses itself the instant Pinecone returns a write- or read-unit 429. `daemon.py` checks pause state before each cycle and skips invoking the 10 write-touching + 1 read-only (`rebuild_sig_summaries.py`) subprocess steps entirely while paused — zero Discord/Voyage/Anthropic/Pinecone cost, not just avoided Pinecone writes. Verified with a monkeypatched dry-run (confirmed exactly the intended steps get skipped, nothing else touched) before restarting the live daemon via `launchctl kickstart`. `sync_substack.py` (GitHub-Actions-only, not covered by the daemon's skip logic) got an explicit early check. State lives in `data/ingestion_pause_state.json`, deliberately **not** gitignored so the GHA runner sees the same pause state after checkout. Resume needs no special backfill logic — every script's state file only updates on success, so a paused cycle just means a bigger delta next successful run, same as any missed cycle.
+
+**Discovered c3po's own read-unit quota was also exhausted** — confirmed live, `rebuild_sig_summaries.py`'s `idx.list()` 429'd with "read unit limit for the current month (1000000)" even with only a write pause active. Same shared account as humboldt's earlier read-unit exhaustion (session 44). Activated both a write and a read pause via `ingest/ingestion_control.py`, both until **2026-08-01T00:00:00Z**.
+
+**Found and fixed a live production issue while testing:** the public `/query` endpoint was silently answering questions with zero retrieval grounding. Every Pinecone namespace query was 429ing on the read-unit cap; `queryNamespace()` caught each failure and returned `[]`, indistinguishable from "no matches" — so the Worker still called Claude and returned a fluent, confident, fully unsourced answer (`sources: []`) with no indication anything had failed. Confirmed live via `wrangler tail` (11/11 namespace queries 429ing on a single test call). Fixed: `queryNamespace()` now tags a failed call's return array with `_pineconeFailed = true` rather than changing its signature, so all ~30 call sites across the 4 query paths (`runRagQuery`, `runMcpSearch`, `runMcpAsk`, `GET /search`) can check `anyPineconeFailed(...)` without a refactor. Degraded responses now either prepend an honest notice to the answer text or return a `degraded` flag. Verified live on all 4 paths post-deploy.
+
+**Fixed a second, unrelated pre-existing bug found along the way:** `GET /search` was throwing a 500 on every single call — its `mergeResults()` call was missing the `metaItems` argument (11-param signature, only 10 passed), silently shifting `MAX_SOURCES` into the `transcriptItems` slot and calling `.map()` on a number. This is humboldt's `query_c3po_worker()` fallback retrieval path (`agent/retrieval.py`), so it's been silently broken there too — worth flagging to humboldt if their worker-mode retrieval has seemed dead.
+
+**Pinecone:** 28,982 vectors — unchanged (both write and read paused deliberately). No `describe_index_stats()` impact — confirmed that call keeps working through a read-unit 429 (it's control-plane, not a per-vector read), so `/status`, `/health`, and `publish_dashboard.py` are all unaffected.
+
+**Open TODOs (priority order):**
+1. **2026-08-01:** confirm both write and read pauses clear naturally (`python3 ingest/ingestion_control.py status` — should show "not paused" for both after 08-01), then confirm a full daemon cycle completes 16/16 (not just that steps stop being skipped — verify they actually succeed)
+2. Consider whether humboldt's `agent/retrieval.py` `query_c3po_worker()` mode is actually used anywhere — if so, tell them `/search` was broken and is now fixed
+3. Identify the owner of the MCP SSE reconnect-loop client (107.201.136.15, AT&T, La Cañada Flintridge CA) — currently silent post-fix, but posted to Discord unidentified
+4. Execute exe.dev migration — `plans/exe-dev-migration.md`, pending VGR's answers to the 5 open questions
+5. Implement `ingest/sync_roam.py` (plan: `plans/roam-ingest.md`) — confirm still wanted given Roam deprecation decision
+6. Create `Protocol-Institute/sig-notes` repo + `_template.md`; discuss with SIG hosts
+7. Starter page — 28 recs across 20 resources in tally (threshold reached); build "good first reads" page + wire into intro handler
+8. Exhibit extraction — `ingest/extract_structure.py`
+9. Anthropic key rotation to PI org account
+10. Rotate `GH_PAT` to fine-grained PAT scoped to protocolized-website only
+11. Fix discord guide eligibility: only embed active channels; currently 80 described channels which is too many
+12. Investigate intro-quality title-match regression (session 43 finding, still open)
+
+---
+
 ## 2026-07-24 08:00–09:50 PT — Worker load incident + Pinecone quota root-cause (session 44)
 
 **Cloudflare Worker load alert investigated.** Account-wide `workersInvocationsAdaptive` (GraphQL Analytics) showed `c3po` at ~17,500 req/hr sustained, up from ~5K/day (07-17) to ~215K/day (07-24) — `protocolized-website` unaffected (~1-2K/day, flat). `wrangler tail` (two windows, 106 sampled requests, all identical) traced it to a single fixed IP (107.201.136.15, AT&T, La Cañada Flintridge CA) in a tight reconnect loop against `GET /mcp` with `Accept: text/event-stream` — not a distributed attack: single static IP, zero errors, never touched `/query`/`ask_c3po`/anything cost-bearing (`/stats` confirmed 0 tracked requests that hour). Root cause: `GET /mcp` (`api/worker.js:3221`) returned `200` with a plain-text banner instead of `405`, so a client using the legacy MCP SSE transport read the non-stream response as a dropped connection and reconnected with no backoff.
