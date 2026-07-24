@@ -1,5 +1,34 @@
 # C3PO — Status Log
 
+## 2026-07-24 08:00–09:50 PT — Worker load incident + Pinecone quota root-cause (session 44)
+
+**Cloudflare Worker load alert investigated.** Account-wide `workersInvocationsAdaptive` (GraphQL Analytics) showed `c3po` at ~17,500 req/hr sustained, up from ~5K/day (07-17) to ~215K/day (07-24) — `protocolized-website` unaffected (~1-2K/day, flat). `wrangler tail` (two windows, 106 sampled requests, all identical) traced it to a single fixed IP (107.201.136.15, AT&T, La Cañada Flintridge CA) in a tight reconnect loop against `GET /mcp` with `Accept: text/event-stream` — not a distributed attack: single static IP, zero errors, never touched `/query`/`ask_c3po`/anything cost-bearing (`/stats` confirmed 0 tracked requests that hour). Root cause: `GET /mcp` (`api/worker.js:3221`) returned `200` with a plain-text banner instead of `405`, so a client using the legacy MCP SSE transport read the non-stream response as a dropped connection and reconnected with no backoff.
+
+**Fix:** `GET /mcp` now returns `405` (worker.js, deployed — version `dcf0b6e7`). Verified live: the offending client's request rate dropped from ~2/sec to zero within a minute of deploy, with no further reconnect attempts in two follow-up `wrangler tail` checks. `POST /mcp` (the real JSON-RPC path) unaffected. Posted a short Discord note with the IP/location so the (still unidentified) owner can reconfigure their client with `--transport http`.
+
+**Merged [Protocol-Institute/c3po#1](https://github.com/Protocol-Institute/c3po/pull/1)** (opened by another agent): `bin/daemon.py`'s `WEBSITE_PATHS` still listed `sigs.html`, removed from the website repo since its restructure to `sigs/index.html`. That stale pathspec broke `git stash push -u -- sigs/ sigs.html monitoring.html` on every attempt since 2026-07-09 (confirmed in `daemon.log`: 07-09, 07-16, 07-23), silently aborting the weekly SIG-page PR flow — no automated website PR has actually landed since PR #5 (07-08). Verified `sigs.html` really doesn't exist and the log evidence matched before merging. Also dropped 3 orphaned `git stash` entries this had left in the local `website` repo clone (all against the same stale base commit, all auto-generated SIG-page regen diffs — confirmed via `git stash show` before dropping).
+
+**Pinecone write-unit quota root cause identified (see [[project_pinecone_quota]]).** c3po's own ingest scripts were confirmed properly incremental (state-file/hash-based skip logic; daemon log shows `0 new`/`1 to embed` on nearly every cycle) — not the driver. Root cause is `humboldt/agent/ingest.py`'s `ingest_all()`: it re-embeds and re-upserts humboldt's **entire** corpus (5,142 chunks) on every call, with no content-hash check, and `daemon/discord_client.py` calls it on every new notebook entry (~daily, confirmed 36 occurrences since 05-28, 25 in July alone before the cap hit). `PINECONE_API_KEY` is shared account-wide between `c3po` and `humboldt` (separate indexes, same account/quota) — humboldt's write-unit burn exhausted the account's monthly cap by 07-21, blocking c3po's writes too; humboldt's own separate read-unit cap (1M/month) was also exhausted by 07-22 from its own retrieval query volume. Opened [Protocol-Institute/humboldt#1](https://github.com/Protocol-Institute/humboldt/pull/1) (not merged — humboldt's repo, left for that project to review) adding a content-hash state file (`data/ingest_state.json`) so `ingest_all()` only touches chunks that actually changed; verified locally (mocked Pinecone/Voyage) against the live corpus — first run upserts all 5,142 chunks (one-time state backfill), second run moments later upserted only 8 genuinely-changed chunks. Built the fix in an isolated `git worktree` rather than humboldt's live working directory, which had substantial unrelated uncommitted in-progress work from the running daemon itself.
+
+**Two reusable lessons promoted to `Code/` level** (see `Code/warnings-keys.md` "Shared Keys = Shared Quotas" and `Code/warnings.md` "Git: Don't Operate Directly on a Live Autonomous Agent's Working Directory").
+
+**Pinecone:** 28,982 vectors — unchanged (write-unit quota still exhausted; no ingestion has landed since session 43. Will not recover until Pinecone plan upgrade/reset **and** the humboldt PR above merges — otherwise the same burn recurs next cycle.)
+
+**Open TODOs (priority order):**
+1. **New, urgent:** confirm Pinecone quota reset/upgrade, and confirm [Protocol-Institute/humboldt#1](https://github.com/Protocol-Institute/humboldt/pull/1) merges — both needed before ingestion is trustworthy again
+2. Identify the owner of the MCP SSE reconnect-loop client (107.201.136.15, AT&T, La Cañada Flintridge CA) — currently silent post-fix, but posted to Discord unidentified
+3. Execute exe.dev migration — `plans/exe-dev-migration.md`, pending VGR's answers to the 5 open questions
+4. Implement `ingest/sync_roam.py` (plan: `plans/roam-ingest.md`) — confirm still wanted given Roam deprecation decision
+5. Create `Protocol-Institute/sig-notes` repo + `_template.md`; discuss with SIG hosts
+6. Starter page — 28 recs across 20 resources in tally (threshold reached); build "good first reads" page + wire into intro handler
+7. Exhibit extraction — `ingest/extract_structure.py`
+8. Anthropic key rotation to PI org account
+9. Rotate `GH_PAT` to fine-grained PAT scoped to protocolized-website only
+10. Fix discord guide eligibility: only embed active channels; currently 80 described channels which is too many
+11. Investigate intro-quality title-match regression (session 43 finding, still open)
+
+---
+
 ## 2026-07-23 11:00–11:45 PT — Repo made public; session-start audit; ingestion pipeline review (session 43)
 
 **Session-start checklist — no code changes.**

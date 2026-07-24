@@ -1811,6 +1811,41 @@
           "html": "<strong>All 5 unreviewed intro-quality issues (Jul 12–18) share one failure mode:</strong> the primary recommended link falls back to rank-order selection because <code>_find_mentioned_source()</code> can't find the chosen source's title in the answer text. Two of the five land on a low-signal resource as a result. Flagged for a dedicated look next session — not yet fixed or marked reviewed."
         }
       ]
+    },
+    {
+      "id": 44,
+      "sort_key": 44.0,
+      "label": "Session 44",
+      "title": "Worker Reconnect-Loop Fix + Pinecone Quota Root Cause",
+      "date": "2026-07-24",
+      "time_pt": "08:00–09:50",
+      "tracks": [
+        "worker-api",
+        "operations"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "total": 28982
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "Diagnosed Worker request-limit alerts: a broken MCP client, not an attack",
+          "html": "<strong>Traced a sustained ~17,500 req/hr spike on the c3po Worker</strong> to a single fixed IP in a tight reconnect loop against <code>GET /mcp</code> using the legacy SSE transport (<code>Accept: text/event-stream</code>) — confirmed via <code>wrangler tail</code> across 106 sampled requests, all identical, zero errors, never touching any cost-bearing endpoint. Not a distributed attack. Root cause: the endpoint returned <code>200</code> with a plain-text banner instead of <code>405</code>, so a spec-compliant-but-naive MCP client read the non-stream response as a dropped connection and retried with no backoff."
+        },
+        {
+          "title": "Fixed and deployed: GET /mcp now returns 405",
+          "html": "<code>GET /mcp</code> now returns <code>405 Method Not Allowed</code> instead of <code>200</code>, telling SSE-transport clients not to retry. Deployed and verified live — the offending client's request rate dropped from ~2/sec to zero within a minute, confirmed silent in two follow-up <code>wrangler tail</code> checks. <code>POST /mcp</code> (the real JSON-RPC path) unaffected."
+        },
+        {
+          "title": "Merged a daemon bug fix from another agent",
+          "html": "Reviewed and merged <a href=https://github.com/Protocol-Institute/c3po/pull/1 target=_blank rel=noopener>c3po#1</a>: <code>bin/daemon.py</code>'s website-push flow had a stale <code>sigs.html</code> pathspec that silently broke the weekly SIG-page PR flow on every attempt since 2026-07-09. Verified the log evidence and current website-repo state before merging; cleaned up 3 orphaned <code>git stash</code> entries the bug had left behind."
+        },
+        {
+          "title": "Pinecone write-unit quota: root cause found in a sibling project",
+          "html": "c3po's own ingest scripts were confirmed already incremental and not the driver. The actual cause: humboldt's <code>ingest_all()</code> re-embeds and re-upserts its <strong>entire</strong> corpus (5,142 chunks) on every new notebook entry — roughly daily — with no content-hash check. <code>PINECONE_API_KEY</code> is shared account-wide between c3po and humboldt, so humboldt's write volume exhausted the shared monthly cap and blocked c3po's own (much smaller) writes too. Opened <a href=https://github.com/Protocol-Institute/humboldt/pull/1 target=_blank rel=noopener>humboldt#1</a> with an incremental fix, verified locally against the live corpus, left for that project to merge."
+        }
+      ]
     }
   ]
 }

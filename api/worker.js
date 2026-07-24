@@ -3219,10 +3219,15 @@ async function runMcpAsk(args, env, ctx) {
 
 async function handleMcp(request, env, ctx) {
   if (request.method === "GET") {
+    // 405, not 200: this server does not support the legacy SSE transport (no
+    // server-initiated stream on GET). Returning 405 tells spec-compliant MCP
+    // clients to stop retrying GET/SSE instead of reconnect-looping forever —
+    // a client doing exactly that drove c3po to ~17.5k req/hr on 2026-07-24.
     return new Response(
       `C3PO MCP server ${BOT_VERSION} — Protocol Institute research assistant. ` +
-      "POST JSON-RPC 2.0. Tools: search_corpus (open), ask_c3po (Bearer auth required).",
-      { status: 200 }
+      "POST JSON-RPC 2.0 only (Streamable HTTP transport; no SSE stream on GET). " +
+      "Tools: search_corpus (open), ask_c3po (Bearer auth required).",
+      { status: 405 }
     );
   }
   if (request.method !== "POST") return new Response("POST only", { status: 405 });
