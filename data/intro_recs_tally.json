@@ -419,6 +419,26 @@
       "count": 1,
       "last_seen": "2026-08-01",
       "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/in-the-garden-of-eden-baby": {
+      "title": "In the Garden of Eden, Baby",
+      "url": "https://protocolized.summerofprotocols.com/p/in-the-garden-of-eden-baby",
+      "source": "substack",
+      "author": "Sisyphus",
+      "label": "FICTION",
+      "count": 1,
+      "last_seen": "2026-08-01",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/a-chronicle-of-lumina": {
+      "title": "A Chronicle of Lumina",
+      "url": "https://protocolized.summerofprotocols.com/p/a-chronicle-of-lumina",
+      "source": "substack",
+      "author": "Timber Stinson-Schroff",
+      "label": "FICTION",
+      "count": 1,
+      "last_seen": "2026-08-01",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -475,8 +495,8 @@
       "name": "🤔-idle-protocol-musings",
       "display": "#🤔-idle-protocol-musings",
       "sig_display": "",
-      "count": 1,
-      "last_seen": "2026-06-14"
+      "count": 2,
+      "last_seen": "2026-08-01"
     },
     "1379992696114122832": {
       "name": "🕸️-memory-research-group",
