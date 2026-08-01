@@ -26,8 +26,8 @@
       "source": "substack",
       "author": "TΞRM1NΞX",
       "label": "FICTION",
-      "count": 2,
-      "last_seen": "2026-06-19",
+      "count": 3,
+      "last_seen": "2026-08-01",
       "is_fallback": false
     },
     "https://www.youtube.com/watch?v=UAtt1F7fMLE": {
@@ -96,7 +96,7 @@
       "source": "substack",
       "author": "Timber Stinson-Schroff",
       "label": "ESSAY",
-      "count": 7,
+      "count": 8,
       "last_seen": "2026-08-01",
       "is_fallback": false
     },
@@ -409,6 +409,16 @@
       "count": 1,
       "last_seen": "2026-08-01",
       "is_fallback": false
+    },
+    "https://files.protocolized.io/A-Phenomenology-of-Protocols-Janna-Tay.pdf": {
+      "title": "A Phenomenology of Protocols",
+      "url": "https://files.protocolized.io/A-Phenomenology-of-Protocols-Janna-Tay.pdf",
+      "source": "pdf",
+      "author": "Janna Tay",
+      "label": "PAPER",
+      "count": 1,
+      "last_seen": "2026-08-01",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -437,8 +447,8 @@
       "name": "👾-protocol-fiction",
       "display": "#👾-protocol-fiction",
       "sig_display": "ProtFiSIG",
-      "count": 4,
-      "last_seen": "2026-07-18"
+      "count": 5,
+      "last_seen": "2026-08-01"
     },
     "1327337414175490160": {
       "name": "🎩-formal-protocol-theory",
