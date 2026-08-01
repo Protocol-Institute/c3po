@@ -189,10 +189,55 @@ def push_protocolized_if_changed() -> bool:
 WEBSITE_BRANCH = "c3po/auto-sig-pages"
 WEBSITE_PATHS  = ["sigs/", "monitoring.html"]
 
+# Files the daemon must never auto-commit: narrative/session-authored docs, not
+# routine state. Session work commits these explicitly, with a human in the loop.
+AUTOCOMMIT_EXCLUDE_PATHS    = {"status.md", "CLAUDE.md", "data/devlog.json"}
+AUTOCOMMIT_EXCLUDE_PREFIXES = ("plans/",)
+
 
 def _git(args: list[str], cwd: Path) -> subprocess.CompletedProcess:
     return subprocess.run(["git", *args], cwd=str(cwd), check=True,
                            capture_output=True, text=True)
+
+
+def pull_self() -> None:
+    """Pull the c3po repo itself so a VM-resident daemon picks up laptop/session
+    pushes without waiting for a restart. Best-effort — a failed pull just means
+    this cycle runs on the code it already has; logged, not fatal."""
+    try:
+        _git(["pull", "--rebase"], C3PO_DIR)
+    except subprocess.CalledProcessError as exc:
+        log.warning(f"  self git pull --rebase failed: {exc.stderr.strip()[:200]} — "
+                    f"continuing on current checkout")
+
+
+def autocommit_c3po_state() -> bool:
+    """Commit + push routine state-file churn (channel guide, intro tally, etc.)
+    left behind by this cycle's steps or by c3po_bot.py, so the VM clone is the
+    live source of truth without needing a laptop/SSH session to land it. Only
+    already-tracked, modified files — never adds untracked files, never touches
+    AUTOCOMMIT_EXCLUDE_PATHS/PREFIXES."""
+    try:
+        diff = _git(["diff", "--name-only"], C3PO_DIR).stdout.split()
+    except subprocess.CalledProcessError as exc:
+        log.warning(f"  autocommit: git diff failed: {exc.stderr.strip()[:200]}")
+        return False
+
+    paths = [p for p in diff if p not in AUTOCOMMIT_EXCLUDE_PATHS
+             and not p.startswith(AUTOCOMMIT_EXCLUDE_PREFIXES)]
+    if not paths:
+        return False
+
+    try:
+        _git(["add", *paths], C3PO_DIR)
+        date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        _git(["commit", "-m", f"[daemon] routine state sync {date_str}"], C3PO_DIR)
+        _git(["push"], C3PO_DIR)
+        log.info(f"  [daemon] auto-committed {len(paths)} state file(s): {', '.join(paths)}")
+        return True
+    except subprocess.CalledProcessError as exc:
+        log.warning(f"  autocommit failed, will retry next cycle: {exc.stderr.strip()[:200]}")
+        return False
 
 
 def push_website_if_changed() -> bool:
@@ -287,6 +332,8 @@ def run_sync(cycle: int) -> None:
     wall_start = time.monotonic()
     log.info(f"=== Sync cycle {cycle} starting [{ts_start}] ===")
 
+    pull_self()
+
     steps = [
         ("sync_discord_channels",    [VENV_PY, "ingest/sync_discord_channels.py"]),
         ("sync_discord_events",      [VENV_PY, "ingest/sync_discord_events.py"]),
@@ -367,6 +414,8 @@ def run_sync(cycle: int) -> None:
             ok += 1
 
     protocolized_pushed = push_protocolized_if_changed() if protocolized_synced else False
+
+    autocommit_c3po_state()
 
     elapsed = time.monotonic() - wall_start
     ts_end  = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")

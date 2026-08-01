@@ -108,6 +108,7 @@ Return a JSON object with these exact keys:
 Respond with only the JSON object."""
 
     try:
+        cost_logger.check_budget()
         resp = client.messages.create(
             model="claude-haiku-4-5-20251001",
             max_tokens=1500,

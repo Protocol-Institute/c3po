@@ -21,6 +21,46 @@ _PRICING: dict[str, dict[str, float]] = {
 _DEFAULT_RATES = {"input": 3.00, "output": 15.00}
 
 
+class BudgetExceeded(Exception):
+    """Raised when today's Anthropic spend has reached the configured daily cap."""
+    pass
+
+
+_DEFAULT_DAILY_LIMIT_USD = 5.00  # runaway-loop backstop, not a routine constraint —
+                                  # current all-time average is ~$0.10/day (session 46)
+
+
+def today_usd() -> float:
+    """Sum cost_log.jsonl entries for today (local calendar date)."""
+    if not COST_LOG.exists():
+        return 0.0
+    today_local = datetime.now().strftime("%Y-%m-%d")
+    total = 0.0
+    with COST_LOG.open() as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                r = json.loads(line)
+                # ts is stored UTC; convert to local date for midnight-reset semantics
+                ts_local = datetime.strptime(r["ts"], "%Y-%m-%dT%H:%M:%SZ") \
+                    .replace(tzinfo=timezone.utc).astimezone().strftime("%Y-%m-%d")
+                if ts_local == today_local:
+                    total += r.get("cost_usd", 0.0)
+            except Exception:
+                pass
+    return round(total, 6)
+
+
+def check_budget(limit_usd: float = _DEFAULT_DAILY_LIMIT_USD) -> None:
+    """Raise BudgetExceeded if today's spend has reached limit_usd. Call before
+    every Claude API invocation."""
+    spent = today_usd()
+    if spent >= limit_usd:
+        raise BudgetExceeded(f"${spent:.4f} spent today (limit ${limit_usd:.2f})")
+
+
 def log_api_call(script: str, model: str, usage) -> float:
     """Append one cost record to data/cost_log.jsonl. Returns cost in USD."""
     rates = _PRICING.get(model, _DEFAULT_RATES)

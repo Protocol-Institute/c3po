@@ -113,6 +113,7 @@ def score_relevance(client: anthropic.Anthropic, url: str, domain: str, text: st
         url=url, domain=domain,
         chars=len(text), text=text,
     )
+    cost_logger.check_budget()
     msg = client.messages.create(
         model=HAIKU_MODEL,
         max_tokens=80,
@@ -195,6 +196,9 @@ def main():
 
         try:
             score, reason = score_relevance(client, url, domain, text)
+        except cost_logger.BudgetExceeded as e:
+            print(f"  ⚠ {e} — stopping for today")
+            break
         except Exception as e:
             print(f"  ✗ Haiku error: {e}")
             errors += 1
