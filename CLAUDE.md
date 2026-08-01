@@ -30,7 +30,7 @@ If a request seems to belong in a front-end project, flag it and suggest the cor
 
 **→ See [`plans/resource-pipeline.md`](plans/resource-pipeline.md)** for the resource library pipeline. **c3po is the enrichment source; protocolized-website is a client.** New resources enter via c3po's ingest pipeline (`enrich_pdfs.py`, `enrich_youtube.py`) and are synced to the website via its `sync-*-resources.py` scripts. Do not manually create resource Markdown files in protocolized-website for content that c3po can enrich — run the ingest pipeline first.
 
-Three nodes: `c3po_listener` (ingest daemon), `c3po_bot` (Discord gateway), `c3po_web` (Cloudflare Worker). Both local bots managed by launchd; logs at `~/Library/Logs/c3po/`.
+Three nodes: `c3po_listener` (ingest daemon), `c3po_bot` (Discord gateway), `c3po_web` (Cloudflare Worker). `c3po_listener`/`c3po_bot` run on `c3po-vm.exe.xyz` (exe.dev VM, systemd units `c3po-daemon.service`/`c3po-bot.service`, migrated 2026-08-01 — see `plans/exe-dev-migration.md`) — not the laptop. Logs: `ssh c3po-vm.exe.xyz "sudo journalctl -u c3po-daemon -f"` / `-u c3po-bot`. The laptop clone and the VM clone are independent git checkouts; push/pull to move work between them. `c3po_web` deploys stay laptop-initiated (`wrangler deploy` from `api/`).
 
 ## Python
 
@@ -79,9 +79,9 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 | `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
 | `bibliography` | 278 | External works cited by PI corpus |
 | `discord_guide` | 80 | All active guild channels; Haiku-described; SIG channels include cadence + next_event_time |
-| `meta` | 46 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
+| `meta` | 47 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
 | `transcripts` | 39 | Bot conversation self-memory: web + Discord Q&A |
-| **Total** | **29,851** | |
+| **Total** | **29,852** | |
 
 ## Key Ingest Scripts
 

@@ -1886,17 +1886,18 @@
       "id": 46,
       "sort_key": 46.0,
       "label": "Session 46",
-      "title": "Meeting-Notes Crash Fix + Intro-Quality Diagnostic Logging",
+      "title": "Meeting-Notes Crash Fix, Intro-Quality Diagnostic Logging + exe.dev Migration",
       "date": "2026-08-01",
-      "time_pt": "11:00–12:35",
+      "time_pt": "11:00–14:10",
       "tracks": [
         "operations",
         "corpus-ingestion",
-        "ux"
+        "ux",
+        "infra"
       ],
       "costs_usd": {},
       "vector_counts": {
-        "total": 29851
+        "total": 29852
       },
       "deployed": true,
       "items": [
@@ -1915,6 +1916,14 @@
         {
           "title": "Closed the diagnostic gap instead of tuning the matcher blind",
           "html": "<code>intro_quality.log_quality()</code> now stores the answer text (600 chars) and the primary source’s type/SIG, so the next occurrence can be diagnosed with evidence instead of re-guessed. Deliberately left the matching heuristic itself untouched — didn’t want to tune logic feeding a live public bot’s auto-fix behavior without real before/after data to validate against. Restarted <code>c3po_bot</code> to pick up the change; no user-facing behavior change."
+        },
+        {
+          "title": "Migrated the ingest daemon and Discord bot off the laptop onto a dedicated exe.dev VM",
+          "html": "<code>bin/daemon.py</code> and <code>bin/c3po_bot.py</code> now run on <code>c3po-vm.exe.xyz</code> under systemd (<code>Restart=always</code>), not launchd on Venkat’s laptop — routine ingestion, Discord presence, and the website PR pipeline no longer depend on a laptop session ever running. Built two small pieces of prep first: a cost circuit breaker (<code>check_budget()</code> raises once today’s logged Anthropic spend hits a daily cap, mirroring Humboldt’s pattern) and a daemon self-commit step (pulls at the start of each cycle, commits+pushes its own routine state-file churn under a <code>[daemon]</code>-prefixed message at the end) — both tested locally before trusting them unsupervised, both verified live on the VM’s first real cycle."
+        },
+        {
+          "title": "Found two migration gaps a plan document couldn’t have caught — only live verification did",
+          "html": "A fresh git clone doesn’t include anything <code>.gitignore</code>’d, which turned out to include <code>data/sigs/meetings/</code> — missing it made <code>rebuild_sig_summaries.py</code> silently re-call Haiku for all 117 meetings instead of reading its local cache, caught live via <code>cost_log.jsonl</code> growing every ~8s rather than any error message. And <code>sync_youtube_resources</code> (a pre-existing daemon step) turned out to need <code>wrangler</code> + a Cloudflare token for a D1 fallback lookup — same dependency shape as the Substack workflow’s resource sync, which is why that workflow was deliberately left on GitHub Actions rather than absorbed into the daemon as originally planned: it already runs independent of the laptop, so absorbing it would have added a real dependency chain (Node, npm, a new secret) for no laptop-unblocking benefit."
         }
       ]
     }

@@ -1,6 +1,6 @@
 # C3PO — Status Log
 
-## 2026-08-01 11:00–12:35 PT — Pinecone quota confirmed reset; meeting-notes crash fix; intro-quality diagnostic logging (session 46)
+## 2026-08-01 11:00–14:10 PT — Pinecone quota confirmed reset; meeting-notes crash fix; intro-quality diagnostic logging; exe.dev migration (session 46)
 
 **Confirmed session 45's #1 TODO: both Pinecone write and read pauses cleared naturally** at the 2026-08-01 UTC reset (`ingest/ingestion_control.py status` → "not paused" for both). Vector count grew normally overnight from the daemon resuming (28,982 → 29,767 within the first hour), confirming writes are genuinely flowing again, not just quota-check passing.
 
@@ -10,20 +10,35 @@
 
 **Also committed a pre-existing, previously-uncommitted doc update** to `plans/resource-pipeline.md` from an earlier session (Substack resource-sync marked done, new Forward Pipeline section, revised priority list) — looked finished, just never landed.
 
-**Pinecone:** 28,982 → 29,851 (+869): `sig` +403, `discord_links` +409, `discord` +27, `substack` +27, `meta` +3.
+**Executed the exe.dev migration** (`plans/exe-dev-migration.md`, open since 2026-07-08): `bin/daemon.py` and `bin/c3po_bot.py` now run on a dedicated VM, `c3po-vm.exe.xyz` (2 vCPU/4GB/20GB, same exe.dev account Humboldt provisioned `humboldt.exe.xyz` on earlier today — see `Code/warnings-exe.md`), under systemd (`c3po-daemon.service`/`c3po-bot.service`, `Restart=always`). The laptop's launchd jobs are unloaded and archived (`~/Library/LaunchAgents/_archived/`). Requested user sign-off on 4 decisions before starting: rotate `GH_PAT` to a fine-grained PAT now (closes a standing TODO in the same motion), have the daemon self-commit its own routine state-file churn instead of relying on a laptop session to do it, add a cost circuit breaker (exe.dev policy requires one for any VM running autonomous LLM calls), and execute immediately rather than plan-only.
+
+Built two small pieces of prep on the laptop before touching the VM, tested, committed, and pulled onto the VM before cutover:
+- **Cost circuit breaker** (`ingest/cost_logger.check_budget()`) — raises `BudgetExceeded` once today's logged spend hits a configurable daily cap ($5 default; actual average is ~$0.10/day). Wired into the 3 scripts that call Claude directly; all three already had broad exception handling around the call site, so this needed no new handling except in `enrich_discord_links.py`'s caller loop, which now stops cleanly on `BudgetExceeded` instead of dribbling through remaining items with a sleep-and-skip per URL.
+- **Daemon self-commit** (`bin/daemon.py`'s `pull_self()` / `autocommit_c3po_state()`) — pulls at the start of each cycle, commits+pushes routine state-file churn at the end under a `[daemon]`-prefixed message, explicitly excluding narrative files (`status.md`, `CLAUDE.md`, `data/devlog.json`, `plans/`). Verified live on the VM's first real cycle: cleanly auto-committed `config/discord_channels.json` and pushed it to GitHub with zero manual intervention.
+
+**Two gaps the plan didn't anticipate, found live during cutover verification:**
+1. `.gitignore`'s blanket `data/*` rule means a fresh VM clone starts with none of the per-script state files (`data/discord_state.json`, `data/sig_state.json`, etc.) or the `data/sigs/meetings/` local JSON cache — copied the 14 state files (small) via `scp`/`tar`, which was expected. What wasn't expected: `data/sigs/meetings/` being empty made `rebuild_sig_summaries.py` re-materialize all 117 meeting files from Pinecone, which — unlike a pure re-fetch — calls Haiku per meeting since that script has its own summarization call site distinct from `sync_sig.py`'s. Caught it live via `data/cost_log.jsonl` growing every ~8s (not a hang — stdout was just fully buffered through the subprocess pipe until the step exited, which looked like a hang for several checks before the pattern became clear via the cost log). Stopped the daemon, copied `data/sigs/` from the laptop (121 files, 604K), restarted — confirmed clean on retry (2s, zero new cost entries). `data/attachments/` (217M, Discord CDN download cache) was deliberately *not* copied: its entries key off Discord's 24-hour CDN expiry, so old cached files are for dead links regardless — an empty cache carries no re-processing risk, unlike the meeting summaries.
+2. `sync_youtube_resources` (a pre-existing daemon step, not new scope) failed on `CLOUDFLARE_API_TOKEN not found` — it calls `wrangler` for a D1 thumbnail fallback lookup, same dependency shape as the Substack GHA workflow's resource-sync step. Installed Node 22 (matching `Code/CLAUDE.md`'s canonical version — the apt-default Node 18 didn't meet wrangler 4.95's engine requirement) + `npm ci` in `protocolized-website/worker/`, and added a minimal `/home/exedev/.env.keys` with just `CLOUDFLARE_API_TOKEN` (the exact fallback path `sync-youtube-resources.py`'s `load_token()` already checks) rather than copying the full PI key store. Verified clean (`Updated: 97, Failed: 0`, zero unexpected git diff since content already matched GitHub).
+
+**Deliberately did not absorb the Substack GHA workflow** (old plan's Phase 5) — it already runs entirely on GitHub's own infrastructure, so it was never laptop-dependent, and absorbing it would have meant taking on the same Node/wrangler/token dependency chain for no laptop-unblocking benefit. Left as-is; updated its `GH_PAT` Actions secret to the new fine-grained PAT anyway since it's the same credential.
+
+`admin/keys.md` updated: `GH_PAT` rotated (fine-grained, `Protocol-Institute` org, repos c3po/website/protocolized-website, Contents+PR read/write — verified push and PR create/close on both `c3po-vm.exe.xyz`'s `gh auth` and the c3po repo's Actions secret before registering), `CLOUDFLARE_API_TOKEN` deployment location added for the VM. `Code/warnings-exe.md` updated: VM registered in the inventory table, and a new gotcha documented (VM names must be ≥5 characters — `c3po` alone was rejected, hence `c3po-vm`).
+
+**Pinecone:** 28,982 → 29,852 (+870): `sig` +403, `discord_links` +409, `discord` +27, `substack` +27, `meta` +4.
 
 **Open TODOs (priority order):**
-1. Identify the owner of the MCP SSE reconnect-loop client (107.201.136.15, AT&T, La Cañada Flintridge CA) — currently silent post-fix, but posted to Discord unidentified
-2. Execute exe.dev migration — `plans/exe-dev-migration.md`, pending VGR's answers to the 5 open questions
+1. Confirm the VM survives a full 24-48h unattended (no laptop session touching it) — check `journalctl -u c3po-daemon` for cycle count/failures, and `ssh exe.dev billing usage` for the new VM's actual resource footprint, on the next session
+2. Identify the owner of the MCP SSE reconnect-loop client (107.201.136.15, AT&T, La Cañada Flintridge CA) — currently silent post-fix, but posted to Discord unidentified
 3. Implement `ingest/sync_roam.py` (plan: `plans/roam-ingest.md`) — confirm still wanted given Roam deprecation decision
 4. Create `Protocol-Institute/sig-notes` repo + `_template.md`; discuss with SIG hosts
 5. Starter page — 28 recs across 20 resources in tally (threshold reached); build "good first reads" page + wire into intro handler
 6. Exhibit extraction — `ingest/extract_structure.py`
 7. Anthropic key rotation to PI org account
-8. Rotate `GH_PAT` to fine-grained PAT scoped to protocolized-website only
-9. Fix discord guide eligibility: only embed active channels; currently 80 described channels which is too many
-10. Watch for further `SIG-<CODE>` title-template drift in meeting-notes (channel_manifest.json's meeting-detection regexes are the canonical alias list — keep sync_meeting_notes.py's SIG_TITLE_MAP in sync with it)
-11. Next intro-quality title_mismatch — check the new `answer`/`primary_source_type` log fields before re-investigating from scratch
+8. Fix discord guide eligibility: only embed active channels; currently 80 described channels which is too many
+9. Watch for further `SIG-<CODE>` title-template drift in meeting-notes (channel_manifest.json's meeting-detection regexes are the canonical alias list — keep sync_meeting_notes.py's SIG_TITLE_MAP in sync with it)
+10. Next intro-quality title_mismatch — check the new `answer`/`primary_source_type` log fields before re-investigating from scratch
+11. Consider whether `data/attachments/`, `data/sigs/meetings/`, and per-script `data/*_state.json` files are worth periodically syncing VM→laptop (or vice versa) now that both are independent clones — right now the VM has the authoritative copies post-migration; the laptop's copies will drift stale
+12. `npm audit` flagged 8 vulnerabilities (1 low, 7 high) in `protocolized-website/worker`'s dependencies on the VM — pre-existing in the laptop's copy too, not introduced by the migration, but worth a look next time that project gets attention
 
 ---
 

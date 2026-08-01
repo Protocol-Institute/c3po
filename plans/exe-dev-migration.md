@@ -1,3 +1,19 @@
+**Executed 2026-08-01 (session 46).** VM is `c3po-vm.exe.xyz` (not `c3po.exe.xyz` —
+exe.dev requires VM names ≥5 characters). See `status.md`'s session 46 entry for the
+full account of what happened during execution, including two gaps this draft didn't
+anticipate: gitignored data directories (`data/sigs/meetings/`, per-script state files)
+that don't exist on a fresh clone and must be copied by hand or the daemon wastefully
+re-derives them, and `sync_youtube_resources`'s wrangler/`CLOUDFLARE_API_TOKEN`
+dependency (same shape as the Substack step below, but not optional — it's already a
+core daemon step). Phase 5 (absorbing the GHA Substack workflow) was deliberately
+**not** executed — that workflow already runs entirely on GitHub's own infrastructure,
+independent of the laptop, so absorbing it wasn't required by the migration's actual
+goal and would have added the same wrangler/Node dependency for no laptop-unblocking
+benefit. This document is kept for its phase-by-phase command reference; treat
+`status.md` session 46 as the authoritative account of what actually happened.
+
+---
+
 # exe.dev Migration Plan — C3PO Persistent Processes
 
 **Supersedes:** [`plans/vps-migration.md`](vps-migration.md) (Hetzner-oriented; not executed). exe.dev is the
