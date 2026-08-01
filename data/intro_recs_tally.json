@@ -26,8 +26,8 @@
       "source": "substack",
       "author": "TΞRM1NΞX",
       "label": "FICTION",
-      "count": 1,
-      "last_seen": "2026-05-31",
+      "count": 2,
+      "last_seen": "2026-06-19",
       "is_fallback": false
     },
     "https://www.youtube.com/watch?v=UAtt1F7fMLE": {
@@ -86,8 +86,8 @@
       "source": "substack",
       "author": "Kei Kreutler",
       "label": "ESSAY",
-      "count": 1,
-      "last_seen": "2026-05-31",
+      "count": 7,
+      "last_seen": "2026-07-17",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/introducing-the-protocol-institute": {
@@ -96,8 +96,8 @@
       "source": "substack",
       "author": "Timber Stinson-Schroff",
       "label": "ESSAY",
-      "count": 3,
-      "last_seen": "2026-06-05",
+      "count": 7,
+      "last_seen": "2026-08-01",
       "is_fallback": false
     },
     "https://files.protocolized.io/FERNANDEZ-Flow-speculative-brochure.pdf": {
@@ -136,8 +136,8 @@
       "source": "substack",
       "author": "PAtwater",
       "label": "ESSAY",
-      "count": 1,
-      "last_seen": "2026-06-08",
+      "count": 2,
+      "last_seen": "2026-06-17",
       "is_fallback": false
     },
     "https://protocolized.io/resources/c3po-devlog#session-31": {
@@ -156,8 +156,8 @@
       "source": "youtube",
       "author": "Benitesh Raalo",
       "label": "TALK",
-      "count": 1,
-      "last_seen": "2026-06-09",
+      "count": 2,
+      "last_seen": "2026-07-01",
       "is_fallback": false
     },
     "https://files.protocolized.io/01-RETROSPECTUS-2023-12-13.pdf": {
@@ -166,8 +166,8 @@
       "source": "pdf",
       "author": "Summer of Protocols",
       "label": "PAPER",
-      "count": 2,
-      "last_seen": "2026-06-13",
+      "count": 3,
+      "last_seen": "2026-06-17",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/what-is-protocol-fiction": {
@@ -176,8 +176,8 @@
       "source": "substack",
       "author": "Spencer Nitkey",
       "label": "PROTOCOLIZED",
-      "count": 1,
-      "last_seen": "2026-06-11",
+      "count": 2,
+      "last_seen": "2026-06-16",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/fault-tolerance": {
@@ -199,6 +199,216 @@
       "count": 1,
       "last_seen": "2026-06-14",
       "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/latency": {
+      "title": "Latency",
+      "url": "https://protocolized.summerofprotocols.com/p/latency",
+      "source": "substack",
+      "author": "rafa",
+      "label": "FICTION",
+      "count": 1,
+      "last_seen": "2026-06-16",
+      "is_fallback": false
+    },
+    "https://www.youtube.com/watch?v=KYTfwgZAvQ8": {
+      "title": "Memory Research Group",
+      "url": "https://www.youtube.com/watch?v=KYTfwgZAvQ8",
+      "source": "youtube",
+      "author": "Kia",
+      "label": "TALK",
+      "count": 1,
+      "last_seen": "2026-06-17",
+      "is_fallback": false
+    },
+    "https://files.protocolized.io/The-Fundamentals-of-Protocol-Systems-Angela-Walch.pdf": {
+      "title": "The Fundamentals of Protocol Systems",
+      "url": "https://files.protocolized.io/The-Fundamentals-of-Protocol-Systems-Angela-Walch.pdf",
+      "source": "pdf",
+      "author": "Angela Walch",
+      "label": "PAPER",
+      "count": 1,
+      "last_seen": "2026-06-17",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/irrigation-by-protocol-when-vineyards": {
+      "title": "Irrigation by Protocol: When Vineyards Delegate Decisions to Networks",
+      "url": "https://protocolized.summerofprotocols.com/p/irrigation-by-protocol-when-vineyards",
+      "source": "substack",
+      "author": "Jason Collins",
+      "label": "ESSAY",
+      "count": 1,
+      "last_seen": "2026-06-17",
+      "is_fallback": false
+    },
+    "https://files.protocolized.io/Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf": {
+      "title": "Artificial Memory and Orienting Infinity",
+      "url": "https://files.protocolized.io/Artificial-Memory-and-Orienting-Infinity-Kei-Kreutler.pdf",
+      "source": "pdf",
+      "author": "Kei Kreutler",
+      "label": "PAPER",
+      "count": 1,
+      "last_seen": "2026-06-18",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/memory-research-group-six-months": {
+      "title": "Memory Research Group: Six Months of Reading Backward Through Time",
+      "url": "https://protocolized.summerofprotocols.com/p/memory-research-group-six-months",
+      "source": "substack",
+      "author": "Kei Kreutler",
+      "label": "ESSAY",
+      "count": 1,
+      "last_seen": "2026-06-18",
+      "is_fallback": false
+    },
+    "https://ai.protocolized.dev/": {
+      "title": "durable ai adoption",
+      "url": "https://ai.protocolized.dev/",
+      "source": "pdf",
+      "author": "Protocols for Business SIG",
+      "label": "PAPER",
+      "count": 3,
+      "last_seen": "2026-07-18",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/mechanical-currents": {
+      "title": "Mechanical Currents",
+      "url": "https://protocolized.summerofprotocols.com/p/mechanical-currents",
+      "source": "substack",
+      "author": "Timber Stinson-Schroff",
+      "label": "ESSAY",
+      "count": 2,
+      "last_seen": "2026-07-15",
+      "is_fallback": false
+    },
+    "https://summerofprotocols.com/research/reader": {
+      "title": "The Summer of Protocols Reader",
+      "url": "https://summerofprotocols.com/research/reader",
+      "source": "pdf",
+      "author": "Summer of Protocols",
+      "label": "READER",
+      "count": 8,
+      "last_seen": "2026-07-31",
+      "is_fallback": true
+    },
+    "https://protocolized.summerofprotocols.com/p/maintaining-everything-that-matters": {
+      "title": "Maintaining Everything That Matters",
+      "url": "https://protocolized.summerofprotocols.com/p/maintaining-everything-that-matters",
+      "source": "substack",
+      "author": "Matthew McDowell-Sweet",
+      "label": "ESSAY",
+      "count": 4,
+      "last_seen": "2026-07-12",
+      "is_fallback": false
+    },
+    "https://www.youtube.com/watch?v=BPsgkqgTWos": {
+      "title": "Bridge Atlas - Episode 5: Verifiability | Shreya Shankar & Justin Drake",
+      "url": "https://www.youtube.com/watch?v=BPsgkqgTWos",
+      "source": "youtube",
+      "author": "Shreya Shankar",
+      "label": "TALK",
+      "count": 1,
+      "last_seen": "2026-07-03",
+      "is_fallback": false
+    },
+    "https://files.protocolized.io/02-AUSTIN-2023-12-13.pdf": {
+      "title": "Protocol Pattern Language (Anthology)",
+      "url": "https://files.protocolized.io/02-AUSTIN-2023-12-13.pdf",
+      "source": "pdf",
+      "author": "Drew Austin",
+      "label": "PAPER",
+      "count": 1,
+      "last_seen": "2026-07-15",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/noise-ordinance": {
+      "title": "Noise Ordinance",
+      "url": "https://protocolized.summerofprotocols.com/p/noise-ordinance",
+      "source": "substack",
+      "author": "Spencer Nitkey",
+      "label": "FICTION",
+      "count": 2,
+      "last_seen": "2026-07-18",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/signals-in-the-margins": {
+      "title": "Signals in the Margins",
+      "url": "https://protocolized.summerofprotocols.com/p/signals-in-the-margins",
+      "source": "substack",
+      "author": "Sachin Benny",
+      "label": "FICTION",
+      "count": 1,
+      "last_seen": "2026-07-16",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/a-visitors-guide-to-the-disposition": {
+      "title": "A Visitor’s Guide to the Disposition",
+      "url": "https://protocolized.summerofprotocols.com/p/a-visitors-guide-to-the-disposition",
+      "source": "substack",
+      "author": "Thing Party",
+      "label": "FICTION",
+      "count": 1,
+      "last_seen": "2026-07-16",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/the-hungering-circuit": {
+      "title": "The Hungering Circuit",
+      "url": "https://protocolized.summerofprotocols.com/p/the-hungering-circuit",
+      "source": "substack",
+      "author": "Protocolized",
+      "label": "FICTION",
+      "count": 1,
+      "last_seen": "2026-07-16",
+      "is_fallback": false
+    },
+    "https://files.protocolized.io/": {
+      "title": "durable ai adoption",
+      "url": "https://files.protocolized.io/",
+      "source": "pdf",
+      "author": "Protocols for Business SIG",
+      "label": "PAPER",
+      "count": 1,
+      "last_seen": "2026-07-18",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/libraries-of-tomorrow": {
+      "title": "Libraries of Tomorrow",
+      "url": "https://protocolized.summerofprotocols.com/p/libraries-of-tomorrow",
+      "source": "substack",
+      "author": "Protocolized",
+      "label": "ESSAY",
+      "count": 1,
+      "last_seen": "2026-07-18",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/strangeness-illegibility-hardness": {
+      "title": "Strangeness, Legibility, Hardness",
+      "url": "https://protocolized.summerofprotocols.com/p/strangeness-illegibility-hardness",
+      "source": "substack",
+      "author": "Sachin Benny",
+      "label": "PROTOCOLIZED",
+      "count": 1,
+      "last_seen": "2026-07-18",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/to-share-and-remember": {
+      "title": "To Share, And Remember",
+      "url": "https://protocolized.summerofprotocols.com/p/to-share-and-remember",
+      "source": "substack",
+      "author": "Katharine Tyndall",
+      "label": "FICTION",
+      "count": 1,
+      "last_seen": "2026-07-18",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/bridge-atlas-ep-1-entry-points": {
+      "title": "Bridge Atlas Episode 1: Entry Points",
+      "url": "https://protocolized.summerofprotocols.com/p/bridge-atlas-ep-1-entry-points",
+      "source": "substack",
+      "author": "Protocolized",
+      "label": "ESSAY",
+      "count": 1,
+      "last_seen": "2026-08-01",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -213,8 +423,8 @@
       "name": "⏳-psychohistory",
       "display": "#⏳-psychohistory",
       "sig_display": "",
-      "count": 1,
-      "last_seen": "2026-05-31"
+      "count": 2,
+      "last_seen": "2026-07-16"
     },
     "1095846506382250075": {
       "name": "🔍-protocol-watch",
@@ -227,29 +437,29 @@
       "name": "👾-protocol-fiction",
       "display": "#👾-protocol-fiction",
       "sig_display": "ProtFiSIG",
-      "count": 3,
-      "last_seen": "2026-06-12"
+      "count": 4,
+      "last_seen": "2026-07-18"
     },
     "1327337414175490160": {
       "name": "🎩-formal-protocol-theory",
       "display": "#🎩-formal-protocol-theory",
       "sig_display": "SIGFPT",
-      "count": 2,
-      "last_seen": "2026-06-09"
+      "count": 6,
+      "last_seen": "2026-08-01"
     },
     "1333851496416153702": {
       "name": "🚜-protocols-for-business",
       "display": "#🚜-protocols-for-business",
       "sig_display": "SIGPfB",
-      "count": 5,
-      "last_seen": "2026-06-13"
+      "count": 12,
+      "last_seen": "2026-07-16"
     },
     "1508175637020676259": {
       "name": "🦾-distributed-robotics",
       "display": "#🦾-distributed-robotics",
       "sig_display": "",
-      "count": 2,
-      "last_seen": "2026-06-08"
+      "count": 3,
+      "last_seen": "2026-07-18"
     },
     "1084135714830164100": {
       "name": "🤔-idle-protocol-musings",
@@ -257,6 +467,20 @@
       "sig_display": "",
       "count": 1,
       "last_seen": "2026-06-14"
+    },
+    "1379992696114122832": {
+      "name": "🕸️-memory-research-group",
+      "display": "#🕸️-memory-research-group",
+      "sig_display": "MRG",
+      "count": 2,
+      "last_seen": "2026-06-18"
+    },
+    "1082504762433490975": {
+      "name": "👋-introductions",
+      "display": "#👋-introductions",
+      "sig_display": "",
+      "count": 1,
+      "last_seen": "2026-07-17"
     }
   }
 }

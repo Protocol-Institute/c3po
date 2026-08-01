@@ -1881,6 +1881,42 @@
           "html": "<code>GET /search</code> was throwing a 500 on every call — its <code>mergeResults()</code> call was missing one argument (10 passed, 11-param signature), silently shifting <code>MAX_SOURCES</code> into the transcript-items slot. This is humboldt's fallback retrieval path (<code>query_c3po_worker()</code>), so it had been silently broken there too. Fixed and verified."
         }
       ]
+    },
+    {
+      "id": 46,
+      "sort_key": 46.0,
+      "label": "Session 46",
+      "title": "Meeting-Notes Crash Fix + Intro-Quality Diagnostic Logging",
+      "date": "2026-08-01",
+      "time_pt": "11:00–12:35",
+      "tracks": [
+        "operations",
+        "corpus-ingestion",
+        "ux"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "total": 29851
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "Confirmed the Pinecone quota pause cleared naturally",
+          "html": "Both write and read pauses set in session 45 lifted at the 2026-08-01 UTC reset (<code>ingest/ingestion_control.py status</code>). Vector count grew normally within the first hour, confirming writes are genuinely flowing again, not just the quota check passing."
+        },
+        {
+          "title": "Fixed a meeting-notes crash that had capped every daemon cycle at 15/16 since 2026-07-13",
+          "html": "<code>sync_meeting_notes</code> was failing every cycle on a Pinecone <code>400</code> (<code>null</code> metadata for <code>sig_display</code>). Root cause: the meeting-bot’s title template quietly switched to a hyphenated <code>SIG-&lt;CODE&gt;</code> format (<code>SIG-FPT</code>, <code>SIG-MRG</code>, <code>SIG-P4B</code>, etc.), which didn’t match any prefix in <code>sync_meeting_notes.py</code>’s separate <code>SIG_TITLE_MAP</code> — an unmatched title left <code>sig_display=None</code>, and Pinecone rejects <code>null</code> metadata outright, killing the whole subprocess before later recordings in the same cycle could run. Fixed by normalizing hyphens out before matching (so future template drift degrades to a warning instead of a crash) and syncing the missing <code>SIGPfB</code> aliases already known to <code>channel_manifest.json</code>’s meeting-detection regexes. Verified live — the daemon picked up the fix mid-session and completed a clean 16/16 cycle."
+        },
+        {
+          "title": "Live-reproduced the recurring intro-quality title-match issue, flagged since session 43",
+          "html": "Sent a synthetic new-member introduction through the production <code>/query</code> endpoint using the intro handler’s exact prompt. Claude named the right resource but paraphrased its formal title into Discord voice (“<strong>SIGFPT Stigmergy session</strong> (May 2026)” for a source titled “SIGFPT: Stigmergy Part II - Real-World Applications and Framework Analysis”) — which legitimately falls below <code>_find_mentioned_source()</code>’s word-overlap threshold even though Claude clearly meant that source. The rank-order fallback happened to pick the same resource anyway in this repro, suggesting the impact is often cosmetic rather than a wrong link — but that couldn’t be confirmed for the historical flagged entries because the quality log never recorded the actual answer text, only the primary title and issue codes. That’s exactly why four sessions in a row could flag the pattern but never resolve it."
+        },
+        {
+          "title": "Closed the diagnostic gap instead of tuning the matcher blind",
+          "html": "<code>intro_quality.log_quality()</code> now stores the answer text (600 chars) and the primary source’s type/SIG, so the next occurrence can be diagnosed with evidence instead of re-guessed. Deliberately left the matching heuristic itself untouched — didn’t want to tune logic feeding a live public bot’s auto-fix behavior without real before/after data to validate against. Restarted <code>c3po_bot</code> to pick up the change; no user-facing behavior change."
+        }
+      ]
     }
   ]
 }
