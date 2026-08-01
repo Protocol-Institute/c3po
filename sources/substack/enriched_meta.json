@@ -1570,5 +1570,39 @@
     "all_authors": [
       "Spencer Nitkey"
     ]
+  },
+  "jamverse-jam-contest-closes-today": {
+    "summary": "The Jamverse Jam worldbuilding contest closes today, July 31, offering creators a final chance to submit artifacts for a shared extended universe based on four interconnected story cycles published over the past year. The contest aims to expand this protocol fiction world with community contributions, with AI use encouraged, to create a richer and more complex narrative universe inspired by Fred Pohl's concept of predicting the traffic jam rather than the automobile.",
+    "categories": [
+      "protocol-fiction",
+      "announcement"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ]
+  },
+  "floyd-haggertys-wild-west-extravaganza": {
+    "summary": "A horse named Sundown reflects on his nine seasons in Floyd Haggerty's traveling show, revealing that the visible theatrical performances mask an underlying system of control and movement—a labyrinth that is itself merely decoration for the true structure, the train. Through the horse's voice, the narrative explores how protocol and invisible design shape captivity more fundamentally than any visible rules or performances.",
+    "categories": [
+      "protocol-fiction",
+      "protocol-watching"
+    ],
+    "primary_author": "Sundown, Principal Equine",
+    "all_authors": [
+      "Elizabeth Maher"
+    ]
+  },
+  "the-crooked-timber-of-ai": {
+    "summary": "AI systems inherit the fundamental crookedness and contradictions inherent in human thought, making them unsuitable vehicles for creating perfectly rational or straight solutions. To responsibly develop and deploy AI, we must understand and work with this essential crookedness rather than pretend it can be engineered away, drawing philosophical insight from Isaiah Berlin's work on human limitations.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "protocol-fiction"
+    ],
+    "primary_author": "Venkatesh Rao",
+    "all_authors": [
+      "Venkatesh Rao"
+    ]
   }
 }

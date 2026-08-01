@@ -1,5 +1,145 @@
 [
   {
+    "id": 209261100,
+    "slug": "jamverse-jam-contest-closes-today",
+    "title": "Jamverse Jam Contest Closes Today",
+    "subtitle": "Less than 24 hours left to submit your entries",
+    "post_date": "2026-07-31T14:49:58.688Z",
+    "updated_at": "2026-07-31T14:51:12.287Z",
+    "type": "newsletter",
+    "wordcount": 203,
+    "section_id": 333103,
+    "section_name": "Obliquities",
+    "postTags": [],
+    "publishedBylines": [
+      {
+        "id": 2264734,
+        "name": "Venkatesh Rao",
+        "handle": "contraptions",
+        "bio": "Delving. Writing the Contraptions newsletter. "
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 3,
+    "restacks": 2,
+    "comment_count": 0,
+    "previous_post_slug": "the-crooked-timber-of-ai",
+    "next_post_slug": null
+  },
+  {
+    "id": 208066663,
+    "slug": "floyd-haggertys-wild-west-extravaganza",
+    "title": "Floyd Haggerty’s Wild West Extravaganza Spectacular!",
+    "subtitle": "Or, “Choreography and the Equine Genius,” by Sundown, Principal Equine",
+    "post_date": "2026-07-27T19:53:30.166Z",
+    "updated_at": "2026-07-27T19:54:47.470Z",
+    "type": "newsletter",
+    "wordcount": 3063,
+    "section_id": 333105,
+    "section_name": "Fictions",
+    "postTags": [],
+    "publishedBylines": [
+      {
+        "id": 2011373,
+        "name": "Thing Party",
+        "handle": "thingparty",
+        "bio": null
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 4,
+    "restacks": 1,
+    "comment_count": 0,
+    "previous_post_slug": "thanatosis-on-the-central-mast-liveness",
+    "next_post_slug": null
+  },
+  {
+    "id": 207796149,
+    "slug": "the-crooked-timber-of-ai",
+    "title": "The Crooked Timber of AI",
+    "subtitle": "The philosophical perils of conflating discoveries and inventions, and how to overcome them",
+    "post_date": "2026-07-21T14:45:36.742Z",
+    "updated_at": "2026-07-21T14:49:16.889Z",
+    "type": "newsletter",
+    "wordcount": 4666,
+    "section_id": 333103,
+    "section_name": "Obliquities",
+    "postTags": [
+      {
+        "id": "f5b79685-66b2-41be-85b7-3acc6d387b25",
+        "name": "Obliquities",
+        "slug": "obliquities"
+      }
+    ],
+    "publishedBylines": [
+      {
+        "id": 2264734,
+        "name": "Venkatesh Rao",
+        "handle": "contraptions",
+        "bio": "Delving. Writing the Contraptions newsletter. "
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 32,
+    "restacks": 8,
+    "comment_count": 9,
+    "previous_post_slug": "challenges-trivial-grand-and-whitehead",
+    "next_post_slug": "jamverse-jam-contest-closes-today"
+  },
+  {
+    "id": 207045964,
+    "slug": "jamverse-live",
+    "title": "Jamverse Live",
+    "subtitle": "A recording from Protocolized's live video",
+    "post_date": "2026-07-16T19:16:22.118Z",
+    "updated_at": "2026-07-16T19:16:22.587Z",
+    "type": "podcast",
+    "wordcount": 1,
+    "section_id": null,
+    "section_name": "Protocolized",
+    "postTags": [],
+    "publishedBylines": [
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      },
+      {
+        "id": 309697450,
+        "name": "Spencer Nitkey",
+        "handle": "spencernitkeywriting",
+        "bio": "Stories in Apex, Asimov Press, Nature, Lightspeed, The Adroit Journal, and many others."
+      },
+      {
+        "id": 933715,
+        "name": "Sachin",
+        "handle": "summerlightning",
+        "bio": "Infrastructure ethnography"
+      }
+    ],
+    "reaction_count": 9,
+    "restacks": 0,
+    "comment_count": 0,
+    "previous_post_slug": "jamverse-jam",
+    "next_post_slug": null
+  },
+  {
     "id": 206588931,
     "slug": "thanatosis-on-the-central-mast-liveness",
     "title": "Thanatosis on the Central Mast // Liveness Check ",
@@ -25,11 +165,11 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 4,
+    "reaction_count": 9,
     "restacks": 3,
-    "comment_count": 0,
+    "comment_count": 2,
     "previous_post_slug": "a-visitors-guide-to-the-disposition",
-    "next_post_slug": null
+    "next_post_slug": "floyd-haggertys-wild-west-extravaganza"
   },
   {
     "id": 204263080,
@@ -117,8 +257,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 11,
-    "restacks": 9,
+    "reaction_count": 12,
+    "restacks": 10,
     "comment_count": 1,
     "previous_post_slug": "the-character-of-public-transit-systems",
     "next_post_slug": null
@@ -172,7 +312,7 @@
     ],
     "reaction_count": 10,
     "restacks": 4,
-    "comment_count": 0,
+    "comment_count": 1,
     "previous_post_slug": "maintaining-everything-that-matters",
     "next_post_slug": "durable-ai-adoption"
   },
@@ -230,7 +370,7 @@
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "protocols-for-the-long-now",
-    "next_post_slug": null
+    "next_post_slug": "jamverse-live"
   },
   {
     "id": 201556635,
@@ -258,8 +398,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 9,
-    "restacks": 2,
+    "reaction_count": 10,
+    "restacks": 3,
     "comment_count": 1,
     "previous_post_slug": "the-overloaded-train",
     "next_post_slug": "a-visitors-guide-to-the-disposition"
@@ -310,7 +450,7 @@
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "2026-protocol-symposium-new-nature",
-    "next_post_slug": null
+    "next_post_slug": "the-crooked-timber-of-ai"
   },
   {
     "id": 199590632,
@@ -354,7 +494,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 9,
+    "reaction_count": 11,
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "irrigation-by-protocol-when-vineyards",
@@ -526,8 +666,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 46,
-    "restacks": 12,
+    "reaction_count": 47,
+    "restacks": 13,
     "comment_count": 5,
     "previous_post_slug": "introducing-the-protocol-institute",
     "next_post_slug": "2026-protocol-symposium-new-nature"
@@ -598,7 +738,7 @@
         "id": 7340691,
         "name": "Denise Hearn",
         "handle": "denisehearn",
-        "bio": "Denise is Director of Strategic Initiatives at the Long Now Foundation. She is also co-author of The Myth of Capitalism and The Big Fix, and her research, writing, and work can be found at: www.denisehearn.com"
+        "bio": "I’m the Director of Strategic Initiatives at the Long Now Foundation. I’m also co-author of The Myth of Capitalism and The Big Fix, and my research, writing, and work can be found at: www.denisehearn.com"
       },
       {
         "id": 309790256,
@@ -666,8 +806,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 106,
-    "restacks": 25,
+    "reaction_count": 112,
+    "restacks": 28,
     "comment_count": 15,
     "previous_post_slug": "a-primordial-computing-soup",
     "next_post_slug": "inventing-new-nature"
@@ -947,7 +1087,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 13,
+    "reaction_count": 14,
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "one-year-of-protocolized",
@@ -1034,7 +1174,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 3,
+    "reaction_count": 4,
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "black-resin-mirrors-and-the-adequacy",
@@ -1154,7 +1294,7 @@
       }
     ],
     "reaction_count": 13,
-    "restacks": 7,
+    "restacks": 8,
     "comment_count": 1,
     "previous_post_slug": "the-repossessed",
     "next_post_slug": "caduceus-city"
@@ -2057,7 +2197,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 14,
+    "reaction_count": 15,
     "restacks": 4,
     "comment_count": 2,
     "previous_post_slug": "the-partial",
@@ -3913,7 +4053,7 @@
       }
     ],
     "reaction_count": 6,
-    "restacks": 1,
+    "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "songs-of-hydropolia",
     "next_post_slug": "the-last-archive"
