@@ -58,6 +58,9 @@ SIG_TITLE_MAP = {
     "mrg":       "MRG",
     "sigpfb":    "SIGPfB",
     "pfb":       "SIGPfB",
+    "sigp4b":    "SIGPfB",
+    "p4b":       "SIGPfB",
+    "sigssg":    "SIGPfB",
     "protfisig": "ProtFiSIG",
     "pfsig":     "ProtFiSIG",
 }
@@ -139,11 +142,13 @@ def parse_header(msg: dict) -> dict | None:
     r2_transcript_m = re.search(r"📄 Transcript:\s+(https://[^\s]+/transcript\.txt)", content)
     r2_transcript_url = r2_transcript_m.group(1) if r2_transcript_m else None
 
-    # Determine SIG from title prefix
+    # Determine SIG from title prefix (hyphens stripped — bot template has
+    # used both "sigfpt 2026-07-10" and "SIG-FPT 2026-07-24" forms)
     title_lower = title.lower()
+    title_norm = title_lower.replace("-", "")
     sig_display = None
     for prefix, sig in SIG_TITLE_MAP.items():
-        if title_lower.startswith(prefix):
+        if title_norm.startswith(prefix):
             sig_display = sig
             break
     if sig_display is None and title_lower.startswith("ad hoc"):
@@ -300,10 +305,12 @@ def build_vectors(recording: dict, parsed: dict) -> list[dict]:
     date = recording["date"]
     title = recording["title"]
     mid = recording["message_id"]
-    sig_name = SIG_NAMES.get(sig, sig) if sig != "AdHoc" else "Ad hoc"
+    if sig is None:
+        print(f"  ⚠ No SIG matched for title '{title}' — tagging sig_display empty")
+    sig_name = "Ad hoc" if sig == "AdHoc" else SIG_NAMES.get(sig, sig or "")
 
     base_meta = {
-        "sig_display":  sig if sig != "AdHoc" else "",
+        "sig_display":  "" if sig in (None, "AdHoc") else sig,
         "sig_name":     sig_name,
         "meeting_title": title,
         "date":         date,
