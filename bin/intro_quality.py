@@ -129,6 +129,8 @@ def log_quality(
     title_matched: bool,
     rec_count: int,
     issues: list,
+    answer: str = "",
+    primary_source: dict | None = None,
 ) -> None:
     """Append a quality log entry for non-trivial cases."""
     # Only log if there's something worth reviewing
@@ -146,6 +148,12 @@ def log_quality(
         "title_matched": title_matched,
         "rec_count": rec_count,
         "issues": issues,
+        # Full answer text + primary source type/sig, so a title_mismatch can
+        # actually be diagnosed later instead of re-guessed each session —
+        # see status.md session 46.
+        "answer": answer[:600],
+        "primary_source_type": (primary_source or {}).get("source"),
+        "primary_sig_display": (primary_source or {}).get("sig_display"),
         "reviewed": False,
     }
     try:

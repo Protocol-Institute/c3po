@@ -61,10 +61,12 @@ def main():
         rev_sym   = " [reviewed]" if e.get("reviewed") else ""
         print(f"[{e['ts'][:10]}] {e['user_hash'][:8]} | match={match_sym} | links={e['rec_count']}{rev_sym}")
         print(f"  intro:   {e['intro_snippet']!r}")
-        print(f"  primary: {e['primary_title']!r}")
+        print(f"  primary: {e['primary_title']!r} ({e.get('primary_source_type') or '?'})")
         for i in sorted(e.get("issues", []), key=lambda x: SEV_ORDER.get(x["severity"], 9)):
             sym = SEV_SYMBOL.get(i["severity"], "?")
             print(f"  {sym} [{i['severity']}] {i['code']}: {i['detail']}")
+        if e.get("answer"):
+            print(f"  answer:  {e['answer']!r}")
         print()
 
     if mark_reviewed and not show_all:

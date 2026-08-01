@@ -730,6 +730,8 @@ async def handle_introduction(message: discord.Message, returning: bool = False)
             title_matched=title_matched,
             rec_count=len(rec_sources),
             issues=q_issues,
+            answer=answer,
+            primary_source=rec_sources[0] if rec_sources else None,
         )
 
     log_session({
