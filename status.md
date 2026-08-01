@@ -1,6 +1,6 @@
 # C3PO — Status Log
 
-## 2026-08-01 11:00–14:10 PT — Pinecone quota confirmed reset; meeting-notes crash fix; intro-quality diagnostic logging; exe.dev migration (session 46)
+## 2026-08-01 11:00–14:35 PT — Pinecone quota confirmed reset; meeting-notes crash fix; intro-quality diagnostic logging; exe.dev migration; protocolized-website hono CVE fix (session 46)
 
 **Confirmed session 45's #1 TODO: both Pinecone write and read pauses cleared naturally** at the 2026-08-01 UTC reset (`ingest/ingestion_control.py status` → "not paused" for both). Vector count grew normally overnight from the daemon resuming (28,982 → 29,767 within the first hour), confirming writes are genuinely flowing again, not just quota-check passing.
 
@@ -24,6 +24,8 @@ Built two small pieces of prep on the laptop before touching the VM, tested, com
 
 `admin/keys.md` updated: `GH_PAT` rotated (fine-grained, `Protocol-Institute` org, repos c3po/website/protocolized-website, Contents+PR read/write — verified push and PR create/close on both `c3po-vm.exe.xyz`'s `gh auth` and the c3po repo's Actions secret before registering), `CLOUDFLARE_API_TOKEN` deployment location added for the VM. `Code/warnings-exe.md` updated: VM registered in the inventory table, and a new gotcha documented (VM names must be ≥5 characters — `c3po` alone was rejected, hence `c3po-vm`).
 
+**Investigated the 8 `npm audit` vulnerabilities the exe.dev migration surfaced** (installing `protocolized-website/worker`'s deps fresh on the VM, per gap #2 above, exposed them where the laptop's older `node_modules` hadn't been re-audited recently). All 8 traced to `hono@4.12.23` — the only one of the flagged packages actually in `dependencies` rather than `devDependencies`. Read each advisory rather than blanket-patching: most are AWS Lambda/API Gateway adapter or Windows `serve-static` issues, irrelevant to a Cloudflare Workers deployment. The two that could plausibly apply — CORS middleware credential/wildcard reflection, and `hono/jsx` cross-request context leakage — don't either: confirmed via `grep` that `protocolized-website/worker/src/` has no CORS middleware import and no `createContext`/`useContext`/`jsxRenderer`/`useRequestContext` usage (pulled the actual GHSA advisory text — that JSX bug specifically requires one of those APIs plus reading context after an `await` during concurrent rendering; this worker only imports `Hono` and one JSX type). Bumped `hono` to `4.12.33` anyway since it's free — within the already-declared `^4.7.0` range, `package.json`/`package-lock.json` only, no code changes; verified with a clean `tsc --noEmit` and a clean `wrangler deploy --dry-run` (bindings intact). The remaining 7 advisories (`esbuild`/`miniflare`/`wrangler`/`sharp`/`undici`/`ws`/`postcss`) all traced via `npm ls` to the `wrangler`/`tailwindcss` dev toolchain — never in `dependencies`, never shipped in the deployed Worker. Fixing those needs a `wrangler@4.118.0` bump, which conflicts with the project's pinned `@cloudflare/workers-types@^4.x` (wants `^5.x`) — a real breaking-change call, left for a separate PR. Opened **[Protocol-Institute/protocolized-website#5](https://github.com/Protocol-Institute/protocolized-website/pull/5)** rather than pushing to main, per instruction that protocolized-website changes go through review.
+
 **Pinecone:** 28,982 → 29,852 (+870): `sig` +403, `discord_links` +409, `discord` +27, `substack` +27, `meta` +4.
 
 **Open TODOs (priority order):**
@@ -38,7 +40,8 @@ Built two small pieces of prep on the laptop before touching the VM, tested, com
 9. Watch for further `SIG-<CODE>` title-template drift in meeting-notes (channel_manifest.json's meeting-detection regexes are the canonical alias list — keep sync_meeting_notes.py's SIG_TITLE_MAP in sync with it)
 10. Next intro-quality title_mismatch — check the new `answer`/`primary_source_type` log fields before re-investigating from scratch
 11. Consider whether `data/attachments/`, `data/sigs/meetings/`, and per-script `data/*_state.json` files are worth periodically syncing VM→laptop (or vice versa) now that both are independent clones — right now the VM has the authoritative copies post-migration; the laptop's copies will drift stale
-12. `npm audit` flagged 8 vulnerabilities (1 low, 7 high) in `protocolized-website/worker`'s dependencies on the VM — pre-existing in the laptop's copy too, not introduced by the migration, but worth a look next time that project gets attention
+12. Merge or follow up on [protocolized-website#5](https://github.com/Protocol-Institute/protocolized-website/pull/5) (hono CVE fix) — not this project's call to merge, flag to the protocolized-website owner
+13. protocolized-website's `wrangler`→4.118.0 bump (resolves the remaining 7 dev-toolchain `npm audit` findings) needs its own PR — conflicts with the pinned `@cloudflare/workers-types@^4.x`, requires testing the `^5.x` migration
 
 ---
 

@@ -1886,9 +1886,9 @@
       "id": 46,
       "sort_key": 46.0,
       "label": "Session 46",
-      "title": "Meeting-Notes Crash Fix, Intro-Quality Diagnostic Logging + exe.dev Migration",
+      "title": "Meeting-Notes Crash Fix, Intro-Quality Diagnostic Logging, exe.dev Migration + protocolized-website CVE Fix",
       "date": "2026-08-01",
-      "time_pt": "11:00–14:10",
+      "time_pt": "11:00–14:35",
       "tracks": [
         "operations",
         "corpus-ingestion",
@@ -1924,6 +1924,10 @@
         {
           "title": "Found two migration gaps a plan document couldn’t have caught — only live verification did",
           "html": "A fresh git clone doesn’t include anything <code>.gitignore</code>’d, which turned out to include <code>data/sigs/meetings/</code> — missing it made <code>rebuild_sig_summaries.py</code> silently re-call Haiku for all 117 meetings instead of reading its local cache, caught live via <code>cost_log.jsonl</code> growing every ~8s rather than any error message. And <code>sync_youtube_resources</code> (a pre-existing daemon step) turned out to need <code>wrangler</code> + a Cloudflare token for a D1 fallback lookup — same dependency shape as the Substack workflow’s resource sync, which is why that workflow was deliberately left on GitHub Actions rather than absorbed into the daemon as originally planned: it already runs independent of the laptop, so absorbing it would have added a real dependency chain (Node, npm, a new secret) for no laptop-unblocking benefit."
+        },
+        {
+          "title": "Investigated and fixed the hono CVEs the exe.dev migration surfaced, as a PR against protocolized-website",
+          "html": "Installing <code>protocolized-website/worker</code>’s dependencies fresh on the VM surfaced 8 <code>npm audit</code> findings the laptop’s older <code>node_modules</code> hadn’t re-flagged recently. Read each advisory rather than blanket-patching: all 8 traced to <code>hono</code> (the only flagged package actually in <code>dependencies</code>), and of those, the two that could plausibly apply to a live Cloudflare Worker — CORS middleware credential/wildcard reflection, and <code>hono/jsx</code> cross-request context leakage — don’t, confirmed by grepping the actual source for the specific APIs each bug requires (no CORS middleware import; no <code>createContext</code>/<code>useContext</code>/<code>jsxRenderer</code>/<code>useRequestContext</code> anywhere). Bumped <code>hono</code> to <code>4.12.33</code> anyway since it was free — already within the declared semver range, verified with a clean <code>tsc --noEmit</code> and <code>wrangler deploy --dry-run</code>. The remaining 7 findings are wrangler/tailwindcss dev-toolchain only, never shipped to the deployed Worker; fixing those needs a breaking <code>wrangler</code> bump, left for a separate PR. Opened <a href=\"https://github.com/Protocol-Institute/protocolized-website/pull/5\">protocolized-website#5</a> rather than pushing to main."
         }
       ]
     }
