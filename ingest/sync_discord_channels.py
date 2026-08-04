@@ -4,8 +4,11 @@ Discord channel structure sync for C3PO.
 Calls the Discord REST API each daemon cycle to discover all channels in the PI
 guild. For channels not yet in the registry (or whose name/topic has changed),
 fetches a sample of recent messages and uses Claude Haiku to auto-write a
-guide description + one-liner blurb. Embeds all active channel descriptions
-into the `discord_guide` Pinecone namespace.
+guide description + one-liner blurb. Embeds channels that pass the embed-scope
+policy (see plans/discord-guide-scope.md) into the `discord_guide` Pinecone
+namespace — a broader set than `recommend_to_newcomers`, excluding only
+transient/administrative channels. "archived read only" channels are embedded
+once, then frozen (no further describe/re-embed tracking).
 
 This is what enables c3po to act as a Discord guide — recommending channels
 to new members based on their interests, answering navigation questions, etc.
@@ -78,13 +81,45 @@ NO_RECOMMEND_NAMES = {
     "boost-zone", "🚀-boost-zone",
 }
 
+# Categories excluded entirely from the discord_guide namespace — a broader set
+# than recommend, but still excludes transient/administrative content per the
+# principle in plans/discord-guide-scope.md: embed if useful for long-term
+# conversational/discourse memory, exclude if it's operational noise.
+# "archived read only" is deliberately NOT here — see ARCHIVED_READ_ONLY_CATEGORY.
+NO_EMBED_CATEGORIES = {
+    "MOD",                 # staff-only, not member-facing
+    "Server Link Feed",    # automated bot output, not conversational
+}
+
+# Channel names excluded from discord_guide regardless of category.
+NO_EMBED_NAMES = {
+    "👋-introductions",   # self-referential; handled by the dedicated intro flow
+    "bugs-and-tests",
+    "📣-announcements",
+}
+
+# Channels in this category are embedded exactly once, then frozen — no further
+# describe/hash-recheck/re-embed even if Discord-side metadata changes. They're
+# permanently read-only, so content won't meaningfully change; continued
+# tracking only burns API/Haiku cost. See plans/discord-guide-scope.md.
+ARCHIVED_READ_ONLY_CATEGORY = "archived read only"
+
 # Human-editable fields that survive auto-update (never overwritten by sync).
-# recommend_to_newcomers is NOT preserved — it's recomputed each cycle from
-# the rules above, unless the entry has recommend_newcomers_override=true/false.
+# recommend_to_newcomers/embed_to_guide are NOT preserved here — they're
+# recomputed each cycle from the rules above, unless the entry has an
+# explicit *_override field.
 PRESERVED_FIELDS = {
-    "recommend_newcomers_override", "tags", "cadence", "lead",
+    "recommend_newcomers_override", "embed_override", "tags", "cadence", "lead",
     "sig_display", "description", "guide_blurb",
 }
+
+# Auto-managed state that must carry forward across cycles (not human-edited,
+# but not safe to recompute from scratch either — losing these each cycle was
+# a latent bug that defeated content_hash-based re-embed skipping).
+CARRY_FORWARD_FIELDS = (
+    "next_event_name", "next_event_iso", "next_event_time", "secondary_events",
+    "last_embedded_hash", "last_embedded", "frozen",
+)
 
 
 def should_recommend(name: str, category: str, existing: dict | None) -> bool:
@@ -94,6 +129,17 @@ def should_recommend(name: str, category: str, existing: dict | None) -> bool:
     if category in NO_RECOMMEND_CATEGORIES:
         return False
     if name in NO_RECOMMEND_NAMES:
+        return False
+    return True
+
+
+def should_embed(name: str, category: str, existing: dict | None) -> bool:
+    """Determine whether a channel belongs in discord_guide, respecting manual overrides."""
+    if existing and "embed_override" in existing:
+        return existing["embed_override"]
+    if category in NO_EMBED_CATEGORIES:
+        return False
+    if name in NO_EMBED_NAMES:
         return False
     return True
 
@@ -295,7 +341,7 @@ def main() -> None:
     known = registry.setdefault("channels", {})
     manifest_sig_displays = load_manifest_sig_displays()
 
-    new_count = changed_count = archived_count = embed_count = 0
+    new_count = changed_count = archived_count = embed_count = frozen_count = 0
 
     # ── Detect and describe new / changed channels ─────────────────────────────
     for ch in channels:
@@ -309,10 +355,29 @@ def main() -> None:
 
         existing = known.get(cid)
 
+        # Archived-read-only: already embedded once → freeze permanently. Skip
+        # describe/hash-recheck/re-embed entirely, even on metadata drift.
+        already_frozen = bool((existing or {}).get("frozen"))
+        newly_frozen = (not already_frozen and category == ARCHIVED_READ_ONLY_CATEGORY
+                        and bool((existing or {}).get("last_embedded_hash")))
+        if (already_frozen or newly_frozen) and existing is not None:
+            existing["frozen"] = True
+            existing["last_seen"] = now
+            frozen_count += 1
+            continue
+
+        embed_to_guide = should_embed(name, category, existing)
+
         # Determine if description needs (re)generation.
         # Generate when: new channel, or name/topic/category changed (auto-sourced only).
+        # Skip Haiku entirely for channels excluded from the guide — no point
+        # paying for a description that's never embedded.
         need_describe = False
-        if existing is None:
+        if not embed_to_guide:
+            if existing is None:
+                new_count += 1
+                print(f"  NEW  {path} (excluded from guide)")
+        elif existing is None:
             need_describe = True
             new_count += 1
             print(f"  NEW  {path}")
@@ -357,6 +422,7 @@ def main() -> None:
             "guide_blurb":            guide_blurb,
             "status":                 "active",
             "recommend_to_newcomers": should_recommend(name, category, existing),
+            "embed_to_guide":         embed_to_guide,
             "source":                 "auto",
             "content_hash":           content_hash(path, topic, description,
                                                     (existing or {}).get("cadence", "")),
@@ -368,12 +434,15 @@ def main() -> None:
         if cid in manifest_sig_displays and not (existing or {}).get("sig_display"):
             entry["sig_display"] = manifest_sig_displays[cid]
 
-        # Preserve human-edited fields and event-sync fields from existing entry
+        # Preserve human-edited fields and auto-managed carry-forward state from
+        # the existing entry (last_embedded_hash/last_embedded in particular —
+        # dropping these each cycle used to defeat content_hash-based re-embed
+        # skipping, re-embedding every active channel on every cycle).
         if existing:
             for field in PRESERVED_FIELDS:
                 if field in existing:
                     entry[field] = existing[field]
-            for field in ("next_event_name", "next_event_iso", "next_event_time", "secondary_events"):
+            for field in CARRY_FORWARD_FIELDS:
                 if field in existing:
                     entry[field] = existing[field]
 
@@ -388,12 +457,17 @@ def main() -> None:
             print(f"  ARC  {entry.get('path', '#' + entry['name'])} (no longer in guild)")
 
     # ── Embed changed / new channels ──────────────────────────────────────────
+    purge_count = 0
     if not args.dry_run:
         vc    = get_voyage_client()
         index = get_pinecone_index()
 
         for entry in known.values():
             if entry.get("status") != "active":
+                continue
+            if not entry.get("embed_to_guide", True):
+                continue
+            if entry.get("frozen") and not args.force_reembed:
                 continue
             prev_hash = entry.get("last_embedded_hash", "")
             cur_hash  = entry.get("content_hash", "")
@@ -407,13 +481,30 @@ def main() -> None:
                 except Exception as exc:
                     print(f"  ⚠ embed failed for #{entry['name']}: {exc}")
 
+        # Purge vectors for channels that were embedded under the old scope but
+        # are now excluded (e.g. #announcements, #bugs-and-tests, MOD channels).
+        to_purge = [e for e in known.values()
+                    if not e.get("embed_to_guide", True) and e.get("last_embedded_hash")]
+        if to_purge:
+            try:
+                index.delete(ids=[f"discord_channel__{e['id']}" for e in to_purge], namespace=NAMESPACE)
+                for e in to_purge:
+                    print(f"  DEL  #{e['name']} (excluded from guide)")
+                    e.pop("last_embedded_hash", None)
+                    e.pop("last_embedded", None)
+                purge_count = len(to_purge)
+            except Exception as exc:
+                print(f"  ⚠ purge failed: {exc}")
+
         save_registry(registry)
 
     print(f"\n── Done ─────────────────────────────────────────")
     print(f"  New channels    : {new_count}")
     print(f"  Changed         : {changed_count}")
     print(f"  Archived        : {archived_count}")
+    print(f"  Frozen (skipped): {frozen_count}")
     print(f"  Embedded        : {embed_count}")
+    print(f"  Purged          : {purge_count}")
     print(f"  Total in registry: {len(known)}")
 
     if not args.dry_run:
@@ -424,6 +515,7 @@ def main() -> None:
             "changed":     changed_count,
             "archived":    archived_count,
             "embedded":    embed_count,
+            "purged":      purge_count,
             "total":       len(known),
         })
 
