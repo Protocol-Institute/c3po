@@ -8,6 +8,8 @@
 
 Committed (`f89e976`), rebased onto the VM daemon's ongoing `[daemon]` auto-commits (no conflicts — daemon hadn't touched either file), pushed to `Protocol-Institute/c3po` main, pulled fast-forward on `c3po-vm.exe.xyz`, restarted `c3po-daemon.service` + `c3po-bot.service` — both came back active with no errors.
 
+**VGR tested live, same day:** empty-links fix confirmed working. The intro-window fix can't be verified the same way — it only shows up when a member who joined 8+ days ago posts in `#introductions`, which happens rarely. Leaving this as an **open-monitoring item for the next few weeks** (through roughly 2026-08-25) rather than a closed TODO; only worth revisiting the code if a specific bad "welcome, new member!" message to a long-time member is actually reported.
+
 **Confirmed session 46 TODO #1 (VM 24–48h unattended survival):** `journalctl -u c3po-daemon` since 2026-08-01 shows 134 consecutive sync cycles, all `16/16 steps OK`, zero errors/tracebacks, over ~3 days unattended (cycle counter reset to 1 on today's restart, as expected). `ssh exe.dev billing usage`: vCPU ~0.0/2 avg, disk 10.8/100 GB, well within the shared-pool allowance. VM is stable — closing this TODO.
 
 **Closed session 46 TODO #8 (discord_guide had too many channels — was 80):** wrote `plans/discord-guide-scope.md` first (embed/do-not-embed policy, independent from `recommend_to_newcomers` — embedding is a broader set, only excluding transient/administrative channels; a guiding principle for anything auto-discovered later: embed if useful for long-term conversational/discourse memory, exclude if it's operational noise). Then implemented it in `ingest/sync_discord_channels.py`:
