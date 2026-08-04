@@ -483,6 +483,9 @@ async def handle_nav_query(message: discord.Message, query: str) -> None:
 
 NEW_MEMBER_DAYS = 7        # posts within this many days of joining count as new-member intros
 RETURNING_INTRO_MIN_LEN = 80  # min chars for an old-member post in #introductions to get a welcome-back
+NEW_INTRO_MIN_LEN = 20     # min chars for a new-member post to count as a real self-introduction
+                           # (filters out one-word replies like "thanks!" or "hi" to someone
+                           # else's greeting — see wq.is_welcomed() for the main per-user guard)
 
 
 def _is_new_member(member) -> bool:
@@ -608,10 +611,28 @@ def _update_intro_tally(rec_sources: list[dict], channel: dict | None) -> None:
 # ── Introductions monitoring ──────────────────────────────────────────────────
 
 async def handle_introduction(message: discord.Message, returning: bool = False) -> bool:
-    """Welcome a new (or returning) member. Returns True if the reply was sent successfully."""
+    """Welcome a new (or returning) member.
+
+    Returns True if handled — either the reply was sent, or the message was
+    intentionally skipped as not a real introduction (already welcomed, or
+    too short). Returns False only on a genuine delivery failure that the
+    caller should retry.
+    """
     # Only respond to top-level posts, not replies within #introductions
     if message.reference is not None:
-        return False
+        return True
+
+    # A real introduction should only trigger this flow once per member —
+    # guards against casual replies (e.g. to someone else's greeting) being
+    # mistaken for a fresh self-introduction on every subsequent message.
+    if not returning:
+        user_id = str(message.author.id)
+        if wq.is_welcomed(user_id):
+            log.info(f"Skipping intro for [{message.author}] — already welcomed")
+            return True
+        if len(message.content.strip()) < NEW_INTRO_MIN_LEN:
+            log.info(f"Skipping intro for [{message.author}] — too short to be a real introduction")
+            return True
 
     intro_text = message.content[:400]
     log.info(f"Introduction from [{message.author}] (returning={returning}): {intro_text[:80]}")
@@ -723,6 +744,8 @@ async def handle_introduction(message: discord.Message, returning: bool = False)
         log.error(f"Failed to send intro reply: {exc}")
 
     if sent:
+        if not returning:
+            wq.mark_welcomed(str(message.author.id))
         _update_intro_tally(rec_sources, channel)
         intro_quality.log_quality(
             user_hash=_hash_user(message.author.id),

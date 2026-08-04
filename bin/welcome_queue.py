@@ -21,10 +21,14 @@ def _load() -> dict:
     try:
         if QUEUE_PATH.exists():
             data = json.loads(QUEUE_PATH.read_text())
-            return {"queue": data.get("queue", []), "watermark": data.get("watermark")}
+            return {
+                "queue":     data.get("queue", []),
+                "watermark": data.get("watermark"),
+                "welcomed":  data.get("welcomed", []),
+            }
     except Exception as exc:
         _log.warning(f"Queue load failed: {exc}")
-    return {"queue": [], "watermark": None}
+    return {"queue": [], "watermark": None, "welcomed": []}
 
 
 def _save(data: dict) -> None:
@@ -82,3 +86,22 @@ def pop_all() -> list[dict]:
 
 def size() -> int:
     return len(_load()["queue"])
+
+
+def is_welcomed(user_id: str) -> bool:
+    """True if this user has already received a #introductions welcome.
+
+    Prevents re-welcoming a new member on every subsequent top-level message
+    they post in the channel (e.g. casual replies to someone else's greeting)
+    — a real introduction should only trigger the welcome flow once.
+    """
+    return user_id in _load().get("welcomed", [])
+
+
+def mark_welcomed(user_id: str) -> None:
+    """Record that this user has received a #introductions welcome (idempotent)."""
+    data = _load()
+    welcomed = data.setdefault("welcomed", [])
+    if user_id not in welcomed:
+        welcomed.append(user_id)
+        _save(data)
