@@ -1604,5 +1604,17 @@
     "all_authors": [
       "Venkatesh Rao"
     ]
+  },
+  "how-the-protocol-institute-is-adopting": {
+    "summary": "The Protocol Institute is building itself around AI adoption, using bots like C3PO and Humboldt to handle research discovery and organizational tasks rather than traditional human-led infrastructure. The organization's approach treats AI tool proliferation as a generative process, allowing practical patterns to emerge through experimentation rather than top-down design.",
+    "categories": [
+      "organizations",
+      "technology-ai",
+      "research-report"
+    ],
+    "primary_author": "Timber Stinson-Schroff",
+    "all_authors": [
+      "Timber Stinson-Schroff"
+    ]
   }
 }
