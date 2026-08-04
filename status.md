@@ -1,5 +1,39 @@
 # C3PO — Status Log
 
+## 2026-08-04 — Discord bug fixes (intro window, empty links) + exe.dev VM 24-48h survival check (session 47)
+
+**Two live Discord bugs fixed and deployed:**
+1. `NEW_MEMBER_DAYS` (60 → 7, `bin/c3po_bot.py`, `bin/seed_welcome_queue.py`) — the 60-day window meant members who joined up to 2 months ago and posted in `#introductions` still got the "Welcome, new member!" treatment. Narrowed to 7 days.
+2. `send_answer()` (`bin/c3po_bot.py`) — normal `@mention` query replies could show a source with a rendered-empty link (e.g. a `definitions`-namespace entry with no URL), because it lacked the `s.get("url")` guard `handle_introduction()` already had. Added the same guard so linkless sources are filtered out before the top-3 slice, instead of rendering with a dangling empty link.
+
+Committed (`f89e976`), rebased onto the VM daemon's ongoing `[daemon]` auto-commits (no conflicts — daemon hadn't touched either file), pushed to `Protocol-Institute/c3po` main, pulled fast-forward on `c3po-vm.exe.xyz`, restarted `c3po-daemon.service` + `c3po-bot.service` — both came back active with no errors.
+
+**Confirmed session 46 TODO #1 (VM 24–48h unattended survival):** `journalctl -u c3po-daemon` since 2026-08-01 shows 134 consecutive sync cycles, all `16/16 steps OK`, zero errors/tracebacks, over ~3 days unattended (cycle counter reset to 1 on today's restart, as expected). `ssh exe.dev billing usage`: vCPU ~0.0/2 avg, disk 10.8/100 GB, well within the shared-pool allowance. VM is stable — closing this TODO.
+
+**Closed session 46 TODO #8 (discord_guide had too many channels — was 80):** wrote `plans/discord-guide-scope.md` first (embed/do-not-embed policy, independent from `recommend_to_newcomers` — embedding is a broader set, only excluding transient/administrative channels; a guiding principle for anything auto-discovered later: embed if useful for long-term conversational/discourse memory, exclude if it's operational noise). Then implemented it in `ingest/sync_discord_channels.py`:
+- New `should_embed()` (parallel to existing `should_recommend()`) excludes MOD, Server Link Feed, `#introductions`, `#bugs-and-tests`, `#announcements`; respects a manual `embed_override` field.
+- **Archived-read-only channels (49 of the 80) now embed once, then freeze permanently** — no more per-cycle describe/hash-recheck/re-embed, since their content can't meaningfully change.
+- **Found and fixed a latent bug while implementing the freeze:** `last_embedded_hash`/`last_embedded` were never carried forward from the existing registry entry into the freshly-rebuilt entry each cycle, so the content-hash comparison that's supposed to skip unchanged channels always compared against `""` — every one of the 80 active channels was being silently re-embedded on *every single daemon cycle* (confirmed in `journalctl`: same `EMB` lines repeating every ~30min since forever). Fixed by carrying `last_embedded_hash`/`last_embedded`/`frozen`/event-sync fields forward via a new `CARRY_FORWARD_FIELDS` tuple.
+- Purged the 7 vectors already embedded under the old scope that are now excluded. `discord_guide`: 80 → 73 vectors (49 frozen archived + 24 in active scope).
+- Verified dry-run and live run locally, then on the VM after pull (fast-forward, no restart needed — `daemon.py` invokes the script fresh as a subprocess each cycle and already self-pulls at cycle start).
+- `recommend_to_newcomers` narrowing (target: SIGs + `idle-protocol-musings` only) is flagged in the plan doc as a separate follow-up, not done this session.
+
+**Pinecone:** 29,852 → 29,993 (+141 organic) → 29,986 (−7 discord_guide purge, net for the day). Namespace breakdown of growth: `discord_links` +66, `sig` +41, `discord` +28, `substack` +5, `transcripts` +1; `discord_guide` −7. Substack dry-run: 0 new/edited posts.
+
+**Open TODOs (priority order, carried from session 46 minus #1 and #8):**
+1. Identify the owner of a stray MCP SSE reconnect-loop client (AT&T IP, La Cañada Flintridge) — silent since the fix, but unidentified.
+2. Decide fate of `ingest/sync_roam.py` (plan exists) given Roam was deprecated.
+3. Create `Protocol-Institute/sig-notes` repo + template — needs discussion with SIG hosts.
+4. Build the "good first reads" starter page — tally hit its 28-recs/20-resources threshold.
+5. `ingest/extract_structure.py` — exhibit extraction, not started.
+6. Rotate the Anthropic key to the PI org account.
+7. Watch for more `SIG-<CODE>` title-template drift in meeting-notes.
+8. `protocolized-website` PR #5 (hono CVE fix) — flag to its owner for merge, not our call.
+9. `protocolized-website`'s wrangler 4.118.0 bump — separate PR, conflicts with pinned `@cloudflare/workers-types@^4.x`.
+10. Narrow `recommend_to_newcomers` to SIGs + `idle-protocol-musings` only (see `plans/discord-guide-scope.md`) — currently broader than that target.
+
+---
+
 ## 2026-08-01 11:00–14:35 PT — Pinecone quota confirmed reset; meeting-notes crash fix; intro-quality diagnostic logging; exe.dev migration; protocolized-website hono CVE fix (session 46)
 
 **Confirmed session 45's #1 TODO: both Pinecone write and read pauses cleared naturally** at the 2026-08-01 UTC reset (`ingest/ingestion_control.py status` → "not paused" for both). Vector count grew normally overnight from the daemon resuming (28,982 → 29,767 within the first hour), confirming writes are genuinely flowing again, not just quota-check passing.
