@@ -96,8 +96,8 @@
       "source": "substack",
       "author": "Timber Stinson-Schroff",
       "label": "ESSAY",
-      "count": 9,
-      "last_seen": "2026-08-01",
+      "count": 10,
+      "last_seen": "2026-08-04",
       "is_fallback": false
     },
     "https://files.protocolized.io/FERNANDEZ-Flow-speculative-brochure.pdf": {
@@ -176,8 +176,8 @@
       "source": "substack",
       "author": "Spencer Nitkey",
       "label": "PROTOCOLIZED",
-      "count": 2,
-      "last_seen": "2026-06-16",
+      "count": 3,
+      "last_seen": "2026-08-04",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/fault-tolerance": {
@@ -439,6 +439,16 @@
       "count": 1,
       "last_seen": "2026-08-01",
       "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/loyalty": {
+      "title": "Loyalty",
+      "url": "https://protocolized.summerofprotocols.com/p/loyalty",
+      "source": "substack",
+      "author": "Protocolized",
+      "label": "FICTION",
+      "count": 1,
+      "last_seen": "2026-08-04",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -481,8 +491,8 @@
       "name": "🚜-protocols-for-business",
       "display": "#🚜-protocols-for-business",
       "sig_display": "SIGPfB",
-      "count": 13,
-      "last_seen": "2026-08-01"
+      "count": 14,
+      "last_seen": "2026-08-04"
     },
     "1508175637020676259": {
       "name": "🦾-distributed-robotics",
