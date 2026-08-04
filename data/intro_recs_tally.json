@@ -136,8 +136,8 @@
       "source": "substack",
       "author": "PAtwater",
       "label": "ESSAY",
-      "count": 2,
-      "last_seen": "2026-06-17",
+      "count": 3,
+      "last_seen": "2026-08-04",
       "is_fallback": false
     },
     "https://protocolized.io/resources/c3po-devlog#session-31": {
@@ -449,6 +449,26 @@
       "count": 1,
       "last_seen": "2026-08-04",
       "is_fallback": false
+    },
+    "https://discord.com/channels/1082444651946049567/1480458458846462056": {
+      "title": "SIGPfB Study Group: Water Data Protocols & Tensions Analysis",
+      "url": "https://discord.com/channels/1082444651946049567/1480458458846462056",
+      "source": "sig",
+      "author": null,
+      "label": "SIGPfB",
+      "count": 1,
+      "last_seen": "2026-08-04",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/archives-of-discontinuity": {
+      "title": "Archives of Discontinuity",
+      "url": "https://protocolized.summerofprotocols.com/p/archives-of-discontinuity",
+      "source": "substack",
+      "author": "Nathalia Scherer",
+      "label": "ESSAY",
+      "count": 1,
+      "last_seen": "2026-08-04",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -491,7 +511,7 @@
       "name": "🚜-protocols-for-business",
       "display": "#🚜-protocols-for-business",
       "sig_display": "SIGPfB",
-      "count": 14,
+      "count": 15,
       "last_seen": "2026-08-04"
     },
     "1508175637020676259": {
