@@ -10,6 +10,8 @@ Committed (`f89e976`), rebased onto the VM daemon's ongoing `[daemon]` auto-comm
 
 **VGR tested live, same day:** empty-links fix confirmed working. The intro-window fix can't be verified the same way — it only shows up when a member who joined 8+ days ago posts in `#introductions`, which happens rarely. Leaving this as an **open-monitoring item for the next few weeks** (through roughly 2026-08-25) rather than a closed TODO; only worth revisiting the code if a specific bad "welcome, new member!" message to a long-time member is actually reported.
 
+**New bug found, not fixed this session (VGR: log for next time):** the intro handler responds to ordinary side-conversation in `#introductions`, not just genuine self-introductions. Root cause is in `on_message()`'s `is_new_intro` check (`bin/c3po_bot.py:832`): `message.reference is None and _is_new_member(message.author)` — it fires on **every** top-level (non-Discord-reply) message from a member inside the new-member window, with zero content check. Contrast `is_returning_intro` (line 833-835), which at least gates on `RETURNING_INTRO_MIN_LEN` (80 chars). Failure sequence VGR observed: an existing member greets a new member in the channel (doesn't trigger the bot — author isn't new); the new member replies casually as a fresh top-level message rather than using Discord's reply-to feature (most people don't); `is_new_intro` reads that casual reply as a brand-new introduction and fires the full welcome-with-corpus-recs flow again. There's also no per-user dedup anywhere — `bin/welcome_queue.py` only tracks message IDs for retry purposes, not "has this user already been welcomed" — so a chatty new member can get welcomed repeatedly, once per message, for their entire first week. Two fix directions worth evaluating next time: (1) track "already welcomed" user IDs so `handle_introduction()` fires at most once per new member during their window, and/or (2) add a content gate (length and/or a cheap classifier) so casual replies don't qualify as introductions in the first place. Probably want both — dedup alone still lets a genuinely-long first reply misfire once, and a content gate alone doesn't stop a new member's *second* real-looking message from re-triggering.
+
 **Confirmed session 46 TODO #1 (VM 24–48h unattended survival):** `journalctl -u c3po-daemon` since 2026-08-01 shows 134 consecutive sync cycles, all `16/16 steps OK`, zero errors/tracebacks, over ~3 days unattended (cycle counter reset to 1 on today's restart, as expected). `ssh exe.dev billing usage`: vCPU ~0.0/2 avg, disk 10.8/100 GB, well within the shared-pool allowance. VM is stable — closing this TODO.
 
 **Closed session 46 TODO #8 (discord_guide had too many channels — was 80):** wrote `plans/discord-guide-scope.md` first (embed/do-not-embed policy, independent from `recommend_to_newcomers` — embedding is a broader set, only excluding transient/administrative channels; a guiding principle for anything auto-discovered later: embed if useful for long-term conversational/discourse memory, exclude if it's operational noise). Then implemented it in `ingest/sync_discord_channels.py`:
@@ -23,16 +25,17 @@ Committed (`f89e976`), rebased onto the VM daemon's ongoing `[daemon]` auto-comm
 **Pinecone:** 29,852 → 29,993 (+141 organic) → 29,986 (−7 discord_guide purge, net for the day). Namespace breakdown of growth: `discord_links` +66, `sig` +41, `discord` +28, `substack` +5, `transcripts` +1; `discord_guide` −7. Substack dry-run: 0 new/edited posts.
 
 **Open TODOs (priority order, carried from session 46 minus #1 and #8):**
-1. Identify the owner of a stray MCP SSE reconnect-loop client (AT&T IP, La Cañada Flintridge) — silent since the fix, but unidentified.
-2. Decide fate of `ingest/sync_roam.py` (plan exists) given Roam was deprecated.
-3. Create `Protocol-Institute/sig-notes` repo + template — needs discussion with SIG hosts.
-4. Build the "good first reads" starter page — tally hit its 28-recs/20-resources threshold.
-5. `ingest/extract_structure.py` — exhibit extraction, not started.
-6. Rotate the Anthropic key to the PI org account.
-7. Watch for more `SIG-<CODE>` title-template drift in meeting-notes.
-8. `protocolized-website` PR #5 (hono CVE fix) — flag to its owner for merge, not our call.
-9. `protocolized-website`'s wrangler 4.118.0 bump — separate PR, conflicts with pinned `@cloudflare/workers-types@^4.x`.
-10. Narrow `recommend_to_newcomers` to SIGs + `idle-protocol-musings` only (see `plans/discord-guide-scope.md`) — currently broader than that target.
+1. **Intro handler fires on casual #introductions chatter, not just real introductions** (new bug, found this session — see above). `is_new_intro` (`bin/c3po_bot.py:832`) has no content gate and no per-user dedup; fix needs both a content gate and "already welcomed" tracking.
+2. Identify the owner of a stray MCP SSE reconnect-loop client (AT&T IP, La Cañada Flintridge) — silent since the fix, but unidentified.
+3. Decide fate of `ingest/sync_roam.py` (plan exists) given Roam was deprecated.
+4. Create `Protocol-Institute/sig-notes` repo + template — needs discussion with SIG hosts.
+5. Build the "good first reads" starter page — tally hit its 28-recs/20-resources threshold.
+6. `ingest/extract_structure.py` — exhibit extraction, not started.
+7. Rotate the Anthropic key to the PI org account.
+8. Watch for more `SIG-<CODE>` title-template drift in meeting-notes.
+9. `protocolized-website` PR #5 (hono CVE fix) — flag to its owner for merge, not our call.
+10. `protocolized-website`'s wrangler 4.118.0 bump — separate PR, conflicts with pinned `@cloudflare/workers-types@^4.x`.
+11. Narrow `recommend_to_newcomers` to SIGs + `idle-protocol-musings` only (see `plans/discord-guide-scope.md`) — currently broader than that target.
 
 ---
 
