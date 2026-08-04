@@ -257,7 +257,8 @@ async def send_answer(target, data: dict) -> None:
     web_hits   = [h for h in cache_hits if h.get("url")]
 
     answer  = (data.get("answer") or "").strip()
-    sources = [s for s in (data.get("sources") or []) if s.get("source") != "transcript"]
+    sources = [s for s in (data.get("sources") or [])
+               if s.get("source") != "transcript" and s.get("url")]
 
     if web_hits:
         hit = web_hits[0]
@@ -480,7 +481,7 @@ async def handle_nav_query(message: discord.Message, query: str) -> None:
 
 # ── Intro rec helpers ────────────────────────────────────────────────────────
 
-NEW_MEMBER_DAYS = 60       # posts within this many days of joining count as new-member intros
+NEW_MEMBER_DAYS = 7        # posts within this many days of joining count as new-member intros
 RETURNING_INTRO_MIN_LEN = 80  # min chars for an old-member post in #introductions to get a welcome-back
 
 

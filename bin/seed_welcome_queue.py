@@ -36,7 +36,7 @@ BOT_USER_ID = "1509294356694044722"
 CHANNEL_ID  = os.environ.get("INTRODUCTIONS_CHANNEL_ID", "1082504762433490975")
 GUILD_ID    = os.environ.get("DISCORD_GUILD_ID", "1082444651946049567")
 
-NEW_MEMBER_DAYS = 60  # posts within this many days of joining count as intros
+NEW_MEMBER_DAYS = 7  # posts within this many days of joining count as intros
 
 
 async def _discord_get(session: aiohttp.ClientSession, path: str, token: str) -> list | dict:
