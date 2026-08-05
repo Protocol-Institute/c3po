@@ -1930,6 +1930,42 @@
           "html": "Installing <code>protocolized-website/worker</code>’s dependencies fresh on the VM surfaced 8 <code>npm audit</code> findings the laptop’s older <code>node_modules</code> hadn’t re-flagged recently. Read each advisory rather than blanket-patching: all 8 traced to <code>hono</code> (the only flagged package actually in <code>dependencies</code>), and of those, the two that could plausibly apply to a live Cloudflare Worker — CORS middleware credential/wildcard reflection, and <code>hono/jsx</code> cross-request context leakage — don’t, confirmed by grepping the actual source for the specific APIs each bug requires (no CORS middleware import; no <code>createContext</code>/<code>useContext</code>/<code>jsxRenderer</code>/<code>useRequestContext</code> anywhere). Bumped <code>hono</code> to <code>4.12.33</code> anyway since it was free — already within the declared semver range, verified with a clean <code>tsc --noEmit</code> and <code>wrangler deploy --dry-run</code>. The remaining 7 findings are wrangler/tailwindcss dev-toolchain only, never shipped to the deployed Worker; fixing those needs a breaking <code>wrangler</code> bump, left for a separate PR. Opened <a href=\"https://github.com/Protocol-Institute/protocolized-website/pull/5\">protocolized-website#5</a> rather than pushing to main."
         }
       ]
+    },
+    {
+      "id": 47,
+      "sort_key": 47.0,
+      "label": "Session 47",
+      "title": "Discord Bot Bug Fixes + discord_guide Embedding Scope Redesign",
+      "date": "2026-08-04",
+      "time_pt": "11:15–14:00",
+      "tracks": [
+        "discord-bot",
+        "operations",
+        "corpus-ingestion"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "total": 30095
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "Fixed two live bugs: new-member intro window too wide, and empty links in normal query replies",
+          "html": "<code>NEW_MEMBER_DAYS</code> was 60, so members who’d joined up to two months earlier still got the “Welcome, new member!” treatment if they posted in <code>#introductions</code> — narrowed to 7 days. Separately, normal <code>@mention</code> query replies could show a source with a rendered-empty link (e.g. a lexicon entry with no URL), because <code>send_answer()</code> lacked the <code>url</code> guard <code>handle_introduction()</code> already had — added the same guard so linkless sources are filtered out before the top-3 slice. Verified live same day: the empty-links fix confirmed working immediately; the intro-window fix needs real member activity over a few weeks to verify naturally, logged as an open-monitoring item rather than a closed TODO."
+        },
+        {
+          "title": "Confirmed the exe.dev VM survives unattended, closing a session-46 TODO",
+          "html": "<code>journalctl -u c3po-daemon</code> since 2026-08-01 showed 134 consecutive sync cycles, all 16/16 steps OK, zero errors, over ~3 days unattended. <code>exe.dev billing usage</code> showed the VM comfortably within its shared-pool allowance (~0.0/2 vCPU avg, 10.8/100GB disk)."
+        },
+        {
+          "title": "Redesigned discord_guide embedding scope, decoupling it from recommend_to_newcomers",
+          "html": "The <code>discord_guide</code> Pinecone namespace held 80 entries because the embed step only checked Discord-guild presence, not whether a channel was actually useful for long-term conversational memory. Wrote <code>plans/discord-guide-scope.md</code> first — an explicit embed/do-not-embed policy plus a guiding principle for anything auto-discovered later (embed if useful for long-term discourse memory, exclude if it’s transient administrative noise) — then implemented it: a new <code>should_embed()</code> excludes MOD, Server Link Feed, and <code>#introductions</code>/<code>#bugs-and-tests</code>/<code>#announcements</code>; archived-read-only channels (49 of the 80) now embed once and then freeze permanently instead of being re-checked every cycle. Found and fixed a latent bug along the way: <code>last_embedded_hash</code> was never carried forward between cycles, so the daemon had been silently re-embedding all 80 channels on <em>every single cycle</em> since the script existed. Purged 7 vectors embedded under the old scope that are now excluded — <code>discord_guide</code>: 80 → 73."
+        },
+        {
+          "title": "Fixed the intro handler responding to ordinary side-chat in #introductions",
+          "html": "The new-member intro check had zero content gate and no per-user dedup, so it fired on every top-level message from a member inside the new-member window — including a new member’s casual reply to someone else’s greeting, mistaken for a fresh self-introduction. Added a per-user dedup (<code>wq.is_welcomed()</code>/<code>mark_welcomed()</code>, persisted in <code>data/welcome_queue.json</code>) so a member gets the welcome flow at most once, plus a 20-character content floor so one-word replies can’t trigger it in the first place. Both skip conditions now return “handled, don’t retry” rather than “failed,” which also fixed a related bug where a gate-rejected queued message would’ve retried on every future drain cycle indefinitely."
+        }
+      ]
     }
   ]
 }

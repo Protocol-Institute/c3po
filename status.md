@@ -1,6 +1,6 @@
 # C3PO — Status Log
 
-## 2026-08-04 — Discord bug fixes (intro window, empty links) + exe.dev VM 24-48h survival check (session 47)
+## 2026-08-04 11:15–14:00 PT — Discord bug fixes (intro window, empty links, side-chat) + discord_guide scope redesign + exe.dev VM 24-48h survival check (session 47)
 
 **Two live Discord bugs fixed and deployed:**
 1. `NEW_MEMBER_DAYS` (60 → 7, `bin/c3po_bot.py`, `bin/seed_welcome_queue.py`) — the 60-day window meant members who joined up to 2 months ago and posted in `#introductions` still got the "Welcome, new member!" treatment. Narrowed to 7 days.
@@ -28,7 +28,7 @@ Fixed both root causes at once in `handle_introduction()` (`bin/c3po_bot.py`):
 - Verified dry-run and live run locally, then on the VM after pull (fast-forward, no restart needed — `daemon.py` invokes the script fresh as a subprocess each cycle and already self-pulls at cycle start).
 - `recommend_to_newcomers` narrowing (target: SIGs + `idle-protocol-musings` only) is flagged in the plan doc as a separate follow-up, not done this session.
 
-**Pinecone:** 29,852 → 29,993 (+141 organic) → 29,986 (−7 discord_guide purge, net for the day). Namespace breakdown of growth: `discord_links` +66, `sig` +41, `discord` +28, `substack` +5, `transcripts` +1; `discord_guide` −7. Substack dry-run: 0 new/edited posts.
+**Pinecone:** 29,852 (session start) → 30,095 (session end). Includes +141 organic growth checked mid-session, a −7 `discord_guide` purge, and further organic daemon growth by sign-off. Namespace breakdown of the mid-session snapshot: `discord_links` +66, `sig` +41, `discord` +28, `substack` +5, `transcripts` +1; `discord_guide` −7. Substack dry-run: 0 new/edited posts.
 
 **Open TODOs (priority order, carried from session 46 minus #1 and #8; the #introductions side-chat bug is now fixed, see above, not carried forward):**
 1. Identify the owner of a stray MCP SSE reconnect-loop client (AT&T IP, La Cañada Flintridge) — silent since the fix, but unidentified.
