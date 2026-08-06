@@ -86,8 +86,8 @@
       "source": "substack",
       "author": "Kei Kreutler",
       "label": "ESSAY",
-      "count": 7,
-      "last_seen": "2026-07-17",
+      "count": 8,
+      "last_seen": "2026-08-06",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/introducing-the-protocol-institute": {
@@ -346,8 +346,8 @@
       "source": "substack",
       "author": "Thing Party",
       "label": "FICTION",
-      "count": 1,
-      "last_seen": "2026-07-16",
+      "count": 2,
+      "last_seen": "2026-08-06",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/the-hungering-circuit": {
@@ -469,6 +469,16 @@
       "count": 1,
       "last_seen": "2026-08-04",
       "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/durable-ai-adoption": {
+      "title": "Durable AI Adoption",
+      "url": "https://protocolized.summerofprotocols.com/p/durable-ai-adoption",
+      "source": "substack",
+      "author": "Sachin",
+      "label": "ESSAY",
+      "count": 1,
+      "last_seen": "2026-08-06",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -497,8 +507,8 @@
       "name": "👾-protocol-fiction",
       "display": "#👾-protocol-fiction",
       "sig_display": "ProtFiSIG",
-      "count": 5,
-      "last_seen": "2026-08-01"
+      "count": 6,
+      "last_seen": "2026-08-06"
     },
     "1327337414175490160": {
       "name": "🎩-formal-protocol-theory",
