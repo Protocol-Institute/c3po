@@ -106,8 +106,8 @@
       "source": "pdf",
       "author": "Rafael Fernández",
       "label": "PAPER",
-      "count": 1,
-      "last_seen": "2026-06-02",
+      "count": 2,
+      "last_seen": "2026-08-07",
       "is_fallback": false
     },
     "summer of protocols": {
@@ -196,8 +196,8 @@
       "source": "pdf",
       "author": "Rafael Fernández",
       "label": "PAPER",
-      "count": 1,
-      "last_seen": "2026-06-14",
+      "count": 2,
+      "last_seen": "2026-08-07",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/latency": {
@@ -366,8 +366,8 @@
       "source": "pdf",
       "author": "Protocols for Business SIG",
       "label": "PAPER",
-      "count": 2,
-      "last_seen": "2026-08-01",
+      "count": 3,
+      "last_seen": "2026-08-07",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/libraries-of-tomorrow": {
@@ -551,6 +551,13 @@
       "sig_display": "",
       "count": 1,
       "last_seen": "2026-07-17"
+    },
+    "1519549380791631903": {
+      "name": "meeting-notes",
+      "display": "#meeting-notes",
+      "sig_display": "",
+      "count": 1,
+      "last_seen": "2026-08-07"
     }
   }
 }
