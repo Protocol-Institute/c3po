@@ -96,8 +96,8 @@
       "source": "substack",
       "author": "Timber Stinson-Schroff",
       "label": "ESSAY",
-      "count": 10,
-      "last_seen": "2026-08-04",
+      "count": 11,
+      "last_seen": "2026-08-07",
       "is_fallback": false
     },
     "https://files.protocolized.io/FERNANDEZ-Flow-speculative-brochure.pdf": {
@@ -326,8 +326,8 @@
       "source": "substack",
       "author": "Spencer Nitkey",
       "label": "FICTION",
-      "count": 2,
-      "last_seen": "2026-07-18",
+      "count": 3,
+      "last_seen": "2026-08-07",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/signals-in-the-margins": {
@@ -479,6 +479,16 @@
       "count": 1,
       "last_seen": "2026-08-06",
       "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/the-entropic-gate-part-ii": {
+      "title": "The Entropic Gate - Part II",
+      "url": "https://protocolized.summerofprotocols.com/p/the-entropic-gate-part-ii",
+      "source": "substack",
+      "author": "TΞRM1NΞX",
+      "label": "FICTION",
+      "count": 1,
+      "last_seen": "2026-08-07",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -514,8 +524,8 @@
       "name": "🎩-formal-protocol-theory",
       "display": "#🎩-formal-protocol-theory",
       "sig_display": "SIGFPT",
-      "count": 6,
-      "last_seen": "2026-08-01"
+      "count": 7,
+      "last_seen": "2026-08-07"
     },
     "1333851496416153702": {
       "name": "🚜-protocols-for-business",
