@@ -187,7 +187,14 @@ def push_protocolized_if_changed() -> bool:
 
 
 WEBSITE_BRANCH = "c3po/auto-sig-pages"
-WEBSITE_PATHS  = ["sigs/", "monitoring.html"]
+# monitoring.html is intentionally gitignored in the website repo (since
+# 2026-06-03 — it's a local-convenience copy, never meant to be committed/
+# deployed) so it must not be in this pathspec: `git add` on an explicitly
+# named ignored path is fatal, not a silent skip, and that fatal error
+# was aborting every website-push attempt since the first one after c3po#1
+# merged (2026-08-07 daemon.log). generate_monitoring_page.py still writes
+# the file to WEBSITE_DIR for local viewing; git just never touches it.
+WEBSITE_PATHS  = ["sigs/"]
 
 # Files the daemon must never auto-commit: narrative/session-authored docs, not
 # routine state. Session work commits these explicitly, with a human in the loop.
@@ -241,9 +248,9 @@ def autocommit_c3po_state() -> bool:
 
 
 def push_website_if_changed() -> bool:
-    """Stage SIG/monitoring changes onto a dedicated branch and open (or
-    silently update) a PR against the website repo, instead of pushing
-    straight to main.
+    """Stage SIG page changes onto a dedicated branch and open (or silently
+    update) a PR against the website repo, instead of pushing straight to
+    main.
 
     The website project sometimes makes its own presentation/formatting edits
     directly in sigs/*/index.html. A direct push from here would lump those
@@ -268,7 +275,7 @@ def push_website_if_changed() -> bool:
         return False
 
     date_str = datetime.now().strftime("%Y-%m-%d")
-    msg = f"Auto: SIG pages + monitoring dashboard updated {date_str}"
+    msg = f"Auto: SIG pages updated {date_str}"
 
     try:
         _git(["stash", "push", "-u", "--", *WEBSITE_PATHS], WEBSITE_DIR)
@@ -288,7 +295,7 @@ def push_website_if_changed() -> bool:
         if existing.returncode == 0 and existing.stdout.strip() not in ("", "[]"):
             log.info(f"  Website PR updated ({WEBSITE_BRANCH})")
         else:
-            body = ("Automated SIG meeting-page + monitoring-dashboard update from c3po.\n\n"
+            body = ("Automated SIG meeting-page update from c3po.\n\n"
                     "This branch is fully regenerated from current data each daemon cycle — "
                     "review and merge (or leave it to keep updating) rather than editing it "
                     "directly.")
