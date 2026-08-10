@@ -326,8 +326,8 @@
       "source": "substack",
       "author": "Spencer Nitkey",
       "label": "FICTION",
-      "count": 3,
-      "last_seen": "2026-08-07",
+      "count": 4,
+      "last_seen": "2026-08-10",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/signals-in-the-margins": {
@@ -356,8 +356,8 @@
       "source": "substack",
       "author": "Protocolized",
       "label": "FICTION",
-      "count": 1,
-      "last_seen": "2026-07-16",
+      "count": 2,
+      "last_seen": "2026-08-10",
       "is_fallback": false
     },
     "https://files.protocolized.io/": {
@@ -499,6 +499,16 @@
       "count": 1,
       "last_seen": "2026-08-08",
       "is_fallback": false
+    },
+    "https://files.protocolized.io/04-LANG-2023-12-13.pdf": {
+      "title": "Standards Make the World (Anthology)",
+      "url": "https://files.protocolized.io/04-LANG-2023-12-13.pdf",
+      "source": "pdf",
+      "author": "David Lang",
+      "label": "PAPER",
+      "count": 1,
+      "last_seen": "2026-08-10",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -541,8 +551,8 @@
       "name": "🚜-protocols-for-business",
       "display": "#🚜-protocols-for-business",
       "sig_display": "SIGPfB",
-      "count": 15,
-      "last_seen": "2026-08-04"
+      "count": 16,
+      "last_seen": "2026-08-10"
     },
     "1508175637020676259": {
       "name": "🦾-distributed-robotics",
