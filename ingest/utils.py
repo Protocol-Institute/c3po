@@ -33,8 +33,14 @@ OVERLAP_TOKENS = 64
 
 PAUSE_STATE_PATH = Path(__file__).parent.parent / "data" / "ingestion_pause_state.json"
 
-_WRITE_UNIT_RE = re.compile(r"write unit limit", re.IGNORECASE)
-_READ_UNIT_RE  = re.compile(r"read unit limit", re.IGNORECASE)
+# Matches Pinecone's monthly-quota 429 messages generically — e.g. "reached
+# your write unit limit", "reached your read unit limit", "reached your
+# egress limit" — so a not-yet-seen quota dimension (confirmed 2026-08-13:
+# "egress limit" wasn't recognized by the old write-unit/read-unit-only
+# regexes, so the daemon retried it blind for 3+ days instead of pausing)
+# still gets auto-paused instead of silently falling through. Captures the
+# quota name so the pause reason and read/write bucketing stay accurate.
+_QUOTA_LIMIT_RE = re.compile(r"reached your ([\w\s]+?) limit", re.IGNORECASE)
 
 
 class IngestionPaused(RuntimeError):
@@ -171,12 +177,15 @@ class _GuardedIndex:
                 return attr(*args, **kwargs)
             except Exception as exc:
                 msg = str(exc)
-                if _WRITE_UNIT_RE.search(msg):
-                    pause_ingestion("Pinecone write-unit quota exhausted",
-                                     _default_resume_at(), kind="write")
-                elif _READ_UNIT_RE.search(msg):
-                    pause_ingestion("Pinecone read-unit quota exhausted",
-                                     _default_resume_at(), kind="read")
+                m = _QUOTA_LIMIT_RE.search(msg)
+                if m:
+                    quota_name = m.group(1).strip().lower()
+                    # "write unit" -> write pause; everything else (read unit,
+                    # egress, and any future read-side quota name) -> read
+                    # pause, since those are all data-plane read costs.
+                    pause_kind = "write" if "write" in quota_name else "read"
+                    pause_ingestion(f"Pinecone {quota_name} quota exhausted",
+                                     _default_resume_at(), kind=pause_kind)
                 raise
         return guarded
 
