@@ -1,5 +1,41 @@
 # C3PO — Status Log
 
+## 2026-08-13 11:30–14:20 PT — Pinecone egress-quota exhaustion diagnosed + incremental-read fixes (session 48)
+
+**Started from a report that the deployed web bot "seemed to have obsolete rate-limit messaging and was capping responses."** Reproduced live against `c3po.protocolized.io`: every `/query` returned `degraded: true`, `sources: []`, and a generic "quota/rate limit" disclaimer prepended to an ungrounded answer. Root-caused via a raw REST call directly to Pinecone (bypassing all our own code) to a genuine, current 429: `"You've reached your egress limit for the current month (1000000000 bytes). To continue reading data, upgrade your plan."` — confirmed with the user (who had independently checked Pinecone's console and saw RU/WU/storage all under 65% with no breach) that **egress is a fourth, separate monthly quota** (1GB/month on the Free plan) not shown alongside RU/WU/storage on the main quotas page — sourced from Pinecone's own cost docs. First hit 2026-08-10 19:10 UTC per VM daemon logs (417 occurrences by session start), never noticed because no session had logged in since 2026-08-04.
+
+**Root cause: `ingest/fetch_discord_links.py`'s `harvest_urls_from_namespace()`** was doing a full `idx.list()` + `idx.fetch()` (full vector values + metadata) over every ID in the `discord`+`sig` namespaces (12,873 combined) on every 30-min daemon cycle, forever, with no caching — just to read a small `urls` metadata field. Structurally the same shape as the humboldt full-re-embed bug from July, except a full-corpus *read* in c3po's own code this time. Fixed to persist harvested vector IDs per namespace (`data/discord_links_harvest_state.json`) and only fetch newly-added vectors each run. Verified against a mocked Pinecone client (couldn't test live — account-wide egress was already exhausted, blocking even `idx.list()`).
+
+**Found the existing auto-pause safety net never caught this class of failure.** `_GuardedIndex` in `ingest/utils.py` (built July for the write-unit/read-unit incidents) auto-pauses ingestion when a Pinecone 429 message matches a regex — but the regex only knew `"write unit limit"` / `"read unit limit"`, not `"egress limit"`, so the daemon retried blind for 3+ days instead of self-pausing. Generalized to one regex matching Pinecone's general `"reached your <name> limit"` phrasing, bucketing anything containing "write" as a write-pause and everything else (read unit, egress, and any future read-side quota name) as a read-pause. Verified end-to-end with a mock: an egress-limit exception now correctly sets a read-pause, and a subsequent call is blocked *before* reaching Pinecone.
+
+**Extended the same incremental-caching treatment to two more unconditional-full-read patterns found in the same audit** (user: "let's make all such optimizations we can" after estimating the `list()` call alone, even post-fix, could still approach the full 1GB/month budget):
+- `fetch_discord_links.py`: added a `describe_index_stats()` precheck (control-plane, confirmed exempt from the egress quota) to skip `idx.list()` entirely per-namespace when the vector count hasn't moved since last run.
+- `rebuild_sig_summaries.py`: was fetching full vector data for all ~124 meeting-summary vectors unconditionally, before its own already-built-locally check was applied. Since the meeting `thread_id` is embedded in the vector ID (`sig_meeting_summary__<thread_id>`), the local `data/sigs/meetings/*.json` cache can now be checked first — only not-yet-built meetings get fetched.
+
+Swept the rest of the repo for the same anti-pattern: `analyze_discord.py`, `fix_pdf_urls.py`, `migrate_pinecone.py` are one-off manual scripts (not in `daemon.py`'s cycle) and `c3po_bot.py`'s `discord_guide` queries are normal per-interaction traffic, not a recurring full-scan — nothing else needed fixing.
+
+**Confirmed both the web bot and Discord bot are "still responding" because of the July-built graceful-degradation design, not because they're avoiding the exhausted quota.** Found direct log evidence: `c3po_bot.py`'s own separate direct-Pinecone `discord_guide` query (for onboarding/nav help) logged `Guide task failed: [429] ...egress limit...` on both 2026-08-11 and 2026-08-12 — caught and logged, bot continues without that recommendation rather than crashing. Same underlying mechanism as the web Worker's `degraded: true` fallback.
+
+**All three fixes committed and pushed** (`51b3bf7`, `c73e469`, `cbfd919`/`4468575` after rebasing onto ongoing `[daemon]` auto-commits each time — laptop clone was 146 commits behind at session start, first sync since 2026-08-04). VM daemon self-pulls each cycle, no manual restart needed. **The account-wide egress exhaustion itself is not resolved by any of this** — Pinecone's Free-plan egress is a flat monthly allowance with no early reset; the live bot stays in degraded mode until the natural monthly reset or a plan upgrade, neither of which was in scope this session.
+
+**Pinecone:** 30,615 → 30,616 (organic only; no ingest activity possible while egress-blocked — daemon read steps have been failing since before session start).
+
+**Open TODOs (priority order):**
+1. **Check the egress gate after 2026-09-01** — confirm via `ingestion_control.py status` and/or Pinecone's Cost Explorer that the quota reset cleared and the new incremental fixes are keeping monthly egress well under budget (not just "not yet re-exhausted 9 days in," like last time).
+2. **Build proactive local instrumentation for Pinecone read/write/egress volume** — today's fixes are still reactive (detect a 429 after the fact, then pause). Design something that estimates/tracks cumulative usage locally against Pinecone's known caps (2M write units, 1M read units, 1GB egress, 2GB storage) and throttles or warns *before* hitting the wall, not just after.
+3. Identify the owner of a stray MCP SSE reconnect-loop client (AT&T IP, La Cañada Flintridge) — carried from session 47, still unidentified.
+4. Decide fate of `ingest/sync_roam.py` (plan exists) given Roam was deprecated.
+5. Create `Protocol-Institute/sig-notes` repo + template — needs discussion with SIG hosts.
+6. Build the "good first reads" starter page.
+7. `ingest/extract_structure.py` — exhibit extraction, not started.
+8. Rotate the Anthropic key to the PI org account.
+9. `protocolized-website` PR #5 (hono CVE fix) — flag to its owner for merge.
+10. `protocolized-website`'s wrangler 4.118.0 bump — separate PR, conflicts with pinned `@cloudflare/workers-types@^4.x`.
+11. Narrow `recommend_to_newcomers` to SIGs + `idle-protocol-musings` only (see `plans/discord-guide-scope.md`).
+12. Monitor the session-47 intro-window fix (7-day window) through ~2026-08-25 — no action unless a bad message is reported.
+
+---
+
 ## 2026-08-04 11:15–14:00 PT — Discord bug fixes (intro window, empty links, side-chat) + discord_guide scope redesign + exe.dev VM 24-48h survival check (session 47)
 
 **Two live Discord bugs fixed and deployed:**

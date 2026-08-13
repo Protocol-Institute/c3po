@@ -1966,6 +1966,45 @@
           "html": "The new-member intro check had zero content gate and no per-user dedup, so it fired on every top-level message from a member inside the new-member window — including a new member’s casual reply to someone else’s greeting, mistaken for a fresh self-introduction. Added a per-user dedup (<code>wq.is_welcomed()</code>/<code>mark_welcomed()</code>, persisted in <code>data/welcome_queue.json</code>) so a member gets the welcome flow at most once, plus a 20-character content floor so one-word replies can’t trigger it in the first place. Both skip conditions now return “handled, don’t retry” rather than “failed,” which also fixed a related bug where a gate-rejected queued message would’ve retried on every future drain cycle indefinitely."
         }
       ]
+    },
+    {
+      "id": 48,
+      "sort_key": 48.0,
+      "label": "Session 48",
+      "title": "Pinecone Egress Quota Exhaustion — Diagnosis + Incremental-Read Fixes",
+      "date": "2026-08-13",
+      "time_pt": "11:30–14:20",
+      "tracks": [
+        "operations",
+        "corpus-ingestion"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "total": 30616
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "Diagnosed the live degraded-mode bug: Pinecone's monthly egress quota, not the read/write-unit quotas already fixed in July",
+          "html": "Started from a report that the deployed web bot “seemed to have obsolete rate-limit messaging and was capping responses.” Reproduced live: every <code>/query</code> on <code>c3po.protocolized.io</code> returned <code>degraded: true</code>, empty sources, and a generic quota disclaimer prepended to an ungrounded answer. Traced it to a genuine, current Pinecone 429 via a raw REST call that bypassed all of c3po's own code &mdash; <code>“You’ve reached your egress limit for the current month (1000000000 bytes)”</code>. Confirmed with the user (who’d checked Pinecone’s console and saw read units, write units, and storage all under 65%, nothing breached) that <strong>egress is a fourth, independent monthly quota</strong> &mdash; 1GB/month on the Free plan, not surfaced next to RU/WU/storage on the main quotas page. First hit 2026-08-10, invisible for three days because no session had logged in since 2026-08-04."
+        },
+        {
+          "title": "Root cause: a full-namespace vector re-fetch running every 30-minute daemon cycle, forever",
+          "html": "<code>ingest/fetch_discord_links.py</code>'s <code>harvest_urls_from_namespace()</code> was doing a full <code>idx.list()</code> + <code>idx.fetch()</code> &mdash; complete embedding values plus metadata &mdash; over every vector in the <code>discord</code>+<code>sig</code> namespaces (12,873 combined) on every cycle, with no caching, just to read a small <code>urls</code> metadata field. The same shape as the humboldt full-re-embed incident from July, except this time a full-corpus <em>read</em> in c3po's own code. Fixed to persist already-harvested vector IDs per namespace and fetch only newly-added ones."
+        },
+        {
+          "title": "The existing auto-pause safety net never recognized this failure type",
+          "html": "<code>_GuardedIndex</code> in <code>ingest/utils.py</code> (built in July for the write-unit/read-unit incidents) auto-pauses ingestion when a Pinecone 429 matches a known regex &mdash; but it only knew <code>“write unit limit”</code> and <code>“read unit limit”</code>, not <code>“egress limit”</code>, so the daemon retried blind for three-plus days instead of self-pausing like it had before. Generalized to one regex matching Pinecone's general <code>“reached your &lt;name&gt; limit”</code> phrasing, so any not-yet-seen quota dimension self-pauses correctly going forward."
+        },
+        {
+          "title": "Extended the same incremental-read treatment to two more unconditional full-scan patterns",
+          "html": "After estimating that even the fixed <code>fetch_discord_links.py</code>'s remaining <code>idx.list()</code> call &mdash; ID-only, but still run against the full discord+sig namespaces every cycle &mdash; could on its own approach the entire 1GB/month egress budget, added a <code>describe_index_stats()</code> precheck (a control-plane call, confirmed exempt from the egress quota) to skip listing a namespace entirely when its vector count hasn't moved since last run. Separately, <code>rebuild_sig_summaries.py</code> was fetching full vector data for all ~124 meeting-summary vectors unconditionally, before its own already-built-locally check was even applied &mdash; since the meeting <code>thread_id</code> is embedded directly in the vector ID, it can now check the local JSON cache first and only fetch meetings it hasn't built yet. Swept the rest of the repo for the same pattern; everything else turned out to be one-off manual scripts or normal per-interaction query traffic, not recurring full-scans."
+        },
+        {
+          "title": "Confirmed both bots are degrading gracefully, not dodging the quota",
+          "html": "Found direct log evidence that <code>c3po_bot.py</code>'s own separate direct-Pinecone query (for Discord onboarding/nav help) is hitting the same exhausted egress quota &mdash; <code>Guide task failed: [429] ...egress limit...</code> logged on both 2026-08-11 and 2026-08-12, caught and swallowed so the bot continues without that recommendation instead of crashing. Same underlying mechanism as the web Worker's <code>degraded: true</code> fallback built in July: both channels keep talking, just without corpus grounding, while the quota stays exhausted."
+        }
+      ]
     }
   ]
 }
