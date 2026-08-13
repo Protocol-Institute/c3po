@@ -42,6 +42,7 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 NAMESPACE     = "discord_links"
 SOURCE_NS     = ["discord", "sig"]   # namespaces to harvest URLs from
 REGISTRY_PATH = Path(__file__).parent.parent / "data" / "discord_links_registry.json"
+HARVEST_STATE_PATH = Path(__file__).parent.parent / "data" / "discord_links_harvest_state.json"
 
 # ── Prompt injection filter ────────────────────────────────────────────────────
 # These patterns detect imperative commands that could manipulate LLM context
@@ -337,16 +338,37 @@ def fetch_youtube_transcript(url: str) -> str | None:
 
 
 # ── Harvest URLs from Pinecone discord + sig namespaces ───────────────────────
+#
+# idx.list() is ID-only and cheap; idx.fetch() returns full vector values +
+# metadata and is the expensive read. A vector's `urls` metadata is set once
+# at ingest and never changes, so once a vector has been fetched here there's
+# no reason to fetch it again — HARVEST_STATE_PATH tracks the IDs already
+# harvested per namespace so re-runs only fetch newly-added vectors instead of
+# re-reading the entire namespace every cycle (confirmed 2026-08-13: the old
+# unconditional full re-fetch, run every 30min daemon cycle with no cap, blew
+# through Pinecone's 1GB/month egress quota by day 9 of the billing cycle).
 
-def harvest_urls_from_namespace(idx, namespace: str) -> dict:
-    """Pull all URLs from a Pinecone namespace's `urls` metadata field."""
+def load_harvest_state() -> dict:
+    if HARVEST_STATE_PATH.exists():
+        return json.loads(HARVEST_STATE_PATH.read_text())
+    return {}
+
+
+def save_harvest_state(state: dict):
+    HARVEST_STATE_PATH.write_text(json.dumps(state, indent=2))
+
+
+def harvest_urls_from_namespace(idx, namespace: str, seen_ids: set) -> tuple[dict, set]:
+    """Pull URLs from newly-seen vectors in a Pinecone namespace's `urls` metadata field."""
     all_ids = []
     for page in idx.list(namespace=namespace):
         all_ids.extend(item.id for item in page.vectors)
 
+    new_ids = [i for i in all_ids if i not in seen_ids]
+
     additions = {}
-    for i in range(0, len(all_ids), 99):
-        batch = idx.fetch(ids=all_ids[i:i+99], namespace=namespace)
+    for i in range(0, len(new_ids), 99):
+        batch = idx.fetch(ids=new_ids[i:i+99], namespace=namespace)
         for vid, vec in batch.vectors.items():
             m = vec.metadata
             raw_urls = m.get("urls", "[]")
@@ -377,16 +399,19 @@ def harvest_urls_from_namespace(idx, namespace: str) -> dict:
                 }
                 if src not in additions[key]["sources"]:
                     additions[key]["sources"].append(src)
-    return additions
+    return additions, set(all_ids)
 
 
 def harvest_urls_from_pinecone(idx) -> dict:
-    """Pull all URLs from discord + sig namespaces, merge, return registry additions."""
+    """Pull URLs from newly-added vectors in discord + sig namespaces, merge, return registry additions."""
+    state = load_harvest_state()
     additions: dict = {}
     for ns in SOURCE_NS:
-        print(f"  Harvesting from {ns} namespace...")
-        ns_additions = harvest_urls_from_namespace(idx, ns)
-        print(f"    {len(ns_additions)} unique URLs")
+        seen_ids = set(state.get(ns, []))
+        print(f"  Harvesting from {ns} namespace... ({len(seen_ids)} already harvested)")
+        ns_additions, all_ids = harvest_urls_from_namespace(idx, ns, seen_ids)
+        print(f"    {len(ns_additions)} unique URLs from {len(all_ids) - len(seen_ids)} new vectors")
+        state[ns] = sorted(all_ids)
         for key, entry in ns_additions.items():
             if key not in additions:
                 additions[key] = entry
@@ -394,6 +419,7 @@ def harvest_urls_from_pinecone(idx) -> dict:
                 for src in entry["sources"]:
                     if src not in additions[key]["sources"]:
                         additions[key]["sources"].append(src)
+    save_harvest_state(state)
     print(f"  Total: {len(additions)} unique URLs across all namespaces")
     return additions
 
