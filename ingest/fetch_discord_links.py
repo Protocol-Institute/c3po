@@ -406,12 +406,33 @@ def harvest_urls_from_pinecone(idx) -> dict:
     """Pull URLs from newly-added vectors in discord + sig namespaces, merge, return registry additions."""
     state = load_harvest_state()
     additions: dict = {}
+
+    # describe_index_stats() is a control-plane call (cheap, not counted toward
+    # the data-plane egress quota, and stays available even during a read-unit/
+    # egress 429 — see _GuardedIndex in utils.py). Use it to skip idx.list()
+    # entirely on namespaces where the vector count hasn't moved since last run
+    # — list() is ID-only and individually cheap, but doing it for the full
+    # discord+sig namespaces (12,000+ IDs) every 30min cycle regardless of
+    # whether anything changed was itself a meaningful chunk of the egress
+    # that exhausted the free plan's 1GB/month cap (confirmed 2026-08-13).
+    try:
+        counts = {ns: info.vector_count for ns, info in idx.describe_index_stats().namespaces.items()}
+    except Exception as e:
+        print(f"  describe_index_stats() failed ({e}) — falling back to listing every namespace")
+        counts = {}
+
     for ns in SOURCE_NS:
         seen_ids = set(state.get(ns, []))
+        last_count = state.get(f"{ns}__count")
+        current_count = counts.get(ns)
+        if current_count is not None and current_count == last_count:
+            print(f"  {ns} namespace unchanged ({current_count} vectors) — skipping list/fetch")
+            continue
         print(f"  Harvesting from {ns} namespace... ({len(seen_ids)} already harvested)")
         ns_additions, all_ids = harvest_urls_from_namespace(idx, ns, seen_ids)
         print(f"    {len(ns_additions)} unique URLs from {len(all_ids) - len(seen_ids)} new vectors")
         state[ns] = sorted(all_ids)
+        state[f"{ns}__count"] = len(all_ids)
         for key, entry in ns_additions.items():
             if key not in additions:
                 additions[key] = entry

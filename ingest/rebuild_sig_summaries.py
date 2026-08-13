@@ -162,10 +162,23 @@ def main():
     all_ids = get_all_summary_ids(idx)
     print(f"  {len(all_ids)} meeting summaries found")
 
-    # Fetch all metadata at once
+    # thread_id is embedded in the vector ID itself (sig_meeting_summary__<thread_id>),
+    # so we can tell which meetings are already built locally without fetching their
+    # full vector data (values + metadata) from Pinecone at all. Confirmed 2026-08-13:
+    # this unconditional full-fetch was running every 30min daemon cycle regardless of
+    # the already-built check below, contributing to Pinecone's monthly egress cap
+    # (1GB/month on the free plan) getting exhausted well before month's end.
+    if not args.force:
+        fetch_ids = [vid for vid in all_ids
+                     if not (MEETINGS_DIR / f"{vid.split('__', 1)[1]}.json").exists()]
+        print(f"  {len(all_ids) - len(fetch_ids)} already built locally — skipping their fetch")
+    else:
+        fetch_ids = all_ids
+
+    # Fetch metadata only for meetings not already built
     all_meta = {}
-    for i in range(0, len(all_ids), 100):
-        batch = idx.fetch(ids=all_ids[i:i+100], namespace=NAMESPACE)
+    for i in range(0, len(fetch_ids), 100):
+        batch = idx.fetch(ids=fetch_ids[i:i+100], namespace=NAMESPACE)
         for vid, vec in batch.vectors.items():
             all_meta[vid] = vec.metadata
 
