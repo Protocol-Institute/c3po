@@ -71,17 +71,17 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 | Namespace | Vectors | Notes |
 |-----------|---------|-------|
 | `discord_links` | 11,668 | Community-shared URLs, scored by Haiku |
-| `sig` | 7,069 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 6 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG |
-| `discord` | 5,805 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
+| `sig` | 7,142 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 6 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG |
+| `discord` | 5,813 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
 | `videos` | 3,127 | YouTube talks (97 videos) |
 | `substack` | 1,180 | Protocolized magazine (123 posts) |
 | `pdfs` | 765 | 74 papers/essays + 2 special-feature items (New Nature essay + slides) |
 | `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
 | `bibliography` | 278 | External works cited by PI corpus |
 | `discord_guide` | 73 | Scoped per [`plans/discord-guide-scope.md`](plans/discord-guide-scope.md): excludes transient/admin channels (MOD, Server Link Feed, introductions/bugs/announcements); archived-read-only channels embed once then freeze; SIG channels include cadence + next_event_time |
-| `meta` | 48 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
+| `meta` | 49 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
 | `transcripts` | 43 | Bot conversation self-memory: web + Discord Q&A |
-| **Total** | **30,616** | |
+| **Total** | **30,698** | |
 
 ## Key Ingest Scripts
 

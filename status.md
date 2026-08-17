@@ -1,5 +1,39 @@
 # C3PO — Status Log
 
+## 2026-08-17 11:30–13:10 PT — Merged c3po#2/#3, confirmed egress still exhausted, root-caused + trimmed the query fan-out (session 49)
+
+**Started from "check for PRs created by another agent via the website project."** Found two open PRs against `Protocol-Institute/c3po` itself (not the website repo) from 2026-08-10: **#2** (drop gitignored `monitoring.html` from `WEBSITE_PATHS` — `git add` on an explicitly-named ignored path is fatal, not a silent skip, so every website-push attempt since 08-07 had been aborting) and **#3** (fix a zero-width-lookahead regex bug in `_patch_meeting_archive` that was leaking 2 blank lines per SIG page on every daemon cycle, ~800 lines/page by the time it was caught). Reviewed both — diagnoses and fixes checked out on manual regex trace and independent verification against the website repo's actual `.gitignore` — merged both (squash), fast-forwarded the laptop clone (187 commits behind, all but 2 routine `[daemon]` state syncs) and the VM clone (2 behind), restarted `c3po-daemon.service` on the VM.
+
+**Re-verified the Pinecone egress gate directly against the REST API** (bypassing our own code) rather than trusting the `_default_resume_at()` computed date: still 429, `"egress limit for the current month (1000000000 bytes)"`. Confirmed **not yet reset** — the 2026-09-01 resume date in `ingestion_control.py status` is an untested extrapolation from the write/read-unit quotas' confirmed monthly-reset behavior (session 46), not something ever observed for egress specifically, since egress was only discovered as a separate quota in session 48.
+
+**User flagged that raw Discord/webchat message volume didn't look high enough to explain 1GB/month of egress, and asked whether humboldt reads c3po's vectors too — both suspicions confirmed.** Traced every read call site:
+- Every web `/query`, MCP `ask_c3po`/`search` call, and Discord @mention/slash-command fans out to **9-11 Pinecone `query()` calls** (one per namespace: pdfs, substack, videos, discord, sig ×2, definitions, discord_links, bibliography, meta, transcripts) with `includeMetadata:true`, all sharing one `TOP_K_EACH=8` constant in `api/worker.js` — one user question ≈ 10 reads, not 1.
+- **Humboldt directly queries c3po's live index**, not just a namespace-isolated peer sharing the account as the existing memory note said. `humboldt/agent/retrieval.py`'s `_c3po_index()` hits `PINECONE_C3PO_HOST` directly (default `mode="direct"`), looping `NS_BROAD_PLUS` (6 of c3po's namespaces, `include_metadata=True`, `top_k=5`) on every Discord reply it composes (3 call sites in `daemon/discord_client.py`), plus deeper `NS_ALL`/`NS_BROAD` runs from its `investigate`/`assess_evidence` CLI commands. Corrected `humboldt_peer_bot.md` memory, which previously understated this as "shares quota" rather than "reads the index directly."
+
+**Implemented and deployed the two cheapest fixes from that audit** (deferred a bigger result-caching redesign — flagged as a likely follow-up if the trims aren't enough):
+- `api/worker.js`: `TOP_K_EACH` 8→5 across all 4 fan-out call sites (`runRagQuery`, `runMcpSearch`, `runMcpAsk`, `handleDiscordInteraction`) — committed (`5ea8021`), pushed, deployed live (`wrangler deploy`, version `c7f8c7fd`).
+- `humboldt/agent/retrieval.py`: `NS_BROAD_PLUS` trimmed from 7→5 namespaces (dropped `bibliography`, `discord_links` — rarely relevant to live reply context; `investigate`/`assess_evidence`'s `NS_BROAD`/`NS_ALL` untouched) — committed (`ce7f838`) to humboldt's active `redesign-2026-08` branch, pushed, local launchd daemon (`org.protocol-institute.humboldt`) restarted and confirmed running fresh.
+
+**Pinecone:** 30,616 → 30,698 (organic writes only — write pause is not active, only read; +73 sig, +8 discord, +1 meta from normal daemon cycles during the session).
+
+**Open TODOs (priority order):**
+1. **Check the egress gate again after 2026-09-01** — same as before, but now also watch whether the ~40% TOP_K_EACH cut + humboldt's narrower fan-out keep it from re-exhausting immediately, which would be evidence the reset date itself is wrong or the allowance is just too small for current traffic.
+2. **If egress re-exhausts fast post-reset, build short-TTL result caching in the Worker** (Cloudflare KV/Cache API, keyed on normalized query text) — the bigger lever we deferred this session; cuts repeat/FAQ-style traffic to zero extra Pinecone reads.
+3. Consider routing humboldt's reply-composition retrieval through `mode="worker"` instead of direct Pinecone, so future Worker-side caching/tuning benefits humboldt too instead of needing parallel changes in both repos — double-check the `/search` endpoint's `mergeResults()` fix (session 45) still holds first.
+4. Build proactive local instrumentation for Pinecone read/write/egress volume — still reactive-only (session 48 TODO #2, carried).
+5. Identify the owner of a stray MCP SSE reconnect-loop client (AT&T IP, La Cañada Flintridge) — carried from session 47, still unidentified.
+6. Decide fate of `ingest/sync_roam.py` (plan exists) given Roam was deprecated.
+7. Create `Protocol-Institute/sig-notes` repo + template — needs discussion with SIG hosts.
+8. Build the "good first reads" starter page.
+9. `ingest/extract_structure.py` — exhibit extraction, not started.
+10. Rotate the Anthropic key to the PI org account.
+11. `protocolized-website` PR #5 (hono CVE fix) — flag to its owner for merge.
+12. `protocolized-website`'s wrangler 4.118.0 bump — separate PR, conflicts with pinned `@cloudflare/workers-types@^4.x`.
+13. Narrow `recommend_to_newcomers` to SIGs + `idle-protocol-musings` only (see `plans/discord-guide-scope.md`).
+14. Monitor the session-47 intro-window fix (7-day window) through ~2026-08-25 — no action unless a bad message is reported.
+
+---
+
 ## 2026-08-13 11:30–14:20 PT — Pinecone egress-quota exhaustion diagnosed + incremental-read fixes (session 48)
 
 **Started from a report that the deployed web bot "seemed to have obsolete rate-limit messaging and was capping responses."** Reproduced live against `c3po.protocolized.io`: every `/query` returned `degraded: true`, `sources: []`, and a generic "quota/rate limit" disclaimer prepended to an ungrounded answer. Root-caused via a raw REST call directly to Pinecone (bypassing all our own code) to a genuine, current 429: `"You've reached your egress limit for the current month (1000000000 bytes). To continue reading data, upgrade your plan."` — confirmed with the user (who had independently checked Pinecone's console and saw RU/WU/storage all under 65% with no breach) that **egress is a fourth, separate monthly quota** (1GB/month on the Free plan) not shown alongside RU/WU/storage on the main quotas page — sourced from Pinecone's own cost docs. First hit 2026-08-10 19:10 UTC per VM daemon logs (417 occurrences by session start), never noticed because no session had logged in since 2026-08-04.

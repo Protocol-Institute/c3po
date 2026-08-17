@@ -2005,6 +2005,41 @@
           "html": "Found direct log evidence that <code>c3po_bot.py</code>'s own separate direct-Pinecone query (for Discord onboarding/nav help) is hitting the same exhausted egress quota &mdash; <code>Guide task failed: [429] ...egress limit...</code> logged on both 2026-08-11 and 2026-08-12, caught and swallowed so the bot continues without that recommendation instead of crashing. Same underlying mechanism as the web Worker's <code>degraded: true</code> fallback built in July: both channels keep talking, just without corpus grounding, while the quota stays exhausted."
         }
       ]
+    },
+    {
+      "id": 49,
+      "sort_key": 49.0,
+      "label": "Session 49",
+      "title": "Merged Daemon-Diagnosed PRs, Root-Caused the Query Fan-Out, Trimmed Egress Cost",
+      "date": "2026-08-17",
+      "time_pt": "11:30–13:10",
+      "tracks": [
+        "operations",
+        "worker-api"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "total": 30698
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "Reviewed and merged two PRs a prior session had opened against c3po itself",
+          "html": "Went looking for PRs against the website repo and found the real ones sitting against <code>Protocol-Institute/c3po</code> instead: <strong>#2</strong> dropped a gitignored <code>monitoring.html</code> from the website-push pathspec &mdash; <code>git add</code> on an explicitly-named ignored path is a hard error, not a silent skip, so every website-push attempt since 2026-08-07 had been aborting before it ever reached the SIG content that mattered. <strong>#3</strong> fixed a zero-width-lookahead regex bug in <code>_patch_meeting_archive</code> that had been leaking two blank lines into every SIG page on every daemon cycle since session 39, compounding to roughly 800 stray lines per page by the time it was caught. Verified both independently (traced the regex by hand, confirmed the gitignore state against the live website repo) before merging, then fast-forwarded both the laptop and VM clones and restarted the VM daemon."
+        },
+        {
+          "title": "Re-verified the Pinecone egress gate directly, rather than trusting the computed reset date",
+          "html": "The read pause's <code>resume_at</code> is a code-side guess &mdash; “1st of next UTC month” &mdash; extrapolated from the write/read-unit quotas' confirmed reset behavior, but egress itself had never actually been observed resetting since it was only discovered as a separate quota in session 48. A raw REST call straight to Pinecone, bypassing all of c3po's own code, confirmed it's still exhausted: the same <code>“egress limit for the current month (1000000000 bytes)”</code> 429."
+        },
+        {
+          "title": "Traced every Pinecone read call site and found the real egress driver: fan-out, not message volume",
+          "html": "Prompted by the observation that Discord/webchat traffic didn't look heavy enough to explain a blown 1GB/month allowance. Every web <code>/query</code>, MCP call, and Discord @mention or slash command turned out to fan out to <strong>9–11 separate namespace queries</strong> with full metadata &mdash; one user question is really about ten Pinecone reads. On top of that, humboldt (previously understood as just a quota-sharing peer with its own separate index) turned out to <strong>query c3po's live index directly</strong> as its primary retrieval path, fanning out across six of c3po's namespaces on every Discord reply it composes. Corrected the humboldt memory note, which had understated this."
+        },
+        {
+          "title": "Trimmed the fan-out at both ends and deployed",
+          "html": "Cut the Worker's shared <code>TOP_K_EACH</code> constant from 8 to 5 across all four query-fan-out call sites and deployed live. Narrowed humboldt's per-reply namespace set from seven down to five (dropping <code>bibliography</code> and <code>discord_links</code>, rarely relevant to a live reply, while leaving its deliberate CLI research commands at full breadth), pushed, and restarted its daemon. A larger fix &mdash; short-TTL result caching for repeat queries &mdash; was scoped but deferred as a likely follow-up if this trim isn't enough on its own."
+        }
+      ]
     }
   ]
 }
