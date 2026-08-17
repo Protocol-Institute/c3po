@@ -373,10 +373,13 @@ def _patch_meeting_archive(index_path: Path, sig_key: str, meetings: list[dict])
     new_block = f'{new_h2}\n\n      {cards_html}'
 
     # Replace from the Meeting Archive h2 through the end of the list/no-meetings block,
-    # stopping just before the sig-cta div (which we do not touch).
+    # stopping just before the sig-cta div (which we do not touch). The trailing \s* is
+    # part of the match itself, not just a lookahead condition — it must actually consume
+    # the old whitespace run before the div, or that whitespace survives untouched and the
+    # freshly-inserted '\n\n      ' below stacks on top of it, leaking 2 lines per run.
     pattern = _re.compile(
-        r'<h2 class="section-label">Meeting Archive.*?'
-        r'(?=\s*<div class="sig-cta">)',
+        r'<h2 class="section-label">Meeting Archive.*?\s*'
+        r'(?=<div class="sig-cta">)',
         _re.DOTALL,
     )
     updated, n = pattern.subn(new_block + '\n\n      ', existing)
