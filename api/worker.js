@@ -30,7 +30,7 @@ const CLAUDE_URL      = "https://api.anthropic.com/v1/messages";
 const ANTHROPIC_VER   = "2023-06-01";
 const BOT_VERSION     = "v0.1.0";
 const LAUNCH_DATE     = "2026-05-15";
-const TOP_K_EACH      = 8;     // per namespace before merge
+const TOP_K_EACH      = 5;     // per namespace before merge (trimmed from 8 2026-08-17 — egress-quota reduction, session 49)
 const TOP_K_LINKS     = 5;     // discord_links (large 10K-vector namespace; skip for discord context)
 const TOP_K_BIB       = 4;     // bibliography (278 vectors, rarely top-ranked)
 const MAX_SOURCES     = 8;
@@ -2878,7 +2878,7 @@ ${subnav('/how-it-works')}
 <p>Every <code>POST /query</code>, <code>ask_c3po</code> MCP call, and Discord @mention follows the same pipeline:</p>
 <ol style="margin:0.3em 0 0.8em 1.2em;color:#444;font-size:0.95em;line-height:1.9;">
   <li><strong>Embed the query</strong> &mdash; Voyage AI <code>voyage-3</code> encodes the question into a 1,024-dim vector (<code>input_type: "query"</code>).</li>
-  <li><strong>Parallel namespace query</strong> &mdash; all 9 corpus namespaces queried simultaneously at <code>top_k = TOP_K_EACH</code> (typically 8); <code>meta</code> queried at top-3; <code>transcripts</code> queried at top-3; <code>sig_meeting_page</code> sub-query fired in parallel for the <code>sig</code> namespace.</li>
+  <li><strong>Parallel namespace query</strong> &mdash; all 9 corpus namespaces queried simultaneously at <code>top_k = TOP_K_EACH</code> (typically 5); <code>meta</code> queried at top-3; <code>transcripts</code> queried at top-3; <code>sig_meeting_page</code> sub-query fired in parallel for the <code>sig</code> namespace.</li>
   <li><strong>Normalize</strong> &mdash; each namespace has a <code>normalize*()</code> function mapping raw Pinecone metadata to a standard shape: <code>{ source, type, label, title, authors, date, url, summary, excerpt, score, ... }</code>. Namespace-specific fields (e.g. <code>sig_display</code>, <code>channel_name</code>, <code>domain</code>) are preserved alongside.</li>
   <li><strong>Merge and tier-weight</strong> &mdash; <code>mergeResults()</code> applies the tier weights above, deduplicates by URL, extracts transcript cache hits (score &ge; 0.52), and returns the top <code>MAX_SOURCES</code> items.</li>
   <li><strong>Secondary retrieval</strong> &mdash; summary-type vectors in the top results trigger follow-up body-chunk queries for their documents. Results merged back in.</li>
