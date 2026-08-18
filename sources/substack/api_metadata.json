@@ -1,22 +1,38 @@
 [
   {
-    "id": 208161970,
-    "slug": "how-the-protocol-institute-is-adopting",
-    "title": "How the Protocol Institute is Adopting AI",
-    "subtitle": "What building a research institute at 100% adoption actually looks like",
-    "post_date": "2026-08-03T19:33:32.464Z",
-    "updated_at": "2026-08-03T19:36:17.791Z",
+    "id": 211538617,
+    "slug": "carousel-feeding-in-the-asteroid",
+    "title": "Carousel Feeding in the Asteroid Midden // Livelock",
+    "subtitle": "For Egrol, the protagonist of Spencer Nitkey’s Thanatosis, a mind-expanding encounter with workers who have agency",
+    "post_date": "2026-08-17T17:55:35.859Z",
+    "updated_at": "2026-08-17T18:00:12.353Z",
     "type": "newsletter",
-    "wordcount": 1346,
-    "section_id": 333103,
-    "section_name": "Obliquities",
-    "postTags": [],
+    "wordcount": 3741,
+    "section_id": 333105,
+    "section_name": "Fictions",
+    "postTags": [
+      {
+        "id": "74abb978-216b-4664-b93a-255d199d7f9e",
+        "name": "Fiction",
+        "slug": "fiction"
+      },
+      {
+        "id": "95ca5b95-2296-4242-aec0-bb2aed087b4b",
+        "name": "Stories",
+        "slug": "stories"
+      },
+      {
+        "id": "e36d8e60-5148-460f-a8ea-6b39aba6a1fc",
+        "name": "Thanatosis",
+        "slug": "thanatosis"
+      }
+    ],
     "publishedBylines": [
       {
-        "id": 17195021,
-        "name": "Timber Stinson-Schroff",
-        "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, athletics, chess, and nature"
+        "id": 309697450,
+        "name": "Spencer Nitkey",
+        "handle": "spencernitkeywriting",
+        "bio": "Stories in Apex, Asimov Press, Nature, Lightspeed, The Adroit Journal, and many others."
       },
       {
         "id": 309790256,
@@ -25,8 +41,40 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 10,
-    "restacks": 2,
+    "reaction_count": 6,
+    "restacks": 1,
+    "comment_count": 4,
+    "previous_post_slug": "floyd-haggertys-wild-west-extravaganza",
+    "next_post_slug": null
+  },
+  {
+    "id": 208161970,
+    "slug": "how-the-protocol-institute-is-adopting",
+    "title": "How the Protocol Institute is Adopting AI",
+    "subtitle": "What building a research institute at 100% adoption actually looks like",
+    "post_date": "2026-08-03T19:33:32.464Z",
+    "updated_at": "2026-08-03T19:36:17.791Z",
+    "type": "newsletter",
+    "wordcount": 1345,
+    "section_id": 333103,
+    "section_name": "Obliquities",
+    "postTags": [],
+    "publishedBylines": [
+      {
+        "id": 17195021,
+        "name": "Timber Stinson-Schroff",
+        "handle": "timberstinsonschroff",
+        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 11,
+    "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "jamverse-jam-contest-closes-today",
     "next_post_slug": null
@@ -39,7 +87,7 @@
     "post_date": "2026-07-31T14:49:58.688Z",
     "updated_at": "2026-07-31T14:51:12.287Z",
     "type": "newsletter",
-    "wordcount": 203,
+    "wordcount": 208,
     "section_id": 333103,
     "section_name": "Obliquities",
     "postTags": [],
@@ -71,7 +119,7 @@
     "post_date": "2026-07-27T19:53:30.166Z",
     "updated_at": "2026-07-27T19:54:47.470Z",
     "type": "newsletter",
-    "wordcount": 3063,
+    "wordcount": 3070,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [],
@@ -89,11 +137,11 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 4,
-    "restacks": 1,
+    "reaction_count": 6,
+    "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "thanatosis-on-the-central-mast-liveness",
-    "next_post_slug": null
+    "next_post_slug": "carousel-feeding-in-the-asteroid"
   },
   {
     "id": 207796149,
@@ -103,7 +151,7 @@
     "post_date": "2026-07-21T14:45:36.742Z",
     "updated_at": "2026-07-21T14:49:16.889Z",
     "type": "newsletter",
-    "wordcount": 4666,
+    "wordcount": 4714,
     "section_id": 333103,
     "section_name": "Obliquities",
     "postTags": [
@@ -127,9 +175,9 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 32,
+    "reaction_count": 36,
     "restacks": 8,
-    "comment_count": 9,
+    "comment_count": 10,
     "previous_post_slug": "challenges-trivial-grand-and-whitehead",
     "next_post_slug": "jamverse-jam-contest-closes-today"
   },
@@ -141,7 +189,7 @@
     "post_date": "2026-07-16T19:16:22.118Z",
     "updated_at": "2026-07-16T19:16:22.587Z",
     "type": "podcast",
-    "wordcount": 1,
+    "wordcount": 0,
     "section_id": null,
     "section_name": "Protocolized",
     "postTags": [],
@@ -165,7 +213,7 @@
         "bio": "Infrastructure ethnography"
       }
     ],
-    "reaction_count": 9,
+    "reaction_count": 10,
     "restacks": 0,
     "comment_count": 0,
     "previous_post_slug": "jamverse-jam",
@@ -179,7 +227,7 @@
     "post_date": "2026-07-13T18:00:23.831Z",
     "updated_at": "2026-07-13T18:05:46.146Z",
     "type": "newsletter",
-    "wordcount": 3942,
+    "wordcount": 3978,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [],
@@ -197,7 +245,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 9,
+    "reaction_count": 10,
     "restacks": 3,
     "comment_count": 2,
     "previous_post_slug": "a-visitors-guide-to-the-disposition",
@@ -211,7 +259,7 @@
     "post_date": "2026-06-30T20:55:00.283Z",
     "updated_at": "2026-06-30T20:56:40.891Z",
     "type": "newsletter",
-    "wordcount": 4418,
+    "wordcount": 4437,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -235,7 +283,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 4,
+    "reaction_count": 5,
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "the-big-man",
@@ -249,7 +297,7 @@
     "post_date": "2026-06-25T20:55:09.050Z",
     "updated_at": "2026-06-25T20:55:51.246Z",
     "type": "newsletter",
-    "wordcount": 1706,
+    "wordcount": 1707,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -289,7 +337,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 12,
+    "reaction_count": 13,
     "restacks": 10,
     "comment_count": 1,
     "previous_post_slug": "the-character-of-public-transit-systems",
@@ -303,7 +351,7 @@
     "post_date": "2026-06-22T20:53:35.992Z",
     "updated_at": "2026-06-22T20:55:16.916Z",
     "type": "newsletter",
-    "wordcount": 2629,
+    "wordcount": 2635,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -342,7 +390,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 11,
+    "reaction_count": 12,
     "restacks": 4,
     "comment_count": 1,
     "previous_post_slug": "maintaining-everything-that-matters",
@@ -356,7 +404,7 @@
     "post_date": "2026-06-16T16:18:40.270Z",
     "updated_at": "2026-06-16T16:19:15.363Z",
     "type": "newsletter",
-    "wordcount": 1197,
+    "wordcount": 1209,
     "section_id": null,
     "section_name": "Protocolized",
     "postTags": [
@@ -399,7 +447,7 @@
       }
     ],
     "reaction_count": 20,
-    "restacks": 3,
+    "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "protocols-for-the-long-now",
     "next_post_slug": "jamverse-live"
@@ -412,7 +460,7 @@
     "post_date": "2026-06-12T17:13:45.197Z",
     "updated_at": "2026-06-12T17:16:17.360Z",
     "type": "newsletter",
-    "wordcount": 3979,
+    "wordcount": 3969,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [],
@@ -444,7 +492,7 @@
     "post_date": "2026-06-09T12:18:19.756Z",
     "updated_at": "2026-06-09T13:14:46.192Z",
     "type": "newsletter",
-    "wordcount": 2228,
+    "wordcount": 2250,
     "section_id": 333103,
     "section_name": "Obliquities",
     "postTags": [
@@ -492,7 +540,7 @@
     "post_date": "2026-06-03T19:41:16.454Z",
     "updated_at": "2026-06-03T19:43:33.460Z",
     "type": "newsletter",
-    "wordcount": 3443,
+    "wordcount": 3445,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -540,7 +588,7 @@
     "post_date": "2026-06-01T21:51:09.730Z",
     "updated_at": "2026-06-01T21:51:40.954Z",
     "type": "newsletter",
-    "wordcount": 794,
+    "wordcount": 800,
     "section_id": 333103,
     "section_name": "Obliquities",
     "postTags": [
@@ -583,7 +631,7 @@
     "post_date": "2026-05-30T18:13:35.974Z",
     "updated_at": "2026-05-30T18:14:26.490Z",
     "type": "newsletter",
-    "wordcount": 2231,
+    "wordcount": 2258,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -636,7 +684,7 @@
     "post_date": "2026-05-22T22:53:31.359Z",
     "updated_at": "2026-05-22T22:58:44.743Z",
     "type": "newsletter",
-    "wordcount": 5185,
+    "wordcount": 5184,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -674,7 +722,7 @@
     "post_date": "2026-05-12T12:16:51.378Z",
     "updated_at": "2026-05-12T16:15:57.736Z",
     "type": "newsletter",
-    "wordcount": 4276,
+    "wordcount": 4350,
     "section_id": 333103,
     "section_name": "Obliquities",
     "postTags": [
@@ -712,7 +760,7 @@
     "post_date": "2026-05-08T18:00:14.569Z",
     "updated_at": "2026-05-08T18:05:09.271Z",
     "type": "newsletter",
-    "wordcount": 6567,
+    "wordcount": 6574,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -755,7 +803,7 @@
     "post_date": "2026-05-05T20:45:40.721Z",
     "updated_at": "2026-05-05T20:46:22.122Z",
     "type": "newsletter",
-    "wordcount": 1338,
+    "wordcount": 1342,
     "section_id": null,
     "section_name": "Protocolized",
     "postTags": [
@@ -770,7 +818,7 @@
         "id": 7340691,
         "name": "Denise Hearn",
         "handle": "denisehearn",
-        "bio": "I’m the Director of Strategic Initiatives at the Long Now Foundation. I’m also co-author of The Myth of Capitalism and The Big Fix, and my research, writing, and work can be found at: www.denisehearn.com"
+        "bio": "I’m the Director of Strategic Initiatives at the Long Now Foundation and co-author of The Myth of Capitalism and The Big Fix. My research, writing, and work can be found at: www.denisehearn.com and embodied-economics.ghost.io"
       },
       {
         "id": 309790256,
@@ -782,7 +830,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, athletics, chess, and nature"
+        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
       }
     ],
     "reaction_count": 27,
@@ -799,7 +847,7 @@
     "post_date": "2026-04-27T20:51:20.751Z",
     "updated_at": "2026-05-22T21:31:38.440Z",
     "type": "newsletter",
-    "wordcount": 4529,
+    "wordcount": 4579,
     "section_id": 333103,
     "section_name": "Obliquities",
     "postTags": [
@@ -829,7 +877,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, athletics, chess, and nature"
+        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
       },
       {
         "id": 309790256,
@@ -852,7 +900,7 @@
     "post_date": "2026-04-23T21:03:54.971Z",
     "updated_at": "2026-04-24T05:43:56.844Z",
     "type": "newsletter",
-    "wordcount": 5128,
+    "wordcount": 5149,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -895,7 +943,7 @@
     "post_date": "2026-04-14T12:24:10.249Z",
     "updated_at": "2026-04-14T15:07:35.424Z",
     "type": "newsletter",
-    "wordcount": 1363,
+    "wordcount": 1380,
     "section_id": 333103,
     "section_name": "Obliquities",
     "postTags": [
@@ -933,7 +981,7 @@
     "post_date": "2026-04-03T17:02:04.852Z",
     "updated_at": "2026-04-03T17:05:52.402Z",
     "type": "newsletter",
-    "wordcount": 5979,
+    "wordcount": 5990,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -971,7 +1019,7 @@
     "post_date": "2026-03-31T19:30:42.076Z",
     "updated_at": "2026-03-31T19:34:27.033Z",
     "type": "newsletter",
-    "wordcount": 4899,
+    "wordcount": 4984,
     "section_id": 333103,
     "section_name": "Obliquities",
     "postTags": [
@@ -1014,7 +1062,7 @@
     "post_date": "2026-03-27T20:25:07.310Z",
     "updated_at": "2026-03-27T20:28:04.114Z",
     "type": "newsletter",
-    "wordcount": 3480,
+    "wordcount": 3475,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -1057,7 +1105,7 @@
     "post_date": "2026-03-19T20:17:02.449Z",
     "updated_at": "2026-03-19T20:19:02.611Z",
     "type": "newsletter",
-    "wordcount": 1913,
+    "wordcount": 1922,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -1083,7 +1131,7 @@
     ],
     "reaction_count": 15,
     "restacks": 6,
-    "comment_count": 2,
+    "comment_count": 3,
     "previous_post_slug": "theorizing-protocolization-ii-atomic",
     "next_post_slug": "irrigation-by-protocol-when-vineyards"
   },
@@ -1133,7 +1181,7 @@
     "post_date": "2026-03-10T19:06:36.004Z",
     "updated_at": "2026-03-10T19:09:47.774Z",
     "type": "newsletter",
-    "wordcount": 1513,
+    "wordcount": 1520,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -1171,7 +1219,7 @@
     "post_date": "2026-03-04T22:41:11.317Z",
     "updated_at": "2026-03-04T22:42:10.878Z",
     "type": "newsletter",
-    "wordcount": 3037,
+    "wordcount": 3067,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -1220,7 +1268,7 @@
     "post_date": "2026-03-02T21:51:04.599Z",
     "updated_at": "2026-03-02T21:54:39.242Z",
     "type": "newsletter",
-    "wordcount": 1582,
+    "wordcount": 1607,
     "section_id": 333103,
     "section_name": "Obliquities",
     "postTags": [
@@ -1258,7 +1306,7 @@
     "post_date": "2026-02-28T07:17:21.771Z",
     "updated_at": "2026-02-28T07:18:17.597Z",
     "type": "newsletter",
-    "wordcount": 3518,
+    "wordcount": 3522,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -1296,7 +1344,7 @@
     "post_date": "2026-02-23T21:40:44.052Z",
     "updated_at": "2026-02-23T21:43:46.939Z",
     "type": "newsletter",
-    "wordcount": 5040,
+    "wordcount": 5060,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -1365,7 +1413,7 @@
     "post_date": "2026-02-18T16:47:51.350Z",
     "updated_at": "2026-02-19T22:39:57.334Z",
     "type": "newsletter",
-    "wordcount": 3157,
+    "wordcount": 3142,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -1403,7 +1451,7 @@
     "post_date": "2026-02-15T10:03:51.094Z",
     "updated_at": "2026-02-15T10:07:44.195Z",
     "type": "newsletter",
-    "wordcount": 4779,
+    "wordcount": 4792,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -1441,7 +1489,7 @@
     "post_date": "2026-02-11T21:44:51.690Z",
     "updated_at": "2026-02-11T21:45:29.011Z",
     "type": "newsletter",
-    "wordcount": 1582,
+    "wordcount": 1585,
     "section_id": null,
     "section_name": "Protocolized",
     "postTags": [
@@ -1479,7 +1527,7 @@
     "post_date": "2026-02-06T15:46:49.036Z",
     "updated_at": "2026-02-06T15:50:32.974Z",
     "type": "newsletter",
-    "wordcount": 2766,
+    "wordcount": 2770,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -1517,7 +1565,7 @@
     "post_date": "2026-02-02T21:42:16.431Z",
     "updated_at": "2026-02-02T21:43:40.893Z",
     "type": "newsletter",
-    "wordcount": 1224,
+    "wordcount": 1243,
     "section_id": 333103,
     "section_name": "Obliquities",
     "postTags": [],
@@ -1529,8 +1577,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 16,
-    "restacks": 7,
+    "reaction_count": 19,
+    "restacks": 8,
     "comment_count": 1,
     "previous_post_slug": null,
     "next_post_slug": "have-your-factory-call-my-factory"
@@ -1543,7 +1591,7 @@
     "post_date": "2026-01-28T18:12:13.474Z",
     "updated_at": "2026-02-02T21:35:50.751Z",
     "type": "newsletter",
-    "wordcount": 1109,
+    "wordcount": 1123,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -1563,7 +1611,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, athletics, chess, and nature"
+        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
       },
       {
         "id": 309790256,
@@ -1586,7 +1634,7 @@
     "post_date": "2026-01-23T19:58:38.523Z",
     "updated_at": "2026-02-03T10:27:09.907Z",
     "type": "newsletter",
-    "wordcount": 2514,
+    "wordcount": 2545,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -1624,7 +1672,7 @@
     "post_date": "2026-01-19T19:40:14.750Z",
     "updated_at": "2026-02-03T10:27:43.773Z",
     "type": "newsletter",
-    "wordcount": 3053,
+    "wordcount": 3103,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -1662,7 +1710,7 @@
     "post_date": "2026-01-14T21:06:02.131Z",
     "updated_at": "2026-02-03T10:29:18.038Z",
     "type": "newsletter",
-    "wordcount": 5454,
+    "wordcount": 5438,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -1705,7 +1753,7 @@
     "post_date": "2026-01-11T19:27:13.059Z",
     "updated_at": "2026-02-03T10:29:11.199Z",
     "type": "newsletter",
-    "wordcount": 3205,
+    "wordcount": 3206,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -1748,7 +1796,7 @@
     "post_date": "2026-01-08T18:51:54.468Z",
     "updated_at": "2026-02-03T10:30:19.376Z",
     "type": "newsletter",
-    "wordcount": 5408,
+    "wordcount": 5470,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -1791,7 +1839,7 @@
     "post_date": "2026-01-02T20:30:33.628Z",
     "updated_at": "2026-02-03T10:31:28.615Z",
     "type": "newsletter",
-    "wordcount": 5261,
+    "wordcount": 5281,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -1834,7 +1882,7 @@
     "post_date": "2025-12-31T11:01:36.276Z",
     "updated_at": "2026-02-03T10:30:47.873Z",
     "type": "newsletter",
-    "wordcount": 1643,
+    "wordcount": 1647,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [],
@@ -1843,7 +1891,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, athletics, chess, and nature"
+        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
       },
       {
         "id": 309790256,
@@ -1866,7 +1914,7 @@
     "post_date": "2025-12-27T22:22:20.387Z",
     "updated_at": "2026-02-03T10:30:51.384Z",
     "type": "newsletter",
-    "wordcount": 1412,
+    "wordcount": 1409,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -1909,7 +1957,7 @@
     "post_date": "2025-12-23T22:22:18.868Z",
     "updated_at": "2026-02-04T16:46:38.137Z",
     "type": "newsletter",
-    "wordcount": 3906,
+    "wordcount": 3916,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -1952,7 +2000,7 @@
     "post_date": "2025-12-19T22:01:08.041Z",
     "updated_at": "2026-02-03T10:34:49.511Z",
     "type": "newsletter",
-    "wordcount": 1232,
+    "wordcount": 1275,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -1990,7 +2038,7 @@
     "post_date": "2025-12-14T19:42:57.375Z",
     "updated_at": "2026-02-03T10:35:23.514Z",
     "type": "newsletter",
-    "wordcount": 2649,
+    "wordcount": 2668,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -2038,7 +2086,7 @@
     "post_date": "2025-12-09T19:28:49.304Z",
     "updated_at": "2026-02-03T10:35:50.519Z",
     "type": "newsletter",
-    "wordcount": 3052,
+    "wordcount": 3053,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -2076,7 +2124,7 @@
     "post_date": "2025-12-06T18:54:22.505Z",
     "updated_at": "2026-02-03T10:35:31.267Z",
     "type": "newsletter",
-    "wordcount": 1911,
+    "wordcount": 1927,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -2114,7 +2162,7 @@
     "post_date": "2025-12-03T19:08:16.332Z",
     "updated_at": "2026-02-04T16:45:36.156Z",
     "type": "newsletter",
-    "wordcount": 4174,
+    "wordcount": 4192,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -2157,7 +2205,7 @@
     "post_date": "2025-11-28T19:01:03.792Z",
     "updated_at": "2026-02-03T10:35:44.532Z",
     "type": "newsletter",
-    "wordcount": 1120,
+    "wordcount": 1122,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -2177,7 +2225,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, athletics, chess, and nature"
+        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
       },
       {
         "id": 309790256,
@@ -2200,7 +2248,7 @@
     "post_date": "2025-11-25T20:40:39.901Z",
     "updated_at": "2026-02-04T16:44:39.428Z",
     "type": "newsletter",
-    "wordcount": 3241,
+    "wordcount": 3253,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -2243,7 +2291,7 @@
     "post_date": "2025-11-23T17:38:29.585Z",
     "updated_at": "2026-02-03T10:45:09.874Z",
     "type": "newsletter",
-    "wordcount": 1142,
+    "wordcount": 1136,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -2275,7 +2323,7 @@
     "post_date": "2025-11-18T18:10:27.374Z",
     "updated_at": "2026-02-03T10:46:12.922Z",
     "type": "newsletter",
-    "wordcount": 1417,
+    "wordcount": 1428,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -2323,7 +2371,7 @@
     "post_date": "2025-11-15T22:45:35.412Z",
     "updated_at": "2026-02-03T10:47:58.222Z",
     "type": "newsletter",
-    "wordcount": 1176,
+    "wordcount": 1164,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -2355,7 +2403,7 @@
     "post_date": "2025-11-14T17:59:56.029Z",
     "updated_at": "2026-02-03T10:48:19.535Z",
     "type": "newsletter",
-    "wordcount": 1122,
+    "wordcount": 1123,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -2403,7 +2451,7 @@
     "post_date": "2025-11-10T21:42:15.715Z",
     "updated_at": "2026-02-03T10:49:32.393Z",
     "type": "newsletter",
-    "wordcount": 1268,
+    "wordcount": 1261,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -2441,7 +2489,7 @@
     "post_date": "2025-11-09T03:01:07.405Z",
     "updated_at": "2026-02-03T10:49:46.441Z",
     "type": "newsletter",
-    "wordcount": 1380,
+    "wordcount": 1388,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [],
@@ -2505,7 +2553,7 @@
     "post_date": "2025-11-01T17:06:41.182Z",
     "updated_at": "2026-02-03T10:49:42.891Z",
     "type": "newsletter",
-    "wordcount": 957,
+    "wordcount": 956,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -2537,7 +2585,7 @@
     "post_date": "2025-10-28T22:15:56.841Z",
     "updated_at": "2026-02-03T10:50:31.259Z",
     "type": "newsletter",
-    "wordcount": 3322,
+    "wordcount": 3329,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -2585,7 +2633,7 @@
     "post_date": "2025-10-25T22:17:13.373Z",
     "updated_at": "2026-02-03T10:50:24.726Z",
     "type": "newsletter",
-    "wordcount": 1739,
+    "wordcount": 1729,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -2633,7 +2681,7 @@
     "post_date": "2025-10-22T22:33:03.942Z",
     "updated_at": "2026-02-03T10:51:12.840Z",
     "type": "newsletter",
-    "wordcount": 4177,
+    "wordcount": 4203,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -2691,7 +2739,7 @@
     "post_date": "2025-10-18T21:37:50.707Z",
     "updated_at": "2026-02-03T10:53:24.879Z",
     "type": "newsletter",
-    "wordcount": 1284,
+    "wordcount": 1285,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -2739,7 +2787,7 @@
     "post_date": "2025-10-15T22:08:57.275Z",
     "updated_at": "2026-02-03T10:54:22.042Z",
     "type": "newsletter",
-    "wordcount": 3033,
+    "wordcount": 3063,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -2782,7 +2830,7 @@
     "post_date": "2025-10-15T03:38:25.698Z",
     "updated_at": "2026-02-03T10:54:00.305Z",
     "type": "podcast",
-    "wordcount": 1,
+    "wordcount": 0,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [],
@@ -2814,7 +2862,7 @@
     "post_date": "2025-10-14T19:15:02.078Z",
     "updated_at": "2026-02-03T10:55:11.064Z",
     "type": "newsletter",
-    "wordcount": 2327,
+    "wordcount": 2341,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -2857,7 +2905,7 @@
     "post_date": "2025-10-11T17:43:30.614Z",
     "updated_at": "2026-02-03T10:55:39.625Z",
     "type": "newsletter",
-    "wordcount": 843,
+    "wordcount": 847,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -2912,7 +2960,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, athletics, chess, and nature"
+        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
       },
       {
         "id": 309790256,
@@ -2935,7 +2983,7 @@
     "post_date": "2025-10-08T21:58:39.315Z",
     "updated_at": "2026-02-03T10:58:02.275Z",
     "type": "newsletter",
-    "wordcount": 4930,
+    "wordcount": 4960,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -3013,7 +3061,7 @@
     "post_date": "2025-10-04T19:46:19.309Z",
     "updated_at": "2026-02-03T10:58:12.354Z",
     "type": "newsletter",
-    "wordcount": 4277,
+    "wordcount": 4263,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -3066,7 +3114,7 @@
     "post_date": "2025-10-01T21:06:55.818Z",
     "updated_at": "2026-02-03T10:58:25.399Z",
     "type": "newsletter",
-    "wordcount": 1496,
+    "wordcount": 1504,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -3114,7 +3162,7 @@
     "post_date": "2025-09-27T22:07:40.474Z",
     "updated_at": "2026-02-03T10:58:42.075Z",
     "type": "newsletter",
-    "wordcount": 1724,
+    "wordcount": 1718,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -3162,7 +3210,7 @@
     "post_date": "2025-09-23T19:42:35.376Z",
     "updated_at": "2026-02-03T10:59:20.767Z",
     "type": "newsletter",
-    "wordcount": 1305,
+    "wordcount": 1337,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -3210,7 +3258,7 @@
     "post_date": "2025-09-20T17:53:26.194Z",
     "updated_at": "2026-02-03T11:01:07.833Z",
     "type": "newsletter",
-    "wordcount": 3079,
+    "wordcount": 3151,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -3263,7 +3311,7 @@
     "post_date": "2025-09-16T19:22:11.088Z",
     "updated_at": "2026-02-03T11:00:58.686Z",
     "type": "newsletter",
-    "wordcount": 2974,
+    "wordcount": 2955,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -3311,7 +3359,7 @@
     "post_date": "2025-09-13T14:34:53.092Z",
     "updated_at": "2026-02-03T11:01:31.130Z",
     "type": "newsletter",
-    "wordcount": 1762,
+    "wordcount": 1778,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -3358,7 +3406,7 @@
     "post_date": "2025-09-09T16:59:11.097Z",
     "updated_at": "2026-02-03T11:01:46.717Z",
     "type": "newsletter",
-    "wordcount": 1672,
+    "wordcount": 1686,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -3393,7 +3441,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, athletics, chess, and nature"
+        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
       },
       {
         "id": 309790256,
@@ -3416,7 +3464,7 @@
     "post_date": "2025-09-05T17:18:59.552Z",
     "updated_at": "2026-02-03T11:03:38.140Z",
     "type": "newsletter",
-    "wordcount": 1470,
+    "wordcount": 1469,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -3464,7 +3512,7 @@
     "post_date": "2025-09-02T20:11:45.099Z",
     "updated_at": "2026-02-03T11:04:14.965Z",
     "type": "newsletter",
-    "wordcount": 772,
+    "wordcount": 775,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -3516,7 +3564,7 @@
     "post_date": "2025-08-30T14:43:29.733Z",
     "updated_at": "2026-02-03T11:05:30.417Z",
     "type": "newsletter",
-    "wordcount": 3053,
+    "wordcount": 3043,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -3564,7 +3612,7 @@
     "post_date": "2025-08-27T17:18:36.780Z",
     "updated_at": "2026-02-03T11:08:16.126Z",
     "type": "newsletter",
-    "wordcount": 6137,
+    "wordcount": 6147,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -3622,7 +3670,7 @@
     "post_date": "2025-08-23T15:30:54.849Z",
     "updated_at": "2026-02-03T11:08:10.480Z",
     "type": "newsletter",
-    "wordcount": 3253,
+    "wordcount": 3309,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -3669,7 +3717,7 @@
     "post_date": "2025-08-20T16:34:00.062Z",
     "updated_at": "2026-02-03T11:08:36.575Z",
     "type": "newsletter",
-    "wordcount": 1195,
+    "wordcount": 1214,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -3795,7 +3843,7 @@
     "post_date": "2025-08-13T16:28:52.465Z",
     "updated_at": "2026-02-03T11:32:22.006Z",
     "type": "newsletter",
-    "wordcount": 609,
+    "wordcount": 616,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [],
@@ -3821,7 +3869,7 @@
     "post_date": "2025-08-09T21:30:52.095Z",
     "updated_at": "2026-02-03T11:36:02.010Z",
     "type": "newsletter",
-    "wordcount": 1007,
+    "wordcount": 1012,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -3859,7 +3907,7 @@
     "post_date": "2025-08-06T21:33:44.169Z",
     "updated_at": "2026-02-03T11:35:17.816Z",
     "type": "newsletter",
-    "wordcount": 1847,
+    "wordcount": 1857,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -3884,7 +3932,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, athletics, chess, and nature"
+        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
       },
       {
         "id": 309790256,
@@ -3907,7 +3955,7 @@
     "post_date": "2025-08-02T16:39:50.216Z",
     "updated_at": "2026-02-03T11:32:05.320Z",
     "type": "newsletter",
-    "wordcount": 3326,
+    "wordcount": 3310,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -3954,7 +4002,7 @@
     "post_date": "2025-07-30T16:05:14.446Z",
     "updated_at": "2026-02-03T11:34:56.547Z",
     "type": "newsletter",
-    "wordcount": 2227,
+    "wordcount": 2228,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -3990,7 +4038,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, athletics, chess, and nature"
+        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
       }
     ],
     "reaction_count": 9,
@@ -4007,7 +4055,7 @@
     "post_date": "2025-07-26T19:27:29.410Z",
     "updated_at": "2026-02-03T11:33:08.572Z",
     "type": "newsletter",
-    "wordcount": 1386,
+    "wordcount": 1396,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -4045,7 +4093,7 @@
     "post_date": "2025-07-23T16:00:27.462Z",
     "updated_at": "2026-02-03T11:32:43.526Z",
     "type": "newsletter",
-    "wordcount": 1827,
+    "wordcount": 1858,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -4098,7 +4146,7 @@
     "post_date": "2025-07-21T17:15:12.632Z",
     "updated_at": "2026-02-03T11:30:17.681Z",
     "type": "newsletter",
-    "wordcount": 506,
+    "wordcount": 515,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [],
@@ -4130,7 +4178,7 @@
     "post_date": "2025-07-19T20:19:30.592Z",
     "updated_at": "2026-02-03T11:30:10.882Z",
     "type": "newsletter",
-    "wordcount": 1803,
+    "wordcount": 1857,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -4173,7 +4221,7 @@
     "post_date": "2025-07-16T16:06:05.423Z",
     "updated_at": "2026-02-03T11:29:02.196Z",
     "type": "newsletter",
-    "wordcount": 2701,
+    "wordcount": 2756,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -4226,7 +4274,7 @@
     "post_date": "2025-07-12T16:26:09.384Z",
     "updated_at": "2026-02-03T11:28:26.988Z",
     "type": "newsletter",
-    "wordcount": 2269,
+    "wordcount": 2278,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -4289,7 +4337,7 @@
     "post_date": "2025-07-09T18:23:17.373Z",
     "updated_at": "2026-02-03T11:28:08.269Z",
     "type": "newsletter",
-    "wordcount": 1841,
+    "wordcount": 1873,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -4342,7 +4390,7 @@
     "post_date": "2025-07-05T16:34:56.937Z",
     "updated_at": "2026-02-03T11:27:41.467Z",
     "type": "newsletter",
-    "wordcount": 2293,
+    "wordcount": 2309,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -4400,7 +4448,7 @@
     "post_date": "2025-07-02T16:00:36.070Z",
     "updated_at": "2026-02-03T11:27:03.701Z",
     "type": "newsletter",
-    "wordcount": 2318,
+    "wordcount": 2386,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [],
@@ -4432,7 +4480,7 @@
     "post_date": "2025-06-27T14:39:31.243Z",
     "updated_at": "2026-02-03T11:26:35.230Z",
     "type": "newsletter",
-    "wordcount": 2293,
+    "wordcount": 2315,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -4545,7 +4593,7 @@
     "post_date": "2025-06-25T13:01:16.254Z",
     "updated_at": "2026-02-03T11:25:41.238Z",
     "type": "newsletter",
-    "wordcount": 706,
+    "wordcount": 707,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -4647,7 +4695,7 @@
     "post_date": "2025-06-20T20:35:33.060Z",
     "updated_at": "2026-02-03T11:25:58.459Z",
     "type": "newsletter",
-    "wordcount": 3982,
+    "wordcount": 3994,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -4730,7 +4778,7 @@
     "post_date": "2025-06-13T19:14:59.938Z",
     "updated_at": "2026-02-03T11:24:32.977Z",
     "type": "newsletter",
-    "wordcount": 531,
+    "wordcount": 538,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -4827,7 +4875,7 @@
     "post_date": "2025-06-06T21:47:26.725Z",
     "updated_at": "2026-02-03T11:24:34.080Z",
     "type": "newsletter",
-    "wordcount": 1841,
+    "wordcount": 1906,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -4894,7 +4942,7 @@
     "post_date": "2025-06-04T16:00:12.741Z",
     "updated_at": "2026-02-03T11:24:18.166Z",
     "type": "newsletter",
-    "wordcount": 3169,
+    "wordcount": 3229,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -4987,7 +5035,7 @@
     "post_date": "2025-05-28T14:12:37.026Z",
     "updated_at": "2026-02-03T11:23:35.502Z",
     "type": "newsletter",
-    "wordcount": 1861,
+    "wordcount": 1915,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -5075,7 +5123,7 @@
     "post_date": "2025-05-23T23:49:45.087Z",
     "updated_at": "2026-02-03T11:22:52.569Z",
     "type": "newsletter",
-    "wordcount": 1951,
+    "wordcount": 1963,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -5140,7 +5188,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, athletics, chess, and nature"
+        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
       },
       {
         "id": 309790256,
@@ -5163,7 +5211,7 @@
     "post_date": "2025-05-22T00:51:30.618Z",
     "updated_at": "2026-02-03T11:22:16.699Z",
     "type": "newsletter",
-    "wordcount": 2069,
+    "wordcount": 2083,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -5266,7 +5314,7 @@
     "post_date": "2025-05-16T19:43:50.209Z",
     "updated_at": "2026-02-03T11:22:08.885Z",
     "type": "newsletter",
-    "wordcount": 2838,
+    "wordcount": 2871,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -5354,7 +5402,7 @@
     "post_date": "2025-05-14T16:27:06.904Z",
     "updated_at": "2026-02-03T11:22:03.540Z",
     "type": "newsletter",
-    "wordcount": 3235,
+    "wordcount": 3264,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -5467,7 +5515,7 @@
     "post_date": "2025-05-09T23:44:57.584Z",
     "updated_at": "2026-02-03T11:21:26.712Z",
     "type": "newsletter",
-    "wordcount": 2458,
+    "wordcount": 2447,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -5580,7 +5628,7 @@
     "post_date": "2025-05-07T03:01:41.784Z",
     "updated_at": "2026-02-03T11:19:34.814Z",
     "type": "newsletter",
-    "wordcount": 1505,
+    "wordcount": 1508,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -5650,7 +5698,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, athletics, chess, and nature"
+        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
       },
       {
         "id": 309790256,
@@ -5673,7 +5721,7 @@
     "post_date": "2025-05-02T21:51:47.670Z",
     "updated_at": "2026-02-03T11:19:14.902Z",
     "type": "newsletter",
-    "wordcount": 2151,
+    "wordcount": 2160,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -5781,7 +5829,7 @@
     "post_date": "2025-04-30T15:31:15.512Z",
     "updated_at": "2026-02-03T11:18:05.372Z",
     "type": "newsletter",
-    "wordcount": 2356,
+    "wordcount": 2420,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -5884,7 +5932,7 @@
     "post_date": "2025-04-25T21:57:04.679Z",
     "updated_at": "2026-02-03T11:16:28.302Z",
     "type": "newsletter",
-    "wordcount": 928,
+    "wordcount": 934,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -5981,7 +6029,7 @@
     "post_date": "2025-04-22T19:24:04.709Z",
     "updated_at": "2026-02-03T11:16:24.270Z",
     "type": "newsletter",
-    "wordcount": 2426,
+    "wordcount": 2417,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -6046,7 +6094,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, athletics, chess, and nature"
+        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
       },
       {
         "id": 309790256,
@@ -6069,7 +6117,7 @@
     "post_date": "2025-04-18T19:02:18.408Z",
     "updated_at": "2026-02-03T11:15:27.862Z",
     "type": "newsletter",
-    "wordcount": 1339,
+    "wordcount": 1338,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -6162,7 +6210,7 @@
     "post_date": "2025-04-15T23:10:02.721Z",
     "updated_at": "2026-02-03T11:13:33.906Z",
     "type": "newsletter",
-    "wordcount": 1919,
+    "wordcount": 1938,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -6250,7 +6298,7 @@
     "post_date": "2025-04-11T20:55:31.357Z",
     "updated_at": "2026-02-03T11:12:41.372Z",
     "type": "newsletter",
-    "wordcount": 2274,
+    "wordcount": 2317,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -6323,7 +6371,7 @@
     "post_date": "2025-04-09T00:30:22.327Z",
     "updated_at": "2026-02-03T11:11:59.830Z",
     "type": "newsletter",
-    "wordcount": 3632,
+    "wordcount": 3708,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -6401,7 +6449,7 @@
     "post_date": "2025-04-04T18:43:07.111Z",
     "updated_at": "2026-02-03T11:10:58.554Z",
     "type": "newsletter",
-    "wordcount": 3284,
+    "wordcount": 3243,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -6479,7 +6527,7 @@
     "post_date": "2025-03-28T18:59:48.740Z",
     "updated_at": "2026-02-03T11:10:11.939Z",
     "type": "newsletter",
-    "wordcount": 2141,
+    "wordcount": 2155,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -6562,7 +6610,7 @@
     "post_date": "2025-03-21T18:24:33.963Z",
     "updated_at": "2026-02-03T11:10:02.758Z",
     "type": "newsletter",
-    "wordcount": 2468,
+    "wordcount": 2485,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -6635,7 +6683,7 @@
     "post_date": "2025-03-14T19:16:32.392Z",
     "updated_at": "2026-02-03T11:10:30.938Z",
     "type": "newsletter",
-    "wordcount": 4407,
+    "wordcount": 4452,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -6738,7 +6786,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, athletics, chess, and nature"
+        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
       }
     ],
     "reaction_count": 25,
@@ -6755,7 +6803,7 @@
     "post_date": "2025-03-07T22:40:52.580Z",
     "updated_at": "2026-02-03T11:09:41.423Z",
     "type": "newsletter",
-    "wordcount": 2275,
+    "wordcount": 2321,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -6839,7 +6887,7 @@
     "post_date": "2025-02-28T20:29:16.777Z",
     "updated_at": "2026-02-03T11:09:12.722Z",
     "type": "newsletter",
-    "wordcount": 1478,
+    "wordcount": 1480,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -6922,7 +6970,7 @@
     "post_date": "2025-02-21T21:21:39.882Z",
     "updated_at": "2026-02-03T11:09:26.231Z",
     "type": "newsletter",
-    "wordcount": 2901,
+    "wordcount": 2914,
     "section_id": 333105,
     "section_name": "Fictions",
     "postTags": [
@@ -7000,7 +7048,7 @@
     "post_date": "2025-02-14T17:01:41.444Z",
     "updated_at": "2026-02-03T11:09:12.282Z",
     "type": "newsletter",
-    "wordcount": 2010,
+    "wordcount": 2037,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
@@ -7050,7 +7098,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, athletics, chess, and nature"
+        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
       },
       {
         "id": 309790256,
@@ -7073,7 +7121,7 @@
     "post_date": "2025-02-07T23:48:26.123Z",
     "updated_at": "2026-02-03T11:09:33.414Z",
     "type": "newsletter",
-    "wordcount": 3894,
+    "wordcount": 3950,
     "section_id": 333110,
     "section_name": "Articles",
     "postTags": [
