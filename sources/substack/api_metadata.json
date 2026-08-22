@@ -1,5 +1,31 @@
 [
   {
+    "id": 212053517,
+    "slug": "protocol-symposium-2026-registration",
+    "title": "Protocol Symposium 2026 Registration Open",
+    "subtitle": "Plus, an AI personality test!",
+    "post_date": "2026-08-21T22:48:45.119Z",
+    "updated_at": "2026-08-21T22:49:29.007Z",
+    "type": "newsletter",
+    "wordcount": 1287,
+    "section_id": 333110,
+    "section_name": "Articles",
+    "postTags": [],
+    "publishedBylines": [
+      {
+        "id": 2264734,
+        "name": "Venkatesh Rao",
+        "handle": "contraptions",
+        "bio": "Delving. Writing the Contraptions newsletter. "
+      }
+    ],
+    "reaction_count": 4,
+    "restacks": 3,
+    "comment_count": 2,
+    "previous_post_slug": "durable-ai-adoption",
+    "next_post_slug": null
+  },
+  {
     "id": 211538617,
     "slug": "carousel-feeding-in-the-asteroid",
     "title": "Carousel Feeding in the Asteroid Midden // Livelock",
@@ -42,7 +68,7 @@
       }
     ],
     "reaction_count": 6,
-    "restacks": 1,
+    "restacks": 2,
     "comment_count": 4,
     "previous_post_slug": "floyd-haggertys-wild-west-extravaganza",
     "next_post_slug": null
@@ -64,7 +90,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
+        "bio": "Accelerating order"
       },
       {
         "id": 309790256,
@@ -341,7 +367,7 @@
     "restacks": 10,
     "comment_count": 1,
     "previous_post_slug": "the-character-of-public-transit-systems",
-    "next_post_slug": null
+    "next_post_slug": "protocol-symposium-2026-registration"
   },
   {
     "id": 203101190,
@@ -830,7 +856,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
+        "bio": "Accelerating order"
       }
     ],
     "reaction_count": 27,
@@ -877,7 +903,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
+        "bio": "Accelerating order"
       },
       {
         "id": 309790256,
@@ -1611,7 +1637,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
+        "bio": "Accelerating order"
       },
       {
         "id": 309790256,
@@ -1891,7 +1917,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
+        "bio": "Accelerating order"
       },
       {
         "id": 309790256,
@@ -2225,7 +2251,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
+        "bio": "Accelerating order"
       },
       {
         "id": 309790256,
@@ -2960,7 +2986,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
+        "bio": "Accelerating order"
       },
       {
         "id": 309790256,
@@ -3441,7 +3467,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
+        "bio": "Accelerating order"
       },
       {
         "id": 309790256,
@@ -3932,7 +3958,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
+        "bio": "Accelerating order"
       },
       {
         "id": 309790256,
@@ -4038,7 +4064,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
+        "bio": "Accelerating order"
       }
     ],
     "reaction_count": 9,
@@ -5188,7 +5214,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
+        "bio": "Accelerating order"
       },
       {
         "id": 309790256,
@@ -5502,7 +5528,7 @@
       }
     ],
     "reaction_count": 23,
-    "restacks": 4,
+    "restacks": 5,
     "comment_count": 1,
     "previous_post_slug": "dhcp",
     "next_post_slug": "noise-ordinance"
@@ -5698,7 +5724,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
+        "bio": "Accelerating order"
       },
       {
         "id": 309790256,
@@ -6094,7 +6120,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
+        "bio": "Accelerating order"
       },
       {
         "id": 309790256,
@@ -6786,7 +6812,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
+        "bio": "Accelerating order"
       }
     ],
     "reaction_count": 25,
@@ -7098,7 +7124,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Interested in: reliability, infotech, athletics, chess, and [new] nature"
+        "bio": "Accelerating order"
       },
       {
         "id": 309790256,
