@@ -1,5 +1,37 @@
 [
   {
+    "id": 212808174,
+    "slug": "the-dismantling",
+    "title": "The Dismantling",
+    "subtitle": "At its conclusion, Elizabeth Maher’s series paralleling American folklore simply disappears without a trace",
+    "post_date": "2026-08-26T22:38:47.913Z",
+    "updated_at": "2026-08-26T22:42:30.984Z",
+    "type": "newsletter",
+    "wordcount": 2570,
+    "section_id": 333105,
+    "section_name": "Fictions",
+    "postTags": [],
+    "publishedBylines": [
+      {
+        "id": 2011373,
+        "name": "Thing Party",
+        "handle": "thingparty",
+        "bio": null
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 1,
+    "restacks": 1,
+    "comment_count": 0,
+    "previous_post_slug": "carousel-feeding-in-the-asteroid",
+    "next_post_slug": null
+  },
+  {
     "id": 212053517,
     "slug": "protocol-symposium-2026-registration",
     "title": "Protocol Symposium 2026 Registration Open",
@@ -16,11 +48,11 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       }
     ],
-    "reaction_count": 7,
-    "restacks": 6,
+    "reaction_count": 10,
+    "restacks": 7,
     "comment_count": 3,
     "previous_post_slug": "durable-ai-adoption",
     "next_post_slug": null
@@ -71,7 +103,7 @@
     "restacks": 2,
     "comment_count": 4,
     "previous_post_slug": "floyd-haggertys-wild-west-extravaganza",
-    "next_post_slug": null
+    "next_post_slug": "the-dismantling"
   },
   {
     "id": 208161970,
@@ -90,7 +122,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Accelerating order"
+        "bio": "accelerating order"
       },
       {
         "id": 309790256,
@@ -99,7 +131,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 11,
+    "reaction_count": 12,
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "jamverse-jam-contest-closes-today",
@@ -122,7 +154,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 309790256,
@@ -192,7 +224,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 309790256,
@@ -201,9 +233,9 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 36,
-    "restacks": 8,
-    "comment_count": 10,
+    "reaction_count": 38,
+    "restacks": 9,
+    "comment_count": 11,
     "previous_post_slug": "challenges-trivial-grand-and-whitehead",
     "next_post_slug": "jamverse-jam-contest-closes-today"
   },
@@ -309,7 +341,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 5,
+    "reaction_count": 6,
     "restacks": 2,
     "comment_count": 0,
     "previous_post_slug": "the-big-man",
@@ -363,7 +395,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 13,
+    "reaction_count": 14,
     "restacks": 10,
     "comment_count": 1,
     "previous_post_slug": "the-character-of-public-transit-systems",
@@ -543,7 +575,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 309790256,
@@ -634,7 +666,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 309790256,
@@ -763,7 +795,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 309790256,
@@ -856,7 +888,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Accelerating order"
+        "bio": "accelerating order"
       }
     ],
     "reaction_count": 27,
@@ -903,7 +935,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Accelerating order"
+        "bio": "accelerating order"
       },
       {
         "id": 309790256,
@@ -984,7 +1016,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 309790256,
@@ -1065,7 +1097,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 309790256,
@@ -1265,7 +1297,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 41276561,
@@ -1309,7 +1341,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 309790256,
@@ -1637,7 +1669,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Accelerating order"
+        "bio": "accelerating order"
       },
       {
         "id": 309790256,
@@ -1713,7 +1745,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 309790256,
@@ -1842,7 +1874,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 41276561,
@@ -1917,7 +1949,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Accelerating order"
+        "bio": "accelerating order"
       },
       {
         "id": 309790256,
@@ -2251,7 +2283,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Accelerating order"
+        "bio": "accelerating order"
       },
       {
         "id": 309790256,
@@ -2742,7 +2774,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 309790256,
@@ -2833,7 +2865,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 309790256,
@@ -2986,7 +3018,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Accelerating order"
+        "bio": "accelerating order"
       },
       {
         "id": 309790256,
@@ -3163,7 +3195,7 @@
     "publishedBylines": [
       {
         "id": 7593902,
-        "name": "Charlie Sanders",
+        "name": "George P. Burdell",
         "handle": "irreverentadverbs",
         "bio": "procrastination incarnate"
       },
@@ -3467,7 +3499,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Accelerating order"
+        "bio": "accelerating order"
       },
       {
         "id": 309790256,
@@ -3783,7 +3815,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 309790256,
@@ -3958,7 +3990,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Accelerating order"
+        "bio": "accelerating order"
       },
       {
         "id": 309790256,
@@ -4064,7 +4096,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Accelerating order"
+        "bio": "accelerating order"
       }
     ],
     "reaction_count": 9,
@@ -4181,7 +4213,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 309790256,
@@ -5214,7 +5246,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Accelerating order"
+        "bio": "accelerating order"
       },
       {
         "id": 309790256,
@@ -5527,7 +5559,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 23,
+    "reaction_count": 24,
     "restacks": 5,
     "comment_count": 1,
     "previous_post_slug": "dhcp",
@@ -5724,7 +5756,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Accelerating order"
+        "bio": "accelerating order"
       },
       {
         "id": 309790256,
@@ -6120,7 +6152,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Accelerating order"
+        "bio": "accelerating order"
       },
       {
         "id": 309790256,
@@ -6374,7 +6406,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 309790256,
@@ -6800,7 +6832,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 222372,
@@ -6812,7 +6844,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Accelerating order"
+        "bio": "accelerating order"
       }
     ],
     "reaction_count": 25,
@@ -7124,7 +7156,7 @@
         "id": 17195021,
         "name": "Timber Stinson-Schroff",
         "handle": "timberstinsonschroff",
-        "bio": "Accelerating order"
+        "bio": "accelerating order"
       },
       {
         "id": 309790256,
@@ -7217,7 +7249,7 @@
         "id": 2264734,
         "name": "Venkatesh Rao",
         "handle": "contraptions",
-        "bio": "Delving. Writing the Contraptions newsletter. "
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       },
       {
         "id": 309790256,
