@@ -499,12 +499,12 @@ def _is_new_member(member) -> bool:
 # Fallback resource when corpus returns only VGR-authored results
 _INTRO_FALLBACK_SRC = {
     "label":          "READER",
-    "title":          "The Summer of Protocols Reader",
-    "url":            "https://summerofprotocols.com/research/reader",
+    "title":          "Protocol Reader 2025",
+    "url":            "https://protocolized.io/resources/protocol-reader-2025",
     "source":         "pdf",
     "primary_author": "Summer of Protocols",
     "authors":        ["Summer of Protocols"],
-    "date":           "2023",
+    "date":           "2025",
     "is_fallback":    True,
 }
 

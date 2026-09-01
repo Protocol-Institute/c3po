@@ -188,13 +188,41 @@ def make_ref_id(title: str) -> str:
     return hashlib.sha256(normalize_title(title).encode()).hexdigest()[:16]
 
 
-def merge_into_registry(registry: dict, new_refs: list[dict], source_pdf: str) -> int:
+_PDF_FILENAME_RE = re.compile(r"/([^/]+\.pdf)$", re.IGNORECASE)
+
+
+def load_known_pdf_filenames() -> set[str]:
+    """Filenames already ingested into our own pdfs corpus. A citation whose URL
+    points at one of these is a self-citation, not an external reference — its URL
+    should be our own canonical hosting, not whatever the citing paper's own
+    footnote happened to say (often a stale URL scraped verbatim from text written
+    before a later re-hosting). See plans/pinecone-quota-management.md's sibling
+    finding in the bibliography files for the bug this prevents."""
+    path = Path("sources/pdfs/enriched_meta.json")
+    if not path.exists():
+        return set()
+    return set(json.loads(path.read_text()).keys())
+
+
+def _canonicalize_self_citation(ref: dict, known_pdfs: set[str]) -> None:
+    """Rewrites ref['url'] in place to our own canonical files.protocolized.io URL
+    if it names a PDF we already host, regardless of what domain it currently
+    points at."""
+    m = _PDF_FILENAME_RE.search(ref.get("url") or "")
+    if m and m.group(1) in known_pdfs:
+        ref["url"] = f"https://files.protocolized.io/{m.group(1)}"
+
+
+def merge_into_registry(registry: dict, new_refs: list[dict], source_pdf: str,
+                         known_pdfs: set[str] | None = None) -> int:
     """Merge new_refs into registry dict (keyed by ref_id). Returns count added."""
     added = 0
+    known_pdfs = known_pdfs or set()
     for ref in new_refs:
         title = (ref.get("title") or "").strip()
         if not title or len(title) < 5:
             continue
+        _canonicalize_self_citation(ref, known_pdfs)
         rid = make_ref_id(title)
         if rid not in registry:
             registry[rid] = {
@@ -238,6 +266,7 @@ def main():
     args = parser.parse_args()
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    known_pdfs = load_known_pdf_filenames()
 
     # Load existing registries
     raw_registry: dict = {}
@@ -280,7 +309,7 @@ def main():
                 continue
             try:
                 refs = extract_refs_haiku(client, section_text, args.mode)
-                added = merge_into_registry(raw_registry, refs, path.name)
+                added = merge_into_registry(raw_registry, refs, path.name, known_pdfs)
                 print(f"    Extracted {len(refs)} refs, {added} new to registry (total {len(raw_registry)})")
                 RAW_REFS_PATH.write_text(json.dumps(raw_registry, indent=2, ensure_ascii=False))
             except Exception as e:

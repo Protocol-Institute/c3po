@@ -2040,6 +2040,43 @@
           "html": "Cut the Worker's shared <code>TOP_K_EACH</code> constant from 8 to 5 across all four query-fan-out call sites and deployed live. Narrowed humboldt's per-reply namespace set from seven down to five (dropping <code>bibliography</code> and <code>discord_links</code>, rarely relevant to a live reply, while leaving its deliberate CLI research commands at full breadth), pushed, and restarted its daemon. A larger fix &mdash; short-TTL result caching for repeat queries &mdash; was scoped but deferred as a likely follow-up if this trim isn't enough on its own."
         }
       ]
+    },
+    {
+      "id": 50,
+      "sort_key": 50.0,
+      "label": "Session 50",
+      "title": "Closed the Egress Caching/Accounting Gap, Documented the Pattern for Other Bots, Fixed Stale Bibliography Links",
+      "date": "2026-09-01",
+      "time_pt": "11:30–12:40",
+      "tracks": [
+        "operations",
+        "worker-api",
+        "corpus-ingestion",
+        "discord-bot"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "total": 31724
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "Confirmed the Pinecone egress quota reset held under real traffic",
+          "html": "Session-start check verified the September reset directly against Pinecone's REST API (bypassing our own code), and confirmed the session 49 fan-out trims (<code>TOP_K_EACH</code> 8&rarr;5, humboldt's narrower namespace breadth) had held for the full 15-day window without re-exhausting."
+        },
+        {
+          "title": "Audited c3po against humboldt for duplicated quota-management code; wrote a cross-project SOP instead of a shared library",
+          "html": "Both projects independently hit the same shared-account Pinecone quota problem. Found humboldt had already built &mdash; better &mdash; the two things c3po's own sessions 48&ndash;49 left as deferred TODOs: byte-level egress accounting and disk-based result caching, documented in <code>humboldt/plans/read-outage-2026-08.md</code>. Decided against extracting a shared package (two languages per project, no shared-package infrastructure between the repos, only two consumers today) in favor of a documented pattern: <code>admin/sop-pinecone-quota-management.md</code> (applies to any future bot on this account) and <code>plans/pinecone-quota-management.md</code> (c3po's own history and status against it)."
+        },
+        {
+          "title": "Ported result caching and egress accounting into api/worker.js, deployed and verified live",
+          "html": "<code>queryNamespace()</code> now caches results in Cloudflare KV (6h TTL, keyed on a hash of namespace + top_k + filter + embedding vector) and every fan-out call site reports estimated egress bytes, aggregated once per request &mdash; not per namespace &mdash; to avoid a KV read-modify-write race across the 9&ndash;11 parallel namespace queries in a single interaction. Surfaced in <code>GET /stats</code> as <code>pinecone_egress</code>. Deployed (version <code>f14011da</code>) and verified against the live bot: normal answers, a real cache hit on a repeated question, and correct byte accumulation across a spaced-out test sequence."
+        },
+        {
+          "title": "Fixed 4 stale summerofprotocols.com links and the bibliography pipeline bug behind 3 of them",
+          "html": "The intro flow's Reader fallback (<code>bin/c3po_bot.py</code>) pointed at a genuinely dead page &mdash; replaced with the live <code>protocolized.io/resources/protocol-reader-2025</code>. Investigating turned up a broader bug: <code>ingest/mine_bibliography.py</code> extracts a citing paper's own footnote URL with no check for whether the citation actually names a document c3po already hosts, so three bibliography entries (Capital Enclosure for Software Commons; Protocol Foundations 002 and 003) carried stale/foreign URLs for papers already sitting in our own 85-PDF corpus with correct <code>files.protocolized.io</code> links. Fixed all three source-file entries by hand (none was live in the <code>bibliography</code> namespace yet, so no re-ingest was needed) and closed the root cause &mdash; <code>merge_into_registry()</code> now cross-checks every extracted citation against the corpus we already own and rewrites self-citations to our own canonical URL."
+        }
+      ]
     }
   ]
 }

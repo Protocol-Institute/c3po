@@ -38,6 +38,17 @@ const CHAT_PUBLIC_BASE           = "https://protocolized.io/chats";
 const TRANSCRIPT_CACHE_THRESHOLD = 0.52;  // Voyage-3 Q+A pairs top out ~0.62 for near-duplicates; 0.52 catches close matches
 const RATE_LIMIT_MAX  = 20;    // requests per IP per hour
 const RATE_LIMIT_TTL  = 3600;
+// Pinecone result cache + egress accounting (plans/pinecone-quota-management.md).
+// Corpus namespaces change on the order of days, not hours, so a short TTL still
+// catches the dominant cost driver — repeat/FAQ-style questions — without risking
+// a stale answer for long after new material is ingested.
+const QUERY_CACHE_TTL_SECONDS = 6 * 3600;
+// Pinecone Starter plan cap, confirmed in the 2026-08 outage (session 48/49) and
+// in humboldt's parallel read_egress.py — same account, same cap. Used only for
+// the /stats warn threshold below; the account-wide source of truth is
+// Pinecone's own Cost Explorer, not this estimate.
+const EGRESS_CAP_BYTES = 1_000_000_000;
+const EGRESS_WARN_FRACTION = 0.70;
 const STRIKE_THRESHOLD = 3;    // probe events before 24h IP ban
 const BAN_TTL_SECONDS  = 24 * 3600;
 const MCP_SEARCH_DAY_LIMIT = 100; // search_corpus calls per IP per day
@@ -235,7 +246,7 @@ async function handleStats(env, corsHeaders) {
   if (!env.RATE_LIMIT) return json({ error: "stats unavailable" }, 503, corsHeaders);
   const sessDayKey  = "stats:sessions:day:"      + ptDateStr();
   const sessLifeKey = "stats:sessions:lifetime";
-  const [hs, ds, ls, circuit, sds, sls, mds, mls, dds, dls] = await Promise.all([
+  const [hs, ds, ls, circuit, sds, sls, mds, mls, dds, dls, egr] = await Promise.all([
     env.RATE_LIMIT.get(hourKey(),        "json"),
     env.RATE_LIMIT.get(dayKey(),         "json"),
     env.RATE_LIMIT.get(lifetimeKey(),    "json"),
@@ -246,6 +257,7 @@ async function handleStats(env, corsHeaders) {
     env.RATE_LIMIT.get(mcpLifeKey(),     "json"),
     env.RATE_LIMIT.get(discordDayKey(),  "json"),
     env.RATE_LIMIT.get(discordLifeKey(), "json"),
+    env.RATE_LIMIT.get(egressMonthKey(), "json"),
   ]);
   const zero = { reqs: 0, in_tok: 0, cache_create_tok: 0, cache_read_tok: 0, out_tok: 0 };
   const h  = { ...zero, ...(hs  || {}) };
@@ -270,6 +282,20 @@ async function handleStats(env, corsHeaders) {
     launched_at:    LAUNCH_DATE,
     hour_limit_usd: parseFloat(env.BREAKER_THRESHOLD_USD || "4.00"),
     day_limit_usd:  parseFloat(env.DAY_LIMIT_USD         || "30.00"),
+    pinecone_egress: (() => {
+      const e = egr || { bytes: 0, requests: 0, cache_hit_requests: 0, saved_bytes: 0 };
+      const fraction = e.bytes / EGRESS_CAP_BYTES;
+      return {
+        month:                egressMonthKey().slice("egress:".length),
+        estimated_bytes:      e.bytes,
+        estimated_of_cap_pct: +(fraction * 100).toFixed(1),
+        over_warn_threshold:  fraction >= EGRESS_WARN_FRACTION,
+        requests:             e.requests,
+        cache_hit_requests:   e.cache_hit_requests,
+        saved_bytes:          e.saved_bytes,
+        note: "estimate from response payload size, not Pinecone's own billing — cross-check Cost Explorer before relying on a precise figure",
+      };
+    })(),
   }, 200, corsHeaders);
 }
 
@@ -309,12 +335,77 @@ async function checkMcpSearchLimit(env, ip) {
 
 // ── Pinecone ───────────────────────────────────────────────────────────────────
 
-async function queryNamespace(host, apiKey, vector, topK, namespace, filter) {
+// Cache key is a hash of the embedding vector, not the raw query text — Voyage
+// embeddings are deterministic for identical input, so an exact-repeat question
+// still lands on the same key, without threading query text through the ~40
+// call sites that invoke queryNamespace. Trade-off accepted: near-duplicate
+// phrasings ("what is X" vs "what's X") don't share a cache entry the way a
+// text-keyed cache would — see plans/pinecone-quota-management.md.
+async function vectorCacheKey(vector, namespace, topK, filter) {
+  const raw = JSON.stringify([namespace, topK, filter || null, vector]);
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(raw));
+  const hex = [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, "0")).join("");
+  return `qcache:${hex.slice(0, 32)}`;
+}
+
+// Estimated wire bytes for a set of matches: metadata dominates (chunk text up
+// to 1000 chars/match, see upsert_chunks() in ingest/utils.py) and is the only
+// part that scales with what we choose to fetch — ids/scores/framing are noise
+// by comparison. Deliberately an estimate, not a reconciliation against
+// Pinecone's own billing (same caveat as humboldt's agent/read_egress.py).
+function measureEgressBytes(matches) {
+  try { return new TextEncoder().encode(JSON.stringify(matches)).length; }
+  catch { return 0; }
+}
+
+function egressMonthKey() {
+  return "egress:" + new Date().toISOString().slice(0, 7); // YYYY-MM, UTC reset boundary
+}
+
+// One KV read-modify-write per *request*, not per namespace — the 9-11
+// parallel queryNamespace() calls in a single interaction would otherwise race
+// on the same monthly counter key (KV has no atomic increment). Each caller
+// aggregates its own namespace results with totalEgressBytes()/anyCached()
+// first, so this is called once per interaction.
+async function trackEgress(env, bytes, cached) {
+  if (!env.RATE_LIMIT) return;
+  try {
+    const key = egressMonthKey();
+    const cur = (await env.RATE_LIMIT.get(key, "json")) ||
+      { bytes: 0, requests: 0, cache_hit_requests: 0, saved_bytes: 0 };
+    cur.requests += 1;
+    if (cached) { cur.cache_hit_requests += 1; cur.saved_bytes += bytes; }
+    else { cur.bytes += bytes; }
+    await env.RATE_LIMIT.put(key, JSON.stringify(cur), { expirationTtl: 45 * 24 * 3600 });
+  } catch (e) { console.error("trackEgress:", e); }
+}
+
+function totalEgressBytes(...resultArrays) {
+  return resultArrays.reduce((n, r) => n + ((r && r._pineconeBytes) || 0), 0);
+}
+
+function anyCached(...resultArrays) {
+  return resultArrays.some(r => r && r._pineconeCached);
+}
+
+async function queryNamespace(host, env, vector, topK, namespace, filter) {
+  const cacheKey = env.RATE_LIMIT ? await vectorCacheKey(vector, namespace, topK, filter) : null;
+  if (cacheKey) {
+    const cached = await env.RATE_LIMIT.get(cacheKey, "json").catch(() => null);
+    if (cached) {
+      // Tags are own-properties, not array indices, so they never leak into a
+      // JSON.stringify of the array itself (same convention as _pineconeFailed).
+      cached._pineconeCached = true;
+      cached._pineconeBytes = measureEgressBytes(cached);
+      return cached;
+    }
+  }
+
   const body = { vector, topK, namespace, includeMetadata: true };
   if (filter) body.filter = filter;
   const res = await fetch(`${host}/query`, {
     method: "POST",
-    headers: { "Api-Key": apiKey, "Content-Type": "application/json" },
+    headers: { "Api-Key": env.PINECONE_API_KEY, "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
   if (!res.ok) {
@@ -327,9 +418,15 @@ async function queryNamespace(host, apiKey, vector, topK, namespace, filter) {
     // answer with sources:[] and no indication anything was wrong.
     const failed = [];
     failed._pineconeFailed = true;
-    return failed;
+    return failed; // never cached — an outage must never look like "no matches"
   }
-  return (await res.json()).matches || [];
+  const matches = (await res.json()).matches || [];
+  matches._pineconeBytes = measureEgressBytes(matches);
+  if (cacheKey) {
+    env.RATE_LIMIT.put(cacheKey, JSON.stringify(matches), { expirationTtl: QUERY_CACHE_TTL_SECONDS })
+      .catch(e => console.error("qcache put:", e));
+  }
+  return matches;
 }
 
 function anyPineconeFailed(...resultArrays) {
@@ -3121,17 +3218,20 @@ async function runMcpSearch(args, env) {
   const vec = await embed(query, env.VOYAGE_API_KEY);
 
   const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw] = await Promise.all([
-    ["pdfs",           "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH,  "pdfs")          : Promise.resolve([]),
-    ["substack",       "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH,  "substack")      : Promise.resolve([]),
-    ["videos",         "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH,  "videos")        : Promise.resolve([]),
-    ["bibliography",   "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_BIB,   "bibliography")  : Promise.resolve([]),
-    ["discord",        "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH,  "discord")       : Promise.resolve([]),
-    ["sig",            "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH,  "sig")           : Promise.resolve([]),
-    ["discord_links",  "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_LINKS, "discord_links") : Promise.resolve([]),
-    ["definitions",    "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH,  "definitions")   : Promise.resolve([]),
-    ["meta",           "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, 3,           "meta")          : Promise.resolve([]),
+    ["pdfs",           "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "pdfs")          : Promise.resolve([]),
+    ["substack",       "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "substack")      : Promise.resolve([]),
+    ["videos",         "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "videos")        : Promise.resolve([]),
+    ["bibliography",   "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_BIB,   "bibliography")  : Promise.resolve([]),
+    ["discord",        "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "discord")       : Promise.resolve([]),
+    ["sig",            "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "sig")           : Promise.resolve([]),
+    ["discord_links",  "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_LINKS, "discord_links") : Promise.resolve([]),
+    ["definitions",    "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "definitions")   : Promise.resolve([]),
+    ["meta",           "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 3,           "meta")          : Promise.resolve([]),
   ]);
   const retrievalDegraded = anyPineconeFailed(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw);
+  await trackEgress(env,
+    totalEgressBytes(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw),
+    anyCached(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw));
 
   const items = mergeResults(
     pdfRaw.map(normalizePdf),
@@ -3169,22 +3269,25 @@ async function runMcpAsk(args, env, ctx) {
   const vec = await embed(question, env.VOYAGE_API_KEY);
 
   const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2] = await Promise.all([
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "pdfs"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "substack"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "videos"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_BIB,  "bibliography"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "discord"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "sig"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_LINKS, "discord_links"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, TOP_K_EACH, "definitions"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, 3, "meta"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, 3, "sig",
+    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "pdfs"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "substack"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "videos"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_BIB,  "bibliography"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "discord"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "sig"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_LINKS, "discord_links"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "definitions"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 3, "meta"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 3, "sig",
       { chunk_type: { "$eq": "sig_meeting_page" } }),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, vec, 3, "transcripts"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 3, "transcripts"),
   ]);
   const retrievalDegraded = anyPineconeFailed(
     pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2
   );
+  await trackEgress(env,
+    totalEgressBytes(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2),
+    anyCached(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2));
   const _sigPageIds2 = new Set(sigRaw.map(m => m.id));
   const sigAug = [...sigRaw, ...sigPageRaw.filter(m => !_sigPageIds2.has(m.id))];
 
@@ -3400,20 +3503,20 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   const qv = (await voyageRes.json()).data[0].embedding;
 
   const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw] = await Promise.all([
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "pdfs"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "substack"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "videos"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_BIB,  "bibliography"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "discord"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "sig"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "pdfs"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "substack"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "videos"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_BIB,  "bibliography"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "discord"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "sig"),
     context === "discord"
       ? Promise.resolve([])
-      : queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_LINKS, "discord_links"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH, "definitions"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 3, "meta"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 3, "sig",
+      : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_LINKS, "discord_links"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "definitions"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 3, "meta"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 3, "sig",
       { chunk_type: { "$eq": "sig_meeting_page" } }),
-    queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 3, "transcripts"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 3, "transcripts"),
   ]);
   const retrievalDegraded = anyPineconeFailed(
     pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw
@@ -3434,25 +3537,26 @@ async function runRagQuery(query, env, ctx, opts = {}) {
         ? rawUrl
         : `https://files.protocolized.io/${stem}.pdf`;
       return queryNamespace(
-        env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 4, "pdfs",
+        env.PINECONE_C3PO_HOST, env, qv, 4, "pdfs",
         { url: { "$eq": pdfUrl }, chunk_type: { "$eq": "body" } }
       );
     }),
     ...subSummaryHits.map(hit =>
-      queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 4, "substack",
+      queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 4, "substack",
         { slug: { "$eq": hit.metadata.slug }, chunk_type: { "$ne": "post_summary" } }
       )
     ),
     ...vidSummaryHits.map(hit =>
-      queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, 4, "videos",
+      queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 4, "videos",
         { video_id: { "$eq": hit.metadata.video_id }, chunk_type: { "$eq": "body" } }
       )
     ),
   ];
 
   let pdfAug = pdfRaw, subAug = subRaw, vidAug = vidRaw;
+  let secondary = [];
   if (secondaryFetches.length > 0) {
-    const secondary = await Promise.all(secondaryFetches);
+    secondary = await Promise.all(secondaryFetches);
     const flat = secondary.flat();
     const pdfSumIds = new Set(pdfSummaryHits.map(h => h.id));
     const subSumIds = new Set(subSummaryHits.map(h => h.id));
@@ -3461,6 +3565,12 @@ async function runRagQuery(query, env, ctx, opts = {}) {
     subAug = [...subRaw.filter(m => !subSumIds.has(m.id)), ...flat.filter(m => m.metadata?.source === "substack")];
     vidAug = [...vidRaw.filter(m => !vidSumIds.has(m.id)), ...flat.filter(m => m.metadata?.source === "youtube")];
   }
+  // Tracked here, not right after the primary fan-out above, so the secondary
+  // doc_summary/post_summary follow-up fetches (also queryNamespace calls) are
+  // counted in the same request's egress total instead of silently excluded.
+  await trackEgress(env,
+    totalEgressBytes(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw, ...secondary),
+    anyCached(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw));
 
   const transcriptItems = transcriptRaw.map(normalizeTranscript);
   const cacheHits = transcriptItems.filter(m => m.score >= TRANSCRIPT_CACHE_THRESHOLD && m.url);
@@ -3758,16 +3868,19 @@ export default {
         const qv = (await voyageRes.json()).data[0].embedding;
 
         const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw] = await Promise.all([
-          queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH,  "pdfs"),
-          queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH,  "substack"),
-          queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH,  "videos"),
-          queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_BIB,   "bibliography"),
-          queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH,  "discord"),
-          queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH,  "sig"),
-          queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_LINKS, "discord_links"),
-          queryNamespace(env.PINECONE_C3PO_HOST, env.PINECONE_API_KEY, qv, TOP_K_EACH,  "definitions"),
+          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "pdfs"),
+          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "substack"),
+          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "videos"),
+          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_BIB,   "bibliography"),
+          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "discord"),
+          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "sig"),
+          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_LINKS, "discord_links"),
+          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "definitions"),
         ]);
         const retrievalDegraded = anyPineconeFailed(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw);
+        await trackEgress(env,
+          totalEgressBytes(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw),
+          anyCached(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw));
         const sources = mergeResults(
           pdfRaw.map(normalizePdf),
           subRaw.map(normalizeSubstack),

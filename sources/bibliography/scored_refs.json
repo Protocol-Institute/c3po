@@ -2906,7 +2906,7 @@
     "year": 2023,
     "venue": "Summer of Protocols",
     "doi": null,
-    "url": "https://summerofprotocols.com/wp-content/uploads/tktktk",
+    "url": "https://protocolized.io/resources/protocol-foundations-003-hashing",
     "context": "Referenced as foundational material on hashing techniques that enable data structures like hash tables.",
     "cited_by": [
       "53-HAVEL-004.pdf"
@@ -2928,7 +2928,7 @@
     "year": 2023,
     "venue": "Summer of Protocols",
     "doi": null,
-    "url": "https://summerofprotocols.com/wp-content/uploads/2024/03/Addressing-Tim-Beiko-Mario-Havel.pdf",
+    "url": "https://protocolized.io/resources/addressing",
     "context": "Referenced for coverage of basic addressing functions enabled by hashing and mentioned again regarding IPFS usage of Merkle DAGs.",
     "cited_by": [
       "53-HAVEL-004.pdf"
@@ -4538,7 +4538,7 @@
     "year": null,
     "venue": null,
     "doi": null,
-    "url": "summerofprotocols.com/wp-content/uploads/2024/08/Capital-Enclosure-for-Software-Commons-Trent-Van-Epps.pdf",
+    "url": "https://protocolized.io/resources/capital-enclosure-for-software-commons",
     "context": "Cited as part of writings on institutional death and resurrection dynamics in the context of Linux and Ethereum.",
     "cited_by": [
       "Module-5-COVER-LETTER-.pdf"
