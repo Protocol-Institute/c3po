@@ -26,8 +26,8 @@
       "source": "substack",
       "author": "TΞRM1NΞX",
       "label": "FICTION",
-      "count": 3,
-      "last_seen": "2026-08-01",
+      "count": 4,
+      "last_seen": "2026-09-01",
       "is_fallback": false
     },
     "https://www.youtube.com/watch?v=UAtt1F7fMLE": {
@@ -266,8 +266,8 @@
       "source": "pdf",
       "author": "Protocols for Business SIG",
       "label": "PAPER",
-      "count": 4,
-      "last_seen": "2026-08-01",
+      "count": 5,
+      "last_seen": "2026-09-01",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/mechanical-currents": {
@@ -366,8 +366,8 @@
       "source": "pdf",
       "author": "Protocols for Business SIG",
       "label": "PAPER",
-      "count": 3,
-      "last_seen": "2026-08-07",
+      "count": 4,
+      "last_seen": "2026-09-01",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/libraries-of-tomorrow": {
@@ -588,6 +588,13 @@
       "sig_display": "",
       "count": 1,
       "last_seen": "2026-08-07"
+    },
+    "1542928136038121543": {
+      "name": "🫆-personhood-research-group",
+      "display": "#🫆-personhood-research-group",
+      "sig_display": "",
+      "count": 1,
+      "last_seen": "2026-09-01"
     }
   }
 }
