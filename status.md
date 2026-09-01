@@ -1,6 +1,6 @@
 # C3PO — Status Log
 
-## 2026-09-01 ~11:30–12:40 PT — Egress reset confirmed + closed the caching/accounting TODOs; fixed 4 stale summerofprotocols.com links (session 50)
+## 2026-09-01 ~11:30–13:15 PT — Egress reset confirmed + closed the caching/accounting TODOs; fixed 4 stale summerofprotocols.com links (session 50)
 
 **Session-start checks:** egress quota confirmed reset (raw REST `POST /query` bypassing our own code, not just trusting the computed resume date) — the session 49 trims (`TOP_K_EACH` 8→5, humboldt's narrower fan-out) held for the full 15-day window without re-exhausting. Vector counts 30,698 → 31,724 (organic). No intro-quality issues, no cost in the last 7 days (consistent with the read-pause window).
 
@@ -12,7 +12,12 @@
 
 The other 3 were a different bug entirely, surfaced by asking "why do protocolized.io resources exist that our own bibliography still cites via a dead/foreign URL." Both papers the user pointed at (Capital Enclosure for Software Commons; Protocol Foundations 003: Hashing) turned out to already be fully ingested in c3po's own 85-PDF `pdfs` corpus (`sources/pdfs/enriched_meta.json`) with correct `files.protocolized.io` URLs — the stale URL only existed in `sources/bibliography/{raw,scored,sourced}_refs.json`, where `mine_bibliography.py` extracts a citing paper's own footnote text with no check for whether the citation actually names a document c3po already hosts. Swept for the same shape and found a third instance (Protocol Foundations 002: Addressing) that hadn't been caught by a plain dead-link check because that particular old URL still happens to 200. Fixed all three source files by hand (confirmed via exact-match Pinecone filter queries that none of the three was actually live in the `bibliography` namespace yet, so no re-ingest was needed) and closed the root cause in `ingest/mine_bibliography.py` — `merge_into_registry()` now cross-checks every extracted citation's URL against `enriched_meta.json`'s filenames and rewrites it to our own canonical `files.protocolized.io/{filename}` if it's a self-citation, so the next mining run can't reintroduce this.
 
-**Pinecone:** 31,724 (unchanged — all fixes this session were source-file/code only, nothing re-ingested).
+**Pinecone:** 31,725 (unchanged by this session's fixes — all were source-file/code only, nothing re-ingested; the +1 from 31,724 is organic daemon growth during the session).
+
+**Committed and deployed across all three repos touched:**
+- `c3po`: committed (`3757741`, rebased onto 716 routine `[daemon]` syncs), pushed, `wrangler deploy` live (worker.js, version `f14011da`), `bin/c3po_bot.py` pulled and `c3po-bot.service` restarted on `c3po-vm.exe.xyz` — confirmed the Reader fallback fix is in the running process, bot reconnected clean.
+- `admin` (Protocol-Institute/admin, private): SOP doc committed and pushed. Correction to an assumption made mid-session — this repo does have a remote, unlike the working assumption going in. Left an unrelated pre-existing modified `keys.md` and untracked `expenses/SUSPENDED.md` untouched (not mine to commit).
+- `humboldt`: `CLAUDE.md` notation committed (`b105d26`, `redesign-2026-08` branch) but **deliberately not pushed** — that branch was 16 commits ahead of origin (15 not mine, from humboldt's own autonomous work) and the working tree had extensive unrelated uncommitted churn (`TODO.md`, `analytics/events.jsonl`, `behaviors/log.jsonl`, `bibliography/bibliography.yaml`, dozens of deleted `inbox/*.md` files, `humboldt-site/functions/chat.js`) consistent with its daemon actively running — none of that touched, diffed `CLAUDE.md` in isolation before staging to confirm the commit contained only my addition.
 
 **Open TODOs (priority order):**
 1. Watch `/stats` → `pinecone_egress` for a full month before trusting the cache + accounting combination under real traffic — first time either has run live.
