@@ -26,8 +26,8 @@
       "source": "substack",
       "author": "TΞRM1NΞX",
       "label": "FICTION",
-      "count": 4,
-      "last_seen": "2026-09-01",
+      "count": 5,
+      "last_seen": "2026-09-02",
       "is_fallback": false
     },
     "https://www.youtube.com/watch?v=UAtt1F7fMLE": {
@@ -509,6 +509,26 @@
       "count": 1,
       "last_seen": "2026-08-10",
       "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/how-the-protocol-institute-is-adopting": {
+      "title": "How the Protocol Institute is Adopting AI",
+      "url": "https://protocolized.summerofprotocols.com/p/how-the-protocol-institute-is-adopting",
+      "source": "substack",
+      "author": "Timber Stinson-Schroff",
+      "label": "ESSAY",
+      "count": 1,
+      "last_seen": "2026-09-02",
+      "is_fallback": false
+    },
+    "https://www.youtube.com/watch?v=xIJP3Dtj7Sc": {
+      "title": "Salon V: Autonomous Realities - 2024 Protocol Symposium",
+      "url": "https://www.youtube.com/watch?v=xIJP3Dtj7Sc",
+      "source": "youtube",
+      "author": "Timber",
+      "label": "TALK",
+      "count": 1,
+      "last_seen": "2026-09-02",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -593,8 +613,8 @@
       "name": "🫆-personhood-research-group",
       "display": "#🫆-personhood-research-group",
       "sig_display": "",
-      "count": 1,
-      "last_seen": "2026-09-01"
+      "count": 2,
+      "last_seen": "2026-09-02"
     }
   }
 }
