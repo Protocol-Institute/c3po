@@ -276,8 +276,8 @@
       "source": "substack",
       "author": "Timber Stinson-Schroff",
       "label": "ESSAY",
-      "count": 2,
-      "last_seen": "2026-07-15",
+      "count": 3,
+      "last_seen": "2026-09-02",
       "is_fallback": false
     },
     "https://summerofprotocols.com/research/reader": {
@@ -376,8 +376,8 @@
       "source": "substack",
       "author": "Protocolized",
       "label": "ESSAY",
-      "count": 1,
-      "last_seen": "2026-07-18",
+      "count": 2,
+      "last_seen": "2026-09-02",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/strangeness-illegibility-hardness": {
@@ -529,6 +529,16 @@
       "count": 1,
       "last_seen": "2026-09-02",
       "is_fallback": false
+    },
+    "https://www.youtube.com/watch?v=JjVj_WRXxwA": {
+      "title": "Public Intelligence",
+      "url": "https://www.youtube.com/watch?v=JjVj_WRXxwA",
+      "source": "youtube",
+      "author": "Kevin Kelly",
+      "label": "TALK",
+      "count": 1,
+      "last_seen": "2026-09-02",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -613,7 +623,7 @@
       "name": "🫆-personhood-research-group",
       "display": "#🫆-personhood-research-group",
       "sig_display": "",
-      "count": 2,
+      "count": 3,
       "last_seen": "2026-09-02"
     }
   }
