@@ -96,8 +96,8 @@
       "source": "substack",
       "author": "Timber Stinson-Schroff",
       "label": "ESSAY",
-      "count": 11,
-      "last_seen": "2026-08-07",
+      "count": 12,
+      "last_seen": "2026-09-03",
       "is_fallback": false
     },
     "https://files.protocolized.io/FERNANDEZ-Flow-speculative-brochure.pdf": {
@@ -196,8 +196,8 @@
       "source": "pdf",
       "author": "Rafael Fernández",
       "label": "PAPER",
-      "count": 2,
-      "last_seen": "2026-08-07",
+      "count": 3,
+      "last_seen": "2026-09-03",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/latency": {
@@ -539,6 +539,16 @@
       "count": 1,
       "last_seen": "2026-09-02",
       "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/fine-print": {
+      "title": "Fine Print",
+      "url": "https://protocolized.summerofprotocols.com/p/fine-print",
+      "source": "substack",
+      "author": "Griffin",
+      "label": "FICTION",
+      "count": 1,
+      "last_seen": "2026-09-03",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -581,8 +591,8 @@
       "name": "🚜-protocols-for-business",
       "display": "#🚜-protocols-for-business",
       "sig_display": "SIGPfB",
-      "count": 16,
-      "last_seen": "2026-08-10"
+      "count": 17,
+      "last_seen": "2026-09-03"
     },
     "1508175637020676259": {
       "name": "🦾-distributed-robotics",
