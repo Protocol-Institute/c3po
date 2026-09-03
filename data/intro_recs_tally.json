@@ -76,8 +76,8 @@
       "source": "substack",
       "author": "Jack Lord",
       "label": "FICTION",
-      "count": 2,
-      "last_seen": "2026-08-08",
+      "count": 3,
+      "last_seen": "2026-09-03",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/a-very-short-introduction-to-memory": {
@@ -86,8 +86,8 @@
       "source": "substack",
       "author": "Kei Kreutler",
       "label": "ESSAY",
-      "count": 9,
-      "last_seen": "2026-08-08",
+      "count": 10,
+      "last_seen": "2026-09-03",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/introducing-the-protocol-institute": {
@@ -326,8 +326,8 @@
       "source": "substack",
       "author": "Spencer Nitkey",
       "label": "FICTION",
-      "count": 4,
-      "last_seen": "2026-08-10",
+      "count": 5,
+      "last_seen": "2026-09-03",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/signals-in-the-margins": {
@@ -584,8 +584,8 @@
       "name": "🎩-formal-protocol-theory",
       "display": "#🎩-formal-protocol-theory",
       "sig_display": "SIGFPT",
-      "count": 7,
-      "last_seen": "2026-08-07"
+      "count": 8,
+      "last_seen": "2026-09-03"
     },
     "1333851496416153702": {
       "name": "🚜-protocols-for-business",
