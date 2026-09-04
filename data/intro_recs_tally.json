@@ -516,8 +516,8 @@
       "source": "substack",
       "author": "Timber Stinson-Schroff",
       "label": "ESSAY",
-      "count": 1,
-      "last_seen": "2026-09-02",
+      "count": 2,
+      "last_seen": "2026-09-04",
       "is_fallback": false
     },
     "https://www.youtube.com/watch?v=xIJP3Dtj7Sc": {
@@ -548,6 +548,16 @@
       "label": "FICTION",
       "count": 1,
       "last_seen": "2026-09-03",
+      "is_fallback": false
+    },
+    "https://www.youtube.com/watch?v=iwqoeIMXuzU": {
+      "title": "Beyond Consensus: Protocols as Digital Institutions",
+      "url": "https://www.youtube.com/watch?v=iwqoeIMXuzU",
+      "source": "youtube",
+      "author": "Vess",
+      "label": "TALK",
+      "count": 1,
+      "last_seen": "2026-09-04",
       "is_fallback": false
     }
   },
@@ -591,8 +601,8 @@
       "name": "🚜-protocols-for-business",
       "display": "#🚜-protocols-for-business",
       "sig_display": "SIGPfB",
-      "count": 17,
-      "last_seen": "2026-09-03"
+      "count": 18,
+      "last_seen": "2026-09-04"
     },
     "1508175637020676259": {
       "name": "🦾-distributed-robotics",
