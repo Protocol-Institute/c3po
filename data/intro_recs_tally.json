@@ -86,8 +86,8 @@
       "source": "substack",
       "author": "Kei Kreutler",
       "label": "ESSAY",
-      "count": 10,
-      "last_seen": "2026-09-03",
+      "count": 11,
+      "last_seen": "2026-09-05",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/introducing-the-protocol-institute": {
@@ -559,6 +559,16 @@
       "count": 1,
       "last_seen": "2026-09-04",
       "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/egregoretex": {
+      "title": "EGREGORETEX™️",
+      "url": "https://protocolized.summerofprotocols.com/p/egregoretex",
+      "source": "substack",
+      "author": "Timber Stinson-Schroff",
+      "label": "ESSAY",
+      "count": 1,
+      "last_seen": "2026-09-05",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -601,8 +611,8 @@
       "name": "🚜-protocols-for-business",
       "display": "#🚜-protocols-for-business",
       "sig_display": "SIGPfB",
-      "count": 18,
-      "last_seen": "2026-09-04"
+      "count": 19,
+      "last_seen": "2026-09-05"
     },
     "1508175637020676259": {
       "name": "🦾-distributed-robotics",
