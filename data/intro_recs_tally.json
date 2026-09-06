@@ -326,8 +326,8 @@
       "source": "substack",
       "author": "Spencer Nitkey",
       "label": "FICTION",
-      "count": 5,
-      "last_seen": "2026-09-03",
+      "count": 6,
+      "last_seen": "2026-09-06",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/signals-in-the-margins": {
@@ -446,8 +446,8 @@
       "source": "substack",
       "author": "Protocolized",
       "label": "FICTION",
-      "count": 1,
-      "last_seen": "2026-08-04",
+      "count": 2,
+      "last_seen": "2026-09-06",
       "is_fallback": false
     },
     "https://discord.com/channels/1082444651946049567/1480458458846462056": {
@@ -569,6 +569,16 @@
       "count": 1,
       "last_seen": "2026-09-05",
       "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/submission-guidelines": {
+      "title": "How to write with us",
+      "url": "https://protocolized.summerofprotocols.com/p/submission-guidelines",
+      "source": "substack",
+      "author": "Protocolized",
+      "label": "PROTOCOLIZED",
+      "count": 1,
+      "last_seen": "2026-09-06",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -646,8 +656,8 @@
       "name": "meeting-notes",
       "display": "#meeting-notes",
       "sig_display": "",
-      "count": 1,
-      "last_seen": "2026-08-07"
+      "count": 2,
+      "last_seen": "2026-09-06"
     },
     "1542928136038121543": {
       "name": "🫆-personhood-research-group",
