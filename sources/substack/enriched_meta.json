@@ -1649,5 +1649,17 @@
     "all_authors": [
       "Elizabeth Maher"
     ]
+  },
+  "trust-by-protocol": {
+    "summary": "Estonia's internet voting system represents a deliberate engineering of trust through protocol design, where digital procedures replace the legibility and visibility of traditional polling stations. By making the voting process itself a sophisticated yet understandable protocol, Estonia demonstrated that legitimacy in elections can be transferred from physical ritual to cryptographic procedure.",
+    "categories": [
+      "protocol-watching",
+      "governance",
+      "protocol-theory"
+    ],
+    "primary_author": "Jason Collins",
+    "all_authors": [
+      "Jason Collins"
+    ]
   }
 }

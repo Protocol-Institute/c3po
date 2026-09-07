@@ -1,5 +1,37 @@
 [
   {
+    "id": 213726759,
+    "slug": "trust-by-protocol",
+    "title": "Trust by Protocol ",
+    "subtitle": "How Estonia engineered legitimacy for its internet voting platform",
+    "post_date": "2026-09-07T06:11:00.640Z",
+    "updated_at": "2026-09-07T06:12:06.619Z",
+    "type": "newsletter",
+    "wordcount": 3083,
+    "section_id": 333110,
+    "section_name": "Articles",
+    "postTags": [],
+    "publishedBylines": [
+      {
+        "id": 39931612,
+        "name": "Jason Collins",
+        "handle": "jasoncollins462592",
+        "bio": "Jason Collins is a freelance writer and editor with a background in magazine writing. His work spans science fiction, essays, blogs, and features, bringing curiosity, sharp editing, and a storyteller's mind to every piece."
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 2,
+    "restacks": 0,
+    "comment_count": 1,
+    "previous_post_slug": "protocol-symposium-2026-registration",
+    "next_post_slug": null
+  },
+  {
     "id": 212808174,
     "slug": "the-dismantling",
     "title": "The Dismantling",
@@ -55,7 +87,7 @@
     "restacks": 7,
     "comment_count": 3,
     "previous_post_slug": "durable-ai-adoption",
-    "next_post_slug": null
+    "next_post_slug": "trust-by-protocol"
   },
   {
     "id": 211538617,
