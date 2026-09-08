@@ -247,10 +247,50 @@ def autocommit_c3po_state() -> bool:
         return False
 
 
-def push_website_if_changed() -> bool:
+def _recover_website_checkout(drop_stash: bool) -> None:
+    """Return the website clone to a clean checkout of main after a failed run.
+
+    The previous recovery was a bare `git checkout main`, which cannot succeed
+    while unmerged paths exist — exactly the state a conflicted `git stash pop`
+    leaves behind. So a single conflicted pop stranded the checkout on the
+    branch and every later cycle failed the same way, silently, until someone
+    looked: that is how SIG content sat unpublished from 2026-09-04 to 09-08.
+
+    Discarding the working tree is safe here. Everything the daemon writes
+    under sigs/ is regenerated from data/sigs/meetings/ on the next cycle, and
+    nothing is authored in this clone by hand.
+    """
+    for cmd in (
+        ["merge", "--abort"],          # no-ops unless the pop left a merge in progress
+        ["checkout", "--force", "main"],
+        ["fetch", "origin", "main"],
+        ["reset", "--hard", "origin/main"],
+    ):
+        subprocess.run(["git", *cmd], cwd=str(WEBSITE_DIR), capture_output=True)
+
+    # A conflicted pop leaves its entry on the stack. Without this the stack
+    # grows one dead stash per failed cycle (three had accumulated by 09-08).
+    if drop_stash:
+        subprocess.run(["git", "stash", "drop"], cwd=str(WEBSITE_DIR), capture_output=True)
+
+    state = subprocess.run(
+        ["git", "status", "--porcelain", "--untracked-files=no"],
+        cwd=str(WEBSITE_DIR), capture_output=True, text=True,
+    )
+    if state.stdout.strip():
+        log.error("  Website checkout still dirty after recovery — needs a look by hand")
+    else:
+        log.info("  Website checkout reset to main")
+
+
+def push_website_if_changed() -> bool | None:
     """Stage SIG page changes onto a dedicated branch and open (or silently
     update) a PR against the website repo, instead of pushing straight to
     main.
+
+    Returns True when a PR was opened or updated, False when there was nothing
+    to publish, and None when the flow failed — the caller uses None to retry
+    on the next cycle instead of waiting out the full interval.
 
     The website project sometimes makes its own presentation/formatting edits
     directly in sigs/*/index.html. A direct push from here would lump those
@@ -266,6 +306,17 @@ def push_website_if_changed() -> bool:
     so an unmerged PR always reflects the latest regeneration rather than
     accumulating drift.
     """
+    # A checkout left mid-conflict or parked on the auto branch by an earlier
+    # run cannot be stashed onto a fresh branch — clean it up first rather than
+    # failing the same way every cycle.
+    state = subprocess.run(
+        ["git", "status", "--porcelain", "--untracked-files=no", "--branch"],
+        cwd=str(WEBSITE_DIR), capture_output=True, text=True,
+    ).stdout
+    if any(line[:2] in ("UU", "AA", "DD", "AU", "UA", "DU", "UD") for line in state.splitlines()):
+        log.warning("  Website checkout has unmerged paths from an earlier run — recovering")
+        _recover_website_checkout(drop_stash=False)
+
     check = subprocess.run(
         ["git", "status", "--porcelain", *WEBSITE_PATHS],
         cwd=str(WEBSITE_DIR), capture_output=True, text=True,
@@ -277,13 +328,16 @@ def push_website_if_changed() -> bool:
     date_str = datetime.now().strftime("%Y-%m-%d")
     msg = f"Auto: SIG pages updated {date_str}"
 
+    stash_held = False
     try:
         _git(["stash", "push", "-u", "--", *WEBSITE_PATHS], WEBSITE_DIR)
+        stash_held = True
         _git(["checkout", "main"], WEBSITE_DIR)
         _git(["fetch", "origin", "main"], WEBSITE_DIR)
         _git(["reset", "--hard", "origin/main"], WEBSITE_DIR)
         _git(["checkout", "-B", WEBSITE_BRANCH], WEBSITE_DIR)
         _git(["stash", "pop"], WEBSITE_DIR)
+        stash_held = False
         _git(["add", *WEBSITE_PATHS], WEBSITE_DIR)
         _git(["commit", "-m", msg], WEBSITE_DIR)
         _git(["push", "--force-with-lease", "-u", "origin", WEBSITE_BRANCH], WEBSITE_DIR)
@@ -310,9 +364,8 @@ def push_website_if_changed() -> bool:
         return True
     except subprocess.CalledProcessError as exc:
         log.error(f"  Website PR flow failed: {(exc.stderr or '')[:200]}")
-        # Best-effort recovery so the next cycle isn't stuck mid-stash/branch.
-        subprocess.run(["git", "checkout", "main"], cwd=str(WEBSITE_DIR), capture_output=True)
-        return False
+        _recover_website_checkout(drop_stash=stash_held)
+        return None
 
 
 # Steps that write to Pinecone — skipped (not even invoked, so no Discord/
@@ -386,8 +439,16 @@ def run_sync(cycle: int) -> None:
     website_push_state = load_website_push_state()
     if website_push_due(website_push_state):
         website_pushed = push_website_if_changed()
-        website_push_state["last_push_check"] = datetime.now(timezone.utc).isoformat()
-        save_website_push_state(website_push_state)
+        if website_pushed is None:
+            # Failed rather than found nothing. Leaving the clock untouched
+            # retries next cycle; stamping it here would hide the failure for
+            # another WEBSITE_PUSH_INTERVAL_DAYS, which is how a single
+            # conflicted stash pop cost 4 days of unpublished SIG pages.
+            log.warning("  Website PR flow failed — retrying next cycle, clock not advanced")
+            website_pushed = False
+        else:
+            website_push_state["last_push_check"] = datetime.now(timezone.utc).isoformat()
+            save_website_push_state(website_push_state)
     else:
         last_check = website_push_state.get("last_push_check", "?")
         log.info(f"  Website PR check skipped — last checked {last_check}, "
