@@ -39,6 +39,7 @@ SIG_INFO = {
     "ProtFiSIG": {"slug": "protfisig", "name": "Protocol Fiction"},
     "SIGPSY":    {"slug": "sigpsy",    "name": "Special Interest Group in Psychohistory"},
     "DRG":       {"slug": "drg",       "name": "Distributed Robotics Group"},
+    "PRG":       {"slug": "prg",       "name": "Personhood Research Group"},
 }
 
 SKIP_LINK_DOMAINS = {

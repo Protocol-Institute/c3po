@@ -37,7 +37,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).parent))
-from utils import clean_text, embed_chunks, get_voyage_client, get_pinecone_index
+from utils import (clean_text, embed_chunks, get_voyage_client, get_pinecone_index,
+                   meeting_ready, MEETING_GRACE_DAYS)
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
@@ -50,19 +51,23 @@ NAMESPACE     = "sig"
 STATE_PATH    = Path(__file__).parent.parent / "data" / "meeting_notes_state.json"
 MEETINGS_DIR  = Path(__file__).parent.parent / "data" / "sigs" / "meetings"
 
-# Map lowercase title prefix → sig_display
+# Map normalized title prefix → sig_display. Keys are matched against the title
+# with every non-alphanumeric character removed, and again with a leading "sig"
+# stripped — so a key may be written bare ("drg") and will still match "SIG-DRG",
+# "sigdrg" and "DRG". Do not add both bare and sig-prefixed spellings of the same
+# group; one bare key covers every form.
 SIG_TITLE_MAP = {
-    "sigpsy":    "SIGPSY",
-    "sigfpt":    "SIGFPT",
+    "psy":       "SIGPSY",
+    "fpt":       "SIGFPT",
     "drg":       "DRG",
     "mrg":       "MRG",
-    "sigpfb":    "SIGPfB",
+    "prg":       "PRG",
     "pfb":       "SIGPfB",
-    "sigp4b":    "SIGPfB",
     "p4b":       "SIGPfB",
-    "sigssg":    "SIGPfB",
-    "protfisig": "ProtFiSIG",
+    "ssg":       "SIGPfB",
+    "protfi":    "ProtFiSIG",
     "pfsig":     "ProtFiSIG",
+    "pf":        "ProtFiSIG",
 }
 
 SIG_NAMES = {
@@ -70,9 +75,32 @@ SIG_NAMES = {
     "SIGFPT":    "Formal Protocol Theory",
     "DRG":       "Distributed Robotics Group",
     "MRG":       "Memory Research Group",
+    "PRG":       "Personhood Research Group",
     "SIGPfB":    "Protocols for Business",
     "ProtFiSIG": "Protocol Fiction",
 }
+
+
+def match_sig(title: str) -> str | None:
+    """Resolve a recording title to a sig_display value, or None if unrecognised.
+
+    The recorder has posted the same group under several spellings over time
+    ("sigfpt 2026-07-10", "SIG-FPT 2026-07-24", "SIG-DRG 2026-08-20"), so the
+    title is reduced to bare alphanumerics before matching and then tried a
+    second time with a leading "sig" removed. Longest key first, so a short key
+    ("pf") can never shadow a longer one that also matches ("pfb").
+    """
+    key = re.sub(r"[^a-z0-9]", "", title.lower())
+    if key.startswith("adhoc"):
+        return "AdHoc"
+    candidates = [key]
+    if key.startswith("sig"):
+        candidates.append(key[3:])
+    for cand in candidates:
+        for prefix in sorted(SIG_TITLE_MAP, key=len, reverse=True):
+            if cand.startswith(prefix):
+                return SIG_TITLE_MAP[prefix]
+    return None
 
 
 def discord_get(path: str, token: str) -> dict | list:
@@ -142,17 +170,7 @@ def parse_header(msg: dict) -> dict | None:
     r2_transcript_m = re.search(r"📄 Transcript:\s+(https://[^\s]+/transcript\.txt)", content)
     r2_transcript_url = r2_transcript_m.group(1) if r2_transcript_m else None
 
-    # Determine SIG from title prefix (hyphens stripped — bot template has
-    # used both "sigfpt 2026-07-10" and "SIG-FPT 2026-07-24" forms)
-    title_lower = title.lower()
-    title_norm = title_lower.replace("-", "")
-    sig_display = None
-    for prefix, sig in SIG_TITLE_MAP.items():
-        if title_norm.startswith(prefix):
-            sig_display = sig
-            break
-    if sig_display is None and title_lower.startswith("ad hoc"):
-        sig_display = "AdHoc"
+    sig_display = match_sig(title)
 
     return {
         "message_id": msg["id"],
@@ -350,17 +368,57 @@ def build_vectors(recording: dict, parsed: dict) -> list[dict]:
     return vectors
 
 
-def process_recording(recording: dict, dry_run: bool, vc, idx) -> list[str]:
-    """Fetch summary.md, parse, embed, upsert. Returns list of Pinecone IDs."""
+def attach_meeting_json(recording: dict, parsed: dict, dry_run: bool) -> bool:
+    """Enrich or create the data/sigs/meetings/ record for this recording.
+
+    Returns False when the step was deferred and should be retried on a later
+    run. A session whose Discord thread has not yet been summarised has no
+    meeting JSON to enrich, but rebuild_sig_summaries.py will create one once
+    MEETING_GRACE_DAYS have passed; creating an audio-only record before then
+    leaves two records for the same sig+date, which renders as a duplicate
+    meeting card. So within the grace window we wait rather than create.
+    """
+    sig = recording["sig_display"]
+    if not sig or sig == "AdHoc":
+        return True
+
+    existing = find_meeting_json(sig, recording["date"])
+    if existing:
+        if dry_run:
+            print(f"  [dry-run] Would enrich {existing.name}")
+        else:
+            enrich_meeting_json(existing, recording, parsed)
+            print(f"  ✓ Enriched {existing.name} with audio fields")
+        return True
+
+    if not meeting_ready(recording["date"]):
+        print(f"  ⏸ no meeting record yet and {recording['date']} is under "
+              f"{MEETING_GRACE_DAYS}d old — deferring JSON to a later run")
+        return False
+
+    if dry_run:
+        print(f"  [dry-run] Would create new meeting JSON for {sig} {recording['date']}")
+    else:
+        new_path = create_meeting_json(recording, parsed)
+        print(f"  ✓ Created {new_path.name}")
+    return True
+
+
+def process_recording(recording: dict, dry_run: bool, vc, idx) -> tuple[list[str], bool]:
+    """Fetch summary.md, parse, embed, upsert.
+
+    Returns (Pinecone IDs, json_pending) — see attach_meeting_json() for when
+    the meeting-JSON step is deferred.
+    """
     url = recording["r2_summary_url"]
     if not url:
         print(f"  ⚠ No R2 summary URL — skipping")
-        return []
+        return [], False
 
     print(f"  Fetching summary.md …")
     md_text = fetch_r2_summary(url)
     if not md_text:
-        return []
+        return [], False
 
     parsed = parse_summary_md(md_text)
     print(f"  Participants: {len(parsed['participants'])} | Sections: {list(parsed['sections'].keys())}")
@@ -368,7 +426,7 @@ def process_recording(recording: dict, dry_run: bool, vc, idx) -> list[str]:
     vectors = build_vectors(recording, parsed)
     if not vectors:
         print(f"  ⚠ No vectors built")
-        return []
+        return [], False
 
     # Embed
     texts = [v["text"] for v in vectors]
@@ -383,24 +441,9 @@ def process_recording(recording: dict, dry_run: bool, vc, idx) -> list[str]:
     else:
         print(f"  [dry-run] Would upsert {len(vectors)} vectors")
 
-    # Update meeting JSON
-    sig = recording["sig_display"]
-    if sig and sig != "AdHoc":
-        existing = find_meeting_json(sig, recording["date"])
-        if existing:
-            if not dry_run:
-                enrich_meeting_json(existing, recording, parsed)
-                print(f"  ✓ Enriched {existing.name} with audio fields")
-            else:
-                print(f"  [dry-run] Would enrich {existing.name}")
-        else:
-            if not dry_run:
-                new_path = create_meeting_json(recording, parsed)
-                print(f"  ✓ Created {new_path.name}")
-            else:
-                print(f"  [dry-run] Would create new meeting JSON for {sig} {recording['date']}")
+    json_pending = not attach_meeting_json(recording, parsed, dry_run)
 
-    return [v["id"] for v in vectors]
+    return [v["id"] for v in vectors], json_pending
 
 
 def load_state() -> dict:
@@ -440,6 +483,28 @@ def main():
     vc = get_voyage_client()
     idx = get_pinecone_index()
 
+    # Recordings whose meeting-JSON step was deferred inside the grace window
+    # (see attach_meeting_json) are retried here — no re-embedding, just the
+    # JSON attach, since their vectors are already correct in Pinecone.
+    headers_by_id = {m["id"]: m for m in headers}
+    attached = 0
+    for mid, entry in state.items():
+        if not entry.get("json_pending") or mid not in headers_by_id:
+            continue
+        rec = parse_header(headers_by_id[mid])
+        if not rec:
+            continue
+        md_text = fetch_r2_summary(rec["r2_summary_url"]) if rec["r2_summary_url"] else None
+        if not md_text:
+            continue
+        print(f"\n[{rec['date']}] {rec['title']} — retrying deferred meeting JSON")
+        if attach_meeting_json(rec, parse_summary_md(md_text), args.dry_run):
+            attached += 1
+            if not args.dry_run:
+                entry["json_pending"] = False
+    if attached and not args.dry_run:
+        save_state(state)
+
     processed = 0
     skipped = 0
     for msg in headers:
@@ -454,10 +519,7 @@ def main():
 
         print(f"\n[{rec['date']}] {rec['title']} (sig={rec['sig_display']})")
 
-        if args.dry_run:
-            ids = process_recording(rec, dry_run=True, vc=vc, idx=idx)
-        else:
-            ids = process_recording(rec, dry_run=False, vc=vc, idx=idx)
+        ids, json_pending = process_recording(rec, dry_run=args.dry_run, vc=vc, idx=idx)
 
         if not args.dry_run:
             state[mid] = {
@@ -467,12 +529,14 @@ def main():
                 "sig_display":     rec["sig_display"],
                 "r2_summary_url":  rec["r2_summary_url"],
                 "pinecone_ids":    ids,
+                "json_pending":    json_pending,
             }
             save_state(state)
         processed += 1
 
     print(f"\n── Done ──────────────────────────────────────")
     print(f"  Processed : {processed}")
+    print(f"  Deferred JSONs attached : {attached}")
     print(f"  Skipped   : {skipped} (already done; use --force to reprocess)")
 
 

@@ -80,6 +80,7 @@ SIG_DISPLAY = {
     "ProtFiSIG": "Protocol Fiction",
     "SIGPSY":    "Special Interest Group in Psychohistory",
     "DRG":       "Distributed Robotics Group",
+    "PRG":       "Personhood Research Group",
 }
 
 # Static patrol manifest — each entry describes one ingest source

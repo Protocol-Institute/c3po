@@ -77,6 +77,7 @@ SIG_DISPLAY = {
     "ProtFiSIG": "Protocol Fiction",
     "SIGPSY":    "Psychohistory (SIGPSY)",
     "DRG":       "Distributed Robotics Group",
+    "PRG":       "Personhood Research Group",
 }
 
 SCRIPT_LABELS = {

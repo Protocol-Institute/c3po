@@ -46,6 +46,7 @@ SIG_DISPLAY_NAMES = {
     "ProtFiSIG": "Protocol Fiction SIG",
     "SIGPSY":    "Special Interest Group in Psychohistory",
     "DRG":       "Distributed Robotics Group",
+    "PRG":       "Personhood Research Group",
 }
 
 

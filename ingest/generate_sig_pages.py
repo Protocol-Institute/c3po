@@ -74,6 +74,16 @@ SIG_INFO = {
         "schedule":    "Biweekly Thursdays, 4:30pm UTC",
         "channel_id":  "1508175637020676259",
     },
+    "PRG": {
+        "slug":        "prg",
+        "name":        "Personhood Research Group",
+        "description": "The Personhood Research Group investigates how personhood has been constituted as a set of protocols across different times, places, and disciplines; how related questions like \u201cwhat is life?\u201d interact with it; and how it is changing as a result of AI.",
+        "lead":        "Sarah Friend",
+        "schedule":    "Schedule TBD",
+        # No dedicated Discord channel yet — PRG sessions reach c3po only through
+        # the audio recordings posted to #meeting-notes.
+        "channel_id":  None,
+    },
 }
 
 SKIP_LINK_DOMAINS = {

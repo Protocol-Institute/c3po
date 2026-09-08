@@ -45,6 +45,7 @@ SIG_CONFIG = {
     "protfisig": {"display": "ProtFiSIG", "path": "/sigs/protfisig/"},
     "sigpsy":    {"display": "SIGPSY",    "path": "/sigs/sigpsy/"},
     "drg":       {"display": "DRG",       "path": "/sigs/drg/"},
+    "prg":       {"display": "PRG",       "path": "/sigs/prg/"},
 }
 
 MEETING_URL_RE = re.compile(r"^/sigs/[^/]+/\d{4}-\d{2}-\d{2}-")
