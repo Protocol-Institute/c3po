@@ -86,8 +86,8 @@
       "source": "substack",
       "author": "Kei Kreutler",
       "label": "ESSAY",
-      "count": 11,
-      "last_seen": "2026-09-05",
+      "count": 12,
+      "last_seen": "2026-09-08",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/introducing-the-protocol-institute": {
@@ -196,8 +196,8 @@
       "source": "pdf",
       "author": "Rafael Fernández",
       "label": "PAPER",
-      "count": 3,
-      "last_seen": "2026-09-03",
+      "count": 4,
+      "last_seen": "2026-09-08",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/latency": {
@@ -621,8 +621,8 @@
       "name": "🚜-protocols-for-business",
       "display": "#🚜-protocols-for-business",
       "sig_display": "SIGPfB",
-      "count": 21,
-      "last_seen": "2026-09-07"
+      "count": 22,
+      "last_seen": "2026-09-08"
     },
     "1508175637020676259": {
       "name": "🦾-distributed-robotics",
