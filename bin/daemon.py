@@ -316,6 +316,13 @@ def push_website_if_changed() -> bool | None:
     if any(line[:2] in ("UU", "AA", "DD", "AU", "UA", "DU", "UD") for line in state.splitlines()):
         log.warning("  Website checkout has unmerged paths from an earlier run — recovering")
         _recover_website_checkout(drop_stash=False)
+        # The reset also discards this cycle's regenerated pages, so publishing
+        # now would ship only whatever happened to be untracked. Report failure
+        # instead: the clock stays put and the next cycle publishes a full tree
+        # once the generators have run again.
+        log.warning("  Regenerated pages were discarded with the recovery — "
+                    "publishing on the next cycle instead")
+        return None
 
     check = subprocess.run(
         ["git", "status", "--porcelain", *WEBSITE_PATHS],
