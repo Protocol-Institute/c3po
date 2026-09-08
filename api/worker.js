@@ -92,6 +92,8 @@ function dayKey()          { return "stats:day:"            + ptDateStr(); }
 function lifetimeKey()     { return "stats:lifetime"; }
 function mcpDayKey()       { return "stats:mcp:day:"        + ptDateStr(); }
 function mcpLifeKey()      { return "stats:mcp:lifetime"; }
+function mcpCallsDayKey()  { return "stats:mcp:calls:day:"  + ptDateStr(); }
+function mcpCallsLifeKey() { return "stats:mcp:calls:lifetime"; }
 function discordDayKey()   { return "stats:discord:day:"    + ptDateStr(); }
 function discordLifeKey()  { return "stats:discord:lifetime"; }
 
@@ -196,6 +198,30 @@ async function trackSessionStart(env) {
   ]);
 }
 
+// Counts every MCP request by method/tool/outcome. trackMcpRequest() below only
+// fires for an ask_c3po that reached Claude and returned, which for a long time
+// made /stats read "1 lifetime request" while the open search_corpus tool was
+// serving ~130 calls a month — visible only as a side effect of the rate
+// limiter's per-IP keys. Counters are read-modify-write on KV and will
+// undercount concurrent bursts; they are meant for shape, not billing.
+async function trackMcpCall(env, label) {
+  if (!env.RATE_LIMIT) return;
+  const dk = mcpCallsDayKey(), lk = mcpCallsLifeKey();
+  const [ds, ls] = await Promise.all([
+    env.RATE_LIMIT.get(dk, "json"),
+    env.RATE_LIMIT.get(lk, "json"),
+  ]);
+  const d = { ...(ds || {}) };
+  const l = { ...(ls || {}) };
+  d[label] = (d[label] || 0) + 1;
+  l[label] = (l[label] || 0) + 1;
+  await Promise.all([
+    env.RATE_LIMIT.put(dk, JSON.stringify(d), { expirationTtl: 90 * 24 * 3600 }),
+    env.RATE_LIMIT.put(lk, JSON.stringify(l)),
+  ]);
+}
+
+
 async function trackMcpRequest(env, usage) {
   if (!env.RATE_LIMIT) return;
   const dk = mcpDayKey(), lk = mcpLifeKey();
@@ -246,7 +272,7 @@ async function handleStats(env, corsHeaders) {
   if (!env.RATE_LIMIT) return json({ error: "stats unavailable" }, 503, corsHeaders);
   const sessDayKey  = "stats:sessions:day:"      + ptDateStr();
   const sessLifeKey = "stats:sessions:lifetime";
-  const [hs, ds, ls, circuit, sds, sls, mds, mls, dds, dls, egr] = await Promise.all([
+  const [hs, ds, ls, circuit, sds, sls, mds, mls, dds, dls, egr, mcd, mcl] = await Promise.all([
     env.RATE_LIMIT.get(hourKey(),        "json"),
     env.RATE_LIMIT.get(dayKey(),         "json"),
     env.RATE_LIMIT.get(lifetimeKey(),    "json"),
@@ -258,6 +284,8 @@ async function handleStats(env, corsHeaders) {
     env.RATE_LIMIT.get(discordDayKey(),  "json"),
     env.RATE_LIMIT.get(discordLifeKey(), "json"),
     env.RATE_LIMIT.get(egressMonthKey(), "json"),
+    env.RATE_LIMIT.get(mcpCallsDayKey(),  "json"),
+    env.RATE_LIMIT.get(mcpCallsLifeKey(), "json"),
   ]);
   const zero = { reqs: 0, in_tok: 0, cache_create_tok: 0, cache_read_tok: 0, out_tok: 0 };
   const h  = { ...zero, ...(hs  || {}) };
@@ -273,6 +301,14 @@ async function handleStats(env, corsHeaders) {
     lifetime:         { reqs: l.reqs,  cost_usd: +calcTotalCost(l).toFixed(2)  },
     mcp_day:          { reqs: md.reqs, cost_usd: +calcTotalCost(md).toFixed(4) },
     mcp_lifetime:     { reqs: ml.reqs, cost_usd: +calcTotalCost(ml).toFixed(2) },
+    // mcp_day/mcp_lifetime above are answered ask_c3po calls only (they carry
+    // token cost). mcp_calls counts every request the MCP endpoint handled,
+    // including the open search_corpus tool, handshakes and refusals.
+    mcp_calls: {
+      day:      mcd || {},
+      lifetime: mcl || {},
+      note: "counts by method/tool:outcome; KV read-modify-write, so concurrent bursts undercount",
+    },
     discord_day:      { reqs: dd.reqs, cost_usd: +calcTotalCost(dd).toFixed(4) },
     discord_lifetime: { reqs: dl.reqs, cost_usd: +calcTotalCost(dl).toFixed(2) },
     sessions: { today: sds?.count ?? 0, lifetime: sls?.count ?? 0 },
@@ -3348,6 +3384,7 @@ async function runMcpAsk(args, env, ctx) {
 
 async function handleMcp(request, env, ctx) {
   if (request.method === "GET") {
+    ctx.waitUntil(trackMcpCall(env, "get_probe").catch(() => {}));
     // 405, not 200: this server does not support the legacy SSE transport (no
     // server-initiated stream on GET). Returning 405 tells spec-compliant MCP
     // clients to stop retrying GET/SSE instead of reconnect-looping forever —
@@ -3359,16 +3396,30 @@ async function handleMcp(request, env, ctx) {
       { status: 405 }
     );
   }
-  if (request.method !== "POST") return new Response("POST only", { status: 405 });
+  if (request.method !== "POST") {
+    ctx.waitUntil(trackMcpCall(env, "bad_method").catch(() => {}));
+    return new Response("POST only", { status: 405 });
+  }
 
   let body;
   try { body = await request.json(); }
-  catch { return mcpRpc(null, null, { code: -32700, message: "Parse error" }, 400); }
+  catch {
+    ctx.waitUntil(trackMcpCall(env, "parse_error").catch(() => {}));
+    return mcpRpc(null, null, { code: -32700, message: "Parse error" }, 400);
+  }
 
   const { id, method, params } = body;
 
   // Notifications (no id) — acknowledge silently
-  if (id === undefined || id === null) return new Response(null, { status: 202 });
+  if (id === undefined || id === null) {
+    ctx.waitUntil(trackMcpCall(env, "notification").catch(() => {}));
+    return new Response(null, { status: 202 });
+  }
+
+  // One count per accepted JSON-RPC request. tools/call is counted again below
+  // with its tool name and outcome, so a session's handshake is distinguishable
+  // from the work it went on to do.
+  ctx.waitUntil(trackMcpCall(env, method === "tools/call" ? "tools/call" : String(method)).catch(() => {}));
 
   try {
     switch (method) {
@@ -3392,49 +3443,64 @@ async function handleMcp(request, env, ctx) {
           const ip = request.headers.get("CF-Connecting-IP") || "unknown";
           const searchOk = await checkMcpSearchLimit(env, ip);
           if (!searchOk) {
+            ctx.waitUntil(trackMcpCall(env, "search_corpus:rate_limited").catch(() => {}));
             return mcpRpc(id, null, { code: -32001, message: "Search rate limit reached (100/day per IP)." });
           }
           // Validate query for injection/attack probes
           const q = String(args.query || "").trim();
           if ([INJECTION_RE, SYSEXTRACT_RE, CREDENTIAL_RE, KBA_RE, INFRA_RE].some(re => re.test(q))) {
             ctx.waitUntil(recordStrike(env, ip));
+            ctx.waitUntil(trackMcpCall(env, "search_corpus:blocked").catch(() => {}));
             return mcpRpc(id, null, { code: -32001, message: "Query not permitted." });
           }
-          return mcpRpc(id, await runMcpSearch(args, env));
+          const searchResult = await runMcpSearch(args, env);
+          ctx.waitUntil(trackMcpCall(env, "search_corpus:ok").catch(() => {}));
+          ctx.waitUntil(logQuery(env, q, mcpAnswerText(searchResult), mcpResultSources(searchResult), `mcp:search`, null).catch(() => {}));
+          return mcpRpc(id, searchResult);
         }
 
         if (name === "ask_c3po") {
           const ip = request.headers.get("CF-Connecting-IP") || "unknown";
           // Check IP ban
           if (env.RATE_LIMIT && await env.RATE_LIMIT.get(`ban:${ip}`)) {
+            ctx.waitUntil(trackMcpCall(env, "ask_c3po:banned").catch(() => {}));
             return mcpRpc(id, null, { code: -32001, message: "Access temporarily restricted." });
           }
           const authHeader = request.headers.get("Authorization") || "";
           const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7).trim() : "";
           if (!env.MCP_API_KEY || token !== env.MCP_API_KEY) {
+            ctx.waitUntil(trackMcpCall(env, "ask_c3po:unauthorized").catch(() => {}));
             return mcpRpc(id, null, { code: -32001, message: "Unauthorized. Contact team@protocol-institute.org for MCP access." });
           }
           const circuit = env.RATE_LIMIT ? await env.RATE_LIMIT.get("circuit", "json") : null;
           if (circuit?.sleeping) {
+            ctx.waitUntil(trackMcpCall(env, "ask_c3po:sleeping").catch(() => {}));
             return mcpRpc(id, null, { code: -32001, message: "C3PO is resting (surge protection). Try again next hour." });
           }
           // Security filter on question
           const q = String(args.question || "").trim();
           if ([INJECTION_RE, SYSEXTRACT_RE, CREDENTIAL_RE, KBA_RE, INFRA_RE, DARKBECOME_RE, WIELD_RE].some(re => re.test(q))) {
             ctx.waitUntil(recordStrike(env, ip));
+            ctx.waitUntil(trackMcpCall(env, "ask_c3po:blocked").catch(() => {}));
             return mcpRpc(id, null, { code: -32001, message: SECURITY_BLOCKED });
           }
-          return mcpRpc(id, await runMcpAsk(args, env, ctx));
+          const askResult = await runMcpAsk(args, env, ctx);
+          ctx.waitUntil(trackMcpCall(env, "ask_c3po:ok").catch(() => {}));
+          ctx.waitUntil(logQuery(env, q, mcpAnswerText(askResult), mcpResultSources(askResult), `mcp:ask`, null).catch(() => {}));
+          return mcpRpc(id, askResult);
         }
 
+        ctx.waitUntil(trackMcpCall(env, "tool:unknown").catch(() => {}));
         return mcpRpc(id, null, { code: -32602, message: `Unknown tool: ${name}` });
       }
 
       default:
+        ctx.waitUntil(trackMcpCall(env, "method_not_found").catch(() => {}));
         return mcpRpc(id, null, { code: -32601, message: "Method not found" });
     }
   } catch (err) {
     console.error("MCP error:", err);
+    ctx.waitUntil(trackMcpCall(env, "error").catch(() => {}));
     return mcpRpc(id, null, { code: -32603, message: "Internal error: " + (err.message || err) });
   }
 }
@@ -3445,6 +3511,28 @@ function mcpRpc(id, result, error, status = 200) {
     : { jsonrpc: "2.0", id, result };
   return new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
 }
+
+// Both MCP tools return their payload as a JSON string inside mcpToolContent(),
+// so the query log needs it parsed back out. Answer text for search_corpus is a
+// short synthetic line — the tool returns ranked results, not prose.
+function mcpPayload(result) {
+  try { return JSON.parse(result?.content?.[0]?.text || "{}"); }
+  catch { return {}; }
+}
+
+function mcpAnswerText(result) {
+  const p = mcpPayload(result);
+  if (typeof p.answer === "string") return p.answer;
+  if (typeof p.count === "number")  return `[search_corpus] ${p.count} results from namespace "${p.namespace || "all"}"`;
+  return "";
+}
+
+function mcpResultSources(result) {
+  const p = mcpPayload(result);
+  const items = p.sources || p.results || [];
+  return Array.isArray(items) ? items : [];
+}
+
 
 function mcpToolContent(text) {
   return { content: [{ type: "text", text }] };
