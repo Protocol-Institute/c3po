@@ -14,6 +14,7 @@ Steps each cycle:
   5. enrich_discord_links.py — score/prune with Claude
   6. sync_sig.py            — SIG channels
   7. sync_meeting_notes.py  — audio summaries from #meeting-notes → Pinecone sig namespace
+  7b. sync_sig_pages.py     — published .org meeting pages → Pinecone sig namespace
   8. rebuild_sig_summaries.py — build any new meeting summaries
   9. update_sig_pages.py    — create/update individual meeting detail pages on .org
  10. generate_sig_pages.py  — regenerate SIG index pages
@@ -381,7 +382,7 @@ def push_website_if_changed() -> bool | None:
 PINECONE_WRITE_STEPS = {
     "sync_discord_channels", "sync_discord_events", "sync_discord",
     "fetch_discord_links", "enrich_discord_links", "sync_sig",
-    "sync_meeting_notes", "sync_bot_conversations", "sync_web_chats",
+    "sync_meeting_notes", "sync_sig_pages", "sync_bot_conversations", "sync_web_chats",
     "sync_devlog",
 }
 
@@ -408,6 +409,11 @@ def run_sync(cycle: int) -> None:
         ("fetch_discord_links",      [VENV_PY, "ingest/fetch_discord_links.py", "--limit", str(LINK_FETCH_LIMIT)]),
         ("enrich_discord_links",     [VENV_PY, "ingest/enrich_discord_links.py"]),
         ("sync_sig",                 [VENV_PY, "ingest/sync_sig.py"]),
+        # Ingests the *published* meeting pages back out of protocol-institute.org
+        # into the sig namespace (chunk_type=sig_meeting_page). Was never wired in,
+        # so pages published after the last manual run were invisible to the bot —
+        # DRG had zero page records while its site archive showed four sessions.
+        ("sync_sig_pages",           [VENV_PY, "ingest/sync_sig_pages.py"]),
         ("sync_meeting_notes",       [VENV_PY, "ingest/sync_meeting_notes.py"]),
         ("rebuild_sig_summaries",    [VENV_PY, "ingest/rebuild_sig_summaries.py"]),
         ("update_sig_pages",         [VENV_PY, "ingest/update_sig_pages.py"]),

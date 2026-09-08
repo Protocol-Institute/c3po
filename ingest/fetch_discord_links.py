@@ -127,6 +127,20 @@ SKIP_DOMAINS = {
     "mailto:",
 }
 
+# Our own properties. A community-shared link to one of these gets snapshotted
+# into discord_links as page text, which then goes stale and competes with the
+# canonical ingestion of the same content (sig/sig_meeting_page for .org pages,
+# the substack namespace for the magazine, pdfs for files.protocolized.io).
+# A June snapshot of /sigs/drg/ taken while that page was still a stub is what
+# made the bot answer "DRG has 0 archived sessions" in September. Same shape as
+# the bibliography self-citation bug fixed 2026-09-01: prefer our own record of
+# our own content over a scraped copy of it.
+OWN_DOMAINS = {
+    "protocol-institute.org", "www.protocol-institute.org",
+    "protocolized.io", "www.protocolized.io", "files.protocolized.io",
+    "protocolized.summerofprotocols.com",
+}
+
 # Deferred for a separate YouTube transcript fetch pass
 YOUTUBE_DOMAINS = {
     "youtube.com", "www.youtube.com",
@@ -566,18 +580,25 @@ def main():
         to_fetch = [k for k, e in registry.items() if e["fetch_status"] == "pending"]
 
     # Classify skip/defer domains
-    skipped      = [k for k in to_fetch if domain_of(registry[k]["url"]) in SKIP_DOMAINS]
-    deferred_yt  = [k for k in to_fetch if k not in skipped
+    own_domain   = [k for k in to_fetch if domain_of(registry[k]["url"]) in OWN_DOMAINS]
+    skipped      = [k for k in to_fetch if k not in own_domain
+                    and domain_of(registry[k]["url"]) in SKIP_DOMAINS]
+    deferred_yt  = [k for k in to_fetch if k not in skipped and k not in own_domain
                     and domain_of(registry[k]["url"]) in YOUTUBE_DOMAINS]
-    deferred_tw  = [k for k in to_fetch if k not in skipped and k not in deferred_yt
+    deferred_tw  = [k for k in to_fetch if k not in skipped and k not in own_domain
+                    and k not in deferred_yt
                     and domain_of(registry[k]["url"]) in TWITTER_DOMAINS]
     to_fetch     = [k for k in to_fetch
-                    if k not in skipped and k not in deferred_yt and k not in deferred_tw]
+                    if k not in skipped and k not in own_domain
+                    and k not in deferred_yt and k not in deferred_tw]
 
     if not args.dry_run:
         for key in skipped:
             registry[key]["fetch_status"] = "skipped"
             registry[key]["skip_reason"] = "domain blocklist"
+        for key in own_domain:
+            registry[key]["fetch_status"] = "skipped"
+            registry[key]["skip_reason"] = "own domain — ingested canonically elsewhere"
         for key in deferred_yt:
             registry[key]["fetch_status"] = "deferred"
             registry[key]["defer_reason"] = "youtube — run --youtube-only for transcript fetch"
@@ -588,6 +609,7 @@ def main():
 
     print(f"\n  Pending fetch    : {len(to_fetch)}")
     print(f"  Skipped          : {len(skipped)}")
+    print(f"  Skipped (ours)   : {len(own_domain)}")
     print(f"  Deferred (YT)    : {len(deferred_yt)}")
     print(f"  Deferred (X)     : {len(deferred_tw)}")
 
