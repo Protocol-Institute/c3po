@@ -299,9 +299,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dry-run', action='store_true')
     parser.add_argument('--sig', help='Only process this SIG slug (e.g. sigfpt)')
+    parser.add_argument('--refresh', action='store_true',
+                        help='Also re-render existing detail pages whose meeting JSON is newer '
+                             '(default is create-once, so later edits to a record never publish)')
     args = parser.parse_args()
 
-    created, patched, skipped = [], [], []
+    created, patched, skipped, refreshed = [], [], [], []
 
     for f in sorted(MEETINGS_DIR.glob('*.json')):
         r = json.loads(f.read_text())
@@ -335,21 +338,34 @@ def main():
             skipped.append(path_slug)
             continue
 
+        detail_page = detail_dir / 'index.html'
+        is_refresh = False
         if detail_dir.exists():
-            skipped.append(path_slug)
-            continue
+            # Create-once by default. A record can gain content after its page was
+            # published (audio fields arriving late, a backfill correcting an
+            # earlier run), and that never reaches the site without --refresh.
+            if not (args.refresh and detail_page.exists()
+                    and f.stat().st_mtime > detail_page.stat().st_mtime):
+                skipped.append(path_slug)
+                continue
+            is_refresh = True
 
         title = r.get('title', '')
-        print(f"  CREATE {slug}/{path_slug}")
+        print(f"  {'REFRESH' if is_refresh else 'CREATE '} {slug}/{path_slug}")
 
         if not args.dry_run:
             detail_dir.mkdir(parents=True, exist_ok=True)
             html = render_detail_page(r, slug, sig_name, path_slug)
-            (detail_dir / 'index.html').write_text(html)
-        created.append(path_slug)
+            detail_page.write_text(html)
+        if is_refresh:
+            refreshed.append(path_slug)
+        else:
+            created.append(path_slug)
 
-        # Patch the index to link this meeting-title
+        # Patch the index to link this meeting-title (already linked on a refresh)
         index_path = sig_dir / 'index.html'
+        if is_refresh:
+            continue
         if index_path.exists():
             index_html = index_path.read_text()
             updated, changed = patch_index_title_link(index_html, title, slug, path_slug)
@@ -361,7 +377,8 @@ def main():
             else:
                 print(f"  NOTE   {slug}/index.html — title not found or already linked: {title[:50]}")
 
-    print(f"\nSummary: {len(created)} created, {len(patched)} index entries linked, {len(skipped)} skipped")
+    print(f"\nSummary: {len(created)} created, {len(refreshed)} refreshed, "
+          f"{len(patched)} index entries linked, {len(skipped)} skipped")
 
 
 if __name__ == '__main__':

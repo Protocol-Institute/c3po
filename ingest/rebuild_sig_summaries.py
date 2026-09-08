@@ -124,6 +124,30 @@ Respond with only the JSON object."""
         return {}
 
 
+def absorb_audio_record(record: dict, sig: str, date: str) -> None:
+    """Fold an audio-only record for the same session into this thread record.
+
+    sync_meeting_notes.py creates an `audio_<message_id>.json` when a recording
+    arrives and no meeting record exists to enrich. Once the Discord thread for
+    that same session is summarised here, both files describe one meeting and
+    the SIG page renders two cards for it. So the audio record's `audio_*`
+    fields are copied onto the thread record — which has the transcript-derived
+    topics and links the audio record lacks — and the audio file is removed.
+    """
+    for path in MEETINGS_DIR.glob("audio_*.json"):
+        try:
+            other = json.loads(path.read_text())
+        except Exception:
+            continue
+        if other.get("sig") != sig or other.get("date") != date:
+            continue
+        for k, v in other.items():
+            if k.startswith("audio_") and v:
+                record[k] = v
+        path.unlink()
+        print(f"  ↩ absorbed {path.name} (audio fields merged into this record)")
+
+
 def build_meeting_record(summary: dict, meta: dict) -> dict:
     """Merge Pinecone metadata with Haiku summary into a clean record."""
     guild_id = meta.get("guild_id", "1082444651946049567")
@@ -236,6 +260,7 @@ def main():
             continue
 
         record = build_meeting_record(summary, meta)
+        absorb_audio_record(record, sig, date)
         out_path.write_text(json.dumps(record, indent=2, ensure_ascii=False))
         print(f"  ✓ {len(record['topics'])} topics | {len(record['key_insights'])} insights | {len(transcript)} chars")
         ok += 1
