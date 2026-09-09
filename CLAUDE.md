@@ -5,6 +5,23 @@
 
 RAG research assistant for the Protocol Institute corpus. Named for the Star Wars protocol droid.
 
+> ## 🚨 OPEN SECURITY INCIDENT — read before touching `c3po-vm`
+>
+> **[`Code/incidents/2026-09-09-c3po-vm-github-token-scope.md`](../../incidents/2026-09-09-c3po-vm-github-token-scope.md)** — High.
+> `c3po-vm.exe.xyz` holds a GitHub token authenticated as the account owner with
+> **admin + push on every Protocol-Institute repo**, readable by `exedev` — the user both
+> `c3po-daemon` and `c3po-bot` run as, which has passwordless sudo. Found 2026-09-09 from
+> the Humboldt project; no evidence of misuse.
+>
+> Fix: per-repo **deploy keys** replacing `gh auth login`, then `gh auth logout` + revoke
+> the PAT, then move the services off `exedev`. Note the VM has **three** checkouts
+> (`c3po`, `protocolized-website`, `website`) — confirm which actually need write before
+> issuing keys. Reference implementation of the pattern:
+> [`../humboldt/plans/phase5-vm-cutover.md`](../humboldt/plans/phase5-vm-cutover.md) §4 and §7.
+>
+> Also check `notes-ingest.exe.xyz`, provisioned the same week, for the same token.
+
+
 ## Project scope and factorization
 
 **C3PO is the AI backend.** Work here covers: Pinecone ingest pipelines, embedding, RAG query logic, the Cloudflare Worker API (`c3po.protocolized.io`), the Discord bot, and the ingest daemon.
