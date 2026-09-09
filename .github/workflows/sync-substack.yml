@@ -46,7 +46,11 @@ jobs:
         with:
           repository: Protocol-Institute/protocolized-website
           path: protocolized-website
-          token: ${{ secrets.GH_PAT }}
+          # Scoped to protocolized-website alone, Contents:write — this checkout and
+          # the push below are its only use. Replaces the GH_PAT secret, which held
+          # an account-wide admin token shared with c3po-vm.exe.xyz and was revoked
+          # with it (Code/incidents/2026-09-09-c3po-vm-github-token-scope.md).
+          token: ${{ secrets.PROTOCOLIZED_PUSH_TOKEN }}
 
       - name: Install worker dependencies (wrangler for D1 fallback query)
         run: npm ci
