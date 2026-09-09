@@ -26,12 +26,13 @@
 1. **Merge website PR #9** — until then DRG#05/#06 have no `sig_meeting_page` chunks, so broad "what meetings exist" questions under-report even though every session is indexed.
 2. Fix the session-start cost check to read the VM's `cost_log.jsonl` (or sync it back); the local one has been $0 since 08-01.
 3. Harden MCP `ask_c3po`: bound and sanitise caller history, run `hasHistorySmuggling()` on it, add a per-key hourly cap.
-4. Decide on the 200+ `protocolized.summerofprotocols.com` snapshots in `discord_links` — same self-snapshot duplication as the .org pages, but they carry Haiku relevance scores.
-5. `enrich_discord_links`' 28 permanently-stuck links (retried every 30 min forever).
-6. Consolidate the seven duplicated SIG registries across `ingest/*.py`.
-7. Index cards render `summary`/`key_insights` only; detail pages render audio fields. Records merged under a differing slug keep whichever page already existed.
-8. Consider a countable per-SIG fact so "how many meetings" isn't inferred from retrieved chunks.
-9. Everything carried from session 50 (egress watch, Telegram alerting on `over_warn_threshold`, humboldt `mode="worker"` routing, quota-regex port to humboldt, `mine_bibliography` re-run, plus the session-49 backlog).
+4. **Build a pipeline consistency check — the silent-failure class.** Three of this session's six bugs threw no error and were found only because someone asked a question the system answered wrongly: a daemon step that was never wired in (`sync_sig_pages`), a stale link snapshot outranking six correct records, and an entire MCP surface going uncounted. Each looked healthy from the logs — the daemon reported `16/16 steps OK` throughout. Wanted: a periodic reconciliation that compares what *should* exist against what does, and reports drift rather than waiting for a human to notice. Candidate invariants: published meeting pages on .org vs. `sig_meeting_page` vectors per SIG; meeting JSONs on disk vs. rendered cards vs. `sig_meeting_summary` vectors; every script in `ingest/` either present in `daemon.py`'s step list or explicitly marked manual-only; state-file entries whose corresponding vectors are absent from Pinecone; per-namespace vector counts vs. the last run (a drop nobody triggered is a signal). Should run on a slow cadence (daily or weekly, not every 30 min) and surface through the existing Telegram hook, alongside the `over_warn_threshold` alerting in item 9. Design question worth settling first: report-only, or auto-repair the cheap cases.
+5. Decide on the 200+ `protocolized.summerofprotocols.com` snapshots in `discord_links` — same self-snapshot duplication as the .org pages, but they carry Haiku relevance scores.
+6. `enrich_discord_links`' 28 permanently-stuck links (retried every 30 min forever).
+7. Consolidate the seven duplicated SIG registries across `ingest/*.py`.
+8. Index cards render `summary`/`key_insights` only; detail pages render audio fields. Records merged under a differing slug keep whichever page already existed.
+9. Consider a countable per-SIG fact so "how many meetings" isn't inferred from retrieved chunks.
+10. Everything carried from session 50 (egress watch, Telegram alerting on `over_warn_threshold`, humboldt `mode="worker"` routing, quota-regex port to humboldt, `mine_bibliography` re-run, plus the session-49 backlog).
 
 ---
 
