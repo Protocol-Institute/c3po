@@ -15,8 +15,12 @@ Usage:
 
 import argparse
 import json
+import sys
 from datetime import datetime
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+from utils import meeting_ready, MEETING_GRACE_DAYS
 
 MEETINGS_DIR = Path(__file__).parent.parent / "data" / "sigs" / "meetings"
 WEBSITE_DIR  = Path(__file__).parent.parent.parent / "website"
@@ -177,8 +181,13 @@ MEETING_EXTRA_CSS = """  <style>
 def render_meeting_card(r: dict, detail_href: str | None = None) -> str:
     date_fmt = format_date(r.get("date", ""))
     title = html_escape(r.get("title", ""))
-    summary_paras = r.get("summary", "")
-    insights = r.get("key_insights", [])
+    # Prefer the recording-derived summary when a session has one. The Discord
+    # thread for a voice meeting often holds only scheduling and link-drops, and
+    # summarising that yields text that asserts a meeting happened without
+    # reporting any of it — the failure the website side flagged on the SIGPSY
+    # 2026-08-13 card. The audio summary describes the session itself.
+    summary_paras = r.get("audio_summary") or r.get("summary", "")
+    insights = r.get("audio_key_points") or r.get("key_insights", [])
     topics = r.get("topics", [])
     links = [l for l in r.get("links", []) if is_substantive_link(l)]
     participants = r.get("participants", [])
@@ -317,8 +326,18 @@ def load_meetings_by_sig() -> dict[str, list[dict]]:
         try:
             r = json.loads(f.read_text())
             sig = r.get("sig", "")
-            if sig in by_sig:
+            # The grace window is enforced at every other stage — sync_sig,
+            # sync_meeting_notes, rebuild_sig_summaries and update_sig_pages all
+            # consult meeting_ready() — but this renderer trusted that only ready
+            # records reach disk. They don't: an audio recording lands the day of
+            # the meeting, so PR #9 published summaries for sessions 1 and 4 days
+            # old while their detail pages were correctly withheld. Filter here
+            # too rather than assume upstream.
+            if sig in by_sig and meeting_ready(r.get("date", "")):
                 by_sig[sig].append(r)
+            elif sig in by_sig:
+                print(f"  Holding {sig} {r.get('date','?')} — inside "
+                      f"{MEETING_GRACE_DAYS}d grace window: {(r.get('title') or '')[:45]}")
         except Exception as e:
             print(f"  Warning: could not read {f.name}: {e}")
     return by_sig

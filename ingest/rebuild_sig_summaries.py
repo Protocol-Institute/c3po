@@ -33,7 +33,7 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent.parent / ".env")
 
 sys.path.insert(0, str(Path(__file__).parent))
-from utils import get_pinecone_index, meeting_ready, MEETING_GRACE_DAYS
+from utils import get_pinecone_index, meeting_ready, MEETING_GRACE_DAYS, sanitize_meeting_date
 import cost_logger
 
 NAMESPACE = "sig"
@@ -160,7 +160,8 @@ def build_meeting_record(summary: dict, meta: dict) -> dict:
         "sig_name": SIG_DISPLAY_NAMES.get(meta.get("sig_display", ""), ""),
         "channel_id": meta.get("channel_id", ""),
         "title": summary.get("title") or meta.get("meeting_title", ""),
-        "date": summary.get("date") or meta.get("meeting_date", "unknown"),
+        "date": sanitize_meeting_date(
+            summary.get("date") or meta.get("meeting_date", "unknown"), thread_id),
         "topics": summary.get("topics") or json.loads(meta.get("topics", "[]")),
         "key_insights": summary.get("key_insights", []),
         "summary": summary.get("summary", ""),

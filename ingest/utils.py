@@ -197,6 +197,50 @@ class _GuardedIndex:
 MEETING_GRACE_DAYS = 7
 
 
+DISCORD_EPOCH_MS = 1420070400000
+
+# A meeting cannot predate the Discord thread it was held in, and a thread is
+# not created long before its session. Anything outside this band around the
+# thread's own creation time is a parsing error, not a real date.
+MEETING_DATE_LOOKBACK_DAYS = 2
+MEETING_DATE_LOOKAHEAD_DAYS = 45
+
+
+def snowflake_date(thread_id: str | int) -> str | None:
+    """UTC date (YYYY-MM-DD) encoded in a Discord snowflake, or None."""
+    try:
+        ms = (int(thread_id) >> 22) + DISCORD_EPOCH_MS
+    except (TypeError, ValueError):
+        return None
+    return datetime.fromtimestamp(ms / 1000, tz=timezone.utc).strftime("%Y-%m-%d")
+
+
+def sanitize_meeting_date(date_str: str, thread_id: str | int) -> str:
+    """Replace an implausible meeting date with the thread's creation date.
+
+    The meeting date is whatever the summarising model returned, and it is
+    trusted downstream by meeting_ready(), the page URL and the archive
+    ordering. A model that drops a digit in the year produces a date the grace
+    window cannot catch: SIGPSY's 2026-08-13 session was published as
+    2023-08-13, three years before that group existed, and meeting_ready() waved
+    it through because it is comfortably more than 7 days old. The thread's own
+    snowflake is ground truth the model cannot corrupt, so anything implausible
+    against it falls back to the thread date.
+    """
+    created = snowflake_date(thread_id)
+    if not created or not date_str or date_str == "unknown":
+        return date_str or "unknown"
+    try:
+        d = datetime.strptime(date_str, "%Y-%m-%d").date()
+        c = datetime.strptime(created, "%Y-%m-%d").date()
+    except ValueError:
+        return created
+    delta = (d - c).days
+    if delta < -MEETING_DATE_LOOKBACK_DAYS or delta > MEETING_DATE_LOOKAHEAD_DAYS:
+        return created
+    return date_str
+
+
 def meeting_ready(date_str: str, grace_days: int = MEETING_GRACE_DAYS) -> bool:
     """True once `date_str` (YYYY-MM-DD) is at least `grace_days` in the past."""
     if not date_str or date_str == "unknown":

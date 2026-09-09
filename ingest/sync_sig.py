@@ -39,6 +39,7 @@ import anthropic
 
 sys.path.insert(0, str(Path(__file__).parent))
 from utils import (clean_text, chunk_text, embed_chunks, chunk_id, get_voyage_client,
+                   sanitize_meeting_date,
                     get_pinecone_index, PINECONE_BATCH, append_run_log,
                     meeting_ready, MEETING_GRACE_DAYS)
 from attachments import process_attachments, attachment_meta_fields, extract_pdf_text
@@ -461,7 +462,7 @@ def format_meeting_body_chunks(transcript: str, thread: dict, summary: dict,
             "thread_id": thread_id,
             "thread_name": thread.get("name", ""),
             "meeting_title": title,
-            "meeting_date": summary.get("date", "unknown"),
+            "meeting_date": sanitize_meeting_date(summary.get("date", "unknown"), thread_id),
             "timestamp": ts,
             "chunk_index": i,
             "chunk_total": len(chunks),
@@ -596,7 +597,7 @@ def process_channel(channel_id: str, config: dict, state: dict,
         if meeting:
             transcript, authors, all_urls = build_transcript(thread, msgs, config)
             summary = generate_meeting_summary(transcript, thread_name, config, client)
-            meeting_date = summary.get("date", "unknown")
+            meeting_date = sanitize_meeting_date(summary.get("date", "unknown"), thread_id)
 
             if not meeting_ready(meeting_date):
                 # Thread was created ahead of the actual session (agenda/reading
