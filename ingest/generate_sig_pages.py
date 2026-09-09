@@ -20,7 +20,7 @@ from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from utils import meeting_ready, MEETING_GRACE_DAYS
+from utils import meeting_ready, snowflake_date, MEETING_GRACE_DAYS
 
 MEETINGS_DIR = Path(__file__).parent.parent / "data" / "sigs" / "meetings"
 WEBSITE_DIR  = Path(__file__).parent.parent.parent / "website"
@@ -333,10 +333,19 @@ def load_meetings_by_sig() -> dict[str, list[dict]]:
             # the meeting, so PR #9 published summaries for sessions 1 and 4 days
             # old while their detail pages were correctly withheld. Filter here
             # too rather than assume upstream.
-            if sig in by_sig and meeting_ready(r.get("date", "")):
+            if sig not in by_sig:
+                continue
+            # Undated legacy records fall back to the thread's creation date the
+            # way update_sig_pages does. Without this the gate holds them
+            # forever — meeting_ready("unknown") is False — which would have
+            # silently dropped three long-published SIGFPT cards.
+            date = r.get("date", "")
+            if not date or date == "unknown":
+                date = snowflake_date(r.get("thread_id", "")) or ""
+            if not date or meeting_ready(date):
                 by_sig[sig].append(r)
-            elif sig in by_sig:
-                print(f"  Holding {sig} {r.get('date','?')} — inside "
+            else:
+                print(f"  Holding {sig} {date} — inside "
                       f"{MEETING_GRACE_DAYS}d grace window: {(r.get('title') or '')[:45]}")
         except Exception as e:
             print(f"  Warning: could not read {f.name}: {e}")
