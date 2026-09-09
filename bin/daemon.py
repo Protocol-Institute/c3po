@@ -19,9 +19,11 @@ Steps each cycle:
   9. update_sig_pages.py    — create/update individual meeting detail pages on .org
  10. generate_sig_pages.py  — regenerate SIG index pages
  11. generate_monitoring_page.py — rebuild monitoring dashboard
- 12. website PR             — open/update a PR against .org website if pages changed,
-                              checked at most once every WEBSITE_PUSH_INTERVAL_DAYS
-                              (not a direct push — see push_website_if_changed())
+ 12. website branch push    — push regenerated pages to a branch on the .org website
+                              repo if they changed, checked at most once every
+                              WEBSITE_PUSH_INTERVAL_DAYS; that repo's own workflow
+                              opens the PR (not a direct push to main — see
+                              push_website_if_changed())
  13. sync_bot_conversations.py — spool → transcripts namespace
  14. sync_web_chats.py         — web KV → transcripts namespace
  15. sync_devlog.py            — devlog sessions → meta namespace
@@ -285,11 +287,12 @@ def _recover_website_checkout(drop_stash: bool) -> None:
 
 
 def push_website_if_changed() -> bool | None:
-    """Stage SIG page changes onto a dedicated branch and open (or silently
-    update) a PR against the website repo, instead of pushing straight to
-    main.
+    """Stage SIG page changes onto a dedicated branch of the website repo and
+    push it, instead of pushing straight to main. The PR is opened by that
+    repo's own .github/workflows/c3po-auto-pr.yml, so nothing here needs
+    GitHub API access.
 
-    Returns True when a PR was opened or updated, False when there was nothing
+    Returns True when the branch was pushed, False when there was nothing
     to publish, and None when the flow failed — the caller uses None to retry
     on the next cycle instead of waiting out the full interval.
 
@@ -350,23 +353,18 @@ def push_website_if_changed() -> bool | None:
         _git(["commit", "-m", msg], WEBSITE_DIR)
         _git(["push", "--force-with-lease", "-u", "origin", WEBSITE_BRANCH], WEBSITE_DIR)
 
-        existing = subprocess.run(
-            ["gh", "pr", "list", "--head", WEBSITE_BRANCH, "--state", "open", "--json", "number"],
-            cwd=str(WEBSITE_DIR), capture_output=True, text=True,
-        )
-        if existing.returncode == 0 and existing.stdout.strip() not in ("", "[]"):
-            log.info(f"  Website PR updated ({WEBSITE_BRANCH})")
-        else:
-            body = ("Automated SIG meeting-page update from c3po.\n\n"
-                    "This branch is fully regenerated from current data each daemon cycle — "
-                    "review and merge (or leave it to keep updating) rather than editing it "
-                    "directly.")
-            subprocess.run(
-                ["gh", "pr", "create", "--title", msg, "--body", body,
-                 "--head", WEBSITE_BRANCH, "--base", "main"],
-                cwd=str(WEBSITE_DIR), capture_output=True, text=True,
-            )
-            log.info(f"  Website PR opened ({WEBSITE_BRANCH})")
+        # The PR itself is opened by the website repo's own
+        # .github/workflows/c3po-auto-pr.yml, which fires on a push to this
+        # branch and uses that workflow's GITHUB_TOKEN. This used to be a
+        # `gh pr create` from here, which is why the VM carried a GitHub API
+        # token at all — one that turned out to reach every repository on the
+        # account with admin rights (Code/incidents/2026-09-09-c3po-vm-github-
+        # token-scope.md). Pushing is the only GitHub capability this box needs
+        # now, so its credential is scoped to contents-write and nothing else.
+        #
+        # A push to an already-open PR's branch updates that PR on its own, so
+        # the workflow only has to act on the first push after each merge.
+        log.info(f"  Website branch pushed ({WEBSITE_BRANCH}) — PR opened/updated by workflow")
 
         _git(["checkout", "main"], WEBSITE_DIR)
         return True
