@@ -5,21 +5,27 @@
 
 RAG research assistant for the Protocol Institute corpus. Named for the Star Wars protocol droid.
 
-> ## 🚨 OPEN SECURITY INCIDENT — read before touching `c3po-vm`
+> ## ⚠️ SECURITY INCIDENT — exposure removed, two steps still open
 >
-> **[`Code/incidents/2026-09-09-c3po-vm-github-token-scope.md`](../../incidents/2026-09-09-c3po-vm-github-token-scope.md)** — High.
-> `c3po-vm.exe.xyz` holds a GitHub token authenticated as the account owner with
-> **admin + push on every Protocol-Institute repo**, readable by `exedev` — the user both
-> `c3po-daemon` and `c3po-bot` run as, which has passwordless sudo. Found 2026-09-09 from
-> the Humboldt project; no evidence of misuse.
+> **[`Code/incidents/2026-09-09-c3po-vm-github-token-scope.md`](../../incidents/2026-09-09-c3po-vm-github-token-scope.md)** —
+> High. `c3po-vm.exe.xyz` held a GitHub token authenticated as the account owner with
+> **admin + push on every repo the account could reach** (personal repos included),
+> readable by `exedev`, the user both services run as. Found 2026-09-09 from the Humboldt
+> project; no evidence of misuse.
 >
-> Fix: per-repo **deploy keys** replacing `gh auth login`, then `gh auth logout` + revoke
-> the PAT, then move the services off `exedev`. Note the VM has **three** checkouts
-> (`c3po`, `protocolized-website`, `website`) — confirm which actually need write before
-> issuing keys. Reference implementation of the pattern:
-> [`../humboldt/plans/phase5-vm-cutover.md`](../humboldt/plans/phase5-vm-cutover.md) §4 and §7.
+> **Done 2026-09-09 (session 52):** the VM now authenticates with a fine-grained PAT scoped
+> to `c3po` + `website` + `protocolized-website`, **Contents write only, no API access** —
+> the daemon's `gh pr create` moved into the website repo's own workflow. Old token revoked.
+> Runbook and the full findings: [`plans/vm-credential-hardening.md`](plans/vm-credential-hardening.md).
 >
-> Also check `notes-ingest.exe.xyz`, provisioned the same week, for the same token.
+> **Still open:** (1) both services still run as `exedev` with passwordless sudo, so the
+> new token is readable by the Discord bot — phase 2 of the runbook splits them into
+> non-sudo service users; (2) `GH_PAT` in `../.env.keys` is a *classic* token with
+> `repo, workflow, delete_repo` on everything the account can reach, used by nothing
+> deployed — revoke after confirming it is not the laptop's keyring value.
+>
+> **Before touching credentials anywhere:** `Code/security-policy.md` Rule 8. Three places
+> claimed to hold "the" GitHub token here and all three held different values.
 
 
 ## Project scope and factorization
@@ -87,18 +93,18 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 
 | Namespace | Vectors | Notes |
 |-----------|---------|-------|
-| `discord_links` | 12,410 | Community-shared URLs, scored by Haiku |
-| `sig` | 7,743 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 7 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG, PRG (Personhood Research Group — audio only, no Discord channel) |
-| `discord` | 5,875 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
+| `discord_links` | 12,435 | Community-shared URLs, scored by Haiku |
+| `sig` | 7,772 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 7 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG, PRG (Personhood Research Group — audio only, no Discord channel) |
+| `discord` | 5,882 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
 | `videos` | 3,127 | YouTube talks (97 videos) |
 | `substack` | 1,220 | Protocolized magazine |
 | `pdfs` | 765 | 85 papers/essays (`sources/pdfs/enriched_meta.json`) |
 | `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
 | `bibliography` | 278 | External works cited by PI corpus |
 | `discord_guide` | 75 | Scoped per [`plans/discord-guide-scope.md`](plans/discord-guide-scope.md): excludes transient/admin channels (MOD, Server Link Feed, introductions/bugs/announcements); archived-read-only channels embed once then freeze; SIG channels include cadence + next_event_time |
-| `meta` | 51 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
+| `meta` | 52 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
 | `transcripts` | 47 | Bot conversation self-memory: web + Discord Q&A |
-| **Total** | **32,151** | |
+| **Total** | **32,213** | |
 
 ## Key Ingest Scripts
 

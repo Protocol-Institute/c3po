@@ -1,5 +1,40 @@
 # C3PO — Status Log
 
+## 2026-09-09 13:45–14:20 PT — VM GitHub credential replaced; three copies of "the" token found to differ (session 52)
+
+**Session-start checks:** vectors 32,151 → 32,213 (organic). Substack 0 new / 0 edited. No intro-quality issues. Daemon healthy, 17/17 steps (`sync_sig_pages` now wired in and running). Cost — read from the VM per the session-51 fix — $5.12 last 7 days / $26.26 all-time; `sync_sig` is $5.08 of the week, ~$0.73/day against the $0.42/day steady state noted on 09-06, consistent with last session's SIG backfill. **Website PR #9 merged** 2026-09-09, closing session 51's TODO #1: DRG#05/#06 now have `sig_meeting_page` chunks. Laptop clone was 35 commits behind; rebased.
+
+**Closed phase 1 of the `c3po-vm` GitHub token incident** (`Code/incidents/2026-09-09-c3po-vm-github-token-scope.md`, filed the same morning from the Humboldt project). The survey widened it: the token was not org-wide but **account**-wide — `admin:true, push:true` on `vgururao/venkateshrao.com` as well. Two of the incident's open questions closed cheaply: `notes-ingest.exe.xyz` is clean (already pushes with a per-repo deploy key, no `gh auth` — the good pattern predated the bad one on this account by a month), and the laptop authenticates with a separate keyring token, so revocation could not touch local work.
+
+**The recommended fix was not executable.** Deploy keys are **disabled org-wide on Protocol-Institute** — `POST /repos/{repo}/keys` returns `422` for all three PI repos while a personal repo still accepts them. Chose (with VGR) a fine-grained PAT scoped to exactly the three repos, `Contents: write` only. Weaker than a deploy key in two specific ways — it is account-identity, and its scope can be silently widened later, which is precisely how the original exposure happened — so the phase-3 assertions are the control that makes it safe, not optional garnish.
+
+**Removed the reason a token was needed at all.** `bin/daemon.py`'s `gh pr list`/`gh pr create` against the website repo was the *only* GitHub API call on that VM. A contents-write token can push a branch but not open a PR, so rather than grant PRs back, the website repo now opens its own from `.github/workflows/c3po-auto-pr.yml` on a push to `c3po/auto-sig-pages` (website PR #10, awaiting merge). The VM now has **no GitHub API access**. Verified end to end: private out-of-scope repo 404s, admin endpoints 403, real ref push/delete on all three repos, and daemon cycle 1 completed 17/17 with a live auto-commit push on the new token.
+
+**Then revocation broke GitHub Actions — and the reasoning that said it wouldn't was wrong.** The `GH_PAT` *repo secret* held the same account-wide token (set 2026-08-01T20:33Z, one minute after the VM's `hosts.yml`), so `sync-substack.yml` failed on `Bad credentials`. The error was assuming that because the value stored under `GH_PAT` in `../.env.keys` hashes differently from the VM's token, the *secret* of that name must also be different. It was a third copy. Fixed narrower than what broke: that checkout is the token's only use, so `PROTOCOLIZED_PUSH_TOKEN` is scoped to `protocolized-website` alone; workflow repointed, `GH_PAT` secret deleted, run re-triggered and green.
+
+**The generalisable finding, documented at `Code/` level rather than here.** Three places claimed to hold "the" GitHub token — key store, repo secret, VM — under two names, and all three held different values, none matching the registry's description of any of them. `admin/keys.md` had been recording a narrow fine-grained PAT for five weeks while the VM ran an account-wide admin one. Wrote **`Code/security-policy.md` Rule 8** ("The Registry Is Not Evidence") and a companion section in `Code/warnings-keys.md`, including the probes that actually discriminate — `GET /repos/{owner}/{repo}` succeeds for any *public* repo with any valid token and reports the *account's* role rather than the token's grant, and every fine-grained PAT from one account shares its `github_pat_11<account-id>` prefix, so both of the obvious checks read "still over-scoped" against a correctly scoped token. **This is the same silent-drift class as session 51's `sync_sig_pages` step that was never wired in** — an argument for TODO #4's reconciliation job covering credentials, not just pipeline state.
+
+**Also found:** `GH_PAT` in `../.env.keys` is itself a *classic* token (`repo, workflow, gist, read:org, delete_repo`) with full control of every repo the account can reach, private ones included, in plaintext — registered in `admin/keys.md` as a narrow fine-grained PAT. Used by nothing deployed as of today.
+
+**Pinecone:** 32,151 → 32,213 (organic only; nothing ingested or deleted this session).
+
+**Shipped:** c3po `ba2f613`/`ceb9370`/`f98ee50` pushed; website PR #10 opened; admin `0fd6313`/`3e79bfb` committed (**not pushed** — awaiting VGR); incident record and `Code/`-level policy updated; old PAT revoked by VGR.
+
+**Open TODOs (priority order):**
+1. **Merge website PR #10** — until then a SIG-page push (next ~09-11) lands a branch with no PR, which is the silent-non-publication failure mode from 09-04.
+2. **Phase 2 of `plans/vm-credential-hardening.md`** — both services still run as `exedev` with passwordless sudo, so the Discord bot can read the daemon's GitHub token. c3po makes this unusually clean: `bin/c3po_bot.py` needs only `ORACLE_BOT_TOKEN`, `PINECONE_API_KEY`, `PINECONE_C3PO_HOST`, `VOYAGE_API_KEY` and reaches answers through the public `/query` endpoint — no Anthropic key, no Cloudflare credential, no GitHub credential.
+3. **Revoke `GH_PAT` in `../.env.keys`** after confirming it is not the laptop keyring's value (it has identical scopes, so it probably is a copy — check before revoking or local `gh` breaks).
+4. **Push the two `admin` repo commits** (registry corrections; the working tree also holds another session's unrelated pending blygger edits, left unstaged).
+5. **Both new tokens expire 2026-12-08** — silent daemon-push failure when they lapse. Fold an expiry check into TODO #6.
+6. **Build the pipeline consistency check** (carried, session 51) — now with a credentials dimension: deployed credential vs. registry, and expiry warnings. Phase 3 of the hardening runbook is the same job.
+7. Harden MCP `ask_c3po`: bound and sanitise caller history, run `hasHistorySmuggling()`, add a per-key hourly cap (carried).
+8. Decide on the 200+ `protocolized.summerofprotocols.com` snapshots in `discord_links` (carried).
+9. `enrich_discord_links`' 28 permanently-stuck links (carried).
+10. Consolidate the seven duplicated SIG registries across `ingest/*.py` (carried).
+11. Everything else carried from sessions 50–51 (egress watch, Telegram alerting on `over_warn_threshold`, humboldt `mode="worker"` routing, quota-regex port, `mine_bibliography` re-run, index-card/detail-page field asymmetry, countable per-SIG fact).
+
+---
+
 ## 2026-09-06 ~11:30 PT (session-start checks) + 2026-09-08 13:10–18:05 PT — SIG attribution repaired end to end; wedged website push flow fixed; MCP analytics; two website-filed regressions closed (session 51)
 
 **Session-start checks (09-06):** vectors 31,725 → 32,001 (organic). Substack 0 new / 1 edited. No intro-quality issues. VM daemon healthy (cycle 935, 16/16). **Found the cost check has been reporting stale data since the exe.dev migration** — `data/cost_log.jsonl` is gitignored, so the laptop copy froze on 2026-08-01. Real numbers from the VM: $3.11 last 7 days, $23.47 all-time (vs. $7.26 the local log claims). `sync_sig` is ~$0.42/day steady-state. Also found `enrich_discord_links` retrying 28 permanently-stuck links every cycle (no API cost — they fail before the Haiku call).

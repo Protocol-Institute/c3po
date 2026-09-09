@@ -2130,6 +2130,50 @@
           "html": "New SIG hosted by Sarah Friend, reaching c3po only through audio recordings &mdash; it has no Discord channel. Added across the seven duplicated SIG registries in <code>ingest/*.py</code>; the duplication itself is unaddressed. Stub page merged as website PR #8."
         }
       ]
+    },
+    {
+      "id": 52,
+      "sort_key": 52.0,
+      "label": "Session 52",
+      "title": "Three Copies of “The” GitHub Token, All Different: Replacing the VM's Credential and Taking the API Off the Box",
+      "date": "2026-09-09",
+      "time_pt": "13:45–14:20",
+      "tracks": [
+        "operations",
+        "infra",
+        "website-integration"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "total": 32213
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "The VM's GitHub token was account-wide, not org-wide",
+          "html": "<strong>Filed as an incident the same morning, from a different project.</strong> While designing Humboldt's VM credential model, its session found that <code>c3po-vm.exe.xyz</code> was authenticated with a GitHub token belonging to the account owner, carrying <strong>admin and push on every repository it could reach</strong>, readable by <code>exedev</code> — the user both c3po services run as, which has passwordless sudo. Surveying it here widened the finding: the token also had <code>admin:true, push:true</code> on <code>vgururao/venkateshrao.com</code>, so it was an <em>account</em>-wide token, personal repos included. It is a fine-grained PAT, which is exactly why it went unnoticed since 2026-08-01 — the token type reads as least-privilege; the scope selection is where the privilege actually lives. No evidence of misuse: this was exposure, not a breach. Two cheap questions closed early — <code>notes-ingest.exe.xyz</code> is clean (it already pushes with a per-repo deploy key, no <code>gh auth</code> at all — the good pattern predated the bad one on this account by a month), and the laptop authenticates with a separate keyring credential, so revocation could not disturb local work."
+        },
+        {
+          "title": "The recommended fix turned out to be unavailable",
+          "html": "<strong>Deploy keys are disabled org-wide on Protocol-Institute.</strong> The incident's remediation — replace the account token with per-repo deploy keys, the pattern Humboldt's plan uses — fails here: <code>POST /repos/{repo}/keys</code> returns <code>422 Deploy keys are disabled for this repository</code> for all three PI repos, while a personal repo still accepts them. Chosen instead: <strong>one fine-grained PAT scoped to exactly <code>c3po</code>, <code>website</code> and <code>protocolized-website</code>, <code>Contents: write</code> and nothing else</strong> — no admin, no other repos, no personal repos. Worth stating the trade honestly rather than glossing it: this is weaker than a deploy key in two specific ways — it is still an account-identity credential, and its scope can be widened later in the UI with no signal, which is precisely how the original exposure happened. That makes the standing assertions (phase 3) the control that keeps the choice safe over time, not optional garnish."
+        },
+        {
+          "title": "Removing the reason a token was needed at all",
+          "html": "<strong>One API call was the entire justification for a GitHub credential on that box.</strong> <code>bin/daemon.py</code> pushed three checkouts — all genuinely needing write — but also called <code>gh pr list</code> / <code>gh pr create</code> to open the weekly SIG-pages PR against the website repo. A contents-write token can push a branch; it cannot open a pull request. Rather than grant <code>Pull requests: write</code> back onto a machine whose two services exist to consume untrusted Discord input, the capability moved off the VM entirely: the website repo now opens its own PR from <code>.github/workflows/c3po-auto-pr.yml</code>, triggered by a push to <code>c3po/auto-sig-pages</code> and using that workflow's own <code>GITHUB_TOKEN</code>. Pushing to an already-open PR's branch updates it unaided, so the workflow only acts on the first push after each merge — the same condition the removed <code>gh pr list</code> was testing. <strong>The VM now has no GitHub API access at all.</strong>"
+        },
+        {
+          "title": "Revocation broke GitHub Actions — and the reasoning that said it wouldn't",
+          "html": "<strong>The <code>GH_PAT</code> repo secret held the same account-wide token</strong>, set 2026-08-01T20:33Z, one minute after the VM's <code>hosts.yml</code> was written. Revoking it failed <code>sync-substack.yml</code> on <code>Bad credentials</code> at the cross-repo checkout step. The error worth recording is the inference, not the outage: the value stored under <code>GH_PAT</code> in the key store hashes <em>differently</em> from the VM's token, and that was taken as establishing that the <em>secret</em> of the same name was also different. It was a third copy. Fixed narrower than what broke — that checkout and its push are the token's only use, so <code>PROTOCOLIZED_PUSH_TOKEN</code> is scoped to <code>protocolized-website</code> alone. The rename was deliberate: a key-store entry and a repo secret both called <code>GH_PAT</code>, holding different values, is what made them look interchangeable. Old secret deleted, workflow re-triggered and green."
+        },
+        {
+          "title": "Three places claimed to hold “the” token; all three differed",
+          "html": "<strong>The generalisable finding, and the one most likely to recur elsewhere.</strong> The key store, a GitHub Actions repo secret, and the VM each claimed to hold this project's GitHub credential, under two names — and all three held <em>different values</em>, none matching how the registry described any of them. <code>admin/keys.md</code> had recorded a narrow fine-grained PAT for five weeks while an account-wide admin token was actually deployed; the key store's own entry turned out to be a <em>classic</em> token with <code>repo, workflow, delete_repo</code> across everything the account can reach, in plaintext. Documented at the <code>Code/</code> level rather than in this project, as <strong><code>security-policy.md</code> Rule 8 — “The Registry Is Not Evidence”</strong>, with a companion section in <code>warnings-keys.md</code>. It carries the probes that actually discriminate, because the obvious ones mislead: <code>GET /repos/{owner}/{repo}</code> succeeds for any <em>public</em> repo with any valid token and reports the <em>account's</em> role rather than the token's grant, and every fine-grained PAT an account issues shares its leading <code>github_pat_11&lt;account-id&gt;</code> chunk — so both a scope probe and a prefix comparison read “still over-scoped” against a correctly narrow token. What discriminates: a <em>private</em> out-of-scope repo must 404, an admin-only endpoint must 403, the token-expiration response header identifies <em>which</em> token is in use, and a real ref push proves write. <strong>This is the same silent-drift class as last session's daemon step that was never wired in</strong> — documented intent diverging from deployed reality, with nothing erroring in between."
+        },
+        {
+          "title": "What is still open",
+          "html": "The exposure is removed and the old token revoked, but the box is not yet split: both services still run as <code>exedev</code> with passwordless sudo, so the Discord bot can read the daemon's GitHub token. c3po makes that split unusually clean — <code>bin/c3po_bot.py</code> needs only four environment variables and reaches answers through the public <code>/query</code> endpoint, so the service most exposed to untrusted input needs no Anthropic key, no Cloudflare credential and no GitHub credential whatsoever. The runbook is <code>plans/vm-credential-hardening.md</code>. Both new tokens expire 2026-12-08, and an expiring PAT fails silently — the daemon simply stops pushing — so expiry checking folds into the pipeline-consistency job already on the list."
+        }
+      ]
     }
   ]
 }
