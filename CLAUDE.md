@@ -30,7 +30,7 @@ If a request seems to belong in a front-end project, flag it and suggest the cor
 
 **→ See [`plans/resource-pipeline.md`](plans/resource-pipeline.md)** for the resource library pipeline. **c3po is the enrichment source; protocolized-website is a client.** New resources enter via c3po's ingest pipeline (`enrich_pdfs.py`, `enrich_youtube.py`) and are synced to the website via its `sync-*-resources.py` scripts. Do not manually create resource Markdown files in protocolized-website for content that c3po can enrich — run the ingest pipeline first.
 
-Three nodes: `c3po_listener` (ingest daemon), `c3po_bot` (Discord gateway), `c3po_web` (Cloudflare Worker). `c3po_listener`/`c3po_bot` run on `c3po-vm.exe.xyz` (exe.dev VM, systemd units `c3po-daemon.service`/`c3po-bot.service`, migrated 2026-08-01 — see `plans/exe-dev-migration.md`) — not the laptop. Logs: `ssh c3po-vm.exe.xyz "sudo journalctl -u c3po-daemon -f"` / `-u c3po-bot`. The laptop clone and the VM clone are independent git checkouts; push/pull to move work between them. `c3po_web` deploys stay laptop-initiated (`wrangler deploy` from `api/`).
+Three nodes: `c3po_listener` (ingest daemon), `c3po_bot` (Discord gateway), `c3po_web` (Cloudflare Worker). `c3po_listener`/`c3po_bot` run on `c3po-vm.exe.xyz` (exe.dev VM, systemd units `c3po-daemon.service`/`c3po-bot.service`, migrated 2026-08-01 — see `plans/exe-dev-migration.md`) — not the laptop. Logs: `ssh c3po-vm.exe.xyz "sudo journalctl -u c3po-daemon -f"` / `-u c3po-bot`. The laptop clone and the VM clone are independent git checkouts; push/pull to move work between them. The daemon self-pulls each cycle and runs ingest scripts as subprocesses, so **script** changes take effect on the next cycle — but `bin/daemon.py`'s own code (step list, push flow) is loaded at process start and needs `sudo systemctl restart c3po-daemon`. `c3po_web` deploys stay laptop-initiated (`wrangler deploy` from `api/`).
 
 ## Python
 
@@ -70,18 +70,18 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 
 | Namespace | Vectors | Notes |
 |-----------|---------|-------|
-| `discord_links` | 12,240 | Community-shared URLs, scored by Haiku |
-| `sig` | 7,528 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 6 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG |
-| `discord` | 5,852 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
+| `discord_links` | 12,410 | Community-shared URLs, scored by Haiku |
+| `sig` | 7,743 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 7 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG, PRG (Personhood Research Group — audio only, no Discord channel) |
+| `discord` | 5,875 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
 | `videos` | 3,127 | YouTube talks (97 videos) |
-| `substack` | 1,206 | Protocolized magazine |
+| `substack` | 1,220 | Protocolized magazine |
 | `pdfs` | 765 | 85 papers/essays (`sources/pdfs/enriched_meta.json`) |
 | `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
 | `bibliography` | 278 | External works cited by PI corpus |
 | `discord_guide` | 75 | Scoped per [`plans/discord-guide-scope.md`](plans/discord-guide-scope.md): excludes transient/admin channels (MOD, Server Link Feed, introductions/bugs/announcements); archived-read-only channels embed once then freeze; SIG channels include cadence + next_event_time |
 | `meta` | 51 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
-| `transcripts` | 43 | Bot conversation self-memory: web + Discord Q&A |
-| **Total** | **31,725** | |
+| `transcripts` | 47 | Bot conversation self-memory: web + Discord Q&A |
+| **Total** | **32,151** | |
 
 ## Key Ingest Scripts
 
@@ -132,12 +132,12 @@ After editing `data/devlog.json`, run `python3 ingest/sync_devlog.py` then `pyth
    ```
    Present any unreviewed issues to the user and discuss fixes before starting other work.
    After reviewing, run `python3 bin/review_intro_quality.py --mark-reviewed` to clear them.
-5. Check Anthropic API cost since last session:
+5. Check Anthropic API cost since last session. **Run this on the VM, not the laptop** — `data/cost_log.jsonl` is
+   gitignored, so the laptop copy froze on 2026-08-01 when the daemon moved to `c3po-vm.exe.xyz` and reports $0:
    ```bash
-   source .venv/bin/activate
-   python3 bin/cost_report.py
+   ssh c3po-vm.exe.xyz "cd ~/c3po && source .venv/bin/activate && python3 bin/cost_report.py"
    ```
-   Report last-7-days spend and all-time total. If `data/cost_log.jsonl` does not yet exist, note that tracking starts from this session onward.
+   Report last-7-days spend and all-time total.
 6. Summarize: vector counts vs. last session, pending Substack posts, open TODOs from `status.md`, intro quality findings, and API spend.
 
 ---

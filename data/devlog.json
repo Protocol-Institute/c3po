@@ -2077,6 +2077,59 @@
           "html": "The intro flow's Reader fallback (<code>bin/c3po_bot.py</code>) pointed at a genuinely dead page &mdash; replaced with the live <code>protocolized.io/resources/protocol-reader-2025</code>. Investigating turned up a broader bug: <code>ingest/mine_bibliography.py</code> extracts a citing paper's own footnote URL with no check for whether the citation actually names a document c3po already hosts, so three bibliography entries (Capital Enclosure for Software Commons; Protocol Foundations 002 and 003) carried stale/foreign URLs for papers already sitting in our own 85-PDF corpus with correct <code>files.protocolized.io</code> links. Fixed all three source-file entries by hand (none was live in the <code>bibliography</code> namespace yet, so no re-ingest was needed) and closed the root cause &mdash; <code>merge_into_registry()</code> now cross-checks every extracted citation against the corpus we already own and rewrites self-citations to our own canonical URL."
         }
       ]
+    },
+    {
+      "id": 51,
+      "sort_key": 51.0,
+      "label": "Session 51",
+      "title": "SIG Attribution Repaired End to End: Audio Recordings, the Wedged Website Push, MCP Analytics, and a Stale Snapshot That Outranked the Truth",
+      "date": "2026-09-08",
+      "time_pt": "13:10–18:05",
+      "tracks": [
+        "corpus-ingestion",
+        "operations",
+        "worker-api",
+        "website-integration"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "total": 32151
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "Audio meeting recordings were never attributed to DRG, MRG or ProtFiSIG",
+          "html": "<code>SIG_TITLE_MAP</code> in <code>sync_meeting_notes.py</code> mixed bare keys (<code>drg</code>, <code>mrg</code>) with sig-prefixed ones (<code>sigfpt</code>, <code>sigpsy</code>), while the recorder posts every title as <code>SIG-&lt;GROUP&gt;</code>. <code>SIG-DRG</code> normalized to <code>sigdrg</code> and matched nothing, so those recordings were embedded with an empty <code>sig_display</code> and never attached to a meeting record. <code>match_sig()</code> now reduces a title to bare alphanumerics, tries it with and without a leading <code>sig</code>, and matches longest key first so a short key cannot shadow a longer one. 16 recordings re-embedded (96 vectors) with correct metadata."
+        },
+        {
+          "title": "One session, two meeting records — the duplicate-card class",
+          "html": "A recording arrives the day of the meeting; its Discord thread is summarised seven days later. Each wrote its own record, and the SIG page rendered the session twice (four such pairs existed). <code>attach_meeting_json()</code> now defers inside the grace window, and <code>rebuild_sig_summaries</code> absorbs a matching audio record when it writes the thread record. Deferring alone was not enough &mdash; it only moved the collision to day seven, which is why the absorb hook exists."
+        },
+        {
+          "title": "The website push flow had been wedged since 2026-09-04",
+          "html": "A conflicted <code>git stash pop</code> left unmerged paths, and the old recovery (<code>git checkout main</code>) cannot run while those exist &mdash; so the clone sat parked on the auto branch and every later cycle failed identically. The caller stamped <code>last_push_check</code> regardless, hiding the failure for a week at a time. Now: <code>_recover_website_checkout()</code> aborts the merge and hard-resets, the flow returns <code>None</code> on failure so the clock is not advanced, and a pre-flight heals a clone wedged by an earlier run. Recovery must defer publishing to the next cycle: the reset also discards that cycle's regenerated pages, and the first live run shipped a PR with 12 detail pages and no index pages before that was fixed."
+        },
+        {
+          "title": "sync_sig_pages.py was never in the daemon's step list",
+          "html": "The step that reads published meeting pages back off protocol-institute.org into the <code>sig</code> namespace as <code>chunk_type=sig_meeting_page</code> had never been wired in, though CLAUDE.md listed it among scripts that run automatically. Its state file was frozen at the last manual run: 96 pages, none for DRG. Added as step 7b; the backfill ingested 27 new pages and refreshed 91 stale ones. Note for future work: <code>daemon.py</code>'s own step list is loaded at process start, so changing it needs <code>systemctl restart c3po-daemon</code>, not just the per-cycle self-pull."
+        },
+        {
+          "title": "A three-month-old snapshot of our own page outranked six real meeting records",
+          "html": "Asked what meeting records exist for DRG, the bot answered &ldquo;0 archived sessions.&rdquo; The text was real: a community-shared link to <code>/sigs/drg/</code> had been fetched into <code>discord_links</code> on 2026-06-06 while that page was still a stub reading &ldquo;Meeting Archive &mdash; 0 sessions.&rdquo; Link snapshots are never refreshed. Six genuine DRG thread summaries were already indexed and lost to it, which is the more troubling half: the failure was not missing data but one authoritative-sounding stale chunk. <code>fetch_discord_links.py</code> now skips our own domains &mdash; a scraped copy of our own content goes stale by construction and duplicates the canonical ingestion. 43 stale own-domain vectors deleted."
+        },
+        {
+          "title": "MCP usage was almost entirely unmeasured",
+          "html": "<code>trackMcpRequest()</code> fired only for an <code>ask_c3po</code> that reached Claude and returned, so <code>/stats</code> read &ldquo;1 lifetime request&rdquo; while the open <code>search_corpus</code> tool served ~130 calls a month &mdash; visible only as a side effect of the rate limiter's per-IP keys, mostly from Anthropic's egress range. <code>trackMcpCall()</code> now counts every request by method and tool:outcome, surfaced as <code>mcp_calls</code>, and <code>logQuery()</code> is wired into both tools. Counters are KV read-modify-write and undercount concurrent bursts; per-request event keys were rejected deliberately, since a reconnect-looping client once drove 17.5k req/hr and would blow the KV write quota."
+        },
+        {
+          "title": "Two regressions filed back from the website review, both real",
+          "html": "The grace window was enforced at four stages but not in <code>generate_sig_pages.py</code>, which rendered every record on disk &mdash; so sessions 1 and 4 days old reached the SIG index while their detail pages were correctly withheld. Separately, a meeting date is whatever the summarising model returns: a dropped digit published SIGPSY's 2026-08-13 session as 2023-08-13, which the grace window waved through because a 2023 date is comfortably old. <code>sanitize_meeting_date()</code> validates the model's date against the Discord thread's own snowflake. The first cut of the renderer gate would have been worse than the bug &mdash; <code>meeting_ready(\"unknown\")</code> is False, so it held three long-published undated records and would have removed four live cards."
+        },
+        {
+          "title": "Personhood Research Group registered",
+          "html": "New SIG hosted by Sarah Friend, reaching c3po only through audio recordings &mdash; it has no Discord channel. Added across the seven duplicated SIG registries in <code>ingest/*.py</code>; the duplication itself is unaddressed. Stub page merged as website PR #8."
+        }
+      ]
     }
   ]
 }

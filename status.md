@@ -1,5 +1,40 @@
 # C3PO — Status Log
 
+## 2026-09-06 ~11:30 PT (session-start checks) + 2026-09-08 13:10–18:05 PT — SIG attribution repaired end to end; wedged website push flow fixed; MCP analytics; two website-filed regressions closed (session 51)
+
+**Session-start checks (09-06):** vectors 31,725 → 32,001 (organic). Substack 0 new / 1 edited. No intro-quality issues. VM daemon healthy (cycle 935, 16/16). **Found the cost check has been reporting stale data since the exe.dev migration** — `data/cost_log.jsonl` is gitignored, so the laptop copy froze on 2026-08-01. Real numbers from the VM: $3.11 last 7 days, $23.47 all-time (vs. $7.26 the local log claims). `sync_sig` is ~$0.42/day steady-state. Also found `enrich_discord_links` retrying 28 permanently-stuck links every cycle (no API cost — they fail before the Haiku call).
+
+**Audio recordings were never attributed to DRG, MRG or ProtFiSIG.** `SIG_TITLE_MAP` mixed bare keys (`drg`, `mrg`) with sig-prefixed ones (`sigfpt`, `sigpsy`); the recorder posts every title as `SIG-<GROUP>`, so `SIG-DRG` normalized to `sigdrg` and matched nothing. Those recordings were embedded with empty `sig_display`/`sig_name` and never attached to a meeting record. `match_sig()` now strips to bare alphanumerics, tries with and without a leading `sig`, longest key first. 21 title-form cases pass. Backfilled 16 recordings (96 vectors) — 4 DRG, 4 MRG, 1 ProtFiSIG, 2 SIGFPT, 2 SIGPSY (stale `None` from before hyphen handling), 2 Ad-hoc.
+
+**Duplicate meeting records.** A recording lands the day of the meeting; its thread is summarised 7 days later; each wrote its own record and the page rendered the session twice (4 pairs existed). Deferring inside the grace window alone only moved the collision to day 7 — so `rebuild_sig_summaries` now absorbs a matching audio record when it writes the thread record. 6 existing pairs merged (backups in `data/sigs/meetings_audio_merged_backup/`). Also added `--refresh` to `update_sig_pages.py`: detail pages were create-once, so backfilled audio content would never have reached the site.
+
+**The website push flow had been wedged since 2026-09-04** — this is c3po's clone at `/home/exedev/website`, not the website repo, which was healthy throughout. A conflicted `git stash pop` left unmerged paths, and the old recovery (`git checkout main`) cannot run while those exist; the caller stamped `last_push_check` regardless, hiding it for a week at a time. Second recurrence (see the 08-14 commit title on the website repo). Fixed: `_recover_website_checkout()` aborts + hard-resets, failure returns `None` so the clock holds, pre-flight heals an already-wedged clone. **The pre-flight must defer publishing** — the reset discards that cycle's regenerated pages, and the first live run shipped a PR with 12 detail pages and no index pages before that was corrected.
+
+**`sync_sig_pages.py` was never in the daemon's step list**, though CLAUDE.md listed it among scripts that "run automatically". State frozen at the last manual run: 96 pages, none for DRG. Added as step 7b; backfill ingested 27 new pages, refreshed 91 stale. **`daemon.py`'s own step list is loaded at process start** — changing it needs `systemctl restart c3po-daemon`, not just the per-cycle self-pull (first cycle after the change still logged 16/16).
+
+**"DRG has 0 archived sessions."** Reported by VGR against the live web bot. The text was real: a community-shared link to `/sigs/drg/` was fetched into `discord_links` on 2026-06-06 while that page was a stub. Link snapshots are never refreshed, and six genuine DRG thread summaries were *already indexed* and lost to it — the failure was one authoritative-sounding stale chunk, not missing data. `fetch_discord_links.py` now skips our own domains (same shape as the 09-01 bibliography self-citation fix); 43 stale own-domain vectors deleted, 12 registry entries marked. Purging the 6h `qcache` was necessary to see the fix — a repeat query still served the old answer.
+
+**MCP analytics.** `trackMcpRequest()` fired only for an answered `ask_c3po`, so `/stats` read "1 lifetime request" while `search_corpus` served ~130 calls/month, mostly from Anthropic's egress range (whois-confirmed) — visible only via the rate limiter's per-IP keys. `trackMcpCall()` now counts every method and tool:outcome as `mcp_calls`; `logQuery()` wired into both tools. Deployed and verified live. Rejected per-request event keys deliberately (a reconnect-loop client once drove 17.5k req/hr; KV write quota). **Also documented, not fixed:** `ask_c3po` has no turn limit, no rate limit, and passes caller `history` straight into the Claude messages array with no slice, truncation or `hasHistorySmuggling()` check — all of which the web path applies.
+
+**Two regressions filed back from the website review (c3po#4, #5), both real, both closed.** The grace window was enforced at four stages but not in `generate_sig_pages.py`, which rendered every record on disk. And a meeting date is whatever the model returns — a dropped digit published SIGPSY's 2026-08-13 session as 2023-08-13, which the grace window waved through. `sanitize_meeting_date()` now validates against the Discord thread's snowflake. **The first cut of the renderer gate was worse than the bug**: `meeting_ready("unknown")` is False, so it held three long-published undated records and would have removed four live cards.
+
+**Pinecone:** 31,725 → 32,151.
+
+**Shipped:** website PR #8 (PRG stub, merged), PR #9 (rebuilt on `30b3611`, 21→17 files, awaiting review), worker deployed (`51c1644f`), 7 c3po commits pushed, c3po#4 and #5 closed.
+
+**Open TODOs (priority order):**
+1. **Merge website PR #9** — until then DRG#05/#06 have no `sig_meeting_page` chunks, so broad "what meetings exist" questions under-report even though every session is indexed.
+2. Fix the session-start cost check to read the VM's `cost_log.jsonl` (or sync it back); the local one has been $0 since 08-01.
+3. Harden MCP `ask_c3po`: bound and sanitise caller history, run `hasHistorySmuggling()` on it, add a per-key hourly cap.
+4. Decide on the 200+ `protocolized.summerofprotocols.com` snapshots in `discord_links` — same self-snapshot duplication as the .org pages, but they carry Haiku relevance scores.
+5. `enrich_discord_links`' 28 permanently-stuck links (retried every 30 min forever).
+6. Consolidate the seven duplicated SIG registries across `ingest/*.py`.
+7. Index cards render `summary`/`key_insights` only; detail pages render audio fields. Records merged under a differing slug keep whichever page already existed.
+8. Consider a countable per-SIG fact so "how many meetings" isn't inferred from retrieved chunks.
+9. Everything carried from session 50 (egress watch, Telegram alerting on `over_warn_threshold`, humboldt `mode="worker"` routing, quota-regex port to humboldt, `mine_bibliography` re-run, plus the session-49 backlog).
+
+---
+
 ## 2026-09-01 ~11:30–13:15 PT — Egress reset confirmed + closed the caching/accounting TODOs; fixed 4 stale summerofprotocols.com links (session 50)
 
 **Session-start checks:** egress quota confirmed reset (raw REST `POST /query` bypassing our own code, not just trusting the computed resume date) — the session 49 trims (`TOP_K_EACH` 8→5, humboldt's narrower fan-out) held for the full 15-day window without re-exhausting. Vector counts 30,698 → 31,724 (organic). No intro-quality issues, no cost in the last 7 days (consistent with the read-pause window).
