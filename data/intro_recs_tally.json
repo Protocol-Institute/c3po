@@ -579,6 +579,16 @@
       "count": 1,
       "last_seen": "2026-09-06",
       "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/the-second-glossolalia": {
+      "title": "The Second Glossolalia",
+      "url": "https://protocolized.summerofprotocols.com/p/the-second-glossolalia",
+      "source": "substack",
+      "author": "Sachin Benny",
+      "label": "FICTION",
+      "count": 1,
+      "last_seen": "2026-09-11",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -663,8 +673,8 @@
       "name": "🫆-personhood-research-group",
       "display": "#🫆-personhood-research-group",
       "sig_display": "",
-      "count": 3,
-      "last_seen": "2026-09-02"
+      "count": 4,
+      "last_seen": "2026-09-11"
     }
   }
 }
