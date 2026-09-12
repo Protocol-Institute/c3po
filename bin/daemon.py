@@ -344,7 +344,16 @@ def push_website_if_changed() -> bool | None:
         _git(["stash", "push", "-u", "--", *WEBSITE_PATHS], WEBSITE_DIR)
         stash_held = True
         _git(["checkout", "main"], WEBSITE_DIR)
-        _git(["fetch", "origin", "main"], WEBSITE_DIR)
+        # Fetch everything with --prune, not just `main`. Once a PR merges,
+        # GitHub deletes the branch, but --prune only drops stale tracking
+        # refs for the refspec actually fetched — `fetch origin main --prune`
+        # was tried first and confirmed (by reproduction) to leave a deleted
+        # branch's cached origin/c3po/auto-sig-pages ref untouched. The
+        # force-with-lease push below trusts that cached ref as the expected
+        # remote state, so every cycle after a merge was rejected as stale
+        # info — 146 failures over 5 days (2026-09-11 to 09-12) before this
+        # fix, harmless (clock never advanced, so nothing was lost) but silent.
+        _git(["fetch", "origin", "--prune"], WEBSITE_DIR)
         _git(["reset", "--hard", "origin/main"], WEBSITE_DIR)
         _git(["checkout", "-B", WEBSITE_BRANCH], WEBSITE_DIR)
         _git(["stash", "pop"], WEBSITE_DIR)
