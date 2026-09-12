@@ -1,5 +1,33 @@
 # C3PO — Status Log
 
+## 2026-09-12 15:30–16:20 PT — Website PR flow found broken since it went live; fixed two stacked bugs (session 53)
+
+**Session-start checks:** vectors 32,213 → 32,592 (organic). Substack 0 new / 0 edited. No intro-quality issues. Cost (read from VM): $5.57 last 7 days / $28.44 all-time; `sync_sig` still ~99% of spend. Laptop clone was 136 commits behind (routine `[daemon]` syncs); fast-forwarded clean. Only pending inbox item: `c3po_inbox/ProtocolTheory-2026-06-17-14-32-07.json` (SIGFPT Roam export) — confirmed with VGR to keep, not discard, despite having quietly dropped off the carried-TODO list after session 48.
+
+**Daemon logs showed the website PR flow failing on essentially every cycle** (`[rejected] ... stale info`), 146 times over 2026-09-11 to 09-12. Root cause: `push_website_if_changed()` ran `git fetch origin main` before a `push --force-with-lease`, which only refreshes the `main` tracking ref. Once PR #9/#10 merged and GitHub deleted `c3po/auto-sig-pages`, the VM's cached `origin/c3po/auto-sig-pages` ref kept pointing at the old SHA forever, and force-with-lease compared against that phantom value. Reproduced in an isolated repo; also confirmed by reproduction that the narrower `fetch origin main --prune` does *not* prune refs outside the explicit refspec — only a full `fetch origin --prune` does. Fixed in `bin/daemon.py` (`a40d233`), pulled + `c3po-daemon` restarted on the VM; next cycle logged a clean push.
+
+**That surfaced a second, deeper bug the first one had been masking.** With the push finally succeeding, the website repo's own `.github/workflows/c3po-auto-pr.yml` (introduced session 52 specifically to keep a GitHub API token off the VM) still failed — `gh pr create` returned "GitHub Actions is not permitted to create or approve pull requests." Confirmed via `PUT .../actions/permissions/workflow` (409: "The organization does not allow GitHub Actions to create or approve pull requests") that this is a **Protocol-Institute org-wide policy**, not fixable at the repo level or by the workflow's own `permissions:` block. This means the session-52 redesign has never worked, even once, since it shipped 2026-09-09 — the branch-push side only started succeeding today, so this is the first time the PR-open step was ever actually exercised. 4 SIG meeting pages (DRG, PRG, ProtFiSIG, SIGFPT, all 2026-09-03/04) had been sitting pushed-but-orphaned the whole time.
+
+**Fix, with VGR's decision on the two options presented:** rather than loosen the org-wide Actions policy, added a fourth scoped credential — `WEBSITE_PR_TOKEN`, a fine-grained PAT on `Protocol-Institute/website` only, Pull requests: write + Contents: read, expires 2026-12-08 (aligned with the other two for joint rotation). `c3po-auto-pr.yml` now uses `secrets.WEBSITE_PR_TOKEN` instead of `github.token` (website PR #12, merged). Manually opened today's stuck content as website PR #11 (open, awaiting VGR review/merge) since the automation couldn't yet. Registered in `admin/keys.md` (`e6a4591`) as an isolated commit — the file had unrelated uncommitted blygger-protocol edits from another session already in the working tree; used a stash round-trip to commit only this row without touching or losing that state.
+
+**Incidental: a `grep -v` filter I used while checking whether an existing PAT could be reused instead of minting a new one didn't exclude the lines it was meant to, and printed the values of `C3PO_VM_GH_TOKEN`/`C3PO_ACTIONS_GH_TOKEN` into this session's transcript.** Flagged immediately per `Code/security-policy.md`'s incident-response posture; VGR judged it not serious and deferred rotation rather than doing it now. Noted here so the deferred-rotation decision is traceable, not silently dropped.
+
+**Pinecone:** 32,213 → 32,592 (organic only — no ingest activity this session).
+
+**Shipped:** c3po `a40d233` (git staleness fix) pushed; `admin` `e6a4591` committed (**not pushed** — joins two session-52 commits already awaiting VGR, admin now 3 ahead of origin); website PR #11 (content, open) and PR #12 (workflow fix, merged); `WEBSITE_PR_TOKEN` repo secret set on `Protocol-Institute/website`.
+
+**Open TODOs (priority order):**
+1. **Rotate `C3PO_VM_GH_TOKEN` and `C3PO_ACTIONS_GH_TOKEN`** — values were exposed into this session's transcript (see above). VGR deferred; carry until done.
+2. **Merge website PR #11** (4 new SIG meeting pages) — until then those meetings have no live page despite being indexed.
+3. **Watch the first real "create a new PR" cycle** — today's fix was verified for the "push a branch" step and the "open PR" step was verified only manually (I opened #11 by hand); the workflow's own `gh pr create` path (as opposed to updating an already-open PR) has still never been exercised end-to-end automatically. Confirm next week's cycle, after #11 merges, opens a fresh PR unattended.
+4. **Push the `admin` repo** — 3 local commits (2 from session 52, 1 from this session) awaiting VGR's push.
+5. Phase 2 of `plans/vm-credential-hardening.md` — both services still run as `exedev` with passwordless sudo (carried from session 52).
+6. Revoke `GH_PAT` in `../.env.keys` after confirming it's not the laptop keyring's value (carried from session 52).
+7. Decide fate of `c3po_inbox/ProtocolTheory-2026-06-17-14-32-07.json` — VGR confirmed keep for now, ingest later; plan exists at `plans/roam-ingest.md`.
+8. Everything else carried from session 52 (pipeline consistency check, MCP `ask_c3po` hardening, `discord_links` snapshot decision, stuck `enrich_discord_links` links, duplicated SIG registries).
+
+---
+
 ## 2026-09-09 13:45–14:20 PT — VM GitHub credential replaced; three copies of "the" token found to differ (session 52)
 
 **Session-start checks:** vectors 32,151 → 32,213 (organic). Substack 0 new / 0 edited. No intro-quality issues. Daemon healthy, 17/17 steps (`sync_sig_pages` now wired in and running). Cost — read from the VM per the session-51 fix — $5.12 last 7 days / $26.26 all-time; `sync_sig` is $5.08 of the week, ~$0.73/day against the $0.42/day steady state noted on 09-06, consistent with last session's SIG backfill. **Website PR #9 merged** 2026-09-09, closing session 51's TODO #1: DRG#05/#06 now have `sig_meeting_page` chunks. Laptop clone was 35 commits behind; rebased.
