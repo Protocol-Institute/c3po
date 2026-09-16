@@ -86,7 +86,17 @@ def folder_listing(folder_id: str) -> list[dict]:
     m = re.search(r"window\['_DRIVE_ivd'\]\s*=\s*'([^']+)'", html)
     if not m:
         raise RuntimeError(f"no inventory in folder page {folder_id} — is it still public?")
-    raw = codecs.decode(m.group(1), "unicode_escape")
+    # The blob is JS-escaped. Drive escapes forward slashes as \/ , which is
+    # valid JS but an invalid Python escape — unicode_escape warns on it today and
+    # is documented to fail in a future release. Neutralise it before decoding.
+    raw = codecs.decode(m.group(1).replace(r"\/", "/"), "unicode_escape")
+    # unicode_escape decodes as latin-1, so any UTF-8 in a filename comes back
+    # mojibaked ("Archival Time \xe2\x80\x94 Sachin" for an em dash). Round-trip it
+    # back to real UTF-8; the filename lands in chunk metadata as source_file.
+    try:
+        raw = raw.encode("latin-1").decode("utf-8")
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        pass  # already clean
     return [
         {"id": e[0], "name": e[2], "mime": e[3], "mtime": e[9], "size": e[13]}
         for e in json.loads(raw)[0]
