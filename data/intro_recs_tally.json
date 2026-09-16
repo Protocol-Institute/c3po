@@ -486,8 +486,8 @@
       "source": "substack",
       "author": "TΞRM1NΞX",
       "label": "FICTION",
-      "count": 2,
-      "last_seen": "2026-09-12",
+      "count": 3,
+      "last_seen": "2026-09-16",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/archive": {
@@ -589,6 +589,26 @@
       "count": 1,
       "last_seen": "2026-09-11",
       "is_fallback": false
+    },
+    "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-35": {
+      "title": "Building Psychohistory: An Infrastructure Field Report",
+      "url": "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-35",
+      "source": "symposium",
+      "author": "Aneesh Sathe",
+      "label": "PROTOCOL SYMPOSIUM 2026",
+      "count": 1,
+      "last_seen": "2026-09-16",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/time-to-die": {
+      "title": "Time to Die",
+      "url": "https://protocolized.summerofprotocols.com/p/time-to-die",
+      "source": "substack",
+      "author": "Ralph Witherell",
+      "label": "FICTION",
+      "count": 1,
+      "last_seen": "2026-09-16",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -603,8 +623,8 @@
       "name": "⏳-psychohistory",
       "display": "#⏳-psychohistory",
       "sig_display": "",
-      "count": 2,
-      "last_seen": "2026-07-16"
+      "count": 3,
+      "last_seen": "2026-09-16"
     },
     "1095846506382250075": {
       "name": "🔍-protocol-watch",
