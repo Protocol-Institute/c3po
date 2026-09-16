@@ -99,8 +99,10 @@ and it wants its own retrieval weight during the event week.
 `slug`, so a Phase B deck and a Phase C transcript attach to the same talk
 without a second identity scheme.
 
-**Weight:** 1.0× during the event week, matching `pdfs`/`substack`. Revisit
-after — a finished event should probably not outrank live research forever.
+**Weight:** 1.0×, matching `pdfs`/`substack`, and **unchanged after the event**
+(VGR, session 54). Once the symposium is over the namespace is simply archival
+material like any other — no decay schedule, no event-week boost to unwind. The
+only thing that changes on Sept 26 is that the sync can stop running.
 
 ---
 
@@ -130,26 +132,42 @@ pass, not zero.
 
 ## Answering behaviors
 
-### 1. Time awareness — the one temporal requirement
+### 1. Time awareness — a general c3po capability, not a symposium feature
 
-**c3po currently has no idea what day it is.** `SYSTEM_PROMPT` in `api/worker.js`
-is a static template literal, and the user message is
+VGR, session 54: c3po should in general know what date and time it is. The
+symposium is what surfaced the gap, not the reason to fix it.
+
+**c3po does not know what day it is today, on any path.** `SYSTEM_PROMPT` in
+`api/worker.js` is a static template literal, and the user message is
 `Question: {q}\n\nRelevant corpus excerpts:\n\n{context}`. No date reaches the
-model on any path — web, Discord or MCP.
+model from web, Discord or MCP.
+
+**Correction to the working assumption: answers do not come from the VM.** The
+VM runs the ingest daemon and the Discord *gateway*; `bin/c3po_bot.py:50` posts
+to `https://c3po.protocolized.io/query`, so the gateway forwards and the
+Cloudflare Worker generates the answer. Web, Discord and MCP all converge on
+`worker.js`. That makes this a **single-site fix** rather than one per surface —
+and the VM's system clock never enters the picture.
+
+System time is available there: a Worker's `Date` is accurate wall-clock time,
+always UTC. (Cloudflare freezes `Date.now()` during synchronous execution as a
+timing-attack mitigation, so it advances only across I/O — irrelevant at the
+minute granularity we need.) UTC is also the right unit: the program is stored
+in UTC, and the Worker has no reliable signal about the asker's timezone.
 
 Two pieces, and the split between them matters:
 
-- **Static, in `SYSTEM_PROMPT`:** the instruction. That the symposium runs
-  Sept 21–25 2026, that the current date and time will be supplied in the user
-  message, and that **when recommending sessions it should prefer ones that have
-  not yet happened** — while remaining free to discuss ones that have.
-- **Dynamic, in the user message:** the actual timestamp, e.g.
+- **Static, in `SYSTEM_PROMPT`:** the instruction — that the current date and
+  time are supplied in the user message and should be used when recency or
+  ordering matters, including **not recommending sessions that have already
+  happened**.
+- **Dynamic, in the user message:** the timestamp itself, e.g.
   `Current date and time: Thursday 2026-09-24, 18:42 UTC.`
 
 The timestamp **must not go in the system prompt.** That block is sent with
 `cache_control: { type: "ephemeral" }`; a value that changes per request would
-miss the prompt cache every single time, on every query c3po serves — not just
-symposium ones. In the user message it costs nothing.
+miss the prompt cache on every query c3po serves, symposium-related or not. In
+the user message it costs nothing.
 
 Each `symposium_session` chunk also carries its day and UTC time in the embedded
 text, not only in metadata, so a retrieved excerpt arrives already stamped and
@@ -182,7 +200,25 @@ That cross-corpus grounding is the thing c3po can do that the program page
 cannot, and it is the argument for a dedicated namespace queried alongside the
 others rather than a standalone program-lookup tool.
 
-### 4. Workshop themes — the `symposium_workshop` chunk
+### 4. No calls to action — a general stance, corpus-wide
+
+VGR, session 54: the bot never issues calls to action. It **recommends material
+and offers conversational insight about it** — it does not tell people to
+register, sign up, buy, join, attend, subscribe or apply.
+
+Like time awareness, this is a general rule rather than a symposium patch, and
+belongs in the `VOICE` block of `SYSTEM_PROMPT` alongside "non-political" and
+"honest about limits". It happens to matter acutely here — symposium
+registration is closed at capacity, so a helpful-sounding "you can register at…"
+would be both a CTA and wrong — but the same rule should keep c3po from pushing
+Protocolized subscriptions or SIG sign-ups when someone asks a research
+question.
+
+The corollary for `symposium_overview`: state that registration is closed and
+the livestream is public as **facts about the event**, phrased so the model has
+no hook to turn them into an invitation.
+
+### 5. Workshop themes — the `symposium_workshop` chunk
 
 The five workshops carry `audience`, `takeaways` and `activities` that never
 appear on the program page in full. That is the substance for a thematic
@@ -278,15 +314,14 @@ not now.
 
 ## Open questions for VGR
 
-1. **Retrieval weight and afterlife.** 1.0× during the event week is proposed.
-   Should the symposium corpus be de-weighted after, or stay first-class
-   alongside the SIG archive?
-2. **Phase B trigger date.** Proposed: a first pass Sept 19–20 once decks firm
+1. **Phase B trigger date.** Proposed: a first pass Sept 19–20 once decks firm
    up, a second after the event captures finals.
-3. **Does the bot say anything about registration?** It is closed at capacity,
-   and the livestream is public. Worth an explicit line in
-   `symposium_overview` so it doesn't invite people to register.
 
-*Resolved:* whether to chase the running order of the five unscheduled Art of
-Memory talks — no. Under the narrowed scope "sometime in the Friday 19:00–21:30
-block" is a fine answer, and the order is set live by the host anyway.
+*Resolved in session 54:*
+- **Post-event weight** — none. The namespace becomes ordinary archival material
+  at the same 1.0×; nothing to unwind.
+- **Registration and calls to action** — the bot never issues a CTA of any kind,
+  corpus-wide. Registration status is stated as fact, never as an invitation.
+- **Art of Memory running order** — not worth chasing. "Sometime in the Friday
+  19:00–21:30 block" is a fine answer under the narrowed scope, and the host
+  sets the order live.
