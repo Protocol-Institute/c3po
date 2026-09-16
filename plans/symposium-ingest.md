@@ -260,17 +260,64 @@ override in `config/symposium_deck_map.json`. Anything still unmatched goes to a
 filed against the wrong talk is worse than an absent one, because the bot will
 answer confidently from it.
 
-### Draft churn is the defining constraint
+### Draft churn is the defining constraint — how updates are handled
 
-Decks will be replaced repeatedly between now and the 25th, and the final
-version is the one that matters. Content-hash every file; re-embed only on
-change; delete the file's existing chunks by filter before upserting. Keep a
-`is_final` flag set after the event so a query can prefer delivered material.
+Decks will be replaced repeatedly up to the 25th and revised again afterwards;
+the final version is the one that matters. Re-running the sync must converge on
+the current folder, not accumulate every draft that ever existed.
 
-**This is the argument for not running Phase B yet.** Embedding 23 early drafts
-now buys little and risks the bot quoting a slide that no longer exists —
-a fresher instance of the stale-snapshot problem. The right trigger is a day or
-two before the event, then once more after.
+**Key state on the Drive file `id`, never the filename.** Ids are stable across
+renames and moves; names are not, and the deck→talk matching work makes it
+tempting to key on them. Keyed by name, a rename reads as delete-plus-create and
+churns the whole deck for nothing.
+
+**Two-level change detection**, the shape `sync_symposium.py` already uses —
+cheap signal to decide whether to fetch, content hash to decide whether to embed:
+
+1. One `files.list` over the folder returning `id, name, mimeType, modifiedTime,
+   md5Checksum, size, version`. One request, no downloads, every cycle.
+2. Download/export only files whose cheap signal moved.
+3. Hash the **extracted text**, not the bytes, to decide re-embedding.
+
+Step 3 is not redundant. `modifiedTime` moves when someone opens a deck and
+autosave fires, or nudges a text box; without the text hash that becomes ~40
+wasted embeddings per idle edit. It also absorbs the format asymmetry below.
+
+**Format asymmetry, worth knowing before relying on step 1.** Binary uploads
+(`.pptx`, `.pdf`, `.docx`) carry an `md5Checksum` — a true content signal, free.
+Native Google Slides are not blobs and have no checksum, so they fall back to
+`modifiedTime`/`version`, which is noisier. Roughly half the folder is native
+Slides, so those will re-export more often than strictly needed; the
+extracted-text hash is what stops that becoming re-embedding.
+
+**Removal must be handled, not just addition.** A deck withdrawn from the folder
+has to have its chunks deleted or the bot keeps quoting it. Reconcile each run:
+anything in state but absent from the listing is pruned. `sync_symposium.py`'s
+`--prune` is the pattern.
+
+**Deleting by explicit vector id, not by metadata filter.** An earlier draft of
+this plan said "delete the file's existing chunks by filter" — that is wrong on
+this index. Pinecone **serverless does not support delete-by-metadata-filter**,
+which is why `sync_symposium.py` records each record's vector ids in its state
+file and deletes those. Phase B must do the same.
+
+**Subfolders.** 4 of the 27 entries are folders, so the listing has to recurse.
+A file moving between folders keeps its id, which is another reason to key on id.
+
+### The update cases this does not yet solve
+
+1. **Replace-in-place vs. new-file-alongside.** People frequently upload
+   `deck v2.pptx` next to `deck.pptx` instead of overwriting. Both then match the
+   same talk. Proposed rule: newest `modifiedTime` wins per talk, older chunks
+   pruned — but it must be **surfaced**, because sometimes two files genuinely
+   belong to one talk. `katz_entrenching_privacy_through_speech.pptx` and
+   `katz_on_speech_and_privacy.docx` are visibly a slides+notes pair, not a
+   superseded draft, and a newest-wins rule would silently discard half of it.
+2. **Mid-event lag.** A speaker revising slides 20 minutes before their talk is a
+   cycle behind at 30-minute cadence. Probably acceptable for a content oracle —
+   worth deciding rather than discovering.
+3. **What "final" means.** The `is_final` flag needs a trigger. Simplest is a
+   manual post-event pass; anything automatic has to guess when churn has stopped.
 
 ### Mechanics to settle before running
 
