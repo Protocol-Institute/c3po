@@ -31,6 +31,7 @@ import codecs
 import hashlib
 import io
 import json
+import os
 import re
 import sys
 import time
@@ -163,6 +164,51 @@ def extract_pdf(blob: bytes) -> str:
     return "\n\n".join(out)
 
 
+# Slides exported as images yield zero text from any PDF text layer. Claude reads
+# the PDF directly as a document block — it does vision on the pages — so no
+# rasteriser or OCR engine is needed, and the deck's own structure survives.
+VISION_MODEL = "claude-sonnet-5"   # VGR's standing choice for dense material
+VISION_MAX_BYTES = 28 * 1024 * 1024   # request cap is 32MB; base64 inflates ~4/3
+
+VISION_PROMPT = (
+    "This PDF is a slide deck exported as images, so it has no text layer. "
+    "Transcribe it slide by slide for a research archive.\n\n"
+    "For each slide output '[Slide N]' then the slide's text verbatim — titles, "
+    "bullets, labels, captions, quotes. Where a slide is a diagram, chart or "
+    "image with little text, add one line beginning 'Visual:' describing what it "
+    "depicts and what it is arguing.\n\n"
+    "Transcribe only what is on the slides. Do not add commentary, interpretation "
+    "or anything not visible. If a slide is blank or purely decorative, say so."
+)
+
+
+def extract_pdf_via_vision(blob: bytes, name: str) -> str:
+    """Transcribe an image-only PDF by handing the whole file to Claude."""
+    import base64
+    import anthropic
+    from cost_logger import check_budget, log_api_call
+
+    if len(blob) > VISION_MAX_BYTES:
+        raise RuntimeError(f"{len(blob)/1e6:.1f}MB exceeds the vision request cap")
+
+    check_budget()
+    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    resp = client.messages.create(
+        model=VISION_MODEL,
+        max_tokens=16000,
+        messages=[{"role": "user", "content": [
+            {"type": "document", "source": {
+                "type": "base64", "media_type": "application/pdf",
+                "data": base64.standard_b64encode(blob).decode("ascii")}},
+            {"type": "text", "text": VISION_PROMPT},
+        ]}],
+    )
+    cost = log_api_call("sync_symposium_decks", VISION_MODEL, resp.usage)
+    text = "\n".join(b.text for b in resp.content if b.type == "text")
+    print(f"  VISION {name[:44]:<46} {len(text):>6} chars transcribed  (${cost:.4f})")
+    return clean_text(text)
+
+
 def extract_html(blob: bytes) -> str:
     from bs4 import BeautifulSoup
     soup = BeautifulSoup(blob.decode("utf-8", "replace"), "html.parser")
@@ -178,7 +224,10 @@ def extract(f: dict, blob: bytes) -> str:
     if mime == GDOC or name.endswith(".docx") or "wordprocessingml" in mime:
         return clean_text(extract_docx(blob))
     if mime == "application/pdf" or name.endswith(".pdf"):
-        return clean_text(extract_pdf(blob))
+        text = clean_text(extract_pdf(blob))
+        if len(text) < 200:
+            return extract_pdf_via_vision(blob, f["name"])
+        return text
     if mime == "text/html" or name.endswith((".html", ".htm")):
         return clean_text(extract_html(blob))
     if mime.startswith("text/"):
@@ -229,9 +278,21 @@ def candidates(fname: str, proposals: list[dict]) -> list[tuple[float, dict, str
 def resolve(f: dict, proposals: list[dict], overrides: dict):
     """-> (proposal, why) or (None, reason). Never guesses between near-equals."""
     if f["id"] in overrides:
-        slug = overrides[f["id"]]
-        p = next((p for p in proposals if p.get("slug") == slug), None)
-        return (p, "override") if p else (None, f"override points at unknown slug '{slug}'")
+        want = overrides[f["id"]]
+        slugs = want if isinstance(want, list) else [want]
+        found = [p for s in slugs for p in proposals if p.get("slug") == s]
+        if len(found) != len(slugs):
+            missing = [s for s in slugs if not any(p.get("slug") == s for p in proposals)]
+            return None, f"override points at unknown slug(s) {missing}"
+        # A deck covering two talks is attached once, naming both, rather than
+        # embedded twice — duplicate chunks would crowd retrieval for no gain.
+        if len(found) > 1:
+            merged = dict(found[0])
+            merged["title"] = " / ".join(p["title"] for p in found)
+            merged["_extra_slugs"] = [p.get("slug") for p in found[1:]]
+            merged["_covers"] = [p["title"] for p in found]
+            return merged, f"override -> {len(found)} talks"
+        return found[0], "override"
 
     by_slug = {p.get("slug"): p for p in proposals if p.get("slug")}
     stem = norm(f["name"]).replace(" ", "-")
@@ -375,7 +436,10 @@ def run(dry_run=False, report=False, force=False, prune=False, limit=None,
             skipped += 1
             continue
 
-        header = (f"{EVENT_NAME} - presentation material for \"{p['title']}\"\n"
+        covers = p.get("_covers")
+        subject = (" and ".join(f'"{t}"' for t in covers) if covers
+                   else f"\"{p['title']}\"")
+        header = (f"{EVENT_NAME} - presentation material for {subject}\n"
                   f"Speakers: {', '.join(hosts_of(p)) or 'Protocol Institute'}\n"
                   f"Track: {track_label(p.get('track'))}\n"
                   f"Source file: {f['name']}\n")
@@ -399,6 +463,7 @@ def run(dry_run=False, report=False, force=False, prune=False, limit=None,
             "metadata": {
                 "chunk_type": "symposium_slides", "event": EVENT_NAME,
                 "title": p["title"], "slug": p.get("slug") or "",
+                **({"also_slugs": ", ".join(p["_extra_slugs"])} if p.get("_extra_slugs") else {}),
                 "track": (track_label(p.get("track")) or "").split(" (")[0],
                 "speakers": ", ".join(hosts_of(p)),
                 "scheduled_date": p.get("scheduled_date") or "",

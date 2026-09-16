@@ -15,7 +15,9 @@ COST_LOG = Path(__file__).parent.parent / "data" / "cost_log.jsonl"
 _PRICING: dict[str, dict[str, float]] = {
     "claude-haiku-4-5-20251001": {"input": 1.00, "output": 5.00},
     "claude-haiku-4-5":          {"input": 1.00, "output": 5.00},
+    "claude-sonnet-5":           {"input": 2.00, "output": 10.00},
     "claude-sonnet-4-6":         {"input": 3.00, "output": 15.00},
+    "claude-opus-5":             {"input": 5.00, "output": 25.00},
     "claude-opus-4-8":           {"input": 5.00, "output": 25.00},
 }
 _DEFAULT_RATES = {"input": 3.00, "output": 15.00}
