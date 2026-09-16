@@ -94,7 +94,7 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 | Namespace | Vectors | Notes |
 |-----------|---------|-------|
 | `discord_links` | 12,822 | Community-shared URLs, scored by Haiku |
-| `sig` | 8,032 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 7 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG, PRG (Personhood Research Group — audio only, no Discord channel) |
+| `sig` | 8,034 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 7 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG, PRG (Personhood Research Group — audio only, no Discord channel) |
 | `discord` | 5,912 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
 | `videos` | 3,127 | YouTube talks (97 videos) |
 | `substack` | 1,240 | Protocolized magazine |

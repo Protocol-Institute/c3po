@@ -2226,8 +2226,8 @@
       ],
       "costs_usd": {},
       "vector_counts": {
-        "total": 32988,
-        "symposium": 71
+        "total": 33193,
+        "symposium": 273
       },
       "deployed": true,
       "items": [
@@ -2250,6 +2250,18 @@
         {
           "title": "Four public endpoints were returning whole database rows",
           "html": "Orienting on the programme meant reading the API behind it, which turned out to return <strong>51 distinct speaker, organiser and host email addresses</strong> to any anonymous request — along with each submitter's private notes to the organisers and the member vote tallies from shortlisting. Three symposium endpoints and, once swept for the same shape, one on the projects API.<br><br>Cause: <code>SELECT *</code> passed straight to the response. The addresses were genuinely used — but only so the page could decide whether to show <em>you</em> an edit button. That decision moved to the server as a boolean; nine separate pages had their own copy of the comparison.<br><br>The fix projects through an explicit allowlist rather than excluding known-bad fields. Three host-email columns had joined the public payload automatically when a migration added them, which is precisely the failure an allowlist prevents. The ingest applies its own allowlist independently, and refuses outright to embed any chunk containing an email address."
+        },
+        {
+          "title": "Slide decks: the hard part was matching, not reading",
+          "html": "Twenty-five of the thirty files in the symposium's public slide-deck folder are now in the corpus, so C3PO can answer from what speakers will actually present rather than only from their abstracts.<br><br>Extraction was the easy half. <strong>Matching a deck to a talk is where this breaks</strong>, because filenames carry neither the talk's slug nor, often, its title. <code>TMDTS-Speaker-Notes.pdf</code> is Florian Lohse's “Time Moves Down the Stack” — the initials are the only clue. <code>The House that Governs Itself.pdf</code> matches no programme title at all; it turns out to be Daniel Kronovet's companion paper to “Chores as Complex Coordination.” Neither is reachable by name similarity, and both were resolved by reading the file's own text.<br><br>So the rule is that ambiguity escalates instead of resolving. A deck filed against the wrong talk is worse than an absent one, because the bot then answers confidently from material that belongs to someone else. One deck turned out to cover <em>two</em> talks and was quietly resolving to just one of them — the long filename dilutes the similarity score enough that only one candidate clears the threshold, and the other talk's material would have been silently dropped."
+        },
+        {
+          "title": "Slides exported as images are still readable",
+          "html": "Two decks were slides exported as images: fifteen and fourteen pages, one full-page picture each, not a single character of text. A conventional pipeline records these as failures and moves on, and the talks behind them stay invisible.<br><br>Claude reads a PDF directly as a document block, doing vision over the pages, so recovering them needed no rasteriser, no OCR engine and no page-splitting — a PDF that yields almost nothing from its text layer simply falls through to a transcription pass. Twenty thousand characters recovered for sixteen cents. The prompt asks for the slide text verbatim plus a single <code>Visual:</code> line on diagram slides, and forbids commentary, so what lands in the corpus is the deck rather than an interpretation of it.<br><br>A related detail worth stating plainly: <strong>speaker decks carry contact slides</strong>. Seven of them held email addresses. The allowlist that protects the programme API is irrelevant here — different provenance, different surface — so deck text is redacted before embedding, and the embedded chunks were swept afterwards to confirm it held."
+        },
+        {
+          "title": "A daemon step that had no reason to fail",
+          "html": "While verifying the session's own work, one step in the ingest cycle was found dead: <code>sync_discord_events</code> had taken a single HTTP 500 from Discord and exited. It recovered by itself on the next cycle, so nothing was stuck — but the step is how SIG meeting cadence reaches the corpus, and a transient upstream error is not a reason to lose it.<br><br>The function already waited out rate limits properly; it just raised on everything else. Server errors and network failures now get a bounded backoff, on a budget kept separate from rate limiting — a 429 is Discord telling you exactly how long to wait, which is different in kind from a blip to retry. A 4xx that isn't a rate limit still fails loudly, because that class of error means <em>we</em> are wrong, and retrying it just converts a clear failure into a slow one."
         }
       ]
     }
