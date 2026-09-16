@@ -104,12 +104,27 @@ def fmt_event_time(iso: str) -> str:
 
 # ── Discord REST ───────────────────────────────────────────────────────────────
 
+# Transient-failure budget for 5xx and network errors. 429 is handled separately
+# and is not counted against it — a rate limit is Discord telling us exactly how
+# long to wait, so waiting it out is correct rather than a retry to ration.
+MAX_TRANSIENT_RETRIES = 4
+
+
 def discord_get(path: str) -> list | dict:
+    """GET a Discord endpoint, retrying rate limits and transient failures.
+
+    This runs unattended as a daemon step, and an uncaught exception here fails
+    the step for the whole cycle. Before 2026-09-16 only 429 was handled, so a
+    single HTTP 500 from Discord — which happened once that day — took the step
+    down until the next cycle. A 4xx other than 429 still raises: that is our
+    bug (bad token, wrong guild) and should be loud, not retried.
+    """
     token = os.environ["DISCORD_BOT_TOKEN"]
     req = urllib.request.Request(
         f"{DISCORD_API}{path}",
         headers={"Authorization": f"Bot {token}", "User-Agent": "C3PO-Events/1.0"},
     )
+    transient = 0
     while True:
         try:
             with urllib.request.urlopen(req, timeout=20) as r:
@@ -118,8 +133,22 @@ def discord_get(path: str) -> list | dict:
             if e.code == 429:
                 body = json.loads(e.read())
                 time.sleep(float(body.get("retry_after", 1)) + 0.1)
-            else:
-                raise
+                continue
+            if 500 <= e.code < 600 and transient < MAX_TRANSIENT_RETRIES:
+                transient += 1
+                print(f"  Discord {e.code} on {path} — retry {transient}/{MAX_TRANSIENT_RETRIES}")
+                time.sleep(2 ** transient)
+                continue
+            raise
+        except OSError as e:
+            # URLError and socket timeouts both land here (both subclass OSError).
+            if transient < MAX_TRANSIENT_RETRIES:
+                transient += 1
+                print(f"  Discord network error on {path} ({e}) — "
+                      f"retry {transient}/{MAX_TRANSIENT_RETRIES}")
+                time.sleep(2 ** transient)
+                continue
+            raise
 
 
 def fetch_scheduled_events() -> list[dict]:
