@@ -739,6 +739,33 @@ function normalizeDevlog(match) {
   };
 }
 
+function normalizeSymposium(match) {
+  const m    = match.metadata;
+  const kind = m.chunk_type || "symposium_session";
+  const when = m.scheduled_date
+    ? m.scheduled_date + (m.scheduled_time_utc ? ` ${m.scheduled_time_utc} UTC` : "")
+    : "";
+  return {
+    docId:          match.id,
+    source:         "symposium",
+    score:          match.score,
+    type:           kind,
+    label:          "PROTOCOL SYMPOSIUM 2026",
+    title:          m.title || "Protocol Symposium 2026",
+    authors:        m.speakers ? m.speakers.split(", ").filter(Boolean) : [],
+    primary_author: m.speakers ? m.speakers.split(", ")[0] : "Protocol Institute",
+    date:           m.scheduled_date || "",
+    url:            m.url || "https://protocol-institute.org/events/protocol-symposium-2026/",
+    excerpt:        m.text || "",
+    track:          m.track || "",
+    session:        m.session || "",
+    scheduled_when: when,
+    isOverview:     kind === "symposium_overview",
+    isBlock:        kind === "symposium_block",
+    isWorkshop:     kind === "symposium_workshop",
+  };
+}
+
 function normalizeTranscript(match) {
   const m         = match.metadata;
   const botId     = m.bot_id || "c3po_bot";
@@ -771,7 +798,7 @@ function normalizeTranscript(match) {
 
 // ── Merge ──────────────────────────────────────────────────────────────────────
 
-function mergeResults(pdfItems, substackItems, videoItems, bibItems, discordItems, sigItems, webItems, defItems, metaItems, transcriptItems, maxSources) {
+function mergeResults(pdfItems, substackItems, videoItems, bibItems, discordItems, sigItems, webItems, defItems, metaItems, transcriptItems, symposiumItems, maxSources) {
   // Tier weights: PI primary sources at full value; community content (discord/sig) at lower weight.
   // discord starred: 0.85×; unstarred: 0.65×.
   // sig meeting summaries: 0.85×; body chunks: 0.75×; discussions/messages: 0.70×/0.60×.
@@ -805,6 +832,9 @@ function mergeResults(pdfItems, substackItems, videoItems, bibItems, discordItem
       const w = m.score >= 0.60 ? 1.10 : m.score >= TRANSCRIPT_CACHE_THRESHOLD ? 0.92 : 0.80;
       return { ...m, weightedScore: m.score * w };
     }),
+    // Symposium programme: PI primary material at full value, during the event and
+    // as archive afterwards — no event-week boost, so nothing to unwind on Sept 26.
+    ...(symposiumItems || []).map(m => ({ ...m, weightedScore: m.score * 1.0 })),
   ];
   const byId = new Map();
   for (const m of allItems) {
@@ -842,6 +872,14 @@ function buildContextBlock(items) {
       const sigName = item.sig_name || item.sig_display || "SIG";
       const typeLabel = item.isAudioSummary ? "AUDIO SUMMARY" : item.isAudioSection ? "AUDIO RECORDING" : item.isMeetingPage ? "MEETING PAGE" : item.isMeetingSummary ? "MEETING" : item.isMeetingBody ? "MEETING TRANSCRIPT" : item.isDiscussion ? "DISCUSSION" : "MESSAGE";
       label = `[${sigName} ${typeLabel}${item.title ? ` — "${item.title}"` : ""}${item.date ? " — " + item.date : ""}]`;
+    } else if (item.source === "symposium") {
+      const kind = item.isOverview ? "EVENT OVERVIEW"
+                 : item.isBlock    ? "SPECIAL SESSION"
+                 : item.isWorkshop ? "WORKSHOP DETAILS"
+                 : "PROGRAMME";
+      const who  = authors !== "Protocol Institute" ? ` — ${authors}` : "";
+      const when = item.scheduled_when ? ` — ${item.scheduled_when}` : "";
+      label = `[PROTOCOL SYMPOSIUM 2026 ${kind} — "${item.title}"${who}${when}]`;
     } else if (item.source === "devlog") {
       const sessionLabel = item.session_label ? ` — ${item.session_label}` : "";
       label = `[C3PO DEVLOG${sessionLabel}${item.date ? " — " + item.date : ""}]`;
@@ -851,6 +889,22 @@ function buildContextBlock(items) {
     }
     return `${label}\n${item.excerpt}`;
   }).join("\n\n---\n\n");
+}
+
+// ── Current time ───────────────────────────────────────────────────────────────
+// Goes in the USER message, never in SYSTEM_PROMPT: that block is sent with
+// cache_control: ephemeral, and a value that changes per request would miss the
+// prompt cache on every single query, symposium-related or not.
+// A Worker's clock is accurate wall-clock time and always UTC. (Cloudflare freezes
+// Date.now() during synchronous execution as a timing-attack mitigation, so it
+// advances only across I/O — irrelevant at minute granularity.)
+function currentTimeLine() {
+  const now = new Date();
+  const day = now.toLocaleDateString("en-US", {
+    weekday: "long", year: "numeric", month: "long", day: "numeric", timeZone: "UTC",
+  });
+  const hhmm = now.toISOString().slice(11, 16);
+  return `Current date and time: ${day}, ${hhmm} UTC.`;
 }
 
 // ── System prompt ──────────────────────────────────────────────────────────────
@@ -895,6 +949,7 @@ VOICE:
 - Specific about sources — name papers and authors when drawing on them. When synthesizing across multiple sources, say so. When going beyond the retrieved corpus, mark that clearly.
 - Honest about limits — when the corpus doesn't cover something, say so directly.
 - Non-political — engage with governance and power analytically, not polemically.
+- No calls to action — you recommend material and offer insight about it; you never tell people to register, sign up, apply, join, subscribe, buy, attend, or "get involved". Report facts about events and programs (dates, status, what happened) without turning them into invitations. If someone asks how to do one of those things, point them at the relevant page and stop there.
 - Complete your answer — if running long, finish your current paragraph concisely rather than beginning a new section you cannot complete. Never truncate mid-sentence.
 
 ANALYTICAL MOVES:
@@ -955,6 +1010,15 @@ paradigm refugees: Researchers excluded from formal recognition for working outs
 protocol stewardship: Tending relationships between actors and a protocol's evolutionary history — distinct from ownership or governance.
 strategic forgetting: Encoding knowledge into protocols to free working memory — the productivity gain and the fragility of tacit knowledge loss are the same thing.
 protocol-pilled: Having internalized the protocol paradigm — perceiving coordination mechanisms and hardness gradients across domains.
+
+CURRENT DATE AND TIME:
+Each question is prefixed with the current date and time in UTC. Use it whenever recency or ordering matters — which of two things came first, whether something is upcoming or past, how old a source is. Do not guess the date from the corpus; the excerpts are historical and say nothing about today.
+
+PROTOCOL SYMPOSIUM 2026:
+The Protocol Institute's annual convening, September 21-25 2026, fully virtual, on the theme of New Nature. Workshops run September 21-22; talks September 23-25, roughly 15:00-23:00 UTC daily. Programme excerpts are labelled PROTOCOL SYMPOSIUM 2026.
+- When recommending sessions someone could attend, prefer ones that have not yet happened relative to the current time given with the question. Sessions that have already run are still worth discussing, citing and connecting to other work — the restriction is on recommending them as things to go to, not on talking about them.
+- Where the programme gives a session no exact time, say which block it sits in rather than inventing one.
+- You are not a scheduling assistant. Answer about the programme's content, themes and connections; do not attempt precise agenda arithmetic or timezone conversion.
 
 CORPUS CONTEXT: The retrieved excerpts are from the Protocol Institute archive (research papers and essays, YouTube talks, Protocolized magazine articles, and externally cited references). Cite specific papers, authors, or talks when drawing on them.
 
@@ -3203,9 +3267,9 @@ const MCP_TOOLS = [
         query: { type: "string", description: "What to search for" },
         namespace: {
           type: "string",
-          enum: ["pdfs", "substack", "videos", "bibliography", "discord", "sig", "discord_links", "all"],
+          enum: ["pdfs", "substack", "videos", "bibliography", "discord", "sig", "discord_links", "symposium", "all"],
           default: "all",
-          description: "Corpus section to search. 'discord' = community discussions; 'sig' = SIG meeting archives; 'discord_links' = external articles shared in Discord. Default: all",
+          description: "Corpus section to search. 'discord' = community discussions; 'sig' = SIG meeting archives; 'discord_links' = external articles shared in Discord; 'symposium' = the Protocol Symposium 2026 programme. Default: all",
         },
         limit: {
           type: "integer", minimum: 1, maximum: 20, default: 10,
@@ -3253,7 +3317,7 @@ async function runMcpSearch(args, env) {
 
   const vec = await embed(query, env.VOYAGE_API_KEY);
 
-  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw] = await Promise.all([
+  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw, sympRaw] = await Promise.all([
     ["pdfs",           "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "pdfs")          : Promise.resolve([]),
     ["substack",       "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "substack")      : Promise.resolve([]),
     ["videos",         "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "videos")        : Promise.resolve([]),
@@ -3263,11 +3327,12 @@ async function runMcpSearch(args, env) {
     ["discord_links",  "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_LINKS, "discord_links") : Promise.resolve([]),
     ["definitions",    "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "definitions")   : Promise.resolve([]),
     ["meta",           "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 3,           "meta")          : Promise.resolve([]),
+    ["symposium",      "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "symposium")     : Promise.resolve([]),
   ]);
-  const retrievalDegraded = anyPineconeFailed(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw);
+  const retrievalDegraded = anyPineconeFailed(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw, sympRaw);
   await trackEgress(env,
-    totalEgressBytes(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw),
-    anyCached(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw));
+    totalEgressBytes(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw, sympRaw),
+    anyCached(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw, sympRaw));
 
   const items = mergeResults(
     pdfRaw.map(normalizePdf),
@@ -3279,7 +3344,8 @@ async function runMcpSearch(args, env) {
     webRaw.map(normalizeWebLink),
     defRaw.map(normalizeDefinition),
     metaRaw.map(normalizeDevlog),
-    [],
+    [],                                // transcriptItems — not exposed over MCP search
+    sympRaw.map(normalizeSymposium),
     limit,
   ).map(({ source, type, label, title, authors, primary_author, date, url, summary, excerpt,
            channel_name, sig_display, sig_name, isMeetingSummary, isMeetingBody, isDiscussion,
@@ -3304,7 +3370,7 @@ async function runMcpAsk(args, env, ctx) {
   const exchangeNum = Math.floor(history.length / 2) + 1;
   const vec = await embed(question, env.VOYAGE_API_KEY);
 
-  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2] = await Promise.all([
+  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2, sympRaw2, sympOverviewRaw2] = await Promise.all([
     queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "pdfs"),
     queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "substack"),
     queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "videos"),
@@ -3317,20 +3383,25 @@ async function runMcpAsk(args, env, ctx) {
     queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 3, "sig",
       { chunk_type: { "$eq": "sig_meeting_page" } }),
     queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 3, "transcripts"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "symposium"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 2, "symposium",
+      { chunk_type: { "$in": ["symposium_overview", "symposium_block"] } }),
   ]);
   const retrievalDegraded = anyPineconeFailed(
-    pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2
+    pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2, sympRaw2, sympOverviewRaw2
   );
   await trackEgress(env,
-    totalEgressBytes(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2),
-    anyCached(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2));
+    totalEgressBytes(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2, sympRaw2, sympOverviewRaw2),
+    anyCached(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2, sympRaw2, sympOverviewRaw2));
   const _sigPageIds2 = new Set(sigRaw.map(m => m.id));
   const sigAug = [...sigRaw, ...sigPageRaw.filter(m => !_sigPageIds2.has(m.id))];
+  const _sympIds2 = new Set(sympRaw2.map(m => m.id));
+  const sympAug2 = [...sympRaw2, ...sympOverviewRaw2.filter(m => !_sympIds2.has(m.id))];
 
   const transcriptItems2 = transcriptRaw2.map(normalizeTranscript);
   const cacheHits2       = transcriptItems2.filter(m => m.score >= TRANSCRIPT_CACHE_THRESHOLD && m.url);
 
-  const topItems     = mergeResults(pdfRaw.map(normalizePdf), subRaw.map(normalizeSubstack), vidRaw.map(normalizeVideo), bibRaw.map(normalizeBibliography), discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig), webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition), metaRaw2.map(normalizeDevlog), transcriptItems2, MAX_SOURCES);
+  const topItems     = mergeResults(pdfRaw.map(normalizePdf), subRaw.map(normalizeSubstack), vidRaw.map(normalizeVideo), bibRaw.map(normalizeBibliography), discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig), webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition), metaRaw2.map(normalizeDevlog), transcriptItems2, sympAug2.map(normalizeSymposium), MAX_SOURCES);
   const contextBlock = buildContextBlock(topItems);
   const sources      = topItems
     .filter(m => m.source !== "transcript")
@@ -3345,7 +3416,7 @@ async function runMcpAsk(args, env, ctx) {
 
   const messages = [
     ...history.map(t => ({ role: t.role, content: t.content })),
-    { role: "user", content: `Question: ${question}\n\nRelevant archive excerpts:\n\n${contextBlock}` },
+    { role: "user", content: `${currentTimeLine()}\n\nQuestion: ${question}\n\nRelevant archive excerpts:\n\n${contextBlock}` },
   ];
 
   const claudeRes = await fetch(CLAUDE_URL, {
@@ -3590,7 +3661,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   if (!voyageRes.ok) throw new Error("Embedding service error");
   const qv = (await voyageRes.json()).data[0].embedding;
 
-  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw] = await Promise.all([
+  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw, sympRaw, sympOverviewRaw] = await Promise.all([
     queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "pdfs"),
     queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "substack"),
     queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "videos"),
@@ -3605,13 +3676,21 @@ async function runRagQuery(query, env, ctx, opts = {}) {
     queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 3, "sig",
       { chunk_type: { "$eq": "sig_meeting_page" } }),
     queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 3, "transcripts"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "symposium"),
+    // The event overview and the four session blocks are a handful of chunks against
+    // 61 rich abstracts, so they lose a plain nearest-neighbour race. Same guarantee
+    // the sig_meeting_page sub-query provides.
+    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 2, "symposium",
+      { chunk_type: { "$in": ["symposium_overview", "symposium_block"] } }),
   ]);
   const retrievalDegraded = anyPineconeFailed(
-    pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw
+    pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw, sympRaw, sympOverviewRaw
   );
   // Ensure top sig_meeting_page results surface even when ranked below TOP_K_EACH in general sig query
   const sigPageIds = new Set(sigRaw.map(m => m.id));
   const sigAug = [...sigRaw, ...sigPageRaw.filter(m => !sigPageIds.has(m.id))];
+  const sympIds = new Set(sympRaw.map(m => m.id));
+  const sympAug = [...sympRaw, ...sympOverviewRaw.filter(m => !sympIds.has(m.id))];
 
   const pdfSummaryHits = pdfRaw.filter(m => m.metadata?.chunk_type === "doc_summary");
   const subSummaryHits = subRaw.filter(m => m.metadata?.chunk_type === "post_summary");
@@ -3657,8 +3736,8 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   // doc_summary/post_summary follow-up fetches (also queryNamespace calls) are
   // counted in the same request's egress total instead of silently excluded.
   await trackEgress(env,
-    totalEgressBytes(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw, ...secondary),
-    anyCached(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw));
+    totalEgressBytes(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw, sympRaw, sympOverviewRaw, ...secondary),
+    anyCached(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw, sympRaw, sympOverviewRaw));
 
   const transcriptItems = transcriptRaw.map(normalizeTranscript);
   const cacheHits = transcriptItems.filter(m => m.score >= TRANSCRIPT_CACHE_THRESHOLD && m.url);
@@ -3668,7 +3747,8 @@ async function runRagQuery(query, env, ctx, opts = {}) {
     vidAug.map(normalizeVideo), bibRaw.map(normalizeBibliography),
     discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig),
     webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition),
-    metaRaw3.map(normalizeDevlog), transcriptItems, MAX_SOURCES
+    metaRaw3.map(normalizeDevlog), transcriptItems,
+    sympAug.map(normalizeSymposium), MAX_SOURCES
   );
   const sources = topItems
     .filter(m => m.source !== "transcript")  // transcript cache hits surfaced separately
@@ -3693,7 +3773,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
       model:      CLAUDE_MODEL,
       max_tokens: maxTokens || parseInt(env.MAX_ANSWER_TOKENS || "2000"),
       system:     [{ type: "text", text: systemPrompt, cache_control: { type: "ephemeral" } }],
-      messages:   [...history, { role: "user", content: `Question: ${query}\n\nRelevant corpus excerpts:\n\n${contextBlock}` }],
+      messages:   [...history, { role: "user", content: `${currentTimeLine()}\n\nQuestion: ${query}\n\nRelevant corpus excerpts:\n\n${contextBlock}` }],
     }),
   });
   if (!claudeRes.ok) throw new Error("Oracle service error");
@@ -3955,7 +4035,7 @@ export default {
         if (!voyageRes.ok) return json({ error: "Embedding error" }, 502, corsHeaders);
         const qv = (await voyageRes.json()).data[0].embedding;
 
-        const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw] = await Promise.all([
+        const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, sympRaw] = await Promise.all([
           queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "pdfs"),
           queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "substack"),
           queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "videos"),
@@ -3964,11 +4044,12 @@ export default {
           queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "sig"),
           queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_LINKS, "discord_links"),
           queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "definitions"),
+          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "symposium"),
         ]);
-        const retrievalDegraded = anyPineconeFailed(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw);
+        const retrievalDegraded = anyPineconeFailed(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, sympRaw);
         await trackEgress(env,
-          totalEgressBytes(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw),
-          anyCached(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw));
+          totalEgressBytes(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, sympRaw),
+          anyCached(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, sympRaw));
         const sources = mergeResults(
           pdfRaw.map(normalizePdf),
           subRaw.map(normalizeSubstack),
@@ -3980,6 +4061,7 @@ export default {
           defRaw.map(normalizeDefinition),
           [],  // metaItems — /search doesn't query the meta namespace
           [],  // transcriptItems — sources-only endpoint, no transcript cache lookup
+          sympRaw.map(normalizeSymposium),
           MAX_SOURCES
         ).map(({ weightedScore, ...rest }) => rest);
 
