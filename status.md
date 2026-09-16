@@ -20,19 +20,20 @@
 
 **Pinecone:** 32,592 → 32,989 (+71 symposium, +1 devlog `meta`, rest organic).
 
-**Shipped:** website PR #13 (merged), PR #14 (open); c3po `e12cc7e` + plan commits pushed; worker deployed (version `d9518b92`); daemon pulled and restarted on `c3po-vm.exe.xyz`.
+**Shipped:** website PR #13 and PR #14 (both merged same day); c3po `e12cc7e` + plan commits pushed; worker deployed (version `d9518b92`); daemon pulled and restarted on `c3po-vm.exe.xyz`.
+
+**Post-merge, both website PRs were revised by another session, correctly.** PR #14's migration 035 lost my `AND scheduled_date IS NULL` guard, making it converge rather than skip — better, since `symposium_workshop_sessions` stays authoritative if a workshop's times move, where my version would have left a stale anchor. And `3ffdc6c` closed a latent risk **PR #13 introduced**: `is_owner` makes those four GETs return different fields to an admin, an owner, a member and an anonymous caller, so a cache in front of the zone could replay one caller's variant to another. Now `Cache-Control: private, no-store`, centralised in `_shared/response.js`. Same commit replaced root-directory `wrangler pages deploy .` with a `git archive` export, since Pages ignores `.gitignore` and would have published `inbox/` and `backups/`. The workshop UI work from #14 survived intact. With the anchors live, the 5 workshop chunks re-synced (metadata only — their embedded text already derived dates from `workshop_sessions`, so the text was already correct).
 
 **Open TODOs (priority order):**
-1. **Merge website PR #14** — workshop anchor dates + Workshops tab day headings.
-2. **Rotate `C3PO_VM_GH_TOKEN` and `C3PO_ACTIONS_GH_TOKEN`** — carried from session 53; values were exposed into that session's transcript, VGR deferred.
-3. **Phase B (symposium slide decks) is planned but deliberately not run** — VGR triggers it. Proposed Sept 19-20 for a first pass, then again post-event for finals. Drive folder has 27 entries against 61 programme items; the hard part is deck→talk matching (`TMDTS-Speaker-Notes.pdf` is Lohse's "Time Moves Down the Stack"; `The House that Governs Itself.pdf` matches no programme title).
-4. **Watch the first unattended website PR cycle** (carried from session 53).
-5. **Push the `admin` repo** — 3 local commits awaiting VGR.
-6. Phase 2 of `plans/vm-credential-hardening.md` — services still run as `exedev` with passwordless sudo.
-7. Revoke `GH_PAT` in `../.env.keys` after confirming it is not the laptop keyring's value.
-8. A stash sits on the VM (`daemon last_seen churn before symposium pull 2026-09-16`) — pure regenerated timestamps, safe to drop.
-9. **The devlog page is about to hit its D1 body cap** — `generate_devlog_page.py` renders 88,985 chars against `MAX_BODY_CHARS = 90_000`, so session 55 will start dropping the earliest sessions from the published page. Not silent (it prepends an "Earlier sessions omitted" notice) and retrieval is unaffected (the `meta` namespace holds every session independently), but the public build log will stop being complete. Wants a real fix — pagination, or splitting by year.
-10. Everything else carried from session 53 (pipeline consistency check, MCP `ask_c3po` hardening, `discord_links` snapshot decision, stuck `enrich_discord_links` links, duplicated SIG registries, Roam inbox file).
+1. **Rotate `C3PO_VM_GH_TOKEN` and `C3PO_ACTIONS_GH_TOKEN`** — carried from session 53; values were exposed into that session's transcript, VGR deferred.
+2. **Phase B (symposium slide decks) is planned but deliberately not run** — VGR triggers it. Proposed Sept 19-20 for a first pass, then again post-event for finals. Drive folder has 27 entries against 61 programme items; the hard part is deck→talk matching (`TMDTS-Speaker-Notes.pdf` is Lohse's "Time Moves Down the Stack"; `The House that Governs Itself.pdf` matches no programme title).
+3. **Watch the first unattended website PR cycle** (carried from session 53).
+4. **Push the `admin` repo** — 3 local commits awaiting VGR.
+5. Phase 2 of `plans/vm-credential-hardening.md` — services still run as `exedev` with passwordless sudo.
+6. Revoke `GH_PAT` in `../.env.keys` after confirming it is not the laptop keyring's value.
+7. A stash sits on the VM (`daemon last_seen churn before symposium pull 2026-09-16`) — pure regenerated timestamps, safe to drop.
+8. **The devlog page is about to hit its D1 body cap** — `generate_devlog_page.py` renders 88,985 chars against `MAX_BODY_CHARS = 90_000`, so session 55 will start dropping the earliest sessions from the published page. Not silent (it prepends an "Earlier sessions omitted" notice) and retrieval is unaffected (the `meta` namespace holds every session independently), but the public build log will stop being complete. Wants a real fix — pagination, or splitting by year.
+9. Everything else carried from session 53 (pipeline consistency check, MCP `ask_c3po` hardening, `discord_links` snapshot decision, stuck `enrich_discord_links` links, duplicated SIG registries, Roam inbox file).
 
 ---
 
