@@ -390,7 +390,7 @@ PINECONE_WRITE_STEPS = {
     "sync_discord_channels", "sync_discord_events", "sync_discord",
     "fetch_discord_links", "enrich_discord_links", "sync_sig",
     "sync_meeting_notes", "sync_sig_pages", "sync_bot_conversations", "sync_web_chats",
-    "sync_devlog", "sync_symposium",
+    "sync_devlog", "sync_symposium", "sync_symposium_decks",
 }
 
 # Steps that only read from Pinecone (idx.list()/fetch()) — skipped while a
@@ -430,6 +430,11 @@ def run_sync(cycle: int) -> None:
         # hashed per record, so a cycle where the programme has not moved costs one
         # API call and no embeddings. See plans/symposium-ingest.md.
         ("sync_symposium",           [VENV_PY, "ingest/sync_symposium.py"]),
+        # Symposium slide decks from the public Drive folder. --daemon makes it
+        # self-throttle to every 6h: decks change a few times a week and VGR set
+        # freshness as explicitly relaxed, so scraping the folder 48x a day would
+        # be pointless traffic. See plans/symposium-ingest.md Phase B.
+        ("sync_symposium_decks",     [VENV_PY, "ingest/sync_symposium_decks.py", "--daemon"]),
         ("sync_bot_conversations",   [VENV_PY, "ingest/sync_bot_conversations.py"]),
         ("sync_web_chats",           [VENV_PY, "ingest/sync_web_chats.py"]),
         ("sync_devlog",              [VENV_PY, "ingest/sync_devlog.py"]),
