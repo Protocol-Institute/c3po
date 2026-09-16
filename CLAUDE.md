@@ -93,18 +93,19 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 
 | Namespace | Vectors | Notes |
 |-----------|---------|-------|
-| `discord_links` | 12,689 | Community-shared URLs, scored by Haiku |
-| `sig` | 7,874 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 7 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG, PRG (Personhood Research Group — audio only, no Discord channel) |
-| `discord` | 5,901 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
+| `discord_links` | 12,822 | Community-shared URLs, scored by Haiku |
+| `sig` | 8,032 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 7 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG, PRG (Personhood Research Group — audio only, no Discord channel) |
+| `discord` | 5,912 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
 | `videos` | 3,127 | YouTube talks (97 videos) |
-| `substack` | 1,220 | Protocolized magazine |
+| `substack` | 1,240 | Protocolized magazine |
 | `pdfs` | 765 | 85 papers/essays (`sources/pdfs/enriched_meta.json`) |
 | `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
 | `bibliography` | 278 | External works cited by PI corpus |
-| `discord_guide` | 76 | Scoped per [`plans/discord-guide-scope.md`](plans/discord-guide-scope.md): excludes transient/admin channels (MOD, Server Link Feed, introductions/bugs/announcements); archived-read-only channels embed once then freeze; SIG channels include cadence + next_event_time |
-| `meta` | 53 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
-| `transcripts` | 49 | Bot conversation self-memory: web + Discord Q&A |
-| **Total** | **32,592** | |
+| `discord_guide` | 77 | Scoped per [`plans/discord-guide-scope.md`](plans/discord-guide-scope.md): excludes transient/admin channels (MOD, Server Link Feed, introductions/bugs/announcements); archived-read-only channels embed once then freeze; SIG channels include cadence + next_event_time |
+| `meta` | 55 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
+| `transcripts` | 50 | Bot conversation self-memory: web + Discord Q&A |
+| `symposium` | 71 | Protocol Symposium 2026 programme (`symposium_overview`, `symposium_block`, `symposium_session`, `symposium_workshop`); see [`plans/symposium-ingest.md`](plans/symposium-ingest.md) |
+| **Total** | **32,989** | |
 
 ## Key Ingest Scripts
 
@@ -124,6 +125,7 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 | `ingest/sync_bot_conversations.py` | Discord bot spool → `transcripts` | `data/spool/bot_conversations/` |
 | `ingest/sync_web_chats.py` | Public web chats → `transcripts` | `data/web_chats_state.json` |
 | `ingest/sync_devlog.py` | Devlog sessions → `meta` namespace | `data/devlog_state.json` |
+| `ingest/sync_symposium.py` | Protocol Symposium 2026 programme → `symposium` namespace | `data/symposium_state.json` |
 | `ingest/generate_devlog_page.py` | Render devlog → D1 slug `c3po-devlog` | `data/devlog_page_state.json` |
 
 All run automatically via `bin/daemon.py` (c3po_listener). Run manually with `--dry-run` to preview.

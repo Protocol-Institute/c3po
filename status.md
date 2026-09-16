@@ -1,5 +1,41 @@
 # C3PO — Status Log
 
+## 2026-09-16 11:00-12:15 PT — Symposium programme ingested; c3po given a clock; two PII leaks closed on the website (session 54)
+
+**Session-start checks:** vectors 32,592 → 32,891 (organic). Substack 0 new / 0 edited. No intro-quality issues. Cost $3.63 last 7 days / $29.75 all-time; `sync_sig` still ~98% of spend. Laptop clone was 171 commits behind (routine `[daemon]` syncs); fast-forwarded. Website PR #11 merged since session 53, closing that TODO.
+
+**Found two PII leaks while orienting on the symposium programme, and closed both (website PR #13, merged).** `GET /api/symposium/proposals` used `SELECT p.*` and is public and unauthenticated, so one anonymous request returned **51 distinct speaker/organizer/host email addresses**, each submitter's private `comments` note to the organizers, and the member vote aggregates from shortlisting. `GET /api/symposium/proposals/:id` did the same per record and `GET /api/symposium/sessions/:slug` returned each session host's `owner_email`. Sweeping for the same shape found a fourth: `GET /api/projects/:slug` leaked `submitted_by` and `admin_notes`. The addresses were genuinely used — but only so the front end could compare the logged-in address against the record's to decide whether to show an edit button, so that moves server-side as a computed `is_owner` flag. **Nine pages had their own copy of that comparison** (programme index, 4 session pages, 5 workshop pages); the sweep is the only reason narrowing the payload didn't break them. The list now projects through an explicit `PUBLIC_FIELDS` allowlist rather than `p.*` — `host3_email`..`host5_email` had joined the public payload automatically when migration 033 added them, which is exactly what an allowlist prevents. Verified against `wrangler pages dev` with a seeded local D1.
+
+**Workshop dates (website PR #14, open).** VGR asked for workshop dates to be added; they already existed and already rendered per session. The two real gaps: workshop *proposal rows* had NULL `scheduled_date` (migration 035 anchors each to its first session), and the Workshops tab had no day headings or card date line unlike the Talks tab. Cards now state the span ("Monday, September 21 – Tuesday, September 22 · 4 sessions") rather than a single misleading date, since every workshop runs both days.
+
+**Symposium ingest, Phase A (`plans/symposium-ingest.md`).** 71 chunks into a new `symposium` namespace from the D1-backed public API — not the rendered page, which would have reproduced the own-content-snapshot failure. 1 overview, 4 special-session blocks, 61 sessions, 5 workshop-detail chunks carrying the `audience`/`takeaways`/`activities` fields that never appear in full on the page. Content-hashed per record; changed records have their old vectors deleted before re-upsert. The ingest works from its own field allowlist regardless of PR #13, and a second guard refuses to embed any chunk containing an email at all — verified it fires on both the text and metadata paths.
+
+**Scope was narrowed twice by VGR mid-session, and the plan was cut down each time.** First: a programme *content oracle*, not a scheduling app — the only temporal requirement is not recommending talks that have already happened. That killed the 2KB schedule-digest injection and the per-day grid chunks from the first draft. Second: after the event the namespace is ordinary archival material at the same 1.0× (no decay to unwind), and the bot issues **no calls to action** of any kind, corpus-wide — recorded as a VOICE rule, not a symposium patch.
+
+**c3po had no idea what day it was, on any path.** `SYSTEM_PROMPT` is a static template literal and the user message was `Question: {q}` plus excerpts; no date reached the model from web, Discord or MCP. **Corrected a working assumption in the process: answers do not come from the VM** — `bin/c3po_bot.py:50` posts to `c3po.protocolized.io/query`, so the VM runs the daemon and the Discord *gateway* while the Cloudflare Worker generates every answer. One fix site, not three. The timestamp goes in the **user message**, never `SYSTEM_PROMPT`: that block carries `cache_control: ephemeral`, and a per-request value there would miss the prompt cache on every query c3po serves.
+
+**Two bugs caught during implementation.** Adding a `symposiumItems` parameter to `mergeResults()` silently broke the MCP search call site, which would then have passed `limit` where an array was expected. And the first live test hallucinated SIG expansions — "Drama Research Group" for DRG, "Psychology SIG" for SIGPSY — because normalizing `DRG (Distributed Robotics Group)` to `DRG` had stripped the expansion and left the model guessing; the embedded text now carries the full name from `SIG_NAMES` while metadata keeps the bare key for filtering.
+
+**Verified live after deploy:** correct event summary noting it is "still upcoming as of September 16"; recommendations that flag sessions as upcoming and connect them to MRG archive material; no CTA phrasing when asked point-blank how to register and whether to join the Discord; no symposium leakage into an unrelated hardness/Pip question. Daemon on the VM restarted (step list is read at process start) and logged `✓ sync_symposium done`, `18/18 steps OK`. As the exe.dev lesson predicted, the gitignored state file meant the VM re-embedded all 71 on its first cycle — one-time, and the deterministic vector IDs meant no duplication.
+
+**Pinecone:** 32,592 → 32,989 (+71 symposium, +1 devlog `meta`, rest organic).
+
+**Shipped:** website PR #13 (merged), PR #14 (open); c3po `e12cc7e` + plan commits pushed; worker deployed (version `d9518b92`); daemon pulled and restarted on `c3po-vm.exe.xyz`.
+
+**Open TODOs (priority order):**
+1. **Merge website PR #14** — workshop anchor dates + Workshops tab day headings.
+2. **Rotate `C3PO_VM_GH_TOKEN` and `C3PO_ACTIONS_GH_TOKEN`** — carried from session 53; values were exposed into that session's transcript, VGR deferred.
+3. **Phase B (symposium slide decks) is planned but deliberately not run** — VGR triggers it. Proposed Sept 19-20 for a first pass, then again post-event for finals. Drive folder has 27 entries against 61 programme items; the hard part is deck→talk matching (`TMDTS-Speaker-Notes.pdf` is Lohse's "Time Moves Down the Stack"; `The House that Governs Itself.pdf` matches no programme title).
+4. **Watch the first unattended website PR cycle** (carried from session 53).
+5. **Push the `admin` repo** — 3 local commits awaiting VGR.
+6. Phase 2 of `plans/vm-credential-hardening.md` — services still run as `exedev` with passwordless sudo.
+7. Revoke `GH_PAT` in `../.env.keys` after confirming it is not the laptop keyring's value.
+8. A stash sits on the VM (`daemon last_seen churn before symposium pull 2026-09-16`) — pure regenerated timestamps, safe to drop.
+9. **The devlog page is about to hit its D1 body cap** — `generate_devlog_page.py` renders 88,985 chars against `MAX_BODY_CHARS = 90_000`, so session 55 will start dropping the earliest sessions from the published page. Not silent (it prepends an "Earlier sessions omitted" notice) and retrieval is unaffected (the `meta` namespace holds every session independently), but the public build log will stop being complete. Wants a real fix — pagination, or splitting by year.
+10. Everything else carried from session 53 (pipeline consistency check, MCP `ask_c3po` hardening, `discord_links` snapshot decision, stuck `enrich_discord_links` links, duplicated SIG registries, Roam inbox file).
+
+---
+
 ## 2026-09-12 15:30–16:20 PT — Website PR flow found broken since it went live; fixed two stacked bugs (session 53)
 
 **Session-start checks:** vectors 32,213 → 32,592 (organic). Substack 0 new / 0 edited. No intro-quality issues. Cost (read from VM): $5.57 last 7 days / $28.44 all-time; `sync_sig` still ~99% of spend. Laptop clone was 136 commits behind (routine `[daemon]` syncs); fast-forwarded clean. Only pending inbox item: `c3po_inbox/ProtocolTheory-2026-06-17-14-32-07.json` (SIGFPT Roam export) — confirmed with VGR to keep, not discard, despite having quietly dropped off the carried-TODO list after session 48.
