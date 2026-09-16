@@ -104,8 +104,8 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 | `discord_guide` | 77 | Scoped per [`plans/discord-guide-scope.md`](plans/discord-guide-scope.md): excludes transient/admin channels (MOD, Server Link Feed, introductions/bugs/announcements); archived-read-only channels embed once then freeze; SIG channels include cadence + next_event_time |
 | `meta` | 55 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
 | `transcripts` | 50 | Bot conversation self-memory: web + Discord Q&A |
-| `symposium` | 251 | Protocol Symposium 2026 programme (`symposium_overview`, `symposium_block`, `symposium_session`, `symposium_workshop`) + slide decks (`symposium_slides`, 21 decks); see [`plans/symposium-ingest.md`](plans/symposium-ingest.md) |
-| **Total** | **33,169** | |
+| `symposium` | 273 | Protocol Symposium 2026 programme (`symposium_overview`, `symposium_block`, `symposium_session`, `symposium_workshop`) + slide decks (`symposium_slides`, 25 of 30 files; 5 are stubs awaiting content); see [`plans/symposium-ingest.md`](plans/symposium-ingest.md) |
+| **Total** | **33,193** | |
 
 ## Key Ingest Scripts
 

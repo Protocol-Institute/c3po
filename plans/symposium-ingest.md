@@ -234,10 +234,22 @@ lucky at `TOP_K_EACH`. Fire a parallel filtered sub-query for it, the way
 
 ## Phase B — slide decks (SHIPPED 2026-09-16, `ingest/sync_symposium_decks.py`)
 
-**Outcome:** 30 files in the folder tree; 26 matched, 21 embedded, 5 are stubs or
-image-only PDFs, 4 escalated for review. No credential needed — the folder is
-world-readable and its page embeds its own inventory. Re-run it after the event
-to capture finals.
+**Outcome:** 30 files in the folder tree; **all 30 resolved**, 25 embedded, 5 are
+stubs holding only a title slide. No credential needed — the folder is
+world-readable and its page embeds its own inventory. Re-run after the event to
+capture finals; the stubs ingest themselves once speakers fill them in.
+
+**Image-only PDFs are handled, not skipped.** Two decks were slides exported as
+images — 15 and 14 pages, zero characters in any text layer. Claude accepts a
+PDF directly as a document block and does vision on the pages, so this needs no
+rasteriser and no OCR engine: a PDF yielding under 200 chars from pdfplumber
+falls through to `extract_pdf_via_vision()` (claude-sonnet-5, transcription
+prompt, cost-logged). 20K characters recovered for $0.16. The same path covers
+any future scanned or exported-as-image deck.
+
+**A deck covering two talks is attached once**, with a header naming both and
+the second slug in `also_slugs`. Embedding it per-talk would put duplicate
+chunks in the index competing for the same retrieval slots.
 
 Drive folder `1lyX7G4sKcZRNmHNN7EULT29SSwxK8J69`. As of 2026-09-16 it holds
 **27 entries — 4 subfolders and 23 files** — against 61 program items, so
