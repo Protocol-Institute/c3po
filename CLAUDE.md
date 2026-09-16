@@ -104,8 +104,8 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 | `discord_guide` | 77 | Scoped per [`plans/discord-guide-scope.md`](plans/discord-guide-scope.md): excludes transient/admin channels (MOD, Server Link Feed, introductions/bugs/announcements); archived-read-only channels embed once then freeze; SIG channels include cadence + next_event_time |
 | `meta` | 55 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
 | `transcripts` | 50 | Bot conversation self-memory: web + Discord Q&A |
-| `symposium` | 71 | Protocol Symposium 2026 programme (`symposium_overview`, `symposium_block`, `symposium_session`, `symposium_workshop`); see [`plans/symposium-ingest.md`](plans/symposium-ingest.md) |
-| **Total** | **32,989** | |
+| `symposium` | 251 | Protocol Symposium 2026 programme (`symposium_overview`, `symposium_block`, `symposium_session`, `symposium_workshop`) + slide decks (`symposium_slides`, 21 decks); see [`plans/symposium-ingest.md`](plans/symposium-ingest.md) |
+| **Total** | **33,169** | |
 
 ## Key Ingest Scripts
 
@@ -126,6 +126,7 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 | `ingest/sync_web_chats.py` | Public web chats → `transcripts` | `data/web_chats_state.json` |
 | `ingest/sync_devlog.py` | Devlog sessions → `meta` namespace | `data/devlog_state.json` |
 | `ingest/sync_symposium.py` | Protocol Symposium 2026 programme → `symposium` namespace | `data/symposium_state.json` |
+| `ingest/sync_symposium_decks.py` | Symposium slide decks from the public Drive folder → `symposium` namespace (self-throttles to 6h under `--daemon`) | `data/symposium_decks_state.json` |
 | `ingest/generate_devlog_page.py` | Render devlog → D1 slug `c3po-devlog` | `data/devlog_page_state.json` |
 
 All run automatically via `bin/daemon.py` (c3po_listener). Run manually with `--dry-run` to preview.

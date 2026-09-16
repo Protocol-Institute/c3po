@@ -31,7 +31,7 @@ recordings land).
 | Phase | Content | When | Blocker |
 |---|---|---|---|
 | **A** | Program metadata — 61 talks/workshops/interactives, 4 special sessions | **Before Sept 21** | none; data is live now |
-| **B** | Slide decks and speaker docs from the Drive folder | On VGR's word — **not yet run** | decks are early drafts; Drive credential |
+| **B** | Slide decks and speaker docs from the Drive folder | **Done 2026-09-16** — 21 decks, `symposium_slides` | — |
 | **C** | Recordings and transcripts | After Sept 25 | recordings do not exist yet |
 
 The phases share one namespace and one identity scheme so that a deck and its
@@ -232,7 +232,12 @@ against 61 rich abstracts, so "what is the symposium" would depend on getting
 lucky at `TOP_K_EACH`. Fire a parallel filtered sub-query for it, the way
 `sig_meeting_page` already does.
 
-## Phase B — slide decks (PLANNED ONLY, do not run yet)
+## Phase B — slide decks (SHIPPED 2026-09-16, `ingest/sync_symposium_decks.py`)
+
+**Outcome:** 30 files in the folder tree; 26 matched, 21 embedded, 5 are stubs or
+image-only PDFs, 4 escalated for review. No credential needed — the folder is
+world-readable and its page embeds its own inventory. Re-run it after the event
+to capture finals.
 
 Drive folder `1lyX7G4sKcZRNmHNN7EULT29SSwxK8J69`. As of 2026-09-16 it holds
 **27 entries — 4 subfolders and 23 files** — against 61 program items, so
