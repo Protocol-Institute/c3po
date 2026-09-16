@@ -1,5 +1,43 @@
 [
   {
+    "id": 215696083,
+    "slug": "the-ductus-of-protocol-fiction",
+    "title": "The Ductus of Protocol Fiction",
+    "subtitle": "An update from our Protocol Fiction SIG takes us under the hood of the emerging genre",
+    "post_date": "2026-09-15T20:22:03.376Z",
+    "updated_at": "2026-09-15T20:24:42.034Z",
+    "type": "newsletter",
+    "wordcount": 6227,
+    "section_id": 333110,
+    "section_name": "Articles",
+    "postTags": [
+      {
+        "id": "900bcfa4-14d5-4952-a7b8-de631ad228b0",
+        "name": "SIGFIC",
+        "slug": "sigfic"
+      }
+    ],
+    "publishedBylines": [
+      {
+        "id": 309697450,
+        "name": "Spencer Nitkey",
+        "handle": "spencernitkeywriting",
+        "bio": "Stories in Apex, Asimov Press, Nature, Lightspeed, The Adroit Journal, and many others."
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 7,
+    "restacks": 6,
+    "comment_count": 0,
+    "previous_post_slug": "trust-by-protocol",
+    "next_post_slug": null
+  },
+  {
     "id": 213726759,
     "slug": "trust-by-protocol",
     "title": "Trust by Protocol ",
@@ -25,11 +63,11 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 2,
-    "restacks": 0,
-    "comment_count": 1,
+    "reaction_count": 3,
+    "restacks": 2,
+    "comment_count": 2,
     "previous_post_slug": "protocol-symposium-2026-registration",
-    "next_post_slug": null
+    "next_post_slug": "the-ductus-of-protocol-fiction"
   },
   {
     "id": 212808174,
@@ -266,7 +304,7 @@
       }
     ],
     "reaction_count": 38,
-    "restacks": 9,
+    "restacks": 10,
     "comment_count": 11,
     "previous_post_slug": "challenges-trivial-grand-and-whitehead",
     "next_post_slug": "jamverse-jam-contest-closes-today"
@@ -616,7 +654,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 11,
+    "reaction_count": 12,
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "2026-protocol-symposium-new-nature",
@@ -5896,7 +5934,7 @@
         "id": 2409831,
         "name": "PAtwater",
         "handle": "patwater",
-        "bio": "Talks about water, infrastructure, smart cities, climate action and the pioneering spirit that makes CA awesome. Blogs super serially at PioneeringSpirit.xyz (no that's not on substack hehehe)."
+        "bio": "Talks about water, infrastructure, smart cities, climate action and the pioneering spirit that makes CA awesome. Blogs super serially at PioneeringSpirit.xyz (no that's not on substack hehehe). Personal views. "
       },
       {
         "id": 309790256,
