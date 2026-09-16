@@ -31,7 +31,7 @@ recordings land).
 | Phase | Content | When | Blocker |
 |---|---|---|---|
 | **A** | Program metadata — 61 talks/workshops/interactives, 4 special sessions | **Before Sept 21** | none; data is live now |
-| **B** | Slide decks and speaker docs from the Drive folder | On VGR's word | decks are early drafts; Drive credential |
+| **B** | Slide decks and speaker docs from the Drive folder | On VGR's word — **not yet run** | decks are early drafts; Drive credential |
 | **C** | Recordings and transcripts | After Sept 25 | recordings do not exist yet |
 
 The phases share one namespace and one identity scheme so that a deck and its
@@ -304,20 +304,31 @@ file and deletes those. Phase B must do the same.
 **Subfolders.** 4 of the 27 entries are folders, so the listing has to recurse.
 A file moving between folders keeps its id, which is another reason to key on id.
 
-### The update cases this does not yet solve
+### The update cases — resolved by VGR, session 54
 
-1. **Replace-in-place vs. new-file-alongside.** People frequently upload
-   `deck v2.pptx` next to `deck.pptx` instead of overwriting. Both then match the
-   same talk. Proposed rule: newest `modifiedTime` wins per talk, older chunks
-   pruned — but it must be **surfaced**, because sometimes two files genuinely
-   belong to one talk. `katz_entrenching_privacy_through_speech.pptx` and
+1. **Multiple files matching one talk — escalate, never auto-resolve.** People
+   upload `deck v2.pptx` next to `deck.pptx` rather than overwriting, so two
+   files match one talk. A newest-wins rule is wrong often enough to be unsafe:
+   `katz_entrenching_privacy_through_speech.pptx` and
    `katz_on_speech_and_privacy.docx` are visibly a slides+notes pair, not a
-   superseded draft, and a newest-wins rule would silently discard half of it.
-2. **Mid-event lag.** A speaker revising slides 20 minutes before their talk is a
-   cycle behind at 30-minute cadence. Probably acceptable for a content oracle —
-   worth deciding rather than discovering.
-3. **What "final" means.** The `is_final` flag needs a trigger. Simplest is a
-   manual post-event pass; anything automatic has to guess when churn has stopped.
+   superseded draft, and newest-wins would silently discard half of it.
+   **VGR's call: escalate conflicts to him.** Multi-file matches go to the same
+   review queue as unmatched decks; the run reports them and continues with what
+   it can resolve unambiguously. Nothing is discarded on a guess.
+
+2. **Freshness is explicitly relaxed.** VGR: "no need to be super on time in
+   catching up with edits." A speaker revising slides shortly before their talk
+   may be a cycle behind, and that is fine for a content oracle.
+   **Consequence worth taking: Phase B does not need to be a 30-minute daemon
+   step at all.** Daily, or manual-on-trigger, is enough — which removes most of
+   the pressure from the change-detection design above, cuts Drive API traffic to
+   a trickle, and avoids adding a step that downloads large files to the same
+   cycle that already carries `sync_sig`. The two-level scheme still earns its
+   place at daily cadence; it just stops being load-bearing.
+
+3. **What "final" means** — still open. The `is_final` flag needs a trigger.
+   Simplest is a manual post-event pass; anything automatic has to guess when
+   churn has stopped. Lowest priority of the three.
 
 ### Mechanics to settle before running
 
