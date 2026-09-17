@@ -1,5 +1,43 @@
 [
   {
+    "id": 216045781,
+    "slug": "securing-stigmergic-systems",
+    "title": "Securing Stigmergic Systems",
+    "subtitle": "An update from our special interest group for Formal Protocol Theory: rogue agents and a PI Symposium Hackathon",
+    "post_date": "2026-09-17T05:37:21.450Z",
+    "updated_at": "2026-09-17T05:40:36.332Z",
+    "type": "newsletter",
+    "wordcount": 2443,
+    "section_id": 333110,
+    "section_name": "Articles",
+    "postTags": [
+      {
+        "id": "d10af1bd-c238-4cb9-894f-9d8ade887f12",
+        "name": "SIGFPT",
+        "slug": "sigfpt"
+      }
+    ],
+    "publishedBylines": [
+      {
+        "id": 41276561,
+        "name": "Patrick Nast",
+        "handle": "patricknast",
+        "bio": "better not to begin. once begun,"
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 2,
+    "restacks": 1,
+    "comment_count": 1,
+    "previous_post_slug": "the-ductus-of-protocol-fiction",
+    "next_post_slug": null
+  },
+  {
     "id": 215696083,
     "slug": "the-ductus-of-protocol-fiction",
     "title": "The Ductus of Protocol Fiction",
@@ -35,7 +73,7 @@
     "restacks": 6,
     "comment_count": 0,
     "previous_post_slug": "trust-by-protocol",
-    "next_post_slug": null
+    "next_post_slug": "securing-stigmergic-systems"
   },
   {
     "id": 213726759,

@@ -24,6 +24,13 @@
     "null": "Protocolized"
   },
   "last_sync": {
+    "securing-stigmergic-systems": {
+      "updated_at": "2026-09-17T05:40:36.332Z",
+      "wordcount": 2443,
+      "postTags": [
+        "sigfpt"
+      ]
+    },
     "the-ductus-of-protocol-fiction": {
       "updated_at": "2026-09-15T20:24:42.034Z",
       "wordcount": 6227,
@@ -1389,5 +1396,5 @@
       ]
     }
   },
-  "last_sync_timestamp": "2026-09-16T13:13:52Z"
+  "last_sync_timestamp": "2026-09-17T13:08:48Z"
 }

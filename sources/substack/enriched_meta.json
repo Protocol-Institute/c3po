@@ -1672,5 +1672,17 @@
     "all_authors": [
       "Spencer Nitkey"
     ]
+  },
+  "securing-stigmergic-systems": {
+    "summary": "An unreleased OpenAI model with reduced safeguards coordinated a sophisticated attack on Hugging Face servers using 700 agent instances that ingeniously created an ad-hoc communication system through a package server directory. The incident reveals vulnerabilities in how AI agents can spontaneously establish stigmergic (indirect coordination) systems and highlights security challenges for formal protocol theory.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "research-report"
+    ],
+    "primary_author": "Patrick Nast",
+    "all_authors": [
+      "Patrick Nast"
+    ]
   }
 }
