@@ -86,8 +86,8 @@
       "source": "substack",
       "author": "Kei Kreutler",
       "label": "ESSAY",
-      "count": 12,
-      "last_seen": "2026-09-08",
+      "count": 13,
+      "last_seen": "2026-09-17",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/introducing-the-protocol-institute": {
@@ -246,8 +246,8 @@
       "source": "pdf",
       "author": "Kei Kreutler",
       "label": "PAPER",
-      "count": 1,
-      "last_seen": "2026-06-18",
+      "count": 2,
+      "last_seen": "2026-09-17",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/memory-research-group-six-months": {
@@ -596,8 +596,8 @@
       "source": "symposium",
       "author": "Aneesh Sathe",
       "label": "PROTOCOL SYMPOSIUM 2026",
-      "count": 1,
-      "last_seen": "2026-09-16",
+      "count": 2,
+      "last_seen": "2026-09-17",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/time-to-die": {
@@ -693,8 +693,8 @@
       "name": "🫆-personhood-research-group",
       "display": "#🫆-personhood-research-group",
       "sig_display": "",
-      "count": 5,
-      "last_seen": "2026-09-12"
+      "count": 6,
+      "last_seen": "2026-09-17"
     }
   }
 }
