@@ -326,8 +326,8 @@
       "source": "substack",
       "author": "Spencer Nitkey",
       "label": "FICTION",
-      "count": 6,
-      "last_seen": "2026-09-06",
+      "count": 7,
+      "last_seen": "2026-09-18",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/signals-in-the-margins": {
@@ -609,6 +609,26 @@
       "count": 1,
       "last_seen": "2026-09-16",
       "is_fallback": false
+    },
+    "https://protocol-institute.org/events/protocol-symposium-2026/program/workshops/beyond-the-artwork-designing-protocols-as-art/": {
+      "title": "Beyond the Artwork: Designing Protocols as Art",
+      "url": "https://protocol-institute.org/events/protocol-symposium-2026/program/workshops/beyond-the-artwork-designing-protocols-as-art/",
+      "source": "symposium",
+      "author": "Primavera De Filippi",
+      "label": "PROTOCOL SYMPOSIUM 2026",
+      "count": 1,
+      "last_seen": "2026-09-18",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/the-ductus-of-protocol-fiction": {
+      "title": "The Ductus of Protocol Fiction",
+      "url": "https://protocolized.summerofprotocols.com/p/the-ductus-of-protocol-fiction",
+      "source": "substack",
+      "author": "Spencer Nitkey",
+      "label": "ESSAY",
+      "count": 1,
+      "last_seen": "2026-09-18",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -637,8 +657,8 @@
       "name": "👾-protocol-fiction",
       "display": "#👾-protocol-fiction",
       "sig_display": "ProtFiSIG",
-      "count": 6,
-      "last_seen": "2026-08-06"
+      "count": 7,
+      "last_seen": "2026-09-18"
     },
     "1327337414175490160": {
       "name": "🎩-formal-protocol-theory",
