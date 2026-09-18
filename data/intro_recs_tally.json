@@ -96,8 +96,8 @@
       "source": "substack",
       "author": "Timber Stinson-Schroff",
       "label": "ESSAY",
-      "count": 15,
-      "last_seen": "2026-09-16",
+      "count": 16,
+      "last_seen": "2026-09-18",
       "is_fallback": false
     },
     "https://files.protocolized.io/FERNANDEZ-Flow-speculative-brochure.pdf": {
@@ -506,8 +506,8 @@
       "source": "pdf",
       "author": "David Lang",
       "label": "PAPER",
-      "count": 1,
-      "last_seen": "2026-08-10",
+      "count": 2,
+      "last_seen": "2026-09-18",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/how-the-protocol-institute-is-adopting": {
@@ -671,8 +671,8 @@
       "name": "🚜-protocols-for-business",
       "display": "#🚜-protocols-for-business",
       "sig_display": "SIGPfB",
-      "count": 22,
-      "last_seen": "2026-09-08"
+      "count": 23,
+      "last_seen": "2026-09-18"
     },
     "1508175637020676259": {
       "name": "🦾-distributed-robotics",
