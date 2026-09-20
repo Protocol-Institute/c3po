@@ -96,8 +96,8 @@
       "source": "substack",
       "author": "Timber Stinson-Schroff",
       "label": "ESSAY",
-      "count": 16,
-      "last_seen": "2026-09-18",
+      "count": 17,
+      "last_seen": "2026-09-20",
       "is_fallback": false
     },
     "https://files.protocolized.io/FERNANDEZ-Flow-speculative-brochure.pdf": {
@@ -176,8 +176,8 @@
       "source": "substack",
       "author": "Spencer Nitkey",
       "label": "PROTOCOLIZED",
-      "count": 3,
-      "last_seen": "2026-08-04",
+      "count": 4,
+      "last_seen": "2026-09-20",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/fault-tolerance": {
@@ -226,8 +226,8 @@
       "source": "pdf",
       "author": "Angela Walch",
       "label": "PAPER",
-      "count": 1,
-      "last_seen": "2026-06-17",
+      "count": 2,
+      "last_seen": "2026-09-20",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/irrigation-by-protocol-when-vineyards": {
@@ -671,8 +671,8 @@
       "name": "🚜-protocols-for-business",
       "display": "#🚜-protocols-for-business",
       "sig_display": "SIGPfB",
-      "count": 23,
-      "last_seen": "2026-09-18"
+      "count": 24,
+      "last_seen": "2026-09-20"
     },
     "1508175637020676259": {
       "name": "🦾-distributed-robotics",
