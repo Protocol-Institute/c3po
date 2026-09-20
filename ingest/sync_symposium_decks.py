@@ -529,12 +529,18 @@ def due(state, min_hours: float) -> bool:
     return (datetime.now(timezone.utc) - prev).total_seconds() >= min_hours * 3600
 
 
-def collapse_duplicates(todo, duplicates):
+def collapse_duplicates(todo, duplicates, files, force=False):
     """Split (file, proposal, why) triples into keepers and same-talk duplicates.
 
     Returns (keep, dropped). Keepers carry a fourth element: text already
     extracted during the comparison, or None when the file was never contested
-    and should go through the ordinary download gate.
+    and should go through the ordinary download gate. Dropped entries carry the
+    id of the file that beat them.
+
+    A settled verdict is remembered in the state file, so a contested group is
+    only re-downloaded when one of its files actually changes — otherwise the
+    AI Kitcraft trio alone would pull ~30MB from Drive on every cycle to
+    re-derive the same answer.
     """
     from collections import defaultdict
     groups = defaultdict(list)
@@ -546,6 +552,26 @@ def collapse_duplicates(todo, duplicates):
         if len(members) == 1:
             f, prop, why = members[0]
             keep.append((f, prop, why, None))
+            continue
+
+        settled = [f for f, _, _ in members if "duplicate_of" in files.get(f["id"], {})]
+        unchanged = all(files.get(f["id"], {}).get("mtime") == f["mtime"]
+                        and files.get(f["id"], {}).get("size") == f["size"]
+                        for f, _, _ in members)
+        if settled and unchanged and not force:
+            for f, prop, why in members:
+                rec = files.get(f["id"], {})
+                if "duplicate_of" not in rec:
+                    keep.append((f, prop, why, None))
+                    continue
+                # Report it again so the review file keeps describing the whole
+                # pile, not just whatever was re-decided this run.
+                winner = files.get(rec["duplicate_of"], {}).get("name", rec["duplicate_of"])
+                duplicates.append({
+                    "id": f["id"], "name": f["name"], "matched_to": prop["title"],
+                    "reason": f"near-duplicate of {winner}; the richer file was kept "
+                              f"(verdict carried from an earlier run)",
+                })
             continue
 
         extracted = []
@@ -568,7 +594,7 @@ def collapse_duplicates(todo, duplicates):
                     "reason": f"near-duplicate of {twin[0]['name']} "
                               f"(token overlap {overlap:.2f}); the richer file was kept",
                 })
-                dropped.append((cand[0], cand[1], cand[2]))
+                dropped.append((cand[0], cand[1], cand[2], twin[0]["id"]))
                 continue
             keep.append(cand)
     return keep, dropped
@@ -629,14 +655,17 @@ def run(dry_run=False, report=False, force=False, prune=False, limit=None,
     # Where several files land on one talk, they are usually one document in
     # several wrappers. Extract the contested ones up front so the richest can
     # be chosen; uncontested files keep the cheap no-download gate below.
-    todo, dup_drop = collapse_duplicates(todo, duplicates)
-    for f, p, why in dup_drop:
+    todo, dup_drop = collapse_duplicates(todo, duplicates, files, force)
+    for f, p, why, winner_id in dup_drop:
         # A file demoted to duplicate may have been ingested on an earlier run.
-        prev = files.pop(f["id"], {})
+        prev = files.get(f["id"], {})
         for vid in prev.get("vector_ids", []):
             if not report:
                 idx.delete(ids=[vid], namespace=NAMESPACE)
-    if dup_drop:
+        # Remember the verdict so the group is not re-downloaded next cycle.
+        files[f["id"]] = {"mtime": f["mtime"], "size": f["size"],
+                          "name": f["name"], "duplicate_of": winner_id}
+    if dup_drop and not report:
         save_json(STATE_PATH, state)
 
     for f, p, why, pre in todo:
