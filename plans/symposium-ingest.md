@@ -256,8 +256,19 @@ limits on that rule:
    `archive`, a SIG name…) puts the rest of the corpus back in play, with the
    programme still holding the larger share of slots.
 
+**During the event nobody says "symposium".** They say "what's on today", "which
+sessions run on the 23rd". Measured: *"Which sessions run on September 23?"*
+returned 3 of 8 sources from the programme and three from c3po's own devlog. So
+a programme word (talk, session, schedule, line-up, speaking…) plus a temporal
+cue pointing at the event counts as naming it — either an explicit event date,
+or a relative day (today, tomorrow, this week) **while the event is actually
+running**, Sept 21–25 UTC. Outside that window a relative day means nothing
+about the symposium and does not scope. "What sessions has the MRG held?" has a
+programme word and no temporal cue, and is untouched even mid-event.
+
 Retrieval is **not** filtered by date — section 2 above still holds. This scopes
-by corpus, never by whether a session has already happened.
+by corpus, never by whether a session has already happened. The window only
+decides whether "today" is evidence that a programme question is being asked.
 
 **List questions do not survive similarity ranking.** "What workshops are on?"
 is a request for an exhaustive set of five, and AI Kitcraft — about the

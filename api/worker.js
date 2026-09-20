@@ -823,15 +823,36 @@ const SYMPOSIUM_WORKSHOP_RE = /\bworkshops\b/i;
 const SYMPOSIUM_OTHER_YEAR_RE = /\b(19|20)\d{2}\b/;
 const SYMPOSIUM_THIS_YEAR = "2026";
 
+// During the event nobody says "symposium". They say "what's on today", "which
+// sessions run on the 23rd". Measured before this: "Which sessions run on
+// September 23?" returned 3 of 8 sources from the programme and three from
+// c3po's own devlog. So a programme word plus a temporal cue pointing at the
+// event counts as naming it — either an explicit event date, or a relative day
+// while the event is actually running.
+const PROGRAMME_WORD_RE = /\b(talks?|sessions?|workshops?|schedule|programme|agenda|line-?up|speaking|speakers?|keynote|panel|on now|what'?s on)\b/i;
+const EVENT_DATE_RE = /\b(2026-09-2[1-5]|sept(?:ember)?\s*2[1-5]\b|9\/2[1-5]\b|2[1-5](?:st|nd|rd|th)\s+of\s+sept)/i;
+const RELATIVE_DAY_RE = /\b(today|tonight|tomorrow|this week|right now|this morning|this afternoon|this evening|currently|happening now)\b/i;
+
+// Sept 21-25 2026 inclusive, in UTC — the programme's own unit.
+const EVENT_FIRST_DAY = Date.UTC(2026, 8, 21);
+const EVENT_LAST_DAY  = Date.UTC(2026, 8, 26);   // exclusive
+
+function duringEvent(now) {
+  const t = now.getTime();
+  return t >= EVENT_FIRST_DAY && t < EVENT_LAST_DAY;
+}
+
 // Scoped queries lose the other namespaces, so the programme gets the retrieval
 // budget the whole corpus used to share.
 const TOP_K_SYMPOSIUM_SCOPED = 12;
 
-function symposiumScope(query) {
+function symposiumScope(query, now = new Date()) {
   const q = String(query || "");
   const years = q.match(new RegExp(SYMPOSIUM_OTHER_YEAR_RE, "g")) || [];
   const otherYear = years.length > 0 && !years.includes(SYMPOSIUM_THIS_YEAR);
-  const scoped = SYMPOSIUM_RE.test(q) && !otherYear;
+  const aboutTheProgramme = PROGRAMME_WORD_RE.test(q) &&
+    (EVENT_DATE_RE.test(q) || (duringEvent(now) && RELATIVE_DAY_RE.test(q)));
+  const scoped = (SYMPOSIUM_RE.test(q) || aboutTheProgramme) && !otherYear;
   if (!scoped) return { scoped: false, crossCorpus: false, workshops: false, k: TOP_K_EACH };
   return {
     scoped:      true,
