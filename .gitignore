@@ -1,6 +1,7 @@
 .env
 data/*
 !data/devlog.json
+!data/devlog_archive_*.json
 !data/channel_manifest.json
 !data/intro_recs_tally.json
 !data/ingestion_pause_state.json

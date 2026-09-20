@@ -31,9 +31,11 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+sys.path.insert(0, str(Path(__file__).parent))
+from devlog_store import load_devlog
+
 load_dotenv(Path(__file__).parent.parent / ".env")
 
-DEVLOG_PATH    = Path(__file__).parent.parent / "data" / "devlog.json"
 STATE_PATH     = Path(__file__).parent.parent / "data" / "devlog_page_state.json"
 WEBSITE_DIR    = Path(__file__).parent.parent.parent / "protocolized-website" / "worker"
 DB_NAME        = "protocolized-resources"
@@ -52,7 +54,12 @@ def strip_html(html: str) -> str:
     return text.strip()
 
 
-MAX_BODY_CHARS = 90_000  # D1 statement size limit is ~100KB; leave headroom for SQL overhead
+# D1 caps a single SQL statement at 100KB, so the body is written as one INSERT
+# plus a series of `body = body || '...'` appends, each statement well under the
+# limit. What actually bounds the page is D1's 2MB maximum stored string.
+D1_CHUNK_BUDGET_BYTES = 60_000     # escaped body bytes per SQL statement
+D1_MAX_BODY_BYTES     = 1_500_000  # hard stop, with headroom under D1's 2MB
+WARN_BODY_BYTES       = 400_000    # past this, a reader-facing split is worth considering
 
 
 def render_markdown(data: dict) -> str:
@@ -111,16 +118,7 @@ def render_markdown(data: dict) -> str:
         lines.append("---")
         lines.append("")
 
-    body = "\n".join(lines)
-    if len(body) > MAX_BODY_CHARS:
-        # Keep the most recent sessions — truncate from the front
-        body = body[-MAX_BODY_CHARS:]
-        # Trim to next session boundary to avoid cutting mid-entry
-        cut = body.find("\n## ")
-        if cut > 0:
-            body = body[cut + 1:]
-        body = f"*(Earlier sessions omitted — {len(data['sessions'])} total sessions)*\n\n---\n\n" + body
-    return body
+    return "\n".join(lines)
 
 
 def content_hash(text: str) -> str:
@@ -147,7 +145,27 @@ def get_cf_token() -> str:
 
 # ── D1 upsert ─────────────────────────────────────────────────────────────────
 
-def upsert_to_d1(body_md: str, data: dict, local: bool, dry_run: bool) -> bool:
+def split_for_sql(body: str, budget_bytes: int) -> list[str]:
+    """Split the body so each piece stays under `budget_bytes` once escaped.
+
+    Escaping is per character, so escape(a) + escape(b) == escape(a + b): the
+    pieces can be reassembled inside D1 with `||` and come back byte-identical.
+    """
+    chunks: list[str] = []
+    start = 0
+    size  = 0
+    for i, ch in enumerate(body):
+        n = len(sql_escape(ch).encode())
+        if size + n > budget_bytes:
+            chunks.append(body[start:i])
+            start, size = i, 0
+        size += n
+    chunks.append(body[start:])
+    return [c for c in chunks if c]
+
+
+def build_statements(body_md: str, data: dict) -> list[str]:
+    """The row write, as one INSERT plus one append per additional chunk."""
     sessions = sorted(data["sessions"], key=lambda s: s["sort_key"])
     latest_date = sessions[-1].get("date", "2026-01-01") if sessions else "2026-01-01"
     session_count = len(sessions)
@@ -163,7 +181,9 @@ def upsert_to_d1(body_md: str, data: dict, local: bool, dry_run: bool) -> bool:
     audience = '["researcher","builder"]'
     authors  = '[{"name":"Protocol Institute"}]'
 
-    sql = f"""INSERT OR REPLACE INTO resources
+    chunks = split_for_sql(body_md, D1_CHUNK_BUDGET_BYTES)
+
+    statements = [f"""INSERT OR REPLACE INTO resources
   (slug, title, type, authors, date, description, tags, audience, featured, url, body)
 VALUES (
   '{sql_escape(SLUG)}',
@@ -176,46 +196,96 @@ VALUES (
   '{sql_escape(audience)}',
   0,
   '{sql_escape(PUBLIC_URL)}',
-  '{sql_escape(body_md)}'
-);
-"""
+  '{sql_escape(chunks[0])}'
+);"""]
 
-    if dry_run:
-        print(f"[dry-run] Would write {len(body_md):,} chars to D1 slug={SLUG}")
-        print(f"[dry-run] SQL first 200 chars: {sql[:200]}")
-        return True
+    for chunk in chunks[1:]:
+        statements.append(
+            f"UPDATE resources SET body = body || '{sql_escape(chunk)}' "
+            f"WHERE slug = '{sql_escape(SLUG)}';"
+        )
 
+    return statements
+
+
+def run_sql(statements: list[str], local: bool, cf_token: str) -> tuple[bool, str]:
+    """Execute statements as a single wrangler file run (one D1 batch)."""
     with tempfile.NamedTemporaryFile(mode="w", suffix=".sql", delete=False,
                                      prefix="c3po_devlog_") as f:
-        f.write(sql)
+        f.write("\n".join(statements) + "\n")
         sql_path = f.name
 
     try:
-        cf_token = get_cf_token()
-        if not cf_token:
-            print("ERROR: CLOUDFLARE_API_TOKEN not found in environment or ../.env.keys")
-            return False
-
         cmd = ["npx", "wrangler", "d1", "execute", DB_NAME, "--file", sql_path]
-        if local:
-            cmd.append("--local")
-        else:
-            cmd.append("--remote")
-
+        cmd.append("--local" if local else "--remote")
         env = {**os.environ, "CLOUDFLARE_API_TOKEN": cf_token}
         result = subprocess.run(cmd, cwd=str(WEBSITE_DIR), env=env,
-                                capture_output=True, text=True, timeout=60)
-
-        if result.returncode == 0:
-            print(f"D1 upsert OK — slug='{SLUG}', date={latest_date}, "
-                  f"body={len(body_md):,} chars")
-            return True
-        else:
-            print(f"D1 upsert failed (rc={result.returncode})")
-            print(result.stderr[:400])
-            return False
+                                capture_output=True, text=True, timeout=180)
+        return result.returncode == 0, (result.stderr or result.stdout)[:400]
     finally:
         Path(sql_path).unlink(missing_ok=True)
+
+
+def read_body_length(local: bool, cf_token: str) -> int | None:
+    """Characters currently stored in the page body, or None if unreadable."""
+    cmd = ["npx", "wrangler", "d1", "execute", DB_NAME, "--json", "--command",
+           f"SELECT length(body) AS n FROM resources WHERE slug = '{sql_escape(SLUG)}';"]
+    cmd.append("--local" if local else "--remote")
+    env = {**os.environ, "CLOUDFLARE_API_TOKEN": cf_token}
+    result = subprocess.run(cmd, cwd=str(WEBSITE_DIR), env=env,
+                            capture_output=True, text=True, timeout=60)
+    if result.returncode != 0:
+        return None
+    match = re.search(r'"n"\s*:\s*(\d+)', result.stdout)
+    return int(match.group(1)) if match else None
+
+
+def upsert_to_d1(body_md: str, data: dict, local: bool, dry_run: bool) -> bool:
+    body_bytes = len(body_md.encode())
+    if body_bytes > D1_MAX_BODY_BYTES:
+        print(f"ERROR: body is {body_bytes:,} bytes, over the {D1_MAX_BODY_BYTES:,} "
+              f"byte ceiling. Note that rolling entries into an archive page does "
+              f"not help — archive pages are published too. The published page "
+              f"itself has to be split at this point.")
+        return False
+    if body_bytes > WARN_BODY_BYTES:
+        print(f"WARNING: page body is {body_bytes:,} bytes — large enough that a "
+              f"reader-facing split is worth considering.")
+
+    statements = build_statements(body_md, data)
+    widest = max(len(st.encode()) for st in statements)
+
+    if dry_run:
+        print(f"[dry-run] Would write {len(body_md):,} chars to D1 slug={SLUG} "
+              f"in {len(statements)} statement(s), widest {widest:,} bytes")
+        return True
+
+    cf_token = get_cf_token()
+    if not cf_token:
+        print("ERROR: CLOUDFLARE_API_TOKEN not found in environment or ../.env.keys")
+        return False
+
+    ok, err = run_sql(statements, local, cf_token)
+    if not ok:
+        print(f"D1 upsert failed\n{err}")
+        return False
+
+    # A multi-statement write can in principle land partially; confirm the row
+    # holds the whole body before recording the hash, so a short write is
+    # retried on the next daemon cycle rather than sitting published.
+    stored = read_body_length(local, cf_token)
+    if stored is None:
+        print(f"D1 upsert reported success but the body length could not be read "
+              f"back — not recording the hash, will retry next run.")
+        return False
+    if stored != len(body_md):
+        print(f"D1 upsert incomplete — stored {stored:,} chars, expected "
+              f"{len(body_md):,}. Not recording the hash; next run rewrites it.")
+        return False
+
+    print(f"D1 upsert OK — slug='{SLUG}', body={len(body_md):,} chars "
+          f"in {len(statements)} statement(s), verified")
+    return True
 
 
 # ── State ─────────────────────────────────────────────────────────────────────
@@ -239,7 +309,7 @@ def main():
     parser.add_argument("--force",   action="store_true", help="Re-publish even if unchanged")
     args = parser.parse_args()
 
-    data    = json.loads(DEVLOG_PATH.read_text())
+    data    = load_devlog()
     body_md = render_markdown(data)
     h       = content_hash(body_md)
     state   = load_state()

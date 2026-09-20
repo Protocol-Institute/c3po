@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """
-devlog_render.py — render data/devlog.json to a readable Markdown file.
+devlog_render.py — render the devlog to a readable Markdown file.
+
+Reads every page of the log (data/devlog.json plus any data/devlog_archive_*.json)
+through devlog_store.load_devlog().
 
 Usage:
     python3 devlog_render.py            # writes DEVLOG.md
@@ -9,12 +12,13 @@ Usage:
 When the Cloudflare Worker UI is ready, this script can be retired in favor of
 a /devlog route rendered from devlog.json at the edge.
 """
-import json
 import re
 import sys
 from pathlib import Path
 
-DEVLOG_PATH = Path("data/devlog.json")
+sys.path.insert(0, str(Path(__file__).parent / "ingest"))
+from devlog_store import load_devlog
+
 OUT_PATH = Path("DEVLOG.md")
 
 
@@ -87,7 +91,7 @@ def render(data: dict) -> str:
 
 
 def main():
-    data = json.loads(DEVLOG_PATH.read_text())
+    data = load_devlog()
     rendered = render(data)
 
     if "--stdout" in sys.argv:

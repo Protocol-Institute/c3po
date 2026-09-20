@@ -133,6 +133,15 @@ All run automatically via `bin/daemon.py` (c3po_listener). Run manually with `--
 
 After editing `data/devlog.json`, run `python3 ingest/sync_devlog.py` then `python3 ingest/generate_devlog_page.py` to republish.
 
+**The devlog is paged.** `data/devlog.json` is the live page a session appends to; older
+entries live in `data/devlog_archive_NNN.json`. This is a storage split only — every
+consumer loads the merged log via `ingest/devlog_store.load_devlog()`, so the published
+page, `DEVLOG.md` and the `meta` namespace all see one continuous record and
+`#session-{id}` anchors survive a roll. Roll the live page when it gets unwieldy:
+`python3 bin/devlog_roll.py --keep 10` (or `--through-id N`); commit the new archive page.
+The published page is written to D1 as one INSERT plus `body = body || '...'` appends, so
+D1's 100KB per-statement limit no longer caps it.
+
 ## At Session Start
 
 1. Read `status.md` — open questions, blockers, previous session end state.

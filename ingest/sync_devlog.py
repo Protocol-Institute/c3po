@@ -25,10 +25,10 @@ from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).parent))
 from utils import embed_chunks, get_voyage_client, get_pinecone_index, clean_text
+from devlog_store import load_devlog
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
-DEVLOG_PATH  = Path(__file__).parent.parent / "data" / "devlog.json"
 STATE_PATH   = Path(__file__).parent.parent / "data" / "devlog_state.json"
 NAMESPACE    = "meta"
 PUBLIC_URL   = "https://protocolized.io/resources/c3po-devlog"
@@ -127,7 +127,7 @@ def main():
     parser.add_argument("--force",   action="store_true", help="Re-embed all sessions")
     args = parser.parse_args()
 
-    data     = json.loads(DEVLOG_PATH.read_text())
+    data     = load_devlog()
     sessions = sorted(data["sessions"], key=lambda s: s["sort_key"])
     state    = load_state()
 

@@ -202,7 +202,7 @@ WEBSITE_PATHS  = ["sigs/"]
 # Files the daemon must never auto-commit: narrative/session-authored docs, not
 # routine state. Session work commits these explicitly, with a human in the loop.
 AUTOCOMMIT_EXCLUDE_PATHS    = {"status.md", "CLAUDE.md", "data/devlog.json"}
-AUTOCOMMIT_EXCLUDE_PREFIXES = ("plans/",)
+AUTOCOMMIT_EXCLUDE_PREFIXES = ("plans/", "data/devlog_archive_")
 
 
 def _git(args: list[str], cwd: Path) -> subprocess.CompletedProcess:

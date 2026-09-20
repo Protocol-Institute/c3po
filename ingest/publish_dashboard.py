@@ -176,7 +176,7 @@ PATROL_MANIFEST = [
     {
         "source":    "Devlog",
         "namespace": "meta",
-        "targets":   "data/devlog.json (session records)",
+        "targets":   "data/devlog.json + archive pages (session records)",
         "cadence":   "Per session",
         "script":    "sync_devlog",
         "status":    "active",
