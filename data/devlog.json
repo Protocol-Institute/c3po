@@ -9,5 +9,54 @@
     "ux": "Query interface, search UI, result presentation",
     "operations": "Sync scripts, cron jobs, cost monitoring, incident handling"
   },
-  "sessions": []
+  "sessions": [
+    {
+      "id": 55,
+      "sort_key": 55.0,
+      "label": "Session 55",
+      "title": "The Workshops Were Indexed All Along — Their Content Was Being Thrown Away",
+      "date": "2026-09-20",
+      "time_pt": "10:40-12:00",
+      "tracks": [
+        "corpus-ingestion",
+        "vector-architecture",
+        "worker-api",
+        "operations"
+      ],
+      "costs_usd": {
+        "deck re-extraction (vision)": 0.17
+      },
+      "vector_counts": {
+        "total": 33778,
+        "symposium": 371
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "Asking about the symposium returned three years of archive",
+          "html": "<strong>The programme now answers programme questions.</strong> Queried at equal weight alongside ten other namespaces, the symposium lost races it should win: <em>\"What workshops are happening at the Protocol Symposium?\"</em> ranked a <strong>2025</strong> Substack post above the programme and surfaced 2 of the 5 workshops. A question that names the event is now answered from the symposium namespace alone, with the other namespaces skipped rather than fetched and discarded — which also spends less Pinecone egress.<br><br>Three limits keep the rule honest. The trigger is the event being named, not any word the programme happens to contain, so <em>\"what did the MRG say about memory?\"</em> is untouched. A year other than 2026 cancels scoping — without that, <em>\"summarize the 2025 symposium\"</em> would have been answered confidently from the wrong event. And an explicit reach for prior work keeps the whole corpus in play, because connecting a talk to the archive is the thing the programme page cannot do.<br><br>Retrieval is still never filtered by <em>date</em>. A talk that has already been delivered is perfectly good material; time-awareness shapes recommendations, not what can be found."
+        },
+        {
+          "title": "During the event, nobody says \"symposium\"",
+          "html": "Scoping on the word alone left the questions people actually type during a conference unscoped. <em>\"Which sessions run on September 23?\"</em> returned 3 of 8 sources from the programme — and three of the rest from C3PO's own build log.<br><br>A programme word plus a temporal cue aimed at the event now counts as naming it: an explicit event date at any time, or a relative day (today, tomorrow, this week) <em>only while the event is running</em>. Outside that window \"today\" says nothing about the symposium, and a programme word with no temporal cue — <em>\"what sessions has the MRG held?\"</em> — stays unscoped even mid-event."
+        },
+        {
+          "title": "A 1,600-character cap was quietly deleting a third of the corpus it touched",
+          "html": "<strong>The workshops were indexed the whole time. What was missing was their content.</strong> Each chunk stores the text the model reads separately from the text it was embedded from, and the stored copy was capped at 1,600 characters. So a workshop was retrieved correctly and then described without its takeaways or activities — which, from the outside, is indistinguishable from not being in the index at all.<br><br>Measured before the fix: <strong>13,124 characters</strong> dropped across the programme, cutting 26 of 61 session chunks and 3 of 5 workshop details mid-sentence. The two richest workshops lost more than half their detail. The slide decks were worse — the chunker targets about 2,300 characters, so <strong>37 of 40 sampled deck chunks sat exactly at the cap</strong>, meaning roughly a third of every deck never reached the model. The cap is now 6,000 with a paragraph-boundary trim and a warning above it.<br><br>The general shape is worth naming: a limit that only affects what a model <em>sees</em>, never what it <em>finds</em>, produces a system that retrieves the right document and then talks about it badly. Nothing in retrieval metrics would show it."
+        },
+        {
+          "title": "Some documents are pointers, and one hop out is the whole answer",
+          "html": "Three entries in the symposium's Drive folder were not documents. A Drive <strong>shortcut</strong> pointed at another file in the same folder that was already ingested — the right response being not to ingest it twice. A <strong>zip</strong> turned out to be a bundle: two slide variants, an HTML export, a framework document and 46KB of speaker notes. And a deck logged for days as an empty stub, \"speaker has not filled it in\", had exactly one slide reading <em>\"Link to slides: …\"</em> — the deck was never missing, it was hosted elsewhere. One hop retrieves 14,411 characters of it.<br><br>Pointers are followed exactly one hop and only from documents under 400 characters. In a real deck a URL is a citation, and chasing citations would walk the ingest into the open web."
+        },
+        {
+          "title": "Seven copies of one workshop, and the rule for collapsing them",
+          "html": "The AI Kitcraft material existed in seven near-identical forms at 0.70–0.91 token overlap. Ingesting them all would have put roughly 230,000 characters of a single workshop into a namespace where other talks hold two to six chunks each, and duplicate chunks compete for the same retrieval slots.<br><br>Files that land on the same talk now collapse to the richest, with the rest recorded and the verdict remembered so a settled group is not re-downloaded every cycle. The threshold is set deliberately low enough to preserve genuinely different documents filed under one talk: a deck and its companion paper score below it and both survive."
+        },
+        {
+          "title": "The public build log had started dropping its own history",
+          "html": "The devlog page renders into a single SQL statement, and D1 caps a statement at 100KB — so the renderer had been truncating from the front. <strong>22 of 56 sessions were missing from the published page.</strong><br><br>The row itself can hold 2MB, so the page is now written as one insert plus a series of appends, each sized against a byte budget, and read back and compared before the write is recorded as successful. The log is also paged now — older entries roll into archive files — but that split is invisible: every consumer loads the merged record, so the page, the Markdown rendering and the vector index all still see one continuous history with working anchors."
+        }
+      ]
+    }
+  ]
 }

@@ -93,19 +93,19 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 
 | Namespace | Vectors | Notes |
 |-----------|---------|-------|
-| `discord_links` | 12,822 | Community-shared URLs, scored by Haiku |
-| `sig` | 8,034 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 7 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG, PRG (Personhood Research Group — audio only, no Discord channel) |
-| `discord` | 5,912 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
+| `discord_links` | 13,165 | Community-shared URLs, scored by Haiku |
+| `sig` | 8,152 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 7 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG, PRG (Personhood Research Group — audio only, no Discord channel) |
+| `discord` | 5,921 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
 | `videos` | 3,127 | YouTube talks (97 videos) |
-| `substack` | 1,240 | Protocolized magazine |
+| `substack` | 1,251 | Protocolized magazine |
 | `pdfs` | 765 | 85 papers/essays (`sources/pdfs/enriched_meta.json`) |
 | `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
 | `bibliography` | 278 | External works cited by PI corpus |
-| `discord_guide` | 77 | Scoped per [`plans/discord-guide-scope.md`](plans/discord-guide-scope.md): excludes transient/admin channels (MOD, Server Link Feed, introductions/bugs/announcements); archived-read-only channels embed once then freeze; SIG channels include cadence + next_event_time |
-| `meta` | 55 | C3PO self-knowledge: 1 vector/devlog session; queried at 3 results max alongside all other namespaces |
-| `transcripts` | 50 | Bot conversation self-memory: web + Discord Q&A |
-| `symposium` | 273 | Protocol Symposium 2026 programme (`symposium_overview`, `symposium_block`, `symposium_session`, `symposium_workshop`) + slide decks (`symposium_slides`, 25 of 30 files; 5 are stubs awaiting content); see [`plans/symposium-ingest.md`](plans/symposium-ingest.md) |
-| **Total** | **33,193** | |
+| `discord_guide` | 78 | Scoped per [`plans/discord-guide-scope.md`](plans/discord-guide-scope.md): excludes transient/admin channels (MOD, Server Link Feed, introductions/bugs/announcements); archived-read-only channels embed once then freeze; SIG channels include cadence + next_event_time |
+| `meta` | 56 | C3PO self-knowledge: 1 vector/devlog session (57 sessions, 56 vectors — two entries share `id: 8` and collide on one vector id, pending a renumbering decision); queried at 3 results max alongside all other namespaces |
+| `transcripts` | 55 | Bot conversation self-memory: web + Discord Q&A |
+| `symposium` | 371 | Protocol Symposium 2026 programme (`symposium_overview`, `symposium_block`, `symposium_session`, `symposium_workshop`) + slide decks (`symposium_slides`, 36 of 42 Drive files; 4 are stubs awaiting content and 2 are copies collapsed as near-duplicates). Queries that name the event — or, during Sept 21-25, ask a dated programme question — are answered from this namespace alone; see [`plans/symposium-ingest.md`](plans/symposium-ingest.md) |
+| **Total** | **33,779** | |
 
 ## Key Ingest Scripts
 

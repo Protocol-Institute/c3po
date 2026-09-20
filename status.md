@@ -1,5 +1,51 @@
 # C3PO — Status Log
 
+## 2026-09-20 10:40-12:00 PT — Symposium retrieval scoped to the programme; a text cap that was deleting a third of what the model reads; devlog paged (session 55)
+
+**Session-start checks:** vectors 33,193 → 33,699 (organic). Substack 0 new / 0 edited. No intro-quality issues. Daemon healthy, 19/19 steps, cycle 175. Cost $2.00 last 7 days / $30.86 all-time; `sync_sig` $1.78 (89%) of the week, down from $3-5 in prior weeks. Laptop clone was 178 commits behind (174 `[daemon]` state syncs); fast-forwarded.
+
+**Found at session start, unprompted by any report: `sync_devlog` has been re-embedding one vector every 30 minutes forever, and a session is missing from `meta`.** Two entries in `data/devlog.json` both carry `id: 8` (2026-05-17 and 2026-05-18) and render to the same vector id, so they overwrite each other; the hash state flips between them on every cycle. **Left unfixed on purpose** — renumbering changes a public `#session-8` anchor and VGR has not said which entry keeps the id. Recorded in the CLAUDE.md namespace table so the 57-sessions/56-vectors gap is not mistaken for a counting error.
+
+**The published devlog had already started dropping its own history** — session 54 predicted this would begin "next session" and it had already begun: 22 of 56 sessions were missing from the public page. The cap existed because the whole body was interpolated into one SQL statement and D1 limits a *statement* to 100KB; the row itself holds 2MB. The page is now written as one INSERT plus `body = body || '...'` appends, each sized against a 60KB escaped-byte budget, and **read back and length-compared before the state hash is recorded**, so a short write is retried rather than left published. Verified locally that a failing statement in a multi-statement file rolls the whole run back, so a partial page cannot be published. Body 88,847 → 152,870 chars; all 57 session anchors live.
+
+**The devlog is now paged, invisibly.** `data/devlog.json` is the live page; `data/devlog_archive_001.json` holds the 56 entries through session 54. Every consumer reads the merge through `ingest/devlog_store.load_devlog()`. Proof the seam is invisible: `DEVLOG.md` rendered **byte-identical** across the roll (same md5), and `sync_devlog` saw the same sessions with the same content hashes — no re-embedding. `bin/devlog_roll.py` compares the merged log before and after and refuses to write if it would differ. Two things that would have broken it: `data/*` is gitignored with per-file negations, so the archive needed `!data/devlog_archive_*.json` or the VM would have published a nearly empty log; and the daemon's autocommit exclusions needed the archive prefix, since archive pages are narrative, not state.
+
+**VGR's report: the bot pulls archival material when asked about the symposium, and the workshops are absent from the index.** Both reproduced before touching anything. *"What workshops are happening at the Protocol Symposium?"* ranked a **2025** Substack post above the programme and surfaced 2 of 5 workshops; *"symposium talks on memory"* returned 2025 posts, an MRG video and a 2023 PDF.
+
+**The workshops were indexed the whole time — their content was being discarded.** `metadata["text"]` is the only part of a chunk the model reads, and it was stored `[:1600]` while the embedding used the full text. A workshop was therefore retrieved correctly and then described without its takeaways or activities, which from outside is indistinguishable from not being indexed. **13,124 characters** were being dropped across the programme (26 of 61 session chunks, 3 of 5 workshop details, cut mid-sentence; the two richest workshops lost more than half). Swept for the same shape and the decks were worse: the shared chunker targets ~2.3K chars, so **37 of 40 sampled deck chunks sat exactly at the cap**. Cap now 6,000 with a paragraph-boundary trim and a warning above it. Re-embedded both corpora and re-verified the email redaction held after re-extraction (0 of 40 sampled deck chunks contain an address).
+
+**Retrieval scoping.** A query naming the symposium is answered from that namespace alone, the others skipped rather than fetched and discarded (less egress too). Three limits: the trigger is the event being named, not a programme word; a year other than 2026 cancels scoping (**caught in testing** — "summarize the 2025 symposium" would have been answered from the 2026 programme); and an explicit reach for prior work keeps the archive in play, since talk↔archive is what the programme page cannot do. **Retrieval is still never filtered by date.**
+
+**List questions do not survive similarity ranking.** The 5 workshops are fetched by `chunk_type` and pinned into context — AI Kitcraft is about the economics of tooling adoption and ranks below a dozen chunks that say "workshop" more often. Two follow-on corrections, both from watching live output rather than reasoning: pinning is **plural-only**, because pinning all five crowded out one workshop's own slides when asked about that workshop; and the per-record chunk cap follows the question's shape (1 on a list question, 4 on a single-session question) after the cap I had just added became the thing blocking depth.
+
+**When VGR asked whether the bleed was actually fixed, the honest answer needed measuring.** A 15-phrasing probe: 8 symposium-named queries at 100% programme sources, relational queries mixed by design, non-event queries unchanged — **and one real miss**. *"Which sessions run on September 23?"* returned 3 of 8 from the programme and three from c3po's own devlog. Scoping keyed on the word "symposium", which is the one word nobody uses once an event starts. A programme word plus a temporal cue aimed at the event now counts as naming it: an explicit event date any time, or a relative day only while the event runs (Sept 21-25 UTC). That query is now 11/11. Verified against three simulated clocks since the during-event path cannot be tested by waiting.
+
+**Deck backlog cleared: 42 of 42 files resolve, review queue empty, no extraction failures** (was 3 unmatched, 2 failures). Per VGR's instruction, documents that point at other documents are followed one hop. A Drive **shortcut** resolved to a file already in the same folder — the right response being not to ingest it twice. A **zip** was a `github-upload/` bundle (README, two .pptx variants, HTML export, framework doc, 46KB of speaker notes). And **a deck logged for days as an empty stub was a pointer**: `SIGPSY-Aneesh-Prime Radiant`'s single slide reads "Link to slides: https://primeradiant.worldmachines.org/…" — one hop retrieves 14,411 chars of real material. Following is capped at documents under 400 chars: in a real deck a URL is a citation, and chasing citations would walk the ingest into the open web.
+
+**Seven copies of one workshop.** AI Kitcraft existed in seven near-identical forms (0.70-0.91 token overlap) which would have put ~230K chars of one workshop into a namespace where other talks hold 2-6 chunks. Files landing on one talk now collapse to the richest; the 0.60 threshold is set to preserve genuinely different documents under one talk (the Chores deck and its companion paper both survive). **The judgment call, flagged to VGR:** this keeps the zip bundle (richest, ~79K with speaker notes) over the *newest* revision, 20 minutes younger — one line in `config/symposium_deck_map.json` to flip. Also caught before it ran unattended: the comparison re-downloaded ~30MB every 6h to re-derive a settled answer, so verdicts are now remembered (`duplicate_of`); a report pass dropped from minutes to 26s.
+
+**Also:** one line added to `SYSTEM_PROMPT` about tense, after the first live workshop answer opened *"Five workshops ran… all five are already underway or complete… — actually, the workshops begin tomorrow"*, correcting itself mid-sentence.
+
+**Pinecone:** 33,193 → **33,779** (+98 symposium: 3 newly resolved decks; +506 organic; +1 meta).
+
+**Shipped:** c3po `7d0c2c0`, `2ba5ebc`, `d46b3a3`, `6195e78`, `ddc3ecc` pushed; worker deployed (version `364bdad2`); devlog page republished; VM pulled and dry-runs clean.
+
+**Open TODOs (priority order):**
+1. **Decide the `id: 8` collision** — which of the two May entries keeps `#session-8`. Until then the devlog sync burns a Voyage embed every 30 minutes and one session is missing from `meta`.
+2. **Rotate `C3PO_VM_GH_TOKEN` and `C3PO_ACTIONS_GH_TOKEN`** — carried from session 53; VGR deferred.
+3. **The Protocol Hackathon workshop's `activities` field is truncated in D1** — 49 chars ending mid-sentence, upstream of c3po. Organiser/website fix; the bot currently describes the format as open, which is honest but thin.
+4. **Four decks are genuine stubs** (`Artisanal Bots`, `Blygger`, `Opening Session`, `Some Candidate Laws`) — title slides, no pointer. Two are VGR's. They ingest themselves once filled.
+5. **Re-run `sync_symposium_decks.py` after the event** for final decks; Phase C (recordings/transcripts) still unbuilt.
+6. **Watch the first unattended website PR cycle** (carried from session 53).
+7. **Push the `admin` repo** — 3 local commits awaiting VGR.
+8. Phase 2 of `plans/vm-credential-hardening.md` — services still run as `exedev` with passwordless sudo.
+9. Revoke `GH_PAT` in `../.env.keys` after confirming it is not the laptop keyring's value.
+10. `enrich_discord_links`' 28 permanently-stuck links still retried every cycle (168 skip lines in 3h; no API cost).
+11. `sync_web_chats._get()` has no retry — same shape as the `sync_discord_events` bug fixed session 54.
+12. Everything else carried from session 54 (pipeline consistency check, MCP `ask_c3po` hardening, `discord_links` snapshot decision, duplicated SIG registries, Roam inbox file, VM stash).
+
+---
+
 ## 2026-09-16 11:00-12:15 PT — Symposium programme ingested; c3po given a clock; two PII leaks closed on the website (session 54)
 
 **Session-start checks:** vectors 32,592 → 32,891 (organic). Substack 0 new / 0 edited. No intro-quality issues. Cost $3.63 last 7 days / $29.75 all-time; `sync_sig` still ~98% of spend. Laptop clone was 171 commits behind (routine `[daemon]` syncs); fast-forwarded. Website PR #11 merged since session 53, closing that TODO.
