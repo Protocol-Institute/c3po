@@ -264,9 +264,16 @@ is a request for an exhaustive set of five, and AI Kitcraft — about the
 economics of tooling adoption — ranks below a dozen chunks that merely say
 "workshop" more often. A `chunk_type = symposium_workshop` sub-query returns
 exactly the five and they are **pinned** into the context rather than made to
-win a race they cannot win. Two supporting numbers: a scoped answer gets 12
-source slots instead of 8 (one namespace, not eleven), and no single record may
-occupy more than 2 slots — one chunked deck was taking three.
+win a race they cannot win — but only for the plural, list-shaped question. Ask
+about *one* workshop and pinning all five crowds out that workshop's own
+slides, which is the opposite failure.
+
+Two supporting numbers. A scoped answer gets 12 source slots instead of 8 (one
+namespace, not eleven). And the per-record chunk cap follows the shape of the
+question: **1** on a list question, so one chunked deck cannot take three slots
+and hide other talks; **4** on a question about a single session, where the cap
+is otherwise what keeps that session's slides out of the answer. Both
+directions were observed live before the rule was set.
 
 ### The 1,600-character cap that made workshops look unindexed
 
@@ -314,6 +321,50 @@ any future scanned or exported-as-image deck.
 **A deck covering two talks is attached once**, with a header naming both and
 the second slug in `also_slugs`. Embedding it per-talk would put duplicate
 chunks in the index competing for the same retrieval slots.
+
+### Pointers, bundles and duplicates (session 55, 2026-09-20)
+
+Three shapes in the folder that are not plain documents, all resolved one hop
+out and never further — a followed link that links onward would walk the
+ingest into the open web.
+
+**Drive shortcuts.** `Protocoling` is a shortcut whose target is *another file
+in the same folder*, already ingested. Following it blindly would have indexed
+one deck twice, so a shortcut pointing inside the folder is dropped and one
+pointing outside is followed to its target.
+
+**Zip bundles.** `AI Kitcraft Workshop Deck.zip` is a `github-upload/` bundle:
+README, two `.pptx` variants, a 4.8MB HTML slide export, a content-alignment
+framework, and 46KB of speaker notes as Markdown. Members are extracted
+individually and the near-duplicate renderings collapse — in this bundle the
+notes and the second `.pptx` both scored above the overlap threshold against
+the editable deck and were dropped, leaving 79,425 characters.
+
+**A deck that is only a link.** `SIGPSY-Aneesh-Prime Radiant` was logged for
+days as a 95-character stub. Its one slide reads *"Link to slides:
+https://primeradiant.worldmachines.org/talks/protocol-symposium-2026/"* — the
+deck was never missing, it was hosted elsewhere. One hop retrieves 14,411
+characters of slides and speaker timings. Only documents under 400 characters
+are followed: in a real deck a URL is a citation, and chasing citations would
+pull unrelated material into the namespace. Four genuine stubs remain
+(`Artisanal Bots`, `Blygger`, `Opening Session`, `Some Candidate Laws`) — title
+slides with no pointer, awaiting their authors.
+
+**Same-talk duplicates.** AI Kitcraft existed in seven near-identical forms at
+0.70–0.91 token overlap; ingesting them all would have put ~230K characters of
+one workshop into a namespace where other talks hold 2–6 chunks. Files landing
+on the same talk now collapse to the richest, with the rest recorded in
+`duplicates_dropped` in the review file. The threshold (0.60 Jaccard over 4+
+letter words) is set to preserve genuinely different documents under one talk:
+the *Chores as Complex Coordination* deck and its companion paper *The House
+that Governs Itself* score below it and both survive.
+
+The one judgment call: for AI Kitcraft this keeps the **zip bundle** (richest,
+~79K with speaker notes) over the **newest** revision (`Copy of
+ai-kitcraft-slides-editable.pptx`, 50 restructured slides, 20 minutes newer).
+All variants describe the same workshop so correctness is not at stake, but if
+current-revision should beat richest, that is one line in
+`config/symposium_deck_map.json`.
 
 Drive folder `1lyX7G4sKcZRNmHNN7EULT29SSwxK8J69`. As of 2026-09-16 it holds
 **27 entries — 4 subfolders and 23 files** — against 61 program items, so

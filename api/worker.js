@@ -812,7 +812,10 @@ const SYMPOSIUM_RE = /\b(symposium|symposia)\b/i;
 // explicitly reaches for prior work keeps the rest of the corpus in play.
 const SYMPOSIUM_CROSS_RE = /\b(relate[ds]?|relation|connect(?:s|ed|ion|ions)?|compare[ds]?|comparison|contrast|prior|previous|earlier|past|history|background|archive[ds]?|precedent|build[s]? on|follow[- ]?up|sig|mrg|drg|prg|research group|discord|lexicon)\b/i;
 
-const SYMPOSIUM_WORKSHOP_RE = /\bworkshops?\b/i;
+// Plural only, and deliberately: "what workshops are on?" is a list question
+// that needs all five, while "what happens in the AI Kitcraft workshop?" wants
+// depth on one — and pinning all five there crowds out that workshop's slides.
+const SYMPOSIUM_WORKSHOP_RE = /\bworkshops\b/i;
 
 // The namespace holds Protocol Symposium *2026* only. Earlier symposia live in
 // the Substack archive, so "summarize the 2025 symposium" must not be scoped to
@@ -851,8 +854,12 @@ function scopedOut(scope) {
 const MAX_SOURCES_SYMPOSIUM = 12;
 
 // A deck is chunked, so one talk can occupy several slots and crowd out every
-// other talk in a "what is on?" answer. Keep each record's best few chunks.
-const MAX_CHUNKS_PER_RECORD = 2;
+// other talk in a "what is on?" answer — but the opposite is true of a question
+// about one session, where the cap is what keeps its slides out of the answer.
+// So the cap follows the shape of the question: breadth for a list, depth for
+// a single subject.
+const MAX_CHUNKS_PER_RECORD_LIST  = 1;
+const MAX_CHUNKS_PER_RECORD_DEPTH = 4;
 
 // "What workshops are on?" is a list question, and similarity ranking does not
 // answer list questions: AI Kitcraft is about the economics of tooling adoption
@@ -864,7 +871,7 @@ function withPinned(pinned, items, limit) {
   return [...pinned, ...items.filter(m => !ids.has(m.docId))].slice(0, limit);
 }
 
-function capPerRecord(items, limit = MAX_CHUNKS_PER_RECORD) {
+function capPerRecord(items, limit) {
   const seen = new Map();
   const kept = [];
   for (const m of [...items].sort((a, b) => b.score - a.score)) {
@@ -1094,6 +1101,7 @@ protocol-pilled: Having internalized the protocol paradigm — perceiving coordi
 
 CURRENT DATE AND TIME:
 Each question is prefixed with the current date and time in UTC. Use it whenever recency or ordering matters — which of two things came first, whether something is upcoming or past, how old a source is. Do not guess the date from the corpus; the excerpts are historical and say nothing about today.
+Compare a dated item against that timestamp before you describe it, and write it in one tense. Do not open with a tense you then correct mid-sentence.
 
 PROTOCOL SYMPOSIUM 2026:
 The Protocol Institute's annual convening, September 21-25 2026, fully virtual, on the theme of New Nature. Workshops run September 21-22; talks September 23-25, roughly 15:00-23:00 UTC daily. Programme excerpts are labelled PROTOCOL SYMPOSIUM 2026.
@@ -3487,7 +3495,8 @@ async function runMcpAsk(args, env, ctx) {
   const sigAug = [...sigRaw, ...sigPageRaw.filter(m => !_sigPageIds2.has(m.id))];
   const _sympIds2 = new Set(sympRaw2.map(m => m.id));
   const sympAug2 = capPerRecord([...sympRaw2,
-    ...[...sympOverviewRaw2, ...sympWorkshopRaw2].filter(m => !_sympIds2.has(m.id))]);
+    ...[...sympOverviewRaw2, ...sympWorkshopRaw2].filter(m => !_sympIds2.has(m.id))],
+    scope2.workshops ? MAX_CHUNKS_PER_RECORD_LIST : MAX_CHUNKS_PER_RECORD_DEPTH);
 
   const transcriptItems2 = transcriptRaw2.map(normalizeTranscript);
   const cacheHits2       = transcriptItems2.filter(m => m.score >= TRANSCRIPT_CACHE_THRESHOLD && m.url);
@@ -3801,7 +3810,8 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   const sigAug = [...sigRaw, ...sigPageRaw.filter(m => !sigPageIds.has(m.id))];
   const sympIds = new Set(sympRaw.map(m => m.id));
   const sympExtra = [...sympOverviewRaw, ...sympWorkshopRaw].filter(m => !sympIds.has(m.id));
-  const sympAug = capPerRecord([...sympRaw, ...sympExtra]);
+  const sympAug = capPerRecord([...sympRaw, ...sympExtra],
+    scope.workshops ? MAX_CHUNKS_PER_RECORD_LIST : MAX_CHUNKS_PER_RECORD_DEPTH);
 
   const pdfSummaryHits = pdfRaw.filter(m => m.metadata?.chunk_type === "doc_summary");
   const subSummaryHits = subRaw.filter(m => m.metadata?.chunk_type === "post_summary");

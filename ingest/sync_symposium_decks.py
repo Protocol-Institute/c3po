@@ -63,8 +63,29 @@ MAP_PATH    = ROOT / "config" / "symposium_deck_map.json"
 
 FOLDER_MIME = "application/vnd.google-apps.folder"
 GSLIDES     = "application/vnd.google-apps.presentation"
+GSLIDES_ALT = "application/vnd.google-apps.punch"     # legacy mime, still served
 GDOC        = "application/vnd.google-apps.document"
+SHORTCUT    = "application/vnd.google-apps.shortcut"
 UA          = {"User-Agent": "Mozilla/5.0 (compatible; c3po-ingest/1.0)"}
+
+# Some entries in the folder are pointers rather than documents: a Drive
+# shortcut, or a one-slide deck whose only content is a link to where the real
+# slides live. Both are followed exactly one hop (VGR, session 55) — never
+# further, so a linked page that links onward cannot walk us into the open web.
+POINTER_THIN_CHARS = 400        # under this, a URL in the text IS the document
+POINTER_MAX_CHARS  = 60_000     # cap on what one hop may bring back
+
+# A zip is a bundle, and bundles repeat themselves: the AI Kitcraft archive held
+# the same deck as .pptx twice plus an HTML export plus the notes as Markdown.
+ZIP_MEMBER_LIMIT = 12
+ZIP_TEXT_LIMIT   = 200_000
+
+# Two files under one talk are usually the same material twice (a deck and its
+# own export). Above this token overlap the richer one is kept and the rest are
+# dropped, because duplicate chunks compete for the same retrieval slots. Below
+# it they are treated as genuinely different documents — a deck and a companion
+# paper, say — and both are ingested.
+DUP_OVERLAP = 0.60
 
 # A filename must clear this to be accepted on title similarity alone.
 TITLE_THRESHOLD   = 0.60
@@ -119,6 +140,33 @@ def walk_folder(folder_id: str, path: str = "") -> list[dict]:
         else:
             files.append({**e, "path": path})
     return files
+
+
+def resolve_shortcuts(files: list[dict]) -> list[dict]:
+    """Replace each Drive shortcut with the file it points at — one hop.
+
+    A shortcut whose target is already in the folder is dropped rather than
+    followed: it is the same document reached twice, and ingesting it again
+    would put duplicate chunks in the index.
+    """
+    known = {f["id"] for f in files}
+    out = []
+    for f in files:
+        if f["mime"] != SHORTCUT:
+            out.append(f)
+            continue
+        target = shortcut_target(f["id"])
+        if not target:
+            out.append(f)        # unresolvable: let it fail loudly downstream
+            continue
+        tid, tmime = target
+        if tid in known:
+            print(f"  LINK  {f['name'][:50]:<52} shortcut to a file already in "
+                  f"this folder — not ingested twice")
+            continue
+        print(f"  LINK  {f['name'][:50]:<52} shortcut -> {tid}")
+        out.append({**f, "id": tid, "mime": tmime or "", "via_shortcut": f["id"]})
+    return out
 
 
 def download(f: dict) -> bytes:
@@ -223,6 +271,126 @@ def extract_html(blob: bytes) -> str:
     return soup.get_text("\n")
 
 
+def extract_zip(blob: bytes, name: str) -> str:
+    """Extract every supported member, keeping one copy of repeated material.
+
+    The members are renderings of each other as often as not, so the richest of
+    any near-duplicate set wins and the others are dropped — the same rule
+    applied across files that resolve to one talk.
+    """
+    import zipfile
+    z = zipfile.ZipFile(io.BytesIO(blob))
+    members = [n for n in z.namelist()
+               if not n.endswith("/") and not n.startswith("__MACOSX")][:ZIP_MEMBER_LIMIT]
+
+    got: list[tuple[str, str]] = []
+    for member in members:
+        try:
+            text = extract_bytes(member, z.read(member))
+        except Exception:                                        # noqa: BLE001
+            continue                      # an unsupported member is not a failure
+        if len(text.strip()) >= 200:
+            got.append((member, text))
+
+    kept: list[tuple[str, str]] = []
+    for member, text in sorted(got, key=lambda mt: -len(mt[1])):
+        twin = next((k for k in kept if token_overlap(k[1], text) >= DUP_OVERLAP), None)
+        if twin:
+            print(f"    zip: {member[:44]:<46} skipped — same material as {twin[0][:34]}")
+            continue
+        kept.append((member, text))
+
+    if not kept:
+        raise RuntimeError(f"zip {name} holds no extractable document")
+    out = "\n\n".join(f"[{member}]\n{text}" for member, text in kept)
+    return out[:ZIP_TEXT_LIMIT]
+
+
+def extract_bytes(name: str, data: bytes) -> str:
+    """Extraction dispatched on filename alone — for zip members, which have no mime."""
+    low = name.lower()
+    if low.endswith(".pptx"):
+        return clean_text(extract_pptx(data))
+    if low.endswith(".docx"):
+        return clean_text(extract_docx(data))
+    if low.endswith(".pdf"):
+        return clean_text(extract_pdf(data))
+    if low.endswith((".html", ".htm")):
+        return clean_text(extract_html(data))
+    if low.endswith((".md", ".txt", ".markdown", ".csv")):
+        return clean_text(data.decode("utf-8", "replace"))
+    raise RuntimeError(f"no extractor for {name}")
+
+
+def token_overlap(a: str, b: str) -> float:
+    """Jaccard over 4+ letter words — enough to tell a re-export from a new document."""
+    ta = set(re.findall(r"[a-z]{4,}", a.lower()))
+    tb = set(re.findall(r"[a-z]{4,}", b.lower()))
+    if not ta or not tb:
+        return 0.0
+    return len(ta & tb) / len(ta | tb)
+
+
+# ── One-hop pointers ──────────────────────────────────────────────────────────
+
+DRIVE_LINK_RE = re.compile(
+    r"https?://(?:docs|drive)\.google\.com/(document|presentation|spreadsheets|file)/d/([A-Za-z0-9_-]{20,})")
+ANY_LINK_RE = re.compile(r"https?://[^\s<>\"')\]]+")
+
+
+def shortcut_target(fid: str) -> tuple[str, str] | None:
+    """(target id, mime) behind a Drive shortcut, read from where /view lands."""
+    try:
+        resp = urllib.request.urlopen(
+            urllib.request.Request(f"https://drive.google.com/file/d/{fid}/view", headers=UA),
+            timeout=60)
+        html = resp.read().decode("utf-8", "replace")
+    except Exception:                                            # noqa: BLE001
+        return None
+    m = re.search(r"/(?:document|presentation|spreadsheets|file)/d/([A-Za-z0-9_-]{20,})", resp.geturl())
+    if not m or m.group(1) == fid:
+        return None
+    mime = (re.search(r'"(application/vnd\.google-apps\.[a-z]+)"', html) or [None, ""])[1]
+    if mime == GSLIDES_ALT:
+        mime = GSLIDES
+    return m.group(1), mime
+
+
+def fetch_linked_document(url: str) -> str:
+    """Retrieve one linked document — a Drive file, or an ordinary web page."""
+    m = DRIVE_LINK_RE.match(url)
+    if m:
+        kind, fid = m.groups()
+        mime = {"document": GDOC, "presentation": GSLIDES}.get(kind, "")
+        return extract({"id": fid, "name": url, "mime": mime}, download({"id": fid, "mime": mime}))
+    blob = _get(url, timeout=60)
+    return clean_text(extract_html(blob))
+
+
+def follow_pointer(text: str, name: str) -> tuple[str, str] | None:
+    """A thin document whose payload is a link: fetch what it points at, once.
+
+    Returns (text, url) or None. Only thin documents are followed: in a real
+    deck a URL is a citation, and chasing citations would pull the open web into
+    the symposium namespace.
+    """
+    if len(text) >= POINTER_THIN_CHARS:
+        return None
+    url = (DRIVE_LINK_RE.search(text) or ANY_LINK_RE.search(text))
+    if not url:
+        return None
+    url = url.group(0).rstrip(".,);")
+    try:
+        linked = fetch_linked_document(url)
+    except Exception as e:                                       # noqa: BLE001
+        print(f"  POINT {name[:50]:<52} pointer {url[:40]} unreachable: {str(e)[:40]}")
+        return None
+    if len(linked.strip()) < 200:
+        return None
+    print(f"  POINT {name[:50]:<52} followed -> {url[:44]} ({len(linked)} chars)")
+    return (f"{text}\n\n[Retrieved from {url}]\n{linked}"[:POINTER_MAX_CHARS], url)
+
+
 def extract(f: dict, blob: bytes) -> str:
     mime, name = f["mime"], f["name"].lower()
     if mime == GSLIDES or name.endswith(".pptx") or "presentationml" in mime:
@@ -236,7 +404,9 @@ def extract(f: dict, blob: bytes) -> str:
         return text
     if mime == "text/html" or name.endswith((".html", ".htm")):
         return clean_text(extract_html(blob))
-    if mime.startswith("text/"):
+    if mime in ("application/zip", "application/x-zip-compressed") or name.endswith(".zip"):
+        return extract_zip(blob, f["name"])
+    if mime.startswith("text/") or name.endswith((".md", ".txt", ".markdown")):
         return clean_text(blob.decode("utf-8", "replace"))
     raise RuntimeError(f"no extractor for {mime}")
 
@@ -359,6 +529,51 @@ def due(state, min_hours: float) -> bool:
     return (datetime.now(timezone.utc) - prev).total_seconds() >= min_hours * 3600
 
 
+def collapse_duplicates(todo, duplicates):
+    """Split (file, proposal, why) triples into keepers and same-talk duplicates.
+
+    Returns (keep, dropped). Keepers carry a fourth element: text already
+    extracted during the comparison, or None when the file was never contested
+    and should go through the ordinary download gate.
+    """
+    from collections import defaultdict
+    groups = defaultdict(list)
+    for f, prop, why in todo:
+        groups[prop.get("slug") or prop["title"]].append((f, prop, why))
+
+    keep, dropped = [], []
+    for slug, members in groups.items():
+        if len(members) == 1:
+            f, prop, why = members[0]
+            keep.append((f, prop, why, None))
+            continue
+
+        extracted = []
+        for f, prop, why in members:
+            try:
+                extracted.append((f, prop, why, extract(f, download(f))))
+            except Exception as e:                               # noqa: BLE001
+                print(f"  FAIL  {f['name'][:50]:<52} {str(e)[:60]}")
+        for cand in sorted(extracted, key=lambda t: -len(t[3])):
+            twin = next((k for k in keep if k[3] is not None
+                         and (k[1].get("slug") or k[1]["title"]) == slug
+                         and token_overlap(k[3], cand[3]) >= DUP_OVERLAP), None)
+            if twin:
+                overlap = token_overlap(twin[3], cand[3])
+                print(f"  DUP   {cand[0]['name'][:50]:<52} {len(cand[3]):>7} chars — "
+                      f"{overlap:.2f} overlap with {twin[0]['name'][:28]}, kept that one")
+                duplicates.append({
+                    "id": cand[0]["id"], "name": cand[0]["name"],
+                    "matched_to": cand[1]["title"],
+                    "reason": f"near-duplicate of {twin[0]['name']} "
+                              f"(token overlap {overlap:.2f}); the richer file was kept",
+                })
+                dropped.append((cand[0], cand[1], cand[2]))
+                continue
+            keep.append(cand)
+    return keep, dropped
+
+
 def run(dry_run=False, report=False, force=False, prune=False, limit=None,
         min_interval_hours: float = 0.0):
     if min_interval_hours and not due(load_json(STATE_PATH, {}), min_interval_hours):
@@ -371,7 +586,7 @@ def run(dry_run=False, report=False, force=False, prune=False, limit=None,
     files     = state["files"]
 
     print(f"Listing Drive folder {ROOT_FOLDER} …")
-    drive = walk_folder(ROOT_FOLDER)
+    drive = resolve_shortcuts(walk_folder(ROOT_FOLDER))
     print(f"  {len(drive)} files across the folder tree\n")
 
     resolved, review = [], []
@@ -409,19 +624,37 @@ def run(dry_run=False, report=False, force=False, prune=False, limit=None,
     print(f"\n── Extracting {len(todo)} deck(s) ──")
     upserted = skipped = failed = 0
     thin: list[dict] = []
-    for f, p, why in todo:
+    duplicates: list[dict] = []
+
+    # Where several files land on one talk, they are usually one document in
+    # several wrappers. Extract the contested ones up front so the richest can
+    # be chosen; uncontested files keep the cheap no-download gate below.
+    todo, dup_drop = collapse_duplicates(todo, duplicates)
+    for f, p, why in dup_drop:
+        # A file demoted to duplicate may have been ingested on an earlier run.
+        prev = files.pop(f["id"], {})
+        for vid in prev.get("vector_ids", []):
+            if not report:
+                idx.delete(ids=[vid], namespace=NAMESPACE)
+    if dup_drop:
+        save_json(STATE_PATH, state)
+
+    for f, p, why, pre in todo:
         prev = files.get(f["id"], {})
         # Cheap gate first: no download unless Drive says the file moved.
-        if not force and prev.get("mtime") == f["mtime"] and prev.get("size") == f["size"]:
+        if pre is None and not force and prev.get("mtime") == f["mtime"] and prev.get("size") == f["size"]:
             skipped += 1
             continue
         try:
-            blob = download(f)
-            text = extract(f, blob)
+            text = pre if pre is not None else extract(f, download(f))
         except Exception as e:                                    # noqa: BLE001
             print(f"  FAIL  {f['name'][:50]:<52} {str(e)[:60]}")
             failed += 1
             continue
+        # A document whose whole content is a link to the real document.
+        hop = follow_pointer(text, f["name"])
+        if hop:
+            text = hop[0]
         if len(text) < 200:
             # Two distinct cases, both "not ingestable", worth telling apart:
             # a stub deck the speaker has not filled in yet, and a PDF that is
@@ -499,13 +732,18 @@ def run(dry_run=False, report=False, force=False, prune=False, limit=None,
 
     state["last_sync"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     save_json(STATE_PATH, state)
-    if thin:
+    if thin or duplicates:
         rev = load_json(REVIEW_PATH, {})
-        rev["not_ingestable"] = thin
+        if thin:
+            rev["not_ingestable"] = thin
+        # Deliberately dropped, not awaiting a decision — recorded so the pile of
+        # near-identical files under one talk is visible rather than mysterious.
+        rev["duplicates_dropped"] = duplicates
         save_json(REVIEW_PATH, rev)
 
     print(f"\n── Summary ──  embedded {upserted}   unchanged {skipped}   "
-          f"failed {failed}   not ingestable {len(thin)}   needs review {len(review)}")
+          f"failed {failed}   duplicates {len(duplicates)}   "
+          f"not ingestable {len(thin)}   needs review {len(review)}")
 
 
 if __name__ == "__main__":
