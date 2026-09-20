@@ -53,6 +53,14 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 BASE_URL   = "https://protocol-institute.org"
 EVENT_PATH = "/events/protocol-symposium-2026"
 NAMESPACE  = "symposium"
+
+# What the model actually reads. The embedding is built from the full chunk text,
+# but only metadata["text"] reaches the answer, so a low cap here is invisible in
+# retrieval and very visible in the answer: at 1,600 it cut 26 of 61 session
+# chunks and 3 of 5 workshop details mid-sentence — a workshop would be retrieved
+# correctly and then described without its takeaways or activities. Pinecone
+# allows 40KB of metadata per vector; the longest programme record is ~3.5K.
+MAX_META_TEXT = 6000
 STATE_PATH = Path(__file__).parent.parent / "data" / "symposium_state.json"
 
 EVENT_NAME  = "Protocol Symposium 2026"
@@ -371,6 +379,21 @@ def content_hash(text: str, meta: dict) -> str:
     return hashlib.sha256(payload.encode()).hexdigest()[:16]
 
 
+def clip_text(text: str, limit: int = MAX_META_TEXT) -> str:
+    """Trim stored text at a paragraph boundary rather than mid-word.
+
+    Nothing in the programme is near the limit today; this exists so that a
+    future long record degrades visibly instead of silently losing its tail.
+    """
+    if len(text) <= limit:
+        return text
+    cut = text.rfind("\n\n", 0, limit)
+    if cut < limit // 2:
+        cut = limit
+    print(f"  WARN: chunk text {len(text)} chars exceeds {limit} — stored text trimmed")
+    return text[:cut].rstrip() + "\n\n[...]"
+
+
 def vector_id(key: str, seq: int = 0) -> str:
     slug = re.sub(r"[^a-zA-Z0-9_.:-]", "-", key)
     return f"symposium__{slug}__{seq}"
@@ -456,7 +479,7 @@ def run(dry_run: bool = False, force: bool = False, prune: bool = False):
 
         vectors = embed_chunks([c["text"]], vc)
         vid = vector_id(c["key"])
-        meta = {**c["meta"], "text": c["text"][:1600]}
+        meta = {**c["meta"], "text": clip_text(c["text"])}
         idx.upsert(vectors=[{"id": vid, "values": vectors[0], "metadata": meta}],
                    namespace=NAMESPACE)
         records[c["key"]] = {

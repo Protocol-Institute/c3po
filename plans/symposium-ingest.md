@@ -232,6 +232,70 @@ against 61 rich abstracts, so "what is the symposium" would depend on getting
 lucky at `TOP_K_EACH`. Fire a parallel filtered sub-query for it, the way
 `sig_meeting_page` already does.
 
+## Retrieval scoping (session 55, 2026-09-20)
+
+Queried alongside every other namespace at equal weight, the programme lost to
+the archive on questions that were explicitly about the event. Measured before
+the change: *"What workshops are happening at the Protocol Symposium?"* ranked a
+**2025** Substack post above the programme and surfaced 2 of the 5 workshops;
+*"symposium talks on memory"* returned 2025 posts, an MRG video and a 2023 PDF.
+
+**A query that names the symposium is answered from the programme.** The other
+namespaces are not queried at all on such a question — skipped rather than
+fetched and discarded, so it also costs less Pinecone egress. Three deliberate
+limits on that rule:
+
+1. **The trigger is the event being named** (`/\bsymposium\b/i`), not any word
+   the programme contains. "What did the MRG say about memory?" is untouched.
+2. **A year other than 2026 cancels scoping.** Earlier symposia are Substack
+   archive; without this, "summarize the 2025 symposium" would be answered
+   confidently from the 2026 programme. Caught in testing, not in production.
+3. **Relational questions keep the archive.** "How does this talk relate to
+   prior work?" is the cross-corpus case the plan calls the real value, so an
+   explicit reach for prior work (`relate`, `connect`, `compare`, `prior`,
+   `archive`, a SIG name…) puts the rest of the corpus back in play, with the
+   programme still holding the larger share of slots.
+
+Retrieval is **not** filtered by date — section 2 above still holds. This scopes
+by corpus, never by whether a session has already happened.
+
+**List questions do not survive similarity ranking.** "What workshops are on?"
+is a request for an exhaustive set of five, and AI Kitcraft — about the
+economics of tooling adoption — ranks below a dozen chunks that merely say
+"workshop" more often. A `chunk_type = symposium_workshop` sub-query returns
+exactly the five and they are **pinned** into the context rather than made to
+win a race they cannot win. Two supporting numbers: a scoped answer gets 12
+source slots instead of 8 (one namespace, not eleven), and no single record may
+occupy more than 2 slots — one chunked deck was taking three.
+
+### The 1,600-character cap that made workshops look unindexed
+
+The workshops *were* indexed the whole time. What was missing was their content:
+`metadata["text"]` — the only part of a chunk the model ever reads — was stored
+`[:1600]` while the embedding used the full text. So a workshop was retrieved
+correctly and then described without its takeaways or activities, which reads
+exactly like it is not in the index.
+
+Scale of the loss when found: **13,124 characters** across the programme — 26 of
+61 session chunks and 3 of 5 workshop details, cut mid-sentence. The two richest
+workshops lost more than half their detail. In the deck corpus it was worse: the
+shared chunker targets 512 tokens (~2.3K chars), so **37 of 40 sampled deck
+chunks sat exactly at the cap** — roughly a third of every slide chunk never
+reached the model.
+
+The cap is now 6,000 with a paragraph-boundary trim and a warning if anything
+ever exceeds it (Pinecone allows 40KB of metadata per vector; the longest
+programme record is ~3.5K). This is the same class as the rest of the corpus,
+where `[:1000]` is the convention — there it rarely bites because those
+pipelines chunk before embedding. The symposium ingest embeds one chunk per
+record, which is what made the cap load-bearing.
+
+**One gap is upstream, not ours.** The Protocol Hackathon workshop's
+`activities` field is 49 characters and ends mid-sentence in D1 ("some
+combination of simulated experiments, code, "). c3po now reports the workshop
+honestly as open-format rather than inventing the rest; filling it in is an
+organiser/website task.
+
 ## Phase B — slide decks (SHIPPED 2026-09-16, `ingest/sync_symposium_decks.py`)
 
 **Outcome:** 30 files in the folder tree; **all 30 resolved**, 25 embedded, 5 are

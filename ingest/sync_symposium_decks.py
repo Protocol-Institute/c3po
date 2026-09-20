@@ -50,6 +50,12 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 
 ROOT_FOLDER = "1lyX7G4sKcZRNmHNN7EULT29SSwxK8J69"
 NAMESPACE   = "symposium"
+
+# Stored text is what the model reads; the embedding uses the full chunk. The
+# shared chunker targets 512 tokens (~2.3K chars), so the old 1,600-char cap was
+# cutting roughly the last third off nearly every slide chunk. See the same
+# constant in sync_symposium.py.
+MAX_META_TEXT = 6000
 ROOT        = Path(__file__).parent.parent
 STATE_PATH  = ROOT / "data" / "symposium_decks_state.json"
 REVIEW_PATH = ROOT / "data" / "symposium_decks_review.json"
@@ -470,7 +476,7 @@ def run(dry_run=False, report=False, force=False, prune=False, limit=None,
                 "source_file": f["name"], "drive_id": f["id"],
                 "chunk_index": i, "chunk_total": len(chunks),
                 "url": f"{BASE_URL}{EVENT_PATH}/talks#p-{p['id']}",
-                "text": c[:1600],
+                "text": c[:MAX_META_TEXT],
             }} for i, (vid, vec, c) in enumerate(zip(ids, vecs, chunks))],
             namespace=NAMESPACE)
         files[f["id"]] = {"mtime": f["mtime"], "size": f["size"], "text_hash": thash,

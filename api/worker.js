@@ -796,6 +796,87 @@ function normalizeTranscript(match) {
   };
 }
 
+// ── Symposium scoping ──────────────────────────────────────────────────────────
+// A question asked explicitly about the symposium should be answered from the
+// programme, not from three years of archive that shares its vocabulary. Before
+// this, "what workshops are happening at the Protocol Symposium?" ranked a 2025
+// Substack post above the programme and surfaced 2 of the 5 workshops.
+//
+// Deliberately narrow: the trigger is the event being named, not any word the
+// programme happens to contain. "What did the MRG say about memory?" is not a
+// symposium question and is unaffected.
+const SYMPOSIUM_RE = /\b(symposium|symposia)\b/i;
+
+// The escape hatch. Connecting a talk to the archive is the thing c3po can do
+// that the programme page cannot (plans/symposium-ingest.md), so a question that
+// explicitly reaches for prior work keeps the rest of the corpus in play.
+const SYMPOSIUM_CROSS_RE = /\b(relate[ds]?|relation|connect(?:s|ed|ion|ions)?|compare[ds]?|comparison|contrast|prior|previous|earlier|past|history|background|archive[ds]?|precedent|build[s]? on|follow[- ]?up|sig|mrg|drg|prg|research group|discord|lexicon)\b/i;
+
+const SYMPOSIUM_WORKSHOP_RE = /\bworkshops?\b/i;
+
+// The namespace holds Protocol Symposium *2026* only. Earlier symposia live in
+// the Substack archive, so "summarize the 2025 symposium" must not be scoped to
+// the 2026 programme — it would be answered confidently about the wrong event.
+const SYMPOSIUM_OTHER_YEAR_RE = /\b(19|20)\d{2}\b/;
+const SYMPOSIUM_THIS_YEAR = "2026";
+
+// Scoped queries lose the other namespaces, so the programme gets the retrieval
+// budget the whole corpus used to share.
+const TOP_K_SYMPOSIUM_SCOPED = 12;
+
+function symposiumScope(query) {
+  const q = String(query || "");
+  const years = q.match(new RegExp(SYMPOSIUM_OTHER_YEAR_RE, "g")) || [];
+  const otherYear = years.length > 0 && !years.includes(SYMPOSIUM_THIS_YEAR);
+  const scoped = SYMPOSIUM_RE.test(q) && !otherYear;
+  if (!scoped) return { scoped: false, crossCorpus: false, workshops: false, k: TOP_K_EACH };
+  return {
+    scoped:      true,
+    crossCorpus: SYMPOSIUM_CROSS_RE.test(q),
+    workshops:   SYMPOSIUM_WORKSHOP_RE.test(q),
+    k:           TOP_K_SYMPOSIUM_SCOPED,
+  };
+}
+
+// Namespaces other than `symposium` are skipped entirely on a scoped query —
+// not queried and then discarded, so this also spends less Pinecone egress.
+function scopedOut(scope) {
+  return scope.scoped && !scope.crossCorpus;
+}
+
+// A scoped answer is drawn from one namespace, so it can afford more excerpts
+// than a merge across eleven. Without this, "what workshops are on?" spent its
+// eight slots on the overview, the welcome session and two chunks of one
+// workshop, and the fifth workshop never reached the model.
+const MAX_SOURCES_SYMPOSIUM = 12;
+
+// A deck is chunked, so one talk can occupy several slots and crowd out every
+// other talk in a "what is on?" answer. Keep each record's best few chunks.
+const MAX_CHUNKS_PER_RECORD = 2;
+
+// "What workshops are on?" is a list question, and similarity ranking does not
+// answer list questions: AI Kitcraft is about the economics of tooling adoption
+// and ranks below a dozen chunks that say the word "workshop" more often. The
+// chunk_type sub-query already returns exactly the five, so put them in context
+// unconditionally rather than making them win a race they cannot win.
+function withPinned(pinned, items, limit) {
+  const ids = new Set(pinned.map(m => m.docId));
+  return [...pinned, ...items.filter(m => !ids.has(m.docId))].slice(0, limit);
+}
+
+function capPerRecord(items, limit = MAX_CHUNKS_PER_RECORD) {
+  const seen = new Map();
+  const kept = [];
+  for (const m of [...items].sort((a, b) => b.score - a.score)) {
+    const key = m.metadata?.slug || m.id;
+    const n = seen.get(key) || 0;
+    if (n >= limit) continue;
+    seen.set(key, n + 1);
+    kept.push(m);
+  }
+  return kept;
+}
+
 // ── Merge ──────────────────────────────────────────────────────────────────────
 
 function mergeResults(pdfItems, substackItems, videoItems, bibItems, discordItems, sigItems, webItems, defItems, metaItems, transcriptItems, symposiumItems, maxSources) {
@@ -3370,38 +3451,53 @@ async function runMcpAsk(args, env, ctx) {
   const exchangeNum = Math.floor(history.length / 2) + 1;
   const vec = await embed(question, env.VOYAGE_API_KEY);
 
-  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2, sympRaw2, sympOverviewRaw2] = await Promise.all([
-    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "pdfs"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "substack"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "videos"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_BIB,  "bibliography"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "discord"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "sig"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_LINKS, "discord_links"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "definitions"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 3, "meta"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 3, "sig",
+  // Same scoping as POST /query — MCP callers ask the same questions.
+  const scope2    = symposiumScope(question);
+  const skipRest2 = scopedOut(scope2);
+  const none2     = Promise.resolve([]);
+
+  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2, sympRaw2, sympOverviewRaw2, sympWorkshopRaw2] = await Promise.all([
+    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "pdfs"),
+    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "substack"),
+    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "videos"),
+    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_BIB,  "bibliography"),
+    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "discord"),
+    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "sig"),
+    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_LINKS, "discord_links"),
+    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "definitions"),
+    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 3, "meta"),
+    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 3, "sig",
       { chunk_type: { "$eq": "sig_meeting_page" } }),
     queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 3, "transcripts"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "symposium"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, scope2.k, "symposium"),
     queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 2, "symposium",
       { chunk_type: { "$in": ["symposium_overview", "symposium_block"] } }),
+    scope2.workshops
+      ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 5, "symposium",
+          { chunk_type: { "$eq": "symposium_workshop" } })
+      : none2,
   ]);
   const retrievalDegraded = anyPineconeFailed(
-    pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2, sympRaw2, sympOverviewRaw2
+    pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2, sympRaw2, sympOverviewRaw2, sympWorkshopRaw2
   );
   await trackEgress(env,
-    totalEgressBytes(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2, sympRaw2, sympOverviewRaw2),
-    anyCached(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2, sympRaw2, sympOverviewRaw2));
+    totalEgressBytes(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2, sympRaw2, sympOverviewRaw2, sympWorkshopRaw2),
+    anyCached(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2, sympRaw2, sympOverviewRaw2, sympWorkshopRaw2));
   const _sigPageIds2 = new Set(sigRaw.map(m => m.id));
   const sigAug = [...sigRaw, ...sigPageRaw.filter(m => !_sigPageIds2.has(m.id))];
   const _sympIds2 = new Set(sympRaw2.map(m => m.id));
-  const sympAug2 = [...sympRaw2, ...sympOverviewRaw2.filter(m => !_sympIds2.has(m.id))];
+  const sympAug2 = capPerRecord([...sympRaw2,
+    ...[...sympOverviewRaw2, ...sympWorkshopRaw2].filter(m => !_sympIds2.has(m.id))]);
 
   const transcriptItems2 = transcriptRaw2.map(normalizeTranscript);
   const cacheHits2       = transcriptItems2.filter(m => m.score >= TRANSCRIPT_CACHE_THRESHOLD && m.url);
 
-  const topItems     = mergeResults(pdfRaw.map(normalizePdf), subRaw.map(normalizeSubstack), vidRaw.map(normalizeVideo), bibRaw.map(normalizeBibliography), discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig), webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition), metaRaw2.map(normalizeDevlog), transcriptItems2, sympAug2.map(normalizeSymposium), MAX_SOURCES);
+  const sourceBudget2 = scope2.scoped ? MAX_SOURCES_SYMPOSIUM : MAX_SOURCES;
+  const topItems     = withPinned(
+    scope2.workshops ? sympWorkshopRaw2.map(normalizeSymposium) : [],
+    mergeResults(pdfRaw.map(normalizePdf), subRaw.map(normalizeSubstack), vidRaw.map(normalizeVideo), bibRaw.map(normalizeBibliography), discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig), webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition), metaRaw2.map(normalizeDevlog), transcriptItems2, sympAug2.map(normalizeSymposium), sourceBudget2),
+    sourceBudget2
+  );
   const contextBlock = buildContextBlock(topItems);
   const sources      = topItems
     .filter(m => m.source !== "transcript")
@@ -3661,36 +3757,51 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   if (!voyageRes.ok) throw new Error("Embedding service error");
   const qv = (await voyageRes.json()).data[0].embedding;
 
-  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw, sympRaw, sympOverviewRaw] = await Promise.all([
-    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "pdfs"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "substack"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "videos"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_BIB,  "bibliography"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "discord"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "sig"),
-    context === "discord"
-      ? Promise.resolve([])
+  // A question that names the symposium is answered from the programme; the rest
+  // of the corpus is skipped unless the question also reaches for prior work.
+  const scope    = symposiumScope(query);
+  const skipRest = scopedOut(scope);
+  const none     = Promise.resolve([]);
+
+  const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw, sympRaw, sympOverviewRaw, sympWorkshopRaw] = await Promise.all([
+    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "pdfs"),
+    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "substack"),
+    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "videos"),
+    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_BIB,  "bibliography"),
+    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "discord"),
+    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "sig"),
+    skipRest || context === "discord"
+      ? none
       : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_LINKS, "discord_links"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "definitions"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 3, "meta"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 3, "sig",
+    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "definitions"),
+    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 3, "meta"),
+    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 3, "sig",
       { chunk_type: { "$eq": "sig_meeting_page" } }),
+    // Prior conversations stay available: they are c3po's own memory of the same
+    // question, not archival material competing with the programme.
     queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 3, "transcripts"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "symposium"),
+    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, scope.k, "symposium"),
     // The event overview and the four session blocks are a handful of chunks against
     // 61 rich abstracts, so they lose a plain nearest-neighbour race. Same guarantee
     // the sig_meeting_page sub-query provides.
     queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 2, "symposium",
       { chunk_type: { "$in": ["symposium_overview", "symposium_block"] } }),
+    // "What workshops are on?" is a list question against 5 records that each lose
+    // to 61 talk abstracts on plain similarity. Ask for all five by chunk_type.
+    scope.workshops
+      ? queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 5, "symposium",
+          { chunk_type: { "$eq": "symposium_workshop" } })
+      : none,
   ]);
   const retrievalDegraded = anyPineconeFailed(
-    pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw, sympRaw, sympOverviewRaw
+    pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw, sympRaw, sympOverviewRaw, sympWorkshopRaw
   );
   // Ensure top sig_meeting_page results surface even when ranked below TOP_K_EACH in general sig query
   const sigPageIds = new Set(sigRaw.map(m => m.id));
   const sigAug = [...sigRaw, ...sigPageRaw.filter(m => !sigPageIds.has(m.id))];
   const sympIds = new Set(sympRaw.map(m => m.id));
-  const sympAug = [...sympRaw, ...sympOverviewRaw.filter(m => !sympIds.has(m.id))];
+  const sympExtra = [...sympOverviewRaw, ...sympWorkshopRaw].filter(m => !sympIds.has(m.id));
+  const sympAug = capPerRecord([...sympRaw, ...sympExtra]);
 
   const pdfSummaryHits = pdfRaw.filter(m => m.metadata?.chunk_type === "doc_summary");
   const subSummaryHits = subRaw.filter(m => m.metadata?.chunk_type === "post_summary");
@@ -3736,19 +3847,24 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   // doc_summary/post_summary follow-up fetches (also queryNamespace calls) are
   // counted in the same request's egress total instead of silently excluded.
   await trackEgress(env,
-    totalEgressBytes(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw, sympRaw, sympOverviewRaw, ...secondary),
-    anyCached(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw, sympRaw, sympOverviewRaw));
+    totalEgressBytes(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw, sympRaw, sympOverviewRaw, sympWorkshopRaw, ...secondary),
+    anyCached(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw, sympRaw, sympOverviewRaw, sympWorkshopRaw));
 
   const transcriptItems = transcriptRaw.map(normalizeTranscript);
   const cacheHits = transcriptItems.filter(m => m.score >= TRANSCRIPT_CACHE_THRESHOLD && m.url);
 
-  const topItems = mergeResults(
-    pdfAug.map(normalizePdf), subAug.map(normalizeSubstack),
-    vidAug.map(normalizeVideo), bibRaw.map(normalizeBibliography),
-    discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig),
-    webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition),
-    metaRaw3.map(normalizeDevlog), transcriptItems,
-    sympAug.map(normalizeSymposium), MAX_SOURCES
+  const sourceBudget = scope.scoped ? MAX_SOURCES_SYMPOSIUM : MAX_SOURCES;
+  const topItems = withPinned(
+    scope.workshops ? sympWorkshopRaw.map(normalizeSymposium) : [],
+    mergeResults(
+      pdfAug.map(normalizePdf), subAug.map(normalizeSubstack),
+      vidAug.map(normalizeVideo), bibRaw.map(normalizeBibliography),
+      discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig),
+      webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition),
+      metaRaw3.map(normalizeDevlog), transcriptItems,
+      sympAug.map(normalizeSymposium), sourceBudget
+    ),
+    sourceBudget
   );
   const sources = topItems
     .filter(m => m.source !== "transcript")  // transcript cache hits surfaced separately
