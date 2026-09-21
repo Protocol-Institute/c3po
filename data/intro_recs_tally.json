@@ -86,8 +86,8 @@
       "source": "substack",
       "author": "Kei Kreutler",
       "label": "ESSAY",
-      "count": 13,
-      "last_seen": "2026-09-17",
+      "count": 14,
+      "last_seen": "2026-09-21",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/introducing-the-protocol-institute": {
@@ -506,8 +506,8 @@
       "source": "pdf",
       "author": "David Lang",
       "label": "PAPER",
-      "count": 2,
-      "last_seen": "2026-09-18",
+      "count": 3,
+      "last_seen": "2026-09-21",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/how-the-protocol-institute-is-adopting": {
@@ -629,6 +629,16 @@
       "count": 1,
       "last_seen": "2026-09-18",
       "is_fallback": false
+    },
+    "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-76": {
+      "title": "Oil, uni and tv: post-Soviet infrastructures shaping protocols for web",
+      "url": "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-76",
+      "source": "symposium",
+      "author": "Polina Kolozaridi",
+      "label": "PROTOCOL SYMPOSIUM 2026",
+      "count": 1,
+      "last_seen": "2026-09-21",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -713,8 +723,8 @@
       "name": "🫆-personhood-research-group",
       "display": "#🫆-personhood-research-group",
       "sig_display": "",
-      "count": 6,
-      "last_seen": "2026-09-17"
+      "count": 7,
+      "last_seen": "2026-09-21"
     }
   }
 }
