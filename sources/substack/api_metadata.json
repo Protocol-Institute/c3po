@@ -1,5 +1,53 @@
 [
   {
+    "id": 216647747,
+    "slug": "methods-madness-monsters-and-magic",
+    "title": "Methods, Madness, Monsters and Magic in New Nature",
+    "subtitle": "Kicking off the Protocol Symposium 2026",
+    "post_date": "2026-09-21T14:12:27.267Z",
+    "updated_at": "2026-09-21T14:14:27.915Z",
+    "type": "newsletter",
+    "wordcount": 1680,
+    "section_id": 333103,
+    "section_name": "Obliquities",
+    "postTags": [
+      {
+        "id": "b3c889d5-9fcb-4636-a11c-7f84d7531af8",
+        "name": "New Nature",
+        "slug": "new-nature"
+      },
+      {
+        "id": "ef288b40-b5e4-4d44-9b8e-437375f78efd",
+        "name": "Protocol Symposium",
+        "slug": "protocol-symposium"
+      },
+      {
+        "id": "f5b79685-66b2-41be-85b7-3acc6d387b25",
+        "name": "Obliquities",
+        "slug": "obliquities"
+      }
+    ],
+    "publishedBylines": [
+      {
+        "id": 2264734,
+        "name": "Venkatesh Rao",
+        "handle": "contraptions",
+        "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 1,
+    "restacks": 1,
+    "comment_count": 0,
+    "previous_post_slug": "how-the-protocol-institute-is-adopting",
+    "next_post_slug": null
+  },
+  {
     "id": 216045781,
     "slug": "securing-stigmergic-systems",
     "title": "Securing Stigmergic Systems",
@@ -31,8 +79,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 2,
-    "restacks": 1,
+    "reaction_count": 6,
+    "restacks": 5,
     "comment_count": 1,
     "previous_post_slug": "the-ductus-of-protocol-fiction",
     "next_post_slug": null
@@ -69,7 +117,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 7,
+    "reaction_count": 8,
     "restacks": 6,
     "comment_count": 0,
     "previous_post_slug": "trust-by-protocol",
@@ -124,7 +172,7 @@
         "id": 2011373,
         "name": "Thing Party",
         "handle": "thingparty",
-        "bio": null
+        "bio": " "
       },
       {
         "id": 309790256,
@@ -159,7 +207,7 @@
         "bio": "Delving. Writing the Contraptions newsletter. Contributor to Protocolized Previously: ribbonfarm.com More: venkateshrao.com"
       }
     ],
-    "reaction_count": 11,
+    "reaction_count": 13,
     "restacks": 7,
     "comment_count": 3,
     "previous_post_slug": "durable-ai-adoption",
@@ -243,7 +291,7 @@
     "restacks": 3,
     "comment_count": 0,
     "previous_post_slug": "jamverse-jam-contest-closes-today",
-    "next_post_slug": null
+    "next_post_slug": "methods-madness-monsters-and-magic"
   },
   {
     "id": 209261100,
@@ -294,7 +342,7 @@
         "id": 2011373,
         "name": "Thing Party",
         "handle": "thingparty",
-        "bio": null
+        "bio": " "
       },
       {
         "id": 309790256,
@@ -341,9 +389,9 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 38,
+    "reaction_count": 43,
     "restacks": 10,
-    "comment_count": 11,
+    "comment_count": 15,
     "previous_post_slug": "challenges-trivial-grand-and-whitehead",
     "next_post_slug": "jamverse-jam-contest-closes-today"
   },
@@ -440,7 +488,7 @@
         "id": 2011373,
         "name": "Thing Party",
         "handle": "thingparty",
-        "bio": null
+        "bio": " "
       },
       {
         "id": 309790256,
@@ -603,7 +651,7 @@
         "id": 2011373,
         "name": "Thing Party",
         "handle": "thingparty",
-        "bio": null
+        "bio": " "
       },
       {
         "id": 1244472,
@@ -635,7 +683,7 @@
         "id": 2011373,
         "name": "Thing Party",
         "handle": "thingparty",
-        "bio": null
+        "bio": " "
       },
       {
         "id": 309790256,
@@ -946,7 +994,7 @@
         "id": 2011373,
         "name": "Thing Party",
         "handle": "thingparty",
-        "bio": null
+        "bio": " "
       },
       {
         "id": 309790256,
@@ -1458,7 +1506,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 38,
+    "reaction_count": 39,
     "restacks": 11,
     "comment_count": 6,
     "previous_post_slug": "from-destination-ai-to-intelligence",
@@ -1708,7 +1756,7 @@
         "id": 2011373,
         "name": "Thing Party",
         "handle": "thingparty",
-        "bio": null
+        "bio": " "
       },
       {
         "id": 309790256,
@@ -3502,7 +3550,7 @@
         "id": 2011373,
         "name": "Thing Party",
         "handle": "thingparty",
-        "bio": null
+        "bio": " "
       },
       {
         "id": 309790256,
@@ -3995,8 +4043,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 50,
-    "restacks": 18,
+    "reaction_count": 51,
+    "restacks": 19,
     "comment_count": 3,
     "previous_post_slug": "3-protocols-for-articulating-civilizational",
     "next_post_slug": "what-is-formal-protocol-theory"
