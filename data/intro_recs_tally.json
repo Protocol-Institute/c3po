@@ -639,6 +639,36 @@
       "count": 1,
       "last_seen": "2026-09-21",
       "is_fallback": false
+    },
+    "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-95": {
+      "title": "Seapunk World-Protocolizations: On Reverse-Imagineering as Method",
+      "url": "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-95",
+      "source": "symposium",
+      "author": "Samuel Chua",
+      "label": "PROTOCOL SYMPOSIUM 2026",
+      "count": 1,
+      "last_seen": "2026-09-21",
+      "is_fallback": false
+    },
+    "https://protocol-institute.org/events/protocol-symposium-2026/sessions/southeast-asia/": {
+      "title": "Southeast Asia x Protocols",
+      "url": "https://protocol-institute.org/events/protocol-symposium-2026/sessions/southeast-asia/",
+      "source": "symposium",
+      "author": "Protocol Institute",
+      "label": "PROTOCOL SYMPOSIUM 2026",
+      "count": 1,
+      "last_seen": "2026-09-21",
+      "is_fallback": false
+    },
+    "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-6": {
+      "title": "Virtues for a Protocol Society",
+      "url": "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-6",
+      "source": "symposium",
+      "author": "Nathan Schneider",
+      "label": "PROTOCOL SYMPOSIUM 2026",
+      "count": 1,
+      "last_seen": "2026-09-21",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -723,7 +753,7 @@
       "name": "🫆-personhood-research-group",
       "display": "#🫆-personhood-research-group",
       "sig_display": "",
-      "count": 7,
+      "count": 8,
       "last_seen": "2026-09-21"
     }
   }
