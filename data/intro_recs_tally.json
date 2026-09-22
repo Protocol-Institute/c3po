@@ -666,8 +666,28 @@
       "source": "symposium",
       "author": "Nathan Schneider",
       "label": "PROTOCOL SYMPOSIUM 2026",
+      "count": 2,
+      "last_seen": "2026-09-22",
+      "is_fallback": false
+    },
+    "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-86": {
+      "title": "The Nature of Trust: Weaving Identity, Relationship, and Place",
+      "url": "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-86",
+      "source": "symposium",
+      "author": "Kaliya Young",
+      "label": "PROTOCOL SYMPOSIUM 2026",
       "count": 1,
-      "last_seen": "2026-09-21",
+      "last_seen": "2026-09-22",
+      "is_fallback": false
+    },
+    "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-88": {
+      "title": "Open Social Protocols: A Commons-Based Protocol Layer for Human Coordination",
+      "url": "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-88",
+      "source": "symposium",
+      "author": "Jose Leal",
+      "label": "PROTOCOL SYMPOSIUM 2026",
+      "count": 1,
+      "last_seen": "2026-09-22",
       "is_fallback": false
     }
   },
@@ -690,8 +710,8 @@
       "name": "🔍-protocol-watch",
       "display": "#🔍-protocol-watch",
       "sig_display": "",
-      "count": 1,
-      "last_seen": "2026-05-31"
+      "count": 2,
+      "last_seen": "2026-09-22"
     },
     "1106572787042238504": {
       "name": "👾-protocol-fiction",
