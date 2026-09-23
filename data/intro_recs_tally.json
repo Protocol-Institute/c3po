@@ -426,8 +426,8 @@
       "source": "substack",
       "author": "Sisyphus",
       "label": "FICTION",
-      "count": 1,
-      "last_seen": "2026-08-01",
+      "count": 2,
+      "last_seen": "2026-09-23",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/a-chronicle-of-lumina": {
@@ -699,6 +699,26 @@
       "count": 1,
       "last_seen": "2026-09-23",
       "is_fallback": false
+    },
+    "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-23": {
+      "title": "AI Kitcraft: A Hands-On AI Tooling Workshop",
+      "url": "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-23",
+      "source": "symposium",
+      "author": "Rafael Fernández",
+      "label": "PROTOCOL SYMPOSIUM 2026",
+      "count": 1,
+      "last_seen": "2026-09-23",
+      "is_fallback": false
+    },
+    "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-73": {
+      "title": "De-Dramatizing the Digital: How AI Descends Into New Nature",
+      "url": "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-73",
+      "source": "symposium",
+      "author": "Sean Stevenson",
+      "label": "PROTOCOL SYMPOSIUM 2026",
+      "count": 1,
+      "last_seen": "2026-09-23",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -713,8 +733,8 @@
       "name": "⏳-psychohistory",
       "display": "#⏳-psychohistory",
       "sig_display": "",
-      "count": 3,
-      "last_seen": "2026-09-16"
+      "count": 4,
+      "last_seen": "2026-09-23"
     },
     "1095846506382250075": {
       "name": "🔍-protocol-watch",
