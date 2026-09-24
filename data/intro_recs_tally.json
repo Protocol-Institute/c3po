@@ -706,8 +706,8 @@
       "source": "symposium",
       "author": "Rafael Fernández",
       "label": "PROTOCOL SYMPOSIUM 2026",
-      "count": 1,
-      "last_seen": "2026-09-23",
+      "count": 2,
+      "last_seen": "2026-09-24",
       "is_fallback": false
     },
     "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-73": {
@@ -718,6 +718,26 @@
       "label": "PROTOCOL SYMPOSIUM 2026",
       "count": 1,
       "last_seen": "2026-09-23",
+      "is_fallback": false
+    },
+    "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-3": {
+      "title": "Attention as Natural Law",
+      "url": "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-3",
+      "source": "symposium",
+      "author": "Amber Case",
+      "label": "PROTOCOL SYMPOSIUM 2026",
+      "count": 1,
+      "last_seen": "2026-09-24",
+      "is_fallback": false
+    },
+    "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-2": {
+      "title": "Psychological Safety I & II",
+      "url": "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-2",
+      "source": "symposium",
+      "author": "Timber Stinson-Schroff",
+      "label": "PROTOCOL SYMPOSIUM 2026",
+      "count": 1,
+      "last_seen": "2026-09-24",
       "is_fallback": false
     }
   },
@@ -796,8 +816,8 @@
       "name": "meeting-notes",
       "display": "#meeting-notes",
       "sig_display": "",
-      "count": 2,
-      "last_seen": "2026-09-06"
+      "count": 3,
+      "last_seen": "2026-09-24"
     },
     "1542928136038121543": {
       "name": "🫆-personhood-research-group",
