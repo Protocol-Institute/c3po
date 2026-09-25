@@ -106,8 +106,8 @@
       "source": "pdf",
       "author": "Rafael Fernández",
       "label": "PAPER",
-      "count": 2,
-      "last_seen": "2026-08-07",
+      "count": 3,
+      "last_seen": "2026-09-25",
       "is_fallback": false
     },
     "summer of protocols": {
@@ -616,8 +616,8 @@
       "source": "symposium",
       "author": "Primavera De Filippi",
       "label": "PROTOCOL SYMPOSIUM 2026",
-      "count": 2,
-      "last_seen": "2026-09-21",
+      "count": 3,
+      "last_seen": "2026-09-25",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/the-ductus-of-protocol-fiction": {
@@ -739,6 +739,16 @@
       "count": 1,
       "last_seen": "2026-09-24",
       "is_fallback": false
+    },
+    "https://files.protocolized.io/66-FANGTING.pdf": {
+      "title": "Composable Life: Our Island and Us",
+      "url": "https://files.protocolized.io/66-FANGTING.pdf",
+      "source": "pdf",
+      "author": "Fangting and Botao Amber Hu",
+      "label": "PAPER",
+      "count": 1,
+      "last_seen": "2026-09-25",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -823,8 +833,8 @@
       "name": "🫆-personhood-research-group",
       "display": "#🫆-personhood-research-group",
       "sig_display": "",
-      "count": 8,
-      "last_seen": "2026-09-21"
+      "count": 9,
+      "last_seen": "2026-09-25"
     }
   }
 }
