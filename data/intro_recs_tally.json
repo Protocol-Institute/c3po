@@ -76,8 +76,8 @@
       "source": "substack",
       "author": "Jack Lord",
       "label": "FICTION",
-      "count": 3,
-      "last_seen": "2026-09-03",
+      "count": 4,
+      "last_seen": "2026-09-27",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/a-very-short-introduction-to-memory": {
@@ -176,8 +176,8 @@
       "source": "substack",
       "author": "Spencer Nitkey",
       "label": "PROTOCOLIZED",
-      "count": 4,
-      "last_seen": "2026-09-20",
+      "count": 5,
+      "last_seen": "2026-09-27",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/fault-tolerance": {
@@ -626,8 +626,8 @@
       "source": "substack",
       "author": "Spencer Nitkey",
       "label": "ESSAY",
-      "count": 1,
-      "last_seen": "2026-09-18",
+      "count": 2,
+      "last_seen": "2026-09-27",
       "is_fallback": false
     },
     "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-76": {
@@ -777,8 +777,8 @@
       "name": "👾-protocol-fiction",
       "display": "#👾-protocol-fiction",
       "sig_display": "ProtFiSIG",
-      "count": 7,
-      "last_seen": "2026-09-18"
+      "count": 8,
+      "last_seen": "2026-09-27"
     },
     "1327337414175490160": {
       "name": "🎩-formal-protocol-theory",
