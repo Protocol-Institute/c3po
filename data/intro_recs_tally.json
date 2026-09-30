@@ -596,8 +596,8 @@
       "source": "symposium",
       "author": "Aneesh Sathe",
       "label": "PROTOCOL SYMPOSIUM 2026",
-      "count": 2,
-      "last_seen": "2026-09-17",
+      "count": 3,
+      "last_seen": "2026-09-30",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/time-to-die": {
@@ -749,6 +749,26 @@
       "count": 1,
       "last_seen": "2026-09-25",
       "is_fallback": false
+    },
+    "https://files.protocolized.io/42-e76-POWERS.pdf": {
+      "title": "Protocolized Economics",
+      "url": "https://files.protocolized.io/42-e76-POWERS.pdf",
+      "source": "pdf",
+      "author": "Steve Powers",
+      "label": "PAPER",
+      "count": 1,
+      "last_seen": "2026-09-30",
+      "is_fallback": false
+    },
+    "https://protocolized.summerofprotocols.com/p/tension-landscapes": {
+      "title": "Tension Landscapes",
+      "url": "https://protocolized.summerofprotocols.com/p/tension-landscapes",
+      "source": "substack",
+      "author": "Timber Stinson-Schroff",
+      "label": "ESSAY",
+      "count": 1,
+      "last_seen": "2026-09-30",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -763,8 +783,8 @@
       "name": "⏳-psychohistory",
       "display": "#⏳-psychohistory",
       "sig_display": "",
-      "count": 4,
-      "last_seen": "2026-09-23"
+      "count": 5,
+      "last_seen": "2026-09-30"
     },
     "1095846506382250075": {
       "name": "🔍-protocol-watch",
