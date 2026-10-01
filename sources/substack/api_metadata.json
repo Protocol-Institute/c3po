@@ -1,5 +1,37 @@
 [
   {
+    "id": 208164270,
+    "slug": "haikus-to-fly-by",
+    "title": "Haikus to Fly By",
+    "subtitle": "The Past, Present and Future of the Terminal Aerodrome Forecast",
+    "post_date": "2026-09-30T05:29:14.333Z",
+    "updated_at": "2026-09-30T05:31:06.561Z",
+    "type": "newsletter",
+    "wordcount": 3023,
+    "section_id": 333110,
+    "section_name": "Articles",
+    "postTags": [],
+    "publishedBylines": [
+      {
+        "id": 3503832,
+        "name": "Matthew McDowell-Sweet",
+        "handle": "mmsweet",
+        "bio": "in motion - building subset.network | hq: msweet.net"
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 2,
+    "restacks": 2,
+    "comment_count": 1,
+    "previous_post_slug": "securing-stigmergic-systems",
+    "next_post_slug": null
+  },
+  {
     "id": 216647747,
     "slug": "methods-madness-monsters-and-magic",
     "title": "Methods, Madness, Monsters and Magic in New Nature",
@@ -41,8 +73,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 1,
-    "restacks": 1,
+    "reaction_count": 27,
+    "restacks": 5,
     "comment_count": 0,
     "previous_post_slug": "how-the-protocol-institute-is-adopting",
     "next_post_slug": null
@@ -79,11 +111,11 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 6,
-    "restacks": 5,
-    "comment_count": 1,
+    "reaction_count": 7,
+    "restacks": 7,
+    "comment_count": 2,
     "previous_post_slug": "the-ductus-of-protocol-fiction",
-    "next_post_slug": null
+    "next_post_slug": "haikus-to-fly-by"
   },
   {
     "id": 215696083,
@@ -276,9 +308,9 @@
     "publishedBylines": [
       {
         "id": 17195021,
-        "name": "Timber Stinson-Schroff",
+        "name": "Timber",
         "handle": "timberstinsonschroff",
-        "bio": "accelerating order"
+        "bio": "knuckledragger"
       },
       {
         "id": 309790256,
@@ -389,7 +421,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 43,
+    "reaction_count": 44,
     "restacks": 10,
     "comment_count": 15,
     "previous_post_slug": "challenges-trivial-grand-and-whitehead",
@@ -1032,7 +1064,7 @@
         "id": 7340691,
         "name": "Denise Hearn",
         "handle": "denisehearn",
-        "bio": "I’m the Director of Strategic Initiatives at the Long Now Foundation and co-author of The Myth of Capitalism and The Big Fix. My research, writing, and work can be found at: www.denisehearn.com and embodied-economics.ghost.io"
+        "bio": "Director of Strategic Initiatives at the Long Now Foundation and co-author of The Myth of Capitalism and The Big Fix. My research, writing, and work can be found at: www.denisehearn.com and embodied-economics.ghost.io (in other words, I'm new here)."
       },
       {
         "id": 309790256,
@@ -1042,9 +1074,9 @@
       },
       {
         "id": 17195021,
-        "name": "Timber Stinson-Schroff",
+        "name": "Timber",
         "handle": "timberstinsonschroff",
-        "bio": "accelerating order"
+        "bio": "knuckledragger"
       }
     ],
     "reaction_count": 27,
@@ -1089,9 +1121,9 @@
     "publishedBylines": [
       {
         "id": 17195021,
-        "name": "Timber Stinson-Schroff",
+        "name": "Timber",
         "handle": "timberstinsonschroff",
-        "bio": "accelerating order"
+        "bio": "knuckledragger"
       },
       {
         "id": 309790256,
@@ -1791,7 +1823,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 19,
+    "reaction_count": 20,
     "restacks": 8,
     "comment_count": 1,
     "previous_post_slug": null,
@@ -1823,9 +1855,9 @@
     "publishedBylines": [
       {
         "id": 17195021,
-        "name": "Timber Stinson-Schroff",
+        "name": "Timber",
         "handle": "timberstinsonschroff",
-        "bio": "accelerating order"
+        "bio": "knuckledragger"
       },
       {
         "id": 309790256,
@@ -2103,9 +2135,9 @@
     "publishedBylines": [
       {
         "id": 17195021,
-        "name": "Timber Stinson-Schroff",
+        "name": "Timber",
         "handle": "timberstinsonschroff",
-        "bio": "accelerating order"
+        "bio": "knuckledragger"
       },
       {
         "id": 309790256,
@@ -2437,9 +2469,9 @@
     "publishedBylines": [
       {
         "id": 17195021,
-        "name": "Timber Stinson-Schroff",
+        "name": "Timber",
         "handle": "timberstinsonschroff",
-        "bio": "accelerating order"
+        "bio": "knuckledragger"
       },
       {
         "id": 309790256,
@@ -3172,9 +3204,9 @@
     "publishedBylines": [
       {
         "id": 17195021,
-        "name": "Timber Stinson-Schroff",
+        "name": "Timber",
         "handle": "timberstinsonschroff",
-        "bio": "accelerating order"
+        "bio": "knuckledragger"
       },
       {
         "id": 309790256,
@@ -3653,9 +3685,9 @@
     "publishedBylines": [
       {
         "id": 17195021,
-        "name": "Timber Stinson-Schroff",
+        "name": "Timber",
         "handle": "timberstinsonschroff",
-        "bio": "accelerating order"
+        "bio": "knuckledragger"
       },
       {
         "id": 309790256,
@@ -4144,9 +4176,9 @@
     "publishedBylines": [
       {
         "id": 17195021,
-        "name": "Timber Stinson-Schroff",
+        "name": "Timber",
         "handle": "timberstinsonschroff",
-        "bio": "accelerating order"
+        "bio": "knuckledragger"
       },
       {
         "id": 309790256,
@@ -4250,9 +4282,9 @@
       },
       {
         "id": 17195021,
-        "name": "Timber Stinson-Schroff",
+        "name": "Timber",
         "handle": "timberstinsonschroff",
-        "bio": "accelerating order"
+        "bio": "knuckledragger"
       }
     ],
     "reaction_count": 9,
@@ -5400,9 +5432,9 @@
     "publishedBylines": [
       {
         "id": 17195021,
-        "name": "Timber Stinson-Schroff",
+        "name": "Timber",
         "handle": "timberstinsonschroff",
-        "bio": "accelerating order"
+        "bio": "knuckledragger"
       },
       {
         "id": 309790256,
@@ -5910,9 +5942,9 @@
     "publishedBylines": [
       {
         "id": 17195021,
-        "name": "Timber Stinson-Schroff",
+        "name": "Timber",
         "handle": "timberstinsonschroff",
-        "bio": "accelerating order"
+        "bio": "knuckledragger"
       },
       {
         "id": 309790256,
@@ -6306,9 +6338,9 @@
     "publishedBylines": [
       {
         "id": 17195021,
-        "name": "Timber Stinson-Schroff",
+        "name": "Timber",
         "handle": "timberstinsonschroff",
-        "bio": "accelerating order"
+        "bio": "knuckledragger"
       },
       {
         "id": 309790256,
@@ -6998,9 +7030,9 @@
       },
       {
         "id": 17195021,
-        "name": "Timber Stinson-Schroff",
+        "name": "Timber",
         "handle": "timberstinsonschroff",
-        "bio": "accelerating order"
+        "bio": "knuckledragger"
       }
     ],
     "reaction_count": 25,
@@ -7087,7 +7119,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 20,
+    "reaction_count": 21,
     "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "chore-protocols",
@@ -7310,9 +7342,9 @@
     "publishedBylines": [
       {
         "id": 17195021,
-        "name": "Timber Stinson-Schroff",
+        "name": "Timber",
         "handle": "timberstinsonschroff",
-        "bio": "accelerating order"
+        "bio": "knuckledragger"
       },
       {
         "id": 309790256,

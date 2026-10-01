@@ -1695,5 +1695,17 @@
     "all_authors": [
       "Venkatesh Rao"
     ]
+  },
+  "haikus-to-fly-by": {
+    "summary": "Terminal Aerodrome Forecasts (TAFs) are cryptic, haiku-like weather predictions produced continuously by meteorologists worldwide that directly inform pilot decisions and shape aviation operations at every scale. These terse textual protocols encode atmospheric phenomena and thresholds that determine individual actions, airport procedures, and global traffic patterns.",
+    "categories": [
+      "protocol-watching",
+      "protocol-theory",
+      "research-report"
+    ],
+    "primary_author": "Matthew McDowell-Sweet",
+    "all_authors": [
+      "Matthew McDowell-Sweet"
+    ]
   }
 }
