@@ -86,8 +86,8 @@
       "source": "substack",
       "author": "Kei Kreutler",
       "label": "ESSAY",
-      "count": 15,
-      "last_seen": "2026-09-21",
+      "count": 16,
+      "last_seen": "2026-10-01",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/introducing-the-protocol-institute": {
@@ -506,8 +506,8 @@
       "source": "pdf",
       "author": "David Lang",
       "label": "PAPER",
-      "count": 3,
-      "last_seen": "2026-09-21",
+      "count": 4,
+      "last_seen": "2026-10-01",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/how-the-protocol-institute-is-adopting": {
@@ -566,8 +566,8 @@
       "source": "substack",
       "author": "Timber Stinson-Schroff",
       "label": "ESSAY",
-      "count": 1,
-      "last_seen": "2026-09-05",
+      "count": 2,
+      "last_seen": "2026-10-01",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/submission-guidelines": {
@@ -855,6 +855,13 @@
       "sig_display": "",
       "count": 9,
       "last_seen": "2026-09-25"
+    },
+    "1553833347732611222": {
+      "name": "🎪intelligence-media",
+      "display": "#🎪intelligence-media",
+      "sig_display": "",
+      "count": 1,
+      "last_seen": "2026-10-01"
     }
   }
 }
