@@ -41,14 +41,42 @@ SLEEP_SECS  = 0.3
 
 # ── HTTP ──────────────────────────────────────────────────────────────────────
 
+MAX_TRANSIENT_RETRIES = 3
+
+
 def _get(url: str, admin_key: str) -> dict:
+    """GET a worker endpoint, retrying transient failures.
+
+    A daemon step: one dropped connection or a single 5xx from the worker used
+    to fail the step for the whole cycle — the same shape as the
+    sync_discord_events bug fixed 2026-09-16. A 4xx other than 429 still
+    raises (fetch_chat() handles 403/404 itself); anything else there is ours.
+    """
     req = urllib.request.Request(url, headers={
         "X-Admin-Key":  admin_key,
         "Accept":       "application/json",
         "User-Agent":   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     })
-    with urllib.request.urlopen(req, timeout=20) as resp:
-        return json.loads(resp.read().decode())
+    attempt = 0
+    while True:
+        try:
+            with urllib.request.urlopen(req, timeout=20) as resp:
+                return json.loads(resp.read().decode())
+        except urllib.error.HTTPError as e:
+            if (e.code == 429 or 500 <= e.code < 600) and attempt < MAX_TRANSIENT_RETRIES:
+                attempt += 1
+                print(f"  worker {e.code} on {url.split('/api/')[-1]} — retry {attempt}/{MAX_TRANSIENT_RETRIES}")
+                time.sleep(2 ** attempt)
+                continue
+            raise
+        except OSError as e:
+            # URLError and socket timeouts both land here (HTTPError is caught above).
+            if attempt < MAX_TRANSIENT_RETRIES:
+                attempt += 1
+                print(f"  network error on {url.split('/api/')[-1]} ({e}) — retry {attempt}/{MAX_TRANSIENT_RETRIES}")
+                time.sleep(2 ** attempt)
+                continue
+            raise
 
 
 def fetch_chat_list(admin_key: str, limit: int = 100) -> list[dict]:
