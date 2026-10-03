@@ -37,7 +37,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).parent))
-from utils import (clean_text, embed_chunks, get_voyage_client, get_pinecone_index,
+from utils import (parse_key_points, clean_text, embed_chunks, get_voyage_client, get_pinecone_index,
                    meeting_ready, MEETING_GRACE_DAYS)
 
 load_dotenv(Path(__file__).parent.parent / ".env")
@@ -259,11 +259,7 @@ def create_meeting_json(recording: dict, parsed: dict) -> Path:
     thread_id = f"audio_{recording['message_id']}"
     sig = recording["sig_display"]
     overview = parsed["sections"].get("overview", "")
-    key_pts = [
-        line.lstrip("- ").strip()
-        for line in parsed["sections"].get("key_points", "").splitlines()
-        if line.startswith("- **")
-    ][:6]
+    key_pts = parse_key_points(parsed["sections"].get("key_points", ""))
 
     entry = {
         "thread_id": thread_id,
@@ -299,11 +295,7 @@ def enrich_meeting_json(path: Path, recording: dict, parsed: dict):
     """Add audio_* fields to an existing meeting JSON."""
     d = json.loads(path.read_text())
     overview = parsed["sections"].get("overview", "")
-    key_pts = [
-        line.lstrip("- ").strip()
-        for line in parsed["sections"].get("key_points", "").splitlines()
-        if line.startswith("- **")
-    ][:6]
+    key_pts = parse_key_points(parsed["sections"].get("key_points", ""))
 
     d["audio_summary"] = overview
     d["audio_key_points"] = key_pts

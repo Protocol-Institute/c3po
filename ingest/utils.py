@@ -339,3 +339,49 @@ def upsert_chunks(chunks: list[str], vectors: list[list[float]],
         index.upsert(vectors=records[i: i + PINECONE_BATCH], **kwargs)
 
     return len(records)
+
+
+# ── Meeting key points (issue #7) ─────────────────────────────────────────────
+# Shared by sync_meeting_notes (parse) and the two SIG page renderers, so the
+# parse rule and the render rule each live in exactly one place.
+
+_BARE_HEADING_RE = re.compile(r"^\*\*[^*]+\*\*:?$")
+
+
+def parse_key_points(section: str, limit: int = 6) -> list[str]:
+    """Top-level bullets of a meeting summary's Key Points section.
+
+    A point is often a bold heading whose content sits in indented sub-bullets
+    under it. Keeping only top-level lines published the heading alone
+    ("**Hardware readiness (mixed):**" with nothing after it), so continuation
+    and sub-bullet lines are folded into the point they belong to. A point that
+    is still only a heading after folding has no content and is dropped.
+    """
+    points: list[str] = []
+    for line in section.splitlines():
+        if not line.strip():
+            continue
+        if line.startswith("- "):
+            points.append(line[2:].strip())
+        elif points:
+            # Remove only the bullet marker itself — lstrip("-* ") also ate the
+            # opening ** of "**Spencer:**" and mis-paired every bold after it.
+            points[-1] += " " + re.sub(r"^[-*+]\s+", "", line.strip())
+    return [p for p in points if p and not _BARE_HEADING_RE.match(p)][:limit]
+
+
+_STRONG_RE = re.compile(r"\*\*(.+?)\*\*")
+_EM_RE     = re.compile(r"(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])")
+
+
+def inline_markdown_html(s: str) -> str:
+    """HTML-escape, then render **bold** and *italic*.
+
+    Escaping first is what keeps this XSS-safe: the only tags in the output are
+    the ones added here. Meeting summaries are model-written markdown, and the
+    renderers escaped it verbatim, so readers saw the asterisks.
+    """
+    import html as _html
+    out = _html.escape(str(s), quote=True)
+    out = _STRONG_RE.sub(r"<strong>\1</strong>", out)
+    return _EM_RE.sub(r"<em>\1</em>", out)

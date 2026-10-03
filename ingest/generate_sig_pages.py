@@ -20,7 +20,7 @@ from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from utils import meeting_ready, snowflake_date, MEETING_GRACE_DAYS
+from utils import meeting_ready, snowflake_date, MEETING_GRACE_DAYS, inline_markdown_html
 
 MEETINGS_DIR = Path(__file__).parent.parent / "data" / "sigs" / "meetings"
 WEBSITE_DIR  = Path(__file__).parent.parent.parent / "website"
@@ -217,7 +217,7 @@ def render_meeting_card(r: dict, detail_href: str | None = None) -> str:
     if insights:
         parts.append('  <ul class="meeting-insights">')
         for ins in insights:
-            parts.append(f'    <li>{html_escape(ins)}</li>')
+            parts.append(f'    <li>{inline_markdown_html(ins)}</li>')
         parts.append('  </ul>')
 
     if links:
@@ -299,7 +299,7 @@ def generate_sig_page(sig_key: str, meetings: list[dict]) -> str:
         <p style="margin-top:1rem"><a href="../sigs.html" class="back-link">&#8592; All Special Interest Groups</a></p>
       </div>
 
-      <h2 class="section-label">Meeting Archive &mdash; {total} sessions{f', {dated} dated' if dated < total else ''}</h2>
+      <h2 class="section-label">Meeting Archive &mdash; {total} session{'' if total == 1 else 's'}{f', {dated} dated' if dated < total else ''}</h2>
 
       {cards}
 
@@ -407,7 +407,7 @@ def _patch_meeting_archive(index_path: Path, sig_key: str, meetings: list[dict])
         cards_html = f'<ul class="meeting-list" role="list">\n{cards}\n</ul>'
 
     dated_suffix = f", {dated} dated" if dated < total else ""
-    new_h2 = f'<h2 class="section-label">Meeting Archive &mdash; {total} sessions{dated_suffix}</h2>'
+    new_h2 = f'<h2 class="section-label">Meeting Archive &mdash; {total} session{'' if total == 1 else 's'}{dated_suffix}</h2>'
     new_block = f'{new_h2}\n\n      {cards_html}'
 
     # Replace from the Meeting Archive h2 through the end of the list/no-meetings block,

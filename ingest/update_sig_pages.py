@@ -24,7 +24,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from utils import meeting_ready, MEETING_GRACE_DAYS
+from utils import meeting_ready, MEETING_GRACE_DAYS, inline_markdown_html
 
 MEETINGS_DIR = Path(__file__).parent.parent / "data" / "sigs" / "meetings"
 WEBSITE_DIR  = Path(__file__).parent.parent.parent / "website"
@@ -164,7 +164,7 @@ def render_detail_page(r: dict, slug: str, sig_name: str, path_slug: str) -> str
                     summary_block += f'\n        <p class="meeting-summary">{esc(para)}</p>'
         insights_block = ''
         if insights:
-            items = ''.join(f'\n<li>{esc(i)}</li>' for i in insights)
+            items = ''.join(f'\n<li>{inline_markdown_html(i)}</li>' for i in insights)
             insights_block = f'\n        <ul class="meeting-insights">{items}\n        </ul>'
 
     links_block = ''
@@ -204,7 +204,7 @@ def render_detail_page(r: dict, slug: str, sig_name: str, path_slug: str) -> str
                 if para:
                     audio_parts.append(f'<p class="meeting-summary">{esc(para)}</p>')
         if audio_key_points:
-            items = ''.join(f'\n<li>{esc(pt)}</li>' for pt in audio_key_points[:8])
+            items = ''.join(f'\n<li>{inline_markdown_html(pt)}</li>' for pt in audio_key_points[:8])
             audio_parts.append(f'<ul class="meeting-insights">{items}\n</ul>')
         if audio_questions:
             audio_parts.append(f'<p class="meeting-abstract"><strong>Questions &amp; Disagreements:</strong> {esc(audio_questions[:400])}</p>')
