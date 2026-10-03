@@ -25,7 +25,7 @@ from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).parent))
 from utils import embed_chunks, get_voyage_client, get_pinecone_index, clean_text
-from devlog_store import load_devlog
+from devlog_store import load_devlog, session_anchor
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
@@ -98,7 +98,7 @@ def session_meta(s: dict, text: str) -> dict:
         "title":         f"{label}: {title}" if label else title,
         "date":          s.get("date", ""),
         "tracks":        ", ".join(tracks),
-        "url":           f"{PUBLIC_URL}#session-{int(sid)}",
+        "url":           f"{PUBLIC_URL}#{session_anchor(sid)}",
         "text":          text[:1000],
     }
 

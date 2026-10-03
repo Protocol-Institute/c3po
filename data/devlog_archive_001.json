@@ -367,9 +367,9 @@
       ]
     },
     {
-      "id": 8,
-      "sort_key": 8.0,
-      "label": "Session 8",
+      "id": 8.5,
+      "sort_key": 8.5,
+      "label": "Session 8.5",
       "title": "Namespace Wiring, System Prompt Enrichment, and Full-Corpus Lexicon Extraction",
       "date": "2026-05-18",
       "time_pt": "14:55–16:10 PT",

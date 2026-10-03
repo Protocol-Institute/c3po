@@ -79,3 +79,15 @@ def save_live(data: dict) -> None:
 
 def save_archive(path: Path, data: dict) -> None:
     _dump(path, data)
+
+
+def session_anchor(sid) -> str:
+    """`session-8` for 8, `session-8-5` for 8.5.
+
+    Anchors were built with int(sid), so a half-numbered entry (hotfix 27.5,
+    the renumbered 8.5) shared its anchor with the whole-numbered session and
+    every link to it opened the wrong entry. Whole numbers are unchanged, so
+    existing links keep working.
+    """
+    f = float(sid)
+    return f"session-{int(f)}" if f.is_integer() else "session-" + str(f).replace(".", "-")

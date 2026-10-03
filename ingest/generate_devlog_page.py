@@ -32,7 +32,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).parent))
-from devlog_store import load_devlog
+from devlog_store import load_devlog, session_anchor
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
@@ -80,7 +80,7 @@ def render_markdown(data: dict) -> str:
         vectors = s.get("vector_counts", {})
 
         # HTML anchor for deep-linking from Pinecone vector URLs
-        lines.append(f'<a id="session-{int(sid)}"></a>')
+        lines.append(f'<a id="{session_anchor(sid)}"></a>')
         lines.append("")
 
         heading = f"## {label}: {title}" if label else f"## {title}"

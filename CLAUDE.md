@@ -102,10 +102,10 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 | `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
 | `bibliography` | 278 | External works cited by PI corpus |
 | `discord_guide` | 80 | Scoped per [`plans/discord-guide-scope.md`](plans/discord-guide-scope.md): excludes transient/admin channels (MOD, Server Link Feed, introductions/bugs/announcements); archived-read-only channels embed once then freeze; SIG channels include cadence + next_event_time |
-| `meta` | 56 | C3PO self-knowledge: 1 vector/devlog session (57 sessions, 56 vectors — two entries share `id: 8` and collide on one vector id, pending a renumbering decision); queried at 3 results max alongside all other namespaces |
+| `meta` | 58 | C3PO self-knowledge: 1 vector/devlog session (58 sessions; half-numbered entries 8.5 and 27.5 anchor as `#session-8-5` / `#session-27-5`); queried at 3 results max alongside all other namespaces |
 | `transcripts` | 58 | Bot conversation self-memory: web + Discord Q&A |
 | `symposium` | 703 | Protocol Symposium 2026: programme (`symposium_overview`, `symposium_block`, `symposium_session`, `symposium_workshop`), slide decks and speaker papers (`symposium_slides`, 52 Drive files all matched; 4 stubs), and recordings (`symposium_recording` + timestamped `symposium_transcript`, 19 of 40 so far — laptop-only, see `ingest/sync_symposium_videos.py`). Queries that name the event are answered from this namespace alone; see [`plans/symposium-ingest.md`](plans/symposium-ingest.md) |
-| **Total** | **34,932** | |
+| **Total** | **34,934** | |
 
 ## Key Ingest Scripts
 
