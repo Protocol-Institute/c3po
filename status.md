@@ -1,5 +1,34 @@
 # C3PO — Status Log
 
+## 2026-10-02 18:45-19:30 PT — Post-symposium: final decks gathered, recordings into the index (session 56)
+
+**Session-start checks not run** — the session went straight to the post-event work. Laptop clone fast-forwarded. Vectors 33,779 → **34,932** (+332 symposium; rest organic).
+
+**Post-event deck pass.** The Drive folder grew from 42 to 56 files. Per VGR, `ProceedingsFinal` (follow-on proceedings project) and `9000 ARCHIVE` are now excluded by folder ID. **52 of 52 remaining files resolve**, review queue empty: 11 stragglers matched by reading their content (speaker papers for Katz/Alston, Leal/Clearwater, Krishnakumar; Lang's field-building deck; a second Archival Time deck; Dixon's HTML talk; Ayse Demir's slides). 29 embedded, 9 superseded files pruned. **A misattribution found by reading content:** the `Protocoling` deck had sat under the *Protocol Studies Panel* since session 55 on a 0.606 title match — it is Botao Amber Hu's *Protocoling HCI*. Fixing its override exposed that **the skip gate ignored the talk slug**, so a corrected attachment would never have re-embedded; the slug is now part of "unchanged". A null override now means "do not ingest" (used for a pre-revision backup copy). **Fett's deck has left the Drive** — pruned; reingests itself if it returns. Deck sync now **weekly** (VGR), no end date.
+
+**Phase C built: `ingest/sync_symposium_videos.py`.** The "2026 Symposium" playlist (`PLEt1tjJkFjsQ`) holds 40 recordings, three unlisted — the playlist, not the channel, is the inventory. Recordings go into **`symposium`, not `videos`**: session 55's scoping answers event-named questions from `symposium` alone, so `videos` would have hidden them. One `symposium_recording` summary per talk + `symposium_transcript` chunks carrying their start time, the URL deep-linking `&t=Ns`. **Matching 40/40**, with the speaker named in the video title required to appear among the talk's hosts — the trial run without it had matched Yuhan Liu's OpenCourier talk to "Open Mic: Frontier-Pacing Protocols", confidently and wrongly. Enrichment for programme-matched videos now gets the listing's spellings and abstract, reads the whole talk rather than the first 3,000 chars (mostly the host's intro), and uses Sonnet: **$0.48 for 19 videos**.
+
+**YouTube is the constraint.** It 429s the VM on captions (probed with a throwaway venv, removed), so this is **laptop-only**. Then 40 back-to-back yt-dlp subtitle requests got the laptop 429'd too; switched to youtube-transcript-api (4s spacing), which delivered 19 before an `IpBlocked`. **21 recordings wait on that block** — re-run the script; it fetches only what is missing.
+
+**Also fixed:** `fetch_youtube_meta` parsed durations with `isdigit()` on `"1892.0"`, so every video got duration 0 — **21 older videos still carry 0** (not repaired). Worker labels slides/recordings/transcripts distinctly instead of all as "PROGRAMME". Found, not fixed: `ingest_youtube.py` has no state (every run re-embeds all ~100 videos) and stores chunk text at `[:1000]` — the session-55 cap pattern, in `videos`.
+
+**Resources (VGR: yes, like regular videos).** The daemon's `--no-dates` resource sync would have published every new video as **2024-01-01** — website **PR #6** falls back to c3po's `date` (the talk day), then upload date. **`sources/youtube/enriched_meta.json` is deliberately uncommitted** until PR #6 merges, since pushing it triggers the VM's resource sync.
+
+**Verified live:** "what did Venkat and Humboldt say about the trust ratchet?" answered from the transcript, quoting it, with the `&t=453s` link in sources; "is there a recording of Helena Rong's talk?" — yes, with substance, no call to action.
+
+**Shipped:** c3po `29f328d`, `0264940`; worker deployed (version `4eaf22a4`); website PR #6 open.
+
+**Open TODOs (priority order):**
+1. **Re-run `python3 ingest/sync_symposium_videos.py`** once YouTube lifts the IP block — 21 recordings waiting. Again whenever more are uploaded.
+2. **Merge website PR #6, then commit + push `sources/youtube/enriched_meta.json`** (and again after each video re-run).
+3. Decide the `id: 8` devlog collision (carried).
+4. Rotate `C3PO_VM_GH_TOKEN` / `C3PO_ACTIONS_GH_TOKEN` (carried).
+5. `ingest_youtube.py`: add state and lift the 1,000-char metadata cap; repair 21 zero durations.
+6. Four deck stubs (`Artisanal Bots`, `Blygger`, `Opening Session`, `Some Candidate Laws`); Fett's deck gone.
+7. Everything else carried from session 55.
+
+---
+
 ## 2026-09-20 10:40-12:00 PT — Symposium retrieval scoped to the programme; a text cap that was deleting a third of what the model reads; devlog paged (session 55)
 
 **Session-start checks:** vectors 33,193 → 33,699 (organic). Substack 0 new / 0 edited. No intro-quality issues. Daemon healthy, 19/19 steps, cycle 175. Cost $2.00 last 7 days / $30.86 all-time; `sync_sig` $1.78 (89%) of the week, down from $3-5 in prior weeks. Laptop clone was 178 commits behind (174 `[daemon]` state syncs); fast-forwarded.

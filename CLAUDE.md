@@ -93,19 +93,19 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 
 | Namespace | Vectors | Notes |
 |-----------|---------|-------|
-| `discord_links` | 13,165 | Community-shared URLs, scored by Haiku |
-| `sig` | 8,152 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 7 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG, PRG (Personhood Research Group — audio only, no Discord channel) |
-| `discord` | 5,921 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
+| `discord_links` | 13,585 | Community-shared URLs, scored by Haiku |
+| `sig` | 8,486 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 7 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG, PRG (Personhood Research Group — audio only, no Discord channel) |
+| `discord` | 5,967 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
 | `videos` | 3,127 | YouTube talks (97 videos) |
-| `substack` | 1,251 | Protocolized magazine |
+| `substack` | 1,267 | Protocolized magazine |
 | `pdfs` | 765 | 85 papers/essays (`sources/pdfs/enriched_meta.json`) |
 | `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
 | `bibliography` | 278 | External works cited by PI corpus |
-| `discord_guide` | 78 | Scoped per [`plans/discord-guide-scope.md`](plans/discord-guide-scope.md): excludes transient/admin channels (MOD, Server Link Feed, introductions/bugs/announcements); archived-read-only channels embed once then freeze; SIG channels include cadence + next_event_time |
+| `discord_guide` | 80 | Scoped per [`plans/discord-guide-scope.md`](plans/discord-guide-scope.md): excludes transient/admin channels (MOD, Server Link Feed, introductions/bugs/announcements); archived-read-only channels embed once then freeze; SIG channels include cadence + next_event_time |
 | `meta` | 56 | C3PO self-knowledge: 1 vector/devlog session (57 sessions, 56 vectors — two entries share `id: 8` and collide on one vector id, pending a renumbering decision); queried at 3 results max alongside all other namespaces |
-| `transcripts` | 55 | Bot conversation self-memory: web + Discord Q&A |
-| `symposium` | 371 | Protocol Symposium 2026 programme (`symposium_overview`, `symposium_block`, `symposium_session`, `symposium_workshop`) + slide decks (`symposium_slides`, 36 of 42 Drive files; 4 are stubs awaiting content and 2 are copies collapsed as near-duplicates). Queries that name the event — or, during Sept 21-25, ask a dated programme question — are answered from this namespace alone; see [`plans/symposium-ingest.md`](plans/symposium-ingest.md) |
-| **Total** | **33,779** | |
+| `transcripts` | 58 | Bot conversation self-memory: web + Discord Q&A |
+| `symposium` | 703 | Protocol Symposium 2026: programme (`symposium_overview`, `symposium_block`, `symposium_session`, `symposium_workshop`), slide decks and speaker papers (`symposium_slides`, 52 Drive files all matched; 4 stubs), and recordings (`symposium_recording` + timestamped `symposium_transcript`, 19 of 40 so far — laptop-only, see `ingest/sync_symposium_videos.py`). Queries that name the event are answered from this namespace alone; see [`plans/symposium-ingest.md`](plans/symposium-ingest.md) |
+| **Total** | **34,932** | |
 
 ## Key Ingest Scripts
 
@@ -126,10 +126,11 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 | `ingest/sync_web_chats.py` | Public web chats → `transcripts` | `data/web_chats_state.json` |
 | `ingest/sync_devlog.py` | Devlog sessions → `meta` namespace | `data/devlog_state.json` |
 | `ingest/sync_symposium.py` | Protocol Symposium 2026 programme → `symposium` namespace | `data/symposium_state.json` |
-| `ingest/sync_symposium_decks.py` | Symposium slide decks from the public Drive folder → `symposium` namespace (self-throttles to 6h under `--daemon`) | `data/symposium_decks_state.json` |
+| `ingest/sync_symposium_decks.py` | Symposium slide decks from the public Drive folder → `symposium` namespace (self-throttles to weekly under `--daemon`) | `data/symposium_decks_state.json` |
+| `ingest/sync_symposium_videos.py` | Symposium recordings (YouTube playlist) → `symposium` namespace + resource library. **Laptop only** — YouTube 429s the VM; re-run after new uploads | `data/symposium_videos_state.json` |
 | `ingest/generate_devlog_page.py` | Render devlog → D1 slug `c3po-devlog` | `data/devlog_page_state.json` |
 
-All run automatically via `bin/daemon.py` (c3po_listener). Run manually with `--dry-run` to preview.
+All run automatically via `bin/daemon.py` (c3po_listener), except `sync_symposium_videos.py`. Run manually with `--dry-run` to preview.
 
 After editing `data/devlog.json`, run `python3 ingest/sync_devlog.py` then `python3 ingest/generate_devlog_page.py` to republish.
 

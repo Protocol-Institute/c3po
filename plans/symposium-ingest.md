@@ -495,9 +495,30 @@ A file moving between folders keeps its id, which is another reason to key on id
 
 ## Phase C — recordings and transcripts (post-event)
 
-**Status (session 56, 2026-10-02): planned, not built.** Supersedes the
-pre-event sketch that was here, which assumed recordings would go into `videos`
-— that would have made them invisible, see "Why the `symposium` namespace".
+**Status (session 56, 2026-10-02): BUILT — 19 of 40 recordings live**
+(`ingest/sync_symposium_videos.py`, 247 vectors). The other 21 are waiting on
+a YouTube IP block; re-run the script and it fetches only what is missing.
+Supersedes the pre-event sketch that was here, which assumed recordings would
+go into `videos` — that would have made them invisible, see "Why the
+`symposium` namespace".
+
+**As built, where it differs from the plan below:**
+- Captions come from **youtube-transcript-api**, not yt-dlp. Forty back-to-back
+  yt-dlp subtitle requests got the *laptop* 429'd as well; the transcript API
+  kept working for 19 more videos before it too was blocked (`IpBlocked`). It
+  returns timed lines with no rolling-caption repetition. Requests are spaced
+  4s apart. Timed captions live in `sources/youtube/captions_timed/` (gitignored).
+- The script lists the playlist itself rather than calling
+  `fetch_youtube_meta.py`, so other series never get new entries as a side
+  effect (they would be published as resources but never embedded).
+- Titles are rewritten in `video_meta.json` (`title` = talk title without the
+  `NN - Speaker -` prefix; `youtube_title` keeps the original), and `date` is
+  the day the talk was given. Both flow to the resource library.
+- Matching: **40/40** with four overrides in `config/symposium_video_map.json`
+  (Opening Talk, Yuhan Liu — the trial match *was* wrong, Fett — retitled from
+  "The Inevitable Capture of Protocols", Robots talk vs. workshop).
+- Worker labels slide, recording and transcript chunks distinctly (they were
+  all "PROGRAMME"), so the model knows when it is quoting the speaker.
 
 ### What exists (checked 2026-10-02)
 
@@ -576,7 +597,7 @@ idempotent, re-run whenever VGR says more recordings are up:
     python3 ingest/sync_symposium_videos.py            # fetch → enrich → embed new
     python3 ingest/sync_symposium_videos.py --dry-run  # match report only
 
-Decks stay on the daemon (6h throttle, no YouTube involved), which covers
+Decks stay on the daemon (weekly throttle, no YouTube involved), which covers
 straggler files without anyone remembering to run anything.
 
 ### Things to verify after the first run
@@ -594,12 +615,10 @@ straggler files without anyone remembering to run anything.
 
 ### Open decisions for VGR
 
-1. **Resource library.** Running `enrich_youtube` puts the 40 recordings in
-   `sources/youtube/enriched_meta.json`, which the daemon syncs into the
-   protocolized.io resource library. Probably wanted — but it is a website
-   change, so confirm (it can be held back with a series filter).
-2. **When the deck sync stops.** Proposed: keep the 6h daemon step through
-   2026-10-31 for stragglers, then remove it; a later file can be run by hand.
+*Both resolved, session 56:* recordings **are** resources, like any other
+video (website PR #6 fixes their dates first — the daemon's `--no-dates` run
+would have published them as 2024-01-01); the deck sync **keeps running,
+weekly**, with no end date.
 
 ### Post-event deck pass (session 56, 2026-10-02) — done
 

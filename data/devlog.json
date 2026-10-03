@@ -57,6 +57,49 @@
           "html": "The devlog page renders into a single SQL statement, and D1 caps a statement at 100KB — so the renderer had been truncating from the front. <strong>22 of 56 sessions were missing from the published page.</strong><br><br>The row itself can hold 2MB, so the page is now written as one insert plus a series of appends, each sized against a byte budget, and read back and compared before the write is recorded as successful. The log is also paged now — older entries roll into archive files — but that split is invisible: every consumer loads the merged record, so the page, the Markdown rendering and the vector index all still see one continuous history with working anchors."
         }
       ]
+    },
+    {
+      "id": 56,
+      "sort_key": 56.0,
+      "label": "Session 56",
+      "title": "The Symposium, Recorded — and a Deck That Had Been Filed Under the Wrong Talk",
+      "date": "2026-10-02",
+      "time_pt": "18:45-19:30",
+      "tracks": [
+        "corpus-ingestion",
+        "vector-architecture",
+        "worker-api"
+      ],
+      "costs_usd": {
+        "recording summaries (Sonnet, 19 talks)": 0.48
+      },
+      "vector_counts": {
+        "total": 34932,
+        "symposium": 703
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "Recordings go where the symposium questions look",
+          "html": "The 2026 Symposium playlist holds 40 recordings, three of them unlisted, so the playlist rather than the channel page is the inventory. They are indexed in the <strong>symposium</strong> namespace, not with the other YouTube talks. Since session 55, a question that names the event is answered from that namespace alone, so recordings filed elsewhere would have been invisible to exactly the questions that want them.<br><br>Each talk gets one summary chunk and a run of transcript chunks. Each transcript chunk carries its start time, and its link opens the video at that moment. Asked what was said about the trust ratchet, C3PO now quotes the talk and links to 7:33."
+        },
+        {
+          "title": "A video title names its speaker, so the match has to agree with it",
+          "html": "All 40 recordings are attached to their programme entries. A title match only counts if the speaker named in the video title also appears among the talk's hosts. Without that check, the trial run filed Yuhan Liu's OpenCourier talk under <em>Open Mic: Frontier-Pacing Protocols</em> because both titles contain the word “protocol”. The match was confident and wrong, and an answer built on it would have attributed one speaker's talk to another."
+        },
+        {
+          "title": "A deck had been filed under the wrong talk for twelve days",
+          "html": "The post-event pass over the slide folder brought it to 52 files, all matched by reading their contents. One file already in the index turned out to be misfiled: <em>Protocoling</em> had been attached to the Protocol Studies Panel on a weak title match, but its content is Botao Amber Hu's <em>Protocoling HCI</em>. Correcting the attachment exposed a second bug. The sync skipped any file whose bytes had not changed, so moving a deck to a different talk would never have re-embedded it. The talk it belongs to is now part of what “unchanged” means."
+        },
+        {
+          "title": "YouTube rate-limits everyone eventually",
+          "html": "YouTube refuses caption requests from the cloud VM, so recording ingest runs from the laptop. Then the laptop got rate-limited as well, after 40 quick caption requests. Switching to a gentler transcript client delivered 19 talks before that was blocked too. The ingest picks up where it stopped, so the other 21 arrive on the next run once the block clears."
+        },
+        {
+          "title": "Summaries that read the whole talk",
+          "html": "Video summaries used to be written from the first 3,000 characters of a transcript. At a conference, that is mostly the host introducing the speaker. A symposium recording's summary now comes from the whole talk, with the programme listing's spelling of every name. Auto-captions had produced “Blyger” and worse."
+        }
+      ]
     }
   ]
 }
