@@ -19,7 +19,7 @@
 **Shipped:** c3po `29f328d`, `0264940`; worker deployed (version `4eaf22a4`); website PR #6 open.
 
 **Open TODOs (priority order):**
-1. **Re-run `python3 ingest/sync_symposium_videos.py`** once YouTube lifts the IP block — 21 recordings waiting. Again whenever more are uploaded.
+1. **NEXT SESSION, FIRST THING: run `python3 ingest/sync_symposium_videos.py`** (laptop only) — 21 recordings were waiting on a YouTube IP block. Then commit + push `sources/youtube/enriched_meta.json` so they become resources. Repeat whenever more are uploaded.
 2. ~~Merge website PR #6, push `enriched_meta.json`~~ — done (`7a3b46a`, `15db6bc`). **Push `enriched_meta.json` again after each video re-run.**
 2b. **The daemon never pulls `protocolized-website` before its resource sync + direct push.** The VM clone was 16 commits behind (pulled by hand this session); the next upstream website change makes the push fail non-fast-forward. Add a `pull --ff-only` before the sync step (needs a daemon restart).
 3. Decide the `id: 8` devlog collision (carried).
