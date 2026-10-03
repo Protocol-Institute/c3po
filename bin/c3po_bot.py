@@ -482,7 +482,9 @@ async def handle_nav_query(message: discord.Message, query: str) -> None:
 # ── Intro rec helpers ────────────────────────────────────────────────────────
 
 NEW_MEMBER_DAYS = 7        # posts within this many days of joining count as new-member intros
-RETURNING_INTRO_MIN_LEN = 80  # min chars for an old-member post in #introductions to get a welcome-back
+                           # — and only those. Members who joined earlier get no intro reply at
+                           # all (VGR, session 56: the "welcome back" reply to long-standing
+                           # members posting in #introductions was removed).
 NEW_INTRO_MIN_LEN = 20     # min chars for a new-member post to count as a real self-introduction
                            # (filters out one-word replies like "thanks!" or "hi" to someone
                            # else's greeting — see wq.is_welcomed() for the main per-user guard)
@@ -610,8 +612,8 @@ def _update_intro_tally(rec_sources: list[dict], channel: dict | None) -> None:
 
 # ── Introductions monitoring ──────────────────────────────────────────────────
 
-async def handle_introduction(message: discord.Message, returning: bool = False) -> bool:
-    """Welcome a new (or returning) member.
+async def handle_introduction(message: discord.Message) -> bool:
+    """Welcome a new member.
 
     Returns True if handled — either the reply was sent, or the message was
     intentionally skipped as not a real introduction (already welcomed, or
@@ -625,22 +627,20 @@ async def handle_introduction(message: discord.Message, returning: bool = False)
     # A real introduction should only trigger this flow once per member —
     # guards against casual replies (e.g. to someone else's greeting) being
     # mistaken for a fresh self-introduction on every subsequent message.
-    if not returning:
-        user_id = str(message.author.id)
-        if wq.is_welcomed(user_id):
-            log.info(f"Skipping intro for [{message.author}] — already welcomed")
-            return True
-        if len(message.content.strip()) < NEW_INTRO_MIN_LEN:
-            log.info(f"Skipping intro for [{message.author}] — too short to be a real introduction")
-            return True
+    user_id = str(message.author.id)
+    if wq.is_welcomed(user_id):
+        log.info(f"Skipping intro for [{message.author}] — already welcomed")
+        return True
+    if len(message.content.strip()) < NEW_INTRO_MIN_LEN:
+        log.info(f"Skipping intro for [{message.author}] — too short to be a real introduction")
+        return True
 
     intro_text = message.content[:400]
-    log.info(f"Introduction from [{message.author}] (returning={returning}): {intro_text[:80]}")
+    log.info(f"Introduction from [{message.author}]: {intro_text[:80]}")
 
     # Corpus query: frame intro as a resource-recommendation request
-    member_type = "Returning" if returning else "New"
     corpus_query = (
-        f"{member_type} member introduction: {intro_text}\n\n"
+        f"New member introduction: {intro_text}\n\n"
         f"Recommend the single most relevant resource from the corpus for their interests, "
         f"preferring non-VGR-authored resources when equally relevant. "
         f"One sentence on why it fits. Be brief."
@@ -692,13 +692,7 @@ async def handle_introduction(message: discord.Message, returning: bool = False)
         channel = _load_fallback_channel(FALLBACK_CHANNEL_IDS[0])
 
     # ── Format reply ──────────────────────────────────────────────────────────
-    if returning:
-        reply = (
-            f"Hi {message.author.mention} — looks like you joined a while back and are getting more active. "
-            f"Welcome back!\n\n"
-        )
-    else:
-        reply = f"Welcome, {message.author.mention}!\n\n"
+    reply = f"Welcome, {message.author.mention}!\n\n"
 
     if answer:
         reply += answer + "\n"
@@ -744,8 +738,7 @@ async def handle_introduction(message: discord.Message, returning: bool = False)
         log.error(f"Failed to send intro reply: {exc}")
 
     if sent:
-        if not returning:
-            wq.mark_welcomed(str(message.author.id))
+        wq.mark_welcomed(str(message.author.id))
         _update_intro_tally(rec_sources, channel)
         intro_quality.log_quality(
             user_hash=_hash_user(message.author.id),
@@ -762,7 +755,6 @@ async def handle_introduction(message: discord.Message, returning: bool = False)
         "event":        "introduction",
         "ts":           _ts(),
         "type":         "introduction",
-        "returning":    returning,
         "user_hash":    _hash_user(message.author.id),
         "intro_len":    len(intro_text),
         "answer_len":   len(answer),
@@ -853,9 +845,6 @@ async def on_message(message: discord.Message):
         is_mention = (client.user in message.mentions or
                       any(r.id == ORACLE_ROLE_ID for r in message.role_mentions))
         is_new_intro = message.reference is None and _is_new_member(message.author)
-        is_returning_intro = (message.reference is None
-                              and not _is_new_member(message.author)
-                              and len(message.content) >= RETURNING_INTRO_MIN_LEN)
 
         if is_new_intro:
             wq.push({
@@ -871,9 +860,6 @@ async def on_message(message: discord.Message):
             success = await handle_introduction(message)
             if success:
                 wq.remove(str(message.id))
-            return
-        elif is_returning_intro:
-            await handle_introduction(message, returning=True)
             return
         elif not is_mention:
             return  # existing member posting in #introductions — ignore unless mentioned
