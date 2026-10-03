@@ -105,18 +105,19 @@ Duration: {meta.get('duration_sec', 0) // 60} minutes
     model = MODEL
     response = client.messages.create(
         model=model,
-        max_tokens=1024,
+        max_tokens=2048,   # 1024 truncated one long talk mid-JSON
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_msg}],
     )
     log_api_call("enrich_youtube", model, response.usage)
-    text = response.content[0].text.strip()
+    # Sonnet can lead with a thinking block; the answer is the text block.
+    text = next(b.text for b in response.content if getattr(b, "type", "") == "text").strip()
     # Strip markdown code fences if present
     if text.startswith("```"):
         text = text.split("```")[1]
         if text.startswith("json"):
             text = text[4:]
-    return json.loads(text)
+    return json.loads(text, strict=False)   # summaries can carry raw newlines/tabs
 
 
 def main():

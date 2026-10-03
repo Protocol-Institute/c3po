@@ -579,7 +579,14 @@ def _is_vgr_authored(src: dict) -> bool:
 
 def _is_excluded_from_intro(src: dict) -> bool:
     """True if this source should never appear in intro suggested readings."""
-    if _is_vgr_authored(src):
+    if src.get("source") == "youtube":
+        # A video's speaker list includes its host. VGR hosts many guest talks
+        # (Bryan Johnson, Kevin Kelly, Gordon Brander...), and once enrichment
+        # stopped mangling his name, "any speaker is VGR" excluded them all. The
+        # guest is listed first, so only the lead speaker counts.
+        if any(m in (src.get("primary_author") or "").lower() for m in _VGR_MARKERS):
+            return True
+    elif _is_vgr_authored(src):
         return True
     if src.get("is_cover_letter"):
         return True
