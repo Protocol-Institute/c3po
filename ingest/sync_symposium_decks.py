@@ -62,6 +62,13 @@ REVIEW_PATH = ROOT / "data" / "symposium_decks_review.json"
 MAP_PATH    = ROOT / "config" / "symposium_deck_map.json"
 
 FOLDER_MIME = "application/vnd.google-apps.folder"
+# Subfolders that live in the deck folder but are not programme material (VGR,
+# session 56): ProceedingsFinal belongs to the follow-on proceedings project, and
+# 9000 ARCHIVE holds superseded drafts. Keyed by ID so a rename cannot re-admit them.
+EXCLUDED_FOLDERS = {
+    "1pMT0S1aB6Vm5WEX0J4g7ljPMitC-1Mwr": "ProceedingsFinal",
+    "1--SDBpvrWjX81VNTuQMdpNG8mRK9fO2K": "9000 ARCHIVE",
+}
 GSLIDES     = "application/vnd.google-apps.presentation"
 GSLIDES_ALT = "application/vnd.google-apps.punch"     # legacy mime, still served
 GDOC        = "application/vnd.google-apps.document"
@@ -135,6 +142,8 @@ def walk_folder(folder_id: str, path: str = "") -> list[dict]:
     files = []
     for e in folder_listing(folder_id):
         if e["mime"] == FOLDER_MIME:
+            if e["id"] in EXCLUDED_FOLDERS:
+                continue
             time.sleep(0.4)
             files += walk_folder(e["id"], f"{path}/{e['name']}")
         else:
@@ -613,6 +622,12 @@ def run(dry_run=False, report=False, force=False, prune=False, limit=None,
 
     print(f"Listing Drive folder {ROOT_FOLDER} …")
     drive = resolve_shortcuts(walk_folder(ROOT_FOLDER))
+    # A null override is a deliberate "do not ingest" — a superseded backup copy
+    # the speaker left beside the final deck. Never reaches matching or review.
+    excluded = [f for f in drive if f["id"] in overrides and overrides[f["id"]] is None]
+    drive = [f for f in drive if f not in excluded]
+    for f in excluded:
+        print(f"  SKIP  {f['name'][:52]:<54} excluded in {MAP_PATH.name}")
     print(f"  {len(drive)} files across the folder tree\n")
 
     resolved, review = [], []
@@ -671,7 +686,10 @@ def run(dry_run=False, report=False, force=False, prune=False, limit=None,
     for f, p, why, pre in todo:
         prev = files.get(f["id"], {})
         # Cheap gate first: no download unless Drive says the file moved.
-        if pre is None and not force and prev.get("mtime") == f["mtime"] and prev.get("size") == f["size"]:
+        # A corrected override moves a file to another talk without touching the
+        # file, so the attachment is part of what "unchanged" means.
+        same_talk = prev.get("slug") == p.get("slug")
+        if pre is None and not force and same_talk and prev.get("mtime") == f["mtime"] and prev.get("size") == f["size"]:
             skipped += 1
             continue
         try:
@@ -696,7 +714,7 @@ def run(dry_run=False, report=False, force=False, prune=False, limit=None,
             continue
 
         thash = hashlib.sha256(text.encode()).hexdigest()[:16]
-        if not force and prev.get("text_hash") == thash:
+        if not force and same_talk and prev.get("text_hash") == thash:
             # Drive timestamp moved but the content did not (autosave, a nudged
             # text box). Record the new timestamp; do not pay to re-embed.
             files[f["id"]] = {**prev, "mtime": f["mtime"], "size": f["size"]}

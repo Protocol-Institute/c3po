@@ -32,7 +32,7 @@ recordings land).
 |---|---|---|---|
 | **A** | Program metadata — 61 talks/workshops/interactives, 4 special sessions | **Before Sept 21** | none; data is live now |
 | **B** | Slide decks and speaker docs from the Drive folder | **Done 2026-09-16** — 21 decks, `symposium_slides` | — |
-| **C** | Recordings and transcripts | After Sept 25 | recordings do not exist yet |
+| **C** | Recordings and transcripts — YouTube playlist `PLEt1tjJkFjsQ`, 40 talks | Planned 2026-10-02 | VGR's two decisions below |
 
 The phases share one namespace and one identity scheme so that a deck and its
 recording attach to the talk record Phase A already created.
@@ -495,21 +495,132 @@ A file moving between folders keeps its id, which is another reason to key on id
 
 ## Phase C — recordings and transcripts (post-event)
 
-**Do not build a new pipeline.** Symposium talks will land on the PI YouTube
-channel, and `videos` (3,127 vectors, 97 talks) plus
-`ingest/enrich_youtube.py` already does this exact job — fetch, caption,
-enrich, embed.
+**Status (session 56, 2026-10-02): planned, not built.** Supersedes the
+pre-event sketch that was here, which assumed recordings would go into `videos`
+— that would have made them invisible, see "Why the `symposium` namespace".
 
-The right change is small: tag symposium videos with `symposium_slug` and
-`symposium_year` metadata at ingest, so a recording joins the talk record from
-Phase A rather than living as an unconnected video. Matching by video title
-against program titles will have the same ambiguity Phase B has; reuse the same
-resolver and the same override file.
+### What exists (checked 2026-10-02)
 
-If recordings arrive as raw audio with generated summaries instead of YouTube
-uploads, the `sync_meeting_notes.py` path (`audio_meeting_summary` /
-`audio_meeting_section`) is the closer fit. Decide when the format is known —
-not now.
+- **Playlist "2026 Symposium", `PLEt1tjJkFjsQ`** (a short-form ID; yt-dlp
+  resolves it fine). **40 recordings**: an untitled-number "Opening Talk" plus
+  `01`–`39` titled `NN - Speaker(s) - Title`. Three (`25` Schmidt, `29` Chua
+  discussion, `31` Anuraj/Fernandez) are unlisted — on the playlist, absent from
+  the channel's Videos tab — so **the playlist, not the channel, is the
+  inventory.** All uploaded 2026-09-28; ~28-45 min each, ~20 hours total.
+- **YouTube auto-captions exist** on the new uploads (checked three). No manual
+  subtitles, no chapters, no speaker labels.
+- **More will be uploaded later**, and decks will keep straggling in.
+
+### Why the `symposium` namespace, not `videos`
+
+Session 55's scoping answers any query that names the event from the
+`symposium` namespace **alone** — the other namespaces are not even fetched.
+Recordings stored in `videos` would therefore never be seen by the questions
+most likely to want them ("what did Schneider say about virtues at the
+symposium?"). The namespace table above already reserved
+`symposium_transcript` for this, with the talk slug as the shared identity.
+
+| chunk_type | One per | Carries |
+|---|---|---|
+| `symposium_recording` | video (40) | title, speakers, Haiku/Sonnet summary + key concepts, YouTube URL, duration, slug — the "is there a recording of X?" answer, and the one chunk a list question needs |
+| `symposium_transcript` | ~2.3K-char transcript segment | header (event, talk title, speakers, `[mm:ss]` start) + caption text; `url` deep-links `&t=Ns` so the bot can cite the moment |
+
+Expected size: ~20h of speech ≈ 1.1M chars ≈ **~500 transcript chunks + 40
+summaries** — larger than everything else in the namespace combined (~450).
+That is the main retrieval risk; see "Things to verify after the first run".
+
+### Pipeline — reuse the YouTube steps, own only the embed
+
+1. **Fetch + captions:** add `"PLEt1tjJkFjsQ": "symposium-2026"` to
+   `fetch_youtube_meta.PLAYLISTS`, highest in `SERIES_PRIORITY`. Existing code
+   then downloads the auto-captions and cleans them. Keep the raw `.vtt` — the
+   cleaned `.txt` drops timestamps, and the transcript chunks need them.
+2. **Enrich:** `enrich_youtube.py` as-is (summary, speakers, key concepts).
+3. **Embed:** new `ingest/sync_symposium_videos.py` — reads the enriched
+   entries with `series == "symposium-2026"`, resolves each to a programme slug,
+   chunks the timestamped transcript, and upserts to `symposium`.
+   `ingest_youtube.py` **skips** that series so nothing is embedded twice.
+   Content-hashed per video like the deck sync, so a re-run after new uploads
+   only pays for the new ones.
+
+### Matching videos to talks
+
+Reuse `sync_symposium_decks.resolve()` and its rules (override → exact slug →
+fuzzy title → surname; ambiguous escalates, never guesses), fed the title with
+the `NN - Speaker -` prefix stripped. Trial run 2026-10-02: **37 of 40 resolve**.
+Two changes before it is trusted:
+
+- **Corroborate with the speaker.** The video title names the speaker; the deck
+  filenames usually did not. One trial match was confident and wrong-looking:
+  `24 - Yuhan Liu - OpenCourier Protocol` → "Open Mic: Frontier Pacing
+  Protocols" on the word "protocol". (Possibly right if OpenCourier was an
+  open-mic slot — check the programme before overriding.) A title match whose
+  slug's speakers do not include the video's speaker escalates.
+- **Overrides live in `config/symposium_video_map.json`**, same shape as the
+  deck map. Known unmatched: the Opening Talk (→ the Welcome Session slug),
+  `31` Robots as Protocol Citizens (talk vs. the workshop of the same name —
+  the talk, 2026-09-25), `36` Fett "Markets and the Journey to Neutrality"
+  (title differs from the programme; and his deck has also left the Drive).
+
+A recording with no programme slug is still embedded, attached to the event
+rather than a talk — an unmatched recording is still a real recording.
+
+### Where it runs: the laptop
+
+**YouTube returns HTTP 429 to the VM** on caption downloads (probed
+2026-10-02 with a throwaway venv; datacenter IP). The VM also has no yt-dlp.
+So Phase C runs **laptop-side**, like the rest of the YouTube pipeline already
+does — the daemon only syncs YouTube enrichment *to the website*. One command,
+idempotent, re-run whenever VGR says more recordings are up:
+
+    python3 ingest/sync_symposium_videos.py            # fetch → enrich → embed new
+    python3 ingest/sync_symposium_videos.py --dry-run  # match report only
+
+Decks stay on the daemon (6h throttle, no YouTube involved), which covers
+straggler files without anyone remembering to run anything.
+
+### Things to verify after the first run
+
+- **Crowding.** With ~500 transcript chunks a symposium question may return
+  eight slices of one long talk. The per-record chunk cap from session 55 keys
+  on slug, so it should hold — confirm with the 15-phrasing probe from session
+  55 plus "what was said about X at the symposium".
+- **Auto-caption names.** Speaker and concept names come out mangled
+  ("Stigmurgy", "Blyger"). The header carries the correct names from the
+  programme; check whether lexicon terms need a light correction pass before
+  deciding to build one.
+- **No CTA drift.** "Watch the recording" is a call to action; "the recording
+  is at <url>" is a fact. Same VOICE rule as the programme.
+
+### Open decisions for VGR
+
+1. **Resource library.** Running `enrich_youtube` puts the 40 recordings in
+   `sources/youtube/enriched_meta.json`, which the daemon syncs into the
+   protocolized.io resource library. Probably wanted — but it is a website
+   change, so confirm (it can be held back with a series filter).
+2. **When the deck sync stops.** Proposed: keep the 6h daemon step through
+   2026-10-31 for stragglers, then remove it; a later file can be run by hand.
+
+### Post-event deck pass (session 56, 2026-10-02) — done
+
+52 files across the tree (was 42); **all 52 resolved**, review queue empty.
+29 embedded, 16 unchanged, 3 collapsed as duplicates, 4 still stubs
+(`Artisanal Bots`, `Blygger`, `Opening Session`, `Some Candidate Laws`), 9
+superseded files pruned. Changes made along the way:
+
+- **Excluded subfolders** (VGR): `ProceedingsFinal` (the follow-on proceedings
+  project) and `9000 ARCHIVE`, by folder ID in `EXCLUDED_FOLDERS`.
+- **A null override now means "do not ingest"** — used for
+  `Protocoling — backup before 33-slide review sync`, a pre-revision copy.
+- **A misattribution, found by reading content:** the `Protocoling` deck had
+  been attached to the *Protocol Studies Panel* on a 0.606 title match since
+  session 55. It is Botao Amber Hu's *Protocoling HCI* talk. Fixing the override
+  exposed a second bug: the skip gate compared only mtime/size/text-hash, so a
+  corrected attachment would never have re-embedded. The talk slug is now part
+  of "unchanged".
+- **Fett's deck (`NewNatureSlides_Fett.pptx`) is gone from the Drive**; its
+  chunks were pruned with the rest. If that was not intentional, it reingests
+  itself when it reappears.
 
 ---
 
