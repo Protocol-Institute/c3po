@@ -190,7 +190,22 @@ def main():
 
         text = fetch_chunk_text(idx, url, vcount)
         if not text:
-            print("  ✗ no text in Pinecone — skipping")
+            # Recorded as fetched, but no vectors exist (28 links from the May
+            # bulk fetch: none findable by id or by url filter). Skipping them
+            # retried all 28 every cycle forever. Send each back to the fetch
+            # queue once; if a refetch still leaves nothing, retire it.
+            if not args.dry_run:
+                if entry.get("refetch_missing_vectors"):
+                    registry[key]["fetch_status"] = "failed"
+                    registry[key]["fail_reason"] = "no vectors in Pinecone after refetch"
+                    print("  ✗ no text in Pinecone after refetch — marked failed")
+                else:
+                    registry[key]["fetch_status"] = "pending"
+                    registry[key]["refetch_missing_vectors"] = True
+                    print("  ✗ no text in Pinecone — requeued for fetch")
+                save_registry(registry)
+            else:
+                print("  ✗ no text in Pinecone — would requeue for fetch")
             errors += 1
             continue
 
