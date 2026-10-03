@@ -1,6 +1,6 @@
 # C3PO — Status Log
 
-## 2026-10-02 18:45-19:30 PT — Post-symposium: final decks gathered, recordings into the index (session 56)
+## 2026-10-02 18:45-20:40 PT — Post-symposium decks + recordings; then a housekeeping queue (session 56)
 
 **Session-start checks not run** — the session went straight to the post-event work. Laptop clone fast-forwarded. Vectors 33,779 → **34,932** (+332 symposium; rest organic).
 
@@ -18,16 +18,27 @@
 
 **Shipped:** c3po `29f328d`, `0264940`; worker deployed (version `4eaf22a4`); website PR #6 open.
 
-**Open TODOs (priority order):**
-1. **NEXT SESSION, FIRST THING: run `python3 ingest/sync_symposium_videos.py`** (laptop only) — 21 recordings were waiting on a YouTube IP block. Then commit + push `sources/youtube/enriched_meta.json` so they become resources. Repeat whenever more are uploaded.
-2. ~~Merge website PR #6, push `enriched_meta.json`~~ — done (`7a3b46a`, `15db6bc`). **Push `enriched_meta.json` again after each video re-run.**
-2b. **The daemon never pulls `protocolized-website` before its resource sync + direct push.** The VM clone was 16 commits behind (pulled by hand this session); the next upstream website change makes the push fail non-fast-forward. Add a `pull --ff-only` before the sync step (needs a daemon restart).
-3. Decide the `id: 8` devlog collision (carried).
-4. Rotate `C3PO_VM_GH_TOKEN` / `C3PO_ACTIONS_GH_TOKEN` (carried).
-5. `ingest_youtube.py`: add state and lift the 1,000-char metadata cap; repair 21 zero durations.
-6. Four deck stubs (`Artisanal Bots`, `Blygger`, `Opening Session`, `Some Candidate Laws`); Fett's deck gone.
-7. Everything else carried from session 55.
+**Second half — housekeeping queue (VGR: "fix all of these, pause after each").** Done, in order:
+- **Daemon website clone** (`d3aa49e`): pull `--rebase` before the resource sync; retry a commit stranded by a rejected push. Daemon restarted. Website PR #6 merged; 19 recordings published as resources (dated by talk day — verified).
+- **Website-agent issues #7 and #6** (closed): key-point sub-bullets folded (`utils.parse_key_points`), inline markdown rendered after escaping (`utils.inline_markdown_html`) in every insight/prose renderer, Questions truncated without orphaning `**`, "1 session". 19 audio meetings backfilled (`bin/backfill_key_points.py`). `--refresh` now reaches pages created under an earlier title. All 150 detail pages re-rendered on the VM: 0 literal `**`, 0 bare headings. **Ships in the weekly auto-sig-pages PR (~2026-10-04 00:49 UTC), ~127 files** — also publishes audio summaries create-once pages never got, and the shared `main.js` footer.
+- **Session-start checks:** Substack 0 new; no intro issues; $1.03 last 7 days / $32.74 all-time (VM log).
+- **Intro replies only to members who joined ≤7 days ago** (`5c52f10`): the "welcome back" path is removed entirely (fired 7 times since Aug 1).
+- **Intro "Worth watching" video slot** (`508c3c3`): videos were 9 of 213 intro recs. Direct query of video summaries + symposium recordings, 0.33 floor, never VGR-led.
+- **Devlog id-8 collision** (`ff5f76e`): 2026-05-18 entry is now 8.5; anchors for half-numbered sessions are distinct (`#session-8-5`, `#session-27-5` — 27.5 was already colliding). `meta` 58 sessions / 58 vectors; the 30-minute re-embed is gone.
+- **YouTube pipeline** (`85178d2`, `36e700b`): `ingest_youtube` stateful (was re-embedding all ~100 every run) and stores full chunk text (was `[:1000]`); all 97 older videos re-enriched with Sonnet on the whole transcript + `config/known_people.json` for spelling — 33 speaker lists changed ("Benitesh Raalo" → Venkatesh Rao). Loosely worded, the name list made the model map an unnamed presenter to an audience member; tightened. VGR now credited in 17 videos (was 2), so the intro VGR rule for videos checks the **lead speaker only**. Durations backfilled. **$4.60.**
+- **`sync_web_chats` retry** (`e67dd3f`): bounded backoff for 429/5xx/network; eight faked cases tested.
+- **28 dead Discord links** (`76d58c6`): none had vectors (May bulk-fetch upsert loss). Requeued once for fetch (confirmed on VM, 03:37 UTC); a refetch that still leaves nothing is retired as `failed`.
+- **Event & time awareness plan** — `plans/event-awareness.md`. VGR decisions: sources are the **Community** and **Institute** Google Calendars (public iCal, verified) + `events.json` history; "next SIGPSY meeting" is in scope as a fact; SIG meetings are events.
 
+**Pinecone:** 34,932 → **34,940** (organic + `meta` 56 → 58).
+
+**Open TODOs — the queue resumes here next session (priority order):**
+1. **FIRST: run `python3 ingest/sync_symposium_videos.py` on the laptop** — 21 recordings waited on a YouTube IP block. Then commit + push `sources/youtube/enriched_meta.json` so they become resources. Repeat whenever more are uploaded.
+2. **Queue #10 — rename plan for c3po** across all externally visible places (repo, web, Discord, code). VGR will supply the name later; the plan can be drafted before it.
+3. **Queue #11 — security:** rotate `C3PO_VM_GH_TOKEN` / `C3PO_ACTIONS_GH_TOKEN`; revoke `GH_PAT` in `../.env.keys` after confirming it is not the laptop keyring's value.
+4. **Event plan, open question 4:** whether to retire `symposiumScope()` once `eventScope()` passes a saved probe. The session-55 "15-phrasing probe" was never saved — Phase C starts by writing `bin/probe_event_scope.py`.
+5. **Verify** the weekly SIG-pages PR (~127 files) before merge, and that the 28 requeued links resolved (fetched+scored or `failed`).
+6. Phase 2 of `plans/vm-credential-hardening.md`; Protocol Hackathon `activities` truncated in D1 (organiser fix); four deck stubs + Fett's missing deck; watch the first live "Worth watching" intro.
 ---
 
 ## 2026-09-20 10:40-12:00 PT — Symposium retrieval scoped to the programme; a text cap that was deleting a third of what the model reads; devlog paged (session 55)

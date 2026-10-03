@@ -62,20 +62,24 @@
       "id": 56,
       "sort_key": 56.0,
       "label": "Session 56",
-      "title": "The Symposium, Recorded — and a Deck That Had Been Filed Under the Wrong Talk",
+      "title": "The Symposium, Recorded — Then a Housekeeping Sweep",
       "date": "2026-10-02",
-      "time_pt": "18:45-19:30",
+      "time_pt": "18:45-20:40",
       "tracks": [
         "corpus-ingestion",
+        "discord-bot",
+        "operations",
         "vector-architecture",
         "worker-api"
       ],
       "costs_usd": {
-        "recording summaries (Sonnet, 19 talks)": 0.48
+        "recording summaries (Sonnet, 19 talks)": 0.48,
+        "older videos re-enriched (Sonnet, 97 talks)": 4.6
       },
       "vector_counts": {
-        "total": 34932,
-        "symposium": 703
+        "total": 34940,
+        "symposium": 703,
+        "meta": 58
       },
       "deployed": true,
       "items": [
@@ -98,6 +102,22 @@
         {
           "title": "Summaries that read the whole talk",
           "html": "Video summaries used to be written from the first 3,000 characters of a transcript. At a conference, that is mostly the host introducing the speaker. A symposium recording's summary now comes from the whole talk, with the programme listing's spelling of every name. Auto-captions had produced “Blyger” and worse."
+        },
+        {
+          "title": "Intro replies only for new members, now with a video",
+          "html": "C3PO had a “welcome back” reply for anyone who joined more than a week earlier and posted in #introductions. It fired seven times since August and is now gone: only new members get an intro reply. New members also get a <strong>Worth watching</strong> line. Videos had been 9 of 213 intro recommendations, because a transcript resembles a written self-introduction less than an essay does. The video is chosen from talk summaries. It has to clear a relevance floor, so a forced, off-topic video never appears."
+        },
+        {
+          "title": "97 talks re-read in full",
+          "html": "Every older video's summary had been written by a small model from the first 3,000 characters of an auto-caption: mostly the host's introduction, with names as the captioner heard them. “Benitesh Raalo” was Venkatesh Rao. All 97 were re-summarized from the whole talk, with a list of how community members' names are actually spelled. Given that list too loosely, the model used it to guess who an unnamed presenter was. It now only corrects spelling. The same pass found that the video index stored the first 1,000 characters of each 2,300-character chunk, so most of every transcript was retrieved and then discarded."
+        },
+        {
+          "title": "Small things that had been failing quietly",
+          "html": "A daemon checkout of the website repo that had fallen 16 commits behind. Two build-log entries sharing one number, so the log re-embedded one of them every 30 minutes. 28 Discord links recorded as fetched whose vectors never existed, retried every cycle since May. A chat-sync step that died on one dropped connection. SIG pages showing literal <code>**</code> where bold was meant, reported by the agent that maintains the website. Each is fixed, and checked against the live system rather than assumed."
+        },
+        {
+          "title": "Planned: knowing which event something belongs to",
+          "html": "A plan for event and time awareness. C3PO will read the institute's two public calendars and its events history, tag archive items with the event they belong to, and answer questions scoped to any event, generalizing what was built for the 2026 symposium alone."
         }
       ]
     }

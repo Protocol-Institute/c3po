@@ -94,9 +94,9 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 | Namespace | Vectors | Notes |
 |-----------|---------|-------|
 | `discord_links` | 13,585 | Community-shared URLs, scored by Haiku |
-| `sig` | 8,486 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 7 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG, PRG (Personhood Research Group — audio only, no Discord channel) |
+| `sig` | 8,492 | SIG Discord messages/summaries + .org meeting pages (`sig_meeting_page`) + audio summaries (`audio_meeting_summary`, `audio_meeting_section`); 7 SIGs: SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG, PRG (Personhood Research Group — audio only, no Discord channel) |
 | `discord` | 5,967 | General + forum channels; starred msgs weighted 1.0×, unstarred 0.70× |
-| `videos` | 3,127 | YouTube talks (97 videos) |
+| `videos` | 3,127 | YouTube talks (97 videos; whole-transcript Sonnet enrichment, full chunk text — session 56) |
 | `substack` | 1,267 | Protocolized magazine |
 | `pdfs` | 765 | 85 papers/essays (`sources/pdfs/enriched_meta.json`) |
 | `definitions` | 560 | PI lexicon (914 terms, triage a/b/c) |
@@ -105,7 +105,7 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 | `meta` | 58 | C3PO self-knowledge: 1 vector/devlog session (58 sessions; half-numbered entries 8.5 and 27.5 anchor as `#session-8-5` / `#session-27-5`); queried at 3 results max alongside all other namespaces |
 | `transcripts` | 58 | Bot conversation self-memory: web + Discord Q&A |
 | `symposium` | 703 | Protocol Symposium 2026: programme (`symposium_overview`, `symposium_block`, `symposium_session`, `symposium_workshop`), slide decks and speaker papers (`symposium_slides`, 52 Drive files all matched; 4 stubs), and recordings (`symposium_recording` + timestamped `symposium_transcript`, 19 of 40 so far — laptop-only, see `ingest/sync_symposium_videos.py`). Queries that name the event are answered from this namespace alone; see [`plans/symposium-ingest.md`](plans/symposium-ingest.md) |
-| **Total** | **34,934** | |
+| **Total** | **34,940** | |
 
 ## Key Ingest Scripts
 
