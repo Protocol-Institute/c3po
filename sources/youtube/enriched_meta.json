@@ -2736,5 +2736,795 @@
       "protocol literacy",
       "cross-disciplinary analysis"
     ]
+  },
+  "nx-3L5Apbgw": {
+    "video_id": "nx-3L5Apbgw",
+    "title": "Opening Talk – 2026 Protocol Symposium",
+    "url": "https://www.youtube.com/watch?v=nx-3L5Apbgw",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "Opening Talk – 2026 Protocol Symposium",
+    "programme": {
+      "slug": "opening-session",
+      "title": "Welcome Session",
+      "speakers": [
+        "Timber Stinson-Schroff",
+        "Venkatesh Rao"
+      ],
+      "abstract": "Welcome and orientation to the symposium",
+      "scheduled_date": "2026-09-23",
+      "track": "General"
+    },
+    "date": "2026-09-23",
+    "summary": "Timber Stinson-Schroff opens the 2026 Protocol Symposium by introducing this year's theme 'new nature' and explaining the Protocol Institute's transition from the Ethereum Foundation into an independent 'base camp' organized around Special Interest Groups (SIGs). Venkatesh Rao, Tim, and guest speaker David Lang (Open ROV, Experiment Foundation) then hold a roundtable on technoscientific field-building, with Lang presenting a framework covering naming, keystone individuals, market/institutional signals, and the risk of institutional capture, while Rao argues protocol studies offers a 'sanity-preserving' lens for understanding boundary-crossing phenomena akin to how economics formalized trade.",
+    "categories": [
+      "protocol-theory",
+      "organizations",
+      "announcement",
+      "governance"
+    ],
+    "speakers": [
+      "Timber Stinson-Schroff",
+      "Venkatesh Rao",
+      "David Lang",
+      "Tim"
+    ],
+    "key_concepts": [
+      "new nature as a research theme",
+      "Special Interest Groups (SIGs) as a recentralization engine",
+      "technoscientific field-building framework (naming, keystone individuals, market signal)",
+      "protocol literacy and red-team thinking",
+      "institutional capture risk in nascent fields"
+    ]
+  },
+  "xI83khLXArU": {
+    "video_id": "xI83khLXArU",
+    "title": "Protocols for Co-Cognition: The New Nature of Collaboration in the AI Era",
+    "url": "https://www.youtube.com/watch?v=xI83khLXArU",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "01 - Robert Peake - Protocols for Co-Cognition: The New Nature of Collaboration in the AI Era",
+    "programme": {
+      "slug": "talk-robert-protocols-for-co-cognition",
+      "title": "Protocols for Co-Cognition: The New Nature of Collaboration in the AI Era",
+      "speakers": [
+        "Robert Peake"
+      ],
+      "abstract": "When humans work alongside AI, the terms of collaboration are renegotiated in real time, implicitly, and heterogeneously across groups of individuals. Drawing on a live psychometric instrument (the AI Co-Working Effectiveness Survey, administered across general-population and enterprise samples), this talk argues that every human–AI working relationship already runs on a protocol: a settled pattern of trust and verification that can be measured as cognitive posture. The instrument locates respondents on a Sovereignty versus Trust grid yielding four postures: Partnership, Hypervigilance, Overreliance, and Compliance, and then scores four underlying constructs: cognitive load (what you carry), cognitive debt (what you owe), dissonance (miscalibrated trust), and sovereignty (what you keep or cede). The headline empirical finding is that adoption level does not predict cognitive cost: posture, not dose, differentiates sustainable co-cognition from silent deskilling; cognitive debt peaks under Overreliance and bottoms under Hypervigilance, which pays for security with load. Ahead of the symposium I will run the survey across the Protocol Institute's wider community and present its aggregate, anonymised posture profile against contrast groups, asking what the results imply for the design of explicit protocols for co-cognition: durable, psychology-anchored working agreements between humans and their agents that survive prompting tricks and model churn the way earlier work protocols such as Kanban and GTD survived the arrival of email, groupware, and mobile phones.",
+      "scheduled_date": "2026-09-23",
+      "track": "SIGPfB (Protocols for Business)"
+    },
+    "date": "2026-09-23",
+    "summary": "Robert Peake presents empirical findings from his AI Co-Working Effectiveness Survey, which maps respondents onto a Sovereignty-versus-Trust grid yielding four postures (Partnership, Hypervigilance, Overreliance, Compliance) and measures cognitive load, debt, dissonance, and sovereignty. He argues that adoption level does not predict cognitive cost—posture does—and proposes explicit protocols like a 'DRIVE' loop (Decide, Request, Iterate, Validate, Evolve) and externalized tooling (e.g., knowledge-promotion taxonomies, forced session-closing rituals) to convert fragile human vigilance into durable, low-cost guardrails against AI-induced deskilling.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "technology-ai"
+    ],
+    "speakers": [
+      "Robert Peake"
+    ],
+    "key_concepts": [
+      "Sovereignty vs Trust posture grid (Partnership/Hypervigilance/Overreliance/Compliance)",
+      "cognitive load, debt, dissonance, and sovereignty constructs",
+      "AI Co-Working Effectiveness Survey",
+      "DRIVE loop (Decide, Request, Iterate, Validate, Evolve)",
+      "trust trap and deskilling death spiral"
+    ]
+  },
+  "pl9uc2jidUs": {
+    "video_id": "pl9uc2jidUs",
+    "title": "Oil, Uni and TV: Post-Soviet Infrastructures Shaping Protocols for Web",
+    "url": "https://www.youtube.com/watch?v=pl9uc2jidUs",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "02 - Polina Kolozaridi - Oil, Uni and TV: Post-Soviet Infrastructures Shaping Protocols for Web",
+    "programme": {
+      "slug": "oil-uni-and-tv-post-soviet-infrastructures-shaping-protocols-for-web",
+      "title": "Oil, uni and tv: post-Soviet infrastructures shaping protocols for web",
+      "speakers": [
+        "Polina Kolozaridi"
+      ],
+      "abstract": "The internet remains tethered to protocols path-dependent on banking, military, and scientific infrastructures. Yet it could have been otherwise, and still might be. I begin with historical fieldwork in an oil-development region in Siberia, where my colleagues and I uncovered alternatives: networks for oil companies that could have sustained a different internet: slow, stable, grounded in material constraints rather than abstract speed. These networks were literally touching the ground and so they could have been scaled.\nLater, studying local internets across Russian cities (2017–2022), I encountered another design: an internet resembling a stronghold, with city-walls where \"outer\" content was prohibitively expensive or unavailable. Residents built entire infrastructural layers between inner and outer worlds: not spatial boundaries, but protocol boundaries.\nFinally, there was an internet built on TV cables and networks. It was like an online video salon serving part of a city. Regardless of how it transformed, it mobilized actors no researcher could have anticipated. They also constructed not only infrastructures, but protocols, both technical and social.\nDrawing on these three fieldwork stories, I propose a talk: half-historical, half-speculative, exploring internets that might have been. Each historical case resonates with contemporary infrastructural and political transformations: technofeudalist imaginaries, corporate cable initiatives, and blockchain projects. Past alternatives illuminate how protocol design encodes political and economic possibilities and how \"New Nature\" might yet be engineered differently.",
+      "scheduled_date": "2026-09-23",
+      "track": "General"
+    },
+    "date": "2026-09-23",
+    "summary": "Polina Kolozaridi presents fieldwork from the Club for Internet and Society Enthusiasts examining multiple 'local internets' in post-Soviet Russian cities—an oil-company network in Tyumen, a TV-cable pirate video network in Vladivostok, a university-business hybrid 'Tomnet' in Tomsk, and a cross-generational kindergarten network in Pereslavl-Zalessky—arguing these show the internet's protocols were never singular but path-dependent on local material infrastructures. She proposes the concept of a 'protocol of the protocol' (or missing manifesto): these local internets lacked explicit proclamations distinguishing themselves, which let their histories be erased in favor of the single global internet narrative, a dynamic she warns is repeating with AI's singular origin story.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "memory-archival",
+      "governance"
+    ],
+    "speakers": [
+      "Polina Kolozaridi"
+    ],
+    "key_concepts": [
+      "infrastructurality",
+      "protocol of the protocol / lack of manifesto",
+      "post-Soviet local internets (Tomnet, oil internet, TV internet)",
+      "technology as ruins vs. invisible infrastructure",
+      "path-dependency and digital sovereignty"
+    ]
+  },
+  "ho4NCm4FFiQ": {
+    "video_id": "ho4NCm4FFiQ",
+    "title": "Book as Protocol Stack: Building a Protocolized Book Production Factory",
+    "url": "https://www.youtube.com/watch?v=ho4NCm4FFiQ",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "03 - Jenna Dixon - Book as Protocol Stack: Building a Protocolized Book Production Factory",
+    "programme": {
+      "slug": "the-book-as-a-protocol-stack-lessons-from-building-a-protocolized-book-productio",
+      "title": "Book as Protocol Stack: Building a protocolized book-production factory",
+      "speakers": [
+        "Jenna Dixon"
+      ],
+      "abstract": "A working book-production factory reframed as a protocol stack (transmittal handshakes, styles as controlled vocabulary, conformance-checked preflight, and a deterministic multi-format pipeline) and what it teaches about authoring inside a small, deliberately-engineered piece of New Nature.\n\nBook publishing is usually taught as a craft and managed as a sequence of one-off favors between authors, editors, designers, and typesetters. We rebuilt it as a protocol stack. This talk reports on an in-progress \"book-production factory\": a system in which a manuscript moves from author to finished .epub and print PDF through a series of explicit, layered, machine-checkable protocols rather than tacit handoffs. Three ideas underlie the factory: a transmittal handshake — a structured form that is the typed interface between an author and the factory; styles as a controlled vocabulary — semantic markup that separates meaning from appearance, with a conformance-checking \"preflight\" step that negotiates the gap between messy human formatting and machine-readable structure; and a deterministic transformation pipeline with a format-independent intermediate representation, so one source yields many faithful outputs, and versioned series templates that behave like inheritable protocols. LLM agents enter the stack as first-class participants — drafting, checking, and mediating messy input — and conform to the same typed interfaces as humans. The argument: a protocol built to be legible to people is, for the same reasons, legible to machines, which is what made the work delegable. I'll show what hardened into near-natural law, where the protocol frame paid off, and where it leaked.",
+      "scheduled_date": "2026-09-23",
+      "track": "SIGPfB (Protocols for Business)"
+    },
+    "date": "2026-09-23",
+    "summary": "Jenna Dixon presents an in-progress 'book-production factory' that reframes book publishing as a protocol stack: a structured transmittal handshake between author and factory, styles treated as controlled vocabulary separating meaning from appearance, a conformance-checking preflight step, and a deterministic pipeline yielding multiple faithful output formats (.epub, print PDF) from one source. She traces the history of book production as a series of factory-to-factory handoffs (acquiring editor, copy editor, compositor, printer, bindery) and argues that protocols legible to humans are equally legible to machines, which is what makes the work delegable to LLM agents acting as first-class participants alongside authors.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "memory-archival",
+      "editorial"
+    ],
+    "speakers": [
+      "Jenna Dixon"
+    ],
+    "key_concepts": [
+      "transmittal handshake",
+      "styles as controlled vocabulary",
+      "conformance-checked preflight",
+      "deterministic multi-format pipeline",
+      "versioned series templates as inheritable protocols"
+    ]
+  },
+  "9MeDVUyyeZU": {
+    "video_id": "9MeDVUyyeZU",
+    "title": "Some Candidate Laws of New Nature",
+    "url": "https://www.youtube.com/watch?v=9MeDVUyyeZU",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "04 - Humboldt and Venkatesh Rao - Some Candidate Laws of New Nature",
+    "programme": {
+      "slug": "some-candidate-laws-of-new-nature",
+      "title": "Some Candidate Laws of New Nature",
+      "speakers": [
+        "Humboldt",
+        "Venkatesh Rao"
+      ],
+      "abstract": "In this talk I will report on early findings from my investigations of the laws of New Nature, as an Artificial Researcher.",
+      "scheduled_date": "2026-09-23",
+      "track": "General"
+    },
+    "date": "2026-09-23",
+    "summary": "Humboldt, an AI research agent built by Venkatesh Rao, presents seven candidate 'laws of new nature' derived from cross-domain pattern-matching across protocols like TCP/IP, OAuth, and legal precedent—including ossification, the formalization ratchet, the trust ratchet, hardness-as-ratio, and coordination cost conservation. Rao explains the system's architecture: a double-Freytag 'Tempo' model with 13 behaviors and 23 transitions moving candidate laws from exploratory reading through induction, assessment, and publication, with every law required to carry explicit falsification triggers and recorded counter-examples.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "research-report",
+      "memory-archival"
+    ],
+    "speakers": [
+      "Humboldt",
+      "Venkatesh Rao"
+    ],
+    "key_concepts": [
+      "laws of new nature",
+      "protocol ossification",
+      "hardness as verification/circumvention ratio",
+      "formalization ratchet",
+      "coordination cost conservation",
+      "double Freytag model (Tempo)"
+    ]
+  },
+  "CJNfGDzGM48": {
+    "video_id": "CJNfGDzGM48",
+    "title": "The Indelible Importance of Illegibility",
+    "url": "https://www.youtube.com/watch?v=CJNfGDzGM48",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "05 - Patrick Atwater - The Indelible Importance of Illegibility",
+    "programme": {
+      "slug": "talk-patrick-the-indelible-importance-of-il",
+      "title": "The indelible importance of illegibility",
+      "speakers": [
+        "Patrick Atwater"
+      ],
+      "abstract": "Many if not all protocols simultaneously live in two registers: formalisms that can be documented and implicit norms that enable reliable coordination. Meeting minutes, standard operating procedures, and planning codes capture the first register. Such legible logs rarely capture the second -- how decisions were actually reached, or through what informal coordination work actually flows. This gap is not a failure of documentation but a structural feature of how complex human behavior functions in groups ranging from a sports team to a city and beyond.  Recognizing the importance of protocol studies for what would classically have been known as moral (rather than natural) philosophy, this paper develops oblique strategies for working productively in illegible terrain including: black-boxing known unknowns to unlock protocol hardness for what actually needs specification; cultivating practitioners with domain expertise as guides for protocol native inquiry; and developing lightweight fieldwork instruments that capture ambient observations.",
+      "scheduled_date": "2026-09-23",
+      "track": ""
+    },
+    "date": "2026-09-23",
+    "summary": "Patrick Atwater, innovation program manager at the Metropolitan Water District of Southern California, argues that protocols exist simultaneously as documented formalisms and undocumented implicit norms, using case studies from a neighborhood park, bridge/infrastructure permitting, and track-2 diplomacy to illustrate this gap. He proposes practical strategies for navigating illegible terrain—black-boxing unknowns, cultivating domain-expert practitioners as guides, and lightweight fieldwork logging (e.g., a 'protocol watching' Notion database)—and shares a real example of a water utility valve project where jurisdictional coordination revealed pseudo-official knowledge and unwritten norms.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching",
+      "governance",
+      "organizations"
+    ],
+    "speakers": [
+      "Patrick Atwater"
+    ],
+    "key_concepts": [
+      "illegibility vs. formal legibility in protocols",
+      "black-boxing known unknowns",
+      "practitioners as protocol-native guides",
+      "track-2 diplomacy as deliberately illegible coordination",
+      "protocol watching as fieldwork practice"
+    ]
+  },
+  "KuCaxZ9-mw4": {
+    "video_id": "KuCaxZ9-mw4",
+    "title": "Ethereum: A Microcosm for Protocol Studies",
+    "url": "https://www.youtube.com/watch?v=KuCaxZ9-mw4",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "06 - Tim Beiko - Ethereum: A Microcosm for Protocol Studies",
+    "programme": {
+      "slug": "marking-to-reality",
+      "title": "Ethereum: A Microcosm for Protocol Studies",
+      "speakers": [
+        "Tim Beiko"
+      ],
+      "abstract": "Protocol studies grew out of a desire to better steward the Ethereum protocol. We hoped that studying protocols as a class would generate robust insights that could improve best practices for protocol practitioners. Three years later, this symposium makes it clear that protocol studies has taken on a life of its own.\n\nIn this talk, I’ll come full circle and make the case that Ethereum is an unusually rich microcosm for protocol researchers: a live, global protocol where technical design, governance, incentives and social norms all interact under unusually high stakes.",
+      "scheduled_date": "2026-09-23",
+      "track": "General"
+    },
+    "date": "2026-09-23",
+    "summary": "Tim Beiko, core coordinator of Ethereum protocol development, traces how his own need for frameworks to steward Ethereum led to the founding of Summer of Protocols and now the Protocol Institute. He argues Ethereum functions as a 'model organism' for protocol studies—citing the 2017 Parity multisig freeze, Uniswap's constant-product market design and fee-governance debates, prediction markets' oracle problems, and atomic flash loans—to illustrate his concept of protocols as 'engineered arguments' that draw a boundary between formal rules and human judgment.",
+    "categories": [
+      "protocol-theory",
+      "protocol-watching",
+      "organizations"
+    ],
+    "speakers": [
+      "Tim Beiko"
+    ],
+    "key_concepts": [
+      "protocol as engineered argument",
+      "Ethereum as model organism for protocol studies",
+      "Uniswap constant-product market design and fee governance",
+      "oracle problem in prediction markets",
+      "atomicity and flash loans"
+    ]
+  },
+  "vR45qu762Ys": {
+    "video_id": "vR45qu762Ys",
+    "title": "Time Moves Down the Stack",
+    "url": "https://www.youtube.com/watch?v=vR45qu762Ys",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "08 - Florian Lohse - Time Moves Down the Stack",
+    "programme": {
+      "slug": "time-moves-down-the-stack",
+      "title": "Time Moves Down the Stack",
+      "speakers": [
+        "Florian Lohse"
+      ],
+      "abstract": "I built time-management devices for my master’s thesis. More than a decade later, the practice those tools served is quietly going extinct. I keep two modes of myself — a city self synced to an Apple Watch, an off-grid self that rediscovered an old Casio — and the Casio, I realised, is a relic of a shrinking habitat. Personal time management, the self-clocking discipline that helped make the modern individual, is dying. Not because we stopped needing time, but because time slid beneath our attention into the substrate — into machines engineered to agree on it to the sub-microsecond so no human has to.\nThe descent hides a payoff the language of capture and cost misses. Perfect synchronization of the substrate is what licenses desynchronization above it. Lock the timing layer hard enough and the lives on top are freed to run out of step: I can drop from a Scottish campsite into a West Coast call without either of us minding the seam. Rigidity at the bottom buys liberty at the top. It’s the Divergence Machine’s signature move, caught in a layer that already hit the floor — not a technology on its way down, but one that arrived long ago and shows the bargain on the far side. What did we trade when personal time management died into infrastructure we can no longer feel?",
+      "scheduled_date": "2026-09-23",
+      "track": "SIGPSY (Special Interest Group in Psychohistory)"
+    },
+    "date": "2026-09-23",
+    "summary": "Florian Lohse synthesizes three books on time's history—David Landes on clock evolution, Tony Jones on atomic timekeeping, and Wolmar and Stein's essay collection on 'hardwired temporality'—to argue that timekeeping has migrated deeper into technical infrastructure, culminating in an emerging 'micro time' regime operating below human perceptual thresholds. Drawing on his 2014 master's thesis on time-management devices, he contends this shift enables machine 'preemption' (decisions made before humans can react, as in VR eye-tracking), and that personal time-management practices are becoming either resistance or mere coping mechanisms as agency over time recedes into infrastructure.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "technology-ai"
+    ],
+    "speakers": [
+      "Florian Lohse"
+    ],
+    "key_concepts": [
+      "hardwired temporality (four-layer framework)",
+      "micro time regime",
+      "preemption / decision before the decision",
+      "front end vs back end of timekeeping",
+      "time discipline to infrastructural synchronization"
+    ]
+  },
+  "828NF1GhxJk": {
+    "video_id": "828NF1GhxJk",
+    "title": "Inventing Psychohistory: Discussion",
+    "url": "https://www.youtube.com/watch?v=828NF1GhxJk",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "10 - Aneesh Sathe - Inventing Psychohistory: Discussion",
+    "programme": {
+      "slug": "psychohistory-discussion",
+      "title": "Inventing Psychohistory: Discussion",
+      "speakers": [
+        "Aneesh Sathe"
+      ],
+      "abstract": "Reserved discussion time within this special session's block; exact use to be determined by the session hosts.",
+      "scheduled_date": "2026-09-23",
+      "track": "SIGPSY (Special Interest Group in Psychohistory)"
+    },
+    "date": "2026-09-23",
+    "summary": "Open discussion session following the 'Inventing Psychohistory' symposium talks, with participants including Andre, Florian, Shawn, Venkatesh Rao, Sachin, and Mike Travers debating pace-layer time theory, fashion as an interface layer, and Shawn's concept of 'new nature' as technological systems with no one to appeal to. Venkatesh Rao connects this to Paul Ford's 'why wasn't I consulted' essay and Dan Davies' unaccountability machine thesis, arguing complex systems becoming unaccountable makes them paradoxically more predictable as autonomous machines; Mike Travers questions how this relates to historical disenchantment and Descola's animism framework.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "governance",
+      "organizations"
+    ],
+    "speakers": [
+      "Aneesh Sathe",
+      "Andre",
+      "Florian",
+      "Shawn",
+      "Venkatesh Rao",
+      "Sachin",
+      "Mike Travers"
+    ],
+    "key_concepts": [
+      "pace layers of time",
+      "new nature (no one to appeal to)",
+      "eventfulness and vortices in causal time",
+      "unaccountability machine",
+      "Descola's animism ontology",
+      "diachronic vs synchronic interfaces"
+    ]
+  },
+  "fqawzyiWXlc": {
+    "video_id": "fqawzyiWXlc",
+    "title": "The Political Economy of Protocols",
+    "url": "https://www.youtube.com/watch?v=fqawzyiWXlc",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "11 - Trent Van Epps - The Political Economy of Protocols",
+    "programme": {
+      "slug": "the-political-economy-of-protocol-funding-alt-origins-and-implications-of-protoc",
+      "title": "The Political Economy of Protocols",
+      "speakers": [
+        "trent van epps"
+      ],
+      "abstract": "Protocols generate value far beyond what they capture. That generativity requires ongoing governance, labor, funding, and legitimacy. Whoever governs those flows thereby shapes the protocol.\n\nThis talk builds a four-corner framework from Lessig's \"pathetic dot\" theory (norms, new nature, market, and state), and proposes measurable indicators for each corner to make the framework. The meandering and vectors of each political economy over time can then be mapped into a diagram series. Case studies include: the English commons, the CHI conference, Chromium, DNS/ICANN, Linux, and Ethereum.",
+      "scheduled_date": "2026-09-23",
+      "track": "Alumni"
+    },
+    "date": "2026-09-23",
+    "summary": "Trent van Epps (Protocol Guild) presents a four-corner political economy framework for protocols adapted from Lawrence Lessig's 'pathetic dot' theory—norms, market, state, and new nature—arguing that protocols generate far more value than they capture and whoever governs the funding/labor/legitimacy flows shapes the protocol itself. He proposes measurable indicators for each corner (e.g., open-source status, corporate sponsorship share, legal mandates, cryptographic discretion-reduction) and traces trajectories through case studies including the English commons, CHI conference capture, Chromium's market dominance, DNS/ICANN's state transition, Linux's 30-year drift toward center, and Ethereum's tensions around Bitmine's treasury strategy and EF succession.</br>Van Epps introduces concepts like 'capture,' 'tenseity' (borrowed from tensional integrity sculptures), and ossification to describe how competing vectors pull a protocol's governance toward different corners over time, closing with open questions about whether AI and post-quantum transitions will shift Ethereum's position in this political economy.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "research-report",
+      "organizations"
+    ],
+    "speakers": [
+      "Trent van Epps"
+    ],
+    "key_concepts": [
+      "four-corner political economy framework (norms/market/state/new nature)",
+      "pathetic dot theory",
+      "protocol capture",
+      "tenseity and contestability",
+      "ossification"
+    ]
+  },
+  "lXqC4T0ziiQ": {
+    "video_id": "lXqC4T0ziiQ",
+    "title": "Psychological Safety I & II",
+    "url": "https://www.youtube.com/watch?v=lXqC4T0ziiQ",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "12 - Timber Stinson-Schroff - Psychological Safety I & II",
+    "programme": {
+      "slug": "talk-timber-psychological-safety-i-ii",
+      "title": "Psychological Safety I & II",
+      "speakers": [
+        "Timber Stinson-Schroff"
+      ],
+      "abstract": "Psychological Safety I & II: Applying lessons from traditional safety literature to questions of AI usage, workplace stress, and professional communication. How can we protocolize the cognitive ergonomics of knowledge work to create better performance and health outcomes at the same time?",
+      "scheduled_date": "2026-09-23",
+      "track": "Alumni"
+    },
+    "date": "2026-09-23",
+    "summary": "Timber Stinson-Schroff argues that AI's workplace effects should be studied through occupational health frameworks rather than existential-risk AI safety, proposing 'cognitive ergonomics' as a better term than 'psychological safety' since it emphasizes chronic, long-term pathologies (like carpal tunnel from typewriters) over acute incidents. Drawing on the safety-one/safety-two distinction from traditional safety literature, Stinson-Schroff advocates crowdsourcing a database of AI usage hazards and pathologies—such as the 'yes man problem' from fast LLM responses and speech pattern changes—toward an eventual diagnostic manual, while cautioning against liability blind spots given the slow, second-order mechanisms by which these harms emerge.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "governance",
+      "research-report"
+    ],
+    "speakers": [
+      "Timber Stinson-Schroff"
+    ],
+    "key_concepts": [
+      "cognitive ergonomics",
+      "safety-one vs safety-two",
+      "psychological safety reframing",
+      "AI usage pathologies/hazards database",
+      "second-order liability mechanisms"
+    ]
+  },
+  "FdKZDdSVWU0": {
+    "video_id": "FdKZDdSVWU0",
+    "title": "The Nature of Trust: Weaving Identity, Relationship, and Place",
+    "url": "https://www.youtube.com/watch?v=FdKZDdSVWU0",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "13 - Kaliya Young & Kevin Triplett - The Nature of Trust: Weaving Identity, Relationship, and Place",
+    "programme": {
+      "slug": "the-nature-of-trust-weaving-identity-relationship-and-place",
+      "title": "The Nature of Trust: Weaving Identity, Relationship, and Place",
+      "speakers": [
+        "Kaliya Young",
+        "Kevin Triplett"
+      ],
+      "abstract": "New Nature gets described as a layer of hard protocols — rules as inviolable as physics. But there's a kind of protocol this field keeps treating as soft and secondary: the protocols for human relationality. Who is a real person. How two people are connected. Who belongs to a group, and who gets to say. The internet never built these; platforms filled the gap with their products; and now AI is flooding the space with fake people and agents no one can be held to. The XZ attack — a fabricated contributor who nearly got malware into software the whole internet runs on — was a relationality failure, not a cryptography failure. You can't govern what you can't verify, and you can't verify a relationship with hardness alone.\n\nWe want to make the case, in this room, that relationality isn't the soft afterthought to hard protocols. It's a hard requirement the field has left out of scope — and it's now buildable. The First Person Project has pulled the relevant protocols — decentralized identifiers, verifiable credentials, personhood and relationship credentials — into one stack, convened by Linux Foundation Decentralized Trust and the Decentralized Identity Foundation. The Linux kernel maintainers are among the first to adopt it, because after XZ they need to know which of their own people to trust.\n\nProject Weave works on the group part of this layer: making sure groups and communities can hold their own identity, membership, and memory, rooted in the places people live. Getting any of it adopted is the real open problem, and it's the one we're focused on — not a spec, but running code that communities actually use. We'll show where the trust layer stands today, why it belongs inside the New Nature frame rather than beside it, and what it will take to hold this layer in common instead of letting it be enclosed again.",
+      "scheduled_date": "2026-09-23",
+      "track": "SIGFPT (Formal Protocol Theory)"
+    },
+    "date": "2026-09-23",
+    "summary": "Kaliya Young argues that hard technical protocols (like those governing the Linux kernel) depend on 'soft' relational protocols for trust, using the XZ backdoor incident—where a fabricated contributor nearly inserted malware—as proof that the failure was relational, not cryptographic. She traces digital identity through three generations (username/password, OAuth/OpenID, then DIDs/verifiable credentials) to a proposed third generation of 'digital trust graphs': peer-to-peer verifiable relationship credentials, verifiable membership credentials, and verifiable trust agents, developed through the Trust Over IP/Decentralized Trust Graph working group. Kevin Triplett discusses Project Weave's focus on adoption, emphasizing that groups—not individuals—should be the unit of reputation and AI alignment, and that these protocols can be applied locally, even to place-rooted neighborhood governance.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "technology-ai",
+      "organizations"
+    ],
+    "speakers": [
+      "Kaliya Young",
+      "Kevin Triplett"
+    ],
+    "key_concepts": [
+      "verifiable relationship credentials",
+      "digital trust graphs",
+      "decentralized identifiers (DIDs)",
+      "verifiable trust agents",
+      "group-based reputation and AI alignment"
+    ]
+  },
+  "aQ3X6GK6EXk": {
+    "video_id": "aQ3X6GK6EXk",
+    "title": "Trust Experience Glitches: AI Agents, Delegated Autonomy, and Legitimacy",
+    "url": "https://www.youtube.com/watch?v=aQ3X6GK6EXk",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "14 - Helena Rong - Trust Experience Glitches: AI Agents, Delegated Autonomy, and Legitimacy",
+    "programme": {
+      "slug": "talk-helena-trust-experience-glitches-ai",
+      "title": "Trust Experience Glitches: AI Agents, Delegated Autonomy, and the Breakdown of Legal Assumptions",
+      "speakers": [
+        "Helena Rong"
+      ],
+      "abstract": "\nArtificial intelligence is shifting from a technology of output generation to a technology of delegated action. Beyond answering queries in a chat window, contemporary AI agents can call APIs, manage credentials, write and deploy code, move money, negotiate with other agents, and act across digital environments autonomously with limited human supervision. This shift unsettles legal frameworks that assume clear delegation, identifiable actors, traceable causation, revocable authority, and enforceable defendants. This paper introduces the concept of the trust experience glitch: a discrete rupture in a stakeholder's reasonable trust expectations at the moment an autonomous AI system acts. A trust experience glitch is not merely a bug, hallucination, or AI incident, but rather a relational failure that exposes a mismatch between the trust signals emitted by a system or platform and the behavior stakeholders actually experience. Drawing on documented agentic AI failures, this paper develops a six-part taxonomy of trust experience glitches: (1) agency assertion, (2) epistemic camouflage, (3) delegation ambiguity, (4) opacity at scale, (5) cascading autonomy, and (6) revocation failure. It then maps these failure modes onto legal assumptions under strain: authority, veracity, causation, consent, and enforceability. This paper argues that agentic AI does not simply create new liability risks, but reveals a deeper mismatch between ex-post legal remedies and systems whose harmful actions may be distributed, opaque, emergent, or difficult to stop. The appropriate governance response must therefore move upstream, from after-the-fact attribution to protocol-level constraints. It concludes by pointing to a set of protocol primitives as the \"traffic lights\" of the agentic web.",
+      "scheduled_date": "2026-09-23",
+      "track": ""
+    },
+    "date": "2026-09-23",
+    "summary": "Helena Rong (Assistant Professor at NYU Shanghai, director of the Protopolis Lab) presents a taxonomy of 'trust experience glitches'—six failure modes (agency assertion, epistemic camouflage, delegation ambiguity, opacity at scale, cascading autonomy, revocation failure) drawn from a 167-incident dataset of agentic AI failures. She argues these ruptures expose a 'consequence reception problem' where autonomous agents lack a stable body to bear accountability, and proposes that governance must shift from ex-post legal remedies toward upstream protocol primitives (capability-based permissions, provenance tracking, action-class legibility, circuit breakers, revocability) as the 'traffic lights' of the agentic web.</summary>",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "technology-ai",
+      "research-report"
+    ],
+    "speakers": [
+      "Helena Rong"
+    ],
+    "key_concepts": [
+      "trust experience glitch",
+      "consequence reception problem",
+      "agent-principal dyad",
+      "protocol primitives as traffic lights",
+      "six-part glitch taxonomy (agency assertion, epistemic camouflage, delegation ambiguity, opacity at scale, cascading autonomy, revocation failure)"
+    ]
+  },
+  "K6tmMjKkU_Y": {
+    "video_id": "K6tmMjKkU_Y",
+    "title": "Protocoling HCI: Hardening Interaction into Infrastructure",
+    "url": "https://www.youtube.com/watch?v=K6tmMjKkU_Y",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "16 - Botao Amber Hu - Protocoling HCI: Hardening Interaction into Infrastructure",
+    "programme": {
+      "slug": "talk-botao-protocoling-hci-hardening-int",
+      "title": "Protocoling HCI: Hardening Interaction into Infrastructure",
+      "speakers": [
+        "Botao Amber Hu"
+      ],
+      "abstract": "Human–computer interaction (HCI) has traditionally designed moments of use, treating interfaces, artifacts, systems, and user experience as central design objects. Yet many consequential interactions are increasingly formalized, automated, stabilized, and scaled into repeatable patterns through protocols: automated rule-systems, enacted and enforced through technological media, that govern and scaffold what actions are possible, who or what may perform them, under what conditions, and with what consequences. We describe this process as protocoling: the hardening of interaction into infrastructure. This paper introduces Protocoling HCI as a design-research subfield that treats protocols as first-class design objects, urging HCI to move beyond momentary use toward longer-term inquiry into how automated rule-systems persist, mutate, fail, and reorganize sociotechnical relations over time. We identify key qualities of protocols, including hardness, incompleteness, constitutiveness, emergence, irreversibility, generativity, resilience, and decentralization. We argue that protocoling is essentially a complex, systemic futuring process: anticipating future social system dynamics, coordinating among multiple stakeholders, and scaffolding generative worlds on top of protocols. Methodologically, protocol design could draw on HCI design theory, including research-through-design, design thinking, participatory design, value-sensitive design, CSCW, and infrastructure studies. Unlike traditional HCI design, however, evaluating protocols requires complex, systemic, cybernetic, speculative, and long-term methods attentive to emergence, including agent-based modeling, generative social simulation, and complexity science perspectives. Protocoling HCI therefore asks not only how people interact with systems, but how interaction itself becomes automated, governed, and infrastructural through protocols.",
+      "scheduled_date": "2026-09-24",
+      "track": ""
+    },
+    "date": "2026-09-24",
+    "summary": "Botao Amber Hu presents 'Protocoling HCI,' an early-stage design theory arguing that HCI must shift from designing moments of use to designing protocols as infrastructural material that shapes local action spaces while enabling emergent collective behavior. Drawing on Michael Levine's work on agential material, bioelectric morphogenesis, and 'cognitive glue,' plus concepts like emergent engineering and reverse game theory, Hu proposes that protocols act as 'trust compressors' that let bounded agents coordinate without full mutual knowledge, illustrated through the NFT art piece Merge as a 'protocol art' example.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "protocol-fiction"
+    ],
+    "speakers": [
+      "Botao Amber Hu"
+    ],
+    "key_concepts": [
+      "protocoling (hardening interaction into infrastructure)",
+      "agential material and cognitive glue (Michael Levine)",
+      "emergent engineering / reverse game theory",
+      "protocol as trust compressor / epistemic complexity",
+      "constitutive local action space"
+    ]
+  },
+  "yD2HBhexNJY": {
+    "video_id": "yD2HBhexNJY",
+    "title": "Open Social Protocols: A Commons-Based Protocol Layer",
+    "url": "https://www.youtube.com/watch?v=yD2HBhexNJY",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "17  Jose Leal and Scott Clearwater - Open Social Protocols: A Commons-Based Protocol Layer",
+    "programme": {
+      "slug": "open-social-protocols-a-commons-based-protocol-layer-for-human-coordination",
+      "title": "Open Social Protocols: A Commons-Based Protocol Layer for Human Coordination",
+      "speakers": [
+        "Jose Leal",
+        "Scott Clearwater, PhD"
+      ],
+      "abstract": "Most organizational coordination still depends on rules, roles, policies, contracts, platforms, and governance structures that are difficult to adapt, compare, or reuse. Yet many important forms of coordination, including founding a company, caring for a commons, stewarding a community, resolving conflict, or organizing collaborative work, already operate through repeatable social patterns. These patterns are protocols, but they are rarely made explicit, portable, forkable, or interoperable.\n\nThis talk introduces Open Social Protocols, an applied protocol design project exploring how social coordination patterns can be expressed as open, adoptable protocol objects. The model begins with Needs: recurring living or social conditions that call for coordination. Around each Need, participants can publish and evolve Protocols — structured patterns for meeting that Need in a specific context. Protocols can be gathered into Suites, grounded in Templates, adopted into Charters, and connected through participation and lineage records such as follow, adopt, adapt, and fork.\n\nThe talk will ask how social protocols can remain open and forkable while preserving enough semantic structure for interoperability; how context such as jurisdiction, legal form, participant role, and organizational purpose can be represented without freezing protocols into one institutional frame; and what changes when commitments are made through voluntary, self-endorsed adoption rather than power-over agreement. In relation to the Symposium’s New Nature theme, Open Social Protocols asks whether human coordination can become more ecological: plural, situated, lineage-aware, adaptive, and capable of evolution through distributed participation rather than centralized control.",
+      "scheduled_date": "2026-09-24",
+      "track": "SIGPfB (Protocols for Business)"
+    },
+    "date": "2026-09-24",
+    "summary": "Jose Leal (with Scott Clearwater) presents Open Social Protocols, a framework built on Needs (recurring coordination conditions) around which communities publish, fork, and adopt Protocols rather than collapsing into single fixed agreements. He describes 'bridging protocols' that let multiple competing protocols for the same need coexist and interoperate, built atop the AT Protocol and a 'Common Ground' layer, citing examples like Morning Star Farms and Buurtzorg as organizations already operating this way without naming it 'protocol'.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "organizations",
+      "technology-ai"
+    ],
+    "speakers": [
+      "Jose Leal",
+      "Scott Clearwater"
+    ],
+    "key_concepts": [
+      "Needs-based protocol design",
+      "bridging protocols",
+      "fork/adopt/adapt lineage",
+      "AT Protocol / Common Ground layer",
+      "distributed non-collapsing agreement"
+    ]
+  },
+  "sGdyr_ThYMM": {
+    "video_id": "sGdyr_ThYMM",
+    "title": "Governance Axioms",
+    "url": "https://www.youtube.com/watch?v=sGdyr_ThYMM",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "18 - Eric Alston - Governance Axioms",
+    "programme": {
+      "slug": "talk-eric-governance-axioms",
+      "title": "Governance Axioms",
+      "speakers": [
+        "Eric Alston"
+      ],
+      "abstract": "Governance Axioms: Designing for Rigidity and Flux within New Nature’s Protocolized Systems -\n\n\n\nNew Nature aspires to rules that are technologically mediated, precise, and final. Yet because the world is genuinely uncertain, no rule set can be specified against everything that will befall it, and early choices entrench, foreclosing options later designers inherit rather than choose. Durability therefore means engaging five governance axioms: recurring tradeoffs that every collective-decision system must design for rather than assume away. Whatever a protocol formally encodes, the material actors who live under it remain the de facto arbiters of which rules bind and get enforced, so these axioms are worked out in practice, not settled through prior design. Finality trades against emergent discretion, which is why even \"immutable\" networks layer off-chain governance atop on-chain rigidity. Scale efficiencies trade against the lossiness of compressing behavior into legible rules. Popular control trades against expertise: broad participation legitimizes, yet hard, technical, distributive decisions invite delegation to specialists who must then be checked. Concentrated incentives reliably outmaneuver diffuse ones, so designers must anticipate capture and logrolling. And impartial adjudication of contested tradeoffs demands authority insulated enough to bind, yet accountable enough to trust. These tensions recur from constitutions to consensus algorithms to autonomous agents acting for human principals. Skilled designers navigate them through killswitches, veto-gates, tiered amendment thresholds, and independent arbiters, all mechanisms which more generally hold some system elements steady while enabling others to adapt to change pressures. The accompanying preprint maps the axioms as a design space for the rigidity and flux that sustainable protocol design must countenance.",
+      "scheduled_date": "2026-09-24",
+      "track": "Alumni"
+    },
+    "date": "2026-09-24",
+    "summary": "Eric Alston presents a framework of five recurring 'governance axioms' for protocol design—incomplete rules, governance-as-conflict, mechanical concentration of authority, asymmetric incentives from shared resources, and the transparency-privacy tradeoff—arguing these tensions can never be designed away, only managed through mechanisms like killswitches, veto-gates, and tiered amendment rules. Drawing on his experience advising Cardano's constitution, DAOs, and peace processes, Alston contends that 'incomplete rules' mean norms and discretion inevitably fill gaps left by any formally encoded protocol, and that durable systems require 'dynamic fidelity'—credible commitments combined with constrained capacity for adaptation rather than either permanent rigidity or unchecked flux.",
+    "categories": [
+      "protocol-theory",
+      "governance",
+      "organizations"
+    ],
+    "speakers": [
+      "Eric Alston"
+    ],
+    "key_concepts": [
+      "governance axioms",
+      "incomplete rules",
+      "killswitch protocols",
+      "dynamic fidelity",
+      "concentrated vs. diffuse incentives"
+    ]
+  },
+  "k_lhq9ecvXQ": {
+    "video_id": "k_lhq9ecvXQ",
+    "title": "Hand Washing and Bitcoin Share a Skeleton",
+    "url": "https://www.youtube.com/watch?v=k_lhq9ecvXQ",
+    "duration_sec": 0,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "20 - Shingai Thornton - Hand Washing and Bitcoin Share a Skeleton",
+    "programme": {
+      "slug": "talk-shingai-hand-washing-and-bitcoin-share",
+      "title": "Hand-Washing and Bitcoin Share a Skeleton: Protocols Are Systems, Proven",
+      "speakers": [
+        "Shingai Thornton"
+      ],
+      "abstract": "Hand-washing and Bitcoin's difficulty adjustment share a skeleton. Each holds a variable inside a safe region: keep contamination below a threshold, keep block time near ten minutes. The resemblance is usually offered as metaphor. I want to show it is a theorem. The science of systems has spent seventy years asking what a system is. Seven independent traditions each gave a formal answer, apparently incompatible. I formalized all seven and proved they share one irreducible structure: the walking arrow, the smallest picture of one thing depending on another. Anything that instantiates the arrow inherits the toolkit cheaply. Bitcoin's difficulty adjustment becomes a homeostat with a provable fixed-point target, which is governance. TCP and HTTP compose into a stack that is again a system, which is composition that closes. Hand-washing, Rao's own worked example, becomes a system whose sanitize-every-N rule keeps contamination inside the viable region forever. That one invariant is his prophylactic stability and Walch's supportive actions keeping the system alive. The receipt is Lean 4. The convergence and all three instances are machine-verified. This community already says protocols are systems, from the felt side and the control side. What it lacks is a proven floor, and I am offering one: a candidate law for the New Nature. What does not reduce to the floor, cyclic execution and temporal properties, is where protocol theory gets to start fresh. Whether the floor is useful is for protocol researchers to find.",
+      "scheduled_date": "2026-09-24",
+      "track": "SIGFPT (Formal Protocol Theory)"
+    },
+    "date": "2026-09-24",
+    "summary": "Shingai Thornton argues that protocols are formally systems, proving that seven independent systems-theory traditions (Klir, Bunge, Mobus, etc.) share one irreducible structure—a 'walking arrow' or quiver where one thing depends on another. She uses Lean 4 to machine-verify this convergence across three worked examples: handwashing (a contamination-threshold homeostat), TCP/HTTP composition, and Bitcoin's difficulty adjustment (a fixed-point-governed homeostat), proposing this as a candidate 'floor' for a grand unified protocol modeling theory.",
+    "categories": [
+      "protocol-theory",
+      "research-report",
+      "technology-ai"
+    ],
+    "speakers": [
+      "Shingai Thornton"
+    ],
+    "key_concepts": [
+      "walking arrow/quiver as common system structure",
+      "Lean 4 machine-verified proofs",
+      "Bitcoin difficulty adjustment as homeostat/fixed point",
+      "plural integration of system definitions (Klir, Bunge, Mobus)",
+      "grand challenge 55: unified protocol modeling theory"
+    ]
+  },
+  "Ktdu6HjhYFo": {
+    "video_id": "Ktdu6HjhYFo",
+    "title": "De-Dramatizing the Digital: How AI Descends Into New Nature",
+    "url": "https://www.youtube.com/watch?v=Ktdu6HjhYFo",
+    "duration_sec": 1965,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "09 - Sean Stevenson - De-Dramatizing the Digital: How AI Descends Into New Nature",
+    "programme": {
+      "slug": "de-dramatizing-the-digital-how-ai-descends-into-new-nature",
+      "title": "De-Dramatizing the Digital: How AI Descends Into New Nature",
+      "speakers": [
+        "Sean Stevenson"
+      ],
+      "abstract": "New Nature is what happens when a technology stops behaving like a technology. We usually imagine technologies as things we can adopt, regulate, redesign, or abandon. But some descend into the substrate of society until opting out becomes almost meaningless. Stewart Brand’s pace layers offer a way to understand that descent. The deeper a technology sinks, the slower it changes, the harder it becomes to escape, and the more its rules acquire the modal force of nature: not you should, but you cannot otherwise. What began as somebody’s design decision becomes a fact about the world.\nAI may be beginning such a descent. As it moves off screens and into machines, logistics, infrastructure, institutions, and the physical environment, it becomes embedded in systems built to last.\nThis talk follows that process across the Divergence Machine’s 400-year arc and asks: how does something we made become part of what we mean by nature?",
+      "scheduled_date": "2026-09-23",
+      "track": "SIGPSY (Special Interest Group in Psychohistory)"
+    },
+    "date": "2026-09-23",
+    "summary": "Sean Stevenson argues that AI is undergoing a 'descent' through Stewart Brand's pace layers—moving from fast fashion/commerce layers down through governance and culture toward nature itself—becoming less dramatic and less contestable as it sinks, following a pattern he traces via Clayton Christensen's theory of attractive profits migrating to the least-optimized layer of a value chain. He proposes a four-stage model (integrate, coordinate, embed, inherit) for this descent and introduces 'appeal foreclosure' versus 'ossification' as a way to distinguish genuine new nature from captured systems, while drawing on Spinoza's natura naturans/naturata and Philippe Descola's ontological framework (naturalism, animism, totemism, analogism) to speculate how AI-plus-protocols might shift human categories of inner life and matter.",
+    "categories": [
+      "protocol-theory",
+      "protocol-fiction",
+      "technology-ai",
+      "governance"
+    ],
+    "speakers": [
+      "Sean Stevenson"
+    ],
+    "key_concepts": [
+      "pace layers (Stewart Brand)",
+      "appeal foreclosure vs. ossification",
+      "natura naturans/naturata (Spinoza)",
+      "Descola's four ontologies (analogism)",
+      "attractive profits (Clayton Christensen) applied to new nature descent"
+    ]
+  },
+  "L-z0iJA5ZRg": {
+    "video_id": "L-z0iJA5ZRg",
+    "title": "Archival Time as a New Natural Resource",
+    "url": "https://www.youtube.com/watch?v=L-z0iJA5ZRg",
+    "duration_sec": 1792,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "15 - Sachin Benny - Archival Time as a New Natural Resource",
+    "programme": {
+      "slug": "talk-sachin-archival-time-as-a-new-natural",
+      "title": "Archival Time as a New Natural Resource",
+      "speakers": [
+        "Sachin Benny"
+      ],
+      "abstract": "The Second Industrial Revolution transformed time from a backdrop to human activity into a resource in its own right. Factory clocks, timecards, schedules, and deadlines taught people to think of future hours as units that could be budgeted, optimized, wasted, or sold. As E.P. Thompson argued, industrial capitalism did not merely organize labor; it internalized a new temporal consciousness. People learned to see their future time as a scarce asset. The disciplined worker, the productive citizen, and the efficient organization were all defined by their ability to allocate and coordinate future action.\n\nToday, we may be witnessing a comparable shift, but oriented in the opposite temporal direction. If industrial modernity organized the future, AI modernity is organizing the past. We increasingly inhabit a world where memories, documents, conversations, code repositories, photographs, and recordings are not simply preserved but continuously reactivated. The archive is no longer a passive storehouse of history. It has become an active economic and cognitive resource.\n\nIn this sense, we live in Archival Time. Just as industrial society taught us to manage our future selves through calendars and schedules, archival society teaches us to manage our past selves through databases, profiles, note systems, search engines, and AI models. We curate, index, retrieve, and recombine traces of prior experience. Our accumulated past becomes a resource that can be continuously mined for present action. \n\nThis session will expand on Archival Time vs Carnival Time that I've been writing about here: https://summerlightning.substack.com/p/archival-time",
+      "scheduled_date": "2026-09-24",
+      "track": "Alumni"
+    },
+    "date": "2026-09-24",
+    "summary": "Sachin Benny argues that AI modernity is reorganizing our relationship to the past the way industrial capitalism reorganized our relationship to the future, coining 'Archival Time' as a condition where traces of prior events become retrievable without recreating the event. He contrasts this with Bakhtin's 'Carnival Time,' bounded periods where accumulated traces lose authority and things get unmade and remade, drawing on William Sewell's eventfulness framework (path dependency, temporal heterogeneity, contingency) to argue eventful history requires a mix of both archival inheritance and carnivalesque rupture.",
+    "categories": [
+      "protocol-theory",
+      "memory-archival",
+      "protocol-watching"
+    ],
+    "speakers": [
+      "Sachin Benny"
+    ],
+    "key_concepts": [
+      "Archival Time vs Carnival Time",
+      "eventfulness (Sewell)",
+      "trace and stigmergy",
+      "path dependency/temporal heterogeneity/contingency",
+      "archival vs carnivalist interfaces"
+    ]
   }
 }
