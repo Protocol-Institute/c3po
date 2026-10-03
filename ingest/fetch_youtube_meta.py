@@ -37,11 +37,15 @@ PLAYLISTS = {
     "PLIk0EtKZjVls1kkd9s75K7sdg-DX85sFx": "researcher-salon",
     "PLIk0EtKZjVlsgMwsz5ghqUEtbsvnI1tkm": "guest-talks",
     "PLIk0EtKZjVlvAnw12zyLw_Jp73ojcnKUj": "town-hall-new-nature",
+    # Short-form ID, but it is the real one. The playlist, not the channel's
+    # Videos tab, is the inventory: three recordings are unlisted.
+    "PLEt1tjJkFjsQ": "symposium-2026",
 }
 
 # Priority order for series assignment when a video appears in multiple playlists.
 # Earlier = higher priority (more specific series wins over generic buckets).
 SERIES_PRIORITY = [
+    "symposium-2026",
     "bridge-atlas",
     "researcher-salon",
     "symposium-2024",
@@ -113,7 +117,11 @@ def fetch_playlist_videos(playlist_id: str) -> list[dict]:
         vid_id, title = parts[0], parts[1]
         if title == "[Private video]" or title == "[Deleted video]":
             continue
-        duration_sec = int(parts[2]) if len(parts) > 2 and parts[2].isdigit() else 0
+        # yt-dlp prints "1892.0"; isdigit() rejected every one of them.
+        try:
+            duration_sec = int(float(parts[2])) if len(parts) > 2 else 0
+        except ValueError:
+            duration_sec = 0
         upload_date = parts[3] if len(parts) > 3 else ""
         videos.append({
             "video_id": vid_id,
@@ -155,6 +163,7 @@ def main():
     parser.add_argument("--force", action="store_true", help="Re-download even if captions exist")
     parser.add_argument("--video", help="Process a single video ID only")
     parser.add_argument("--dry-run", action="store_true", help="List videos only, no download")
+    parser.add_argument("--series", help="Only this series' playlist (e.g. symposium-2026)")
     args = parser.parse_args()
 
     CAPTIONS_RAW_DIR.mkdir(parents=True, exist_ok=True)
@@ -170,7 +179,10 @@ def main():
     # video_id → list of series slugs (may appear in multiple playlists)
     video_series: dict[str, list[str]] = {}
 
-    for playlist_id, series_slug in PLAYLISTS.items():
+    playlists = {k: v for k, v in PLAYLISTS.items() if not args.series or v == args.series}
+    if not playlists:
+        sys.exit(f"No playlist for series {args.series!r}")
+    for playlist_id, series_slug in playlists.items():
         print(f"  {series_slug} ({playlist_id[:20]}...)")
         videos = fetch_playlist_videos(playlist_id)
         print(f"    {len(videos)} videos")
@@ -206,6 +218,8 @@ def main():
 
     # Filter to single video if requested
     target_ids = [args.video] if args.video else list(meta.keys())
+    if args.series and not args.video:
+        target_ids = [vid for vid in target_ids if meta[vid].get("series") == args.series]
 
     # Bootstrap stub for --video IDs not found in any playlist
     if args.video and args.video not in meta:

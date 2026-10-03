@@ -763,6 +763,9 @@ function normalizeSymposium(match) {
     isOverview:     kind === "symposium_overview",
     isBlock:        kind === "symposium_block",
     isWorkshop:     kind === "symposium_workshop",
+    isSlides:       kind === "symposium_slides",
+    isRecording:    kind === "symposium_recording",
+    isTranscript:   kind === "symposium_transcript",
   };
 }
 
@@ -985,6 +988,11 @@ function buildContextBlock(items) {
       const kind = item.isOverview ? "EVENT OVERVIEW"
                  : item.isBlock    ? "SPECIAL SESSION"
                  : item.isWorkshop ? "WORKSHOP DETAILS"
+                 // Slides and transcripts are the speaker's own words, not the
+                 // listing — the model should be able to tell which it is quoting.
+                 : item.isSlides     ? "SLIDES"
+                 : item.isRecording  ? "RECORDING"
+                 : item.isTranscript ? "TALK TRANSCRIPT (auto-captions)"
                  : "PROGRAMME";
       const who  = authors !== "Protocol Institute" ? ` — ${authors}` : "";
       const when = item.scheduled_when ? ` — ${item.scheduled_when}` : "";

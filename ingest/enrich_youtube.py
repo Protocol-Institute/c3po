@@ -24,6 +24,8 @@ import anthropic
 from dotenv import load_dotenv
 
 load_dotenv()
+sys.path.insert(0, str(Path(__file__).parent))
+from cost_logger import log_api_call
 
 VIDEO_META_PATH = Path("sources/youtube/video_meta.json")
 CAPTIONS_DIR = Path("sources/youtube/captions")
@@ -53,23 +55,46 @@ Given a video title, series name, and transcript excerpt, return a JSON object w
 Return ONLY valid JSON, no other text."""
 
 
+DEFAULT_MODEL = "claude-haiku-4-5-20251001"
+DEFAULT_EXCERPT = 3000
+
+# A video that sync_symposium_videos.py matched to a programme entry carries a
+# `programme` block. Two things change for it: the model gets the listing's
+# spelling of every name (auto-captions mangle them) and its abstract, and it
+# reads the whole talk — the first 3000 chars of a symposium recording are
+# mostly the host's introduction, so a summary from them describes the wrong
+# speaker's framing. Sonnet, per VGR's standing call on dense material.
+PROGRAMME_MODEL = "claude-sonnet-5"
+PROGRAMME_EXCERPT = 60000
+
+
 def enrich_video(client: anthropic.Anthropic, video_id: str, meta: dict, captions_excerpt: str) -> dict:
     series = meta.get("series", "")
     title = meta.get("title", "")
+    prog = meta.get("programme") or {}
 
+    context = ""
+    if prog:
+        context = (f"Programme listing for this talk (authoritative for names and spelling):\n"
+                   f"  Title: {prog.get('title', '')}\n"
+                   f"  Speakers: {', '.join(prog.get('speakers') or [])}\n"
+                   f"  Abstract: {prog.get('abstract', '')}\n\n")
+    label = "Transcript (auto-captions)" if prog else "Transcript excerpt (first ~3000 chars)"
     user_msg = f"""Video title: {title}
 Series: {series}
 Duration: {meta.get('duration_sec', 0) // 60} minutes
 
-Transcript excerpt (first ~3000 chars):
+{context}{label}:
 {captions_excerpt}"""
 
+    model = PROGRAMME_MODEL if prog else DEFAULT_MODEL
     response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=512,
+        model=model,
+        max_tokens=512 if not prog else 1024,
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_msg}],
     )
+    log_api_call("enrich_youtube", model, response.usage)
     text = response.content[0].text.strip()
     # Strip markdown code fences if present
     if text.startswith("```"):
@@ -84,6 +109,7 @@ def main():
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--video", help="Enrich a single video ID")
     parser.add_argument("--force", action="store_true", help="Re-enrich even if already in output")
+    parser.add_argument("--series", help="Only videos in this series (e.g. symposium-2026)")
     args = parser.parse_args()
 
     if not VIDEO_META_PATH.exists():
@@ -98,6 +124,8 @@ def main():
     target_ids = [args.video] if args.video else list(video_meta.keys())
     # Only process videos that have captions
     target_ids = [vid for vid in target_ids if video_meta.get(vid, {}).get("has_captions")]
+    if args.series:
+        target_ids = [vid for vid in target_ids if video_meta[vid].get("series") == args.series]
 
     if args.dry_run:
         need = [vid for vid in target_ids if vid not in enriched or args.force]
@@ -122,7 +150,7 @@ def main():
             continue
 
         caption_text = txt_path.read_text(encoding="utf-8")
-        excerpt = caption_text[:3000]
+        excerpt = caption_text[:PROGRAMME_EXCERPT if meta.get("programme") else DEFAULT_EXCERPT]
 
         title = meta["title"][:60]
         print(f"[{i+1}/{len(target_ids)}] {title}...")

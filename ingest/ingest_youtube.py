@@ -151,6 +151,9 @@ def main():
     enriched = json.loads(ENRICHED_META_PATH.read_text())
     target_ids = [args.video] if args.video else list(enriched.keys())
     target_ids = [vid for vid in target_ids if vid in enriched]
+    # Symposium recordings embed into the `symposium` namespace, where scoped
+    # symposium questions can see them — not here. sync_symposium_videos.py.
+    target_ids = [vid for vid in target_ids if enriched[vid].get("series") != "symposium-2026"]
 
     print(f"Processing {len(target_ids)} videos → namespace '{NAMESPACE}'")
 

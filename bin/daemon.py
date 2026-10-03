@@ -431,9 +431,10 @@ def run_sync(cycle: int) -> None:
         # API call and no embeddings. See plans/symposium-ingest.md.
         ("sync_symposium",           [VENV_PY, "ingest/sync_symposium.py"]),
         # Symposium slide decks from the public Drive folder. --daemon makes it
-        # self-throttle to every 6h: decks change a few times a week and VGR set
-        # freshness as explicitly relaxed, so scraping the folder 48x a day would
-        # be pointless traffic. See plans/symposium-ingest.md Phase B.
+        # self-throttle to weekly: post-event the folder only gains stragglers,
+        # and scraping it 48x a day would be pointless traffic. The throttle
+        # lives in the script, so changing it needs no daemon restart.
+        # See plans/symposium-ingest.md Phase B.
         ("sync_symposium_decks",     [VENV_PY, "ingest/sync_symposium_decks.py", "--daemon"]),
         ("sync_bot_conversations",   [VENV_PY, "ingest/sync_bot_conversations.py"]),
         ("sync_web_chats",           [VENV_PY, "ingest/sync_web_chats.py"]),

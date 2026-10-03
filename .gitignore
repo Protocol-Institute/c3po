@@ -9,6 +9,7 @@ data/attachments/
 data/inbox/
 sources/youtube/captions_raw/
 sources/youtube/captions/
+sources/youtube/captions_timed/
 sources/bibliography/pdfs/
 __pycache__/
 *.py[cod]

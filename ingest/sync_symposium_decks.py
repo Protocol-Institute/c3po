@@ -524,7 +524,9 @@ def vector_ids(fid: str, n: int) -> list[str]:
 # alternative — running the folder scrape 48x a day for a folder that changes a
 # few times a week — is pointless traffic against Google and a good way to look
 # like a scraper.
-MIN_INTERVAL_HOURS = 6
+# Weekly after the event (VGR, session 56): the folder now only gains the odd
+# straggler, and a week's lag on one of those costs nothing.
+MIN_INTERVAL_HOURS = 24 * 7
 
 
 def due(state, min_hours: float) -> bool:
