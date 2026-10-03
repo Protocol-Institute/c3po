@@ -1,5 +1,5 @@
 """
-Enrich YouTube video metadata with Claude Haiku: summary, categories, speakers, key concepts.
+Enrich YouTube video metadata with Claude Sonnet (whole transcript): summary, categories, speakers, key concepts.
 
 Reads captions and titles from sources/youtube/.
 Outputs sources/youtube/enriched_meta.json.
@@ -49,23 +49,29 @@ SYSTEM_PROMPT = f"""You are a metadata enrichment assistant for the Protocol Ins
 Given a video title, series name, and transcript excerpt, return a JSON object with:
 - "summary": 2-3 sentences. Name the speaker(s) and their specific argument or protocol concept. Be concrete — no vague generalities.
 - "categories": array of 2-4 tags from this fixed vocabulary: {json.dumps(CATEGORY_VOCAB)}
-- "speakers": array of speaker names identifiable from the title or transcript (exclude moderators/hosts unless they contribute substantially)
+- "speakers": array of the people presenting — named in the title or introduced as presenters in the transcript. Exclude audience members who only ask questions, and moderators/hosts unless they contribute substantially. A presenter introduced by first name only stays first-name only
 - "key_concepts": array of 3-5 specific protocol-related terms, frameworks, or concepts this talk focuses on
 
 Return ONLY valid JSON, no other text."""
 
 
-DEFAULT_MODEL = "claude-haiku-4-5-20251001"
-DEFAULT_EXCERPT = 3000
+# Every video is enriched from the whole talk with Sonnet (session 56). The old
+# setting — Haiku on the first 3000 chars — summarised the host's introduction
+# and guessed speakers from mangled auto-captions: "Benitesh Raalo" for
+# Venkatesh Rao, which also slipped past the VGR-authored intro filter.
+MODEL = "claude-sonnet-5"      # VGR's standing call on dense material
+EXCERPT_CHARS = 60000          # whole talk for all but the longest (median ~56K)
 
-# A video that sync_symposium_videos.py matched to a programme entry carries a
-# `programme` block. Two things change for it: the model gets the listing's
-# spelling of every name (auto-captions mangle them) and its abstract, and it
-# reads the whole talk — the first 3000 chars of a symposium recording are
-# mostly the host's introduction, so a summary from them describes the wrong
-# speaker's framing. Sonnet, per VGR's standing call on dense material.
-PROGRAMME_MODEL = "claude-sonnet-5"
-PROGRAMME_EXCERPT = 60000
+# Correct spellings of community members; auto-captions mangle names in
+# consistent ways, and the model can only fix them if it knows the target.
+KNOWN_PEOPLE_PATH = Path(__file__).resolve().parent.parent / "config" / "known_people.json"
+
+
+def known_people() -> list[str]:
+    try:
+        return json.loads(KNOWN_PEOPLE_PATH.read_text())["names"]
+    except (OSError, ValueError, KeyError):
+        return []
 
 
 def enrich_video(client: anthropic.Anthropic, video_id: str, meta: dict, captions_excerpt: str) -> dict:
@@ -73,13 +79,22 @@ def enrich_video(client: anthropic.Anthropic, video_id: str, meta: dict, caption
     title = meta.get("title", "")
     prog = meta.get("programme") or {}
 
-    context = ""
+    people = known_people()
+    # The list is for correcting spelling, not for identifying people: given it
+    # loosely, the model mapped a presenter introduced only as "Day" to Dorian
+    # Taylor, a name that appears nowhere in the transcript.
+    context = ("Correct spellings of some people in this community. Use one ONLY when the "
+               "transcript's version is clearly a mis-transcription of that same full name "
+               "(it sounds alike, e.g. 'Benitesh Raalo' = Venkatesh Rao). Never use the list "
+               "to guess who an unnamed or first-name-only speaker is — keep the name as the "
+               "transcript gives it. Do not list anyone the transcript does not show speaking:\n  "
+               + ", ".join(people) + "\n\n") if people else ""
     if prog:
-        context = (f"Programme listing for this talk (authoritative for names and spelling):\n"
+        context += (f"Programme listing for this talk (authoritative for names and spelling):\n"
                    f"  Title: {prog.get('title', '')}\n"
                    f"  Speakers: {', '.join(prog.get('speakers') or [])}\n"
                    f"  Abstract: {prog.get('abstract', '')}\n\n")
-    label = "Transcript (auto-captions)" if prog else "Transcript excerpt (first ~3000 chars)"
+    label = "Transcript (auto-captions)"
     user_msg = f"""Video title: {title}
 Series: {series}
 Duration: {meta.get('duration_sec', 0) // 60} minutes
@@ -87,10 +102,10 @@ Duration: {meta.get('duration_sec', 0) // 60} minutes
 {context}{label}:
 {captions_excerpt}"""
 
-    model = PROGRAMME_MODEL if prog else DEFAULT_MODEL
+    model = MODEL
     response = client.messages.create(
         model=model,
-        max_tokens=512 if not prog else 1024,
+        max_tokens=1024,
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_msg}],
     )
@@ -110,6 +125,7 @@ def main():
     parser.add_argument("--video", help="Enrich a single video ID")
     parser.add_argument("--force", action="store_true", help="Re-enrich even if already in output")
     parser.add_argument("--series", help="Only videos in this series (e.g. symposium-2026)")
+    parser.add_argument("--exclude-series", help="Skip videos in this series")
     args = parser.parse_args()
 
     if not VIDEO_META_PATH.exists():
@@ -126,6 +142,8 @@ def main():
     target_ids = [vid for vid in target_ids if video_meta.get(vid, {}).get("has_captions")]
     if args.series:
         target_ids = [vid for vid in target_ids if video_meta[vid].get("series") == args.series]
+    if args.exclude_series:
+        target_ids = [vid for vid in target_ids if video_meta[vid].get("series") != args.exclude_series]
 
     if args.dry_run:
         need = [vid for vid in target_ids if vid not in enriched or args.force]
@@ -150,7 +168,7 @@ def main():
             continue
 
         caption_text = txt_path.read_text(encoding="utf-8")
-        excerpt = caption_text[:PROGRAMME_EXCERPT if meta.get("programme") else DEFAULT_EXCERPT]
+        excerpt = caption_text[:EXCERPT_CHARS]
 
         title = meta["title"][:60]
         print(f"[{i+1}/{len(target_ids)}] {title}...")
@@ -168,7 +186,7 @@ def main():
         if done % 10 == 0:
             OUT_PATH.write_text(json.dumps(enriched, indent=2, ensure_ascii=False))
 
-        time.sleep(0.3)  # Haiku rate limiting
+        time.sleep(0.3)  # gentle rate limiting
 
     OUT_PATH.write_text(json.dumps(enriched, indent=2, ensure_ascii=False))
     print(f"\nDone: {done} enriched, {skipped} skipped, {errors} errors")

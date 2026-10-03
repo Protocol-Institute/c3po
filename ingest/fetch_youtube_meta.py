@@ -203,6 +203,9 @@ def main():
                         "has_captions": False,
                     }
                 meta[vid]["playlist_ids"] = list(set(meta[vid].get("playlist_ids", []) + [playlist_id]))
+                # Entries created while durations parsed as 0 never got one.
+                if not meta[vid].get("duration_sec") and v["duration_sec"]:
+                    meta[vid]["duration_sec"] = v["duration_sec"]
             video_series[vid].append(series_slug)
 
     # Assign canonical series by priority

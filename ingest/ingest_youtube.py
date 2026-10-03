@@ -16,6 +16,7 @@ Usage:
 """
 
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -30,6 +31,12 @@ from utils import get_voyage_client, get_pinecone_index, PINECONE_BATCH
 load_dotenv()
 
 NAMESPACE = "videos"
+STATE_PATH = Path("data/youtube_ingest_state.json")
+
+# metadata["text"] is the only part of a chunk the model reads. It was stored
+# [:1000] against ~2.3K-char chunks, so most of every transcript chunk was
+# retrieved and then thrown away — the session-55 cap pattern (1,600 there).
+MAX_META_TEXT = 6000
 ENRICHED_META_PATH = Path("sources/youtube/enriched_meta.json")
 CAPTIONS_DIR = Path("sources/youtube/captions")
 
@@ -83,7 +90,7 @@ def ingest_body_chunks(video_id: str, meta: dict, vc, index, dry_run: bool) -> i
 
     records = []
     for i, (chunk, vector) in enumerate(zip(chunks, vectors)):
-        m = {**meta_base, "chunk_index": i, "chunk_total": len(chunks), "text": chunk[:1000]}
+        m = {**meta_base, "chunk_index": i, "chunk_total": len(chunks), "text": chunk[:MAX_META_TEXT]}
         records.append({
             "id": f"{video_id}__body__{i:04d}",
             "values": vector,
@@ -94,6 +101,17 @@ def ingest_body_chunks(video_id: str, meta: dict, vc, index, dry_run: bool) -> i
         index.upsert(vectors=records[i:i + PINECONE_BATCH], namespace=NAMESPACE)
 
     return len(records)
+
+
+def body_hash(video_id: str, meta: dict) -> str | None:
+    """Fingerprint of everything that goes into a video's vectors."""
+    txt_path = CAPTIONS_DIR / f"{video_id}.txt"
+    if not txt_path.exists():
+        return None
+    fields = {k: meta.get(k) for k in ("title", "series", "speakers", "summary",
+                                         "key_concepts", "categories", "duration_sec", "url")}
+    blob = txt_path.read_text(encoding="utf-8") + json.dumps(fields, sort_keys=True)
+    return hashlib.sha256(blob.encode()).hexdigest()[:16]
 
 
 def ingest_summary(video_id: str, meta: dict, vc, index, dry_run: bool) -> int:
@@ -130,7 +148,7 @@ def ingest_summary(video_id: str, meta: dict, vc, index, dry_run: bool) -> int:
             "categories": json.dumps(meta.get("categories") or []),
             "key_concepts": json.dumps(meta.get("key_concepts") or []),
             "duration_sec": meta.get("duration_sec", 0),
-            "text": text[:1000],
+            "text": text[:MAX_META_TEXT],
         },
     }
     index.upsert(vectors=[record], namespace=NAMESPACE)
@@ -142,6 +160,7 @@ def main():
     parser.add_argument("--video", help="Ingest a single video ID")
     parser.add_argument("--type", choices=["body", "summaries", "all"], default="all")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--force", action="store_true", help="Re-embed even if unchanged")
     args = parser.parse_args()
 
     if not ENRICHED_META_PATH.exists():
@@ -165,11 +184,21 @@ def main():
 
     total_body = 0
     total_summary = 0
+    # Per-video content state. Without it every run re-embedded all ~100 videos.
+    state = json.loads(STATE_PATH.read_text()) if STATE_PATH.exists() else {}
+    unchanged = 0
 
     for i, vid in enumerate(target_ids):
         meta = enriched[vid]
         title = meta["title"][:55]
+        h = body_hash(vid, meta)
+        if not args.force and h and state.get(vid, {}).get("hash") == h:
+            unchanged += 1
+            continue
         print(f"[{i+1}/{len(target_ids)}] {title}...")
+        if not args.dry_run:
+            # A shorter re-chunk would otherwise leave the old tail's vectors live.
+            prev_n = state.get(vid, {}).get("body_chunks", 0)
 
         if args.type in ("body", "all"):
             n = ingest_body_chunks(vid, meta, vc, index, args.dry_run)
@@ -181,7 +210,16 @@ def main():
             n = ingest_summary(vid, meta, vc, index, args.dry_run)
             total_summary += n
 
-    print(f"\nTotal: {total_body} body chunks + {total_summary} summary vectors upserted to '{NAMESPACE}'")
+        if not args.dry_run and args.type == "all" and h:
+            new_n = len(chunk_text(clean_text((CAPTIONS_DIR / f"{vid}.txt").read_text(encoding="utf-8"))))
+            stale = [f"{vid}__body__{j:04d}" for j in range(new_n, prev_n)]
+            if stale:
+                index.delete(ids=stale, namespace=NAMESPACE)
+            state[vid] = {"hash": h, "body_chunks": new_n}
+            STATE_PATH.write_text(json.dumps(state, indent=2))
+
+    print(f"\nUnchanged (skipped): {unchanged}")
+    print(f"Total: {total_body} body chunks + {total_summary} summary vectors upserted to '{NAMESPACE}'")
 
 
 if __name__ == "__main__":
