@@ -161,7 +161,7 @@ def render_detail_page(r: dict, slug: str, sig_name: str, path_slug: str) -> str
             for para in summary.strip().split('\n\n'):
                 para = para.strip()
                 if para:
-                    summary_block += f'\n        <p class="meeting-summary">{esc(para)}</p>'
+                    summary_block += f'\n        <p class="meeting-summary">{inline_markdown_html(para)}</p>'
         insights_block = ''
         if insights:
             items = ''.join(f'\n<li>{inline_markdown_html(i)}</li>' for i in insights)
@@ -197,17 +197,17 @@ def render_detail_page(r: dict, slug: str, sig_name: str, path_slug: str) -> str
     if (audio_summary or audio_key_points) and not is_future:
         audio_parts = []
         if audio_reading:
-            audio_parts.append(f'<p class="meeting-abstract"><strong>Reading:</strong> {esc(audio_reading)}</p>')
+            audio_parts.append(f'<p class="meeting-abstract"><strong>Reading:</strong> {inline_markdown_html(audio_reading)}</p>')
         if audio_summary:
             for para in audio_summary.strip().split('\n\n'):
                 para = para.strip()
                 if para:
-                    audio_parts.append(f'<p class="meeting-summary">{esc(para)}</p>')
+                    audio_parts.append(f'<p class="meeting-summary">{inline_markdown_html(para)}</p>')
         if audio_key_points:
             items = ''.join(f'\n<li>{inline_markdown_html(pt)}</li>' for pt in audio_key_points[:8])
             audio_parts.append(f'<ul class="meeting-insights">{items}\n</ul>')
         if audio_questions:
-            audio_parts.append(f'<p class="meeting-abstract"><strong>Questions &amp; Disagreements:</strong> {esc(audio_questions[:400])}</p>')
+            audio_parts.append(f'<p class="meeting-abstract"><strong>Questions &amp; Disagreements:</strong> {inline_markdown_html(audio_questions[:400])}</p>')
         if audio_participants:
             audio_parts.append(f'<p class="meeting-participants">Participants: {esc(", ".join(audio_participants[:12]))}</p>')
         meta_line = ''
@@ -334,9 +334,16 @@ def main():
 
         # Skip if a directory with this date prefix already exists (different slug naming)
         if date_prefix_exists(sig_dir, date) and not detail_dir.exists():
-            print(f"  SKIP (date exists under different slug) {sig} {date}: {r['title'][:50]}")
-            skipped.append(path_slug)
-            continue
+            # A page created under an earlier title (audio-only record later
+            # enriched with its Discord title) could otherwise never be
+            # refreshed. Re-render into it when it is the only page that day.
+            same_day = [d for d in sig_dir.iterdir() if d.is_dir() and d.name.startswith(date)]
+            if not (args.refresh and len(same_day) == 1):
+                print(f"  SKIP (date exists under different slug) {sig} {date}: {r['title'][:50]}")
+                skipped.append(path_slug)
+                continue
+            path_slug  = same_day[0].name
+            detail_dir = same_day[0]
 
         detail_page = detail_dir / 'index.html'
         is_refresh = False

@@ -212,7 +212,7 @@ def render_meeting_card(r: dict, detail_href: str | None = None) -> str:
         for para in summary_paras.strip().split("\n\n"):
             para = para.strip()
             if para:
-                parts.append(f'  <p class="meeting-summary">{html_escape(para)}</p>')
+                parts.append(f'  <p class="meeting-summary">{inline_markdown_html(para)}</p>')
 
     if insights:
         parts.append('  <ul class="meeting-insights">')
