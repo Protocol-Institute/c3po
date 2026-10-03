@@ -171,6 +171,20 @@ def push_protocolized_if_changed() -> bool:
         text=True,
     )
     if not check.stdout.strip():
+        # A commit stranded by an earlier rejected push is not a working-tree
+        # change, so without this it would never be retried.
+        try:
+            ahead = int(_git(["rev-list", "--count", "@{u}..HEAD"], PROTOCOLIZED_DIR).stdout.strip())
+        except (subprocess.CalledProcessError, ValueError):
+            ahead = 0
+        if ahead:
+            try:
+                _git(["push"], PROTOCOLIZED_DIR)
+                log.info(f"  Protocolized push done ({ahead} stranded commit(s) from an earlier cycle)")
+                return True
+            except subprocess.CalledProcessError as exc:
+                log.error(f"  Protocolized push failed: {exc.stderr.strip()[:200]}")
+                return False
         log.info("  Protocolized resources unchanged — skipping push")
         return False
     date_str = datetime.now().strftime("%Y-%m-%d")
@@ -219,6 +233,24 @@ def pull_self() -> None:
     except subprocess.CalledProcessError as exc:
         log.warning(f"  self git pull --rebase failed: {exc.stderr.strip()[:200]} — "
                     f"continuing on current checkout")
+
+
+def pull_protocolized() -> None:
+    """Bring the website clone up to date before writing resources into it.
+
+    pull_self() only ever covered c3po, so this clone drifted (16 commits behind
+    when checked 2026-10-02): the sync ran an old copy of its own script, and
+    the direct push that follows would be rejected non-fast-forward as soon as
+    anyone else had pushed to main. Rebase, not ff-only, so a commit stranded
+    by an earlier rejected push is carried forward rather than blocking the pull.
+    Best-effort, like pull_self()."""
+    if not PROTOCOLIZED_DIR.exists():
+        return
+    try:
+        _git(["pull", "--rebase"], PROTOCOLIZED_DIR)
+    except subprocess.CalledProcessError as exc:
+        log.warning(f"  protocolized-website pull --rebase failed: {exc.stderr.strip()[:200]} — "
+                    f"syncing into the current checkout")
 
 
 def autocommit_c3po_state() -> bool:
@@ -488,6 +520,8 @@ def run_sync(cycle: int) -> None:
     # ── Protocolized-website enrichment sync (gated on enriched_meta changes) ──
     enrich_state = load_enrichment_state()
     protocolized_synced = False
+    if enrichment_changed("pdfs", enrich_state) or enrichment_changed("youtube", enrich_state):
+        pull_protocolized()
 
     if enrichment_changed("pdfs", enrich_state):
         log.info("→ sync_pdf_resources (enriched_meta changed)")
