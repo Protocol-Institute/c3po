@@ -385,3 +385,18 @@ def inline_markdown_html(s: str) -> str:
     out = _html.escape(str(s), quote=True)
     out = _STRONG_RE.sub(r"<strong>\1</strong>", out)
     return _EM_RE.sub(r"<em>\1</em>", out)
+
+
+def truncate_markdown(s: str, limit: int) -> str:
+    """Cut at a word boundary without leaving an unpaired ** behind.
+
+    The Questions field was sliced [:400], which can land inside a bold phrase;
+    the orphaned ** then renders literally ("- **Scope …").
+    """
+    s = str(s)
+    if len(s) <= limit:
+        return s
+    cut = s[:limit].rsplit(" ", 1)[0]
+    if cut.count("**") % 2:
+        cut = cut[:cut.rfind("**")]
+    return cut.rstrip(" -—,;:") + " …"

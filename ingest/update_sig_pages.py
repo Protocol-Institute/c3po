@@ -24,7 +24,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from utils import meeting_ready, MEETING_GRACE_DAYS, inline_markdown_html
+from utils import meeting_ready, MEETING_GRACE_DAYS, inline_markdown_html, truncate_markdown
 
 MEETINGS_DIR = Path(__file__).parent.parent / "data" / "sigs" / "meetings"
 WEBSITE_DIR  = Path(__file__).parent.parent.parent / "website"
@@ -207,7 +207,7 @@ def render_detail_page(r: dict, slug: str, sig_name: str, path_slug: str) -> str
             items = ''.join(f'\n<li>{inline_markdown_html(pt)}</li>' for pt in audio_key_points[:8])
             audio_parts.append(f'<ul class="meeting-insights">{items}\n</ul>')
         if audio_questions:
-            audio_parts.append(f'<p class="meeting-abstract"><strong>Questions &amp; Disagreements:</strong> {inline_markdown_html(audio_questions[:400])}</p>')
+            audio_parts.append(f'<p class="meeting-abstract"><strong>Questions &amp; Disagreements:</strong> {inline_markdown_html(truncate_markdown(audio_questions, 400))}</p>')
         if audio_participants:
             audio_parts.append(f'<p class="meeting-participants">Participants: {esc(", ".join(audio_participants[:12]))}</p>')
         meta_line = ''
