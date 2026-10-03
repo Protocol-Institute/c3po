@@ -133,6 +133,61 @@ def _sync_query_guide_nav(text: str, top_k: int = 5) -> list[dict]:
     return [(m.score, m.metadata) for m in resp.matches]
 
 
+# ── Intro video slot ─────────────────────────────────────────────────────────
+# Intros recommended a video 9 times in 213 (substack 111, pdfs 64): caption
+# text matches a written self-introduction less closely than prose does, and
+# videos carry 0.9x in the worker merge, so they rarely won one of the three
+# slots. Rather than reweight every answer, intros get a dedicated slot filled
+# from the per-video summary vectors (session 56).
+INTRO_VIDEO_MIN_SCORE = 0.33   # relevant matches ran 0.35-0.51; the first irrelevant one 0.29
+
+
+def _sync_query_intro_video(text: str) -> list[dict]:
+    vc, idx = _guide_clients()
+    vector = vc.embed([text], model=VOYAGE_MODEL, input_type="query").embeddings[0]
+    hits = []
+    for ns, ctype, k in (("videos", "video_summary", 5), ("symposium", "symposium_recording", 3)):
+        resp = idx.query(vector=vector, top_k=k, namespace=ns,
+                         filter={"chunk_type": {"$eq": ctype}}, include_metadata=True)
+        for m in resp.matches:
+            md = m.metadata or {}
+            speakers = md.get("speakers") or ""
+            if speakers.startswith("["):                    # videos store a JSON list
+                try:
+                    speakers = ", ".join(json.loads(speakers))
+                except ValueError:
+                    pass
+            authors = [a.strip() for a in speakers.split(",") if a.strip()]
+            hits.append({"score": m.score, "source": "youtube", "label": "VIDEO",
+                         "title": md.get("title") or "", "url": md.get("url") or "",
+                         "authors": authors, "primary_author": authors[0] if authors else "",
+                         "date": md.get("scheduled_date") or ""})
+    return sorted(hits, key=lambda h: h["score"], reverse=True)
+
+
+async def query_intro_video(text: str) -> list[dict]:
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(None, _sync_query_intro_video, text)
+
+
+def _pick_intro_video(hits: list[dict], already: list[dict]) -> dict | None:
+    """Best relevant video not by VGR and not already recommended, or None.
+
+    No slot when a video already made the reading list, and none below the
+    floor — a forced, off-topic video is worse than no video.
+    """
+    if any(s.get("source") in ("youtube", "video") or "youtube.com" in (s.get("url") or "")
+           for s in already):
+        return None
+    taken = {s.get("url") for s in already}
+    for h in hits:
+        if h["score"] < INTRO_VIDEO_MIN_SCORE:
+            return None
+        if h["url"] and h["url"] not in taken and not _is_excluded_from_intro(h):
+            return h
+    return None
+
+
 async def query_discord_guide_nav(text: str) -> list[tuple[float, dict]]:
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(None, _sync_query_guide_nav, text)
@@ -651,8 +706,9 @@ async def handle_introduction(message: discord.Message) -> bool:
         # Parallel: corpus recs via Worker + channel guide via direct Pinecone
         corpus_task = asyncio.create_task(call_worker(corpus_query, max_tokens=250))
         guide_task  = asyncio.create_task(query_discord_guide(intro_text))
-        corpus_data, guide_hits = await asyncio.gather(corpus_task, guide_task,
-                                                       return_exceptions=True)
+        video_task  = asyncio.create_task(query_intro_video(intro_text))
+        corpus_data, guide_hits, video_hits = await asyncio.gather(
+            corpus_task, guide_task, video_task, return_exceptions=True)
     latency_ms = int((time.monotonic() - t0) * 1000)
 
     if isinstance(corpus_data, Exception):
@@ -661,6 +717,9 @@ async def handle_introduction(message: discord.Message) -> bool:
     if isinstance(guide_hits, Exception):
         log.error(f"Guide task failed: {guide_hits}")
         guide_hits = []
+    if isinstance(video_hits, Exception):
+        log.error(f"Video task failed: {video_hits}")
+        video_hits = []
 
     answer      = ((corpus_data or {}).get("answer") or "").strip()
     all_sources = [s for s in ((corpus_data or {}).get("sources") or [])
@@ -685,6 +744,8 @@ async def handle_introduction(message: discord.Message) -> bool:
         answer, all_sources, rec_sources, intro_text, title_matched
     )
 
+    video = _pick_intro_video(video_hits or [], rec_sources)
+
     # Pick channel recommendation
     channel = _pick_channel(guide_hits or [])
     if channel is None:
@@ -707,6 +768,10 @@ async def handle_introduction(message: discord.Message) -> bool:
             date_str = f" ({date})" if date else ""
             link_str = f" — <{url}>" if url else ""
             reply   += f"**[{label}]** {title}{date_str}{link_str}\n"
+
+    if video:
+        who = f" — {', '.join(video['authors'][:2])}" if video["authors"] else ""
+        reply += f"\n**Worth watching:** {video['title']}{who} — <{video['url']}>\n"
 
     # Channel recommendation
     if channel:
@@ -739,7 +804,7 @@ async def handle_introduction(message: discord.Message) -> bool:
 
     if sent:
         wq.mark_welcomed(str(message.author.id))
-        _update_intro_tally(rec_sources, channel)
+        _update_intro_tally(rec_sources + ([video] if video else []), channel)
         intro_quality.log_quality(
             user_hash=_hash_user(message.author.id),
             intro_snippet=intro_text[:60],
