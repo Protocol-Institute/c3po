@@ -120,6 +120,51 @@
           "html": "A plan for event and time awareness. C3PO will read the institute's two public calendars and its events history, tag archive items with the event they belong to, and answer questions scoped to any event, generalizing what was built for the 2026 symposium alone."
         }
       ]
+    },
+    {
+      "id": 57,
+      "sort_key": 57.0,
+      "label": "Session 57",
+      "title": "A Reranker, a New SIG, and a Lexicon That Had Lost Its Words",
+      "date": "2026-10-05",
+      "time_pt": "14:25-15:25",
+      "tracks": [
+        "corpus-ingestion",
+        "vector-architecture",
+        "worker-api",
+        "operations"
+      ],
+      "costs_usd": {
+        "rerank (Voyage rerank-3, within free tier)": 0.0
+      },
+      "vector_counts": {
+        "total": 35489,
+        "sig": 8890,
+        "symposium": 714
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "A reranker, suggested by a community member",
+          "html": "A member filed <a href=\"https://github.com/Protocol-Institute/c3po/issues/10\">issue #10</a> after a Discord thread on rerankers, with tests run against the open search endpoint. An embedding model turns each passage into a vector before any question exists, which is good at finding the right neighbourhood and coarse at ordering what is in it. A reranker reads the question and each passage together. C3PO now passes its whole candidate pool through Voyage's <strong>rerank-3</strong> before choosing the sources an answer is built from, on the web, in Discord and over MCP.<br><br>The rerank score is multiplied by the existing source weights rather than replacing them, because those weights say something a reranker cannot know: that the Institute's own papers outrank a passing Discord remark. On “how do protocols die or get replaced”, a Discord post the reranker loved rose from 20th to 8th instead of 2nd. The open search tool gets it as an option (<code>rerank: true</code>), and each result reports its score, so a caller can tell one good match from twenty."
+        },
+        {
+          "title": "Five of twenty results were empty",
+          "html": "The issue noted that lexicon terms came back with no text. The cause was worse than it looked: the definitions had never been stored alongside the terms, only used to build their vectors. So every lexicon hit reached the model as a bare word with nothing under it, and still took one of the eight source slots an answer is built from. All 560 definitions were written back in place without re-embedding anything, and items with no text are now dropped before the cut."
+        },
+        {
+          "title": "The same passage, at two addresses, at two offsets",
+          "html": "One passage of <em>The Unreasonable Sufficiency of Protocols</em> was indexed twice, once from a gitbook and once from the site that mirrors it. The two copies were chunked at different starting points, so neither the document id nor the opening words matched. Duplicates are now detected by overlapping five-word sequences. On the issue's own query this removes exactly that copy and leaves alone three chunks of one symposium talk."
+        },
+        {
+          "title": "Intelligence Media joins the SIGs",
+          "html": "The new Intelligence Media SIG, on Blygger, oracles, bots and extended universes, has no meetings yet, so its Discord channel is ingested as discussion: 8 threads and 325 messages. It is labelled by its full name rather than an abbreviation. When a group's name is shortened, the bot has been known to guess what the letters stand for."
+        },
+        {
+          "title": "YouTube is still not answering",
+          "html": "Of the 21 symposium recordings left waiting last session, one came through (<em>Building Psychohistory</em>). YouTube still blocks caption requests from the laptop, so the other twenty wait for another network."
+        }
+      ]
     }
   ]
 }

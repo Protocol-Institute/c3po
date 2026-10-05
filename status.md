@@ -1,5 +1,44 @@
 # C3PO — Status Log
 
+## 2026-10-05 14:25-15:25 PT — Intelligence Media SIG ingested; reranker shipped on every answer path (session 57)
+
+**Session-start checks:** vectors 34,940 → 34,940+205 organic at start. Substack 0 new / 0 edited. No intro-quality issues. Cost $3.17 last 7 days / $34.90 all-time (VM log); `sync_sig` 97%. Laptop clone fast-forwarded 124 commits (daemon + Substack syncs).
+
+**VGR reprioritised the queue: a new SIG and a GitHub issue first.**
+
+**Intelligence Media SIG (`aa37245`).** Seeded on the website 2026-10-03 (migration 040, program slug `intelligence-media`), channel `1553833347732611222`. Added to `data/channel_manifest.json` as a `sig` channel with **empty `meeting_patterns`**: no meetings yet, so every thread ingests as a discussion. `sig_display` is the full name "Intelligence Media", not an invented acronym, so the bot has no expansion to guess (session 54's lesson). Name maps updated (worker `SIG_NAMES`, which was also missing PRG; dashboard; monitoring; summaries). Meeting-page scripts left alone, since they iterate their own SIG lists; the manifest note lists what to add when meetings start. The ingest ran on the **VM, not the laptop**, so its gitignored state file records it: cycle 124 embedded **333 vectors** (8 threads + 325 messages), and "glass bead blygs" retrieves the thread first.
+
+**Reranker: issue #10** (filed by Allethrin after the Discord thread), planned in `plans/reranker.md`; VGR accepted all four proposals.
+- **Checked before building.** Every code claim in the issue held up. Voyage rerank works on the worker's existing key. **The issue's side note was a real bug and worse than described:** `definitions` metadata had no definition text at all, so every lexicon hit was a bare term, in `search_corpus` and in the answer context, where each one took one of 8 source slots.
+- **Phase 0 (`1cf9258`).** `sync_lexicon` stores `definition` + `text`; `--metadata-only` updated all 560 vectors in place, after verifying the 560 local IDs match the live ones exactly (Pinecone `update` on a missing ID is a silent no-op). `mergeResults` drops empty-excerpt items, and collapses near-duplicates by word 5-gram containment ≥0.6. The gitbook / summerofprotocols "Sufficiently Mortal" pair is the same passage at **different chunk offsets**, so a prefix key could not have caught it; on the issue's query the collapse removes exactly that copy and leaves three chunks of one symposium talk alone.
+- **Probe (`bin/probe_rerank.py`)**: 15 queries, local rerank per model side by side with cosine order. `rerank-2.5` and `rerank-3` agree closely; Voyage's pricing page lists 2.5 as legacy, so **`rerank-3`** ($0.05/M, 200M free).
+- **Phase 1 (`3b91bb3`).** `mergePool()` split out of `mergeResults()` (4 call sites unchanged). `search_corpus` takes `rerank: true`; results carry `rerank_score`. Order = rerank score × the tier weight already applied (`weightedScore/score`), so editorial priority survives: the #death-memory post the issue flagged scores 0.80 and lands #8, not #2. 1.5s timeout, cosine order on any failure. `/stats` reports rerank tokens and cost.
+- **Phase 2 (`142ebe6`, worker `c98a3d42`).** Web, Discord and `ask_c3po` rerank via `rankPool()`. Pinned workshops untouched; the transcript cache stays on cosine; kill switch `RERANK_ANSWER_PATH`. `/search` (sources-only) stays cosine. The query log now keeps `rerank_score` on the top 4 sources (7-day TTL) as Phase 3 calibration data. Verified live: sources on 3 probes (workshop pins intact) and one full answer. ~7-10K tokens per answer, inside the free tier.
+- Replied on #10 (kept open until Phase 3). The lexicon bug was fixed rather than split into its own issue.
+
+**Recordings re-run:** YouTube still `IpBlocked` the laptop. **1 of 21** came through (Building Psychohistory, +11 vectors; `9e0cc04` commits the metadata so it becomes a resource). **20 wait.** Re-running from the same network won't help: try another network, wait it out, or give the caption client cookies. Deferred by VGR.
+
+**Rename plan, queue #10 (`daf0557`)** — `plans/rename.md`, drafted in parallel. Tiers: rename identity (persona, UI, Discord, MCP name, sites); for addresses (domain, `ask_c3po`, repo, devlog slug), add the new one and keep the old working; leave the plumbing alone (Pinecone index, KV, VM, env names). **Trap found:** renaming the laptop folder would silently empty Claude's memory for this project, which is keyed on the path. Four decisions for VGR, the name first. Implementation deferred.
+
+**Queue #11, credentials.** VGR: rotate the two session-53-exposed PATs at their 2026-12-08 expiry, not now. **`GH_PAT` was not what the registry said:** compared in-process with only booleans printed, it is the laptop's own `gh` CLI login (`gho_`), identical to the keychain credential, not a classic PAT. Revoking it would only have logged the laptop out. The plaintext copy in `../.env.keys` had no reader and was **deleted**; the `admin/keys.md` row was corrected (`admin` `1782c98`, committed alone; another session's uncommitted blygger rows left in place). **`admin` is 4 commits ahead and unpushed**, 3 of them awaiting VGR since session 55.
+
+**Seen, not fixed:**
+- PDF excerpts come back at exactly 1,000 chars: `pdfs` likely stores chunk text at `[:1000]`, the session-55 cap pattern.
+- The daemon's c3po push was rejected once (22:06 UTC, racing a laptop push) and the stranded commit waits until its next autocommit. Unlike the website clone, there is no "ahead of origin, push anyway" check.
+
+**Pinecone:** 34,940 → **35,490** (+333 Intelligence Media; +11 symposium; +1 meta; rest organic).
+
+**Open TODOs (priority order):**
+1. **Symposium recordings: 20 of 40 blocked by YouTube.** Try another network or cookies, then commit `sources/youtube/enriched_meta.json`.
+2. **Rename (queue #10):** VGR supplies the name and the 3 other decisions in `plans/rename.md`, then implement.
+3. **Reranker Phase 3:** after a few weeks of logged `rerank_score`s, decide the min-score floor, pool width (`TOP_K_EACH`), and whether to add an instruction.
+4. **`pdfs` 1,000-char text cap:** confirm and re-upsert full chunk text.
+5. **Daemon push for a stranded commit:** add an "ahead of origin, push" check to `autocommit_state` (mirrors `push_protocolized_if_changed`); needs a daemon restart.
+6. **VGR:** `gh auth refresh -h github.com --remove-scopes delete_repo`; review and push `admin` (4 ahead); rotate the two PATs at 2026-12-08 expiry.
+7. Carried: event-plan open question 4 (`bin/probe_event_scope.py`); verify the weekly SIG-pages PR and the 28 requeued links; VM credential hardening phase 2; Hackathon `activities` truncation (organiser); 4 deck stubs + Fett's deck; first live "Worth watching" intro.
+
+---
+
 ## 2026-10-02 18:45-20:40 PT — Post-symposium decks + recordings; then a housekeeping queue (session 56)
 
 **Session-start checks not run** — the session went straight to the post-event work. Laptop clone fast-forwarded. Vectors 33,779 → **34,932** (+332 symposium; rest organic).
