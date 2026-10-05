@@ -25,6 +25,12 @@
 
 const VOYAGE_MODEL    = "voyage-3";
 const VOYAGE_URL      = "https://api.voyageai.com/v1/embeddings";
+// Reranker (plans/reranker.md, issue #10). rerank-3 is Voyage's current model;
+// rerank-2.5 is listed as legacy. Probe: bin/probe_rerank.py.
+const RERANK_MODEL      = "rerank-3";
+const RERANK_URL        = "https://api.voyageai.com/v1/rerank";
+const RERANK_DOC_CHARS  = 2000;   // excerpts run to 6,000 chars; tokens scale with length
+const RERANK_TIMEOUT_MS = 1500;   // measured 0.15-0.25s for a 20-doc pool
 const CLAUDE_MODEL    = "claude-sonnet-4-6";
 const CLAUDE_URL      = "https://api.anthropic.com/v1/messages";
 const ANTHROPIC_VER   = "2023-06-01";
@@ -82,6 +88,7 @@ const PRICE_CACHE_WRITE = 3.75  / 1e6;
 const PRICE_CACHE_READ  = 0.30  / 1e6;
 const PRICE_OUT         = 15.00 / 1e6;
 const PRICE_VOYAGE_REQ  = 0.06  / 1e6 * 80;  // voyage-3 ~80 tokens/query
+const PRICE_VOYAGE_RERANK = 0.05 / 1e6;      // rerank-3 $/token (first 200M free)
 const CF_MONTHLY_USD    = 5.00;
 
 function ptDateStr() {
@@ -204,7 +211,7 @@ async function trackSessionStart(env) {
 // serving ~130 calls a month — visible only as a side effect of the rate
 // limiter's per-IP keys. Counters are read-modify-write on KV and will
 // undercount concurrent bursts; they are meant for shape, not billing.
-async function trackMcpCall(env, label) {
+async function trackMcpCall(env, label, n = 1) {
   if (!env.RATE_LIMIT) return;
   const dk = mcpCallsDayKey(), lk = mcpCallsLifeKey();
   const [ds, ls] = await Promise.all([
@@ -213,8 +220,8 @@ async function trackMcpCall(env, label) {
   ]);
   const d = { ...(ds || {}) };
   const l = { ...(ls || {}) };
-  d[label] = (d[label] || 0) + 1;
-  l[label] = (l[label] || 0) + 1;
+  d[label] = (d[label] || 0) + n;
+  l[label] = (l[label] || 0) + n;
   await Promise.all([
     env.RATE_LIMIT.put(dk, JSON.stringify(d), { expirationTtl: 90 * 24 * 3600 }),
     env.RATE_LIMIT.put(lk, JSON.stringify(l)),
@@ -308,6 +315,13 @@ async function handleStats(env, corsHeaders) {
       day:      mcd || {},
       lifetime: mcl || {},
       note: "counts by method/tool:outcome; KV read-modify-write, so concurrent bursts undercount",
+    },
+    rerank: {
+      model:             RERANK_MODEL,
+      tokens_day:        mcd?.rerank_tokens || 0,
+      tokens_lifetime:   mcl?.rerank_tokens || 0,
+      cost_usd_lifetime: +((mcl?.rerank_tokens || 0) * PRICE_VOYAGE_RERANK).toFixed(4),
+      note: "list price; Voyage's first 200M rerank tokens are free",
     },
     discord_day:      { reqs: dd.reqs, cost_usd: +calcTotalCost(dd).toFixed(4) },
     discord_lifetime: { reqs: dl.reqs, cost_usd: +calcTotalCost(dl).toFixed(2) },
@@ -911,6 +925,12 @@ function capPerRecord(items, limit) {
 // ── Merge ──────────────────────────────────────────────────────────────────────
 
 function mergeResults(pdfItems, substackItems, videoItems, bibItems, discordItems, sigItems, webItems, defItems, metaItems, transcriptItems, symposiumItems, maxSources) {
+  return mergePool(pdfItems, substackItems, videoItems, bibItems, discordItems, sigItems, webItems, defItems, metaItems, transcriptItems, symposiumItems)
+    .slice(0, maxSources);
+}
+
+// The whole weighted, deduplicated pool, before the source cut — what a reranker reorders.
+function mergePool(pdfItems, substackItems, videoItems, bibItems, discordItems, sigItems, webItems, defItems, metaItems, transcriptItems, symposiumItems) {
   // Tier weights: PI primary sources at full value; community content (discord/sig) at lower weight.
   // discord starred: 0.85×; unstarred: 0.65×.
   // sig meeting summaries: 0.85×; body chunks: 0.75×; discussions/messages: 0.70×/0.60×.
@@ -959,7 +979,48 @@ function mergeResults(pdfItems, substackItems, videoItems, bibItems, discordItem
     // and still costs a source slot (every lexicon hit did, until session 57).
     .filter(m => (m.excerpt || "").trim())
     .sort((a, b) => b.weightedScore - a.weightedScore);
-  return collapseNearDuplicates(ranked).slice(0, maxSources);
+  return collapseNearDuplicates(ranked);
+}
+
+// ── Rerank ─────────────────────────────────────────────────────────────────────
+// A cross-encoder reads the query and each passage together, which orders a pool
+// far better than cosine does (issue #10). Its score is multiplied by the tier
+// weight mergePool already applied (weightedScore / score), because the weights
+// carry editorial priority — PI primary sources over community chatter — that a
+// reranker knows nothing about. Any failure returns the pool in its cosine order:
+// reranking is an improvement, never a dependency.
+async function rerankItems(query, items, env) {
+  if (items.length < 2) return { items, status: "skipped", tokens: 0 };
+  const ctrl  = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), RERANK_TIMEOUT_MS);
+  try {
+    const res = await fetch(RERANK_URL, {
+      method: "POST",
+      headers: { "Authorization": `Bearer ${env.VOYAGE_API_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query,
+        model: RERANK_MODEL,
+        documents: items.map(m => `${m.title || ""}\n\n${(m.excerpt || "").slice(0, RERANK_DOC_CHARS)}`),
+      }),
+      signal: ctrl.signal,
+    });
+    if (!res.ok) throw new Error(`Voyage rerank ${res.status}`);
+    const data = await res.json();
+    const rs = new Array(items.length).fill(0);
+    for (const d of data.data || []) rs[d.index] = d.relevance_score;
+    const reranked = items
+      .map((m, i) => {
+        const tier = m.score > 0 ? m.weightedScore / m.score : 1;
+        return { ...m, rerank_score: rs[i], rankScore: rs[i] * tier };
+      })
+      .sort((a, b) => b.rankScore - a.rankScore);
+    return { items: reranked, status: "ok", tokens: data.usage?.total_tokens || 0 };
+  } catch (e) {
+    console.error("rerank failed:", e.message);
+    return { items, status: "failed", tokens: 0 };
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 // The same passage can be indexed under two URLs (a gitbook and the site that
@@ -3429,6 +3490,12 @@ const MCP_TOOLS = [
           type: "integer", minimum: 1, maximum: 20, default: 10,
           description: "Max results. Default: 10",
         },
+        rerank: {
+          type: "boolean", default: false,
+          description: "Reorder the candidate pool with a cross-encoder reranker before the cut. " +
+            "Each result then carries rerank_score (0-1): a low top score means the archive holds " +
+            "little on this query, whatever the result count. Default: false",
+        },
       },
       required: ["query"],
     },
@@ -3463,10 +3530,11 @@ const MCP_TOOLS = [
   },
 ];
 
-async function runMcpSearch(args, env) {
+async function runMcpSearch(args, env, ctx) {
   const query = String(args.query || "").trim();
   const ns    = String(args.namespace || "all");
   const limit = Math.min(Math.max(parseInt(args.limit || 10), 1), 20);
+  const wantRerank = args.rerank === true || args.rerank === "true";
   if (!query) throw new Error("query is required");
 
   const vec = await embed(query, env.VOYAGE_API_KEY);
@@ -3488,7 +3556,7 @@ async function runMcpSearch(args, env) {
     totalEgressBytes(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw, sympRaw),
     anyCached(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw, sympRaw));
 
-  const items = mergeResults(
+  const pool = mergePool(
     pdfRaw.map(normalizePdf),
     subRaw.map(normalizeSubstack),
     vidRaw.map(normalizeVideo),
@@ -3500,18 +3568,31 @@ async function runMcpSearch(args, env) {
     metaRaw.map(normalizeDevlog),
     [],                                // transcriptItems — not exposed over MCP search
     sympRaw.map(normalizeSymposium),
-    limit,
-  ).map(({ source, type, label, title, authors, primary_author, date, url, summary, excerpt,
+  );
+  let ranked = pool, rerankStatus = null;
+  if (wantRerank) {
+    const rr = await rerankItems(query, pool, env);
+    ranked = rr.items;
+    rerankStatus = rr.status;
+    if (ctx) {
+      ctx.waitUntil(trackMcpCall(env, `rerank:${rr.status}`).catch(() => {}));
+      if (rr.tokens) ctx.waitUntil(trackMcpCall(env, "rerank_tokens", rr.tokens).catch(() => {}));
+    }
+  }
+  const items = ranked.slice(0, limit).map(({ source, type, label, title, authors, primary_author, date, url, summary, excerpt,
            channel_name, sig_display, sig_name, isMeetingSummary, isMeetingBody, isDiscussion,
-           domain, source_count }) => ({
+           domain, source_count, rerank_score }) => ({
     source, type, label, title, authors, primary_author, date, url, summary, excerpt,
+    ...(rerank_score !== undefined ? { rerank_score: +rerank_score.toFixed(4) } : {}),
     ...(source === "discord"       ? { channel_name } : {}),
     ...(source === "sig"           ? { sig_display, sig_name, isMeetingSummary, isMeetingBody, isDiscussion } : {}),
     ...(source === "web"           ? { domain, source_count } : {}),
   }));
 
   return mcpToolContent(JSON.stringify({
-    query, namespace: ns, count: items.length, results: items,
+    query, namespace: ns, count: items.length,
+    ...(rerankStatus ? { rerank: rerankStatus === "ok" ? RERANK_MODEL : rerankStatus } : {}),
+    results: items,
     ...(retrievalDegraded ? { degraded: true, note: "Pinecone is temporarily unavailable (quota/rate limit) — results may be incomplete or empty." } : {}),
   }, null, 2));
 }
@@ -3694,7 +3775,7 @@ async function handleMcp(request, env, ctx) {
             ctx.waitUntil(trackMcpCall(env, "search_corpus:blocked").catch(() => {}));
             return mcpRpc(id, null, { code: -32001, message: "Query not permitted." });
           }
-          const searchResult = await runMcpSearch(args, env);
+          const searchResult = await runMcpSearch(args, env, ctx);
           ctx.waitUntil(trackMcpCall(env, "search_corpus:ok").catch(() => {}));
           ctx.waitUntil(logQuery(env, q, mcpAnswerText(searchResult), mcpResultSources(searchResult), `mcp:search`, null).catch(() => {}));
           return mcpRpc(id, searchResult);
