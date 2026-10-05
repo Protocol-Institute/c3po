@@ -3,6 +3,11 @@
 Source: [issue #10](https://github.com/Protocol-Institute/c3po/issues/10) (filed by Allethrin, 2026-10-05,
 after the Discord thread on rerankers). Plan drafted session 57.
 
+**Status (session 57):** VGR accepted all four proposals below. **Phase 0 shipped** (`1cf9258`).
+**Phase 1 shipped** (`3b91bb3`, worker `aff17277`): `rerank-3` was chosen because Voyage lists
+`rerank-2.5` as legacy and the probe shows the two agreeing closely. Combined score is
+`rerank_score × tier weight`, and Phase 1 is opt-in. Phase 2 is next, after probe review.
+
 ## What the issue proposes
 
 Put a cross-encoder rerank between `mergeResults()`'s merge and its slice. Do it first on `search_corpus`
