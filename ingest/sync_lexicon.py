@@ -51,11 +51,17 @@ def build_records(lexicon: dict) -> list[dict]:
         for i, entry in enumerate(eligible):
             source_slug = entry.get("source_slug") or str(i)
             vec_id = f"lexicon__{slugify(term)}__{slugify(source_slug)}"
+            text = make_text(entry)
             records.append({
                 "id":   vec_id,
-                "text": make_text(entry),
+                "text": text,
                 "meta": {
                     "term":             entry["term"],
+                    # The worker's excerpt is m.definition || m.text — without these,
+                    # every lexicon hit reached search_corpus and the answer context
+                    # as a bare term with nothing under it (issue #10).
+                    "definition":       entry["definition"],
+                    "text":             text,
                     "definition_index": i,
                     "variant_count":    variant_count,
                     "source":           entry.get("source", ""),
@@ -92,6 +98,8 @@ def upsert_batch(records: list[dict], index, voyage_client, dry_run: bool) -> in
 def main():
     parser = argparse.ArgumentParser(description="Sync lexicon to Pinecone definitions namespace")
     parser.add_argument("--dry-run", action="store_true", help="Preview records without embedding or upserting")
+    parser.add_argument("--metadata-only", action="store_true",
+                        help="Update metadata in place on existing vectors — no re-embedding")
     parser.add_argument("--limit",   type=int, default=0,  help="Max records to process (0 = all)")
     args = parser.parse_args()
 
@@ -120,6 +128,14 @@ def main():
     voyage = voyageai.Client(api_key=os.environ["VOYAGE_API_KEY"])
     pc     = Pinecone(api_key=os.environ["PINECONE_API_KEY"])
     index  = pc.Index(host=os.environ["PINECONE_C3PO_HOST"])
+
+    if args.metadata_only:
+        # Embedding text is unchanged, so the vectors stay; only metadata moves.
+        for n, r in enumerate(records, 1):
+            index.update(id=r["id"], set_metadata=r["meta"], namespace=NAMESPACE)
+            if n % 100 == 0 or n == len(records):
+                print(f"  Updated metadata {n}/{len(records)}")
+        return
 
     total = 0
     for i in range(0, len(records), BATCH_SIZE):

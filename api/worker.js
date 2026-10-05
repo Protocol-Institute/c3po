@@ -954,9 +954,45 @@ function mergeResults(pdfItems, substackItems, videoItems, bibItems, discordItem
       byId.set(m.docId, m);
     }
   }
-  return [...byId.values()]
-    .sort((a, b) => b.weightedScore - a.weightedScore)
-    .slice(0, maxSources);
+  const ranked = [...byId.values()]
+    // An item with no excerpt reaches the model as a label with nothing under it
+    // and still costs a source slot (every lexicon hit did, until session 57).
+    .filter(m => (m.excerpt || "").trim())
+    .sort((a, b) => b.weightedScore - a.weightedScore);
+  return collapseNearDuplicates(ranked).slice(0, maxSources);
+}
+
+// The same passage can be indexed under two URLs (a gitbook and the site that
+// mirrors it), at different chunk offsets, so neither the docId nor a prefix
+// matches. Compare word 5-gram shingles instead: if most of the shorter excerpt
+// appears in one already kept, drop it. Adjacent chunks of one document share
+// only their 64-token overlap plus a header, well under the threshold.
+const NEAR_DUP_SHINGLE    = 5;
+const NEAR_DUP_MIN_WORDS  = 30;
+const NEAR_DUP_CONTAINMENT = 0.6;
+
+function shingles(text) {
+  const w = text.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, " ").split(/\s+/).filter(Boolean);
+  if (w.length < NEAR_DUP_MIN_WORDS) return null;
+  const s = new Set();
+  for (let i = 0; i + NEAR_DUP_SHINGLE <= w.length; i++) s.add(w.slice(i, i + NEAR_DUP_SHINGLE).join(" "));
+  return s;
+}
+
+function collapseNearDuplicates(items) {
+  const kept = [];
+  for (const m of items) {
+    const sh = shingles(m.excerpt);
+    const dup = sh && kept.some(k => {
+      if (!k.sh) return false;
+      const [small, big] = sh.size <= k.sh.size ? [sh, k.sh] : [k.sh, sh];
+      let n = 0;
+      for (const x of small) if (big.has(x)) n++;
+      return n / small.size >= NEAR_DUP_CONTAINMENT;
+    });
+    if (!dup) kept.push({ m, sh });
+  }
+  return kept.map(k => k.m);
 }
 
 // ── Context block ──────────────────────────────────────────────────────────────
