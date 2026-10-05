@@ -78,6 +78,7 @@ SIG_DISPLAY = {
     "SIGPSY":    "Psychohistory (SIGPSY)",
     "DRG":       "Distributed Robotics Group",
     "PRG":       "Personhood Research Group",
+    "Intelligence Media": "Intelligence Media SIG",
 }
 
 SCRIPT_LABELS = {

@@ -47,6 +47,7 @@ SIG_DISPLAY_NAMES = {
     "SIGPSY":    "Special Interest Group in Psychohistory",
     "DRG":       "Distributed Robotics Group",
     "PRG":       "Personhood Research Group",
+    "Intelligence Media": "Intelligence Media SIG",
 }
 
 

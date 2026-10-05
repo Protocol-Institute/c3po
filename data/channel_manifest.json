@@ -270,6 +270,19 @@
         "DRG:\\s+",
         "Distributed Robotics.*[Mm]eeting"
       ]
+    },
+    "1553833347732611222": {
+      "channel_id": "1553833347732611222",
+      "name": "🎪intelligence-media",
+      "display": "Intelligence Media",
+      "type": "sig",
+      "namespace": "sig",
+      "status": "active",
+      "added": "2026-10-05",
+      "backfill_complete": false,
+      "sig_display": "Intelligence Media",
+      "meeting_patterns": [],
+      "onboarding_notes": "Intelligence Media SIG (website program slug intelligence-media, migration 040, 2026-10-03). Led by Venkatesh Rao. Started as a provisional pop-up channel for intelligence media: Blygger, the SIGPSY oracle, bot projects (c3po, Humboldt), extended universes. No meetings yet, so meeting_patterns is empty and every thread ingests as a discussion. When meetings start: add patterns here, SIG_INFO in generate_sig_pages/update_sig_pages, sync_sig_pages, and SIG_TITLE_MAP in sync_meeting_notes."
     }
   }
 }

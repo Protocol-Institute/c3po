@@ -625,7 +625,7 @@ function normalizeSig(match) {
   const isAudio           = isAudioSummary || isAudioSection;
   const starred           = (m.star_count || 0) > 0;
   const guild             = m.guild_id || "1082444651946049567";
-  const SIG_NAMES = { SIGFPT: "Formal Protocol Theory", MRG: "Memory Research Group", SIGPfB: "Protocols for Business", ProtFiSIG: "Protocol Fiction", SIGPSY: "Special Interest Group in Psychohistory", DRG: "Distributed Robotics Group" };
+  const SIG_NAMES = { SIGFPT: "Formal Protocol Theory", MRG: "Memory Research Group", SIGPfB: "Protocols for Business", ProtFiSIG: "Protocol Fiction", SIGPSY: "Special Interest Group in Psychohistory", DRG: "Distributed Robotics Group", PRG: "Personhood Research Group", "Intelligence Media": "Intelligence Media SIG" };
 
   let url = null;
   if (isMeetingPage && m.url) {

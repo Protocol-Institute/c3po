@@ -81,6 +81,7 @@ SIG_DISPLAY = {
     "SIGPSY":    "Special Interest Group in Psychohistory",
     "DRG":       "Distributed Robotics Group",
     "PRG":       "Personhood Research Group",
+    "Intelligence Media": "Intelligence Media SIG",
 }
 
 # Static patrol manifest — each entry describes one ingest source
@@ -104,7 +105,7 @@ PATROL_MANIFEST = [
     {
         "source":    "Discord — SIG channels",
         "namespace": "sig",
-        "targets":   "SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG",
+        "targets":   "SIGFPT, MRG, SIGPfB, ProtFiSIG, SIGPSY, DRG, Intelligence Media",
         "cadence":   "Every 30 min (daemon)",
         "script":    "sync_sig",
         "status":    "active",
