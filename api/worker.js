@@ -1023,6 +1023,21 @@ async function rerankItems(query, items, env) {
   }
 }
 
+// Answer paths (web, Discord, ask_c3po): rerank the pool, then cut to the source
+// budget. Pinned items (withPinned) and the transcript cache are decided outside
+// this — the cache thresholds are cosine thresholds and stay that way.
+const RERANK_ANSWER_PATH = true;   // kill switch for the answer paths; search_corpus stays opt-in
+
+async function rankPool(query, pool, budget, env, ctx) {
+  if (!RERANK_ANSWER_PATH) return pool.slice(0, budget);
+  const rr = await rerankItems(query, pool, env);
+  if (ctx) {
+    ctx.waitUntil(trackMcpCall(env, `rerank:${rr.status}`).catch(() => {}));
+    if (rr.tokens) ctx.waitUntil(trackMcpCall(env, "rerank_tokens", rr.tokens).catch(() => {}));
+  }
+  return rr.items.slice(0, budget).map(({ rankScore, ...rest }) => rest);
+}
+
 // The same passage can be indexed under two URLs (a gitbook and the site that
 // mirrors it), at different chunk offsets, so neither the docId nor a prefix
 // matches. Compare word 5-gram shingles instead: if most of the shorter excerpt
@@ -1330,7 +1345,9 @@ async function logQuery(env, query, answer, sources, sessionId, turnNumber) {
   const entry = {
     query,
     answer:      answer.slice(0, 1200),
-    sources:     (sources || []).slice(0, 4).map(s => ({ title: s.title, source: s.source, url: s.url })),
+    // rerank_score is kept for calibrating a minimum-score floor (plans/reranker.md, Phase 3)
+    sources:     (sources || []).slice(0, 4).map(s => ({ title: s.title, source: s.source, url: s.url,
+                   ...(s.rerank_score !== undefined ? { rerank_score: +s.rerank_score.toFixed(3) } : {}) })),
     sessionId:   sessionId || null,
     turnNumber:  turnNumber || null,
     ts,
@@ -3650,7 +3667,9 @@ async function runMcpAsk(args, env, ctx) {
   const sourceBudget2 = scope2.scoped ? MAX_SOURCES_SYMPOSIUM : MAX_SOURCES;
   const topItems     = withPinned(
     scope2.workshops ? sympWorkshopRaw2.map(normalizeSymposium) : [],
-    mergeResults(pdfRaw.map(normalizePdf), subRaw.map(normalizeSubstack), vidRaw.map(normalizeVideo), bibRaw.map(normalizeBibliography), discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig), webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition), metaRaw2.map(normalizeDevlog), transcriptItems2, sympAug2.map(normalizeSymposium), sourceBudget2),
+    await rankPool(question,
+      mergePool(pdfRaw.map(normalizePdf), subRaw.map(normalizeSubstack), vidRaw.map(normalizeVideo), bibRaw.map(normalizeBibliography), discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig), webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition), metaRaw2.map(normalizeDevlog), transcriptItems2, sympAug2.map(normalizeSymposium)),
+      sourceBudget2, env, ctx),
     sourceBudget2
   );
   const contextBlock = buildContextBlock(topItems);
@@ -4012,14 +4031,16 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   const sourceBudget = scope.scoped ? MAX_SOURCES_SYMPOSIUM : MAX_SOURCES;
   const topItems = withPinned(
     scope.workshops ? sympWorkshopRaw.map(normalizeSymposium) : [],
-    mergeResults(
-      pdfAug.map(normalizePdf), subAug.map(normalizeSubstack),
-      vidAug.map(normalizeVideo), bibRaw.map(normalizeBibliography),
-      discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig),
-      webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition),
-      metaRaw3.map(normalizeDevlog), transcriptItems,
-      sympAug.map(normalizeSymposium), sourceBudget
-    ),
+    await rankPool(query,
+      mergePool(
+        pdfAug.map(normalizePdf), subAug.map(normalizeSubstack),
+        vidAug.map(normalizeVideo), bibRaw.map(normalizeBibliography),
+        discordRaw.map(normalizeDiscord), sigAug.map(normalizeSig),
+        webRaw.map(normalizeWebLink), defRaw.map(normalizeDefinition),
+        metaRaw3.map(normalizeDevlog), transcriptItems,
+        sympAug.map(normalizeSymposium)
+      ),
+      sourceBudget, env, ctx),
     sourceBudget
   );
   const sources = topItems

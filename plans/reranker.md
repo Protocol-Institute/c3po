@@ -6,7 +6,11 @@ after the Discord thread on rerankers). Plan drafted session 57.
 **Status (session 57):** VGR accepted all four proposals below. **Phase 0 shipped** (`1cf9258`).
 **Phase 1 shipped** (`3b91bb3`, worker `aff17277`): `rerank-3` was chosen because Voyage lists
 `rerank-2.5` as legacy and the probe shows the two agreeing closely. Combined score is
-`rerank_score × tier weight`, and Phase 1 is opt-in. Phase 2 is next, after probe review.
+`rerank_score × tier weight`, and Phase 1 is opt-in. **Phase 2 shipped** (worker `c98a3d42`): web, Discord and `ask_c3po` rerank through
+`rankPool()`. Pinned workshops are untouched, the transcript cache stays on cosine, and
+`RERANK_ANSWER_PATH` is the kill switch. The query log now records `rerank_score` on the top 4
+sources (7-day TTL), as the Phase 3 calibration data. `/search` (sources-only) stays on cosine.
+**Phase 3 waits on a few weeks of logged scores.**
 
 ## What the issue proposes
 
