@@ -3604,5 +3604,46 @@
       "path dependency/temporal heterogeneity/contingency",
       "archival vs carnivalist interfaces"
     ]
+  },
+  "FqRUNFe-9tA": {
+    "video_id": "FqRUNFe-9tA",
+    "title": "Building Psychohistory: An Infrastructure Field Report",
+    "url": "https://www.youtube.com/watch?v=FqRUNFe-9tA",
+    "duration_sec": 1798,
+    "upload_date": "NA",
+    "playlist_ids": [
+      "PLEt1tjJkFjsQ"
+    ],
+    "series": "symposium-2026",
+    "has_captions": true,
+    "youtube_title": "07 - Aneesh Sathe - Building Psychohistory: An Infrastructure Field Report",
+    "programme": {
+      "slug": "talk-aneesh-building-psychohistory-an-inf",
+      "title": "Building Psychohistory: An Infrastructure Field Report",
+      "speakers": [
+        "Aneesh Sathe"
+      ],
+      "abstract": "World Machines theory reads history as the work of a few civilizational systems — the deep infrastructure of an era — each on a roughly thousand-year lifecycle, so that at any moment three coexist: Modernity in Dusk, Divergence in Day, Liveness in Dawn. Psychohistory, in this tradition, isn't Seldon's equations or Tetlock-style event forecasting — it's oracular rather than predictive, in the spirit of Asimov. The practice is structural: read the present as friction between these machines and the ~200–500 operational machines nested inside them, and ask not which events will happen but what kind of institutions the substrate will produce next. Its natural human unit is the essay. This is a field report on the infrastructure we built so a community can practice it. The Oracle — a layered knowledge lake, a contract-guarded multi-agent ingestion pipeline, and a custody-aware RAG with a distribution firewall — is the read-only interface to the current state of the shared model. The Prime Radiant — a typed catalog of civilizational machines compiled into a knowledge graph — is what that model becomes when formalized: \"equations you can walk around inside.\" I'll show both running, invite people to try the oracle and contribute to the Prime Radiant project.",
+      "scheduled_date": "2026-09-23",
+      "track": ""
+    },
+    "date": "2026-09-23",
+    "summary": "Aneesh Sathe presents an infrastructure field report on 'World Machines Theory,' a framework for reading history as the interaction of long-cycle civilizational 'machines' (Modernity, Divergence, Liveness), and demonstrates the two systems built to operationalize it: the Oracle, a multi-agent RAG pipeline over a shared knowledge lake that generates oracular 'prophecies,' and the Prime Radiant, a typed knowledge graph of ~500 historical 'machine cards' that can be simulated forward to project future institutional ecologies. He frames this as an Asimov-inspired but decentralized, commons-based reimagining of psychohistory, contrasting it with Seldon's mathematical, control-oriented original. The talk opens with context from the Contraptions Book Club, introduced by its host.",
+    "categories": [
+      "protocol-theory",
+      "technology-ai",
+      "research-report",
+      "organizations"
+    ],
+    "speakers": [
+      "Aneesh Sathe"
+    ],
+    "key_concepts": [
+      "World Machines Theory",
+      "Prime Radiant",
+      "machine cards",
+      "Oracle (RAG knowledge lake)",
+      "psychohistory"
+    ]
   }
 }
