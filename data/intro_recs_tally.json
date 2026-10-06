@@ -96,8 +96,8 @@
       "source": "substack",
       "author": "Timber Stinson-Schroff",
       "label": "ESSAY",
-      "count": 17,
-      "last_seen": "2026-09-20",
+      "count": 18,
+      "last_seen": "2026-10-06",
       "is_fallback": false
     },
     "https://files.protocolized.io/FERNANDEZ-Flow-speculative-brochure.pdf": {
@@ -769,6 +769,36 @@
       "count": 1,
       "last_seen": "2026-09-30",
       "is_fallback": false
+    },
+    "mitpress.mit.edu/9780262633673/an-engine-not-a-camera/": {
+      "title": "An Engine, Not a Camera: How Financial Models Shape Markets",
+      "url": "mitpress.mit.edu/9780262633673/an-engine-not-a-camera/",
+      "source": "bibliography",
+      "author": "D. MacKenzie",
+      "label": "REFERENCE",
+      "count": 1,
+      "last_seen": "2026-10-06",
+      "is_fallback": false
+    },
+    "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-82": {
+      "title": "Proliferation of Intelligence: Business and  Hyper Learning Machines.",
+      "url": "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-82",
+      "source": "symposium",
+      "author": "Krishnakumar Gurumurthy",
+      "label": "PROTOCOL SYMPOSIUM 2026",
+      "count": 1,
+      "last_seen": "2026-10-06",
+      "is_fallback": false
+    },
+    "https://www.youtube.com/watch?v=KcICTT2GJY0": {
+      "title": "Intro to Protocol Studies: Argument Engineering for Dummies",
+      "url": "https://www.youtube.com/watch?v=KcICTT2GJY0",
+      "source": "youtube",
+      "author": null,
+      "label": "VIDEO",
+      "count": 1,
+      "last_seen": "2026-10-06",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -860,8 +890,8 @@
       "name": "🎪intelligence-media",
       "display": "#🎪intelligence-media",
       "sig_display": "",
-      "count": 1,
-      "last_seen": "2026-10-01"
+      "count": 2,
+      "last_seen": "2026-10-06"
     }
   }
 }
