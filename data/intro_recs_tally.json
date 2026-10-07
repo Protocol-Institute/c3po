@@ -86,8 +86,8 @@
       "source": "substack",
       "author": "Kei Kreutler",
       "label": "ESSAY",
-      "count": 17,
-      "last_seen": "2026-10-03",
+      "count": 18,
+      "last_seen": "2026-10-07",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/introducing-the-protocol-institute": {
@@ -596,8 +596,8 @@
       "source": "symposium",
       "author": "Aneesh Sathe",
       "label": "PROTOCOL SYMPOSIUM 2026",
-      "count": 4,
-      "last_seen": "2026-10-03",
+      "count": 5,
+      "last_seen": "2026-10-07",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/time-to-die": {
@@ -799,6 +799,16 @@
       "count": 1,
       "last_seen": "2026-10-06",
       "is_fallback": false
+    },
+    "https://protocol-institute.org/sigs/mrg/2025-10-02-memory-research-group-session-memory-tools-and-spaced-r": {
+      "title": "Memory Research Group Session - Memory Tools and Spaced Repetition",
+      "url": "https://protocol-institute.org/sigs/mrg/2025-10-02-memory-research-group-session-memory-tools-and-spaced-r",
+      "source": "sig",
+      "author": "keikreutler",
+      "label": "MRG",
+      "count": 1,
+      "last_seen": "2026-10-07",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -862,8 +872,8 @@
       "name": "🕸️-memory-research-group",
       "display": "#🕸️-memory-research-group",
       "sig_display": "MRG",
-      "count": 4,
-      "last_seen": "2026-09-21"
+      "count": 5,
+      "last_seen": "2026-10-07"
     },
     "1082504762433490975": {
       "name": "👋-introductions",
