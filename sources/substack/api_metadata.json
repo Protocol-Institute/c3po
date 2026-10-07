@@ -1,5 +1,43 @@
 [
   {
+    "id": 215611241,
+    "slug": "where-the-stones-hold",
+    "title": "Where the Stones Hold",
+    "subtitle": "A dark origin story for a nursery rhyme everyone knows, set in King John’s London on the eve of the Great Fire",
+    "post_date": "2026-10-07T14:34:18.785Z",
+    "updated_at": "2026-10-07T14:37:50.552Z",
+    "type": "newsletter",
+    "wordcount": 3263,
+    "section_id": 333105,
+    "section_name": "Fictions",
+    "postTags": [
+      {
+        "id": "35b99fe6-b9db-48f8-8c94-232b7932b8f0",
+        "name": "Building and Burning Bridges",
+        "slug": "building-and-burning-bridges"
+      }
+    ],
+    "publishedBylines": [
+      {
+        "id": 361794398,
+        "name": "Kannen",
+        "handle": "strata12",
+        "bio": "-"
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 0,
+    "restacks": 0,
+    "comment_count": 0,
+    "previous_post_slug": "the-dismantling",
+    "next_post_slug": null
+  },
+  {
     "id": 208164270,
     "slug": "haikus-to-fly-by",
     "title": "Haikus to Fly By",
@@ -73,7 +111,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 27,
+    "reaction_count": 29,
     "restacks": 5,
     "comment_count": 0,
     "previous_post_slug": "how-the-protocol-institute-is-adopting",
@@ -217,7 +255,7 @@
     "restacks": 1,
     "comment_count": 0,
     "previous_post_slug": "carousel-feeding-in-the-asteroid",
-    "next_post_slug": null
+    "next_post_slug": "where-the-stones-hold"
   },
   {
     "id": 212053517,
@@ -421,7 +459,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 44,
+    "reaction_count": 45,
     "restacks": 10,
     "comment_count": 15,
     "previous_post_slug": "challenges-trivial-grand-and-whitehead",
@@ -1823,7 +1861,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 20,
+    "reaction_count": 21,
     "restacks": 8,
     "comment_count": 1,
     "previous_post_slug": null,
@@ -1866,7 +1904,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 26,
+    "reaction_count": 27,
     "restacks": 8,
     "comment_count": 4,
     "previous_post_slug": "the-color-of-safety",
