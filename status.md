@@ -1,4 +1,35 @@
-# C3PO — Status Log
+# PIBot — Status Log (internal name: c3po)
+
+## 2026-10-07 18:43-19:50 PT — C3PO becomes PIBot (session 58)
+
+**Session-start checks:** vectors 35,949 (+459 organic since session 57); Substack 1 new (`where-the-stones-hold`), no intro issues; cost $4.91 last 7 days / $36.65 all-time (VM log). Laptop fast-forwarded 96 daemon commits. New per-project key `ANTHROPIC_KEY_PIBOT` already in `c3po/.env`.
+
+**Name: PIBot** (display), `pibot` (slug). VGR decisions: keep the folder name and plumbing; **no "formerly C3PO" line anywhere in the persona**; move to the `pibot` subdomain and redirect the old one.
+- **Domain.** `pibot.protocolized.io` added as a second Worker custom domain (CF `workers/domains` API; the custom domains are not in `wrangler.toml`). `c3po.protocolized.io` redirects only **GET/HEAD with `Accept: text/html`** (301, path+query kept; `/mcp` excluded); API, MCP and webhook callers are still served there. Worker versions `7db09970` then `2c56a48f`.
+- **Worker (`d070ca9`).** Persona, UI, Terms, How It Works, Telegram alerts, MCP `serverInfo` -> PIBot; tool `ask_pibot` with `ask_c3po` dispatched as a hidden alias (stat keys `ask_c3po:*` unchanged for continuity). Security regex also matches `pibot worker/api/admin`. Etymology paragraph replaced. Probed: "What is PIBot?" answers coherently.
+- **Bot + callers.** `c3po_bot.py` copy and `WORKER_URL`, `publish_dashboard`, `sync_web_chats`, `generate_monitoring_page`, `sink_registry`, `probe_rerank` use the new host. VM pulled and `c3po-bot` restarted (first restart ran before the push landed, a `pull --rebase` refused by a dirty tree; redone).
+- **Discord.** Bot usernames changed over the API: `c3po#8369` -> `pibot#8369` (gateway, `ORACLE_BOT_TOKEN`), `c3po-listener` -> `pibot-listener` (`DISCORD_BOT_TOKEN`). **Application (console) names cannot be changed with a bot token** (PATCH returned the old name): VGR renames both apps in the Developer Portal (ids 1509294356694044722, 1506446934519320616) and sets the avatar.
+- **GitHub repo** `Protocol-Institute/c3po` -> **`pibot`**. First attempt was blocked by the auto-mode classifier; VGR switched the session to manual and it went through. Remotes updated on laptop and VM. Dry-run push proves nothing about write auth, so verified by the daemon's real push at 02:45 UTC (`8efa990`, on origin).
+- **Websites, merged:** website #18 (programs list, Humboldt blurb, pitch deck, migration `042_pibot_rename.sql`) and protocolized-website #7 (resources card). **042 applied to live D1** (`pi-members`): `projects` slug `c3po` now title PIBot, url `pibot.protocolized.io`. Slug stays `c3po`. `/programs` shows PIBot.
+- **Humboldt: not changed.** The old host still serves its API calls; switching is tidiness only.
+
+**Seen, not fixed / unverified:**
+- protocolized.io/resources still showed "Chat with C-3PO" after #7's "Deploy Worker" run succeeded (23s); the PR's Cloudflare Pages check sat at pending. Not diagnosed.
+- `worker.js` still links the old repo name in How It Works (redirects; fix on next deploy).
+- Bot's log line still reads `c3po#8369` until its next restart (cached from login).
+- Server nickname for the bot not checked.
+
+**Not done:** Substack follow-ups from the key rotation. Latest `sync-substack` run (15:15Z) predates the rotation; the 08:00 UTC run is the first real test of the rotated Actions secret (workflow now lives under `Protocol-Institute/pibot`). `.env.bak-2026-10-07` on the VM still holds the old key.
+
+**Open TODOs (priority order):**
+1. **VGR:** rename the two Discord apps in the Developer Portal + avatar; check the bot's server nickname.
+2. Confirm the 08:00 UTC `sync-substack` run is green under the renamed repo, then delete `c3po-vm:~/c3po/.env.bak-2026-10-07`.
+3. Find out why protocolized.io/resources still says C-3PO after #7.
+4. Symposium recordings (20 of 40 blocked by YouTube); VGR deferred this session.
+5. Reranker Phase 3; `pdfs` 1,000-char cap; daemon stranded-commit push check.
+6. VGR: `gh auth refresh -h github.com --remove-scopes delete_repo`; review/push `admin`; rotate the two PATs at the 2026-12-08 expiry (scoped to the repo ID, so they survived the rename).
+
+---
 
 ## 2026-10-05 14:25-15:25 PT — Intelligence Media SIG ingested; reranker shipped on every answer path (session 57)
 

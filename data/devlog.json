@@ -165,6 +165,37 @@
           "html": "Of the 21 symposium recordings left waiting last session, one came through (<em>Building Psychohistory</em>). YouTube still blocks caption requests from the laptop, so the other twenty wait for another network."
         }
       ]
+    },
+    {
+      "id": 58,
+      "sort_key": 58.0,
+      "label": "Session 58",
+      "title": "C3PO Becomes PIBot",
+      "date": "2026-10-07",
+      "time_pt": "18:43-19:50",
+      "tracks": [
+        "worker-api",
+        "operations"
+      ],
+      "costs_usd": {},
+      "vector_counts": {
+        "total": 35949
+      },
+      "deployed": true,
+      "items": [
+        {
+          "title": "A new name, and a new front door",
+          "html": "The assistant is now <strong>PIBot</strong>, at <code>pibot.protocolized.io</code>. The old address still works: a browser opening a page there is sent to the new one, while anything that calls the API or MCP server at the old address is answered as before, because a tool configured against it cannot be assumed to follow a redirect. The MCP tool is now <code>ask_pibot</code>, with the old name kept as a quiet alias."
+        },
+        {
+          "title": "What changed, and what deliberately didn't",
+          "html": "The persona, web pages, Terms, How It Works, alerts, Discord copy and handles, the MCP server name, the GitHub repository (<code>Protocol-Institute/pibot</code>) and the Institute's two websites all say PIBot. The plumbing keeps its old names, because renaming it buys nothing anyone can see and risks a lot: the Pinecone index, Worker, queue, VM and its services, environment variables. History is left as written, so the devlog and past conversations still say C3PO."
+        },
+        {
+          "title": "The block that wasn't a bug",
+          "html": "Renaming the repository was refused by the session's auto-mode safety classifier, and not retried by another route. Switching the session to manual approval let it through once it was confirmed. Afterwards the VM's repo-scoped tokens were checked the only way that proves anything: by waiting for the daemon's next real push, which landed."
+        }
+      ]
     }
   ]
 }
