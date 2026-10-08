@@ -1,5 +1,5 @@
 """
-Generate the C3PO Monitoring Dashboard page for protocol-institute.org.
+Generate the PIBot Monitoring Dashboard page for protocol-institute.org.
 
 Reads:
   - data/sync_log.json        — run history from all sync scripts
@@ -709,7 +709,7 @@ def build_page(log: dict, manifest: dict, registry: dict, bot_registry: dict) ->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>C3PO Monitoring Dashboard — Protocol Institute</title>
+  <title>PIBot Monitoring Dashboard — Protocol Institute</title>
   <link rel="stylesheet" href="assets/style.css">
   <style>
     .monitor-section {{ margin: 2.5rem 0; }}
@@ -742,7 +742,7 @@ def build_page(log: dict, manifest: dict, registry: dict, bot_registry: dict) ->
 <body>
 {nav_html()}
   <main class="page-content">
-    <h1>C3PO Monitoring Dashboard</h1>
+    <h1>PIBot Monitoring Dashboard</h1>
     <p class="meta-bar">
       Generated {generated}
       {('&nbsp;·&nbsp; Last run: ' + he(fmt_ts(last_run_ts))) if last_run_ts else ''}
@@ -770,7 +770,7 @@ def build_page(log: dict, manifest: dict, registry: dict, bot_registry: dict) ->
 
     <section class="monitor-section">
       <h2>Bot Nodes</h2>
-      <p>All C3PO bot processes — listener daemon, Discord gateway, and web interface.</p>
+      <p>All PIBot processes — listener daemon, Discord gateway, and web interface.</p>
 {bot_node_status(bot_registry)}
     </section>
 

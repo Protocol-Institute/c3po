@@ -1,18 +1,18 @@
-# C3PO — Architecture
+# PIBot — Architecture (internal name: c3po)
 
 > Last updated: 2026-06-08 (session 32)
 
-C3PO is the Protocol Institute's knowledge infrastructure: a multi-source corpus, a retrieval-augmented query engine, and a set of delivery interfaces. It is not a general chatbot; it is a research assistant that answers questions strictly within the PI corpus and cites its sources.
+PIBot (formerly C3PO) is the Protocol Institute's knowledge infrastructure: a multi-source corpus, a retrieval-augmented query engine, and a set of delivery interfaces. It is not a general chatbot; it is a research assistant that answers questions strictly within the PI corpus and cites its sources.
 
 This document covers current live state and planned future work in one place. For the phased build log, see `DEVLOG.md`. For per-session notes and open TODOs, see `status.md`.
 
 ---
 
-## What C3PO Is
+## What PIBot Is
 
-C3PO serves two audiences simultaneously:
+PIBot serves two audiences simultaneously:
 
-- **Web researchers** — anyone who visits `c3po.protocolized.io` and asks a question. Gets the full research-librarian voice: dense, source-specific, 3–5 paragraphs.
+- **Web researchers** — anyone who visits `pibot.protocolized.io` and asks a question. Gets the full research-librarian voice: dense, source-specific, 3–5 paragraphs.
 - **Discord members** — PI Discord community members who @mention the bot or use `/ask`. Gets an office-manager voice: 2–3 sentences, one named resource, direct.
 
 The same corpus and query engine powers both. The persona — system prompt — is what differs.
@@ -146,7 +146,7 @@ Discord gateway bot (discord.py, WebSocket). Launchd-managed with KeepAlive — 
 
 ### c3po_web
 
-Cloudflare Worker at `c3po.protocolized.io` (PI org account `7e8c7969b2464d23795c555bc6a32af8`). Stateless HTTP. All Worker routes:
+Cloudflare Worker at `pibot.protocolized.io` (PI org account `7e8c7969b2464d23795c555bc6a32af8`). Stateless HTTP. All Worker routes:
 
 | Route | Description |
 |-------|-------------|
@@ -297,7 +297,7 @@ The Discord bot passes `"context": "discord"` on every `call_worker()` call. The
 | **Cloudflare account** | PI org (`7e8c7969b2464d23795c555bc6a32af8`) — Worker, KV, Queue |
 | **Worker live URL** | `https://c3po.protocolized.io` (custom domain on protocolized.io zone) |
 | **Workers subdomain** | `c3po.team-7e8.workers.dev` |
-| **GitHub repo** | `Protocol-Institute/c3po` (transferred from `vgururao/c3po` 2026-05-31) |
+| **GitHub repo** | `Protocol-Institute/pibot` (renamed from `c3po` 2026-10-07; before that transferred from `vgururao/c3po` 2026-05-31) |
 | **Pinecone** | PI org account; index `c3po` at `c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` |
 | **Voyage AI** | PI org account; model `voyage-3` (1024d) |
 | **Discord bots** | `DISCORD_BOT_TOKEN` (listener/ingest) · `ORACLE_BOT_TOKEN` (oracle/query) |

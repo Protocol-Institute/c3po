@@ -1,14 +1,14 @@
-# C3PO — Protocol Institute Research Assistant
+# PIBot — Protocol Institute Research Assistant
 
 A RAG (retrieval-augmented generation) agent trained on the Protocol Institute's research corpus, to be deployed at or near `protocolized.io`.
 
-Named for C-3PO, the *Star Wars* protocol droid — explicitly described as "fluent in over six million forms of communication" and devoted to smooth inter-party protocol operation. (The briefing memo said Star Trek; it is in fact Star Wars. The name stands.)
+*(Called C3PO until October 2026. Internal names — the Pinecone index, Worker, VM units, env vars — still say `c3po`.)*
 
 ---
 
 ## What This Is
 
-C3PO is a research assistant that lets users query, synthesize, and explore the Protocol Institute's accumulated knowledge. It answers questions about protocol theory, surfaces connections across the research library, and cites its sources. It is not a chatbot and does not answer out-of-corpus questions.
+PIBot is a research assistant that lets users query, synthesize, and explore the Protocol Institute's accumulated knowledge. It answers questions about protocol theory, surfaces connections across the research library, and cites its sources. It is not a chatbot and does not answer out-of-corpus questions.
 
 The persona and voice are defined in `SOUL.md`.
 

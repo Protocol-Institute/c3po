@@ -1,9 +1,9 @@
-# CLAUDE.md — C3PO
+# CLAUDE.md — PIBot (internal name: c3po)
 
 > **Environment rules, keys & safety policies:** see [Code/CLAUDE.md](../../CLAUDE.md) — read before starting work.
 > **PI key registry & security policy:** see [`../admin/keys.md`](../admin/keys.md) and [`../admin/security.md`](../admin/security.md). Do not register PI keys in `Code/.env.keys`.
 
-RAG research assistant for the Protocol Institute corpus. Named for the Star Wars protocol droid.
+RAG research assistant for the Protocol Institute corpus. Renamed **PIBot** on 2026-10-07 (was C3PO). Identity surfaces (persona, web UI, Discord handles, MCP name, bot copy) say PIBot; the plumbing keeps its `c3po` names for historical reasons (Pinecone index, KV, queue, Worker name, VM, systemd units, env vars, laptop folder, bot ids) — see [`plans/rename.md`](plans/rename.md). History (devlog, `status.md`, `meta`/`transcripts` vectors) still says C3PO, correctly.
 
 > ## ⚠️ SECURITY INCIDENT — exposure removed, two steps still open
 >
@@ -31,7 +31,7 @@ RAG research assistant for the Protocol Institute corpus. Named for the Star War
 
 ## Project scope and factorization
 
-**C3PO is the AI backend.** Work here covers: Pinecone ingest pipelines, embedding, RAG query logic, the Cloudflare Worker API (`c3po.protocolized.io`), the Discord bot, and the ingest daemon.
+**C3PO is the AI backend.** Work here covers: Pinecone ingest pipelines, embedding, RAG query logic, the Cloudflare Worker API (`pibot.protocolized.io`), the Discord bot, and the ingest daemon.
 
 **Front-end website work belongs elsewhere:**
 - `protocol-institute/protocolized-website/` — protocolized.io (Hono + HTMX, D1, R2). Magazine posts, resource library, public-facing pages.
@@ -80,14 +80,14 @@ CLOUDFLARE_ACCOUNT_ID=7e8c7969b2464d23795c555bc6a32af8 \
 npx wrangler deploy
 ```
 
-Live URL: **`https://c3po.protocolized.io`** (custom domain on protocolized.io zone, migrated 2026-05-31).
+Live URL: **`https://pibot.protocolized.io`** (custom domain on protocolized.io zone). `c3po.protocolized.io` is the legacy host: browser page loads 301 to the new one, while API/MCP/POST callers keep being served there (the redirect gate is in `worker.js` `fetch`). MCP tool is `ask_pibot`; `ask_c3po` remains a hidden alias. Both domains are Worker custom domains in the PI CF account (added via the `workers/domains` API, not in `wrangler.toml`).
 Workers subdomain: `c3po.team-7e8.workers.dev`.
 
 Secrets on PI worker: `VOYAGE_API_KEY`, `PINECONE_API_KEY`, `PINECONE_C3PO_HOST`, `ANTHROPIC_API_KEY`, `ADMIN_KEY`, `MCP_API_KEY`, `DISCORD_BOT_TOKEN`, `ORACLE_BOT_TOKEN`, `ORACLE_APPLICATION_ID`, `ORACLE_PUBLIC_KEY`.
 
 ## Repo Ownership
 
-Repo: `Protocol-Institute/c3po` (transferred from `vgururao/c3po` 2026-05-31). **Public** since 2026-07-23.
+Repo: `Protocol-Institute/pibot` (renamed from `c3po` 2026-10-07; transferred from `vgururao/c3po` 2026-05-31; GitHub redirects the old name). **Public** since 2026-07-23.
 
 ## Pinecone Index (live)
 
@@ -148,6 +148,8 @@ D1's 100KB per-statement limit no longer caps it.
 
 ## At Session Start
 
+> **Base ritual:** [`Code/devops/rituals.md`](../../devops/rituals.md) (v1.0) is canonical: startup S1–S7, wrap-up W0–W7. The steps below are this project's **local mods** — they run in addition to the base, and the stricter step wins. Check this section against the base when you next edit it; `Code/devops/rituals-survey.md` lists the common gaps (`date`, security sweep W3, cross-project items S4, a wrap-up report keyed to step IDs).
+
 1. Read `status.md` — open questions, blockers, previous session end state.
 2. Check Pinecone vector counts:
    ```bash
@@ -199,3 +201,9 @@ D1's 100KB per-statement limit no longer caps it.
 
 **Checklist report (always last):**
 7. Print checklist with ✅/⚠️/n/a per item and one sentence on each.
+
+## Anthropic API key (changed 2026-10-07)
+
+c3po (being renamed pibot) now has its own key: `ANTHROPIC_KEY_PIBOT` in `protocol-institute/.env.keys` — service account `pibot`, Developer role, scoped to the PI workspace. `c3po/.env` already carries it as `ANTHROPIC_API_KEY`. **Rotated 2026-10-07:** the c3po API Worker secret (verified with a live `/query`), `c3po-vm.exe.xyz:/home/exedev/c3po/.env` (daemon + bot restarted; a backup `.env.bak-2026-10-07` holding the old key is still on the VM — delete it once confirmed), and the GitHub Actions secret `ANTHROPIC_API_KEY` (not yet exercised by a workflow run). Spend is attributable per key in the Console; `data/cost_log.jsonl` remains the local record. Plan: `Code/anthropic-key-plan.md`. Do not copy the old shared key into new files.
+
+**Follow-ups for the next session here:** (1) confirm the next scheduled `sync-substack` run (daily 08:00 UTC) is green — it is the first to use the rotated GitHub Actions secret (`gh run list --repo Protocol-Institute/c3po --workflow sync-substack.yml`); (2) delete `c3po-vm:/home/exedev/c3po/.env.bak-2026-10-07` (holds the old shared key) once that run passes; (3) c3po is being renamed pibot — when it is, rename the Worker secret/registry rows but keep key name `pibot`; (4) `data/cost_log.jsonl` records only input/output tokens, not cache read/write — add `cache_creation_input_tokens`/`cache_read_input_tokens` if prompt caching is extended to ingest (see `Code/anthropic-key-plan.md` §4).
