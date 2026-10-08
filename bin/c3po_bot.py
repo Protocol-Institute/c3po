@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-C3PO Discord bot — mention-based RAG interface.
+PIBot Discord bot — mention-based RAG interface.
 
-Mention @c3po with a question; the bot opens a thread and replies.
+Mention @pibot with a question; the bot opens a thread and replies.
 Continues responding in bot-created threads for up to MAX_THREAD_TURNS turns.
 Monitors #introductions for new member introductions.
 
@@ -47,7 +47,7 @@ BOT_ID       = "c3po_bot"
 SESSION_LOG  = Path.home() / "Library" / "Logs" / "c3po" / "bot_sessions.jsonl"
 SPOOL_DIR    = C3PO_DIR / "data" / "spool" / "bot_conversations"
 
-WORKER_URL    = "https://c3po.protocolized.io/query"
+WORKER_URL    = "https://pibot.protocolized.io/query"
 BOT_TOKEN     = os.environ["ORACLE_BOT_TOKEN"]
 MAX_QUERY_LEN = 500
 MAX_MSG_LEN   = 2000
@@ -364,7 +364,7 @@ async def handle_thread_reply(message: discord.Message) -> None:
         if not already_capped:
             await thread.send(
                 f"We've reached the {MAX_THREAD_TURNS}-turn limit for this thread. "
-                "For a longer conversation, use the web interface: https://c3po.protocolized.io"
+                "For a longer conversation, use the web interface: https://pibot.protocolized.io"
             )
         return
 
@@ -882,7 +882,7 @@ GREETINGS = {"", "hey", "hi", "hello", "yo", "sup", "hiya", "howdy", "greetings"
 
 @client.event
 async def on_ready():
-    log.info(f"C3PO bot ready — {client.user} (id={client.user.id})")
+    log.info(f"PIBot bot ready — {client.user} (id={client.user.id})")
     log_session({"event": "startup", "ts": _ts(), "user": str(client.user), "user_id": client.user.id})
     if INTRODUCTIONS_CHANNEL_ID:
         try:
@@ -954,9 +954,9 @@ async def on_message(message: discord.Message):
 
     if query.lower() in GREETINGS:
         await message.reply(
-            "Hi, I'm c3po, the Protocol Institute oracle. Ask me about anything in our archives. "
+            "Hi, I'm PIBot, the Protocol Institute oracle. Ask me about anything in our archives. "
             "We can have short exchanges here, but for extended chat use the web interface: "
-            "https://c3po.protocolized.io",
+            "https://pibot.protocolized.io",
             mention_author=False,
         )
         return
@@ -1027,5 +1027,5 @@ async def on_message(message: discord.Message):
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    log.info("Starting C3PO bot…")
+    log.info("Starting PIBot bot…")
     client.run(BOT_TOKEN)

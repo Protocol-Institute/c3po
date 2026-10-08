@@ -26,7 +26,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 DATA_DIR     = Path(__file__).parent.parent / "data"
 MEETINGS_DIR = DATA_DIR / "sigs" / "meetings"
 LOG_PATH     = DATA_DIR / "sync_log.json"
-WORKER_URL   = "https://c3po.protocolized.io"
+WORKER_URL   = "https://pibot.protocolized.io"
 
 NAMESPACE_DESCRIPTIONS = {
     "discord_links": "External URLs shared in Discord, fetched and relevance-scored",

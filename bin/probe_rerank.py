@@ -30,7 +30,7 @@ from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
-MCP_URL    = "https://c3po.protocolized.io/mcp"
+MCP_URL    = "https://pibot.protocolized.io/mcp"
 RERANK_URL = "https://api.voyageai.com/v1/rerank"
 DOC_CHARS  = 2000   # match the worker's rerank document length
 POOL       = 20     # search_corpus maximum

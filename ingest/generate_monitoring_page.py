@@ -39,7 +39,7 @@ COST_LOG_PATH    = DATA_DIR / "cost_log.jsonl"
 BOT_SESSION_LOG  = Path.home() / "Library" / "Logs" / "c3po" / "bot_sessions.jsonl"
 OUT_PATH     = Path(__file__).parent.parent / "monitoring.html"
 
-WORKER_STATS_URL    = "https://c3po.protocolized.io/stats"
+WORKER_STATS_URL    = "https://pibot.protocolized.io/stats"
 WORKER_LAUNCHED     = "2026-05-15"   # Worker first deployed
 DISCORD_BOT_STARTED = "2026-05-27"   # Bot went live (session 21)
 COST_TRACKING_DATE  = "2026-06-25"   # cost_log.jsonl started recording

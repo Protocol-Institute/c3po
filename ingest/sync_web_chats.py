@@ -33,7 +33,7 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 
 import os
 
-WORKER_BASE = "https://c3po.protocolized.io"
+WORKER_BASE = "https://pibot.protocolized.io"
 NAMESPACE   = "transcripts"
 STATE_PATH  = Path(__file__).parent.parent / "data" / "web_chats_state.json"
 SLEEP_SECS  = 0.3
