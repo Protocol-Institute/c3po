@@ -21,6 +21,8 @@
 
 **Not done:** Substack follow-ups from the key rotation. Latest `sync-substack` run (15:15Z) predates the rotation; the 08:00 UTC run is the first real test of the rotated Actions secret (workflow now lives under `Protocol-Institute/pibot`). `.env.bak-2026-10-07` on the VM still holds the old key.
 
+**Follow-up 2026-10-09 13:53 PT:** VGR renamed both Discord apps in the portal; confirmed over the API (apps and bot users are `pibot` / `pibot-listener`). `sync-substack` ran green on 10-08 and 10-09 under `Protocol-Institute/pibot`, so the rotated Actions secret works; `c3po-vm:~/c3po/.env.bak-2026-10-07` (old shared key) **deleted**. The stale "C-3PO" card on protocolized.io/resources was because that page is rendered by `worker/src/html/resources.tsx`, not the Astro file #7 changed: **protocolized-website PR #8** fixes it (open, unmerged). Still open: merge #8; server nickname unchecked; remaining TODOs below are unchanged minus items 1-2.
+
 **Open TODOs (priority order):**
 1. **VGR:** rename the two Discord apps in the Developer Portal + avatar; check the bot's server nickname.
 2. Confirm the 08:00 UTC `sync-substack` run is green under the renamed repo, then delete `c3po-vm:~/c3po/.env.bak-2026-10-07`.
