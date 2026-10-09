@@ -25,6 +25,8 @@
 
 **Recordings, 2026-10-09 ~16:00 PT:** YouTube no longer blocks the laptop. `sync_symposium_videos.py` embedded **18 more recordings** (20 of 40 were in; now 38 of 40), `symposium` 714 -> **953** vectors, total **36,413**. **2 still wait** (Closing Session, Open Mic: Frontier Pacing Protocols: no captions/enrichment yet; re-run later). `sources/youtube/enriched_meta.json` + `video_meta.json` committed so the VM's resource sync publishes them (website PR #6 is merged, dates fall back to talk day).
 
+**Self-history, 2026-10-09:** the bot already answered rename questions via the session-58 devlog vector, but in the third person, and "tell me about your history" retrieved nothing from `meta`. Added `config/self_history.md` (first-person, hand-written; launch 14 May 2026, Worker/UI 15-16 May, PI account 31 May, backronym per the Protocolized essay, rename **7 Oct** with Discord handles **9 Oct**, and VGR's reason: a fan-homage name is wrong for organizational production infrastructure) embedded as one `meta` vector `devlog__self_history` by `sync_devlog.py`; worker labels it "ABOUT PIBOT" (version `29521bb0`). Live: "what were you called before / where did your name come from" now answer in the first person with the dates and reason. The open-ended "tell me about your own history" still leads with the Institute's lineage (Summer of Protocols), not the self-history vector. Edit `config/self_history.md` and rerun `sync_devlog.py` to change it.
+
 **Open TODOs (priority order):**
 1. **VGR:** rename the two Discord apps in the Developer Portal + avatar; check the bot's server nickname.
 2. Confirm the 08:00 UTC `sync-substack` run is green under the renamed repo, then delete `c3po-vm:~/c3po/.env.bak-2026-10-07`.

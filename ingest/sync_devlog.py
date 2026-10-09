@@ -30,6 +30,7 @@ from devlog_store import load_devlog, session_anchor
 load_dotenv(Path(__file__).parent.parent / ".env")
 
 STATE_PATH   = Path(__file__).parent.parent / "data" / "devlog_state.json"
+SELF_HISTORY = Path(__file__).parent.parent / "config" / "self_history.md"
 NAMESPACE    = "meta"
 PUBLIC_URL   = "https://protocolized.io/resources/c3po-devlog"
 
@@ -103,6 +104,29 @@ def session_meta(s: dict, text: str) -> dict:
     }
 
 
+def self_history_entry():
+    """The bot's first-person account of itself, as one `meta` vector.
+
+    Hand-written (config/self_history.md), not derived from the devlog, so it
+    answers "tell me about yourself / what were you called" in the first person.
+    Stored in full: it is short, and the 1000-char cap above would cut it."""
+    if not SELF_HISTORY.exists():
+        return None
+    text = SELF_HISTORY.read_text().strip()
+    meta = {
+        "source":        "devlog",
+        "chunk_type":    "self_history",
+        "session_id":    0,
+        "session_label": "",
+        "title":         "About PIBot (earlier named C3PO)",
+        "date":          "2026-10-07",
+        "tracks":        "",
+        "url":           PUBLIC_URL,
+        "text":          text,
+    }
+    return ("devlog__self_history", f"About PIBot, its history and its earlier name C3PO\n\n{text}", meta, "self_history", content_hash(text))
+
+
 def content_hash(text: str) -> str:
     return hashlib.sha256(text.encode()).hexdigest()[:16]
 
@@ -145,6 +169,10 @@ def main():
 
         meta = session_meta(s, text)
         to_upsert.append((f"devlog__session_{sid}", text, meta, sid, h))
+
+    entry = self_history_entry()
+    if entry and (args.force or state.get(entry[3]) != entry[4]):
+        to_upsert.append(entry)
 
     print(f"Devlog: {len(sessions)} sessions — {len(to_upsert)} to embed, {skipped} unchanged")
 

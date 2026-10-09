@@ -741,7 +741,8 @@ function normalizeDevlog(match) {
     source:        "devlog",
     score:         match.score,
     type:          "devlog_session",
-    label:         "PIBOT DEVLOG",
+    label:         m.chunk_type === "self_history" ? "ABOUT PIBOT" : "PIBOT DEVLOG",
+    self_history:  m.chunk_type === "self_history",
     title:         m.title || "PIBot Build Log",
     authors:       [],
     primary_author: "Protocol Institute",
@@ -1111,7 +1112,9 @@ function buildContextBlock(items) {
       label = `[PROTOCOL SYMPOSIUM 2026 ${kind} — "${item.title}"${who}${when}]`;
     } else if (item.source === "devlog") {
       const sessionLabel = item.session_label ? ` — ${item.session_label}` : "";
-      label = `[PIBOT DEVLOG${sessionLabel}${item.date ? " — " + item.date : ""}]`;
+      label = item.self_history
+        ? `[ABOUT PIBOT — your own history, in your own voice]`
+        : `[PIBOT DEVLOG${sessionLabel}${item.date ? " — " + item.date : ""}]`;
     } else {
       const coll = item.collection ? ` — ${item.collection}` : "";
       label = `[${item.label} — "${item.title}" — ${authors}${item.date ? " — " + item.date : ""}${coll}]`;
