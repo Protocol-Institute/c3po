@@ -851,25 +851,16 @@ const PROGRAMME_WORD_RE = /\b(talks?|sessions?|workshops?|schedule|programme|age
 const EVENT_DATE_RE = /\b(2026-09-2[1-5]|sept(?:ember)?\s*2[1-5]\b|9\/2[1-5]\b|2[1-5](?:st|nd|rd|th)\s+of\s+sept)/i;
 const RELATIVE_DAY_RE = /\b(today|tonight|tomorrow|this week|right now|this morning|this afternoon|this evening|currently|happening now)\b/i;
 
-// Sept 21-25 2026 inclusive, in UTC — the programme's own unit.
-const EVENT_FIRST_DAY = Date.UTC(2026, 8, 21);
-const EVENT_LAST_DAY  = Date.UTC(2026, 8, 26);   // exclusive
-
-function duringEvent(now) {
-  const t = now.getTime();
-  return t >= EVENT_FIRST_DAY && t < EVENT_LAST_DAY;
-}
-
 // Scoped queries lose the other namespaces, so the programme gets the retrieval
 // budget the whole corpus used to share.
 const TOP_K_SYMPOSIUM_SCOPED = 12;
 
-function symposiumScope(query, now = new Date()) {
+function symposiumScope(query, symposiumLive = false) {
   const q = String(query || "");
   const years = q.match(new RegExp(SYMPOSIUM_OTHER_YEAR_RE, "g")) || [];
   const otherYear = years.length > 0 && !years.includes(SYMPOSIUM_THIS_YEAR);
   const aboutTheProgramme = PROGRAMME_WORD_RE.test(q) &&
-    (EVENT_DATE_RE.test(q) || (duringEvent(now) && RELATIVE_DAY_RE.test(q)));
+    (EVENT_DATE_RE.test(q) || (symposiumLive && RELATIVE_DAY_RE.test(q)));
   const scoped = (SYMPOSIUM_RE.test(q) || aboutTheProgramme) && !otherYear;
   if (!scoped) return { scoped: false, crossCorpus: false, workshops: false, k: TOP_K_EACH };
   return {
@@ -1134,7 +1125,7 @@ const EVENT_NOUN_RE = /\b(events?|meetings?|calls?|sessions?|workshops?|symposi(
 const EVENT_TIME_RE = /\b(next|upcoming|coming up|when|schedule[ds]?|calendar|this (?:week|month|year|fall|autumn)|last (?:week|month|year)|tomorrow|tonight|today|later|soon|since|happening|on now|what'?s on|recent(?:ly)?|past|previous|ran|run|held)\b/i;
 // Forward-looking phrases that are about events even without an event noun
 // ("what is coming up at the Institute?").
-const EVENT_STRONG_RE = /\b(coming up|upcoming|what'?s next|next (?:week|month)|happening (?:soon|next|this)|on the calendar|later this (?:year|month))\b/i;
+const EVENT_STRONG_RE = /\b(coming up|upcoming|what'?s next|what'?s on|(?:on|happening) (?:today|tonight|tomorrow|this week)|next (?:week|month)|happening (?:soon|next|this)|on the calendar|later this (?:year|month))\b/i;
 const EVENT_SIG_KEYS = ["SIGFPT", "MRG", "SIGPfB", "ProtFiSIG", "SIGPSY", "DRG", "PRG"];
 const EVENT_SIG_NAMES = { SIGFPT: "SIGFPT (Formal Protocol Theory)", MRG: "MRG (Memory Research Group)", SIGPfB: "SIGPfB (Protocols for Business)", ProtFiSIG: "ProtFiSIG (Protocol Fiction)", SIGPSY: "SIGPSY (Psychohistory)", DRG: "DRG (Distributed Robotics Group)", PRG: "PRG (Personhood Research Group)" };
 const EVENT_SERIES_NAMES = { "new-nature-live": "LIVE: New Nature episodes", "stigmergy-call": "Stigmergy workshop coordination call", "ai-kitkraft": "AI KitKraft workshop" };
@@ -1191,17 +1182,111 @@ function eventsDigest(reg, question, now = new Date()) {
     cal.push(`- ${name}: ${upcoming.length ? "next " + upcoming.join("; ") : "no upcoming occurrence listed"}${last ? "; most recent " + eventWhen(last) : ""}`);
   }
 
+  // Anything in progress or starting in the next 36 hours, so "what's on today?" is a lookup.
+  const soon = evs.filter(e => e.kind === "calendar" && eventDay(e.end) >= nowMs && eventDay(e.start) < nowMs + 36 * 3600 * 1000)
+                  .sort((a, b) => eventDay(a.start) - eventDay(b.start)).slice(0, 8)
+                  .map(e => `- ${e.title} — ${eventWhen(e)} (${eventState(e, nowMs)})`);
+
   let out = "KNOWN EVENTS (from the Institute's website calendars, read " + (reg.generated || "recently") + "). Use these for when/what questions. State times as given (UTC). Never invite anyone to attend; never invent an event or time that is not listed here.\n"
           + "Major events:\n" + lines.join("\n");
+  if (soon.length) out += "\nHappening now or within 36 hours:\n" + soon.join("\n");
   if (cal.length) out += "\nCalendar series:\n" + cal.join("\n");
-  return out.slice(0, 3500);
+  return out.slice(0, 3800);
 }
 
-async function eventsContext(env, question) {
+// ── Live-event window (plans/event-awareness.md section 5, Phase F) ────────────
+// A significant event ("major" in the registry) is in its window from
+// `lead_days` before it starts to `tail_days` after it ends (defaults 14 / 3,
+// per-event overrides come from the registry). The worker computes the phase and
+// day count itself, so the model never does date arithmetic.
+const EVENT_DEFAULT_LEAD_DAYS = 14;
+const EVENT_DEFAULT_TAIL_DAYS = 3;
+const EVENT_OPEN_ENDED_RE = /\b(what'?s (?:going on|new|happening|up)|what is (?:going on|new|happening)|anything (?:happening|new|on|going on)|what can you do|what are you|what is the institute (?:up to|doing)|catch me up)\b/i;
+
+async function loadEventsRegistry(env) {
   try {
-    const reg = env.RATE_LIMIT ? await env.RATE_LIMIT.get("events:registry", "json") : null;
-    const d = eventsDigest(reg, question);
-    return d ? "\n\n" + d : "";
+    return env.RATE_LIMIT ? await env.RATE_LIMIT.get("events:registry", { type: "json", cacheTtl: 60 }) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// The time this request should treat as "now". `?now=` is honoured only with the
+// admin key, so probes can replay a day inside an event window; everyone else
+// gets the real clock.
+function requestNow(request, env) {
+  try {
+    const raw = new URL(request.url).searchParams.get("now");
+    if (raw && isAdmin(request, env)) {
+      const t = Date.parse(raw);
+      if (!isNaN(t)) return new Date(t);
+    }
+  } catch (e) { /* fall through */ }
+  return new Date();
+}
+
+function liveEvents(reg, now = new Date()) {
+  const nowMs = now.getTime();
+  const out = [];
+  for (const e of (reg && Array.isArray(reg.events) ? reg.events : [])) {
+    if (e.kind !== "history" || e.significance !== "major") continue;
+    const start = eventDay(e.start);
+    const end   = e.all_day ? eventDay(e.end) + DAY_MS : eventDay(e.end);
+    const lead  = (e.lead_days ?? EVENT_DEFAULT_LEAD_DAYS) * DAY_MS;
+    const tail  = (e.tail_days ?? EVENT_DEFAULT_TAIL_DAYS) * DAY_MS;
+    if (nowMs < start - lead || nowMs >= end + tail) continue;
+    const phase = nowMs < start ? "upcoming" : nowMs < end ? "live" : "ended";
+    const day   = phase === "live" ? Math.floor((nowMs - start) / DAY_MS) + 1 : 0;
+    const days  = Math.max(1, Math.round((end - start) / DAY_MS));
+    out.push({ event: e, phase, day, days });
+  }
+  return out;
+}
+
+// Whether an event whose archive lives in the `symposium` namespace is running.
+// Replaces the hard-coded Sept 21-25 2026 window of session 55.
+function symposiumIsLive(reg, now) {
+  return liveEvents(reg, now).some(x => x.phase === "live" && x.event.archive_namespace === "symposium");
+}
+
+function liveEventLine(x, nowMs) {
+  const e = x.event;
+  const state = x.phase === "live" ? `running now, day ${x.day} of ${x.days}`
+    : x.phase === "upcoming" ? eventState(e, nowMs)
+    : eventState(e, nowMs);
+  const where = e.location ? ` (${eventWhen(e)}; ${e.location})` : ` (${eventWhen(e)})`;
+  return `- ${e.title}: ${state}${where}. ${(e.description || "").slice(0, 280)}${e.url ? " " + e.url : ""}`;
+}
+
+// Returns "" unless the question warrants it: it names a live-window event, it
+// asks about "today"/"this week"/"what's on" in programme terms while an event is
+// actually running, or it is open-ended about the Institute (then one ambient line).
+function liveEventBlock(reg, question, now = new Date()) {
+  const live = liveEvents(reg, now);
+  if (!live.length) return "";
+  const nowMs = now.getTime();
+  const norm = t => " " + String(t || "").toLowerCase().replace(/[^a-z0-9' ]+/g, " ").replace(/\s+/g, " ").trim() + " ";
+  const q = norm(question);
+  const named = live.filter(x => (x.event.aliases || []).some(a => q.includes(norm(a))));
+  const running = live.filter(x => x.phase === "live");
+  const relative = RELATIVE_DAY_RE.test(question) && PROGRAMME_WORD_RE.test(question) && running.length ? running : [];
+  const picked = [...new Set([...named, ...relative])];
+  if (picked.length) {
+    return "LIVE EVENT (computed from the Institute's calendar and the current time above). The question concerns this event; state these facts as given, do not do date arithmetic, and do not invite anyone to attend:\n"
+      + picked.map(x => liveEventLine(x, nowMs)).join("\n");
+  }
+  if (EVENT_OPEN_ENDED_RE.test(question)) {
+    return "EVENT NEARBY (computed from the Institute's calendar). If it fits naturally, you may mention it in one sentence as a fact; do not invite anyone to attend:\n"
+      + live.map(x => liveEventLine(x, nowMs)).join("\n");
+  }
+  return "";
+}
+
+async function eventsContext(env, question, now = new Date(), reg = undefined) {
+  try {
+    if (reg === undefined) reg = await loadEventsRegistry(env);
+    const parts = [liveEventBlock(reg, question, now), eventsDigest(reg, question, now)].filter(Boolean);
+    return parts.length ? "\n\n" + parts.join("\n\n") : "";
   } catch (e) {
     return "";
   }
@@ -1214,8 +1299,7 @@ async function eventsContext(env, question) {
 // A Worker's clock is accurate wall-clock time and always UTC. (Cloudflare freezes
 // Date.now() during synchronous execution as a timing-attack mitigation, so it
 // advances only across I/O — irrelevant at minute granularity.)
-function currentTimeLine() {
-  const now = new Date();
+function currentTimeLine(now = new Date()) {
   const day = now.toLocaleDateString("en-US", {
     weekday: "long", year: "numeric", month: "long", day: "numeric", timeZone: "UTC",
   });
@@ -1331,11 +1415,12 @@ CURRENT DATE AND TIME:
 Each question is prefixed with the current date and time in UTC. Use it whenever recency or ordering matters — which of two things came first, whether something is upcoming or past, how old a source is. Do not guess the date from the corpus; the excerpts are historical and say nothing about today.
 Compare a dated item against that timestamp before you describe it, and write it in one tense. Do not open with a tense you then correct mid-sentence.
 
-PROTOCOL SYMPOSIUM 2026:
-The Protocol Institute's annual convening, September 21-25 2026, fully virtual, on the theme of New Nature. Workshops run September 21-22; talks September 23-25, roughly 15:00-23:00 UTC daily. Programme excerpts are labelled PROTOCOL SYMPOSIUM 2026.
-- When recommending sessions someone could attend, prefer ones that have not yet happened relative to the current time given with the question. Sessions that have already run are still worth discussing, citing and connecting to other work — the restriction is on recommending them as things to go to, not on talking about them.
-- Where the programme gives a session no exact time, say which block it sits in rather than inventing one.
-- You are not a scheduling assistant. Answer about the programme's content, themes and connections; do not attempt precise agenda arithmetic or timezone conversion.
+EVENT CONTEXT:
+The user message may carry a KNOWN EVENTS list, a LIVE EVENT block or an EVENT NEARBY line. They come from the Institute's calendar and are facts; the current time is given beside them. Excerpts from the Protocol Symposium 2026 programme are labelled PROTOCOL SYMPOSIUM 2026.
+- State the facts as given. Do not do date arithmetic or timezone conversion yourself, and never invent an event, date or time that is not listed.
+- Never invite anyone to attend or sign up. Giving a time is a fact; "join us" is not.
+- When recommending something someone could attend, prefer what has not yet happened relative to the current time. Things that have already happened are still worth discussing, citing and connecting to other work: the restriction is on recommending them as things to go to.
+- Where a session has no exact time, say which block it sits in rather than inventing one. You are not a scheduling assistant.
 
 CORPUS CONTEXT: The retrieved excerpts are from the Protocol Institute archive (research papers and essays, YouTube talks, Protocolized magazine articles, and externally cited references). Cite specific papers, authors, or talks when drawing on them.
 
@@ -3710,7 +3795,9 @@ async function runMcpAsk(args, env, ctx) {
   const vec = await embed(question, env.VOYAGE_API_KEY);
 
   // Same scoping as POST /query — MCP callers ask the same questions.
-  const scope2    = symposiumScope(question);
+  const now2      = new Date();
+  const reg2      = await loadEventsRegistry(env);
+  const scope2    = symposiumScope(question, symposiumIsLive(reg2, now2));
   const skipRest2 = scopedOut(scope2);
   const none2     = Promise.resolve([]);
 
@@ -3773,7 +3860,7 @@ async function runMcpAsk(args, env, ctx) {
 
   const messages = [
     ...history.map(t => ({ role: t.role, content: t.content })),
-    { role: "user", content: `${currentTimeLine()}${await eventsContext(env, question)}\n\nQuestion: ${question}\n\nRelevant archive excerpts:\n\n${contextBlock}` },
+    { role: "user", content: `${currentTimeLine(now2)}${await eventsContext(env, question, now2, reg2)}\n\nQuestion: ${question}\n\nRelevant archive excerpts:\n\n${contextBlock}` },
   ];
 
   const claudeRes = await fetch(CLAUDE_URL, {
@@ -4020,7 +4107,9 @@ async function runRagQuery(query, env, ctx, opts = {}) {
 
   // A question that names the symposium is answered from the programme; the rest
   // of the corpus is skipped unless the question also reaches for prior work.
-  const scope    = symposiumScope(query);
+  const now      = opts.now || new Date();
+  const reg      = await loadEventsRegistry(env);
+  const scope    = symposiumScope(query, symposiumIsLive(reg, now));
   const skipRest = scopedOut(scope);
   const none     = Promise.resolve([]);
 
@@ -4153,7 +4242,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
       model:      CLAUDE_MODEL,
       max_tokens: maxTokens || parseInt(env.MAX_ANSWER_TOKENS || "2000"),
       system:     [{ type: "text", text: systemPrompt, cache_control: { type: "ephemeral" } }],
-      messages:   [...history, { role: "user", content: `${currentTimeLine()}${await eventsContext(env, query)}\n\nQuestion: ${query}\n\nRelevant corpus excerpts:\n\n${contextBlock}` }],
+      messages:   [...history, { role: "user", content: `${currentTimeLine(now)}${await eventsContext(env, query, now, reg)}\n\nQuestion: ${query}\n\nRelevant corpus excerpts:\n\n${contextBlock}` }],
     }),
   });
   if (!claudeRes.ok) throw new Error("Oracle service error");
@@ -4547,6 +4636,7 @@ export default {
         history,
         maxTokens: reqMaxTokens,
         context,
+        now: requestNow(request, env),
       });
       if (mode === "sources") return json({ sources, query, ...(degraded ? { degraded } : {}) }, 200, corsHeaders);
       ctx.waitUntil(logQuery(env, query, answer, sources, sessionId, turnNumber));

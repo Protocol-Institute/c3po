@@ -2,8 +2,15 @@
 
 **Status:** draft for VGR review (session 56, 2026-10-02). Nothing built. Session 58 (2026-10-09) added
 §5, *live-event context*, and Phase F, after the symposium became a historical event.
-**`bin/probe_event_scope.py` shipped 2026-10-09**: 19 saved cases (groups A-E) pass against the live worker; group F
-(clock-dependent, 6 cases) is written but skipped until the worker honours `?now=` (Phase F). Phase C must keep A-E green.
+**`bin/probe_event_scope.py` shipped 2026-10-09**: 25 saved cases (A-F) pass against the live worker; `--with-now`
+includes the six clock-dependent ones. Phase C must keep all of them green.
+**Phase F shipped 2026-10-09** (worker `2d037b55`): `liveEvents()` computes upcoming/live/ended from the registry
+(`significance: major`, lead 14 / tail 3 days, per-event override via `config/event_aliases.json` `windows`);
+`liveEventBlock()` adds `LIVE EVENT` / `EVENT NEARBY` to the user message under the §5 gate; admin-only `?now=`;
+the hard-coded Sept 21-25 window, `duringEvent()` and the symposium prompt block are gone (the prompt now has a
+generic `EVENT CONTEXT` block); `symposiumScope()` keeps only its name scoping and learns "the symposium is live"
+from the registry (`archive_namespace`). Found in testing and fixed: "what's on today?" had no event noun, so the
+calendar digest never fired; the digest now also lists anything running or starting within 36 hours.
 **Phase A shipped 2026-10-09** (registry, KV copy, digest in answers, daemon step). Deviation: the `events`
 namespace (one `event_overview` vector per event) is deferred to Phase C, because nothing queries it until
 `eventScope()` fans out across namespaces; the digest already carries each named event's description.
@@ -243,7 +250,7 @@ cache. Cost is negligible: ~150 tokens on the few questions that qualify.
 | **C** | `eventScope()` in the worker for tagged namespaces; retire `symposiumScope()` after the probe passes | B |
 | **D** | `event_id` for discord channels (reviewed list) and substack/pdfs (Sonnet + review queue) | B |
 | **E** | Explicit time-phrase → `ts` range filters | B |
-| **F** | Live-event context (§5): `significance` + window fields in the registry, the `LIVE EVENT` user-message block, generic `EVENT CONTEXT` prompt block, admin-only `?now=`, retire the dead symposium window code. Can ship right after A | A (registry + KV) |
+| **F** ✅ | Live-event context (§5): `significance` + window fields in the registry, the `LIVE EVENT` user-message block, generic `EVENT CONTEXT` prompt block, admin-only `?now=`, retire the dead symposium window code. Can ship right after A | A (registry + KV) |
 
 Each ingest script also learns to write both fields at ingest time, so new
 content arrives tagged. Phase B fixes only the backlog.

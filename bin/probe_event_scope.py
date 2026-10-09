@@ -119,14 +119,15 @@ CASES = [
          scoped_to={"symposium"}),                     # the session-55 behaviour, replayed
     dict(id="live-workshops", group="F", q="Which workshops are on right now?", now="2026-09-21T14:30:00Z",
          scoped_to={"symposium"}),
-    dict(id="quiet-day", group="F", q="What's on today?", now="2026-10-20T10:00:00Z",
-         answer_lacks=["running now"]),                # no significant event in a window
+    dict(id="quiet-day", group="F", q="What's on today?", now="2026-10-10T10:00:00Z",
+         answer_lacks=["running now"]),                # no significant event in a window (Oct 18 is the lead window of Book Writing Month)
     dict(id="lead-window", group="F", q="Is anything coming up soon?", now="2026-10-25T10:00:00Z",
          answer_has_any=["Book Writing Month"]),
     dict(id="live-bwm", group="F", q="What's on today?", now="2026-11-15T10:00:00Z",
          answer_has_any=["Book Writing Month"]),
     dict(id="sig-only-day", group="F", q="What's on today?", now="2026-10-22T10:00:00Z",
-         answer_lacks=["Symposium is running", "running now"]),   # a SIG call is not a significant event
+         answer_has_any=["SIGPSY", "Psychohistory"],              # today's SIG call is a fact worth stating
+         answer_lacks=["Symposium is running", "running now"]),   # but a SIG call is not a significant event
 ]
 
 

@@ -80,7 +80,7 @@ CLOUDFLARE_ACCOUNT_ID=7e8c7969b2464d23795c555bc6a32af8 \
 npx wrangler deploy
 ```
 
-Live URL: **`https://pibot.protocolized.io`** (custom domain on protocolized.io zone). `c3po.protocolized.io` is the legacy host: browser page loads 301 to the new one, while API/MCP/POST callers keep being served there (the redirect gate is in `worker.js` `fetch`). MCP tool is `ask_pibot`; `ask_c3po` remains a hidden alias. Both domains are Worker custom domains in the PI CF account (added via the `workers/domains` API, not in `wrangler.toml`).
+Live URL: **`https://pibot.protocolized.io`** (custom domain on protocolized.io zone). `c3po.protocolized.io` is the legacy host: browser page loads 301 to the new one, while API/MCP/POST callers keep being served there (the redirect gate is in `worker.js` `fetch`). MCP tool is `ask_pibot`; `ask_c3po` remains a hidden alias. The Worker takes an admin-only `?now=ISO` on `POST /query` (valid `X-Admin-Key` required; it also skips the per-IP rate limit) so `bin/probe_event_scope.py` can replay any day; event awareness (registry, `KNOWN EVENTS` digest, live-event window) is described in [`plans/event-awareness.md`](plans/event-awareness.md). Both domains are Worker custom domains in the PI CF account (added via the `workers/domains` API, not in `wrangler.toml`).
 Workers subdomain: `c3po.team-7e8.workers.dev`.
 
 Secrets on PI worker: `VOYAGE_API_KEY`, `PINECONE_API_KEY`, `PINECONE_C3PO_HOST`, `ANTHROPIC_API_KEY`, `ADMIN_KEY`, `MCP_API_KEY`, `DISCORD_BOT_TOKEN`, `ORACLE_BOT_TOKEN`, `ORACLE_APPLICATION_ID`, `ORACLE_PUBLIC_KEY`.

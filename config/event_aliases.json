@@ -1,5 +1,5 @@
 {
-  "_note": "Config for ingest/sync_events.py. sig_title_patterns: SIG key (as sig_display in channel_manifest) -> substring of a calendar event title. series_title_patterns: non-SIG recurring series. extra_aliases: history event id -> extra phrasings people use. significance: history event id -> 'major' (default) | 'ordinary'. Edit and rerun the script; nothing else to change.",
+  "_note": "Config for ingest/sync_events.py. sig_title_patterns: SIG key (as sig_display in channel_manifest) -> substring of a calendar event title. series_title_patterns: non-SIG recurring series. extra_aliases: history event id -> extra phrasings people use. significance: history event id -> 'major' (default) | 'ordinary'. Edit and rerun the script; nothing else to change. archive_namespace: history event id -> Pinecone namespace holding its programme (lets 'what's on today' scope to it while the event runs). windows: event id -> {lead_days, tail_days} overriding the worker defaults (14 / 3).",
   "sig_title_patterns": {
     "SIGFPT": "SIGFPT",
     "MRG": "SIGMRG",
@@ -28,5 +28,9 @@
       "ps24"
     ]
   },
-  "significance": {}
+  "significance": {},
+  "archive_namespace": {
+    "protocol-symposium-2026": "symposium"
+  },
+  "windows": {}
 }
