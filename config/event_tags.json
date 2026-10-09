@@ -1,0 +1,7 @@
+{
+  "_note": "Rules for ingest/event_tags.py. namespace_events: every vector in the namespace belongs to this event. series_events: `videos` series -> event. channel_events: Discord channel id or name -> event (reviewed list, empty until Phase D). sig_events: tag SIG chunks with sig:<sig_display>, the same key the calendar series use.",
+  "namespace_events": {"symposium": "protocol-symposium-2026"},
+  "series_events": {"symposium-2024": "protocol-symposium-2024"},
+  "channel_events": {},
+  "sig_events": true
+}

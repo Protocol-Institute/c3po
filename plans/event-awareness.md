@@ -4,6 +4,13 @@
 §5, *live-event context*, and Phase F, after the symposium became a historical event.
 **`bin/probe_event_scope.py` shipped 2026-10-09**: 25 saved cases (A-F) pass against the live worker; `--with-now`
 includes the six clock-dependent ones. Phase C must keep all of them green.
+**Phase B shipped 2026-10-09**: `ts_unix` on 18,217 vectors and `event_id` on 10,213, written with `update(filter=…)`
+and per-id updates, no re-embedding (rules in `ingest/event_tags.py` + `config/event_tags.json`; backfill
+`bin/backfill_event_tags.py`; new vectors are tagged at the `_GuardedIndex.upsert` choke point). Verified in the index:
+range filters on `ts_unix` work. Not tagged, deliberately: `videos` (flat-playlist upload dates are "NA", so no
+date; 199 carry `event_id` for the 2024 symposium), `discord_links` (hashed ids, only a fetch_date), `definitions`,
+`bibliography`, `discord_guide`, 51 Substack author/collection cards, 2 PDF chunks, 6 symposium overview/workshop
+chunks. `event_id` for Discord channels, Substack and PDFs is Phase D.
 **Phase F shipped 2026-10-09** (worker `2d037b55`): `liveEvents()` computes upcoming/live/ended from the registry
 (`significance: major`, lead 14 / tail 3 days, per-event override via `config/event_aliases.json` `windows`);
 `liveEventBlock()` adds `LIVE EVENT` / `EVENT NEARBY` to the user message under the §5 gate; admin-only `?now=`;
@@ -119,7 +126,7 @@ Two metadata fields, added with Pinecone `update(set_metadata=…)`. That means
 
 - `event_id` — the registry id, or a list when an item belongs to more than
   one event (a recap that compares two symposia).
-- `ts` — Unix seconds for the item's own date, normalized from the four
+- `ts_unix` — (named `ts_unix`, not `ts`: `transcripts` already stores an ISO string as `ts`) Unix seconds for the item's own date, normalized from the four
   current field names. The videos get one from their upload date (the
   symposium recordings use the talk date).
 
@@ -147,7 +154,7 @@ post.
   querying one namespace. "What came out of the 2024 symposium?" then gets the
   2024 salons (videos), recap posts (substack) and session chatter (discord)
   together, which the namespace-based scope could never do.
-- Time phrases ("since June", "last month") become a `ts` range filter, **only
+- Time phrases ("since June", "last month") become a `ts_unix` range filter, **only
   when the phrase is explicit**. Default retrieval stays unfiltered by date.
 - The list-question pinning from session 55 generalizes: "what workshops ran
   at X?" pins that event's records by `chunk_type`.
@@ -246,17 +253,17 @@ cache. Cost is negligible: ~150 tokens on the few questions that qualify.
 | Phase | What | Depends on |
 |---|---|---|
 | **A** | `sync_events.py` registry + `events` namespace + KV copy; digest injection in the worker | nothing; the website data is live |
-| **B** | `ts` backfill on all namespaces; `event_id` on the deterministic namespaces (symposium, videos, sig) | A |
+| **B** ✅ | `ts_unix` backfill on all namespaces; `event_id` on the deterministic namespaces (symposium, videos, sig) | A |
 | **C** | `eventScope()` in the worker for tagged namespaces; retire `symposiumScope()` after the probe passes | B |
 | **D** | `event_id` for discord channels (reviewed list) and substack/pdfs (Sonnet + review queue) | B |
-| **E** | Explicit time-phrase → `ts` range filters | B |
+| **E** | Explicit time-phrase → `ts_unix` range filters | B |
 | **F** ✅ | Live-event context (§5): `significance` + window fields in the registry, the `LIVE EVENT` user-message block, generic `EVENT CONTEXT` prompt block, admin-only `?now=`, retire the dead symposium window code. Can ship right after A | A (registry + KV) |
 
 Each ingest script also learns to write both fields at ingest time, so new
 content arrives tagged. Phase B fixes only the backlog.
 
 **Cost:** metadata updates are write units only. That's about 35K vectors once
-for `ts`, and far fewer for `event_id`. Phase D's Sonnet pass covers only the
+for `ts_unix`, and far fewer for `event_id`. Phase D's Sonnet pass covers only the
 date-window candidates, likely a few hundred posts and papers, a few dollars.
 
 ---

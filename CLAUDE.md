@@ -127,6 +127,7 @@ Host: `https://c3po-1os2tli.svc.aped-4627-b74a.pinecone.io` (PI org account, mig
 | `ingest/update_sig_pages.py` | Create/update individual meeting detail pages on .org | (reads `data/sigs/meetings/`) |
 | `ingest/sync_bot_conversations.py` | Discord bot spool → `transcripts` | `data/spool/bot_conversations/` |
 | `ingest/sync_web_chats.py` | Public web chats → `transcripts` | `data/web_chats_state.json` |
+| `bin/backfill_event_tags.py` | One-off/idempotent backfill of `ts_unix` + `event_id` on existing vectors (new ones are tagged at upsert by `ingest/event_tags.py`). Run `--dry-run` first | — |
 | `ingest/sync_events.py` | Event registry: Community + Institute iCal feeds + `events.json` -> `data/events_registry.json` and Worker KV `events:registry` (the known-events digest). Aliases/series in `config/event_aliases.json`. No Pinecone writes | `data/events_state.json` |
 | `ingest/sync_devlog.py` | Devlog sessions → `meta` namespace | `data/devlog_state.json` |
 | `ingest/sync_symposium.py` | Protocol Symposium 2026 programme → `symposium` namespace | `data/symposium_state.json` |

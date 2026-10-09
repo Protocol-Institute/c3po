@@ -131,6 +131,35 @@ def _default_resume_at() -> str:
     return datetime(year, month, 1, 2, 0, tzinfo=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+def _tag_upsert_args(args, kwargs):
+    """Add ts_unix / event_id (ingest/event_tags.py) to every vector being upserted.
+
+    This is the one place every ingest script writes through, so new content arrives
+    tagged without wiring each script. It must never be the reason an ingest fails:
+    any problem here leaves the vectors exactly as the caller built them.
+    """
+    try:
+        import event_tags
+        namespace = kwargs.get("namespace", "") or ""
+        vectors = kwargs.get("vectors")
+        positional = vectors is None and args
+        if positional:
+            vectors = args[0]
+        if not vectors or not isinstance(vectors, (list, tuple)):
+            return args, kwargs
+        cfg = event_tags.load_config()
+        out = []
+        for v in vectors:
+            if isinstance(v, dict) and isinstance(v.get("metadata"), dict) and v.get("id"):
+                v = {**v, "metadata": event_tags.tag_metadata(namespace, str(v["id"]), v["metadata"], cfg)}
+            out.append(v)
+        if positional:
+            return (out,) + tuple(args[1:]), kwargs
+        return args, {**kwargs, "vectors": out}
+    except Exception:
+        return args, kwargs
+
+
 class _GuardedIndex:
     """Wraps a Pinecone Index: blocks upsert/update/delete while a write
     pause is active and query/fetch/list/describe_index_stats while a read
@@ -168,6 +197,8 @@ class _GuardedIndex:
             return attr
 
         def guarded(*args, **kwargs):
+            if name == "upsert":
+                args, kwargs = _tag_upsert_args(args, kwargs)
             state = pause_status(kind)
             if state is not None:
                 raise IngestionPaused(
