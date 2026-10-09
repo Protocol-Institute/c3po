@@ -2,6 +2,9 @@
 
 **Status:** draft for VGR review (session 56, 2026-10-02). Nothing built. Session 58 (2026-10-09) added
 §5, *live-event context*, and Phase F, after the symposium became a historical event.
+**Phase A shipped 2026-10-09** (registry, KV copy, digest in answers, daemon step). Deviation: the `events`
+namespace (one `event_overview` vector per event) is deferred to Phase C, because nothing queries it until
+`eventScope()` fans out across namespaces; the digest already carries each named event's description.
 
 **Goal (VGR, session 56):** c3po should know about specific events and answer
 questions about the content belonging to them — *"what came out of the 2024

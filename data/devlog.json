@@ -194,6 +194,10 @@
         {
           "title": "The block that wasn't a bug",
           "html": "Renaming the repository was refused by the session's auto-mode safety classifier, and not retried by another route. Switching the session to manual approval let it through once it was confirmed. Afterwards the VM's repo-scoped tokens were checked the only way that proves anything: by waiting for the daemon's next real push, which landed."
+        },
+        {
+          "title": "Knowing what is on the calendar",
+          "html": "PIBot can now answer “when is the next SIGPSY meeting?” and “what was Edge Lanna?” from the Institute&rsquo;s own calendars rather than from whatever the archive happened to mention. A new sync reads the two public Google calendars and the website&rsquo;s events history, expands the recurring meetings, and hands the result to the Worker. When a question names an event, or asks when something is, the answer is given a short list of known events to read from; an ordinary question about the content of the archive gets nothing extra. The calendar stays the website&rsquo;s: PIBot only reads it, and a missing event is fixed there."
         }
       ]
     }
