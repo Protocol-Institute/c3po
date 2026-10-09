@@ -470,6 +470,10 @@ def run_sync(cycle: int) -> None:
         ("sync_symposium_decks",     [VENV_PY, "ingest/sync_symposium_decks.py", "--daemon"]),
         ("sync_bot_conversations",   [VENV_PY, "ingest/sync_bot_conversations.py"]),
         ("sync_web_chats",           [VENV_PY, "ingest/sync_web_chats.py"]),
+        # Event registry (website calendars + events.json) -> Worker KV, for the
+        # known-events digest. Content-hashed: a quiet cycle is 3 fetches and no
+        # write. See plans/event-awareness.md.
+        ("sync_events",              [VENV_PY, "ingest/sync_events.py"]),
         ("sync_devlog",              [VENV_PY, "ingest/sync_devlog.py"]),
         ("generate_devlog_page",     [VENV_PY, "ingest/generate_devlog_page.py"]),
         ("publish_dashboard",        [VENV_PY, "ingest/publish_dashboard.py"]),

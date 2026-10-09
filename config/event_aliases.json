@@ -1,0 +1,32 @@
+{
+  "_note": "Config for ingest/sync_events.py. sig_title_patterns: SIG key (as sig_display in channel_manifest) -> substring of a calendar event title. series_title_patterns: non-SIG recurring series. extra_aliases: history event id -> extra phrasings people use. significance: history event id -> 'major' (default) | 'ordinary'. Edit and rerun the script; nothing else to change.",
+  "sig_title_patterns": {
+    "SIGFPT": "SIGFPT",
+    "MRG": "SIGMRG",
+    "SIGPfB": "Protocols for Business",
+    "ProtFiSIG": "PFSIG",
+    "SIGPSY": "SIGPSY",
+    "DRG": "Distributed Robotics Group",
+    "PRG": "Personhood Research Group"
+  },
+  "series_title_patterns": {
+    "new-nature-live": "LIVE: New Nature",
+    "stigmergy-call": "Stigmergy workshop",
+    "ai-kitkraft": "KITKRAFT"
+  },
+  "ignore_title_patterns": [],
+  "extra_aliases": {
+    "protocol-symposium-2026": [
+      "ps26",
+      "the symposium",
+      "new nature symposium"
+    ],
+    "protocol-symposium-2025": [
+      "ps25"
+    ],
+    "protocol-symposium-2024": [
+      "ps24"
+    ]
+  },
+  "significance": {}
+}

@@ -1123,6 +1123,87 @@ function buildContextBlock(items) {
   }).join("\n\n---\n\n");
 }
 
+// ── Known events (plans/event-awareness.md, Phase A) ──────────────────────────
+// ingest/sync_events.py reads the website's two public calendars and events.json
+// and PUTs the registry to KV (`events:registry`). c3po reads, the website owns.
+// The digest is built per question and goes in the USER message beside the
+// current time, never in SYSTEM_PROMPT (cached). It is added only when the
+// question names an event or asks a when/what-next question about events, so an
+// ordinary content question pays nothing.
+const EVENT_NOUN_RE = /\b(events?|meetings?|calls?|sessions?|workshops?|symposi(?:um|a)|retreats?|conferences?|town halls?|new nature|episodes?|hackathons?|writing month|schedule|calendar)\b/i;
+const EVENT_TIME_RE = /\b(next|upcoming|coming up|when|schedule[ds]?|calendar|this (?:week|month|year|fall|autumn)|last (?:week|month|year)|tomorrow|tonight|today|later|soon|since|happening|on now|what'?s on|recent(?:ly)?|past|previous|ran|run|held)\b/i;
+const EVENT_SIG_KEYS = ["SIGFPT", "MRG", "SIGPfB", "ProtFiSIG", "SIGPSY", "DRG", "PRG"];
+const EVENT_SIG_NAMES = { SIGFPT: "SIGFPT (Formal Protocol Theory)", MRG: "MRG (Memory Research Group)", SIGPfB: "SIGPfB (Protocols for Business)", ProtFiSIG: "ProtFiSIG (Protocol Fiction)", SIGPSY: "SIGPSY (Psychohistory)", DRG: "DRG (Distributed Robotics Group)", PRG: "PRG (Personhood Research Group)" };
+const EVENT_SERIES_NAMES = { "new-nature-live": "LIVE: New Nature episodes", "stigmergy-call": "Stigmergy workshop coordination call", "ai-kitkraft": "AI KitKraft workshop" };
+const DAY_MS = 86400000;
+
+function eventDay(iso) { return Date.parse(iso.length === 10 ? iso + "T00:00:00Z" : iso); }
+
+function eventWhen(e) {
+  if (e.all_day) return e.start === e.end ? e.start : `${e.start} to ${e.end}`;
+  const d = new Date(eventDay(e.start));
+  const wd = d.toLocaleDateString("en-US", { weekday: "short", timeZone: "UTC" });
+  return `${wd} ${e.start.slice(0, 10)} ${e.start.slice(11, 16)} UTC`;
+}
+
+function eventState(e, nowMs) {
+  const s = eventDay(e.start);
+  const end = e.all_day ? eventDay(e.end) + DAY_MS : eventDay(e.end);
+  if (nowMs < s) { const d = Math.ceil((s - nowMs) / DAY_MS); return d <= 1 ? "starts within a day" : `upcoming, in ${d} days`; }
+  if (nowMs < end) return "running now";
+  const d = Math.floor((nowMs - end) / DAY_MS);
+  return d < 1 ? "ended today" : `ended ${d} day${d === 1 ? "" : "s"} ago`;
+}
+
+function eventsDigest(reg, question, now = new Date()) {
+  const evs = reg && Array.isArray(reg.events) ? reg.events : [];
+  if (!evs.length) return "";
+  const norm = t => " " + String(t || "").toLowerCase().replace(/[^a-z0-9' ]+/g, " ").replace(/\s+/g, " ").trim() + " ";
+  const q = norm(question);
+  const named = evs.filter(e => e.kind === "history" && (e.aliases || []).some(a => q.includes(norm(a))));
+  const sigs = EVENT_SIG_KEYS.filter(k => new RegExp(`\\b${k}\\b`, "i").test(question));
+  const timed = EVENT_TIME_RE.test(question);
+  const general = EVENT_NOUN_RE.test(question) && timed;
+  if (!named.length && !(sigs.length && timed) && !general) return "";
+
+  const nowMs = now.getTime();
+  const lines = [];
+  for (const e of evs.filter(e => e.kind === "history")) {
+    let l = `- ${e.title} — ${eventWhen(e)}${e.location ? " — " + e.location : ""} — ${eventState(e, nowMs)}`;
+    if (named.includes(e) && e.description) l += `\n  ${e.description.slice(0, 320)}${e.url ? " " + e.url : ""}`;
+    lines.push(l);
+  }
+
+  const series = {};
+  for (const e of evs) if (e.kind === "calendar" && e.series) (series[e.series] = series[e.series] || []).push(e);
+  const keys = sigs.length ? sigs.map(k => "sig:" + k).filter(k => series[k])
+                           : (named.length ? [] : Object.keys(series));
+  const cal = [];
+  for (const k of keys) {
+    const occ = series[k].sort((a, b) => eventDay(a.start) - eventDay(b.start));
+    const next = occ.filter(e => eventDay(e.end) >= nowMs);
+    const last = occ.filter(e => eventDay(e.end) < nowMs).pop();
+    const name = k.startsWith("sig:") ? EVENT_SIG_NAMES[k.slice(4)] || k : EVENT_SERIES_NAMES[k] || k;
+    const upcoming = (sigs.length ? next.slice(0, 3) : next.slice(0, 1)).map(e => `${eventWhen(e)} (${eventState(e, nowMs)})`);
+    cal.push(`- ${name}: ${upcoming.length ? "next " + upcoming.join("; ") : "no upcoming occurrence listed"}${last ? "; most recent " + eventWhen(last) : ""}`);
+  }
+
+  let out = "KNOWN EVENTS (from the Institute's website calendars, read " + (reg.generated || "recently") + "). Use these for when/what questions. State times as given (UTC). Never invite anyone to attend; never invent an event or time that is not listed here.\n"
+          + "Major events:\n" + lines.join("\n");
+  if (cal.length) out += "\nCalendar series:\n" + cal.join("\n");
+  return out.slice(0, 3500);
+}
+
+async function eventsContext(env, question) {
+  try {
+    const reg = env.RATE_LIMIT ? await env.RATE_LIMIT.get("events:registry", "json") : null;
+    const d = eventsDigest(reg, question);
+    return d ? "\n\n" + d : "";
+  } catch (e) {
+    return "";
+  }
+}
+
 // ── Current time ───────────────────────────────────────────────────────────────
 // Goes in the USER message, never in SYSTEM_PROMPT: that block is sent with
 // cache_control: ephemeral, and a value that changes per request would miss the
@@ -3689,7 +3770,7 @@ async function runMcpAsk(args, env, ctx) {
 
   const messages = [
     ...history.map(t => ({ role: t.role, content: t.content })),
-    { role: "user", content: `${currentTimeLine()}\n\nQuestion: ${question}\n\nRelevant archive excerpts:\n\n${contextBlock}` },
+    { role: "user", content: `${currentTimeLine()}${await eventsContext(env, question)}\n\nQuestion: ${question}\n\nRelevant archive excerpts:\n\n${contextBlock}` },
   ];
 
   const claudeRes = await fetch(CLAUDE_URL, {
@@ -4069,7 +4150,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
       model:      CLAUDE_MODEL,
       max_tokens: maxTokens || parseInt(env.MAX_ANSWER_TOKENS || "2000"),
       system:     [{ type: "text", text: systemPrompt, cache_control: { type: "ephemeral" } }],
-      messages:   [...history, { role: "user", content: `${currentTimeLine()}\n\nQuestion: ${query}\n\nRelevant corpus excerpts:\n\n${contextBlock}` }],
+      messages:   [...history, { role: "user", content: `${currentTimeLine()}${await eventsContext(env, query)}\n\nQuestion: ${query}\n\nRelevant corpus excerpts:\n\n${contextBlock}` }],
     }),
   });
   if (!claudeRes.ok) throw new Error("Oracle service error");
@@ -4274,6 +4355,16 @@ export default {
       const blob = await request.json();
       await env.RATE_LIMIT.put("dashboard:stats", JSON.stringify(blob));
       return json({ ok: true }, 200, corsHeaders);
+    }
+
+    // ── PUT /api/admin/events → store the event registry in KV ───────────────
+    if (request.method === "PUT" && url.pathname === "/api/admin/events") {
+      const key = request.headers.get("X-Admin-Key") || "";
+      if (!env.ADMIN_KEY || key !== env.ADMIN_KEY) return json({ error: "Unauthorized" }, 401, corsHeaders);
+      const blob = await request.json();
+      if (!blob || !Array.isArray(blob.events)) return json({ error: "events array required" }, 400, corsHeaders);
+      await env.RATE_LIMIT.put("events:registry", JSON.stringify(blob));
+      return json({ ok: true, events: blob.events.length }, 200, corsHeaders);
     }
 
     // ── GET /api/chats — public/admin chat listing ───────────────────────────
