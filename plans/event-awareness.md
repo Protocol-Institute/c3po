@@ -11,6 +11,19 @@ range filters on `ts_unix` work. Not tagged, deliberately: `videos` (flat-playli
 date; 199 carry `event_id` for the 2024 symposium), `discord_links` (hashed ids, only a fetch_date), `definitions`,
 `bibliography`, `discord_guide`, 51 Substack author/collection cards, 2 PDF chunks, 6 symposium overview/workshop
 chunks. `event_id` for Discord channels, Substack and PDFs is Phase D.
+**Phase C shipped 2026-10-09** (worker `ade983f6`), as a decision-layer rewrite rather than a fan-out rewrite:
+`eventScope()` replaces `symposiumScope()` and every hard-coded year, date, window and regex. It is driven by the
+registry (`exclusive` + `archive_namespace`): an event is matched by title/alias, by its type word with a
+nearest-in-time rule ("the symposium" = the one running, else starting within 60 days, else the latest past one),
+by a date inside it, or by "today" while exactly one such event runs; an explicit different year cancels it. Behaviour
+for 2026 is unchanged (25/25 live probe) and `bin/test_event_scope.js` (18 offline cases) shows the next symposium
+works by config alone. **Deliberately not done:** scoping by `event_id` *filter across namespaces* — the 2024
+symposium has `event_id` on `videos` only until Phase D tags its Substack/Discord/PDF material, so an exclusive
+scope would answer "the 2024 symposium" from 199 vectors and drop the recaps; that waits for D. The `events`
+namespace (one overview vector per event) is dropped, not deferred: the digest already carries each named event's
+description and nothing needs retrieval of it. The downstream pins (overview, workshop list) are still written
+for the `symposium` namespace's chunk types, so `eventScope()` only scopes events whose `archive_namespace` is
+`symposium`; another event's programme needs its own pins first.
 **Phase F shipped 2026-10-09** (worker `2d037b55`): `liveEvents()` computes upcoming/live/ended from the registry
 (`significance: major`, lead 14 / tail 3 days, per-event override via `config/event_aliases.json` `windows`);
 `liveEventBlock()` adds `LIVE EVENT` / `EVENT NEARBY` to the user message under the §5 gate; admin-only `?now=`;
@@ -254,7 +267,7 @@ cache. Cost is negligible: ~150 tokens on the few questions that qualify.
 |---|---|---|
 | **A** | `sync_events.py` registry + `events` namespace + KV copy; digest injection in the worker | nothing; the website data is live |
 | **B** ✅ | `ts_unix` backfill on all namespaces; `event_id` on the deterministic namespaces (symposium, videos, sig) | A |
-| **C** | `eventScope()` in the worker for tagged namespaces; retire `symposiumScope()` after the probe passes | B |
+| **C** ✅ | `eventScope()` in the worker for tagged namespaces; retire `symposiumScope()` after the probe passes | B |
 | **D** | `event_id` for discord channels (reviewed list) and substack/pdfs (Sonnet + review queue) | B |
 | **E** | Explicit time-phrase → `ts_unix` range filters | B |
 | **F** ✅ | Live-event context (§5): `significance` + window fields in the registry, the `LIVE EVENT` user-message block, generic `EVENT CONTEXT` prompt block, admin-only `?now=`, retire the dead symposium window code. Can ship right after A | A (registry + KV) |

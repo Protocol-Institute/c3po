@@ -815,59 +815,142 @@ function normalizeTranscript(match) {
 }
 
 // ── Symposium scoping ──────────────────────────────────────────────────────────
-// A question asked explicitly about the symposium should be answered from the
-// programme, not from three years of archive that shares its vocabulary. Before
-// this, "what workshops are happening at the Protocol Symposium?" ranked a 2025
-// Substack post above the programme and surfaced 2 of the 5 workshops.
+// ── Event scoping (plans/event-awareness.md section 4) ─────────────────────────
+// A question about an event whose programme has its own namespace should be
+// answered from that programme, not from years of archive that share its
+// vocabulary. Before this, "what workshops are happening at the Protocol
+// Symposium?" ranked a 2025 Substack post above the programme and surfaced 2 of
+// the 5 workshops.
 //
-// Deliberately narrow: the trigger is the event being named, not any word the
-// programme happens to contain. "What did the MRG say about memory?" is not a
-// symposium question and is unaffected.
-const SYMPOSIUM_RE = /\b(symposium|symposia)\b/i;
+// Driven by the registry (ingest/sync_events.py), not by hard-coded names, years
+// or dates: an event can scope a question only if the registry marks it
+// `exclusive` and gives it an `archive_namespace`. Today that is Protocol
+// Symposium 2026 and `symposium`. The next symposium works by adding it to
+// events.json and config/event_aliases.json, with no change here.
+//
+// Deliberately narrow: the trigger is the event being named (by title, by its
+// type word with the nearest-in-time rule, or by a date inside it), not any word
+// the programme happens to contain. "What did the MRG say about memory?" is not
+// a symposium question and is unaffected.
 
 // The escape hatch. Connecting a talk to the archive is the thing c3po can do
 // that the programme page cannot (plans/symposium-ingest.md), so a question that
 // explicitly reaches for prior work keeps the rest of the corpus in play.
-const SYMPOSIUM_CROSS_RE = /\b(relate[ds]?|relation|connect(?:s|ed|ion|ions)?|compare[ds]?|comparison|contrast|prior|previous|earlier|past|history|background|archive[ds]?|precedent|build[s]? on|follow[- ]?up|sig|mrg|drg|prg|research group|discord|lexicon)\b/i;
+const EVENT_CROSS_RE = /\b(relate[ds]?|relation|connect(?:s|ed|ion|ions)?|compare[ds]?|comparison|contrast|prior|previous|earlier|past|history|background|archive[ds]?|precedent|build[s]? on|follow[- ]?up|sig|mrg|drg|prg|research group|discord|lexicon)\b/i;
 
 // Plural only, and deliberately: "what workshops are on?" is a list question
 // that needs all five, while "what happens in the AI Kitcraft workshop?" wants
 // depth on one — and pinning all five there crowds out that workshop's slides.
-const SYMPOSIUM_WORKSHOP_RE = /\bworkshops\b/i;
+const EVENT_WORKSHOP_RE = /\bworkshops\b/i;
 
-// The namespace holds Protocol Symposium *2026* only. Earlier symposia live in
-// the Substack archive, so "summarize the 2025 symposium" must not be scoped to
-// the 2026 programme — it would be answered confidently about the wrong event.
-const SYMPOSIUM_OTHER_YEAR_RE = /\b(19|20)\d{2}\b/;
-const SYMPOSIUM_THIS_YEAR = "2026";
-
-// During the event nobody says "symposium". They say "what's on today", "which
+// During an event nobody says its name. They say "what's on today", "which
 // sessions run on the 23rd". Measured before this: "Which sessions run on
 // September 23?" returned 3 of 8 sources from the programme and three from
 // c3po's own devlog. So a programme word plus a temporal cue pointing at the
-// event counts as naming it — either an explicit event date, or a relative day
-// while the event is actually running.
+// event counts as naming it: an explicit date inside the event, or a relative
+// day while exactly one such event is running.
 const PROGRAMME_WORD_RE = /\b(talks?|sessions?|workshops?|schedule|programme|agenda|line-?up|speaking|speakers?|keynote|panel|on now|what'?s on)\b/i;
-const EVENT_DATE_RE = /\b(2026-09-2[1-5]|sept(?:ember)?\s*2[1-5]\b|9\/2[1-5]\b|2[1-5](?:st|nd|rd|th)\s+of\s+sept)/i;
 const RELATIVE_DAY_RE = /\b(today|tonight|tomorrow|this week|right now|this morning|this afternoon|this evening|currently|happening now)\b/i;
 
 // Scoped queries lose the other namespaces, so the programme gets the retrieval
 // budget the whole corpus used to share.
-const TOP_K_SYMPOSIUM_SCOPED = 12;
+const TOP_K_EVENT_SCOPED = 12;
 
-function symposiumScope(query, symposiumLive = false) {
+const MONTH_RE = "jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?";
+const MONTH_INDEX = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+
+// Calendar dates named in a question: "September 23", "Sept 23rd, 2026", "23rd of
+// September", "2026-09-23", "9/23". The year is null when the question gives none.
+function namedDates(q) {
+  const out = [];
+  let m;
+  const monthDay = new RegExp(`\\b(${MONTH_RE})\\.?\\s*(\\d{1,2})(?:st|nd|rd|th)?\\b(?:,?\\s*((?:19|20)\\d{2}))?`, "gi");
+  while ((m = monthDay.exec(q))) out.push({ m: MONTH_INDEX[m[1].slice(0, 3).toLowerCase()], d: +m[2], y: m[3] ? +m[3] : null });
+  const dayOfMonth = new RegExp(`\\b(\\d{1,2})(?:st|nd|rd|th)?\\s+of\\s+(${MONTH_RE})\\b`, "gi");
+  while ((m = dayOfMonth.exec(q))) out.push({ m: MONTH_INDEX[m[2].slice(0, 3).toLowerCase()], d: +m[1], y: null });
+  const iso = /\b((?:19|20)\d{2})-(\d{2})-(\d{2})\b/g;
+  while ((m = iso.exec(q))) out.push({ m: +m[2] - 1, d: +m[3], y: +m[1] });
+  const slash = /\b(\d{1,2})\/(\d{1,2})\b/g;
+  while ((m = slash.exec(q))) if (+m[1] >= 1 && +m[1] <= 12) out.push({ m: +m[1] - 1, d: +m[2], y: null });
+  return out.filter(d => d.d >= 1 && d.d <= 31);
+}
+
+function eventTypeRe(type) {
+  if (type === "symposium") return /\b(symposium|symposia)\b/i;
+  return new RegExp(`\\b${type.replace(/-/g, "[ -]")}s?\\b`, "i");
+}
+
+// "The symposium" with no year means the one that matters now: the one running,
+// else one starting within 60 days, else the most recent past one.
+function nearestEvent(list, nowMs) {
+  const span = e => [eventDay(e.start), e.all_day ? eventDay(e.end) + DAY_MS : eventDay(e.end)];
+  const live = list.find(e => { const [s, t] = span(e); return s <= nowMs && nowMs < t; });
+  if (live) return live;
+  const upcoming = list.filter(e => span(e)[0] > nowMs && span(e)[0] - nowMs <= 60 * DAY_MS)
+                       .sort((a, b) => span(a)[0] - span(b)[0])[0];
+  if (upcoming) return upcoming;
+  return list.filter(e => span(e)[1] <= nowMs).sort((a, b) => span(b)[1] - span(a)[1])[0] || null;
+}
+
+function eventHasDate(e, d, nowMs) {
+  const year = d.y || Number(e.start.slice(0, 4));
+  const t = Date.UTC(year, d.m, d.d);
+  if (!d.y && Math.abs(t - nowMs) > 200 * DAY_MS) return false;     // a bare "Sept 23" means the nearby one
+  return t >= eventDay(e.start) && t < (e.all_day ? eventDay(e.end) + DAY_MS : eventDay(e.end));
+}
+
+function eventScope(query, reg, now = new Date()) {
+  const none = { scoped: false, crossCorpus: false, workshops: false, k: TOP_K_EACH };
+  const evs = (reg && Array.isArray(reg.events) ? reg.events : []).filter(e => e.kind === "history");
+  // The retrieval below is written for the `symposium` namespace's chunk types;
+  // another event's programme needs its own pins before it can be scoped here.
+  const cands = evs.filter(e => e.exclusive && e.archive_namespace === "symposium");
+  if (!cands.length) return none;
+
   const q = String(query || "");
-  const years = q.match(new RegExp(SYMPOSIUM_OTHER_YEAR_RE, "g")) || [];
-  const otherYear = years.length > 0 && !years.includes(SYMPOSIUM_THIS_YEAR);
-  const aboutTheProgramme = PROGRAMME_WORD_RE.test(q) &&
-    (EVENT_DATE_RE.test(q) || (symposiumLive && RELATIVE_DAY_RE.test(q)));
-  const scoped = (SYMPOSIUM_RE.test(q) || aboutTheProgramme) && !otherYear;
-  if (!scoped) return { scoped: false, crossCorpus: false, workshops: false, k: TOP_K_EACH };
+  const nowMs = now.getTime();
+  const norm = t => " " + String(t || "").toLowerCase().replace(/[^a-z0-9' ]+/g, " ").replace(/\s+/g, " ").trim() + " ";
+  const qn = norm(q);
+  const years = (q.match(/\b(?:19|20)\d{2}\b/g) || []).map(Number);
+  const yearOf = e => Number(e.start.slice(0, 4));
+
+  // 1. Named by title or alias ("Protocol Symposium 2026", "PS26").
+  let hit = cands.find(e => (e.aliases || []).some(a => qn.includes(norm(a)))) || null;
+
+  // 2. Named by its type word ("the symposium"): the nearest-in-time event of that
+  //    type, or, if the question gives a year, only that year's.
+  if (!hit) {
+    for (const type of [...new Set(evs.map(e => e.type).filter(Boolean))]) {
+      if (!eventTypeRe(type).test(q)) continue;
+      const ofType = evs.filter(e => e.type === type);
+      const pick = years.length
+        ? (ofType.filter(e => years.includes(yearOf(e))).length === 1 ? ofType.find(e => years.includes(yearOf(e))) : null)
+        : nearestEvent(ofType, nowMs);
+      if (pick && cands.includes(pick)) { hit = pick; break; }
+    }
+  }
+
+  // 3. A programme word plus a date that falls inside the event.
+  if (!hit && PROGRAMME_WORD_RE.test(q)) {
+    const dates = namedDates(q);
+    hit = cands.find(e => dates.some(d => eventHasDate(e, d, nowMs))) || null;
+  }
+
+  // 4. A programme word plus "today" / "right now" while exactly one such event runs.
+  if (!hit && PROGRAMME_WORD_RE.test(q) && RELATIVE_DAY_RE.test(q)) {
+    const running = liveEvents(reg, now).filter(x => x.phase === "live" && cands.includes(x.event));
+    if (running.length === 1) hit = running[0].event;
+  }
+
+  // An explicit year that is not this event's year cancels the match: its
+  // programme must not answer a question about another year's event.
+  if (!hit || (years.length && !years.includes(yearOf(hit)))) return none;
   return {
     scoped:      true,
-    crossCorpus: SYMPOSIUM_CROSS_RE.test(q),
-    workshops:   SYMPOSIUM_WORKSHOP_RE.test(q),
-    k:           TOP_K_SYMPOSIUM_SCOPED,
+    crossCorpus: EVENT_CROSS_RE.test(q),
+    workshops:   EVENT_WORKSHOP_RE.test(q),
+    k:           TOP_K_EVENT_SCOPED,
+    eventId:     hit.id,
   };
 }
 
@@ -1241,12 +1324,6 @@ function liveEvents(reg, now = new Date()) {
     out.push({ event: e, phase, day, days });
   }
   return out;
-}
-
-// Whether an event whose archive lives in the `symposium` namespace is running.
-// Replaces the hard-coded Sept 21-25 2026 window of session 55.
-function symposiumIsLive(reg, now) {
-  return liveEvents(reg, now).some(x => x.phase === "live" && x.event.archive_namespace === "symposium");
 }
 
 function liveEventLine(x, nowMs) {
@@ -3797,7 +3874,7 @@ async function runMcpAsk(args, env, ctx) {
   // Same scoping as POST /query — MCP callers ask the same questions.
   const now2      = new Date();
   const reg2      = await loadEventsRegistry(env);
-  const scope2    = symposiumScope(question, symposiumIsLive(reg2, now2));
+  const scope2    = eventScope(question, reg2, now2);
   const skipRest2 = scopedOut(scope2);
   const none2     = Promise.resolve([]);
 
@@ -4109,7 +4186,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   // of the corpus is skipped unless the question also reaches for prior work.
   const now      = opts.now || new Date();
   const reg      = await loadEventsRegistry(env);
-  const scope    = symposiumScope(query, symposiumIsLive(reg, now));
+  const scope    = eventScope(query, reg, now);
   const skipRest = scopedOut(scope);
   const none     = Promise.resolve([]);
 

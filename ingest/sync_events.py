@@ -71,7 +71,7 @@ def slugify(s: str) -> str:
 
 def load_config() -> dict:
     cfg = {"sig_title_patterns": {}, "series_title_patterns": {}, "ignore_title_patterns": [],
-           "extra_aliases": {}, "significance": {}, "archive_namespace": {}, "windows": {}}
+           "extra_aliases": {}, "significance": {}, "archive_namespace": {}, "windows": {}, "exclusive": []}
     if ALIAS_PATH.exists():
         cfg.update(json.loads(ALIAS_PATH.read_text()))
     return cfg
@@ -120,6 +120,7 @@ def history_events(cfg: dict) -> list[dict]:
             "url":          ev.get("resources_url") or "",
             "significance": cfg["significance"].get(ev["id"], "major"),
             "archive_namespace": cfg["archive_namespace"].get(ev["id"], ""),
+            "exclusive":    ev["id"] in cfg["exclusive"],
             **{k: v for k, v in cfg["windows"].get(ev["id"], {}).items() if k in ("lead_days", "tail_days")},
             "aliases":      history_aliases(ev, cfg),
         })
