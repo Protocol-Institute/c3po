@@ -1681,7 +1681,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "19 - Venkatesh Rao - Open Mic: Frontier Pacing Protocols",
     "programme": {
       "slug": "open-mic-frontier-pacing-protocols",
@@ -1729,7 +1729,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "21 - Daniel Kronovet, Seth Frey and Joseph DeSimone - Chores as Complex Coordination",
     "programme": {
       "slug": "talk-daniel-chores-as-complex-coordination",
@@ -1754,7 +1754,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "22  -Jesse Katz and Eric Alston - Entrenching Privacy Through Speech",
     "programme": {
       "slug": "talk-jesse-entrenching-privacy-through-sp",
@@ -1779,7 +1779,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "23 - Scott Clearwater and Jose Leal - Life-Serving Protocols: A Framework for Evaluating Cooperative",
     "programme": {
       "slug": "life-serving-protocols-a-framework-for-evaluating-cooperative-emergence-in-livin",
@@ -1804,7 +1804,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "24 - Yuhan Liu - OpenCourier Protocol",
     "programme": {
       "slug": "envisioning-alternative-futures-for-delivery-work-toward-a-decentralized-network",
@@ -1829,7 +1829,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "25 - Daniel Schmidt - Don't Cross the Lines: Mazes as Minimal Protocols",
     "programme": {
       "slug": "talk-daniel-dont-cross-the-lines-mazes-a",
@@ -1853,7 +1853,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "26 - Venkatesh Rao - Blygger: AI-Native, Decentralized, Mutable publishing",
     "programme": {
       "slug": "talk-venkatesh-blygger-ai-native-decentralized",
@@ -1877,7 +1877,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "27 - Nathan Schneider - Virtues for a Protocol Society",
     "programme": {
       "slug": "talk-nathan-virtues-for-a-protocol-society",
@@ -1901,7 +1901,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "28 - Samuel Chua - Seapunk: World Protocolizations On Reverse Imagineering as Method",
     "programme": {
       "slug": "seapunk-worlds",
@@ -1925,7 +1925,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "29 - Samuel Chua - Southeast Asia: Discussion",
     "programme": {
       "slug": "southeast-asia-discussion",
@@ -1949,7 +1949,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "30 - Simone Cicero - A Common Protocol for Composable, Modular Organizations",
     "programme": {
       "slug": "talk-simone-a-common-protocol-for-composab",
@@ -1973,7 +1973,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "31 - Anuraj R and Rafael Fernandez - Robots as Protocol Citizens",
     "programme": {
       "slug": "talk-anuraj-robots-as-protocol-citizens-s",
@@ -1998,7 +1998,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "32 - William George - The Role of Identity in Decentralized Dispute Resolution Protocols",
     "programme": {
       "slug": "talk-william-the-role-of-identity-in-decent",
@@ -2022,7 +2022,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "33 - Krishnakumar Gurumurthy - Proliferation of Intelligence: Business and Hyper Learning Machines",
     "programme": {
       "slug": "proliferation-of-intelligence-into-business-and-converting-it-to-hyper-learning-",
@@ -2046,7 +2046,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "34 - Kaliya Young - Group Brains: Minds Made of People",
     "programme": {
       "slug": "group-brains-minds-made-of-people",
@@ -2070,7 +2070,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "35 - Mike Travers - Jubilee: Meta-protocols against Entrenchment",
     "programme": {
       "slug": "talk-mike-jubilee-meta-protocols-agains",
@@ -2094,7 +2094,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "36 - Nicholas Fett - Markets and the Journey to Neutrality",
     "programme": {
       "slug": "talk-nicholas-the-inevitable-capture-of-prot",
@@ -2118,7 +2118,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "37 - Nicolás Madoery - Divergent Protocols: A Speculative Protocol for Cultural Convergence Zones",
     "programme": {
       "slug": "talk-nicols-divergent-protocols-a-specula",
@@ -2142,7 +2142,7 @@
       "PLEt1tjJkFjsQ"
     ],
     "series": "symposium-2026",
-    "has_captions": false,
+    "has_captions": true,
     "youtube_title": "38 - Jim Fournier - The Point of Inflection in Time",
     "programme": {
       "slug": "talk-jim-the-point-of-inflection-in-tim",

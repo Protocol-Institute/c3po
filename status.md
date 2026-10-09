@@ -23,6 +23,8 @@
 
 **Follow-up 2026-10-09 13:53 PT:** VGR renamed both Discord apps in the portal; confirmed over the API (apps and bot users are `pibot` / `pibot-listener`). `sync-substack` ran green on 10-08 and 10-09 under `Protocol-Institute/pibot`, so the rotated Actions secret works; `c3po-vm:~/c3po/.env.bak-2026-10-07` (old shared key) **deleted**. The stale "C-3PO" card on protocolized.io/resources was because that page is rendered by `worker/src/html/resources.tsx`, not the Astro file #7 changed: **protocolized-website PR #8** fixes it (open, unmerged). Server nickname confirmed as pibot by VGR. #8 merged and verified live (resources page reads "Chat with PIBot"). Rename complete. Remaining TODOs below are unchanged minus items 1-2.
 
+**Recordings, 2026-10-09 ~16:00 PT:** YouTube no longer blocks the laptop. `sync_symposium_videos.py` embedded **18 more recordings** (21 of 40 had been in; now 38 of 40 matched have transcripts), `symposium` 714 -> **953** vectors, total **36,413**. **2 still wait** (Closing Session, Open Mic: Frontier Pacing Protocols: no captions/enrichment yet; re-run later). `sources/youtube/enriched_meta.json` + `video_meta.json` committed so the VM's resource sync publishes them (website PR #6 is merged, dates fall back to talk day).
+
 **Open TODOs (priority order):**
 1. **VGR:** rename the two Discord apps in the Developer Portal + avatar; check the bot's server nickname.
 2. Confirm the 08:00 UTC `sync-substack` run is green under the renamed repo, then delete `c3po-vm:~/c3po/.env.bak-2026-10-07`.
