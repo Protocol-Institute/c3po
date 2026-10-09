@@ -346,8 +346,8 @@
       "source": "substack",
       "author": "Thing Party",
       "label": "FICTION",
-      "count": 3,
-      "last_seen": "2026-09-21",
+      "count": 4,
+      "last_seen": "2026-10-09",
       "is_fallback": false
     },
     "https://protocolized.summerofprotocols.com/p/the-hungering-circuit": {
@@ -666,8 +666,8 @@
       "source": "symposium",
       "author": "Nathan Schneider",
       "label": "PROTOCOL SYMPOSIUM 2026",
-      "count": 4,
-      "last_seen": "2026-10-03",
+      "count": 5,
+      "last_seen": "2026-10-09",
       "is_fallback": false
     },
     "https://protocol-institute.org/events/protocol-symposium-2026/talks#p-86": {
@@ -819,6 +819,16 @@
       "count": 1,
       "last_seen": "2026-10-09",
       "is_fallback": false
+    },
+    "https://www.youtube.com/watch?v=-5Lq2uaOgBw": {
+      "title": "Nathan Schneider: Contributions to a Glossary of Protocol",
+      "url": "https://www.youtube.com/watch?v=-5Lq2uaOgBw",
+      "source": "youtube",
+      "author": "Nathan Schneider",
+      "label": "TALK",
+      "count": 1,
+      "last_seen": "2026-10-09",
+      "is_fallback": false
     }
   },
   "channels": {
@@ -910,8 +920,8 @@
       "name": "🎪intelligence-media",
       "display": "#🎪intelligence-media",
       "sig_display": "",
-      "count": 2,
-      "last_seen": "2026-10-06"
+      "count": 3,
+      "last_seen": "2026-10-09"
     }
   }
 }
