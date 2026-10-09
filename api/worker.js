@@ -1132,6 +1132,9 @@ function buildContextBlock(items) {
 // ordinary content question pays nothing.
 const EVENT_NOUN_RE = /\b(events?|meetings?|calls?|sessions?|workshops?|symposi(?:um|a)|retreats?|conferences?|town halls?|new nature|episodes?|hackathons?|writing month|schedule|calendar)\b/i;
 const EVENT_TIME_RE = /\b(next|upcoming|coming up|when|schedule[ds]?|calendar|this (?:week|month|year|fall|autumn)|last (?:week|month|year)|tomorrow|tonight|today|later|soon|since|happening|on now|what'?s on|recent(?:ly)?|past|previous|ran|run|held)\b/i;
+// Forward-looking phrases that are about events even without an event noun
+// ("what is coming up at the Institute?").
+const EVENT_STRONG_RE = /\b(coming up|upcoming|what'?s next|next (?:week|month)|happening (?:soon|next|this)|on the calendar|later this (?:year|month))\b/i;
 const EVENT_SIG_KEYS = ["SIGFPT", "MRG", "SIGPfB", "ProtFiSIG", "SIGPSY", "DRG", "PRG"];
 const EVENT_SIG_NAMES = { SIGFPT: "SIGFPT (Formal Protocol Theory)", MRG: "MRG (Memory Research Group)", SIGPfB: "SIGPfB (Protocols for Business)", ProtFiSIG: "ProtFiSIG (Protocol Fiction)", SIGPSY: "SIGPSY (Psychohistory)", DRG: "DRG (Distributed Robotics Group)", PRG: "PRG (Personhood Research Group)" };
 const EVENT_SERIES_NAMES = { "new-nature-live": "LIVE: New Nature episodes", "stigmergy-call": "Stigmergy workshop coordination call", "ai-kitkraft": "AI KitKraft workshop" };
@@ -1164,7 +1167,7 @@ function eventsDigest(reg, question, now = new Date()) {
   const sigs = EVENT_SIG_KEYS.filter(k => new RegExp(`\\b${k}\\b`, "i").test(question));
   const timed = EVENT_TIME_RE.test(question);
   const general = EVENT_NOUN_RE.test(question) && timed;
-  if (!named.length && !(sigs.length && timed) && !general) return "";
+  if (!named.length && !(sigs.length && timed) && !general && !EVENT_STRONG_RE.test(question)) return "";
 
   const nowMs = now.getTime();
   const lines = [];
@@ -4525,7 +4528,7 @@ export default {
 
     const [circuit, rateOk] = await Promise.all([
       env.RATE_LIMIT ? env.RATE_LIMIT.get("circuit", "json") : Promise.resolve(null),
-      mode === "answer" ? checkRateLimit(env, ip) : Promise.resolve(true),
+      mode === "answer" && !isAdmin(request, env) ? checkRateLimit(env, ip) : Promise.resolve(true),   // admin key (probes) is exempt
     ]);
 
     if (circuit?.sleeping) {

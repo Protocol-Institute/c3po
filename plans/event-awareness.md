@@ -2,6 +2,8 @@
 
 **Status:** draft for VGR review (session 56, 2026-10-02). Nothing built. Session 58 (2026-10-09) added
 §5, *live-event context*, and Phase F, after the symposium became a historical event.
+**`bin/probe_event_scope.py` shipped 2026-10-09**: 19 saved cases (groups A-E) pass against the live worker; group F
+(clock-dependent, 6 cases) is written but skipped until the worker honours `?now=` (Phase F). Phase C must keep A-E green.
 **Phase A shipped 2026-10-09** (registry, KV copy, digest in answers, daemon step). Deviation: the `events`
 namespace (one `event_overview` vector per event) is deferred to Phase C, because nothing queries it until
 `eventScope()` fans out across namespaces; the digest already carries each named event's description.
