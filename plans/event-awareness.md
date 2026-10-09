@@ -1,6 +1,7 @@
 # Event and Time Awareness — Plan
 
-**Status:** draft for VGR review (session 56, 2026-10-02). Nothing built.
+**Status:** draft for VGR review (session 56, 2026-10-02). Nothing built. Session 58 (2026-10-09) added
+§5, *live-event context*, and Phase F, after the symposium became a historical event.
 
 **Goal (VGR, session 56):** c3po should know about specific events and answer
 questions about the content belonging to them — *"what came out of the 2024
@@ -141,6 +142,91 @@ post.
 - The `symposium` namespace stays as storage; its special-case code goes once
   `eventScope()` reproduces the session-55 probe (the 15 phrasings) for 2026.
 
+### 5. Live-event context — the window mechanism, generalized (session 58, 2026-10-09)
+
+**Why.** The Protocol Symposium is now a historical event and needs no special
+treatment. What session 55 built for it was really two things: scoping by event
+name (§4 generalizes that) and an *awareness of being inside the event's
+window*: during Sept 21-25 "what's on today?" meant the programme, and the
+prompt told the bot to prefer sessions that hadn't happened yet. That second
+part is worth keeping as a general mechanism, driven by the registry rather
+than hard-coded dates.
+
+**Behaviour.** When the current date falls inside the window of a *significant*
+event, the bot carries that context into answers where it is appropriate, and
+only there.
+
+- **Significant** is a registry flag, not a judgment made at question time. The
+  history events from `events.json` (symposia, workshops, retreats, Bridge Atlas)
+  are significant by default; calendar occurrences (SIG calls, Town Hall
+  episodes) are not, so a weekly call never triggers it. Override per event in
+  `config/event_aliases.json`.
+- **Window** = `[start - lead, end + tail]`, defaults lead 14 days and tail
+  3 days, overridable per event. It yields one of three states: *upcoming*
+  (inside the lead), *live* (between start and end), *just ended* (inside the
+  tail). Outside any window the event is plain archive: no boost and no decay,
+  the session-55 rule.
+- **Computed, not reasoned.** The worker works out the state from the registry
+  (KV copy, §1) and the request time, which it already has. The model is handed
+  "Day 3 of 5; talks run 15:00-23:00 UTC today" and does no date arithmetic, in
+  line with the symposium prompt's own "you are not a scheduling assistant".
+
+**What "appropriate" means.** The context is injected in the *user message*
+(never `SYSTEM_PROMPT`, which is cached) as a short `LIVE EVENT` block: name,
+state, dates and times, one-sentence description, URL. About 150 tokens. It
+appears only when one of these holds:
+
+1. the question names the event (registry alias match, §4);
+2. the question carries a relative-day cue (*today, tonight, this week, right
+   now, what's on*) together with a programme word (*talk, session, workshop,
+   schedule*), and exactly one significant event is live: this replaces
+   `RELATIVE_DAY_RE`/`duringEvent()` and resolves to whichever event is live;
+3. the question is open-ended about the Institute (*what's going on, what's
+   new, what can you do*), in which case the block is added as a single
+   ambient line and the answer may mention the event in one sentence.
+
+An ordinary content question (*"what is a protocol stack?"*) gets nothing, and
+neither does anything while no significant event is in a window. If two events
+overlap, both appear and a bare "today" is answered with both rather than
+guessing one.
+
+**Rules that carry over.** No calls to action of any kind (stating that a
+session runs at 15:00 UTC is a fact, "join us" is not). Prefer sessions that
+haven't happened yet *when recommending something to attend*, and discuss past
+sessions freely. Name a block when there is no exact time, rather than
+inventing one. All three move out of the symposium-specific prompt block into a
+generic `EVENT CONTEXT` block in `SYSTEM_PROMPT` that explains how to read the
+per-request block; it stays static, so the prompt cache is unaffected.
+
+**Retrieval.** When the event is live and *named*, §4's `event_id` filter
+applies as usual. When it is only implied by a relative-day cue, the filter
+applies if the question is about the programme and not otherwise. The mechanism
+does not need an archive for the event: a live event with no ingested content
+still gets its context block (dates, description, link) and the bot says it
+holds no further material. Per-event programme ingestion, as `sync_symposium`
+was for 2026, remains separate work done event by event.
+
+**Retiring the symposium special case, decided.** Because the symposium is
+over, `duringEvent()`, `EVENT_FIRST_DAY/LAST_DAY`, the `RELATIVE_DAY_RE` branch
+and the `PROTOCOL SYMPOSIUM 2026` prompt block are dead code today. They go with
+Phase F. The 2026 name scoping (`symposiumScope()`) goes in Phase C, once the
+probe passes (open question 4 below).
+
+**Testing.** The worker needs a way to be told the time: accept `?now=` (or a
+header) only with the admin key. `bin/probe_event_scope.py` then replays the
+session-55 fifteen phrasings with `now` set to a day inside Sept 21-25 2026 as
+a regression, and adds: a day inside a lead window, a day just after an end, a
+day with no event, an overlap of two events, a SIG-call-only day (must inject
+nothing), and ordinary questions (must be untouched). That one probe covers
+both this section and open question 4.
+
+**Risks.** A false positive, injecting an event into an unrelated answer, is
+the main one, which is why the gate is explicit and the default is silence.
+Time zones: windows are compared in UTC, as the programme's own unit was; an
+event that spans a date line gets its start and end stored as instants, not
+dates. Registry staleness is bounded by the daemon cycle plus the ~60 s KV read
+cache. Cost is negligible: ~150 tokens on the few questions that qualify.
+
 ---
 
 ## Phases
@@ -152,6 +238,7 @@ post.
 | **C** | `eventScope()` in the worker for tagged namespaces; retire `symposiumScope()` after the probe passes | B |
 | **D** | `event_id` for discord channels (reviewed list) and substack/pdfs (Sonnet + review queue) | B |
 | **E** | Explicit time-phrase → `ts` range filters | B |
+| **F** | Live-event context (§5): `significance` + window fields in the registry, the `LIVE EVENT` user-message block, generic `EVENT CONTEXT` prompt block, admin-only `?now=`, retire the dead symposium window code. Can ship right after A | A (registry + KV) |
 
 Each ingest script also learns to write both fields at ingest time, so new
 content arrives tagged. Phase B fixes only the backlog.
@@ -172,7 +259,9 @@ date-window candidates, likely a few hundred posts and papers, a few dollars.
 
 ## Open question
 
-4. **Retiring the symposium special case.** Session 55 put symposium-only logic
+4. **Retiring the symposium special case.** *(Session 58: the symposium is now a
+   historical event and VGR wants no special treatment for it. The window logic
+   goes in Phase F; the name scoping still waits on the probe below.)* Session 55 put symposium-only logic
    into the worker (`symposiumScope()`): a regex for the word "symposium", a
    2026-only year check, a Sept 21-25 window for questions like "what's on
    today?", and a rule that a matched question queries the `symposium`
