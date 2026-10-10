@@ -17,8 +17,11 @@ Groups
     F  clock            needs the worker to accept ?now= (Phase F); skipped unless --with-now
     G  time ranges      "since June", "last month", "in 2025" -> ts_unix filter (Phase E); needs ?now=, so --with-now
 
-Each case costs one answer (~$0.03). The checks are on `sources` and `answer` only,
-so the probe works against any deployed worker without a debug hook.
+A case that checks only sources runs in sources-only mode (about a second, no model
+cost); one that checks the answer text costs one answer (~$0.03, ~20 s). Cases run six
+at a time (the admin key exempts the probe from the per-IP rate limit), so a full run
+takes a minute or two. The checks are on `sources` and `answer` only, so the probe works
+against any deployed worker without a debug hook.
 
 Usage:
     python3 bin/probe_event_scope.py                 # groups A-E
@@ -31,6 +34,7 @@ Usage:
 
 import argparse
 import json
+from concurrent.futures import ThreadPoolExecutor
 import os
 import re
 import sys
@@ -153,7 +157,10 @@ def ask(case: dict) -> dict:
         headers["X-Admin-Key"] = os.environ["ADMIN_KEY"]
     if case.get("now"):
         url += "?now=" + urllib.parse.quote(case["now"])
-    req = urllib.request.Request(url, data=json.dumps({"query": case["q"], "context": "web"}).encode(),
+    body = {"query": case["q"], "context": "web"}
+    if not needs_answer(case):
+        body["mode"] = "sources"                      # retrieval only: same scoping, no model call
+    req = urllib.request.Request(url, data=json.dumps(body).encode(),
                                  headers=headers, method="POST")
     last = None
     for attempt in range(3):
@@ -168,6 +175,13 @@ def ask(case: dict) -> dict:
             last = str(e)
         time.sleep(2 + attempt * 3)
     return {"error": last}
+
+
+def needs_answer(case: dict) -> bool:
+    return any(k.startswith("answer") for k in case)
+
+
+PARALLEL = 6
 
 
 # ── Checks ────────────────────────────────────────────────────────────────────
@@ -255,12 +269,15 @@ def main():
         print("note: no ADMIN_KEY in .env, so the worker's 20/hour per-IP limit applies (~19 cases)")
 
     saved, passed, failed, skipped = [], 0, 0, 0
+    live = [c for c in cases if not expired(c)]
+    with ThreadPoolExecutor(PARALLEL) as pool:
+        responses = dict(zip((c["id"] for c in live), pool.map(ask, live)))
     for c in cases:
         if expired(c):
             print(f"SKIP  {c['id']:<16} (time-bound, expired {c['until']})")
             skipped += 1
             continue
-        resp = ask(c)
+        resp = responses[c["id"]]
         fails = evaluate(c, resp)
         spaces = sorted({s.get("source") for s in resp.get("sources") or []})
         if fails:
@@ -275,7 +292,6 @@ def main():
                       "answer": resp.get("answer", ""),
                       "sources": [{k: s.get(k) for k in ("source", "type", "title", "url", "date")}
                                   for s in resp.get("sources") or []]})
-        time.sleep(1)
 
     print(f"\n{passed} passed, {failed} failed, {skipped} skipped")
     if args.save:
