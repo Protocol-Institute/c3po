@@ -32,6 +32,17 @@ const RERANK_URL        = "https://api.voyageai.com/v1/rerank";
 const RERANK_DOC_CHARS  = 2000;   // excerpts run to 6,000 chars; tokens scale with length
 const RERANK_TIMEOUT_MS = 1500;   // measured 0.15-0.25s for a 20-doc pool
 const CLAUDE_MODEL    = "claude-sonnet-4-6";
+
+// Admin-only A/B variants for the answer model (bin/ab_model.py). Production
+// traffic always uses CLAUDE_MODEL with no thinking parameters; a request selects
+// a variant only with a valid X-Admin-Key. Sonnet 5.5 runs adaptive thinking when
+// `thinking` is omitted, so variant B turns it off explicitly ("between_tools":
+// thinking only between tool calls, and this path has none) to compare like for like.
+const AB_VARIANTS = {
+  A: { model: "claude-sonnet-4-6" },
+  B: { model: "claude-sonnet-5-5", extra: { thinking: { type: "between_tools" } } },
+  C: { model: "claude-sonnet-5-5", extra: { thinking: { type: "adaptive" }, output_config: { effort: "low" } } },
+};
 const CLAUDE_URL      = "https://api.anthropic.com/v1/messages";
 const ANTHROPIC_VER   = "2023-06-01";
 const BOT_VERSION     = "v0.1.0";
@@ -4375,7 +4386,8 @@ async function recordDiscordUserRequest(env, userId) {
 // opts: { includeAnswer=true, history=[], maxTokens=null }
 // Returns { answer, sources } or throws.
 async function runRagQuery(query, env, ctx, opts = {}) {
-  const { includeAnswer = true, history = [], maxTokens = null, context = null, stream = false } = opts;
+  const { includeAnswer = true, history = [], maxTokens = null, context = null, stream = false, variant = null } = opts;
+  const ab = variant ? AB_VARIANTS[variant] : null;
   const systemPrompt = context === "discord" ? DISCORD_SYSTEM_PROMPT : SYSTEM_PROMPT;
 
   const voyageRes = await fetch(VOYAGE_URL, {
@@ -4521,7 +4533,8 @@ async function runRagQuery(query, env, ctx, opts = {}) {
       "Content-Type":      "application/json",
     },
     body: JSON.stringify({
-      model:      CLAUDE_MODEL,
+      model:      ab ? ab.model : CLAUDE_MODEL,
+      ...(ab && ab.extra ? ab.extra : {}),
       max_tokens: maxTokens || parseInt(env.MAX_ANSWER_TOKENS || "2000"),
       system:     [{ type: "text", text: systemPrompt, cache_control: { type: "ephemeral" } }],
       messages:   [...history, { role: "user", content: `${currentTimeLine(now)}${await eventsContext(env, query, now, reg)}${timeNote(tf)}\n\nQuestion: ${query}\n\nRelevant corpus excerpts:\n\n${contextBlock}` }],
@@ -4540,14 +4553,14 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   }
 
   const claudeBody = await claudeRes.json();
-  const rawAnswer = claudeBody.content?.[0]?.text || "";
+  const rawAnswer = (claudeBody.content || []).filter(b => b.type === "text").map(b => b.text).join("") || "";
   const answer = retrievalDegraded ? RETRIEVAL_DEGRADED_NOTICE + rawAnswer : rawAnswer;
   if (ctx) {
     ctx.waitUntil(trackRequest(env, claudeBody.usage));
     if (context === "discord") ctx.waitUntil(trackDiscordRequest(env, claudeBody.usage).catch(() => {}));
   }
   return {
-    answer, sources, degraded: retrievalDegraded,
+    answer, sources, degraded: retrievalDegraded, usage: claudeBody.usage, model: claudeBody.model,
     ...(cacheHitPayload ? { cache_hits: cacheHitPayload } : {}),
   };
 }
@@ -4871,7 +4884,7 @@ export default {
       return json({ error: "POST /query only" }, 405, corsHeaders);
     }
 
-    let query, mode, history, sessionId, turnNumber, reqMaxTokens, context, wantStream;
+    let query, mode, history, sessionId, turnNumber, reqMaxTokens, context, wantStream, variant;
     try {
       const body = await request.json();
       query        = (body.query || "").trim();
@@ -4880,6 +4893,7 @@ export default {
       reqMaxTokens = body.max_tokens ? Math.min(Math.max(parseInt(body.max_tokens) || 0, 100), 800) : null;
       context      = body.context === "discord" ? "discord" : null;
       wantStream   = body.stream === true && mode === "answer" && context !== "discord";
+      variant      = isAdmin(request, env) && AB_VARIANTS[body.variant] ? body.variant : null;
       const raw = Array.isArray(body.history) ? body.history : [];
       history = raw
         .filter(m => (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
@@ -4925,22 +4939,27 @@ export default {
     }
 
     try {
-      const { answer, sources, degraded, cache_hits, stream } = await runRagQuery(query, env, ctx, {
+      const { answer, sources, degraded, cache_hits, stream, usage, model } = await runRagQuery(query, env, ctx, {
         includeAnswer: mode !== "sources",
         history,
         maxTokens: reqMaxTokens,
         context,
         now: requestNow(request, env),
         stream: wantStream,
+        variant,
       });
       if (stream) {
         return relayAnswerStream(stream, { sources, degraded, cache_hits }, env, ctx, corsHeaders,
-          answerText => logQuery(env, query, answerText, sources, sessionId, turnNumber));
+          answerText => isAdmin(request, env) ? Promise.resolve() : logQuery(env, query, answerText, sources, sessionId, turnNumber));
       }
       if (mode === "sources") return json({ sources, query, ...(degraded ? { degraded } : {}) }, 200, corsHeaders);
-      ctx.waitUntil(logQuery(env, query, answer, sources, sessionId, turnNumber));
+      // Admin-keyed requests are probes and A/B runs, never real users: keep them out
+      // of the query log, which is the reranker's calibration data (plans/reranker.md).
+      const isTest = isAdmin(request, env);
+      if (!isTest) ctx.waitUntil(logQuery(env, query, answer, sources, sessionId, turnNumber));
       return json({
         answer, sources, query,
+        ...(variant ? { _variant: variant, _model: model, _usage: usage } : {}),
         ...(degraded ? { degraded } : {}),
         ...(cache_hits ? { cache_hits } : {}),
       }, 200, corsHeaders);

@@ -158,6 +158,8 @@ def ask(case: dict) -> dict:
     if case.get("now"):
         url += "?now=" + urllib.parse.quote(case["now"])
     body = {"query": case["q"], "context": "web"}
+    if VARIANT:
+        body["variant"] = VARIANT                     # admin-only answer-model A/B (api/worker.js AB_VARIANTS)
     if not needs_answer(case):
         body["mode"] = "sources"                      # retrieval only: same scoping, no model call
     req = urllib.request.Request(url, data=json.dumps(body).encode(),
@@ -182,6 +184,7 @@ def needs_answer(case: dict) -> bool:
 
 
 PARALLEL = 6
+VARIANT = None
 
 
 # ── Checks ────────────────────────────────────────────────────────────────────
@@ -249,7 +252,10 @@ def main():
     ap.add_argument("--with-now", action="store_true", help="include groups F and G (need ?now= support and ADMIN_KEY)")
     ap.add_argument("--save", help="write answers + sources to this JSON file")
     ap.add_argument("--list", action="store_true")
+    ap.add_argument("--variant", help="answer-model variant (A/B/C, admin only) for the answer cases")
     args = ap.parse_args()
+    global VARIANT
+    VARIANT = args.variant
 
     cases = CASES
     if args.case:
