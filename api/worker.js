@@ -1206,7 +1206,19 @@ async function rankPool(query, pool, budget, env, ctx) {
     ctx.waitUntil(trackMcpCall(env, `rerank:${rr.status}`).catch(() => {}));
     if (rr.tokens) ctx.waitUntil(trackMcpCall(env, "rerank_tokens", rr.tokens).catch(() => {}));
   }
-  return rr.items.slice(0, budget).map(({ rankScore, ...rest }) => rest);
+  const out = rr.items.slice(0, budget).map(({ rankScore, ...rest }) => rest);
+  // Every candidate's scores, for calibrating a min-score floor and the pool width
+  // (plans/reranker.md, Phase 3). Own property, like _pineconeBytes: never serialized
+  // with the array. cos = cosine x tier weight's base, w = tier weight, rr = rerank
+  // score, rank = rr x w (the sort key), kept = made the source cut.
+  out._pool = rr.items.map((m, i) => ({
+    source: m.source, title: String(m.title || "").slice(0, 80), url: m.url || "",
+    cos: +(m.score || 0).toFixed(4), w: +((m.score > 0 ? m.weightedScore / m.score : 1) || 1).toFixed(3),
+    rr: m.rerank_score !== undefined ? +m.rerank_score.toFixed(4) : null,
+    rank: m.rankScore !== undefined ? +m.rankScore.toFixed(4) : null, kept: i < budget,
+  }));
+  out._rerankStatus = rr.status;
+  return out;
 }
 
 // The same passage can be indexed under two URLs (a gitbook and the site that
@@ -1748,7 +1760,7 @@ const SECURITY_BLOCKED = "I'm PIBot, the Protocol Institute's research assistant
 
 // ── Query auto-logger ──────────────────────────────────────────────────────────
 
-async function logQuery(env, query, answer, sources, sessionId, turnNumber) {
+async function logQuery(env, query, answer, sources, sessionId, turnNumber, extra = {}) {
   if (!env.RATE_LIMIT) return;
   const ts   = new Date().toISOString();
   const rand = Math.random().toString(36).slice(2, 6);
@@ -1756,13 +1768,18 @@ async function logQuery(env, query, answer, sources, sessionId, turnNumber) {
     query,
     answer:      answer.slice(0, 1200),
     // rerank_score is kept for calibrating a minimum-score floor (plans/reranker.md, Phase 3)
-    sources:     (sources || []).slice(0, 4).map(s => ({ title: s.title, source: s.source, url: s.url,
+    sources:     (sources || []).slice(0, 12).map(s => ({ title: s.title, source: s.source, url: s.url,
                    ...(s.rerank_score !== undefined ? { rerank_score: +s.rerank_score.toFixed(3) } : {}) })),
+    // The whole reranked pool (every candidate, kept or not): what Phase 3 calibrates on.
+    ...(extra.pool ? { pool: extra.pool } : {}),
+    ...(extra.context ? { context: extra.context } : {}),
     sessionId:   sessionId || null,
     turnNumber:  turnNumber || null,
     ts,
   };
-  await env.RATE_LIMIT.put(`log:${ts}:${rand}`, JSON.stringify(entry), { expirationTtl: 7 * 24 * 3600 });
+  // 90 days (was 7): long enough to collect a calibration set from real traffic;
+  // bin/pull_query_log.py copies it locally before then.
+  await env.RATE_LIMIT.put(`log:${ts}:${rand}`, JSON.stringify(entry), { expirationTtl: 90 * 24 * 3600 });
 }
 
 // ── Basic content moderation ───────────────────────────────────────────────────
@@ -1944,10 +1961,12 @@ async function handleAdminTranscripts(request, env, corsHeaders) {
   if (!env.ADMIN_KEY || key !== env.ADMIN_KEY) return json({ error: "Unauthorized" }, 401, corsHeaders);
   if (!env.RATE_LIMIT)                         return json({ error: "Storage unavailable" }, 503, corsHeaders);
   const limit  = Math.min(100, parseInt(url.searchParams.get("limit") || "50", 10));
-  const listed = await env.RATE_LIMIT.list({ prefix: "log:", limit });
+  const cursor = url.searchParams.get("cursor") || undefined;
+  const listed = await env.RATE_LIMIT.list({ prefix: "log:", limit, cursor });
   const keys   = listed.keys.map(k => k.name).reverse();
   const items  = await Promise.all(keys.map(k => env.RATE_LIMIT.get(k, "json")));
-  return json({ type: "logs", count: items.length, items: items.filter(Boolean) }, 200, corsHeaders);
+  return json({ type: "logs", count: items.length, items: items.filter(Boolean),
+                cursor: listed.list_complete ? null : listed.cursor }, 200, corsHeaders);
 }
 
 // ── Chat index + individual chat HTML ─────────────────────────────────────────
@@ -4507,9 +4526,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   const cacheHits = transcriptItems.filter(m => m.score >= TRANSCRIPT_CACHE_THRESHOLD && m.url);
 
   const sourceBudget = scope.scoped ? MAX_SOURCES_SYMPOSIUM : MAX_SOURCES;
-  const topItems = withPinned(
-    scope.workshops ? sympWorkshopRaw.map(normalizeSymposium) : [],
-    await rankPool(query,
+  const ranked = await rankPool(query,
       mergePool(
         pdfAug.map(normalizePdf), subAug.map(normalizeSubstack),
         vidAug.map(normalizeVideo), bibRaw.map(normalizeBibliography),
@@ -4518,7 +4535,11 @@ async function runRagQuery(query, env, ctx, opts = {}) {
         metaRaw3.map(normalizeDevlog), transcriptItems,
         sympAug.map(normalizeSymposium)
       ),
-      sourceBudget, env, ctx),
+      sourceBudget, env, ctx);
+  const pool = ranked._pool ? { items: ranked._pool, status: ranked._rerankStatus, budget: sourceBudget } : null;
+  const topItems = withPinned(
+    scope.workshops ? sympWorkshopRaw.map(normalizeSymposium) : [],
+    ranked,
     sourceBudget
   );
   const sources = topItems
@@ -4529,7 +4550,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
     ? cacheHits.map(({ score, ...rest }) => rest)
     : undefined;
 
-  if (!includeAnswer) return { answer: null, sources, degraded: retrievalDegraded, cache_hits: cacheHitPayload };
+  if (!includeAnswer) return { answer: null, sources, degraded: retrievalDegraded, cache_hits: cacheHitPayload, pool };
 
   const contextBlock = buildContextBlock(topItems);
   const claudeRes = await fetch(CLAUDE_URL, {
@@ -4555,7 +4576,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   // are already final. The caller relays it and does the accounting at the end.
   if (stream) {
     return {
-      answer: null, sources, degraded: retrievalDegraded, stream: claudeRes.body,
+      answer: null, sources, degraded: retrievalDegraded, stream: claudeRes.body, pool,
       ...(cacheHitPayload ? { cache_hits: cacheHitPayload } : {}),
     };
   }
@@ -4568,7 +4589,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
     if (context === "discord") ctx.waitUntil(trackDiscordRequest(env, claudeBody.usage, claudeBody.model).catch(() => {}));
   }
   return {
-    answer, sources, degraded: retrievalDegraded, usage: claudeBody.usage, model: claudeBody.model,
+    answer, sources, degraded: retrievalDegraded, usage: claudeBody.usage, model: claudeBody.model, pool,
     ...(cacheHitPayload ? { cache_hits: cacheHitPayload } : {}),
   };
 }
@@ -4947,7 +4968,7 @@ export default {
     }
 
     try {
-      const { answer, sources, degraded, cache_hits, stream, usage, model } = await runRagQuery(query, env, ctx, {
+      const { answer, sources, degraded, cache_hits, stream, usage, model, pool } = await runRagQuery(query, env, ctx, {
         includeAnswer: mode !== "sources",
         history,
         maxTokens: reqMaxTokens,
@@ -4958,13 +4979,13 @@ export default {
       });
       if (stream) {
         return relayAnswerStream(stream, { sources, degraded, cache_hits }, env, ctx, corsHeaders,
-          answerText => isAdmin(request, env) ? Promise.resolve() : logQuery(env, query, answerText, sources, sessionId, turnNumber));
+          answerText => isAdmin(request, env) ? Promise.resolve() : logQuery(env, query, answerText, sources, sessionId, turnNumber, { pool, context: "web" }));
       }
       if (mode === "sources") return json({ sources, query, ...(degraded ? { degraded } : {}) }, 200, corsHeaders);
       // Admin-keyed requests are probes and A/B runs, never real users: keep them out
       // of the query log, which is the reranker's calibration data (plans/reranker.md).
       const isTest = isAdmin(request, env);
-      if (!isTest) ctx.waitUntil(logQuery(env, query, answer, sources, sessionId, turnNumber));
+      if (!isTest) ctx.waitUntil(logQuery(env, query, answer, sources, sessionId, turnNumber, { pool, context: context || "web" }));
       return json({
         answer, sources, query,
         ...(isAdmin(request, env) ? { ...(variant ? { _variant: variant } : {}), _model: model, _usage: usage } : {}),
