@@ -198,6 +198,10 @@
         {
           "title": "Knowing what is on the calendar",
           "html": "PIBot can now answer “when is the next SIGPSY meeting?” and “what was Edge Lanna?” from the Institute&rsquo;s own calendars rather than from whatever the archive happened to mention. A new sync reads the two public Google calendars and the website&rsquo;s events history, expands the recurring meetings, and hands the result to the Worker. When a question names an event, or asks when something is, the answer is given a short list of known events to read from; an ordinary question about the content of the archive gets nothing extra. The calendar stays the website&rsquo;s: PIBot only reads it, and a missing event is fixed there."
+        },
+        {
+          "title": "Twice as fast, and words on screen in three seconds",
+          "html": "Answers on the web now stream: the first words appear about three seconds after asking instead of after the whole answer is written, around twenty seconds for a full one. Separately, PIBot moved from Claude Sonnet 4.6 to Claude Sonnet 5.5 after a side-by-side test on ten questions: the same answer length in about half the time (a median of 11 seconds against 23), at the same cost per answer, and on a close reading at least as good, and more willing to say what it does not have. Discord threads now allow eight turns instead of five, matching the web. The test harness that measured all this, and a playbook for applying the same changes to the Institute&rsquo;s other bots, are in the repository."
         }
       ]
     }
