@@ -1,6 +1,6 @@
 # PIBot — Status Log (internal name: c3po)
 
-## 2026-10-07 18:43-19:50 PT — C3PO becomes PIBot (session 58)
+## 2026-10-07 18:43 PT – 2026-10-09 17:45 PT — PIBot rename; event & time awareness (A, B, C, E, F); streaming; Sonnet 5.5 (session 58)
 
 **Session-start checks:** vectors 35,949 (+459 organic since session 57); Substack 1 new (`where-the-stones-hold`), no intro issues; cost $4.91 last 7 days / $36.65 all-time (VM log). Laptop fast-forwarded 96 daemon commits. New per-project key `ANTHROPIC_KEY_PIBOT` already in `c3po/.env`.
 
@@ -48,13 +48,18 @@
 - **Model A/B** (`bin/ab_model.py`, admin-only `variant` in the worker; admin/probe/A-B requests are now kept out of the query log so they cannot pollute the reranker's Phase 3 calibration data). 10 questions x 3 variants: **A** sonnet-4-6 median **23.0 s**, 562 words, $0.0209/answer; **B** sonnet-5-5 thinking off **11.1 s**, 545 words, $0.0219; **C** sonnet-5-5 adaptive/low **10.4 s**, 514 words, $0.0200 (never chose to think). Sonnet 5.5 is ~2x faster; cost per answer is flat because its lower per-token price is offset by ~50% more output tokens per word (new tokenizer). Read side by side, B is at least as good and more candid about gaps; probe 29/29 under B. **Switched with VGR's approval (`dd257dd`, worker `c882b514`):** `CLAUDE_MODEL = claude-sonnet-5-5` plus `CLAUDE_EXTRA = {thinking: {type: "between_tools"}}` on both answer paths; MCP text extraction tolerates a leading thinking block; cost is now accumulated in dollars at write time per model (`MODEL_PRICES`, `addClaudeUsage()`, `claude_usd`), seeding each record from its existing tokens at 4.6 rates, so history is not re-priced (lifetime $17.29 -> $17.32 after one answer, not down to ~$11.5). Verified: production answer from `claude-sonnet-5-5`, 0 thinking tokens, 10.3 s for 546 words; streamed first text 2.9 s, done 11.7 s; MCP `ask_pibot` OK; probe 29/29; offline tests 0 failures.
 - **Playbook for the other bots:** `plans/answer-path-playbook.md` (items 0-6 with PIBot commits, measurements, pitfalls, a per-bot status table). VGR asked for vgr_zirp, mixture-of-vgrs and Humboldt to adopt it: S6 carry-overs added to `Publishing/ribbonfarm_site/CLAUDE.md` (where the vgr_zirp oracle lives; pointer also in `Publishing/vgr_zirp/CLAUDE.md`), `Publishing/mixture-of-vgrs/CLAUDE.md`, `protocol-institute/humboldt/CLAUDE.md`, plus an open item in `Code/devops/status.md` and a row in `Code/devops/INDEX.md`. **Those five files are edited but not committed**: each repo commits in its own session (humboldt's tree has heavy autonomous churn; never bulk-stage it).
 
+**Closed this session:** rename end to end (Discord apps, nickname, repo, sites, D1, self-history); key-rotation follow-ups (Substack green under the new key, old-key backup deleted); recordings 38/40; event plan A, B, C, E, F; probe + offline tests; streaming; Sonnet 5.5; Discord 8 turns; playbook for the other bots.
+
+**Wrap-up 2026-10-09 17:45 PT:** vectors **36,417** (`symposium` 953, `meta` 61, `transcripts` 62; scratch namespace `_tagtest` removed). Session-wide secret sweep over every commit since `e9327d6`: clean. Live: both domains 200; VM daemon 20/20 steps OK incl. `sync_events`; bot running as `pibot#8369`.
+
 **Open TODOs (priority order):**
-1. **VGR:** rename the two Discord apps in the Developer Portal + avatar; check the bot's server nickname.
-2. Confirm the 08:00 UTC `sync-substack` run is green under the renamed repo, then delete `c3po-vm:~/c3po/.env.bak-2026-10-07`.
-3. Find out why protocolized.io/resources still says C-3PO after #7.
-4. Symposium recordings (20 of 40 blocked by YouTube); VGR deferred this session.
-5. Reranker Phase 3; `pdfs` 1,000-char cap; daemon stranded-commit push check.
-6. VGR: `gh auth refresh -h github.com --remove-scopes delete_repo`; review/push `admin`; rotate the two PATs at the 2026-12-08 expiry (scoped to the repo ID, so they survived the rename).
+1. **Other bots:** apply `plans/answer-path-playbook.md` to the ribbonfarm oracle (vgr_zirp), mixture-of-vgrs and Humboldt; carry-overs placed in their `CLAUDE.md`s and `Code/devops/status.md`, **uncommitted in those repos** (`ribbonfarm_site`, `mixture-of-vgrs`, `vgr_zirp` pointer, `humboldt`, `devops`): commit them in each project's own session.
+2. **Event plan Phase D:** `event_id` for Discord channels, Substack, PDFs (Sonnet pass + review queue, never guess); then an exclusive event scope can filter across namespaces (e.g. the 2024 symposium).
+3. **Reranker Phase 3** once real traffic accumulates (only ~12 reranked answers so far): VGR may post the Discord request (drafted in session) pointing people at the web UI; first widen `rerank_score` logging beyond the top 4 and add a pull script (the log has a 7-day TTL). Test traffic is now excluded from the log.
+4. 2 symposium recordings still lack captions (Closing Session; Open Mic: Frontier Pacing Protocols): re-run `ingest/sync_symposium_videos.py`.
+5. Python ingest scripts still name `claude-sonnet-4-6` in places: move only with a measurement.
+6. Carried: `pdfs` 1,000-char text cap; daemon stranded-commit push check; 6 symposium overview/workshop chunks without `ts_unix` (could take the event start date); bare-year Substack dates in sources (display only).
+7. **VGR:** `gh auth refresh -h github.com --remove-scopes delete_repo`; review/push `admin`; rotate the two PATs at the 2026-12-08 expiry.
 
 ---
 
