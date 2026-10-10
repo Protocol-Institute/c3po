@@ -31,7 +31,14 @@ const RERANK_MODEL      = "rerank-3";
 const RERANK_URL        = "https://api.voyageai.com/v1/rerank";
 const RERANK_DOC_CHARS  = 2000;   // excerpts run to 6,000 chars; tokens scale with length
 const RERANK_TIMEOUT_MS = 1500;   // measured 0.15-0.25s for a 20-doc pool
-const CLAUDE_MODEL    = "claude-sonnet-4-6";
+// Switched from claude-sonnet-4-6 on 2026-10-09 after an A/B (bin/ab_model.py): ~2x
+// faster (median 11 s vs 23 s for a full web answer), equal cost per answer, quality
+// at least as good, probe 29/29.
+const CLAUDE_MODEL    = "claude-sonnet-5-5";
+// Sonnet 5.5 runs adaptive thinking when `thinking` is omitted. These answer paths
+// have no tools, and the A/B ran with thinking off, so production turns it off
+// explicitly ("between_tools" thinks only between tool calls).
+const CLAUDE_EXTRA    = { thinking: { type: "between_tools" } };
 
 // Admin-only A/B variants for the answer model (bin/ab_model.py). Production
 // traffic always uses CLAUDE_MODEL with no thinking parameters; a request selects
@@ -94,10 +101,14 @@ const PDF_TYPE_LABELS = {
 };
 
 // ── Spend tracking ─────────────────────────────────────────────────────────────
-const PRICE_IN          = 3.00  / 1e6;   // Sonnet 4.6 input $/token
-const PRICE_CACHE_WRITE = 3.75  / 1e6;
-const PRICE_CACHE_READ  = 0.30  / 1e6;
-const PRICE_OUT         = 15.00 / 1e6;
+// $ per token: input, cache write (5 min), cache read, output.
+const MODEL_PRICES = {
+  "claude-sonnet-4-6": { in: 3.00 / 1e6, write: 3.75 / 1e6, read: 0.30 / 1e6, out: 15.00 / 1e6 },
+  "claude-sonnet-5-5": { in: 2.00 / 1e6, write: 2.50 / 1e6, read: 0.20 / 1e6, out: 10.00 / 1e6 },
+};
+// Every token recorded before 2026-10-09 was Sonnet 4.6, so a record without a
+// stored dollar total is priced at 4.6 rates (legacyClaudeCost).
+const LEGACY_PRICES = MODEL_PRICES["claude-sonnet-4-6"];
 const PRICE_VOYAGE_REQ  = 0.06  / 1e6 * 80;  // voyage-3 ~80 tokens/query
 const PRICE_VOYAGE_RERANK = 0.05 / 1e6;      // rerank-3 $/token (first 200M free)
 const CF_MONTHLY_USD    = 5.00;
@@ -115,17 +126,35 @@ function mcpCallsLifeKey() { return "stats:mcp:calls:lifetime"; }
 function discordDayKey()   { return "stats:discord:day:"    + ptDateStr(); }
 function discordLifeKey()  { return "stats:discord:lifetime"; }
 
+function legacyClaudeCost(s) {
+  return (s.in_tok            || 0) * LEGACY_PRICES.in
+       + (s.cache_create_tok  || 0) * LEGACY_PRICES.write
+       + (s.cache_read_tok    || 0) * LEGACY_PRICES.read
+       + (s.out_tok           || 0) * LEGACY_PRICES.out;
+}
+// Cost is accumulated in dollars at write time (`claude_usd`), priced by the model
+// that answered, so changing models never re-prices history. A record first touched
+// after the switch is seeded from its existing tokens at 4.6 rates, which is exact.
 function calcClaudeCost(s) {
-  return (s.in_tok            || 0) * PRICE_IN
-       + (s.cache_create_tok  || 0) * PRICE_CACHE_WRITE
-       + (s.cache_read_tok    || 0) * PRICE_CACHE_READ
-       + (s.out_tok           || 0) * PRICE_OUT;
+  return s.claude_usd !== undefined ? s.claude_usd : legacyClaudeCost(s);
+}
+function addClaudeUsage(s, usage, model) {
+  const u = usage || {};
+  const p = MODEL_PRICES[model] || MODEL_PRICES[CLAUDE_MODEL];
+  if (s.claude_usd === undefined) s.claude_usd = legacyClaudeCost(s);
+  s.reqs             += 1;
+  s.in_tok           += u.input_tokens                || 0;
+  s.cache_create_tok += u.cache_creation_input_tokens || 0;
+  s.cache_read_tok   += u.cache_read_input_tokens     || 0;
+  s.out_tok          += u.output_tokens               || 0;
+  s.claude_usd       += (u.input_tokens || 0) * p.in + (u.cache_creation_input_tokens || 0) * p.write
+                      + (u.cache_read_input_tokens || 0) * p.read + (u.output_tokens || 0) * p.out;
 }
 function calcTotalCost(s) {
   return calcClaudeCost(s) + (s.reqs || 0) * PRICE_VOYAGE_REQ;
 }
 
-async function trackRequest(env, usage) {
+async function trackRequest(env, usage, model = CLAUDE_MODEL) {
   if (!env.RATE_LIMIT) return;
   const [hs, ds, ls] = await Promise.all([
     env.RATE_LIMIT.get(hourKey(), "json"),
@@ -136,18 +165,7 @@ async function trackRequest(env, usage) {
   const h = { ...zero, ...(hs || {}) };
   const d = { ...zero, ...(ds || {}) };
   const l = { ...zero, ...(ls || {}) };
-  const u = usage || {};
-  const inTok  = u.input_tokens                || 0;
-  const cWrite = u.cache_creation_input_tokens || 0;
-  const cRead  = u.cache_read_input_tokens     || 0;
-  const outTok = u.output_tokens               || 0;
-  for (const s of [h, d, l]) {
-    s.reqs            += 1;
-    s.in_tok          += inTok;
-    s.cache_create_tok += cWrite;
-    s.cache_read_tok   += cRead;
-    s.out_tok          += outTok;
-  }
+  for (const s of [h, d, l]) addClaudeUsage(s, usage, model);
   await Promise.all([
     env.RATE_LIMIT.put(hourKey(),     JSON.stringify(h), { expirationTtl: 48 * 3600 }),
     env.RATE_LIMIT.put(dayKey(),      JSON.stringify(d), { expirationTtl: 30 * 24 * 3600 }),
@@ -240,7 +258,7 @@ async function trackMcpCall(env, label, n = 1) {
 }
 
 
-async function trackMcpRequest(env, usage) {
+async function trackMcpRequest(env, usage, model = CLAUDE_MODEL) {
   if (!env.RATE_LIMIT) return;
   const dk = mcpDayKey(), lk = mcpLifeKey();
   const [ds, ls] = await Promise.all([
@@ -250,20 +268,14 @@ async function trackMcpRequest(env, usage) {
   const zero = { reqs: 0, in_tok: 0, cache_create_tok: 0, cache_read_tok: 0, out_tok: 0 };
   const d = { ...zero, ...(ds || {}) };
   const l = { ...zero, ...(ls || {}) };
-  for (const s of [d, l]) {
-    s.reqs             += 1;
-    s.in_tok           += usage?.input_tokens                || 0;
-    s.cache_create_tok += usage?.cache_creation_input_tokens || 0;
-    s.cache_read_tok   += usage?.cache_read_input_tokens     || 0;
-    s.out_tok          += usage?.output_tokens               || 0;
-  }
+  for (const s of [d, l]) addClaudeUsage(s, usage, model);
   await Promise.all([
     env.RATE_LIMIT.put(dk, JSON.stringify(d), { expirationTtl: 30 * 24 * 3600 }),
     env.RATE_LIMIT.put(lk, JSON.stringify(l)),
   ]);
 }
 
-async function trackDiscordRequest(env, usage) {
+async function trackDiscordRequest(env, usage, model = CLAUDE_MODEL) {
   if (!env.RATE_LIMIT) return;
   const dk = discordDayKey(), lk = discordLifeKey();
   const [ds, ls] = await Promise.all([
@@ -273,13 +285,7 @@ async function trackDiscordRequest(env, usage) {
   const zero = { reqs: 0, in_tok: 0, cache_create_tok: 0, cache_read_tok: 0, out_tok: 0 };
   const d = { ...zero, ...(ds || {}) };
   const l = { ...zero, ...(ls || {}) };
-  for (const s of [d, l]) {
-    s.reqs             += 1;
-    s.in_tok           += usage?.input_tokens                || 0;
-    s.cache_create_tok += usage?.cache_creation_input_tokens || 0;
-    s.cache_read_tok   += usage?.cache_read_input_tokens     || 0;
-    s.out_tok          += usage?.output_tokens               || 0;
-  }
+  for (const s of [d, l]) addClaudeUsage(s, usage, model);
   await Promise.all([
     env.RATE_LIMIT.put(dk, JSON.stringify(d), { expirationTtl: 30 * 24 * 3600 }),
     env.RATE_LIMIT.put(lk, JSON.stringify(l)),
@@ -1475,7 +1481,7 @@ function relayAnswerStream(upstream, meta, env, ctx, corsHeaders, onComplete) {
   const notice = meta.degraded ? RETRIEVAL_DEGRADED_NOTICE : "";
 
   ctx.waitUntil((async () => {
-    let text = "", usage = {}, failed = false;
+    let text = "", usage = {}, model = CLAUDE_MODEL, failed = false;
     try {
       await send("meta", { sources: meta.sources, degraded: meta.degraded || false,
         ...(meta.cache_hits ? { cache_hits: meta.cache_hits } : {}), notice });
@@ -1499,6 +1505,7 @@ function relayAnswerStream(upstream, meta, env, ctx, corsHeaders, onComplete) {
             await send("delta", { text: ev.delta.text });
           } else if (ev.type === "message_start") {
             usage = { ...(ev.message?.usage || {}) };
+            if (ev.message?.model) model = ev.message.model;
           } else if (ev.type === "message_delta" && ev.usage) {
             usage = { ...usage, ...ev.usage };
           } else if (ev.type === "error") {
@@ -1514,7 +1521,7 @@ function relayAnswerStream(upstream, meta, env, ctx, corsHeaders, onComplete) {
     } finally {
       try { await writer.close(); } catch {}
     }
-    if (usage.output_tokens) await trackRequest(env, usage).catch(() => {});
+    if (usage.output_tokens) await trackRequest(env, usage, model).catch(() => {});
     if (!failed && text) await onComplete(notice + text).catch(() => {});
   })());
 
@@ -4165,6 +4172,7 @@ async function runMcpAsk(args, env, ctx) {
     },
     body: JSON.stringify({
       model:      CLAUDE_MODEL,
+      ...CLAUDE_EXTRA,
       max_tokens: 2000,
       system:     [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
       messages,
@@ -4177,10 +4185,10 @@ async function runMcpAsk(args, env, ctx) {
   }
 
   const claudeBody = await claudeRes.json();
-  const rawAnswer  = claudeBody.content?.[0]?.text || "";
+  const rawAnswer  = (claudeBody.content || []).filter(b => b.type === "text").map(b => b.text).join("") || "";
   const answer     = retrievalDegraded ? RETRIEVAL_DEGRADED_NOTICE + rawAnswer : rawAnswer;
 
-  ctx.waitUntil(trackMcpRequest(env, claudeBody.usage).catch(() => {}));
+  ctx.waitUntil(trackMcpRequest(env, claudeBody.usage, claudeBody.model).catch(() => {}));
 
   const cacheHitPayload2 = cacheHits2.length ? cacheHits2.map(({ score, ...r }) => r) : undefined;
   return mcpToolContent(JSON.stringify({
@@ -4534,7 +4542,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
     },
     body: JSON.stringify({
       model:      ab ? ab.model : CLAUDE_MODEL,
-      ...(ab && ab.extra ? ab.extra : {}),
+      ...(ab ? (ab.extra || {}) : CLAUDE_EXTRA),
       max_tokens: maxTokens || parseInt(env.MAX_ANSWER_TOKENS || "2000"),
       system:     [{ type: "text", text: systemPrompt, cache_control: { type: "ephemeral" } }],
       messages:   [...history, { role: "user", content: `${currentTimeLine(now)}${await eventsContext(env, query, now, reg)}${timeNote(tf)}\n\nQuestion: ${query}\n\nRelevant corpus excerpts:\n\n${contextBlock}` }],
@@ -4556,8 +4564,8 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   const rawAnswer = (claudeBody.content || []).filter(b => b.type === "text").map(b => b.text).join("") || "";
   const answer = retrievalDegraded ? RETRIEVAL_DEGRADED_NOTICE + rawAnswer : rawAnswer;
   if (ctx) {
-    ctx.waitUntil(trackRequest(env, claudeBody.usage));
-    if (context === "discord") ctx.waitUntil(trackDiscordRequest(env, claudeBody.usage).catch(() => {}));
+    ctx.waitUntil(trackRequest(env, claudeBody.usage, claudeBody.model));
+    if (context === "discord") ctx.waitUntil(trackDiscordRequest(env, claudeBody.usage, claudeBody.model).catch(() => {}));
   }
   return {
     answer, sources, degraded: retrievalDegraded, usage: claudeBody.usage, model: claudeBody.model,
@@ -4959,7 +4967,7 @@ export default {
       if (!isTest) ctx.waitUntil(logQuery(env, query, answer, sources, sessionId, turnNumber));
       return json({
         answer, sources, query,
-        ...(variant ? { _variant: variant, _model: model, _usage: usage } : {}),
+        ...(isAdmin(request, env) ? { ...(variant ? { _variant: variant } : {}), _model: model, _usage: usage } : {}),
         ...(degraded ? { degraded } : {}),
         ...(cache_hits ? { cache_hits } : {}),
       }, 200, corsHeaders);
