@@ -59,7 +59,7 @@
 4. 2 symposium recordings still lack captions (Closing Session; Open Mic: Frontier Pacing Protocols): re-run `ingest/sync_symposium_videos.py`.
 5. Python ingest scripts still name `claude-sonnet-4-6` in places: move only with a measurement.
 6. Carried: `pdfs` 1,000-char text cap; daemon stranded-commit push check; 6 symposium overview/workshop chunks without `ts_unix` (could take the event start date); bare-year Substack dates in sources (display only).
-7. **VGR:** `gh auth refresh -h github.com --remove-scopes delete_repo`; review/push `admin`; rotate the two PATs at the 2026-12-08 expiry.
+7. **VGR:** `gh auth refresh -h github.com --remove-scopes delete_repo`; rotate the two PATs at the 2026-12-08 expiry. (`admin`'s 4 registry commits were pushed 2026-10-09 after a check: private repo, no secret-shaped strings; its uncommitted blygger rows in `keys.md` and untracked `expenses/SUSPENDED.md` belong to other sessions.)
 
 ---
 
