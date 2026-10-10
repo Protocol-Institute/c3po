@@ -15,6 +15,7 @@ Groups
     D  honesty          must not invent an event, a date, or an invitation
     E  ordinary         content questions that must not be scoped or get event context
     F  clock            needs the worker to accept ?now= (Phase F); skipped unless --with-now
+    G  time ranges      "since June", "last month", "in 2025" -> ts_unix filter (Phase E); needs ?now=, so --with-now
 
 Each case costs one answer (~$0.03). The checks are on `sources` and `answer` only,
 so the probe works against any deployed worker without a debug hook.
@@ -62,6 +63,8 @@ CTA = ["we'd love to see", "come join", "join us", "don't miss", "sign up today"
 #   answer_regex       answer matches this regex (case-insensitive)
 #   answer_lacks       answer contains none of these
 #   answer_lacks_regex answer does not match this regex
+#   dates_within       [from, to]; every source with a date falls inside (YYYY-MM-DD, inclusive)
+#   no_sources_from    list of `source` labels that must not appear (undated: youtube, web)
 #   until              ISO date; the case is skipped after it (time-bound facts)
 #   now                ISO instant to pretend it is (group F)
 CASES = [
@@ -128,6 +131,16 @@ CASES = [
     dict(id="sig-only-day", group="F", q="What's on today?", now="2026-10-22T10:00:00Z",
          answer_has_any=["SIGPSY", "Psychohistory"],              # today's SIG call is a fact worth stating
          answer_lacks=["Symposium is running", "running now"]),   # but a SIG call is not a significant event
+
+    # ── G. Explicit time ranges (Phase E: ts_unix filters; replayed on a fixed day) ──
+    dict(id="since-june", group="G", q="What has SIGPSY discussed since June?", now="2026-10-09T12:00:00Z",
+         dates_within=["2026-06-01", "2026-10-09"], no_sources_from=["youtube", "web"]),
+    dict(id="last-month", group="G", q="What happened in the community last month?", now="2026-10-09T12:00:00Z",
+         dates_within=["2026-09-01", "2026-09-30"], no_sources_from=["youtube", "web"]),
+    dict(id="in-2025", group="G", q="What did the Institute publish in 2025?", now="2026-10-09T12:00:00Z",
+         dates_within=["2025-01-01", "2025-12-31"], no_sources_from=["youtube", "web"]),
+    dict(id="in-march", group="G", q="What was discussed in March?", now="2026-10-09T12:00:00Z",
+         dates_within=["2026-03-01", "2026-03-31"], no_sources_from=["youtube", "web"]),
 ]
 
 
@@ -184,6 +197,20 @@ def evaluate(case: dict, resp: dict) -> list[str]:
         missing = [x for x in case["answer_has_all"] if x.lower() not in low]
         if missing:
             fails.append(f"answer is missing {missing}")
+    if "dates_within" in case:
+        lo, hi = case["dates_within"]
+        def outside(d):
+            if len(d) == 4:                            # Substack shows a year only; the filter used the full date
+                return not lo[:4] <= d <= hi[:4]
+            return not lo <= d <= hi
+        out = sorted({(s.get("date") or "")[:10] for s in sources
+                      if s.get("source") not in ("bibliography", "definition")    # timeless reference, kept on purpose
+                      and (s.get("date") or "")[:10] and outside((s.get("date") or "")[:10])})
+        if out:
+            fails.append(f"sources dated outside {lo}..{hi}: {out[:6]}")
+    for label in case.get("no_sources_from", []):
+        if label in spaces:
+            fails.append(f"undated source `{label}` should have been dropped while a time range is active")
     if "answer_regex" in case and not re.search(case["answer_regex"], answer, re.I):
         fails.append("answer has no date in the expected shape")
     for bad in case.get("answer_lacks", []):
@@ -205,7 +232,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--group", help="run one group letter (A-F)")
     ap.add_argument("--case", help="run one case id")
-    ap.add_argument("--with-now", action="store_true", help="include group F (needs ?now= support and ADMIN_KEY)")
+    ap.add_argument("--with-now", action="store_true", help="include groups F and G (need ?now= support and ADMIN_KEY)")
     ap.add_argument("--save", help="write answers + sources to this JSON file")
     ap.add_argument("--list", action="store_true")
     args = ap.parse_args()
@@ -216,7 +243,7 @@ def main():
     elif args.group:
         cases = [c for c in CASES if c["group"] == args.group.upper()]
     elif not args.with_now:
-        cases = [c for c in CASES if c["group"] != "F"]
+        cases = [c for c in CASES if c["group"] not in ("F", "G")]
     if not cases:
         sys.exit("no matching cases")
 
@@ -246,7 +273,7 @@ def main():
             print(f"ok    {c['id']:<16} {spaces}")
         saved.append({"id": c["id"], "q": c["q"], "ok": not fails, "fails": fails,
                       "answer": resp.get("answer", ""),
-                      "sources": [{k: s.get(k) for k in ("source", "type", "title", "url")}
+                      "sources": [{k: s.get(k) for k in ("source", "type", "title", "url", "date")}
                                   for s in resp.get("sources") or []]})
         time.sleep(1)
 

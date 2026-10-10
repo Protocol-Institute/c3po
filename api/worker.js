@@ -954,6 +954,85 @@ function eventScope(query, reg, now = new Date()) {
   };
 }
 
+// ── Explicit time ranges (plans/event-awareness.md, Phase E) ──────────────────
+// "since June", "last month", "in 2025", "the past 3 weeks" become a `ts_unix`
+// range filter on the namespaces that carry one (Phase B). Only explicit phrases:
+// "recently" or "lately" are not ranges, and default retrieval stays unfiltered
+// by date. Undated namespaces are dropped while a range is active (videos and
+// shared links have no usable date, so they cannot be shown to fall inside it);
+// timeless reference (definitions, bibliography) is kept.
+const TIME_TAGGED_NAMESPACES = new Set(["sig", "discord", "substack", "pdfs", "meta", "transcripts", "symposium"]);
+const TIME_UNDATED_DROPPED   = new Set(["videos", "discord_links"]);
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const SEASON_START = { spring: 2, summer: 5, fall: 8, autumn: 8, winter: 11 };
+
+function timeRange(query, now = new Date()) {
+  const q = String(query || "");
+  const Y = now.getUTCFullYear(), M = now.getUTCMonth(), nowS = Math.floor(now.getTime() / 1000);
+  const at = (y, m, d = 1) => Math.floor(Date.UTC(y, m, d) / 1000);
+  const monthIdx = tok => MONTH_INDEX[tok.slice(0, 3).toLowerCase()];
+  // "may" is a month only when capitalised ("in May"), never the verb.
+  const isMonth = tok => tok.toLowerCase() !== "may" || tok === "May";
+  const lastPast = mi => (mi <= M ? Y : Y - 1);
+  const iso = t => new Date(t * 1000).toISOString().slice(0, 10);
+  const done = (gte, lt, label) => ({ gte, lt, label, filter: { ts_unix: lt ? { "$gte": gte, "$lt": lt } : { "$gte": gte } }, from: iso(gte), to: lt ? iso(lt - 1) : iso(nowS) });
+  let m;
+
+  if ((m = q.match(new RegExp(`\\bsince\\s+(?:the\\s+)?(?:(?:start|beginning)\\s+of\\s+)?(${MONTH_RE})\\b(?:\\s+((?:19|20)\\d{2}))?`, "i"))) && isMonth(m[1])) {
+    const mi = monthIdx(m[1]), y = m[2] ? +m[2] : lastPast(mi);
+    return done(at(y, mi), null, `since ${MONTH_NAMES[mi]} ${y}`);
+  }
+  if ((m = q.match(/\bsince\s+(?:the\s+)?(spring|summer|fall|autumn|winter)\b/i))) {
+    const mi = SEASON_START[m[1].toLowerCase()], y = lastPast(mi);
+    return done(at(y, mi), null, `since the ${m[1].toLowerCase()} of ${y}`);
+  }
+  if ((m = q.match(/\bsince\s+((?:19|20)\d{2})\b/i))) return done(at(+m[1], 0), null, `since ${m[1]}`);
+  if ((m = q.match(/\bbefore\s+((?:19|20)\d{2})\b/i))) return done(0, at(+m[1], 0), `before ${m[1]}`);
+  if ((m = q.match(new RegExp(`\\b(?:in|during|throughout)\\s+(${MONTH_RE})\\b(?:\\s+((?:19|20)\\d{2}))?`, "i"))) && isMonth(m[1])) {
+    const mi = monthIdx(m[1]), y = m[2] ? +m[2] : lastPast(mi);
+    return done(at(y, mi), at(y, mi + 1), `${MONTH_NAMES[mi]} ${y}`);
+  }
+  if ((m = q.match(/\b(?:in|during|throughout)\s+((?:19|20)\d{2})\b/i))) return done(at(+m[1], 0), at(+m[1] + 1, 0), `${m[1]}`);
+  if ((m = q.match(/\b(?:in\s+)?(?:the\s+)?(?:last|past)\s+(\d{1,3}|two|three|four|five|six|seven|eight|nine|ten|twelve)\s+(day|week|month|year)s?\b/i))) {
+    const words = { two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, twelve: 12 };
+    const n = /\d/.test(m[1]) ? +m[1] : words[m[1].toLowerCase()];
+    const unit = { day: 1, week: 7, month: 30, year: 365 }[m[2].toLowerCase()];
+    return done(nowS - n * unit * 86400, null, `the past ${n} ${m[2].toLowerCase()}${n === 1 ? "" : "s"}`);
+  }
+  if ((m = q.match(/\b(?:the\s+)?past\s+(week|month|year)\b/i))) {
+    const unit = { week: 7, month: 30, year: 365 }[m[1].toLowerCase()];
+    return done(nowS - unit * 86400, null, `the past ${m[1].toLowerCase()}`);
+  }
+  if (/\blast\s+month\b/i.test(q)) { const y = M === 0 ? Y - 1 : Y, mi = (M + 11) % 12; return done(at(y, mi), at(Y, M), `${MONTH_NAMES[mi]} ${y} (last month)`); }
+  if (/\bthis\s+month\b/i.test(q))  return done(at(Y, M), null, `${MONTH_NAMES[M]} ${Y} (this month)`);
+  if (/\blast\s+year\b/i.test(q))   return done(at(Y - 1, 0), at(Y, 0), `${Y - 1} (last year)`);
+  if (/\bthis\s+year\b/i.test(q))   return done(at(Y, 0), null, `${Y} so far (this year)`);
+  if (/\b(?:this|last)\s+week\b/i.test(q)) {
+    const monday = at(Y, M, now.getUTCDate()) - ((now.getUTCDay() + 6) % 7) * 86400;
+    return /\blast\s+week\b/i.test(q) ? done(monday - 7 * 86400, monday, "last week") : done(monday, null, "this week");
+  }
+  if (/\byesterday\b/i.test(q)) { const today = at(Y, M, now.getUTCDate()); return done(today - 86400, today, "yesterday"); }
+  return null;
+}
+
+// queryNamespace() with the request's time range applied: dated namespaces get
+// the ts_unix filter (ANDed with any filter the caller passed), undated ones are
+// skipped, reference namespaces are queried as before. With no range it is
+// exactly queryNamespace().
+function timedQuery(tf) {
+  return (host, env, vector, topK, namespace, filter) => {
+    if (!tf) return queryNamespace(host, env, vector, topK, namespace, filter);
+    if (TIME_UNDATED_DROPPED.has(namespace)) return Promise.resolve([]);
+    if (!TIME_TAGGED_NAMESPACES.has(namespace)) return queryNamespace(host, env, vector, topK, namespace, filter);
+    return queryNamespace(host, env, vector, topK, namespace, filter ? { "$and": [filter, tf.filter] } : tf.filter);
+  };
+}
+
+function timeNote(tf) {
+  if (!tf) return "";
+  return `\n\nTIME RANGE: the question asks about ${tf.label}, so archive retrieval was limited to items dated ${tf.from} to ${tf.to}. Undated material (videos, shared links) was left out; definitions are timeless and were kept. Answer about that period; if little or nothing came back, say so plainly rather than reaching outside it.`;
+}
+
 // Namespaces other than `symposium` are skipped entirely on a scoped query —
 // not queried and then discarded, so this also spends less Pinecone egress.
 function scopedOut(scope) {
@@ -3805,17 +3884,18 @@ async function runMcpSearch(args, env, ctx) {
 
   const vec = await embed(query, env.VOYAGE_API_KEY);
 
+  const tf = timeRange(query, new Date()), tq = timedQuery(tf);
   const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw, sympRaw] = await Promise.all([
-    ["pdfs",           "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "pdfs")          : Promise.resolve([]),
-    ["substack",       "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "substack")      : Promise.resolve([]),
-    ["videos",         "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "videos")        : Promise.resolve([]),
-    ["bibliography",   "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_BIB,   "bibliography")  : Promise.resolve([]),
-    ["discord",        "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "discord")       : Promise.resolve([]),
-    ["sig",            "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "sig")           : Promise.resolve([]),
-    ["discord_links",  "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_LINKS, "discord_links") : Promise.resolve([]),
-    ["definitions",    "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "definitions")   : Promise.resolve([]),
-    ["meta",           "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 3,           "meta")          : Promise.resolve([]),
-    ["symposium",      "all"].includes(ns) ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "symposium")     : Promise.resolve([]),
+    ["pdfs",           "all"].includes(ns) ? tq(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "pdfs")          : Promise.resolve([]),
+    ["substack",       "all"].includes(ns) ? tq(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "substack")      : Promise.resolve([]),
+    ["videos",         "all"].includes(ns) ? tq(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "videos")        : Promise.resolve([]),
+    ["bibliography",   "all"].includes(ns) ? tq(env.PINECONE_C3PO_HOST, env, vec, TOP_K_BIB,   "bibliography")  : Promise.resolve([]),
+    ["discord",        "all"].includes(ns) ? tq(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "discord")       : Promise.resolve([]),
+    ["sig",            "all"].includes(ns) ? tq(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "sig")           : Promise.resolve([]),
+    ["discord_links",  "all"].includes(ns) ? tq(env.PINECONE_C3PO_HOST, env, vec, TOP_K_LINKS, "discord_links") : Promise.resolve([]),
+    ["definitions",    "all"].includes(ns) ? tq(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "definitions")   : Promise.resolve([]),
+    ["meta",           "all"].includes(ns) ? tq(env.PINECONE_C3PO_HOST, env, vec, 3,           "meta")          : Promise.resolve([]),
+    ["symposium",      "all"].includes(ns) ? tq(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH,  "symposium")     : Promise.resolve([]),
   ]);
   const retrievalDegraded = anyPineconeFailed(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw, sympRaw);
   await trackEgress(env,
@@ -3878,24 +3958,25 @@ async function runMcpAsk(args, env, ctx) {
   const skipRest2 = scopedOut(scope2);
   const none2     = Promise.resolve([]);
 
+  const tf = timeRange(question, now2), tq = timedQuery(tf);
   const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw2, sigPageRaw, transcriptRaw2, sympRaw2, sympOverviewRaw2, sympWorkshopRaw2] = await Promise.all([
-    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "pdfs"),
-    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "substack"),
-    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "videos"),
-    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_BIB,  "bibliography"),
-    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "discord"),
-    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "sig"),
-    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_LINKS, "discord_links"),
-    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "definitions"),
-    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 3, "meta"),
-    skipRest2 ? none2 : queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 3, "sig",
+    skipRest2 ? none2 : tq(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "pdfs"),
+    skipRest2 ? none2 : tq(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "substack"),
+    skipRest2 ? none2 : tq(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "videos"),
+    skipRest2 ? none2 : tq(env.PINECONE_C3PO_HOST, env, vec, TOP_K_BIB,  "bibliography"),
+    skipRest2 ? none2 : tq(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "discord"),
+    skipRest2 ? none2 : tq(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "sig"),
+    skipRest2 ? none2 : tq(env.PINECONE_C3PO_HOST, env, vec, TOP_K_LINKS, "discord_links"),
+    skipRest2 ? none2 : tq(env.PINECONE_C3PO_HOST, env, vec, TOP_K_EACH, "definitions"),
+    skipRest2 ? none2 : tq(env.PINECONE_C3PO_HOST, env, vec, 3, "meta"),
+    skipRest2 ? none2 : tq(env.PINECONE_C3PO_HOST, env, vec, 3, "sig",
       { chunk_type: { "$eq": "sig_meeting_page" } }),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 3, "transcripts"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, scope2.k, "symposium"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 2, "symposium",
+    tq(env.PINECONE_C3PO_HOST, env, vec, 3, "transcripts"),
+    tq(env.PINECONE_C3PO_HOST, env, vec, scope2.k, "symposium"),
+    tq(env.PINECONE_C3PO_HOST, env, vec, 2, "symposium",
       { chunk_type: { "$in": ["symposium_overview", "symposium_block"] } }),
     scope2.workshops
-      ? queryNamespace(env.PINECONE_C3PO_HOST, env, vec, 5, "symposium",
+      ? tq(env.PINECONE_C3PO_HOST, env, vec, 5, "symposium",
           { chunk_type: { "$eq": "symposium_workshop" } })
       : none2,
   ]);
@@ -3937,7 +4018,7 @@ async function runMcpAsk(args, env, ctx) {
 
   const messages = [
     ...history.map(t => ({ role: t.role, content: t.content })),
-    { role: "user", content: `${currentTimeLine(now2)}${await eventsContext(env, question, now2, reg2)}\n\nQuestion: ${question}\n\nRelevant archive excerpts:\n\n${contextBlock}` },
+    { role: "user", content: `${currentTimeLine(now2)}${await eventsContext(env, question, now2, reg2)}${timeNote(tf)}\n\nQuestion: ${question}\n\nRelevant archive excerpts:\n\n${contextBlock}` },
   ];
 
   const claudeRes = await fetch(CLAUDE_URL, {
@@ -4190,33 +4271,34 @@ async function runRagQuery(query, env, ctx, opts = {}) {
   const skipRest = scopedOut(scope);
   const none     = Promise.resolve([]);
 
+  const tf = timeRange(query, now), tq = timedQuery(tf);
   const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, metaRaw3, sigPageRaw, transcriptRaw, sympRaw, sympOverviewRaw, sympWorkshopRaw] = await Promise.all([
-    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "pdfs"),
-    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "substack"),
-    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "videos"),
-    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_BIB,  "bibliography"),
-    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "discord"),
-    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "sig"),
+    skipRest ? none : tq(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "pdfs"),
+    skipRest ? none : tq(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "substack"),
+    skipRest ? none : tq(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "videos"),
+    skipRest ? none : tq(env.PINECONE_C3PO_HOST, env, qv, TOP_K_BIB,  "bibliography"),
+    skipRest ? none : tq(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "discord"),
+    skipRest ? none : tq(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "sig"),
     skipRest || context === "discord"
       ? none
-      : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_LINKS, "discord_links"),
-    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "definitions"),
-    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 3, "meta"),
-    skipRest ? none : queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 3, "sig",
+      : tq(env.PINECONE_C3PO_HOST, env, qv, TOP_K_LINKS, "discord_links"),
+    skipRest ? none : tq(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH, "definitions"),
+    skipRest ? none : tq(env.PINECONE_C3PO_HOST, env, qv, 3, "meta"),
+    skipRest ? none : tq(env.PINECONE_C3PO_HOST, env, qv, 3, "sig",
       { chunk_type: { "$eq": "sig_meeting_page" } }),
     // Prior conversations stay available: they are c3po's own memory of the same
     // question, not archival material competing with the programme.
-    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 3, "transcripts"),
-    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, scope.k, "symposium"),
+    tq(env.PINECONE_C3PO_HOST, env, qv, 3, "transcripts"),
+    tq(env.PINECONE_C3PO_HOST, env, qv, scope.k, "symposium"),
     // The event overview and the four session blocks are a handful of chunks against
     // 61 rich abstracts, so they lose a plain nearest-neighbour race. Same guarantee
     // the sig_meeting_page sub-query provides.
-    queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 2, "symposium",
+    tq(env.PINECONE_C3PO_HOST, env, qv, 2, "symposium",
       { chunk_type: { "$in": ["symposium_overview", "symposium_block"] } }),
     // "What workshops are on?" is a list question against 5 records that each lose
     // to 61 talk abstracts on plain similarity. Ask for all five by chunk_type.
     scope.workshops
-      ? queryNamespace(env.PINECONE_C3PO_HOST, env, qv, 5, "symposium",
+      ? tq(env.PINECONE_C3PO_HOST, env, qv, 5, "symposium",
           { chunk_type: { "$eq": "symposium_workshop" } })
       : none,
   ]);
@@ -4319,7 +4401,7 @@ async function runRagQuery(query, env, ctx, opts = {}) {
       model:      CLAUDE_MODEL,
       max_tokens: maxTokens || parseInt(env.MAX_ANSWER_TOKENS || "2000"),
       system:     [{ type: "text", text: systemPrompt, cache_control: { type: "ephemeral" } }],
-      messages:   [...history, { role: "user", content: `${currentTimeLine(now)}${await eventsContext(env, query, now, reg)}\n\nQuestion: ${query}\n\nRelevant corpus excerpts:\n\n${contextBlock}` }],
+      messages:   [...history, { role: "user", content: `${currentTimeLine(now)}${await eventsContext(env, query, now, reg)}${timeNote(tf)}\n\nQuestion: ${query}\n\nRelevant corpus excerpts:\n\n${contextBlock}` }],
     }),
   });
   if (!claudeRes.ok) throw new Error("Oracle service error");
@@ -4602,16 +4684,17 @@ export default {
         if (!voyageRes.ok) return json({ error: "Embedding error" }, 502, corsHeaders);
         const qv = (await voyageRes.json()).data[0].embedding;
 
+        const tf = timeRange(query, requestNow(request, env)), tq = timedQuery(tf);
         const [pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, sympRaw] = await Promise.all([
-          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "pdfs"),
-          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "substack"),
-          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "videos"),
-          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_BIB,   "bibliography"),
-          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "discord"),
-          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "sig"),
-          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_LINKS, "discord_links"),
-          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "definitions"),
-          queryNamespace(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "symposium"),
+          tq(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "pdfs"),
+          tq(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "substack"),
+          tq(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "videos"),
+          tq(env.PINECONE_C3PO_HOST, env, qv, TOP_K_BIB,   "bibliography"),
+          tq(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "discord"),
+          tq(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "sig"),
+          tq(env.PINECONE_C3PO_HOST, env, qv, TOP_K_LINKS, "discord_links"),
+          tq(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "definitions"),
+          tq(env.PINECONE_C3PO_HOST, env, qv, TOP_K_EACH,  "symposium"),
         ]);
         const retrievalDegraded = anyPineconeFailed(pdfRaw, subRaw, vidRaw, bibRaw, discordRaw, sigRaw, webRaw, defRaw, sympRaw);
         await trackEgress(env,

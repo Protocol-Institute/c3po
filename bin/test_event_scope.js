@@ -35,3 +35,34 @@ T('Who is speaking at the symposium?','2027-06-01T12:00:00Z','protocol-symposium
 T('Who was at the 2026 symposium?','2027-08-15T12:00:00Z','protocol-symposium-2026');
 T('Which sessions run on September 22?','2027-09-22T10:00:00Z','protocol-symposium-2027');
 T("What's on today?",'2027-09-22T16:00:00Z','protocol-symposium-2027');
+
+// ── timeRange(): explicit phrases -> ts_unix range (Phase E) ──────────────────
+const TR = vm.runInContext('timeRange', ctx);
+const R = (q, now, from, to) => {
+  const r = TR(q, new Date(now));
+  const got = r ? `${r.from}..${r.to}` : null, want = from ? `${from}..${to}` : null;
+  console.log((got === want ? 'ok  ' : 'FAIL'), now.slice(0, 10), JSON.stringify(q), '->', got, r ? `(${r.label})` : '', got === want ? '' : `(expected ${want})`);
+};
+const NOW = '2026-10-09T12:00:00Z';
+R('What has SIGPSY discussed since June?', NOW, '2026-06-01', '2026-10-09');
+R('What has happened since December?', NOW, '2025-12-01', '2026-10-09');
+R('What has MRG covered since the summer?', NOW, '2026-06-01', '2026-10-09');
+R('Anything new since 2025?', NOW, '2025-01-01', '2026-10-09');
+R('What did the Institute publish in 2025?', NOW, '2025-01-01', '2025-12-31');
+R('What was discussed in March?', NOW, '2026-03-01', '2026-03-31');
+R('What was discussed in November?', NOW, '2025-11-01', '2025-11-30');
+R('What happened in May 2026?', NOW, '2026-05-01', '2026-05-31');
+R('What happened in the community last month?', NOW, '2026-09-01', '2026-09-30');
+R('What has been posted this month?', NOW, '2026-10-01', '2026-10-09');
+R('What did people discuss in the past 3 weeks?', NOW, '2026-09-18', '2026-10-09');
+R('Any papers from the past year?', NOW, '2025-10-09', '2026-10-09');
+R('What was published last year?', NOW, '2025-01-01', '2025-12-31');
+R('What did the SIGs discuss last week?', NOW, '2026-09-28', '2026-10-04');
+R('What came up yesterday?', NOW, '2026-10-08', '2026-10-08');
+R('Was anything written about this before 2024?', NOW, '1970-01-01', '2023-12-31');
+// must NOT be ranges
+R('What is a protocol stack?', NOW, null);
+R('What has SIGPSY been discussing lately?', NOW, null);
+R('Summarize the 2024 symposium', NOW, null);
+R('What may happen to protocols in a crisis?', NOW, null);
+R('Which sessions run on September 23?', NOW, null);

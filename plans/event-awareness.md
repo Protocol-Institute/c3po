@@ -11,6 +11,13 @@ range filters on `ts_unix` work. Not tagged, deliberately: `videos` (flat-playli
 date; 199 carry `event_id` for the 2024 symposium), `discord_links` (hashed ids, only a fetch_date), `definitions`,
 `bibliography`, `discord_guide`, 51 Substack author/collection cards, 2 PDF chunks, 6 symposium overview/workshop
 chunks. `event_id` for Discord channels, Substack and PDFs is Phase D.
+**Phase E shipped 2026-10-09** (worker `da3ee671`): `timeRange()` turns explicit phrases into a `ts_unix` range
+(since <month|season|year>, in/during <month [year]|year>, before <year>, last/this week|month|year, the past N
+days/weeks/months/years, yesterday). "Recently"/"lately", a single date and "the 2024 symposium" are not ranges;
+"may" counts only capitalised. `timedQuery()` wraps all four fan-outs: dated namespaces get the filter, `videos` and
+`discord_links` are dropped while a range is active, definitions/bibliography are kept as timeless reference; a
+`TIME RANGE` line in the user message tells the model the period. Offline 21 cases, live probe group G (4 cases)
+checks every dated source falls in range. Full probe 29/29.
 **Phase C shipped 2026-10-09** (worker `ade983f6`), as a decision-layer rewrite rather than a fan-out rewrite:
 `eventScope()` replaces `symposiumScope()` and every hard-coded year, date, window and regex. It is driven by the
 registry (`exclusive` + `archive_namespace`): an event is matched by title/alias, by its type word with a
@@ -269,7 +276,7 @@ cache. Cost is negligible: ~150 tokens on the few questions that qualify.
 | **B** ✅ | `ts_unix` backfill on all namespaces; `event_id` on the deterministic namespaces (symposium, videos, sig) | A |
 | **C** ✅ | `eventScope()` in the worker for tagged namespaces; retire `symposiumScope()` after the probe passes | B |
 | **D** | `event_id` for discord channels (reviewed list) and substack/pdfs (Sonnet + review queue) | B |
-| **E** | Explicit time-phrase → `ts_unix` range filters | B |
+| **E** ✅ | Explicit time-phrase → `ts_unix` range filters | B |
 | **F** ✅ | Live-event context (§5): `significance` + window fields in the registry, the `LIVE EVENT` user-message block, generic `EVENT CONTEXT` prompt block, admin-only `?now=`, retire the dead symposium window code. Can ship right after A | A (registry + KV) |
 
 Each ingest script also learns to write both fields at ingest time, so new
