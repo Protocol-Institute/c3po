@@ -1,5 +1,37 @@
 [
   {
+    "id": 219445135,
+    "slug": "monster-speculation",
+    "title": "Monster Speculation",
+    "subtitle": "Today we launch a new publication dedicated to strange rules fiction",
+    "post_date": "2026-10-09T17:05:29.685Z",
+    "updated_at": "2026-10-09T17:06:35.508Z",
+    "type": "newsletter",
+    "wordcount": 2668,
+    "section_id": null,
+    "section_name": "Protocolized",
+    "postTags": [],
+    "publishedBylines": [
+      {
+        "id": 933715,
+        "name": "Sachin",
+        "handle": "summerlightning",
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
+      },
+      {
+        "id": 309790256,
+        "name": "Protocolized",
+        "handle": "protocolizedmagazine",
+        "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
+      }
+    ],
+    "reaction_count": 4,
+    "restacks": 5,
+    "comment_count": 0,
+    "previous_post_slug": "jamverse-live",
+    "next_post_slug": null
+  },
+  {
     "id": 215611241,
     "slug": "where-the-stones-hold",
     "title": "Where the Stones Hold",
@@ -31,8 +63,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 0,
-    "restacks": 0,
+    "reaction_count": 2,
+    "restacks": 1,
     "comment_count": 0,
     "previous_post_slug": "the-dismantling",
     "next_post_slug": null
@@ -111,8 +143,8 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 29,
-    "restacks": 5,
+    "reaction_count": 28,
+    "restacks": 4,
     "comment_count": 0,
     "previous_post_slug": "how-the-protocol-institute-is-adopting",
     "next_post_slug": null
@@ -494,14 +526,14 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       }
     ],
     "reaction_count": 10,
     "restacks": 0,
     "comment_count": 0,
     "previous_post_slug": "jamverse-jam",
-    "next_post_slug": null
+    "next_post_slug": "monster-speculation"
   },
   {
     "id": 206588931,
@@ -606,7 +638,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       },
       {
         "id": 2227765,
@@ -709,7 +741,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       },
       {
         "id": 309697450,
@@ -983,7 +1015,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       },
       {
         "id": 309790256,
@@ -1204,7 +1236,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       },
       {
         "id": 309790256,
@@ -1280,7 +1312,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       },
       {
         "id": 309790256,
@@ -1442,7 +1474,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       },
       {
         "id": 309790256,
@@ -1750,7 +1782,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       },
       {
         "id": 309790256,
@@ -2385,7 +2417,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       },
       {
         "id": 309790256,
@@ -3375,7 +3407,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       },
       {
         "id": 309790256,
@@ -4113,7 +4145,7 @@
         "bio": "Protocolized is a new digital magazine that publishes sci-fi, articles, and thought-provoking essays about the world's (mostly) invisible infrastructure."
       }
     ],
-    "reaction_count": 51,
+    "reaction_count": 52,
     "restacks": 19,
     "comment_count": 3,
     "previous_post_slug": "3-protocols-for-articulating-civilizational",
@@ -4354,7 +4386,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       },
       {
         "id": 309790256,
@@ -4482,7 +4514,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       },
       {
         "id": 309790256,
@@ -4598,7 +4630,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       },
       {
         "id": 309790256,
@@ -4709,7 +4741,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       },
       {
         "id": 309790256,
@@ -4854,7 +4886,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       },
       {
         "id": 309790256,
@@ -5039,7 +5071,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       },
       {
         "id": 309790256,
@@ -6471,7 +6503,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       },
       {
         "id": 309790256,
@@ -7309,7 +7341,7 @@
         "id": 933715,
         "name": "Sachin",
         "handle": "summerlightning",
-        "bio": "Infrastructure ethnography"
+        "bio": "Infrastructure ethnography, Editor at Monstrous Times "
       },
       {
         "id": 309790256,

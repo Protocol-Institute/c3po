@@ -1717,5 +1717,17 @@
     "all_authors": [
       "Kannen"
     ]
+  },
+  "monster-speculation": {
+    "summary": "Protocolized launches Monstrous Times, a new publication dedicated to strange rules fiction, expanding on over two years of protocol fiction storytelling including 60+ stories and writing contests. The launch reflects the discovery and formalization of a new literary genre that explores how rules and protocols structure narratives and worlds.",
+    "categories": [
+      "protocol-fiction",
+      "announcement",
+      "editorial"
+    ],
+    "primary_author": "Sachin",
+    "all_authors": [
+      "Sachin Benny"
+    ]
   }
 }
