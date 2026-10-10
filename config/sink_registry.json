@@ -23,7 +23,7 @@
       "access_level": "member",
       "status": "active",
       "bot_script": "bin/c3po_bot.py",
-      "notes": "Responds to @c3po mentions in Discord. Thread continuation up to 5 turns. Monitors #introductions for new member greetings. Runs as a persistent daemon (bin/c3po_bot.py)."
+      "notes": "Responds to @pibot mentions in Discord. Thread continuation up to 8 turns. Monitors #introductions for new member greetings. Runs as a persistent daemon (bin/c3po_bot.py)."
     },
     "oracle_bot": {
       "sink_id": "oracle_bot",

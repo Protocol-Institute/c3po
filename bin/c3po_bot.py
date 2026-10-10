@@ -51,7 +51,7 @@ WORKER_URL    = "https://pibot.protocolized.io/query"
 BOT_TOKEN     = os.environ["ORACLE_BOT_TOKEN"]
 MAX_QUERY_LEN = 500
 MAX_MSG_LEN   = 2000
-MAX_THREAD_TURNS = 5
+MAX_THREAD_TURNS = 8
 
 ORACLE_ROLE_ID           = int(os.environ.get("ORACLE_ROLE_ID", "1509298797040107543"))
 INTRODUCTIONS_CHANNEL_ID = int(os.environ.get("INTRODUCTIONS_CHANNEL_ID", "0"))

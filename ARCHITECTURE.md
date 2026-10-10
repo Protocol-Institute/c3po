@@ -120,7 +120,7 @@ Discord gateway bot (discord.py, WebSocket). Launchd-managed with KeepAlive — 
 
 **Interaction modes:**
 - `@c3po` mention in any channel — opens a thread, responds with answer + sources
-- Thread follow-up — continues for up to 5 turns without re-mention; passes full history to Worker. Cap notice sent exactly once (subsequent messages silently ignored). Messages that are replies to another human (not the bot) are skipped unless the bot is @mentioned — prevents responding to side conversations.
+- Thread follow-up — continues for up to 8 turns without re-mention; passes full history to Worker. Cap notice sent exactly once (subsequent messages silently ignored). Messages that are replies to another human (not the bot) are skipped unless the bot is @mentioned — prevents responding to side conversations.
 - `#introductions` monitoring — welcomes new members with 1 corpus resource + channel recommendation
 - Nav-intent detection — "where should I post about X?" routes to `discord_guide` query instead of corpus RAG
 - `/ask <question>` — Discord slash command (deferred via CF Queue, then followup webhook)
