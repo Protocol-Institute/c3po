@@ -1448,6 +1448,70 @@ async function eventsContext(env, question, now = new Date(), reg = undefined) {
   }
 }
 
+// ── Streaming answers (web UI) ────────────────────────────────────────────────
+// Relays the model's server-sent events to the browser as three event types:
+//   meta   once, first: { sources, degraded, cache_hits, notice }
+//   delta  per text chunk: { text }
+//   done   last: {}            (or `error`: { error } if the model stream fails)
+// Total time is unchanged; the reader sees words after ~2 s instead of ~20.
+// Accounting the non-streaming path does inline (usage, query log) runs once the
+// stream ends, from the usage the model reports in message_start/message_delta.
+function relayAnswerStream(upstream, meta, env, ctx, corsHeaders, onComplete) {
+  const { readable, writable } = new TransformStream();
+  const writer = writable.getWriter();
+  const enc = new TextEncoder();
+  const send = (event, data) => writer.write(enc.encode(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`));
+  const notice = meta.degraded ? RETRIEVAL_DEGRADED_NOTICE : "";
+
+  ctx.waitUntil((async () => {
+    let text = "", usage = {}, failed = false;
+    try {
+      await send("meta", { sources: meta.sources, degraded: meta.degraded || false,
+        ...(meta.cache_hits ? { cache_hits: meta.cache_hits } : {}), notice });
+      const reader = upstream.getReader();
+      const dec = new TextDecoder();
+      let buf = "";
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buf += dec.decode(value, { stream: true });
+        let cut;
+        while ((cut = buf.indexOf("\n\n")) >= 0) {
+          const block = buf.slice(0, cut);
+          buf = buf.slice(cut + 2);
+          const line = block.split("\n").find(l => l.startsWith("data:"));
+          if (!line) continue;
+          let ev;
+          try { ev = JSON.parse(line.slice(5).trim()); } catch { continue; }
+          if (ev.type === "content_block_delta" && ev.delta?.type === "text_delta") {
+            text += ev.delta.text;
+            await send("delta", { text: ev.delta.text });
+          } else if (ev.type === "message_start") {
+            usage = { ...(ev.message?.usage || {}) };
+          } else if (ev.type === "message_delta" && ev.usage) {
+            usage = { ...usage, ...ev.usage };
+          } else if (ev.type === "error") {
+            throw new Error(ev.error?.message || "model stream error");
+          }
+        }
+      }
+      await send("done", {});
+    } catch (e) {
+      failed = true;
+      console.error("answer stream:", e);
+      try { await send("error", { error: "The answer was interrupted. Please try again." }); } catch {}
+    } finally {
+      try { await writer.close(); } catch {}
+    }
+    if (usage.output_tokens) await trackRequest(env, usage).catch(() => {});
+    if (!failed && text) await onComplete(notice + text).catch(() => {});
+  })());
+
+  return new Response(readable, {
+    headers: { ...corsHeaders, "Content-Type": "text/event-stream; charset=utf-8", "Cache-Control": "no-cache, no-transform" },
+  });
+}
+
 // ── Current time ───────────────────────────────────────────────────────────────
 // Goes in the USER message, never in SYSTEM_PROMPT: that block is sent with
 // cache_control: ephemeral, and a value that changes per request would miss the
@@ -2806,23 +2870,82 @@ ${subnav('/')}
     if (turnCount >= MAX_TURNS) return;
     btn.disabled = input.disabled = true;
     statusEl.textContent = "Consulting the Protocol Institute research library…";
+    let pending = null;
     try {
       const res  = await fetch(API, {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ query, history: chatHistory, session_id: sessionId }),
+        body:    JSON.stringify({ query, history: chatHistory, session_id: sessionId, stream: true }),
       });
-      const data = await res.json();
-      if (data.sleeping) { showOfflineState(); return; }
-      if (!res.ok || data.error) {
-        statusEl.innerHTML = '<span class="c3po-error">' + escHtml(data.error || "Something went wrong. Try again.") + '</span>';
+      const isStream = (res.headers.get("Content-Type") || "").includes("text/event-stream");
+      if (!isStream) {
+        // Errors, rate limits and the sleeping state arrive as plain JSON before any streaming.
+        const data = await res.json();
+        if (data.sleeping) { showOfflineState(); return; }
+        if (!res.ok || data.error) {
+          statusEl.innerHTML = '<span class="c3po-error">' + escHtml(data.error || "Something went wrong. Try again.") + '</span>';
+          btn.disabled = input.disabled = false; input.focus(); return;
+        }
+        commitTurn(query, data);
+        return;
+      }
+
+      // Stream: show the answer as it is written, then commit the finished turn the
+      // same way a non-streamed one is committed.
+      pending = renderPending(query);
+      let meta = { sources: [] }, text = "", queued = false, failedMsg = null;
+      const paint = () => { queued = false; pending.answer.innerHTML = renderAnswer((meta.notice || "") + text); };
+      const reader = res.body.getReader();
+      const dec = new TextDecoder();
+      let buf = "";
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buf += dec.decode(value, { stream: true });
+        let cut;
+        while ((cut = buf.indexOf("\n\n")) >= 0) {
+          const block = buf.slice(0, cut); buf = buf.slice(cut + 2);
+          const ev = (block.match(/^event: (.*)$/m) || [])[1];
+          const raw = (block.match(/^data: (.*)$/m) || [])[1];
+          if (!ev || raw === undefined) continue;
+          const data = JSON.parse(raw);
+          if (ev === "meta") { meta = data; statusEl.textContent = ""; }
+          else if (ev === "delta") { text += data.text; if (!queued) { queued = true; requestAnimationFrame(paint); } }
+          else if (ev === "error") { failedMsg = data.error; }
+        }
+      }
+      pending.el.remove();
+      if (failedMsg || !text) {
+        statusEl.innerHTML = '<span class="c3po-error">' + escHtml(failedMsg || "Something went wrong. Try again.") + '</span>';
         btn.disabled = input.disabled = false; input.focus(); return;
       }
-      commitTurn(query, data);
+      commitTurn(query, { answer: (meta.notice || "") + text, sources: meta.sources || [], cache_hits: meta.cache_hits });
     } catch (err) {
+      if (pending) pending.el.remove();
       statusEl.innerHTML = '<span class="c3po-error">Network error. Please try again.</span>';
       btn.disabled = input.disabled = false;
     }
+  }
+
+  // The turn as it streams in: question, avatar and a growing answer. Replaced by
+  // the real turn (renderTurn) when the stream completes.
+  function renderPending(query) {
+    const el = document.createElement("div");
+    el.className = "c3po-turn";
+    const qDiv = document.createElement("div");
+    qDiv.className = "c3po-turn-q";
+    qDiv.textContent = query;
+    const row = document.createElement("div");
+    row.className = "c3po-answer-row";
+    const avatarCol = document.createElement("div");
+    avatarCol.className = "c3po-avatar-col";
+    avatarCol.innerHTML = DROID_SMALL;
+    const answer = document.createElement("div");
+    answer.className = "c3po-answer";
+    row.appendChild(avatarCol); row.appendChild(answer);
+    el.appendChild(qDiv); el.appendChild(row);
+    conv.appendChild(el);
+    return { el, answer };
   }
 
   function commitTurn(query, data) {
@@ -3674,7 +3797,7 @@ ${subnav('/how-it-works')}
 <h3>Discord bot &mdash; PIBot</h3>
 <p>Gateway bot (discord.py, WebSocket) running on the host machine under launchd (<code>org.protocol-institute.c3po-bot</code>). All bot requests pass <code>context: "discord"</code> to the Worker, selecting the 2&ndash;3 sentence office-manager response style.</p>
 <ul style="margin:0.3em 0 0.8em 1.2em;color:#444;font-size:0.95em;line-height:1.7;">
-  <li><strong>@mention in any channel</strong> &mdash; opens a thread, responds with answer + sources. Thread replies continue for up to 5 turns without re-mention; full history passed to the Worker. Side-conversation filtering: replies to another human (not the bot) are silently skipped unless the bot is @mentioned. The 5-turn cap notice is sent exactly once; subsequent messages are silently ignored.</li>
+  <li><strong>@mention in any channel</strong> &mdash; opens a thread, responds with answer + sources. Thread replies continue for up to 8 turns without re-mention; full history passed to the Worker. Side-conversation filtering: replies to another human (not the bot) are silently skipped unless the bot is @mentioned. The 5-turn cap notice is sent exactly once; subsequent messages are silently ignored.</li>
   <li><strong>Navigation queries</strong> &mdash; &ldquo;where should I post about X?&rdquo; intent is detected by regex and routed to a <code>discord_guide</code> query instead of corpus RAG, returning the top 3 relevant channels with blurbs and meeting schedules.</li>
   <li><strong>#introductions monitoring</strong> &mdash; new members (joined &le;60 days ago) receive a corpus resource recommendation + channel suggestion. Members who joined &gt;60 days ago and post &ge;80 characters receive a &ldquo;welcome back&rdquo; variant. Both paths use the same underlying corpus query; VGR-authored sources are filtered from intro recs to ensure diversity. New-member welcomes are queued with up to 3 retry attempts so a bot restart can recover missed welcomes.</li>
   <li><strong>/ask, /search, /help slash commands</strong> &mdash; Discord Interactions webhook received at <code>POST /interactions</code> (Ed25519 verified); command enqueued to Cloudflare Queue; Worker queue consumer runs the RAG pipeline and posts back via Discord followup webhook.</li>
@@ -4252,7 +4375,7 @@ async function recordDiscordUserRequest(env, userId) {
 // opts: { includeAnswer=true, history=[], maxTokens=null }
 // Returns { answer, sources } or throws.
 async function runRagQuery(query, env, ctx, opts = {}) {
-  const { includeAnswer = true, history = [], maxTokens = null, context = null } = opts;
+  const { includeAnswer = true, history = [], maxTokens = null, context = null, stream = false } = opts;
   const systemPrompt = context === "discord" ? DISCORD_SYSTEM_PROMPT : SYSTEM_PROMPT;
 
   const voyageRes = await fetch(VOYAGE_URL, {
@@ -4402,9 +4525,19 @@ async function runRagQuery(query, env, ctx, opts = {}) {
       max_tokens: maxTokens || parseInt(env.MAX_ANSWER_TOKENS || "2000"),
       system:     [{ type: "text", text: systemPrompt, cache_control: { type: "ephemeral" } }],
       messages:   [...history, { role: "user", content: `${currentTimeLine(now)}${await eventsContext(env, query, now, reg)}${timeNote(tf)}\n\nQuestion: ${query}\n\nRelevant corpus excerpts:\n\n${contextBlock}` }],
+      ...(stream ? { stream: true } : {}),
     }),
   });
   if (!claudeRes.ok) throw new Error("Oracle service error");
+
+  // Streaming (web UI): hand the model's event stream back with the sources, which
+  // are already final. The caller relays it and does the accounting at the end.
+  if (stream) {
+    return {
+      answer: null, sources, degraded: retrievalDegraded, stream: claudeRes.body,
+      ...(cacheHitPayload ? { cache_hits: cacheHitPayload } : {}),
+    };
+  }
 
   const claudeBody = await claudeRes.json();
   const rawAnswer = claudeBody.content?.[0]?.text || "";
@@ -4738,7 +4871,7 @@ export default {
       return json({ error: "POST /query only" }, 405, corsHeaders);
     }
 
-    let query, mode, history, sessionId, turnNumber, reqMaxTokens, context;
+    let query, mode, history, sessionId, turnNumber, reqMaxTokens, context, wantStream;
     try {
       const body = await request.json();
       query        = (body.query || "").trim();
@@ -4746,6 +4879,7 @@ export default {
       sessionId    = body.session_id || null;
       reqMaxTokens = body.max_tokens ? Math.min(Math.max(parseInt(body.max_tokens) || 0, 100), 800) : null;
       context      = body.context === "discord" ? "discord" : null;
+      wantStream   = body.stream === true && mode === "answer" && context !== "discord";
       const raw = Array.isArray(body.history) ? body.history : [];
       history = raw
         .filter(m => (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
@@ -4791,13 +4925,18 @@ export default {
     }
 
     try {
-      const { answer, sources, degraded, cache_hits } = await runRagQuery(query, env, ctx, {
+      const { answer, sources, degraded, cache_hits, stream } = await runRagQuery(query, env, ctx, {
         includeAnswer: mode !== "sources",
         history,
         maxTokens: reqMaxTokens,
         context,
         now: requestNow(request, env),
+        stream: wantStream,
       });
+      if (stream) {
+        return relayAnswerStream(stream, { sources, degraded, cache_hits }, env, ctx, corsHeaders,
+          answerText => logQuery(env, query, answerText, sources, sessionId, turnNumber));
+      }
       if (mode === "sources") return json({ sources, query, ...(degraded ? { degraded } : {}) }, 200, corsHeaders);
       ctx.waitUntil(logQuery(env, query, answer, sources, sessionId, turnNumber));
       return json({
